@@ -278,6 +278,11 @@ function createContext(req, res, corsHeaders = buildCorsHeaders(req)) {
       res.end(JSON.stringify(data));
     },
 
+    send(data) {
+      res.writeHead(this.statusCode, this.headers);
+      res.end(data);
+    },
+
     writeHead(statusCode, headers) {
       this.statusCode = statusCode;
       if (headers) Object.assign(this.headers, headers);
@@ -298,6 +303,7 @@ function createContext(req, res, corsHeaders = buildCorsHeaders(req)) {
   const enhancedReq = {
     ...req,
     body: null,
+    headers: req.headers || {},
     corsHeaders,
     ip: getClientIp(req),
     connection: req.socket,

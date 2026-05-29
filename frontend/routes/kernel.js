@@ -1,6 +1,7 @@
 'use strict';
 
 const kernel = require('../kernel');
+const { generateEvidencePdfBuffer } = require('../kernel/evidence-pdf');
 
 function parseQueryParams(req) {
   const url = req.url || req.originalUrl || '';
@@ -215,6 +216,27 @@ async function kernelEvidenceExportHandler(req, res, url) {
   }
 }
 
+async function kernelEvidencePdfHandler(req, res, url) {
+  const id = pathValue(url, '/api/kernel/evidence/')?.replace(/\/pdf$/, '');
+  if (!id) return res.status(400).json({ error: 'Missing interaction ID' });
+
+  try {
+    const evidence = await kernel.generateEvidenceFile(id);
+    const params = parseQueryParams(req);
+    const pdf = generateEvidencePdfBuffer(evidence, {
+      evidenceHash: params.evidenceHash || params.evidence_hash
+    });
+    const safeId = String(evidence.traceId || evidence.trace_id || id).replace(/[^a-z0-9_-]/gi, '_');
+
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', `attachment; filename="brightai-evidence-${safeId}.pdf"`);
+    res.setHeader('Cache-Control', 'no-store');
+    res.status(200).send(pdf);
+  } catch (err) {
+    res.status(404).json({ error: err.message });
+  }
+}
+
 const { sanitizeUserInput } = require('../utils/sanitizer');
 
 async function kernelPoliciesGetHandler(req, res) {
@@ -422,6 +444,7 @@ async function kernelRouteHandler(req, res, method, url) {
     if (method === 'GET' && path === '/api/kernel/chain') return await kernelChainHandler(req, res);
     if (method === 'POST' && path === '/api/kernel/chain/verify') return await kernelChainHandler(req, res);
     if (method === 'GET' && path === '/api/kernel/evidence') return await kernelEvidenceListHandler(req, res);
+    if (method === 'GET' && path.startsWith('/api/kernel/evidence/') && path.endsWith('/pdf')) return await kernelEvidencePdfHandler(req, res, path);
     if (method === 'GET' && path.startsWith('/api/kernel/evidence/') && path.endsWith('/export')) return await kernelEvidenceExportHandler(req, res, path);
     if (method === 'GET' && path.startsWith('/api/kernel/evidence/')) return await kernelEvidenceExportHandler(req, res, path);
     if (method === 'POST' && path.startsWith('/api/kernel/evidence/')) return await kernelEvidenceHandler(req, res, path);

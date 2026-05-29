@@ -128,13 +128,7 @@ function groupRelPath(relPath) {
   }
 
   // Solutions
-  if (
-    normalized === "solutions/ai-governance-platform/index.html" ||
-    normalized === "solutions/ai-firewall/index.html" ||
-    normalized === "solutions/ai-audit-trail/index.html" ||
-    normalized === "solutions/human-approval-layer/index.html" ||
-    normalized === "solutions/ai-evidence-file/index.html"
-  ) {
+  if (normalized.startsWith("solutions/") && normalized.endsWith("/index.html")) {
     return "solutions";
   }
 
@@ -154,20 +148,7 @@ function groupRelPath(relPath) {
     normalized === "services/index.html" ||
     normalized === "demo/index.html" ||
     normalized === "sitemap/index.html" ||
-    normalized === "docs/index.html" ||
-    normalized === "docs/ai-governance-platform/index.html" ||
-    normalized === "docs/ai-firewall/index.html" ||
-    normalized === "docs/ai-audit-trail/index.html" ||
-    normalized === "docs/human-approval-layer/index.html" ||
-    normalized === "docs/ai-evidence-file/index.html" ||
-    normalized === "docs/ai-governance-saudi-arabia/index.html" ||
-    normalized === "docs/ai-risk-management/index.html" ||
-    normalized === "docs/pdpl-ai-governance/index.html" ||
-    normalized === "docs/pdpl-chatgpt-data-protection/index.html" ||
-    normalized === "docs/nca-ecc-ai-governance/index.html" ||
-    normalized === "docs/nca-ecc-ai-controls-mapping/index.html" ||
-    normalized === "docs/nca-ecc-ai-controls/index.html" ||
-    normalized === "docs/ai-audit-readiness/index.html" ||
+    (normalized.startsWith("docs/") && normalized.endsWith("/index.html")) ||
     normalized === "blog/ai-governance.html"
   ) {
     return "pages";
@@ -349,7 +330,10 @@ async function analyzePage(relPath) {
     const reasons = [];
     if (hasMetaRefresh(html)) reasons.push("meta_refresh");
     if (hasNoindexDirective(html)) reasons.push("robots_noindex");
-    if (!canonicalTagHref || canonicalTagHref !== expectedCanonical || canonicalTagNormalized !== expectedCanonical) {
+    const decodeUrl = (u) => {
+      try { return decodeURIComponent(u || ""); } catch { return u || ""; }
+    };
+    if (!canonicalTagHref || decodeUrl(canonicalTagHref) !== decodeUrl(expectedCanonical) || decodeUrl(canonicalTagNormalized) !== decodeUrl(expectedCanonical)) {
       reasons.push("canonical_mismatch");
     }
 

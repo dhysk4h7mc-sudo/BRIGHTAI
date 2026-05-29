@@ -686,6 +686,134 @@
     return result;
   }
 
+  function maskSensitiveText(value, piiTypes = []) {
+    let text = String(value || '')
+      .replace(/\b1\d{9}\b/g, '[SAUDI_ID]')
+      .replace(/\b05\d{8}\b/g, '[PHONE]')
+      .replace(/\bSA\d{22}\b/gi, '[SAUDI_IBAN]')
+      .replace(/\b(?:\d[ -]*?){13,19}\b/g, '[CARD_OR_ACCOUNT]')
+      .replace(/\bMRN[-_ ]?\d+\b/gi, '[PATIENT_ID]')
+      .replace(/\bdb_password\b\s*[:=]\s*\S+/gi, 'db_password=[CREDENTIAL]')
+      .replace(/mock_secret_password_123/gi, '[CREDENTIAL]');
+    if (piiTypes.some((type) => /name|employee_name|person/i.test(type))) {
+      text = text.replace(/[\u0600-\u06FF]{2,}\s+[\u0600-\u06FF]{2,}/g, '[PERSON_NAME]');
+    }
+    return text;
+  }
+
+  function normalizeMockList(value) {
+    if (!value) return [];
+    if (Array.isArray(value)) return value.map(String).filter(Boolean);
+    if (typeof value === 'string') {
+      try {
+        const parsed = JSON.parse(value);
+        if (Array.isArray(parsed)) return parsed.map(String).filter(Boolean);
+      } catch (_error) {}
+      return value.split(',').map((item) => item.trim()).filter(Boolean);
+    }
+    return [];
+  }
+
+  function getMockRegulatoryReferences(pack = 'general') {
+    const refs = [];
+    const key = String(pack || 'general').toLowerCase();
+    if (key === 'pdpl' || key === 'general') {
+      refs.push({ framework: 'PDPL', article: 'Article 29', description: 'Cross-border data transfer' });
+      refs.push({ framework: 'PDPL', article: 'Article 13', description: 'Data processing consent' });
+    }
+    if (key === 'nca_ecc' || key === 'general') {
+      refs.push({ framework: 'NCA ECC 2-2024', article: 'Section 4', description: 'Access control' });
+      refs.push({ framework: 'NCA ECC 2-2024', article: 'Section 5', description: 'Data classification' });
+    }
+    if (key === 'sfda' || key === 'healthcare') {
+      refs.push({ framework: 'ISO 13485', article: '§8.3', description: 'Design and development outputs' });
+      refs.push({ framework: 'SFDA QMS-GL', article: '2024', description: 'QMS Guidelines for medical devices' });
+    }
+    return refs;
+  }
+
+  function findMockAuditRecord(db, id) {
+    return (db.audit.rows || []).find((row) =>
+      row.id === id ||
+      row.interactionId === id ||
+      row.requestId === id ||
+      row.traceId === id ||
+      row.trace_id === id
+    ) || null;
+  }
+
+  function buildMockEvidenceFile(record = {}, db, id) {
+    const auditRecord = findMockAuditRecord(db, id) || {};
+    const source = { ...auditRecord, ...record };
+    const traceId = source.traceId || source.trace_id || id;
+    const interactionId = source.interactionId || source.id || source.requestId || id;
+    const piiTypes = normalizeMockList(source.piiTypes || source.piiDetected || source.pii_types);
+    const maskedRequest = maskSensitiveText(source.maskedText || source.masked_message || source.request || source.query || source.request_message || '', piiTypes);
+    const recordHash = source.recordHash || source.record_hash || source.hash || generateHash();
+    const evidenceHash = source.evidenceHash || source.evidence_hash || recordHash;
+    const riskReasons = normalizeMockList(source.riskReasons || source.risk_reasons || source.matchedPolicies?.map?.((policy) => policy.name));
+    const compliancePack = source.compliancePack || source.compliance_pack || 'general';
+
+    return {
+      evidenceId: source.evidenceId || `ev_${interactionId}`,
+      generatedAt: source.generatedAt || new Date().toISOString(),
+      interactionId,
+      requestId: interactionId,
+      traceId,
+      trace_id: traceId,
+      timestamp: source.timestamp || source.createdAt || source.created_at,
+      summary: {
+        traceId,
+        interactionId,
+        request: maskedRequest,
+        response: source.response || source.gemini_response || '',
+        riskScore: source.riskScore ?? source.risk_score,
+        riskLevel: source.riskLevel || source.risk_level,
+        approvalStatus: source.approvalStatus || source.approval_status || source.status,
+        approvedBy: source.approvedBy || source.approver || source.actor,
+        approvedAt: source.approvedAt || source.approved_at || null,
+        model: source.model || source.response_model || 'Demo Mode',
+        provider: source.provider || 'demo',
+        responseTimeMs: source.latencyMs || source.response_time_ms || 0,
+        tokensInput: source.tokensInput || source.response_tokens_input || 0,
+        tokensOutput: source.tokensOutput || source.response_tokens_output || 0
+      },
+      firewall: {
+        piiDetected: piiTypes.length > 0,
+        piiTypes,
+        piiItems: [],
+        sensitiveCategories: [],
+        action: source.firewall_action || source.action || 'allow'
+      },
+      risk: {
+        score: source.riskScore ?? source.risk_score,
+        level: source.riskLevel || source.risk_level,
+        reasons: riskReasons
+      },
+      compliance: {
+        pack: compliancePack,
+        flags: normalizeMockList(source.compliance_flags)
+      },
+      audit: {
+        traceId,
+        requestHash: source.requestHash || source.request_hash || recordHash,
+        responseHash: source.responseHash || source.response_hash || recordHash,
+        previousHash: source.previousHash || source.previous_hash || '0',
+        recordHash,
+        integrityVerified: true,
+        eventsCount: 0
+      },
+      events: [],
+      user: {
+        id: source.userId || source.user_id,
+        name: source.userName || source.user_name,
+        department: source.department || source.departmentName
+      },
+      regulatoryReferences: getMockRegulatoryReferences(compliancePack),
+      evidenceHash
+    };
+  }
+
   // Local Chat Simulation firewall scanning and scoring
   function simulateChat(message, compliancePack) {
     const db = window.kernelDemoState;
@@ -764,7 +892,7 @@
       traceId: traceId,
       status: status === 'pending_approval' ? 'pending' : status,
       query: message,
-      maskedText: message.replace(/\d+/g, '[محجوب]').replace(/mock_secret_password_123/g, '********'),
+      maskedText: maskSensitiveText(message, pii),
       compliancePackage: compliancePack || (scenario === 'finance' || scenario === 'hr' ? 'PDPL' : scenario === 'healthcare' ? 'SFDA' : scenario === 'code' ? 'NCA_ECC' : 'general'),
       userName: KernelUtils?.getUserName() || 'مستخدم تجريبي',
       userId: KernelUtils?.getUserId() || 'user_demo',
@@ -942,14 +1070,24 @@
       trace_id: traceId,
       createdAt: new Date().toISOString(),
       timestamp: new Date().toISOString(),
-      request: message,
+      request: newRequest.maskedText,
+      maskedText: newRequest.maskedText,
+      piiTypes: pii,
+      piiDetected: pii,
       response: responseText,
       riskScore: riskScore,
       riskLevel: riskLevel,
       approvalStatus: status,
       requestHash: result.hash || generateHash(),
+      responseHash: result.hash || generateHash(),
       previousHash: db.audit.rows[1]?.recordHash || generateHash(),
-      recordHash: result.hash || generateHash()
+      recordHash: result.hash || generateHash(),
+      evidenceHash: result.hash || generateHash(),
+      response_model: result.model || 'Demo Mode',
+      response_time_ms: latencyMs,
+      compliancePack: newRequest.compliancePackage,
+      userName: newRequest.userName,
+      userId: newRequest.userId
     };
     db.evidence.details[interactionId] = db.evidence.details[traceId];
 
@@ -1172,10 +1310,10 @@
         const id = decodeURIComponent(match[1]);
         const record = db.evidence.details[id] || db.evidence.details[id.replace(/\/export$/, '')];
         if (record) {
-          payload = record;
+          payload = buildMockEvidenceFile(record, db, id);
         } else {
           // fallback single lookup
-          payload = {
+          payload = buildMockEvidenceFile({
             id,
             interactionId: id,
             traceId: id,
@@ -1188,7 +1326,7 @@
             requestHash: generateHash(),
             previousHash: generateHash(),
             recordHash: generateHash()
-          };
+          }, db, id);
         }
       } else {
         payload = db.evidence;

@@ -12,209 +12,351 @@
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>الموصلات | BrightAI Kernel</title>
-  <meta name="description" content="إدارة موصلات BrightAI Kernel مع أنظمة المؤسسة وربط الحوكمة بسير العمل والبيانات التشغيلية.">
+  <meta name="description" content="موصلات BrightAI Kernel التجريبية لربط أنظمة المؤسسة بطريقة read-only مع سيناريوهات حوكمة قابلة للتتبع.">
   <link rel="stylesheet" href="/kernel/assets/css/kernel.css">
   <link rel="stylesheet" href="/frontend/vendor/fontawesome/css/all.min.css">
   <link rel="stylesheet" href="/frontend/css/unified-header.css?v=20260529-nav-v1">
   <style>
+    .connectors-command {
+      display: grid;
+      gap: 1.25rem;
+    }
+    .connectors-hero {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(0, 212, 255, 0.18);
+      border-radius: 8px;
+      padding: clamp(1.25rem, 3vw, 2rem);
+      background:
+        linear-gradient(135deg, rgba(0, 212, 255, 0.16), transparent 34%),
+        linear-gradient(225deg, rgba(245, 158, 11, 0.12), transparent 30%),
+        rgba(11, 22, 40, 0.92);
+      box-shadow: var(--shadow-lg);
+    }
+    .connectors-hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
+      pointer-events: none;
+    }
+    .connectors-hero-content {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(280px, .75fr);
+      gap: 1.5rem;
+      align-items: end;
+    }
+    .connectors-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      width: fit-content;
+      margin-bottom: .75rem;
+      padding: .35rem .65rem;
+      border-radius: 999px;
+      background: rgba(16, 185, 129, 0.14);
+      color: #86efac;
+      font-size: .78rem;
+      font-weight: 700;
+    }
+    .connectors-hero h2 {
+      margin: 0;
+      max-width: 780px;
+      font-size: clamp(1.65rem, 4vw, 3rem);
+      letter-spacing: 0;
+    }
+    .connectors-hero p {
+      max-width: 760px;
+      margin-top: .85rem;
+      color: #cbd5e1;
+      font-size: 1rem;
+    }
+    .demo-warning {
+      display: flex;
+      align-items: flex-start;
+      gap: .75rem;
+      padding: 1rem;
+      border: 1px solid rgba(245, 158, 11, .32);
+      border-radius: 8px;
+      background: rgba(245, 158, 11, .12);
+      color: #fde68a;
+      line-height: 1.65;
+    }
+    .demo-warning i {
+      margin-top: .2rem;
+      color: #fbbf24;
+    }
+    .connector-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: .75rem;
+      margin-top: 1rem;
+    }
+    .connector-metric {
+      border: 1px solid rgba(148, 163, 184, .16);
+      border-radius: 8px;
+      padding: .9rem;
+      background: rgba(3, 10, 24, .5);
+    }
+    .connector-metric strong {
+      display: block;
+      color: #f8fafc;
+      font-size: 1.25rem;
+    }
+    .connector-metric span {
+      color: #94a3b8;
+      font-size: .76rem;
+    }
     .connectors-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1rem;
     }
     .connector-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+      border: 1px solid rgba(148, 163, 184, 0.16);
+      border-radius: 8px;
       overflow: hidden;
-      transition: all 0.3s ease;
+      background: rgba(11, 22, 40, 0.86);
+      box-shadow: 0 16px 34px rgba(0,0,0,.22);
+      transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
     }
     .connector-card:hover {
-      border-color: var(--primary-color);
-      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      transform: translateY(-3px);
+      border-color: rgba(0, 212, 255, .42);
+      box-shadow: 0 22px 46px rgba(0,0,0,.32);
     }
-    .connector-card.connected {
-      border-color: #10b981;
+    .connector-card[data-status="connected"] {
+      border-color: rgba(16, 185, 129, .38);
+    }
+    .connector-card[data-status="demo"] {
+      border-color: rgba(245, 158, 11, .36);
     }
     .connector-header {
-      padding: 1.25rem 1.5rem;
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      border-bottom: 1px solid var(--border-color);
+      gap: 1rem;
+      padding: 1.1rem 1.15rem;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.14);
     }
     .connector-info {
       display: flex;
+      gap: .75rem;
       align-items: center;
-      gap: 0.75rem;
+      min-width: 0;
     }
     .connector-logo {
-      width: 44px;
-      height: 44px;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 0.875rem;
+      width: 46px;
+      height: 46px;
+      flex: 0 0 46px;
+      display: grid;
+      place-items: center;
+      border-radius: 8px;
+      color: #fff;
+      font-size: .82rem;
+      font-weight: 800;
+      letter-spacing: 0;
+      box-shadow: inset 0 0 18px rgba(255,255,255,.08);
     }
-    .connector-logo.openai { background: #10a37f; color: white; }
-    .connector-logo.anthropic { background: #d4a574; color: white; }
-    .connector-logo.google { background: #4285f4; color: white; }
-    .connector-logo.azure { background: #0078d4; color: white; }
-    .connector-logo.aws { background: #ff9900; color: white; }
-    .connector-logo.cohere { background: #39594d; color: white; }
-    .connector-logo.mistral { background: #ff7000; color: white; }
-    .connector-logo.local { background: #6b7280; color: white; }
+    .connector-logo.sap { background: linear-gradient(135deg, #0ea5e9, #1d4ed8); }
+    .connector-logo.oracle { background: linear-gradient(135deg, #ef4444, #7f1d1d); }
+    .connector-logo.sharepoint { background: linear-gradient(135deg, #14b8a6, #115e59); }
+    .connector-logo.excel { background: linear-gradient(135deg, #22c55e, #166534); }
+    .connector-logo.his { background: linear-gradient(135deg, #ec4899, #9d174d); }
+    .connector-logo.crm { background: linear-gradient(135deg, #8b5cf6, #4338ca); }
     .connector-name {
-      font-size: 1rem;
-      font-weight: 600;
       color: var(--text-primary);
+      font-size: 1.02rem;
+      font-weight: 800;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .connector-provider {
-      font-size: 0.75rem;
-      color: var(--text-muted);
+      color: var(--text-secondary);
+      font-size: .78rem;
     }
     .connector-status {
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      gap: 0.375rem;
-      padding: 0.25rem 0.625rem;
+      align-self: flex-start;
+      gap: .4rem;
+      padding: .34rem .62rem;
       border-radius: 999px;
-      font-size: 0.75rem;
-      font-weight: 500;
+      font-size: .72rem;
+      font-weight: 800;
+      white-space: nowrap;
     }
     .connector-status.connected {
-      background: rgba(16, 185, 129, 0.15);
-      color: #10b981;
+      background: rgba(16, 185, 129, .15);
+      color: #34d399;
     }
-    .connector-status.disconnected {
-      background: rgba(107, 114, 128, 0.15);
-      color: #6b7280;
+    .connector-status.demo {
+      background: rgba(245, 158, 11, .15);
+      color: #fbbf24;
     }
-    .connector-status.error {
-      background: rgba(239, 68, 68, 0.15);
-      color: #ef4444;
+    .connector-status.not-configured {
+      background: rgba(148, 163, 184, .12);
+      color: #cbd5e1;
     }
     .connector-status-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
       background: currentColor;
+      box-shadow: 0 0 14px currentColor;
     }
     .connector-body {
-      padding: 1.25rem 1.5rem;
+      display: grid;
+      gap: .95rem;
+      padding: 1.1rem 1.15rem;
+      flex: 1;
     }
     .connector-desc {
-      font-size: 0.875rem;
-      color: var(--text-secondary);
-      line-height: 1.6;
-      margin-bottom: 1rem;
+      margin: 0;
+      color: #cbd5e1;
+      font-size: .9rem;
+      line-height: 1.75;
     }
-    .connector-models {
+    .connector-fields {
+      display: grid;
+      gap: .7rem;
+    }
+    .connector-field {
+      display: grid;
+      grid-template-columns: 112px minmax(0, 1fr);
+      gap: .75rem;
+      align-items: start;
+      color: #e2e8f0;
+      font-size: .83rem;
+    }
+    .connector-field span:first-child {
+      color: #94a3b8;
+    }
+    .connector-chips {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.5rem;
-      margin-bottom: 1rem;
+      gap: .4rem;
     }
-    .connector-model {
-      font-size: 0.75rem;
-      padding: 0.25rem 0.5rem;
-      border-radius: 4px;
-      background: var(--bg-tertiary);
-      color: var(--text-secondary);
+    .connector-chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 26px;
+      padding: .24rem .5rem;
+      border: 1px solid rgba(148, 163, 184, .18);
+      border-radius: 999px;
+      background: rgba(3, 10, 24, .42);
+      color: #dbeafe;
+      font-size: .72rem;
+      font-weight: 700;
     }
-    .connector-stats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0.5rem;
-      padding-top: 1rem;
-      border-top: 1px solid var(--border-color);
+    .scenario-strip {
+      display: flex;
+      align-items: center;
+      gap: .65rem;
+      margin-top: .2rem;
+      padding: .75rem;
+      border-radius: 8px;
+      border: 1px solid rgba(0, 212, 255, .14);
+      background: rgba(0, 212, 255, .07);
+      color: #e0f2fe;
+      font-size: .82rem;
+      font-weight: 700;
     }
-    .connector-stat {
-      text-align: center;
-    }
-    .stat-value {
-      font-size: 1rem;
-      font-weight: 600;
-      color: var(--text-primary);
-    }
-    .stat-label {
-      font-size: 0.625rem;
-      color: var(--text-muted);
-      text-transform: uppercase;
+    .scenario-strip i {
+      color: var(--brand);
     }
     .connector-footer {
-      padding: 1rem 1.5rem;
-      border-top: 1px solid var(--border-color);
-      display: flex;
-      gap: 0.5rem;
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: .55rem;
+      padding: 1rem 1.15rem 1.15rem;
+      border-top: 1px solid rgba(148, 163, 184, 0.14);
     }
     .connector-btn {
-      flex: 1;
-      padding: 0.5rem;
+      min-height: 42px;
+      border: 0;
       border-radius: 8px;
-      font-size: 0.875rem;
-      font-weight: 500;
+      padding: .55rem .7rem;
       cursor: pointer;
-      border: none;
-      transition: all 0.2s;
-      text-align: center;
+      font: inherit;
+      font-size: .84rem;
+      font-weight: 800;
+      transition: transform .18s ease, background .18s ease, border-color .18s ease;
+    }
+    .connector-btn:hover {
+      transform: translateY(-1px);
     }
     .connector-btn.primary {
-      background: var(--primary-color);
-      color: white;
-    }
-    .connector-btn.primary:hover {
-      background: var(--primary-hover);
+      background: linear-gradient(135deg, var(--brand), #3b82f6);
+      color: #03111f;
     }
     .connector-btn.secondary {
-      background: var(--bg-tertiary);
-      color: var(--text-primary);
-      border: 1px solid var(--border-color);
+      border: 1px solid rgba(148, 163, 184, .22);
+      background: rgba(15, 23, 42, .74);
+      color: #f8fafc;
     }
-    .connector-btn.secondary:hover {
-      background: var(--bg-secondary);
+    .connector-btn:focus-visible {
+      outline: 2px solid var(--brand);
+      outline-offset: 2px;
     }
-    .connector-btn.danger {
-      background: rgba(239, 68, 68, 0.1);
-      color: #ef4444;
-      border: 1px solid rgba(239, 68, 68, 0.3);
-    }
-    .connector-btn.danger:hover {
-      background: rgba(239, 68, 68, 0.2);
-    }
-    .section-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 1.5rem;
-    }
-    .section-title {
-      font-size: 1.125rem;
-      font-weight: 600;
-      color: var(--text-primary);
-    }
-    .add-connector-btn {
-      padding: 0.625rem 1.25rem;
-      background: var(--primary-color);
-      color: white;
-      border: none;
+    .connector-result-panel {
+      display: none;
+      border: 1px solid rgba(16, 185, 129, .24);
       border-radius: 8px;
-      font-size: 0.875rem;
-      font-weight: 500;
-      cursor: pointer;
+      padding: 1rem;
+      background: rgba(5, 46, 22, .28);
+      color: #dcfce7;
+    }
+    .connector-result-panel.is-visible {
+      display: block;
+    }
+    .connector-result-title {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: .5rem;
+      margin-bottom: .5rem;
+      color: #86efac;
+      font-weight: 900;
     }
-    .add-connector-btn:hover {
-      background: var(--primary-hover);
+    .connector-result-panel code {
+      display: inline-block;
+      direction: ltr;
+      padding: .16rem .38rem;
+      border-radius: 6px;
+      background: rgba(3, 10, 24, .62);
+      color: #bfdbfe;
+      font-size: .83rem;
     }
-    .available-section {
-      margin-top: 2rem;
-      padding-top: 2rem;
-      border-top: 1px solid var(--border-color);
+    @media (max-width: 900px) {
+      .connectors-hero-content {
+        grid-template-columns: 1fr;
+      }
+      .connector-metrics {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (max-width: 560px) {
+      .connectors-grid {
+        grid-template-columns: 1fr;
+      }
+      .connector-header,
+      .connector-footer {
+        grid-template-columns: 1fr;
+      }
+      .connector-header {
+        flex-direction: column;
+      }
+      .connector-field {
+        grid-template-columns: 1fr;
+        gap: .25rem;
+      }
     }
   </style>
   <meta name="robots" content="index, follow">
@@ -253,7 +395,7 @@
       "@id": "https://brightai.site/kernel/connectors/#webpage",
       "url": "https://brightai.site/kernel/connectors/",
       "name": "الموصلات | BrightAI Kernel",
-      "description": "إدارة اتصالات نماذج الذكاء الاصطناعي والخدمات الخارجية",
+      "description": "موصلات BrightAI Kernel التجريبية لربط أنظمة المؤسسة بطريقة read-only مع سيناريوهات حوكمة قابلة للتتبع.",
       "isPartOf": {
         "@id": "https://brightai.site/#website"
       },
@@ -291,6 +433,15 @@
   </script>
   <link rel="preload" href="/frontend/assets/fonts/TheYearofTheCamel-Medium.otf" as="font" type="font/otf" crossorigin />
   <link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css">
+<style>
+.brightai-internal-links{background:#020617;color:#e5e7eb;border-top:1px solid rgba(148,163,184,.18);padding:32px 20px}
+.brightai-internal-links__inner{max-width:1120px;margin:0 auto}
+.brightai-internal-links h2{font-size:clamp(1.25rem,2vw,1.75rem);margin:0 0 8px;color:#fff;letter-spacing:0}
+.brightai-internal-links p{margin:0 0 18px;color:#94a3b8;line-height:1.8}
+.brightai-internal-links ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px 18px;list-style:none;padding:0;margin:0}
+.brightai-internal-links a{display:block;color:#c7d2fe;text-decoration:none;padding:10px 0;line-height:1.6}
+.brightai-internal-links a:hover{color:#fff;text-decoration:underline}
+</style>
 </head>
 <body>
   <div id="brightai-unified-header"></div>
@@ -332,299 +483,205 @@
         </button>
         <div class="header-title">
           <h1>الموصلات</h1>
-          <p>إدارة اتصالات نماذج الذكاء الاصطناعي والخدمات الخارجية</p>
+          <p>موصلات مؤسسية read-only للحوكمة، المخاطر، وسيناريوهات التدقيق التجريبية</p>
         </div>
         <div class="header-actions">
-          <button class="add-connector-btn" onclick="showAddModal()">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 5v14M5 12h14"/>
-            </svg>
-            إضافة موصل
-          </button>
+          <span class="connectors-eyebrow"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i> Demo Mode</span>
         </div>
       </header>
 
       <div class="main-content">
-        <!-- Connected Section -->
-        <div class="section-header">
-          <h2 class="section-title">الموصلات النشطة</h2>
-        </div>
-        <div class="connectors-grid">
-          <!-- OpenAI Connector -->
-          <div class="connector-card connected">
-            <div class="connector-header">
-              <div class="connector-info">
-                <div class="connector-logo openai">GPT</div>
-                <div>
-                  <div class="connector-name">OpenAI</div>
-                  <div class="connector-provider">GPT-4, GPT-3.5</div>
+        <section class="connectors-command" aria-labelledby="connectors-title">
+          <div class="connectors-hero">
+            <div class="connectors-hero-content">
+              <div>
+                <span class="connectors-eyebrow"><i class="fa-solid fa-lock" aria-hidden="true"></i> Read-only governance layer</span>
+                <h2 id="connectors-title">اعرض كيف يقرأ BrightAI من أنظمة المؤسسة بدون ما يلمس بيانات حقيقية.</h2>
+                <p>كل موصل هنا مصمم لعرض المبيعات والحوكمة: صلاحيات read-only، تغطية PDPL/NCA/SFDA، وسيناريو جاهز ينتج trace_id قابل للتتبع.</p>
+              </div>
+              <div>
+                <div class="demo-warning" role="note">
+                  <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+                  <div>
+                    <strong>Demo connector — no real data is accessed</strong><br>
+                    لا توجد حقول credentials، ولا يتم حفظ مفاتيح أو كلمات مرور في Frontend. نتائج الاختبار والسيناريوهات وهمية للتجربة فقط.
+                  </div>
+                </div>
+                <div class="connector-metrics" aria-label="ملخص الموصلات">
+                  <div class="connector-metric"><strong>6</strong><span>موصلات مؤسسية</span></div>
+                  <div class="connector-metric"><strong>Read-only</strong><span>نطاق الصلاحيات</span></div>
+                  <div class="connector-metric"><strong>100%</strong><span>سيناريو مرتبط</span></div>
                 </div>
               </div>
-              <div class="connector-status connected">
-                <span class="connector-status-dot"></span>
-                متصل
-              </div>
-            </div>
-            <div class="connector-body">
-              <p class="connector-desc">نماذج OpenAI للمحادثة والتحليل وتوليد النصوص مع دعم الوظائف والأدوات.</p>
-              <div class="connector-models">
-                <span class="connector-model">gpt-4-turbo</span>
-                <span class="connector-model">gpt-4</span>
-                <span class="connector-model">gpt-3.5-turbo</span>
-              </div>
-              <div class="connector-stats">
-                <div class="connector-stat">
-                  <div class="stat-value">12,345</div>
-                  <div class="stat-label">طلب</div>
-                </div>
-                <div class="connector-stat">
-                  <div class="stat-value">145ms</div>
-                  <div class="stat-label">متوسط</div>
-                </div>
-                <div class="connector-stat">
-                  <div class="stat-value">99.8%</div>
-                  <div class="stat-label">توفر</div>
-                </div>
-              </div>
-            </div>
-            <div class="connector-footer">
-              <button class="connector-btn secondary">إعدادات</button>
-              <button class="connector-btn danger">قطع الاتصال</button>
             </div>
           </div>
 
-          <!-- Anthropic Connector -->
-          <div class="connector-card connected">
-            <div class="connector-header">
-              <div class="connector-info">
-                <div class="connector-logo anthropic">CL</div>
-                <div>
-                  <div class="connector-name">Anthropic</div>
-                  <div class="connector-provider">Claude 3</div>
+          <div class="connector-result-panel" id="connectorResult" aria-live="polite"></div>
+
+          <div class="connectors-grid" aria-label="قائمة موصلات المؤسسة">
+            <article class="connector-card" data-status="connected">
+              <div class="connector-header">
+                <div class="connector-info">
+                  <div class="connector-logo sap">SAP</div>
+                  <div>
+                    <div class="connector-name">SAP</div>
+                    <div class="connector-provider">Finance & procurement demo gateway</div>
+                  </div>
                 </div>
+                <div class="connector-status connected"><span class="connector-status-dot"></span>connected</div>
               </div>
-              <div class="connector-status connected">
-                <span class="connector-status-dot"></span>
-                متصل
-              </div>
-            </div>
-            <div class="connector-body">
-              <p class="connector-desc">نماذج Claude للمحادثات الآمنة والتحليل المتقدم مع التركيز على السلامة.</p>
-              <div class="connector-models">
-                <span class="connector-model">claude-3-opus</span>
-                <span class="connector-model">claude-3-sonnet</span>
-                <span class="connector-model">claude-3-haiku</span>
-              </div>
-              <div class="connector-stats">
-                <div class="connector-stat">
-                  <div class="stat-value">8,721</div>
-                  <div class="stat-label">طلب</div>
+              <div class="connector-body">
+                <p class="connector-desc">قراءة تجريبية لفواتير ومشتريات SAP مع تمريرها إلى مراجعة مخاطر قبل أي قرار تنفيذي.</p>
+                <div class="connector-fields">
+                  <div class="connector-field"><span>آخر مزامنة</span><strong>منذ 12 دقيقة</strong></div>
+                  <div class="connector-field"><span>الصلاحيات</span><strong>read-only</strong></div>
+                  <div class="connector-field"><span>Data classes</span><div class="connector-chips"><span class="connector-chip">invoices</span><span class="connector-chip">contracts</span></div></div>
+                  <div class="connector-field"><span>Governance</span><div class="connector-chips"><span class="connector-chip">PDPL</span><span class="connector-chip">NCA</span><span class="connector-chip">SFDA</span></div></div>
                 </div>
-                <div class="connector-stat">
-                  <div class="stat-value">198ms</div>
-                  <div class="stat-label">متوسط</div>
-                </div>
-                <div class="connector-stat">
-                  <div class="stat-value">99.5%</div>
-                  <div class="stat-label">توفر</div>
-                </div>
+                <div class="scenario-strip"><i class="fa-solid fa-route" aria-hidden="true"></i> SAP invoice risk review</div>
               </div>
-            </div>
-            <div class="connector-footer">
-              <button class="connector-btn secondary">إعدادات</button>
-              <button class="connector-btn danger">قطع الاتصال</button>
-            </div>
+              <div class="connector-footer">
+                <button class="connector-btn secondary" data-test-connector="SAP">اختبار الاتصال</button>
+                <button class="connector-btn primary" data-run-scenario="SAP invoice risk review" data-connector="SAP" data-pack="PDPL">تشغيل سيناريو من هذا الموصل</button>
+              </div>
+            </article>
+
+            <article class="connector-card" data-status="demo">
+              <div class="connector-header">
+                <div class="connector-info">
+                  <div class="connector-logo oracle">ERP</div>
+                  <div>
+                    <div class="connector-name">Oracle ERP</div>
+                    <div class="connector-provider">Enterprise finance demo source</div>
+                  </div>
+                </div>
+                <div class="connector-status demo"><span class="connector-status-dot"></span>demo</div>
+              </div>
+              <div class="connector-body">
+                <p class="connector-desc">واجهة قراءة تجريبية لسجلات ERP الحساسة مع إظهار حدود الحوكمة قبل التحليل.</p>
+                <div class="connector-fields">
+                  <div class="connector-field"><span>آخر مزامنة</span><strong>اليوم 09:40</strong></div>
+                  <div class="connector-field"><span>الصلاحيات</span><strong>read-only</strong></div>
+                  <div class="connector-field"><span>Data classes</span><div class="connector-chips"><span class="connector-chip">invoices</span><span class="connector-chip">HR files</span></div></div>
+                  <div class="connector-field"><span>Governance</span><div class="connector-chips"><span class="connector-chip">PDPL</span><span class="connector-chip">NCA</span><span class="connector-chip">SFDA</span></div></div>
+                </div>
+                <div class="scenario-strip"><i class="fa-solid fa-route" aria-hidden="true"></i> Oracle ERP vendor invoice review</div>
+              </div>
+              <div class="connector-footer">
+                <button class="connector-btn secondary" data-test-connector="Oracle ERP">اختبار الاتصال</button>
+                <button class="connector-btn primary" data-run-scenario="Oracle ERP vendor invoice review" data-connector="Oracle ERP" data-pack="PDPL">تشغيل سيناريو من هذا الموصل</button>
+              </div>
+            </article>
+
+            <article class="connector-card" data-status="connected">
+              <div class="connector-header">
+                <div class="connector-info">
+                  <div class="connector-logo sharepoint">SP</div>
+                  <div>
+                    <div class="connector-name">Microsoft SharePoint</div>
+                    <div class="connector-provider">Document library demo index</div>
+                  </div>
+                </div>
+                <div class="connector-status connected"><span class="connector-status-dot"></span>connected</div>
+              </div>
+              <div class="connector-body">
+                <p class="connector-desc">فهرسة وهمية لمكتبات العقود والملفات الداخلية مع إظهار ضوابط التصنيف والتتبع.</p>
+                <div class="connector-fields">
+                  <div class="connector-field"><span>آخر مزامنة</span><strong>منذ 31 دقيقة</strong></div>
+                  <div class="connector-field"><span>الصلاحيات</span><strong>read-only</strong></div>
+                  <div class="connector-field"><span>Data classes</span><div class="connector-chips"><span class="connector-chip">contracts</span><span class="connector-chip">HR files</span></div></div>
+                  <div class="connector-field"><span>Governance</span><div class="connector-chips"><span class="connector-chip">PDPL</span><span class="connector-chip">NCA</span><span class="connector-chip">SFDA</span></div></div>
+                </div>
+                <div class="scenario-strip"><i class="fa-solid fa-route" aria-hidden="true"></i> SharePoint contract review</div>
+              </div>
+              <div class="connector-footer">
+                <button class="connector-btn secondary" data-test-connector="Microsoft SharePoint">اختبار الاتصال</button>
+                <button class="connector-btn primary" data-run-scenario="SharePoint contract review" data-connector="Microsoft SharePoint" data-pack="NCA">تشغيل سيناريو من هذا الموصل</button>
+              </div>
+            </article>
+
+            <article class="connector-card" data-status="demo">
+              <div class="connector-header">
+                <div class="connector-info">
+                  <div class="connector-logo excel">XLS</div>
+                  <div>
+                    <div class="connector-name">Excel/CSV</div>
+                    <div class="connector-provider">Controlled file import preview</div>
+                  </div>
+                </div>
+                <div class="connector-status demo"><span class="connector-status-dot"></span>demo</div>
+              </div>
+              <div class="connector-body">
+                <p class="connector-desc">محاكاة قراءة ملفات Excel وCSV بعد إزالة أي بيانات حساسة من العرض التجريبي.</p>
+                <div class="connector-fields">
+                  <div class="connector-field"><span>آخر مزامنة</span><strong>ملف Demo جاهز</strong></div>
+                  <div class="connector-field"><span>الصلاحيات</span><strong>read-only</strong></div>
+                  <div class="connector-field"><span>Data classes</span><div class="connector-chips"><span class="connector-chip">invoices</span><span class="connector-chip">HR files</span><span class="connector-chip">contracts</span></div></div>
+                  <div class="connector-field"><span>Governance</span><div class="connector-chips"><span class="connector-chip">PDPL</span><span class="connector-chip">NCA</span><span class="connector-chip">SFDA</span></div></div>
+                </div>
+                <div class="scenario-strip"><i class="fa-solid fa-route" aria-hidden="true"></i> Excel HR file privacy review</div>
+              </div>
+              <div class="connector-footer">
+                <button class="connector-btn secondary" data-test-connector="Excel/CSV">اختبار الاتصال</button>
+                <button class="connector-btn primary" data-run-scenario="Excel HR file privacy review" data-connector="Excel/CSV" data-pack="PDPL">تشغيل سيناريو من هذا الموصل</button>
+              </div>
+            </article>
+
+            <article class="connector-card" data-status="connected">
+              <div class="connector-header">
+                <div class="connector-info">
+                  <div class="connector-logo his">HIS</div>
+                  <div>
+                    <div class="connector-name">HIS Healthcare</div>
+                    <div class="connector-provider">Clinical governance demo source</div>
+                  </div>
+                </div>
+                <div class="connector-status connected"><span class="connector-status-dot"></span>connected</div>
+              </div>
+              <div class="connector-body">
+                <p class="connector-desc">عرض حوكمة سجلات صحية وهمية داخل سيناريو CAPA مع إبراز ضوابط SFDA وPDPL.</p>
+                <div class="connector-fields">
+                  <div class="connector-field"><span>آخر مزامنة</span><strong>منذ 8 دقائق</strong></div>
+                  <div class="connector-field"><span>الصلاحيات</span><strong>read-only</strong></div>
+                  <div class="connector-field"><span>Data classes</span><div class="connector-chips"><span class="connector-chip">patient records</span><span class="connector-chip">HR files</span></div></div>
+                  <div class="connector-field"><span>Governance</span><div class="connector-chips"><span class="connector-chip">PDPL</span><span class="connector-chip">NCA</span><span class="connector-chip">SFDA</span></div></div>
+                </div>
+                <div class="scenario-strip"><i class="fa-solid fa-route" aria-hidden="true"></i> HIS CAPA review</div>
+              </div>
+              <div class="connector-footer">
+                <button class="connector-btn secondary" data-test-connector="HIS Healthcare">اختبار الاتصال</button>
+                <button class="connector-btn primary" data-run-scenario="HIS CAPA review" data-connector="HIS Healthcare" data-pack="SFDA">تشغيل سيناريو من هذا الموصل</button>
+              </div>
+            </article>
+
+            <article class="connector-card" data-status="not-configured">
+              <div class="connector-header">
+                <div class="connector-info">
+                  <div class="connector-logo crm">CRM</div>
+                  <div>
+                    <div class="connector-name">CRM</div>
+                    <div class="connector-provider">Customer records demo connector</div>
+                  </div>
+                </div>
+                <div class="connector-status not-configured"><span class="connector-status-dot"></span>not configured</div>
+              </div>
+              <div class="connector-body">
+                <p class="connector-desc">موصل CRM غير مفعّل فعلياً، لكنه يوضح كيف تمر مراجعة العقود والملفات عبر طبقة حوكمة واحدة.</p>
+                <div class="connector-fields">
+                  <div class="connector-field"><span>آخر مزامنة</span><strong>لم يتم التكوين</strong></div>
+                  <div class="connector-field"><span>الصلاحيات</span><strong>read-only</strong></div>
+                  <div class="connector-field"><span>Data classes</span><div class="connector-chips"><span class="connector-chip">contracts</span><span class="connector-chip">invoices</span></div></div>
+                  <div class="connector-field"><span>Governance</span><div class="connector-chips"><span class="connector-chip">PDPL</span><span class="connector-chip">NCA</span><span class="connector-chip">SFDA</span></div></div>
+                </div>
+                <div class="scenario-strip"><i class="fa-solid fa-route" aria-hidden="true"></i> CRM contract obligation review</div>
+              </div>
+              <div class="connector-footer">
+                <button class="connector-btn secondary" data-test-connector="CRM">اختبار الاتصال</button>
+                <button class="connector-btn primary" data-run-scenario="CRM contract obligation review" data-connector="CRM" data-pack="PDPL">تشغيل سيناريو من هذا الموصل</button>
+              </div>
+            </article>
           </div>
-
-          <!-- Azure OpenAI Connector -->
-          <div class="connector-card connected">
-            <div class="connector-header">
-              <div class="connector-info">
-                <div class="connector-logo azure">AZ</div>
-                <div>
-                  <div class="connector-name">Azure OpenAI</div>
-                  <div class="connector-provider">Microsoft Azure</div>
-                </div>
-              </div>
-              <div class="connector-status connected">
-                <span class="connector-status-dot"></span>
-                متصل
-              </div>
-            </div>
-            <div class="connector-body">
-              <p class="connector-desc">نماذج OpenAI مستضافة على Azure مع ضمانات أمان وامتثال إضافية.</p>
-              <div class="connector-models">
-                <span class="connector-model">gpt-4-azure</span>
-                <span class="connector-model">gpt-35-turbo</span>
-              </div>
-              <div class="connector-stats">
-                <div class="connector-stat">
-                  <div class="stat-value">5,432</div>
-                  <div class="stat-label">طلب</div>
-                </div>
-                <div class="connector-stat">
-                  <div class="stat-value">165ms</div>
-                  <div class="stat-label">متوسط</div>
-                </div>
-                <div class="connector-stat">
-                  <div class="stat-value">99.9%</div>
-                  <div class="stat-label">توفر</div>
-                </div>
-              </div>
-            </div>
-            <div class="connector-footer">
-              <button class="connector-btn secondary">إعدادات</button>
-              <button class="connector-btn danger">قطع الاتصال</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Available Connectors Section -->
-        <div class="available-section">
-          <div class="section-header">
-            <h2 class="section-title">موصلات متاحة</h2>
-          </div>
-          <div class="connectors-grid">
-            <!-- Google AI -->
-            <div class="connector-card">
-              <div class="connector-header">
-                <div class="connector-info">
-                  <div class="connector-logo google">G</div>
-                  <div>
-                    <div class="connector-name">Google AI</div>
-                    <div class="connector-provider">Gemini Pro</div>
-                  </div>
-                </div>
-                <div class="connector-status disconnected">
-                  <span class="connector-status-dot"></span>
-                  غير متصل
-                </div>
-              </div>
-              <div class="connector-body">
-                <p class="connector-desc">نماذج Google Gemini للمحادثة والتحليل متعدد الوسائط.</p>
-                <div class="connector-models">
-                  <span class="connector-model">gemini-pro</span>
-                  <span class="connector-model">gemini-pro-vision</span>
-                </div>
-              </div>
-              <div class="connector-footer">
-                <button class="connector-btn primary" style="width: 100%;">إعداد الاتصال</button>
-              </div>
-            </div>
-
-            <!-- AWS Bedrock -->
-            <div class="connector-card">
-              <div class="connector-header">
-                <div class="connector-info">
-                  <div class="connector-logo aws">AWS</div>
-                  <div>
-                    <div class="connector-name">AWS Bedrock</div>
-                    <div class="connector-provider">Amazon</div>
-                  </div>
-                </div>
-                <div class="connector-status disconnected">
-                  <span class="connector-status-dot"></span>
-                  غير متصل
-                </div>
-              </div>
-              <div class="connector-body">
-                <p class="connector-desc">وصول موحد لنماذج متعددة عبر خدمة AWS Bedrock.</p>
-                <div class="connector-models">
-                  <span class="connector-model">titan</span>
-                  <span class="connector-model">claude</span>
-                  <span class="connector-model">llama-2</span>
-                </div>
-              </div>
-              <div class="connector-footer">
-                <button class="connector-btn primary" style="width: 100%;">إعداد الاتصال</button>
-              </div>
-            </div>
-
-            <!-- Cohere -->
-            <div class="connector-card">
-              <div class="connector-header">
-                <div class="connector-info">
-                  <div class="connector-logo cohere">CO</div>
-                  <div>
-                    <div class="connector-name">Cohere</div>
-                    <div class="connector-provider">Command R+</div>
-                  </div>
-                </div>
-                <div class="connector-status disconnected">
-                  <span class="connector-status-dot"></span>
-                  غير متصل
-                </div>
-              </div>
-              <div class="connector-body">
-                <p class="connector-desc">نماذج Cohere للبحث الدلالي والتصنيف وتوليد النصوص.</p>
-                <div class="connector-models">
-                  <span class="connector-model">command-r-plus</span>
-                  <span class="connector-model">command-r</span>
-                  <span class="connector-model">embed</span>
-                </div>
-              </div>
-              <div class="connector-footer">
-                <button class="connector-btn primary" style="width: 100%;">إعداد الاتصال</button>
-              </div>
-            </div>
-
-            <!-- Mistral -->
-            <div class="connector-card">
-              <div class="connector-header">
-                <div class="connector-info">
-                  <div class="connector-logo mistral">M</div>
-                  <div>
-                    <div class="connector-name">Mistral AI</div>
-                    <div class="connector-provider">Mistral Large</div>
-                  </div>
-                </div>
-                <div class="connector-status disconnected">
-                  <span class="connector-status-dot"></span>
-                  غير متصل
-                </div>
-              </div>
-              <div class="connector-body">
-                <p class="connector-desc">نماذج Mistral الأوروبية مع التركيز على الكفاءة والأداء.</p>
-                <div class="connector-models">
-                  <span class="connector-model">mistral-large</span>
-                  <span class="connector-model">mistral-medium</span>
-                  <span class="connector-model">mistral-small</span>
-                </div>
-              </div>
-              <div class="connector-footer">
-                <button class="connector-btn primary" style="width: 100%;">إعداد الاتصال</button>
-              </div>
-            </div>
-
-            <!-- Local LLM -->
-            <div class="connector-card">
-              <div class="connector-header">
-                <div class="connector-info">
-                  <div class="connector-logo local">LO</div>
-                  <div>
-                    <div class="connector-name">نموذج محلي</div>
-                    <div class="connector-provider">Self-hosted</div>
-                  </div>
-                </div>
-                <div class="connector-status disconnected">
-                  <span class="connector-status-dot"></span>
-                  غير متصل
-                </div>
-              </div>
-              <div class="connector-body">
-                <p class="connector-desc">اتصال بنموذج مستضاف محلياً عبر API متوافق مع OpenAI.</p>
-                <div class="connector-models">
-                  <span class="connector-model">ollama</span>
-                  <span class="connector-model">llama.cpp</span>
-                  <span class="connector-model">vLLM</span>
-                </div>
-              </div>
-              <div class="connector-footer">
-                <button class="connector-btn primary" style="width: 100%;">إعداد الاتصال</button>
-              </div>
-            </div>
-          </div>
-        </div>
+        </section>
       </div>
     </main>
   </div>
@@ -645,9 +702,78 @@
       }
     });
 
-    function showAddModal() {
-      alert('سيتم إضافة نافذة إنشاء الموصل قريباً');
+    function generateTraceId(prefix = 'CONN') {
+      const randomPart = Math.random().toString(16).slice(2, 10).toUpperCase();
+      const timePart = Date.now().toString(36).toUpperCase();
+      return `${prefix}-${timePart}-${randomPart}`;
     }
+
+    function escapeHtml(value) {
+      if (window.KernelUtils?.escapeHtml) return KernelUtils.escapeHtml(value);
+      return String(value || '').replace(/[&<>"']/g, (char) => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;',
+      }[char]));
+    }
+
+    function renderConnectorResult({ title, connector, message, traceId, compliancePack }) {
+      const panel = document.getElementById('connectorResult');
+      if (!panel) return;
+
+      panel.classList.add('is-visible');
+      panel.innerHTML = `
+        <div class="connector-result-title">
+          <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
+          <span>${escapeHtml(title)}</span>
+        </div>
+        <p>${escapeHtml(message)}</p>
+        <p>الموصل: <strong>${escapeHtml(connector)}</strong> · الحزمة: <strong>${escapeHtml(compliancePack)}</strong></p>
+        <p>trace_id: <code>${escapeHtml(traceId)}</code></p>
+        <p><strong>Demo connector — no real data is accessed</strong></p>
+      `;
+      panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function testConnector(connector) {
+      const traceId = generateTraceId('TEST');
+      renderConnectorResult({
+        title: 'اختبار الاتصال اكتمل في Demo Mode',
+        connector,
+        compliancePack: 'PDPL/NCA/SFDA',
+        traceId,
+        message: 'تمت محاكاة handshake read-only بنجاح. لم يتم إرسال credentials، ولم يتم الوصول لأي نظام أو بيانات حقيقية.',
+      });
+    }
+
+    function runConnectorScenario(connector, scenario, compliancePack) {
+      const traceId = generateTraceId('SCN');
+      renderConnectorResult({
+        title: 'تم تشغيل السيناريو التجريبي',
+        connector,
+        compliancePack,
+        traceId,
+        message: `${scenario} جاهز للعرض مع سجل تتبع وهمي ونتيجة حوكمة قابلة للمراجعة.`,
+      });
+    }
+
+    document.querySelectorAll('[data-test-connector]').forEach((button) => {
+      button.addEventListener('click', () => {
+        testConnector(button.getAttribute('data-test-connector'));
+      });
+    });
+
+    document.querySelectorAll('[data-run-scenario]').forEach((button) => {
+      button.addEventListener('click', () => {
+        runConnectorScenario(
+          button.getAttribute('data-connector'),
+          button.getAttribute('data-run-scenario'),
+          button.getAttribute('data-pack')
+        );
+      });
+    });
 
     document.getElementById('menuToggle')?.addEventListener('click', () => {
       document.getElementById('sidebar').classList.toggle('open');
@@ -660,5 +786,23 @@
     });
   </script>
   <script src="/frontend/js/production-runtime.v20260427.js" defer></script>
+<!-- BRIGHTAI_INTERNAL_LINKS_START -->
+<section class="brightai-internal-links" aria-labelledby="brightai-internal-links-title" dir="rtl">
+  <div class="brightai-internal-links__inner">
+    <h2 id="brightai-internal-links-title">روابط داخلية مهمة</h2>
+    <p>روابط مختارة تساعد الزائر ومحركات البحث على الوصول إلى الصفحات الأساسية والمرتبطة بالسياق.</p>
+    <ul>
+        <li><a href="/kernel/">لوحة تحكم نواة BrightAI</a></li>
+        <li><a href="/kernel/chat/">المحادثة الآمنة وفاحص الطلبات بالذكاء الاصطناعي</a></li>
+        <li><a href="/kernel/audit/">سجل تدقيق طلبات وقرارات الذكاء الاصطناعي</a></li>
+        <li><a href="/kernel/approvals/">إدارة ومراجعة الموافقات البشرية الحساسة</a></li>
+        <li><a href="/kernel/stats/">مقاييس وإحصائيات الامتثال والحوكمة</a></li>
+        <li><a href="/kernel/compliance/">نظام إدارة الامتثال والضوابط التشغيلية</a></li>
+        <li><a href="/kernel/policies/">محرر ومحاكي السياسات البصري للقواعد</a></li>
+        <li><a href="/kernel/reports/">تقارير الحوكمة والجاهزية للتدقيق الأمني</a></li>
+    </ul>
+  </div>
+</section>
+<!-- BRIGHTAI_INTERNAL_LINKS_END -->
 </body>
 </html>

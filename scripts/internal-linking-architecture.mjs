@@ -28,6 +28,8 @@ const IGNORE_DIRS = new Set([
   "dist",
   "build",
   "coverage",
+  ".render-static",
+  ".next",
 ]);
 
 const OWNER_DECISION_PATTERNS = [
@@ -48,23 +50,47 @@ const PILLAR_LINKS_AR = [
   { href: "/services/", text: "تحليل البيانات للشركات السعودية" },
   { href: "/demo/", text: "مساعد Bright AI التجريبي" },
   { href: "/contact/", text: "تواصل مع Bright AI لتنفيذ حلول AI" },
+  { href: "/assessment/ai-governance-readiness/", text: "تقييم جاهزية حوكمة الذكاء الاصطناعي للشركات" },
 ];
 
 const PILLAR_LINKS_EN = [
-  { href: "/en/", text: "Bright AI Saudi enterprise AI" },
-  { href: "/en/services/", text: "AI services for Saudi companies" },
-  { href: "/en/services/", text: "AI agents for business teams" },
-  { href: "/en/services/", text: "AI workflow automation" },
-  { href: "/en/services/", text: "Data analytics for Saudi teams" },
-  { href: "/en/contact/", text: "Contact Bright AI for AI implementation" },
-  { href: "/en/privacy-cookies/", text: "Bright AI privacy and cookies policy" },
+  { href: "/en/privacy-policy/", text: "Bright AI privacy policy" },
   { href: "/en/terms/", text: "Bright AI terms and conditions" },
+  { href: "/en/cookie-policy/", text: "Bright AI cookie policy" },
+  { href: "/en/pdpl-statement/", text: "Bright AI PDPL compliance statement" },
+  { href: "/en/data-processing-agreement/", text: "Bright AI data processing agreement" },
 ];
 
 const LOCATION_LINKS_AR = [
   { href: "/contact/", text: "خدمات الذكاء الاصطناعي في الرياض" },
   { href: "/contact/", text: "حلول AI للشركات في جدة" },
   { href: "/contact/", text: "أتمتة وذكاء اصطناعي في الدمام" },
+];
+
+const SOLUTIONS_LINKS_AR = [
+  { href: "/solutions/ai-governance-platform/", text: "منصة حوكمة الذكاء الاصطناعي للمؤسسات السعودية" },
+  { href: "/solutions/ai-firewall/", text: "جدار حماية الذكاء الاصطناعي لمنع تسريب البيانات" },
+  { href: "/solutions/ai-audit-trail/", text: "سجل تدقيق الذكاء الاصطناعي لتوثيق العمليات" },
+  { href: "/solutions/human-approval-layer/", text: "طبقة الموافقة البشرية للقرارات الحساسة بالذكاء الاصطناعي" },
+  { href: "/solutions/ai-evidence-file/", text: "ملفات أدلة حوكمة الذكاء الاصطناعي للتدقيق" },
+  { href: "/solutions/continuous-ai-governance/", text: "تشغيل حوكمة الذكاء الاصطناعي بشكل مستمر" },
+  { href: "/solutions/ai-risk-classification/", text: "تصنيف مخاطر الذكاء الاصطناعي حسب استخدام البيانات" },
+  { href: "/solutions/ai-use-case-discovery/", text: "اكتشاف ورصد استخدامات الذكاء الاصطناعي في المؤسسات" },
+  { href: "/solutions/policy-to-control-mapping/", text: "تحويل سياسات الذكاء الاصطناعي لضوابط تشغيلية" },
+];
+
+const KERNEL_LINKS_STATIC_AR = [
+  { href: "/kernel/", text: "لوحة تحكم نواة BrightAI" },
+  { href: "/kernel/chat/", text: "المحادثة الآمنة وفاحص الطلبات بالذكاء الاصطناعي" },
+  { href: "/kernel/audit/", text: "سجل تدقيق طلبات وقرارات الذكاء الاصطناعي" },
+  { href: "/kernel/approvals/", text: "إدارة ومراجعة الموافقات البشرية الحساسة" },
+  { href: "/kernel/stats/", text: "مقاييس وإحصائيات الامتثال والحوكمة" },
+  { href: "/kernel/compliance/", text: "نظام إدارة الامتثال والضوابط التشغيلية" },
+  { href: "/kernel/policies/", text: "محرر ومحاكي السياسات البصري للقواعد" },
+  { href: "/kernel/connectors/", text: "موصلات وقنوات ربط أنظمة المؤسسة بالـ AI" },
+  { href: "/kernel/reports/", text: "تقارير الحوكمة والجاهزية للتدقيق الأمني" },
+  { href: "/kernel/scenarios/", text: "سيناريوهات ومحاكاة مخاطر القطاعات المختلفة" },
+  { href: "/kernel/evidence/", text: "نظام توثيق وحفظ الأدلة الرقمية المشفرة" },
 ];
 
 const SERVICE_CLUSTER_LINKS_AR = [
@@ -267,6 +293,8 @@ function pageKind(page) {
   const rel = page.relPath.toLowerCase();
   if (rel === "index.html") return "home";
   if (rel.startsWith("services/")) return "service";
+  if (rel.startsWith("solutions/")) return "solution";
+  if (rel.startsWith("kernel/")) return "kernel";
   if (rel.startsWith("blog/")) return "blog";
   if (rel.startsWith("locations/")) return "location";
   if (rel.startsWith("sectors/")) return "sector";
@@ -303,6 +331,21 @@ function relatedLinksForPage(page) {
     ], page.url);
   }
 
+  if (kind === "solution") {
+    return dedupeLinks([
+      ...SOLUTIONS_LINKS_AR,
+      { href: "/services/", text: "خدمات الذكاء الاصطناعي للشركات السعودية" },
+      { href: "/contact/", text: "احجز استشارة ذكاء اصطناعي للشركات" }
+    ], page.url);
+  }
+
+  if (kind === "kernel") {
+    return dedupeLinks([
+      ...KERNEL_LINKS_STATIC_AR,
+      { href: "/solutions/ai-governance-platform/", text: "منصة حوكمة وأمان الذكاء الاصطناعي للمؤسسات" }
+    ], page.url);
+  }
+
   if (kind === "blog") {
     const rel = page.relPath.toLowerCase();
     const topical = [];
@@ -335,7 +378,8 @@ function relatedLinksForPage(page) {
   if (kind === "tool") {
     return dedupeLinks([
       { href: "/services/", text: "أدوات ذكاء اصطناعي مجانية من Bright AI" },
-      { href: "/try/", text: "جرّب نماذج AI للأعمال" },
+      { href: "/demo/", text: "جرّب نماذج AI للأعمال" },
+      { href: "/demo/ai-reject-dashboard/", text: "لوحة رفض تحليلات الذكاء الاصطناعي للمؤسسات" },
       { href: "/services/", text: "حوّل التجربة إلى حل ذكاء اصطناعي مؤسسي" },
       { href: "/contact/", text: "ناقش تطبيق الأداة داخل شركتك" },
     ], page.url);

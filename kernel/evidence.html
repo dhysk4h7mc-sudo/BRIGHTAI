@@ -184,9 +184,11 @@
       border-top: 1px solid var(--border-color);
       display: flex;
       gap: 0.5rem;
+      flex-wrap: wrap;
     }
     .detail-btn {
       flex: 1;
+      min-width: 8.5rem;
       padding: 0.5rem;
       border-radius: 8px;
       font-size: 0.875rem;
@@ -209,6 +211,10 @@
     }
     .detail-btn.secondary:hover {
       background: var(--bg-secondary);
+    }
+    .detail-btn:disabled {
+      cursor: not-allowed;
+      opacity: 0.55;
     }
 
     .filters-bar {
@@ -333,6 +339,15 @@
   </script>
   <link rel="preload" href="/frontend/assets/fonts/TheYearofTheCamel-Medium.otf" as="font" type="font/otf" crossorigin />
   <link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css">
+<style>
+.brightai-internal-links{background:#020617;color:#e5e7eb;border-top:1px solid rgba(148,163,184,.18);padding:32px 20px}
+.brightai-internal-links__inner{max-width:1120px;margin:0 auto}
+.brightai-internal-links h2{font-size:clamp(1.25rem,2vw,1.75rem);margin:0 0 8px;color:#fff;letter-spacing:0}
+.brightai-internal-links p{margin:0 0 18px;color:#94a3b8;line-height:1.8}
+.brightai-internal-links ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px 18px;list-style:none;padding:0;margin:0}
+.brightai-internal-links a{display:block;color:#c7d2fe;text-decoration:none;padding:10px 0;line-height:1.6}
+.brightai-internal-links a:hover{color:#fff;text-decoration:underline}
+</style>
 </head>
 <body>
   <div id="brightai-unified-header"></div>
@@ -513,8 +528,8 @@
               </div>
             </div>
             <div class="detail-actions">
-              <button class="detail-btn secondary">تصدير PDF</button>
-              <button class="detail-btn primary">نسخ التفاصيل</button>
+              <button class="detail-btn secondary" id="downloadEvidencePdfBtn" type="button">تحميل ملف الأدلة PDF</button>
+              <button class="detail-btn primary" id="copyEvidenceBtn" type="button">نسخ التفاصيل</button>
             </div>
           </div>
         </div>
@@ -529,6 +544,7 @@
   <script src="/kernel/assets/js/kernel-api.js" defer></script>
   <script>
     let evidenceRecords = [];
+    let selectedEvidence = null;
     const selectedTraceId = new URLSearchParams(window.location.search).get('trace_id') || '';
     const selectedLegacyId = new URLSearchParams(window.location.search).get('id') || '';
 
@@ -622,6 +638,7 @@
 
     function renderEvidenceDetail(evidence) {
       const record = normalizeEvidenceRecord(evidence);
+      selectedEvidence = record;
       const traceId = record.traceId || record.interactionId;
       document.querySelector('.detail-title').textContent = traceId;
       document.querySelector('.detail-subtitle').innerHTML = record.createdAt
@@ -647,14 +664,17 @@
           <div class="detail-meta">
             <div class="meta-item"><div class="meta-label">Interaction</div><div class="meta-value">${KernelUtils.escapeHtml(record.interactionId || '—')}</div></div>
             <div class="meta-item"><div class="meta-label">Request Hash</div><div class="meta-value">${KernelUtils.escapeHtml(shortHash(record.requestHash))}</div></div>
+            <div class="meta-item"><div class="meta-label">Response Hash</div><div class="meta-value">${KernelUtils.escapeHtml(shortHash(record.responseHash))}</div></div>
             <div class="meta-item"><div class="meta-label">Previous Hash</div><div class="meta-value">${KernelUtils.escapeHtml(shortHash(record.previousHash))}</div></div>
             <div class="meta-item"><div class="meta-label">Record Hash</div><div class="meta-value">${KernelUtils.escapeHtml(shortHash(record.recordHash || record.hash))}</div></div>
+            <div class="meta-item"><div class="meta-label">Evidence Hash</div><div class="meta-value">${KernelUtils.escapeHtml(shortHash(record.evidenceHash))}</div></div>
           </div>
         </div>
       `;
     }
 
     function renderEmptyDetail(message) {
+      selectedEvidence = null;
       document.querySelector('.detail-title').textContent = '—';
       document.querySelector('.detail-subtitle').textContent = '';
       document.querySelector('.detail-body').innerHTML = `<div class="detail-section"><div class="detail-content">${KernelUtils.escapeHtml(message)}</div></div>`;
@@ -663,8 +683,15 @@
     function normalizeEvidenceRecord(record = {}) {
       const summary = record.summary || {};
       const audit = record.audit || {};
+      const firewall = record.firewall || {};
+      const risk = record.risk || {};
+      const user = record.user || {};
       const traceId = getTraceId(record) || getTraceId(summary) || record.interactionId || record.requestId || record.id || '';
-      const request = summary.request || record.request || record.maskedText || record.masked_message || record.query || record.request_message || '';
+      const piiTypes = normalizeList(firewall.piiTypes || record.piiTypes || record.piiDetected || record.pii_detected);
+      const request = redactText(
+        record.maskedText || record.masked_message || summary.request || record.request || record.query || record.request_message || '',
+        piiTypes
+      );
       return {
         ...record,
         interactionId: record.interactionId || record.interaction_id || summary.interactionId || record.id || record.requestId,
@@ -675,11 +702,26 @@
         request,
         response: summary.response || record.response || record.gemini_response || '',
         riskScore: summary.riskScore || record.riskScore || record.risk_score,
-        riskLevel: summary.riskLevel || record.riskLevel || record.risk_level,
+        riskLevel: risk.level || summary.riskLevel || record.riskLevel || record.risk_level,
+        riskReasons: normalizeList(risk.reasons || record.riskReasons || record.risk_reasons),
         approvalStatus: summary.approvalStatus || record.approvalStatus || record.approval_status,
+        approvedBy: summary.approvedBy || record.approvedBy || record.approver || record.approved_by,
+        approvedAt: summary.approvedAt || record.approvedAt || record.approved_at,
+        userId: user.id || record.userId || record.user_id,
+        userName: user.name || record.userName || record.user_name,
+        department: user.department || record.department || record.departmentName,
+        piiTypes,
+        model: summary.model || record.model || record.response_model,
+        provider: summary.provider || record.provider || record.response_provider,
+        latencyMs: summary.responseTimeMs || record.latencyMs || record.response_time_ms,
+        tokensInput: summary.tokensInput || record.tokensInput || record.response_tokens_input,
+        tokensOutput: summary.tokensOutput || record.tokensOutput || record.response_tokens_output,
         requestHash: audit.requestHash || record.requestHash || record.request_hash,
+        responseHash: audit.responseHash || record.responseHash || record.response_hash,
         previousHash: audit.previousHash || record.previousHash || record.previous_hash,
-        recordHash: audit.recordHash || record.recordHash || record.record_hash || record.hash
+        recordHash: audit.recordHash || record.recordHash || record.record_hash || record.hash,
+        evidenceHash: record.evidenceHash || record.evidence_hash || record.recordHash || record.record_hash || record.hash,
+        regulatoryReferences: record.regulatoryReferences || record.regulatory_references || []
       };
     }
 
@@ -690,6 +732,187 @@
 
     function shortHash(hash) {
       return hash ? `${String(hash).substring(0, 18)}...` : '—';
+    }
+
+    function normalizeList(value) {
+      if (!value) return [];
+      if (Array.isArray(value)) return value.map(String).filter(Boolean);
+      if (typeof value === 'string') {
+        try {
+          const parsed = JSON.parse(value);
+          if (Array.isArray(parsed)) return parsed.map(String).filter(Boolean);
+        } catch (_error) {}
+        return value.split(',').map((item) => item.trim()).filter(Boolean);
+      }
+      return [];
+    }
+
+    function redactText(value, piiTypes = []) {
+      let text = String(value || '');
+      text = text.replace(/\b1\d{9}\b/g, '[SAUDI_ID]');
+      text = text.replace(/\b05\d{8}\b/g, '[PHONE]');
+      text = text.replace(/\bSA\d{22}\b/gi, '[SAUDI_IBAN]');
+      text = text.replace(/\b(?:\d[ -]*?){13,19}\b/g, '[CARD_OR_ACCOUNT]');
+      text = text.replace(/\bMRN[-_ ]?\d+\b/gi, '[PATIENT_ID]');
+      text = text.replace(/\bdb_password\b\s*[:=]\s*\S+/gi, 'db_password=[CREDENTIAL]');
+      text = text.replace(/mock_secret_password_123/gi, '[CREDENTIAL]');
+      if (piiTypes.includes('credentials')) {
+        text = text.replace(/\b(password|secret|token|api[_-]?key)\b\s*[:=]\s*\S+/gi, '$1=[CREDENTIAL]');
+      }
+      if (piiTypes.some((type) => /name|employee_name|person/i.test(type))) {
+        text = text.replace(/[\u0600-\u06FF]{2,}\s+[\u0600-\u06FF]{2,}/g, '[PERSON_NAME]');
+      }
+      return text;
+    }
+
+    function getPdfFileName(record) {
+      const id = String(record.traceId || record.interactionId || 'evidence').replace(/[^a-z0-9_-]/gi, '_');
+      return `brightai-evidence-${id}.pdf`;
+    }
+
+    async function downloadEvidencePdf() {
+      if (!selectedEvidence) return;
+      const button = document.getElementById('downloadEvidencePdfBtn');
+      const originalLabel = button?.textContent;
+      if (button) {
+        button.disabled = true;
+        button.textContent = 'جاري التحميل...';
+      }
+
+      try {
+        const isDemoMode = localStorage.getItem('brightai_kernel_demo_mode') === 'true' || window.location.protocol === 'file:';
+        if (!isDemoMode) {
+          const id = encodeURIComponent(selectedEvidence.traceId || selectedEvidence.interactionId);
+          const hash = selectedEvidence.evidenceHash ? `?evidenceHash=${encodeURIComponent(selectedEvidence.evidenceHash)}` : '';
+          const response = await fetch(`/api/kernel/evidence/${id}/pdf${hash}`, { headers: { Accept: 'application/pdf' } });
+          if (response.ok && (response.headers.get('content-type') || '').includes('application/pdf')) {
+            downloadBlob(await response.blob(), getPdfFileName(selectedEvidence));
+            return;
+          }
+        }
+
+        await downloadEvidencePdfInBrowser(selectedEvidence);
+      } catch (error) {
+        console.error('[BrightAI Kernel] PDF download failed:', error);
+        alert('تعذّر تحميل PDF حالياً. حاول مرة ثانية.');
+      } finally {
+        if (button) {
+          button.disabled = false;
+          button.textContent = originalLabel;
+        }
+      }
+    }
+
+    async function downloadEvidencePdfInBrowser(record) {
+      await loadJsPdf();
+      if (!window.jspdf?.jsPDF) throw new Error('jsPDF is not available');
+
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({ unit: 'pt', format: 'a4' });
+      const lines = buildEvidenceReportLines(record);
+      let y = 42;
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(16);
+      doc.text('BrightAI Kernel Evidence Report', 42, y);
+      y += 24;
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(10);
+
+      lines.slice(1).forEach((line) => {
+        const wrapped = doc.splitTextToSize(String(line), 510);
+        wrapped.forEach((part) => {
+          if (y > 792) {
+            doc.addPage();
+            y = 42;
+          }
+          doc.text(part, 42, y);
+          y += 14;
+        });
+      });
+
+      doc.save(getPdfFileName(record));
+    }
+
+    function buildEvidenceReportLines(record) {
+      const refs = Array.isArray(record.regulatoryReferences) ? record.regulatoryReferences : [];
+      const riskReasons = record.riskReasons?.length ? record.riskReasons : ['None'];
+      return [
+        'BrightAI Kernel Evidence Report',
+        '',
+        `trace_id: ${record.traceId || 'N/A'}`,
+        `interactionId: ${record.interactionId || 'N/A'}`,
+        `generatedAt: ${new Date().toISOString()}`,
+        `eventTimestamp: ${record.createdAt || 'N/A'}`,
+        '',
+        `user: ${[record.userName, record.userId].filter(Boolean).join(' / ') || 'N/A'}`,
+        `department: ${record.department || 'N/A'}`,
+        '',
+        'Masked text only:',
+        record.request || 'N/A',
+        '',
+        `PII types: ${record.piiTypes?.length ? record.piiTypes.join(', ') : 'None'}`,
+        `risk score: ${record.riskScore ?? 'N/A'}`,
+        `risk level: ${record.riskLevel || 'N/A'}`,
+        'risk reasons:',
+        ...riskReasons.map((reason) => `- ${reason}`),
+        '',
+        `approval status: ${record.approvalStatus || 'N/A'}`,
+        `approver: ${record.approvedBy || 'N/A'}`,
+        `approval timestamp: ${record.approvedAt || 'N/A'}`,
+        '',
+        `provider: ${record.provider || 'N/A'}`,
+        `model: ${record.model || 'N/A'}`,
+        `latencyMs: ${record.latencyMs ?? 'N/A'}`,
+        `tokens input: ${record.tokensInput ?? 'N/A'}`,
+        `tokens output: ${record.tokensOutput ?? 'N/A'}`,
+        '',
+        'audit hashes:',
+        `requestHash: ${record.requestHash || 'N/A'}`,
+        `responseHash: ${record.responseHash || 'N/A'}`,
+        `previousHash: ${record.previousHash || 'N/A'}`,
+        `recordHash: ${record.recordHash || 'N/A'}`,
+        `evidenceHash: ${record.evidenceHash || 'N/A'}`,
+        '',
+        'regulatoryReferences:',
+        ...(refs.length ? refs.map((ref) => typeof ref === 'string' ? `- ${ref}` : `- ${[ref.framework, ref.article, ref.description].filter(Boolean).join(' | ')}`) : ['- None']),
+        '',
+        `VERIFY_EVIDENCE_HASH=${record.evidenceHash || 'N/A'}`
+      ];
+    }
+
+    function loadJsPdf() {
+      if (window.jspdf?.jsPDF) return Promise.resolve();
+      return new Promise((resolve, reject) => {
+        const existing = document.querySelector('script[data-brightai-jspdf]');
+        if (existing) {
+          existing.addEventListener('load', resolve, { once: true });
+          existing.addEventListener('error', reject, { once: true });
+          return;
+        }
+        const script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js';
+        script.async = true;
+        script.dataset.brightaiJspdf = 'true';
+        script.onload = resolve;
+        script.onerror = () => reject(new Error('Failed to load jsPDF'));
+        document.head.appendChild(script);
+      });
+    }
+
+    function downloadBlob(blob, fileName) {
+      const url = URL.createObjectURL(blob);
+      const anchor = document.createElement('a');
+      anchor.href = url;
+      anchor.download = fileName;
+      document.body.appendChild(anchor);
+      anchor.click();
+      anchor.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    function copyEvidenceDetails() {
+      if (!selectedEvidence || !window.KernelUtils) return;
+      KernelUtils.copyToClipboard(JSON.stringify(selectedEvidence, null, 2));
     }
 
     // Mobile menu toggle
@@ -704,6 +927,9 @@
       }
     });
 
+    document.getElementById('downloadEvidencePdfBtn')?.addEventListener('click', downloadEvidencePdf);
+    document.getElementById('copyEvidenceBtn')?.addEventListener('click', copyEvidenceDetails);
+
     // Search functionality
     document.getElementById('searchInput')?.addEventListener('input', (e) => {
       const query = e.target.value.toLowerCase();
@@ -716,5 +942,23 @@
     });
   </script>
   <script src="/frontend/js/production-runtime.v20260427.js" defer></script>
+<!-- BRIGHTAI_INTERNAL_LINKS_START -->
+<section class="brightai-internal-links" aria-labelledby="brightai-internal-links-title" dir="rtl">
+  <div class="brightai-internal-links__inner">
+    <h2 id="brightai-internal-links-title">روابط داخلية مهمة</h2>
+    <p>روابط مختارة تساعد الزائر ومحركات البحث على الوصول إلى الصفحات الأساسية والمرتبطة بالسياق.</p>
+    <ul>
+        <li><a href="/kernel/">لوحة تحكم نواة BrightAI</a></li>
+        <li><a href="/kernel/chat/">المحادثة الآمنة وفاحص الطلبات بالذكاء الاصطناعي</a></li>
+        <li><a href="/kernel/audit/">سجل تدقيق طلبات وقرارات الذكاء الاصطناعي</a></li>
+        <li><a href="/kernel/approvals/">إدارة ومراجعة الموافقات البشرية الحساسة</a></li>
+        <li><a href="/kernel/stats/">مقاييس وإحصائيات الامتثال والحوكمة</a></li>
+        <li><a href="/kernel/compliance/">نظام إدارة الامتثال والضوابط التشغيلية</a></li>
+        <li><a href="/kernel/policies/">محرر ومحاكي السياسات البصري للقواعد</a></li>
+        <li><a href="/kernel/connectors/">موصلات وقنوات ربط أنظمة المؤسسة بالـ AI</a></li>
+    </ul>
+  </div>
+</section>
+<!-- BRIGHTAI_INTERNAL_LINKS_END -->
 </body>
 </html>

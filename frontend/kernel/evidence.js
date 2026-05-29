@@ -87,9 +87,14 @@ async function generateEvidenceFile(interactionId) {
     regulatoryReferences: getRegulatoryReferences(entry)
   };
 
-  evidence.evidenceHash = computeHash(evidence);
+  evidence.evidenceHash = computeHash(getStableEvidenceHashPayload(evidence));
 
   return evidence;
+}
+
+function getStableEvidenceHashPayload(evidence) {
+  const { evidenceId, generatedAt, evidenceHash, ...stablePayload } = evidence;
+  return stablePayload;
 }
 
 function parseJsonObject(value) {

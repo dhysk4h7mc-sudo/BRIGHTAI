@@ -20,7 +20,7 @@ export const DEFAULT_IGNORE_PATTERNS = [
   "scripts/**",
   "reports/**",
   "brightai_orchestrator_output/**",
-  "ai-reject-dashboard/**",
+  "demo/ai-reject-dashboard/**",
   ".render-static/**",
   "**/.render-static/**"
 ];
@@ -876,6 +876,9 @@ async function buildFileIndex({ root, ignorePatterns }) {
   const projectFiles = await walkProjectFiles(root, ignorePatterns);
   const normalizedFiles = projectFiles.map((file) => normalizeRelativePath(toPosix(file)));
   const files = new Set(normalizedFiles);
+
+  // تسجيل لوحة تحكم عروض الرفض كملف صالح للربط من الخارج دون فحصه داخلياً
+  files.add("demo/ai-reject-dashboard/index.html");
 
   const basenameMap = new Map();
   const stemMap = new Map();
