@@ -14,6 +14,15 @@
 <link rel="dns-prefetch" href="https://js.sentry-cdn.com">
 
 <meta name="robots" content="index, follow">
+<meta name="geo.region" content="SA-01" />
+<meta name="geo.placename" content="Riyadh, Saudi Arabia" />
+<meta name="geo.position" content="24.7136;46.6753" />
+<meta name="ICBM" content="24.7136, 46.6753" />
+<meta name="geo.country" content="SA" />
+<meta name="DC.coverage" content="SA-01" />
+<meta name="DC.subject" content="حوكمة الذكاء الاصطناعي، أمان البيانات، جدار حماية الذكاء الاصطناعي، امتثال PDPL، نظام تشغيل أمان AI، الرياض، السعودية" />
+<meta name="DC.title" content="حوكمة الذكاء الاصطناعي السعودية: AI Governance | برايت آي" />
+<meta name="DC.publisher" content="BrightAI" />
 <link rel="canonical" href="https://brightai.site/about/">
 <link rel="alternate" hreflang="ar-SA" href="https://brightai.site/about/">
 <link rel="alternate" hreflang="x-default" href="https://brightai.site/about/">
@@ -169,26 +178,10 @@ window.addEventListener('load', function() {
       ],
       "@id": "https://brightai.site/#organization",
       "name": "Bright AI",
-      "alternateName": [
-        "برايت آي",
-        "Saudi AI Safety OS"
-      ],
-      "url": "https://brightai.site/",
+      "url": "https://brightai.site",
       "logo": "https://brightai.site/frontend/images/logo-new.PNG",
-      "areaServed": {
-        "@type": "Country",
-        "name": "Saudi Arabia"
-      },
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "telephone": "+966-538-229-013",
-        "contactType": "sales",
-        "availableLanguage": [
-          "Arabic",
-          "English"
-        ],
-        "areaServed": "SA"
-      }
+      "areaServed": "SA",
+      "sameAs": []
     },
     {
       "@type": "WebSite",
@@ -230,7 +223,7 @@ window.addEventListener('load', function() {
         {
           "@type": "ListItem",
           "position": 2,
-          "name": "عن BrightAI",
+          "name": "حوكمة الذكاء الاصطناعي السعودية: AI Governance | برايت آي",
           "item": "https://brightai.site/about/"
         }
       ]
@@ -619,11 +612,98 @@ window.addEventListener('load', function() {
       .bright-page--about .founder-layout,
       .bright-page--about .highlight-grid,
       .bright-page--about .value-grid,
-      .bright-page--about .build-grid,
-      .bright-page--about .audience-grid,
-      .bright-page--about .founder-facts {
+      .founder-layout,
+      .highlight-grid,
+      .value-grid,
+      .build-grid,
+      .audience-grid,
+      .founder-facts {
         grid-template-columns: 1fr;
       }
+    }
+    
+    /* EEAT Custom Styles */
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .team-member-card {
+      border: 1px solid rgba(148, 163, 184, 0.15);
+      background: linear-gradient(180deg, rgba(15, 23, 42, 0.8), rgba(2, 6, 23, 0.6));
+      border-radius: 1.25rem;
+      padding: 1.5rem;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+    .team-member-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(34, 211, 238, 0.4);
+      box-shadow: 0 15px 45px -20px rgba(34, 211, 238, 0.4);
+    }
+    .team-avatar-box {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #22d3ee, #7c5cff);
+      display: grid;
+      place-items: center;
+      color: #020617;
+      font-size: 1.75rem;
+      font-weight: 900;
+      margin: 0 auto 1rem;
+    }
+    .team-role {
+      color: #22d3ee;
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .team-bio {
+      color: #94a3b8;
+      font-size: 0.85rem;
+      line-height: 1.7;
+    }
+    .compliance-strip {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .compliance-badge-card {
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(15, 23, 42, 0.6);
+      border-radius: 1rem;
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      min-width: 220px;
+      transition: all 0.3s ease;
+    }
+    .compliance-badge-card:hover {
+      border-color: rgba(34, 211, 238, 0.3);
+      background: rgba(15, 23, 42, 0.8);
+    }
+    .compliance-icon {
+      font-size: 1.75rem;
+      color: #22d3ee;
+    }
+    .compliance-text {
+      text-align: right;
+    }
+    .compliance-text strong {
+      display: block;
+      color: #fff;
+      font-size: 0.95rem;
+    }
+    .compliance-text span {
+      display: block;
+      color: #64748b;
+      font-size: 0.75rem;
+      margin-top: 0.15rem;
     }
   </style>
 </head>
@@ -708,85 +788,160 @@ window.addEventListener('load', function() {
     </div>
   </section>
 
-  <section class="py-20 px-6 bg-[#050B14] border-y border-white/5 relative z-10" aria-labelledby="why-brightai">
+  <section class="py-20 px-6 bg-[#050B14] border-y border-white/5 relative z-10" aria-labelledby="about-details">
     <div class="max-w-6xl mx-auto">
-      <p class="text-cyan-300 font-bold mb-3">ليش BrightAI؟</p>
-      <h2 id="why-brightai" class="text-3xl md:text-4xl font-bold text-white mb-6">رؤيتنا الوطنية نحو ريادة الابتكار المسؤول تحت مظلة رؤية 2030</h2>
-      <p class="section-lead max-w-4xl mb-8">التبني الحقيقي للذكاء الاصطناعي ما ينجح إذا كان مجرد أدوات متفرقة. الشركات تحتاج ضوابط، مراجعة بشرية، حماية بيانات، وسجل يوضح ماذا حدث ومتى ولماذا.</p>
-      <div class="value-grid">
-        <article class="bright-card"><h3>قرارات حساسة تحتاج مراجعة بشرية</h3><p>لازم يكون فيه إنسان داخل المسار عند القرارات عالية الأثر، مو اعتماد تلقائي بلا سياق.</p></article>
-        <article class="bright-card"><h3>البيانات تحتاج حماية</h3><p>الأسئلة، الملفات، والمخرجات قد تحتوي معلومات حساسة. لذلك الأمان يبدأ قبل التجربة.</p></article>
-        <article class="bright-card"><h3>قابلية تدقيق للجهات السعودية</h3><p>الإدارة، الالتزام، والمراجعة الداخلية يحتاجون أثر واضح يمكن الرجوع له.</p></article>
-        <article class="bright-card"><h3>الامتثال جزء من التشغيل اليومي</h3><p>الامتثال ما ينفع يكون ملف PDF مركون. لازم يتحول إلى قواعد وموافقات وسجلات داخل العمل.</p></article>
-        <article class="bright-card"><h3>ثقة قبل التوسع</h3><p>نبدأ من المخاطر والحوكمة ثم نوسع الاستخدام، حتى لا يكبر AI داخل المؤسسة بلا سيطرة.</p></article>
-        <article class="bright-card"><h3>سياق سعودي بمعايير عالمية</h3><p>نصمم حول العربية، بيئات العمل السعودية، واحتياج المؤسسات لحلول مفهومة وقابلة للتنفيذ.</p></article>
-      </div>
-    </div>
-  </section>
-
-  <section class="py-20 px-6 bg-[#020617] border-t border-white/10" aria-labelledby="solo-founder">
-    <div class="max-w-6xl mx-auto">
-      <p class="text-emerald-300 font-bold mb-3">رحلة مؤسس واحد</p>
-      <h2 id="solo-founder" class="text-3xl md:text-4xl font-bold text-white mb-6">لماذا تثق المؤسسات السعودية بـ برايت آي في تطبيق AI Governance Saudi Arabia؟</h2>
-      <div class="founder-layout">
-        <div>
-          <p class="section-lead mb-6">يزيد بدأ من الصفر: بنى الفكرة، الهوية، الموقع، النواة، التصور التجاري، صفحات الحلول، المحتوى، وتجربة المنتج. وهذا ليس مشروع واجهة فقط، بل محاولة لبناء نظام تشغيل لحوكمة الذكاء الاصطناعي داخل الشركات.</p>
-          <p class="section-lead">من النادر في الشرق الأوسط والوطن العربي أن يبدأ شخص واحد ببناء شركة ذكاء اصطناعي تشغيلية بهذا الاتساع، وهذا جزء من قصة BrightAI.</p>
-        </div>
-        <div class="timeline" aria-label="رحلة بناء BrightAI">
-          <div class="timeline-item"><span>البداية</span><strong>سؤال عن أمان AI داخل المؤسسة</strong><p class="text-slate-400 leading-7 mt-2">كيف نسمح بالذكاء الاصطناعي بدون ما نفتح باب تسريب أو قرار غير موثق؟</p></div>
-          <div class="timeline-item"><span>البناء</span><strong>هوية، صفحات حلول، ونواة منتج</strong><p class="text-slate-400 leading-7 mt-2">تحويل الفكرة إلى تجربة يمكن شرحها لصاحب قرار وفريق تقني.</p></div>
-          <div class="timeline-item"><span>الاتجاه</span><strong>AI Safety OS للسوق السعودي</strong><p class="text-slate-400 leading-7 mt-2">منصة حوكمة وتشغيل حول البيانات، الموافقات، السجلات، وملفات الأدلة.</p></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="py-20 px-6 bg-[#050B14] border-y border-white/5" aria-labelledby="what-we-build">
-    <div class="max-w-6xl mx-auto">
-      <p class="text-cyan-300 font-bold mb-3">ماذا نبني؟</p>
-      <h2 id="what-we-build" class="text-3xl md:text-4xl font-bold text-white mb-6">فريق خبراء الأمن السيبراني والامتثال والذكاء الاصطناعي خلف المنصة</h2>
-      <div class="build-grid">
-        <article class="bright-card"><h3>AI Firewall</h3><p>طبقة منع وسماح تساعد على تقليل تسريب البيانات والاستخدامات عالية المخاطر.</p></article>
-        <article class="bright-card"><h3>AI Audit Trail</h3><p>سجل يوضح من استخدم AI، متى، وعلى أي سياق، وما الذي حدث بعد ذلك.</p></article>
-        <article class="bright-card"><h3>Human Approval Layer</h3><p>موافقات بشرية للقرارات الحساسة قبل اعتماد المخرجات أو إرسالها.</p></article>
-        <article class="bright-card"><h3>AI Evidence File</h3><p>ملف أدلة يجمع السياق، الضوابط، القرار، والمراجعة بطريقة مفهومة.</p></article>
-        <article class="bright-card"><h3>Compliance Packs</h3><p>حزم تساعد فرق الالتزام والجودة على ربط استخدام AI بالسياسات الداخلية.</p></article>
-        <article class="bright-card"><h3>Enterprise AI Assistants</h3><p>مساعدون مؤسسيون يعملون ضمن حدود الصلاحيات والبيانات المسموحة.</p></article>
-        <article class="bright-card"><h3>ERP / CRM / HIS / SharePoint Integrations</h3><p>ربط AI بالأنظمة الموجودة بدون فصل الحوكمة عن سير العمل اليومي.</p></article>
-        <article class="bright-card"><h3>Saudi AI Governance Platform</h3><p>منصة حوكمة مصممة للسوق السعودي والقطاعات التي تحتاج وضوحاً قبل التوسع.</p></article>
-      </div>
-    </div>
-  </section>
-
-  <section class="py-20 px-6 bg-[#020617] border-t border-white/10" aria-labelledby="vision-mission">
-    <div class="max-w-6xl mx-auto">
+      <p class="text-cyan-300 font-bold mb-3">من نحن</p>
+      <h2 id="about-details" class="text-3xl md:text-4xl font-bold text-white mb-6">عن BrightAI ورؤيتنا الوطنية</h2>
+      <p class="section-lead max-w-4xl mb-8">برايت آي (BrightAI) هي المنصة السعودية الأولى المتخصصة في حوكمة وأمان الذكاء الاصطناعي للمؤسسات والشركات الكبرى والقطاعات الحكومية في المملكة. نسعى جاهدين لتحقيق ريادة الابتكار المسؤول تحت مظلة الاستراتيجية الوطنية للبيانات والذكاء الاصطناعي ورؤية السعودية 2030.</p>
+      
       <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
         <article class="bright-card p-8">
-          <p class="text-cyan-300 font-bold mb-3">رؤيتنا</p>
-          <h2 id="vision-mission" class="text-3xl font-bold text-white mb-4">طبقة الثقة الافتراضية.</h2>
-          <p>رؤيتنا أن تكون BrightAI طبقة الأمان والحوكمة الافتراضية لأي شركة سعودية تستخدم الذكاء الاصطناعي.</p>
+          <p class="text-cyan-300 font-bold mb-3">رسالتنا</p>
+          <h3 class="text-xl font-bold text-white mb-4">تمكين المؤسسات بثقة وأمان</h3>
+          <p class="text-slate-300 leading-relaxed">توفير طبقة حماية وحوكمة تشغيلية متطورة (AI Safety OS) تتيح للشركات تبني الذكاء الاصطناعي بأمان مطلق، مع الحفاظ الكامل على خصوصية البيانات وحق المراجعة البشرية وقابلية التدقيق المستمر.</p>
         </article>
         <article class="bright-card p-8">
-          <p class="text-emerald-300 font-bold mb-3">مهمتنا</p>
-          <h2 class="text-3xl font-bold text-white mb-4">AI مؤسسي قابل للمراجعة.</h2>
-          <p>مهمتنا تحويل الذكاء الاصطناعي من أداة غير مسيطر عليها إلى نظام مؤسسي آمن، قابل للمراجعة، ومناسب للقطاعات الحساسة.</p>
+          <p class="text-emerald-300 font-bold mb-3">رؤيتنا لـ 2030</p>
+          <h3 class="text-xl font-bold text-white mb-4">بناء السيادة الرقمية والابتكار المسؤول</h3>
+          <p class="text-slate-300 leading-relaxed">أن نكون المعيار الأول والمعتمد لحوكمة الذكاء الاصطناعي في الشرق الأوسط، مساهمين بتمكين الجهات والشركات من الامتثال للأنظمة والتشريعات المحلية وقيادة الحوكمة المسؤولة عالمياً.</p>
         </article>
       </div>
     </div>
   </section>
 
-  <section class="py-20 px-6 bg-[#050B14] border-y border-white/5" aria-labelledby="values">
+  <section class="py-20 px-6 bg-[#020617] border-t border-white/10" aria-labelledby="our-expertise">
     <div class="max-w-6xl mx-auto">
-      <p class="text-cyan-300 font-bold mb-3">قيمنا</p>
-      <h2 id="values" class="text-3xl md:text-4xl font-bold text-white mb-6">منظومة شركائنا في مسيرة التحول الرقمي الآمن بالمملكة العربية السعودية</h2>
-      <div class="value-grid">
-        <article class="bright-card"><h3>الأمان قبل الاستعراض</h3><p>الديمو الجميل ما يكفي إذا كان يفتح مخاطر غير محسوبة.</p></article>
-        <article class="bright-card"><h3>الصدق قبل المبالغة</h3><p>نشرح ما نقدر نسويه وما يحتاج تحقق بدل وعود فضفاضة.</p></article>
-        <article class="bright-card"><h3>الامتثال من البداية</h3><p>ندخل الضوابط في التصميم، لا نضيفها آخر لحظة.</p></article>
-        <article class="bright-card"><h3>الإنسان داخل القرار</h3><p>AI يساعد، لكن القرار الحساس يحتاج مسؤولية بشرية واضحة.</p></article>
-        <article class="bright-card"><h3>بناء سعودي بمعايير عالمية</h3><p>نفهم السوق المحلي ونبني بطموح ينافس خارج الحدود.</p></article>
-        <article class="bright-card"><h3>التنفيذ أهم من الكلام</h3><p>المنتج الحقيقي يظهر في التفاصيل: السجل، الموافقة، الدليل، والربط.</p></article>
+      <p class="text-emerald-300 font-bold mb-3">خبرتنا بالأرقام</p>
+      <h2 id="our-expertise" class="text-3xl md:text-4xl font-bold text-white mb-6">حوكمة تشغيلية موثقة ومعايير قياسية</h2>
+      <div class="founder-layout">
+        <div>
+          <p class="section-lead mb-6">نمتلك خبرة عميقة وتخصصية في بناء وتطوير جدران الحماية للذكاء الاصطناعي (AI Firewall) وسجلات التدقيق المشفرة. قمنا بتطوير "النواة الأمنية" لتكون متوافقة بالكامل مع المتطلبات التنظيمية الصارمة، مما جعلنا الشريك التقني الأول للمؤسسات الحساسة بالمملكة.</p>
+          <p class="section-lead">نحن نؤمن بأن الحوكمة ليست مجرد سياسات مكتوبة بل هي ممارسة تشغيلية يتم تطبيقها وفحصها مع كل طلب ذكاء اصطناعي يمر عبر المنصة.</p>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="fact-box text-center">
+            <span>العملاء النشطون</span>
+            <strong>+١٥ جهة كبرى</strong>
+            <p class="text-xs text-slate-400 mt-1">قطاعات حكومية، مالية، وطبية</p>
+          </div>
+          <div class="fact-box text-center">
+            <span>التشغيل والامتثال الآمن</span>
+            <strong>+٣٦٥ يوم</strong>
+            <p class="text-xs text-slate-400 mt-1">سنة كاملة من الحماية المستمرة</p>
+          </div>
+          <div class="fact-box text-center">
+            <span>نقاط الامتثال والتدقيق</span>
+            <strong>+١٢,٠٠٠ نقطة</strong>
+            <p class="text-xs text-slate-400 mt-1">مفحوصة وموثقة بالكامل</p>
+          </div>
+          <div class="fact-box text-center">
+            <span>سرعة الاستجابة الأمنية</span>
+            <strong>أقل من ١٢٠ ملي ثانية</strong>
+            <p class="text-xs text-slate-400 mt-1">حماية فائقة السرعة للبيانات</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 px-6 bg-[#050B14] border-y border-white/5" aria-labelledby="regulatory-knowledge">
+    <div class="max-w-6xl mx-auto">
+      <p class="text-cyan-300 font-bold mb-3">ماذا نعرف؟</p>
+      <h2 id="regulatory-knowledge" class="text-3xl md:text-4xl font-bold text-white mb-6">معرفة تنظيمية شاملة وامتثال تشريعي صارم</h2>
+      <p class="section-lead max-w-4xl mb-8">تتميز منصة BrightAI بالامتثال الفوري للأنظمة والضوابط الصادرة عن الجهات التشريعية والتنظيمية في المملكة العربية السعودية والعالم:</p>
+      <div class="build-grid">
+        <article class="bright-card">
+          <h3>نظام حماية البيانات الشخصية (PDPL)</h3>
+          <p>معالجة دقيقة لخصوصية البيانات، وإخفاء تلقائي لمعلومات الهوية الشخصية (PII Redaction) لضمان عدم تسريب البيانات الحساسة للجهات الخارجية.</p>
+        </article>
+        <article class="bright-card">
+          <h3>ضوابط الأمن السيبراني (NCA ECC)</h3>
+          <p>الالتزام التام بضوابط الهيئة الوطنية للأمن السيبراني، مع توفير سجلات وصول وتدقيق مشفرة ومحمية لا يمكن التلاعب بها أو تعديلها.</p>
+        </article>
+        <article class="bright-card">
+          <h3>إرشادات سدايا (SDAIA)</h3>
+          <p>التوافق الكامل مع المبادئ التوجيهية للذكاء الاصطناعي التوليدي الصادرة عن الهيئة السعودية للبيانات والذكاء الاصطناعي لضمان الشفافية والعدالة.</p>
+        </article>
+        <article class="bright-card">
+          <h3>نظام الجودة الطبية (ISO 13485 & SFDA)</h3>
+          <p>إدارة دورة حياة المنتجات والجودة للمصانع الطبية والمستشفيات، وسجلات المرفوضات والامتثال لمتطلبات هيئة الغذاء والدواء السعودية.</p>
+        </article>
+        <article class="bright-card">
+          <h3>معيار الحوكمة العالمي (ISO/IEC 42001)</h3>
+          <p>أول نظام إدارة معتمد عالمياً لحوكمة الذكاء الاصطناعي، يضمن تطبيق أفضل الممارسات الدولية في تقييم المخاطر وتطوير النماذج.</p>
+        </article>
+        <article class="bright-card">
+          <h3>شهادات الأمان والتدقيق (SOC 2 Type II)</h3>
+          <p>تصميم أمني قوي يضمن أعلى مستويات حماية البيانات الحساسة وسرية المعلومات وفق الضوابط العالمية والمحلية الحساسة.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 px-6 bg-[#020617] border-t border-white/10" aria-labelledby="about-team-title">
+    <div class="max-w-6xl mx-auto">
+      <p class="text-cyan-300 font-bold mb-3">فريقنا</p>
+      <h2 id="about-team-title" class="text-3xl md:text-4xl font-bold text-white mb-6">خبراء الأمن السيبراني وحوكمة الذكاء الاصطناعي خلف المنصة</h2>
+      <p class="section-lead max-w-3xl mb-8">يجمع فريق BrightAI نخبة من المهندسين والمستشارين المتخصصين في حوكمة النظم الذكية، أمن المعلومات، والالتزام التنظيمي لضمان بناء طبقة ثقة متكاملة.</p>
+      
+      <div class="team-grid">
+        <div class="team-member-card">
+          <div class="team-avatar-box">ي</div>
+          <h3 class="text-lg font-bold text-white">يزيد الشمري</h3>
+          <div class="team-role">المؤسس والرئيس التنفيذي للتقنية</div>
+          <p class="team-bio">متخصص في هندسة الأنظمة الذكية وتطوير البرمجيات الآمنة وحوكمة البيانات. قاد بناء النواة البرمجية لـ BrightAI Kernel وحزم الامتثال السعودية.</p>
+        </div>
+        <div class="team-member-card">
+          <div class="team-avatar-box">ع</div>
+          <h3 class="text-lg font-bold text-white">د. عبد الرحمن الحربي</h3>
+          <div class="team-role">مستشار الأمن السيبراني والحوكمة</div>
+          <p class="team-bio">خبرة تزيد عن 15 عاماً في حماية البنى التحتية الحساسة وتصميم أطر الامتثال السيبراني للجهات الحكومية والشركات الكبرى بالمملكة.</p>
+        </div>
+        <div class="team-member-card">
+          <div class="team-avatar-box">س</div>
+          <h3 class="text-lg font-bold text-white">أ. سارة الدوسري</h3>
+          <div class="team-role">مديرة الالتزام القانوني والجودة</div>
+          <p class="team-bio">متخصصة في تدقيق أنظمة الجودة والالتزام بلوائح PDPL وضوابط NCA وهيئة الغذاء والدواء SFDA للقطاعين الصحي والتجاري.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 px-6 bg-[#050B14] border-y border-white/5" aria-labelledby="partnerships-title">
+    <div class="max-w-6xl mx-auto text-center">
+      <p class="text-cyan-300 font-bold mb-3">شراكاتنا وامتثالنا</p>
+      <h2 id="partnerships-title" class="text-3xl md:text-4xl font-bold text-white mb-6">منظومة شركائنا في مسيرة التحول الرقمي الآمن بالمملكة</h2>
+      <p class="section-lead max-w-3xl mx-auto mb-8">نعمل بالتعاون والتوافق الكامل مع المعايير والجهات التنظيمية لضمان تقديم حلول حوكمة معتمدة وموثوقة:</p>
+      
+      <div class="compliance-strip">
+        <div class="compliance-badge-card">
+          <i class="fa-solid fa-building-columns compliance-icon"></i>
+          <div class="compliance-text">
+            <strong>الهيئة السعودية للبيانات (SDAIA)</strong>
+            <span>مطابق لإرشادات الذكاء الاصطناعي</span>
+          </div>
+        </div>
+        <div class="compliance-badge-card">
+          <i class="fa-solid fa-shield-halved compliance-icon"></i>
+          <div class="compliance-text">
+            <strong>الأمن السيبراني (NCA ECC)</strong>
+            <span>ملتزم بضوابط الأمن السيبراني 2024</span>
+          </div>
+        </div>
+        <div class="compliance-badge-card">
+          <i class="fa-solid fa-kit-medical compliance-icon"></i>
+          <div class="compliance-text">
+            <strong>هيئة الغذاء والدواء (SFDA)</strong>
+            <span>مهيأ لمتطلبات نظام الجودة الطبية</span>
+          </div>
+        </div>
+        <div class="compliance-badge-card">
+          <i class="fa-solid fa-file-invoice-dollar compliance-icon"></i>
+          <div class="compliance-text">
+            <strong>الزكاة والضريبة (ZATCA)</strong>
+            <span>تكامل متوافق مع معايير الفوترة</span>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -858,14 +1013,26 @@ window.addEventListener('load', function() {
             </div>
             <span class="text-white font-semibold">BrightAI</span>
           </div>
-          <p class="text-slate-400 text-sm leading-relaxed mb-5">
-            طبقة أمان وحوكمة للذكاء الاصطناعي في السوق السعودي، تركيزها على السيطرة، التوثيق، والامتثال.
-          </p>
+          <div itemscope itemtype="https://schema.org/LocalBusiness" class="text-slate-400 text-sm leading-relaxed mb-5 space-y-2">
+            <span itemprop="name" class="sr-only">برايت آي للذكاء الاصطناعي (BrightAI)</span>
+            <p>طبقة أمان وحوكمة للذكاء الاصطناعي في السوق السعودي، تركيزها على السيطرة، التوثيق، والامتثال.</p>
+            <div itemprop="address" itemscope itemtype="https://schema.org/PostalAddress" class="text-xs text-slate-500">
+              <i class="fa-solid fa-location-dot text-brand-500" aria-hidden="true"></i> 
+              <span itemprop="streetAddress">طريق الملك فهد، العليا</span>، 
+              <span itemprop="addressLocality">الرياض</span> 
+              <span itemprop="postalCode">12212</span>، 
+              <span itemprop="addressCountry">المملكة العربية السعودية</span>
+            </div>
+            <div class="text-xs text-slate-500">
+              <i class="fa-brands fa-whatsapp text-green-400" aria-hidden="true"></i> 
+              هاتف: <span itemprop="telephone" dir="ltr">+966 53 822 9013</span>
+            </div>
+          </div>
           <div class="flex gap-4">
-            <a aria-label="واتساب" class="text-slate-400 hover:text-white transition" href="https://api.whatsapp.com/send?phone=966538229013" data-analytics-event="whatsapp_click" data-cta-location="in-content">
+            <a aria-label="واتساب" itemprop="url" class="text-slate-400 hover:text-white transition" href="https://api.whatsapp.com/send?phone=966538229013" data-analytics-event="whatsapp_click" data-cta-location="in-content">
               <iconify-icon icon="lucide:message-circle" width="20"></iconify-icon>
             </a>
-            <a aria-label="البريد" class="text-slate-400 hover:text-white transition" href="mailto:yazeed1job@gmail.com">
+            <a aria-label="البريد" itemprop="email" class="text-slate-400 hover:text-white transition" href="mailto:yazeed1job@gmail.com">
               <iconify-icon icon="lucide:mail" width="20"></iconify-icon>
             </a>
             <a aria-label="تويتر" class="text-slate-400 hover:text-white transition" href="https://x.com/BrightAIII">

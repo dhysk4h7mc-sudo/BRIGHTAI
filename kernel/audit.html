@@ -491,7 +491,10 @@
   <script>
     let allEntries = [];
     let currentActionFilter = 'all';
-    const selectedTraceId = new URLSearchParams(window.location.search).get('trace_id') || '';
+    const auditSearchParams = new URLSearchParams(window.location.search);
+    const selectedTraceId = auditSearchParams.get('trace_id') || '';
+    const selectedDepartment = auditSearchParams.get('department') || '';
+    const selectedRiskLevel = auditSearchParams.get('riskLevel') || auditSearchParams.get('risk_level') || '';
 
     const ACTION_LABELS = {
       'CHAT_REQUEST': { label: 'محادثة', cls: 'chat' },
@@ -512,9 +515,25 @@
       try {
         const data = await kernelAPI.getAuditChain();
         renderChain(data);
+        await loadFilteredAuditEntries();
       } catch (err) {
         console.log('[v0] Failed to load audit chain:', err);
         renderChainError();
+      }
+    }
+
+    async function loadFilteredAuditEntries() {
+      if (!selectedDepartment && !selectedRiskLevel) return;
+
+      try {
+        const params = { limit: 100 };
+        if (selectedDepartment) params.department = selectedDepartment;
+        if (selectedRiskLevel) params.riskLevel = selectedRiskLevel;
+        const data = await kernelAPI.getAuditLog(params);
+        allEntries = data.rows || data.entries || [];
+        renderEntries();
+      } catch (err) {
+        console.log('[v0] Failed to load filtered audit entries:', err);
       }
     }
 
@@ -581,14 +600,28 @@
           (e.action || '').toLowerCase().includes(search) ||
           (e.actor || '').toLowerCase().includes(search) ||
           (e.requestId || '').toLowerCase().includes(search) ||
-          (e.traceId || '').toLowerCase().includes(search)
+          (e.traceId || '').toLowerCase().includes(search) ||
+          getDepartment(e).toLowerCase().includes(search)
         );
       }
       if (selectedTraceId) {
         items = items.filter(e => (e.traceId || '').toLowerCase() === selectedTraceId.toLowerCase());
       }
+      if (selectedDepartment) {
+        items = items.filter(e => getDepartment(e).toLowerCase() === selectedDepartment.toLowerCase());
+      }
+      if (selectedRiskLevel) {
+        items = items.filter(e => riskMatches(getRiskLevel(e), selectedRiskLevel));
+      }
 
       const body = document.getElementById('audit-log-body');
+      const activeFilterText = [
+        selectedDepartment ? `القسم: ${KernelUtils.escapeHtml(selectedDepartment)}` : '',
+        selectedRiskLevel ? `المخاطر: ${KernelUtils.escapeHtml(getRiskLabel(selectedRiskLevel))}` : '',
+      ].filter(Boolean).join(' · ');
+      document.getElementById('entries-count').textContent = activeFilterText
+        ? `${items.length} إدخالاً · ${activeFilterText}`
+        : `${items.length} إدخالاً`;
 
       if (items.length === 0) {
         body.innerHTML = '<div class="loading-entries">لا توجد نتائج لهذا الفلتر.</div>';
@@ -605,6 +638,8 @@
         const shortId = (entry.requestId || '').substring(0, 12);
         const shortHash = (entry.hash || '').substring(0, 12);
         const actor = KernelUtils.escapeHtml(entry.actor || 'نظام');
+        const department = getDepartment(entry);
+        const riskLevel = getRiskLevel(entry);
         const traceLink = traceId
           ? `<a href="/kernel/evidence.html?trace_id=${encodeURIComponent(traceId)}" class="audit-trace-link">${KernelUtils.escapeHtml(traceId)}</a>`
           : `<span title="سجل قديم بدون trace_id">${shortId}...</span>`;
@@ -614,7 +649,7 @@
             <span class="audit-time">${time}</span>
             <span class="audit-action-badge ${info.cls}" aria-label="${info.label}">${info.label}</span>
             <span class="audit-details">
-              <span class="actor">${actor}</span> — Trace: ${traceLink}
+              <span class="actor">${actor}</span> — ${KernelUtils.escapeHtml(department)} · ${KernelUtils.escapeHtml(getRiskLabel(riskLevel))} · Trace: ${traceLink}
             </span>
             <span class="audit-hash" onclick="copyToClipboard('${entry.hash || ''}')" title="نسخ التجزئة">${shortHash}...</span>
           </div>
@@ -625,6 +660,27 @@
     function getTraceId(record = {}) {
       const value = record.traceId || record.trace_id || record.kernel?.traceId || record.metadata?.traceId || record.summary?.traceId;
       return /^AI-\d{4}-\d{5,}$/.test(String(value || '')) ? String(value) : '';
+    }
+
+    function getDepartment(record = {}) {
+      return record.department || record.departmentName || record.user?.department || record.metadata?.department || 'غير محدد';
+    }
+
+    function getRiskLevel(record = {}) {
+      return record.riskLevel || record.risk_level || record.risk?.level || 'low';
+    }
+
+    function getRiskLabel(level) {
+      const labels = { critical: 'حرج', high: 'مرتفع', medium: 'متوسط', low: 'منخفض', minimal: 'ضئيل' };
+      return labels[level] || level || 'غير محدد';
+    }
+
+    function riskMatches(actual, expected) {
+      const actualLevel = String(actual || '').toLowerCase();
+      const expectedLevel = String(expected || '').toLowerCase();
+      return expectedLevel === 'low'
+        ? actualLevel === 'low' || actualLevel === 'minimal'
+        : actualLevel === expectedLevel;
     }
 
     function copyHash(el) {

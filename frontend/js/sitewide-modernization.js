@@ -1,9 +1,9 @@
 (function () {
   "use strict";
 
-  var LOGO_PATH = "/frontend/images/logo-new.PNG";
-  var LOGO_ABSOLUTE = "https://brightai.site/frontend/images/logo-new.PNG";
-  var LEGACY_LOGO_RE = /(logo(?:-new)?\.(?:png|jpg|jpeg|webp|avif)|logo\.PNG|og-cover\.jpg)/i;
+  var LOGO_PATH = "/frontend/images/logo-new.webp";
+  var LOGO_ABSOLUTE = "https://brightai.site/frontend/images/logo-new.webp";
+  var LEGACY_LOGO_RE = /(logo(?:-new)?\.(?:png|jpg|jpeg|webp|avif)|logo\.PNG|logo\.webp|og-cover\.jpg)/i;
 
   function onReady(callback) {
     if (document.readyState === "loading") {

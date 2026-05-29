@@ -56,6 +56,7 @@ async function kernelAuditListHandler(req, res) {
     id: params.id || params.interactionId || params.requestId,
     userId: params.userId,
     riskLevel: params.riskLevel,
+    department: params.department,
     compliancePack: params.compliancePack,
     approvalStatus: params.approvalStatus,
     traceId: params.traceId || params.trace_id,

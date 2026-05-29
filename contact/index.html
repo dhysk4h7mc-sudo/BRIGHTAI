@@ -25,10 +25,15 @@
 <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1" />
 <meta name="bingbot" content="index, follow" />
 <meta name="language" content="Arabic" />
-<meta name="geo.region" content="SA" />
+<meta name="geo.region" content="SA-01" />
 <meta name="geo.placename" content="Riyadh, Saudi Arabia" />
 <meta name="geo.position" content="24.7136;46.6753" />
 <meta name="ICBM" content="24.7136, 46.6753" />
+<meta name="geo.country" content="SA" />
+<meta name="DC.coverage" content="SA-01" />
+<meta name="DC.subject" content="حوكمة الذكاء الاصطناعي، أمان البيانات، جدار حماية الذكاء الاصطناعي، امتثال PDPL، نظام تشغيل أمان AI، الرياض، السعودية" />
+<meta name="DC.title" content="امتثال PDPL الذكاء الاصطناعي: اطلب AI Demo | برايت آي" />
+<meta name="DC.publisher" content="BrightAI" />
 <meta name="rating" content="general" />
 <meta name="revisit-after" content="3 days" />
 <meta name="distribution" content="global" />
@@ -252,26 +257,10 @@
       ],
       "@id": "https://brightai.site/#organization",
       "name": "Bright AI",
-      "alternateName": [
-        "برايت آي",
-        "Saudi AI Safety OS"
-      ],
-      "url": "https://brightai.site/",
+      "url": "https://brightai.site",
       "logo": "https://brightai.site/frontend/images/logo-new.PNG",
-      "areaServed": {
-        "@type": "Country",
-        "name": "Saudi Arabia"
-      },
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "telephone": "+966-538-229-013",
-        "contactType": "sales",
-        "availableLanguage": [
-          "Arabic",
-          "English"
-        ],
-        "areaServed": "SA"
-      }
+      "areaServed": "SA",
+      "sameAs": []
     },
     {
       "@type": "WebSite",
@@ -313,7 +302,7 @@
         {
           "@type": "ListItem",
           "position": 2,
-          "name": "تواصل معنا",
+          "name": "امتثال PDPL الذكاء الاصطناعي: اطلب AI Demo | برايت آي",
           "item": "https://brightai.site/contact/"
         }
       ]
@@ -643,12 +632,31 @@
       </ul>
     </nav>
 
-    <div>
+    <div itemscope itemtype="https://schema.org/LocalBusiness">
       <h3 class="font-bold mb-3">تواصل</h3>
+      <span itemprop="name" class="sr-only">برايت آي للذكاء الاصطناعي (BrightAI)</span>
       <ul class="space-y-2 text-sm text-white/60">
-        <li><a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="hover:text-green-400"><i class="fa-brands fa-whatsapp text-green-400"></i> واتساب: 053-822-9013</a></li>
-        <li><a href="mailto:yazeed1job@gmail.com" class="hover:text-brand-300"><i class="fa-solid fa-envelope text-brand-500"></i> yazeed1job@gmail.com</a></li>
-        <li><i class="fa-solid fa-location-dot text-brand-500"></i> الرياض، المملكة العربية السعودية</li>
+        <li>
+          <a itemprop="url" href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="hover:text-green-400 flex items-center gap-2">
+            <i class="fa-brands fa-whatsapp text-green-400 text-sm"></i> 
+            <span>واتساب: <span itemprop="telephone" dir="ltr">+966 53 822 9013</span></span>
+          </a>
+        </li>
+        <li>
+          <a itemprop="email" href="mailto:yazeed1job@gmail.com" class="hover:text-brand-300 flex items-center gap-2">
+            <i class="fa-solid fa-envelope text-brand-500 text-sm"></i> 
+            <span>yazeed1job@gmail.com</span>
+          </a>
+        </li>
+        <li itemprop="address" itemscope itemtype="https://schema.org/PostalAddress" class="flex items-start gap-2">
+          <i class="fa-solid fa-location-dot text-brand-500 mt-1"></i> 
+          <span>
+            <span itemprop="streetAddress">طريق الملك فهد، العليا</span>، 
+            <span itemprop="addressLocality">الرياض</span> 
+            <span itemprop="postalCode">12212</span>، 
+            <span itemprop="addressCountry">المملكة العربية السعودية</span>
+          </span>
+        </li>
         <li class="flex gap-3 mt-4">
           <a href="#" aria-label="X" class="w-9 h-9 glass rounded-lg inline-flex items-center justify-center hover:text-brand-500"><i class="fa-brands fa-x-twitter"></i></a>
           <a href="#" aria-label="LinkedIn" class="w-9 h-9 glass rounded-lg inline-flex items-center justify-center hover:text-brand-500"><i class="fa-brands fa-linkedin-in"></i></a>

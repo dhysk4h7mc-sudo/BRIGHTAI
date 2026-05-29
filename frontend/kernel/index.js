@@ -738,6 +738,14 @@ async function getStats() {
 
   const { rows: byPack } = await pool.query('SELECT compliance_pack, COUNT(*) as count FROM kernel_interactions GROUP BY compliance_pack');
   const { rows: byRiskLevel } = await pool.query('SELECT risk_level, COUNT(*) as count FROM kernel_interactions GROUP BY risk_level');
+  const { rows: riskDepartmentRows } = await pool.query(`
+    SELECT
+      COALESCE(NULLIF(ku.department, ''), 'غير محدد') AS department,
+      ki.risk_level,
+      ki.pii_types
+    FROM kernel_interactions ki
+    LEFT JOIN kernel_users ku ON ku.id = ki.user_id
+  `);
   const { rows: latestRows } = await pool.query(`
     SELECT id, trace_id, request_metadata, approval_status, risk_level, risk_score, created_at, record_hash
     FROM kernel_interactions
@@ -760,6 +768,8 @@ async function getStats() {
     blocked: Number(blocked) || 0
   };
 
+  const riskByDepartment = buildRiskByDepartment(riskDepartmentRows);
+
   return {
     total, blocked, pending, approved, autoApproved, rejected, piiDetected,
     avgRiskScore: Math.round(parseFloat(avg || 0) * 10) / 10,
@@ -770,6 +780,7 @@ async function getStats() {
     requests,
     piiDetectionRate: total > 0 ? Math.round((piiDetected / total) * 100) : 0,
     riskDistribution,
+    riskByDepartment,
     latestTraces: latestRows.map((row) => {
       const traceId = getTraceIdFromInteraction(row) || row.id;
       return {
@@ -784,6 +795,73 @@ async function getStats() {
         hash: row.record_hash
       };
     })
+  };
+}
+
+function parseJsonList(value) {
+  if (!value) return [];
+  if (Array.isArray(value)) return value.map(String).filter(Boolean);
+  try {
+    const parsed = JSON.parse(value);
+    return Array.isArray(parsed) ? parsed.map(String).filter(Boolean) : [];
+  } catch (_) {
+    return String(value).split(',').map((item) => item.trim()).filter(Boolean);
+  }
+}
+
+function topPiiTypes(counts, limit = 3) {
+  return Object.entries(counts || {})
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, limit)
+    .map(([type]) => type);
+}
+
+function buildRiskByDepartment(rows = []) {
+  const riskLevels = ['low', 'medium', 'high', 'critical'];
+  const departments = new Map();
+
+  rows.forEach((row) => {
+    const name = row.department || 'غير محدد';
+    const level = row.risk_level === 'minimal' ? 'low' : row.risk_level;
+    if (!riskLevels.includes(level)) return;
+
+    if (!departments.has(name)) {
+      departments.set(name, {
+        name,
+        low: 0,
+        medium: 0,
+        high: 0,
+        critical: 0,
+        piiCounters: {},
+        piiCountersByRisk: { low: {}, medium: {}, high: {}, critical: {} }
+      });
+    }
+
+    const department = departments.get(name);
+    department[level] += 1;
+    parseJsonList(row.pii_types).forEach((type) => {
+      department.piiCounters[type] = (department.piiCounters[type] || 0) + 1;
+      department.piiCountersByRisk[level][type] = (department.piiCountersByRisk[level][type] || 0) + 1;
+    });
+  });
+
+  return {
+    departments: Array.from(departments.values())
+      .map((department) => ({
+        name: department.name,
+        low: department.low,
+        medium: department.medium,
+        high: department.high,
+        critical: department.critical,
+        piiTypes: topPiiTypes(department.piiCounters),
+        piiTypesByRisk: {
+          low: topPiiTypes(department.piiCountersByRisk.low),
+          medium: topPiiTypes(department.piiCountersByRisk.medium),
+          high: topPiiTypes(department.piiCountersByRisk.high),
+          critical: topPiiTypes(department.piiCountersByRisk.critical)
+        }
+      }))
+      .sort((a, b) => (b.critical + b.high) - (a.critical + a.high))
   };
 }
 

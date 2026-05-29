@@ -141,32 +141,81 @@ function getRegulatoryReferences(entry) {
   return refs;
 }
 
-async function generateComplianceReport(filters) {
-  const pool = getDb();
+const REPORT_FILTER_DEFINITIONS = [
+  { key: 'compliancePack', column: 'compliance_pack', operator: '=' },
+  { key: 'dateFrom', column: 'created_at', operator: '>=' },
+  { key: 'dateTo', column: 'created_at', operator: '<=' }
+];
 
+const ALLOWED_WHERE_COLUMNS = new Set([
+  'compliance_pack',
+  'created_at',
+  'firewall_action',
+  'approval_status',
+  'pii_detected'
+]);
+
+const ALLOWED_WHERE_OPERATORS = new Set(['=', '>=', '<=']);
+
+function buildWhere(baseFilters = {}, extraConditions = []) {
   const conditions = [];
   const values = [];
-  let paramIdx = 1;
 
-  if (filters.compliancePack) { conditions.push(`compliance_pack = $${paramIdx++}`); values.push(filters.compliancePack); }
-  if (filters.dateFrom) { conditions.push(`created_at >= $${paramIdx++}`); values.push(filters.dateFrom); }
-  if (filters.dateTo) { conditions.push(`created_at <= $${paramIdx++}`); values.push(filters.dateTo); }
+  for (const definition of REPORT_FILTER_DEFINITIONS) {
+    const value = baseFilters[definition.key];
+    if (value === undefined || value === null || value === '') continue;
+    addWhereCondition(conditions, values, definition.column, definition.operator, value);
+  }
 
-  const whereClause = conditions.length > 0 ? 'WHERE ' + conditions.join(' AND ') : '';
+  for (const condition of extraConditions) {
+    if (!condition) continue;
+    const { column, operator = '=', value } = condition;
+    if (value === undefined || value === null || value === '') continue;
+    addWhereCondition(conditions, values, column, operator, value);
+  }
 
-  const { rows: [{ count: total }] } = await pool.query(`SELECT COUNT(*) as count FROM kernel_interactions ${whereClause}`, values);
-  const { rows: [{ count: blocked }] } = await pool.query(`SELECT COUNT(*) as count FROM kernel_interactions ${whereClause} AND firewall_action = 'block'`, values);
-  const { rows: [{ count: pending }] } = await pool.query(`SELECT COUNT(*) as count FROM kernel_interactions ${whereClause} AND approval_status = 'pending'`, values);
-  const { rows: [{ count: approved }] } = await pool.query(`SELECT COUNT(*) as count FROM kernel_interactions ${whereClause} AND approval_status = 'approved'`, values);
-  const { rows: [{ count: rejected }] } = await pool.query(`SELECT COUNT(*) as count FROM kernel_interactions ${whereClause} AND approval_status = 'rejected'`, values);
-  const { rows: [{ count: piiDetected }] } = await pool.query(`SELECT COUNT(*) as count FROM kernel_interactions ${whereClause} AND pii_detected = 1`, values);
+  return {
+    clause: conditions.length > 0 ? 'WHERE ' + conditions.join(' AND ') : 'WHERE 1=1',
+    values
+  };
+}
+
+function addWhereCondition(conditions, values, column, operator, value) {
+  if (!ALLOWED_WHERE_COLUMNS.has(column)) throw new Error('Unsupported compliance report column: ' + column);
+  if (!ALLOWED_WHERE_OPERATORS.has(operator)) throw new Error('Unsupported compliance report operator: ' + operator);
+
+  values.push(value);
+  conditions.push(`${column} ${operator} $${values.length}`);
+}
+
+async function queryComplianceCount(pool, filters, extraConditions = []) {
+  const where = buildWhere(filters, extraConditions);
+  const { rows } = await pool.query(
+    `SELECT COUNT(*) as count FROM kernel_interactions ${where.clause}`,
+    where.values
+  );
+  return rows[0]?.count || '0';
+}
+
+async function generateComplianceReport(filters = {}) {
+  const pool = getDb();
+
+  const total = await queryComplianceCount(pool, filters);
+  const blocked = await queryComplianceCount(pool, filters, [{ column: 'firewall_action', value: 'block' }]);
+  const pending = await queryComplianceCount(pool, filters, [{ column: 'approval_status', value: 'pending' }]);
+  const approved = await queryComplianceCount(pool, filters, [{ column: 'approval_status', value: 'approved' }]);
+  const rejected = await queryComplianceCount(pool, filters, [{ column: 'approval_status', value: 'rejected' }]);
+  const piiDetected = await queryComplianceCount(pool, filters, [{ column: 'pii_detected', value: 1 }]);
+  const totalCount = Number(total);
+  const blockedCount = Number(blocked);
+  const rejectedCount = Number(rejected);
 
   return {
     generatedAt: new Date().toISOString(),
     period: { from: filters.dateFrom, to: filters.dateTo },
     summary: { total, blocked, pending, approved, rejected, piiDetected },
-    complianceRate: total > 0 ? (((total - blocked - rejected) / total) * 100).toFixed(1) + '%' : 'N/A'
+    complianceRate: totalCount > 0 ? (((totalCount - blockedCount - rejectedCount) / totalCount) * 100).toFixed(1) + '%' : 'N/A'
   };
 }
 
-module.exports = { generateEvidenceFile, generateComplianceReport };
+module.exports = { generateEvidenceFile, generateComplianceReport, buildWhere };

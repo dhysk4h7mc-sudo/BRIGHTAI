@@ -68,6 +68,30 @@
     };
   }
 
+  function normalizeRiskByDepartment(raw = {}) {
+    const source = raw.riskByDepartment || raw.risk_by_department || {};
+    const departments = Array.isArray(source.departments)
+      ? source.departments
+      : Array.isArray(raw.departments)
+        ? raw.departments
+        : [];
+
+    return {
+      departments: departments.map((department) => {
+        const piiTypes = department.piiTypes || department.pii_types || department.topPiiTypes || department.top_pii_types || [];
+        return {
+          name: String(department.name || department.department || 'غير محدد'),
+          low: toNumber(department.low),
+          medium: toNumber(department.medium),
+          high: toNumber(department.high),
+          critical: toNumber(department.critical),
+          piiTypes: Array.isArray(piiTypes) ? piiTypes.map(String).filter(Boolean) : [],
+          piiTypesByRisk: department.piiTypesByRisk || department.pii_types_by_risk || {},
+        };
+      }).filter((department) => department.name)
+    };
+  }
+
   function normalizeStats(raw = {}) {
     const source = raw && typeof raw === 'object' ? raw : {};
     const statusSource = source.statusDistribution || {};
@@ -120,6 +144,7 @@
       chainIntegrity: chainSource === undefined ? 'unknown' : chainSource,
       lastUpdated: source.lastUpdated || source.updatedAt || source.generatedAt || source.timestamp || new Date().toISOString(),
       latestTraces: Array.isArray(source.latestTraces) ? source.latestTraces.map(normalizeTrace) : [],
+      riskByDepartment: normalizeRiskByDepartment(source),
     };
   }
 
@@ -170,6 +195,14 @@
           medium: 68,
           low: 146,
           minimal: 88
+        },
+        riskByDepartment: {
+          departments: [
+            { name: "المشتريات", low: 120, medium: 44, high: 12, critical: 3, piiTypes: ["saudi_iban", "commercial_registration", "contract_value"] },
+            { name: "الموارد البشرية", low: 68, medium: 39, high: 16, critical: 4, piiTypes: ["employee_name", "salary", "performance_review"] },
+            { name: "الرعاية الصحية", low: 34, medium: 26, high: 18, critical: 9, piiTypes: ["patient_id", "saudi_id", "diagnosis"] },
+            { name: "المالية", low: 52, medium: 31, high: 21, critical: 6, piiTypes: ["saudi_iban", "card_or_account", "invoice_number"] }
+          ]
         },
         latestTraces: [
           {
@@ -303,6 +336,49 @@
             record_hash: "ca85d0d1e3d36b8e88fdfb06bb007a22a3eb2cd98c2534c06282ebbc6c483a99",
             recordHash: "ca85d0d1e3d36b8e88fdfb06bb007a22a3eb2cd98c2534c06282ebbc6c483a99",
             hash: "ca85d0d1e3d36b8e88fdfb06bb007a22a3eb2cd98c2534c06282ebbc6c483a99"
+          },
+          {
+            id: "ki_10492",
+            interactionId: "trace-10492",
+            requestId: "trace-10492",
+            trace_id: trace2,
+            traceId: trace2,
+            created_at: new Date(Date.now() - 1800000).toISOString(),
+            timestamp: new Date(Date.now() - 1800000).toISOString(),
+            createdAt: new Date(Date.now() - 1800000).toISOString(),
+            user_id: "user_saudi_03",
+            userId: "user_saudi_03",
+            user_name: "سعد المطيري",
+            userName: "سعد المطيري",
+            request_message: "مراجعة عقد توريد توربينات غازية لصالح الشركة السعودية للكهرباء والتحقق من شروط الضمان والمشتريات الحكومية",
+            query: "مراجعة عقد توريد توربينات غازية لصالح الشركة السعودية للكهرباء والتحقق من شروط الضمان والمشتريات الحكومية",
+            pii_detected: 0,
+            pii_types: "[]",
+            piiTypes: [],
+            piiDetected: [],
+            firewall_action: "allow",
+            masked_message: "مراجعة عقد توريد توربينات غازية لصالح الشركة السعودية للكهرباء والتحقق من شروط الضمان والمشتريات الحكومية",
+            maskedText: "مراجعة عقد توريد توربينات غازية لصالح الشركة السعودية للكهرباء والتحقق من شروط الضمان والمشتريات الحكومية",
+            risk_score: 15,
+            riskScore: 15,
+            risk_level: "minimal",
+            riskLevel: "minimal",
+            risk_reasons: "[\"عقد توريد تجاري اعتيادي متطابق مع دليل الامتثال للمشتريات الحكومية\"]",
+            approval_status: "auto_approved",
+            approvalStatus: "auto_approved",
+            action: "CHAT_REQUEST",
+            actor: "system",
+            gemini_response: "تمت مراجعة مسودة العقد. البنود متوافقة مع ضوابط المشتريات ولا تتضمن بيانات شخصية.",
+            response: "تمت مراجعة مسودة العقد. البنود متوافقة مع ضوابط المشتريات ولا تتضمن بيانات شخصية.",
+            compliance_pack: "procurement",
+            compliancePack: "procurement",
+            department: "المشتريات",
+            departmentName: "المشتريات",
+            previous_hash: "ca85d0d1e3d36b8e88fdfb06bb007a22a3eb2cd98c2534c06282ebbc6c483a99",
+            previousHash: "ca85d0d1e3d36b8e88fdfb06bb007a22a3eb2cd98c2534c06282ebbc6c483a99",
+            record_hash: "2f4007886474ba0e00d23fbc01d2a3ec2cd98c2534c06282ebbc6c483a9937a0",
+            recordHash: "2f4007886474ba0e00d23fbc01d2a3ec2cd98c2534c06282ebbc6c483a9937a0",
+            hash: "2f4007886474ba0e00d23fbc01d2a3ec2cd98c2534c06282ebbc6c483a9937a0"
           }
         ]
       },
@@ -631,7 +707,7 @@
         window.kernelDemoState = getHardcodedDefaults();
       }
 
-      localStorage.setItem('brightai_kernel_mock_db', JSON.stringify(window.kernelDemoState));
+      recalculateSummaryStats();
     })();
 
     return dbInitPromise;
@@ -641,6 +717,11 @@
   function recalculateSummaryStats() {
     if (!window.kernelDemoState) return;
     const db = window.kernelDemoState;
+
+    hydrateMockDepartments(db.audit?.rows);
+    hydrateMockDepartments(db.audit?.entries);
+    hydrateMockDepartments(db.approvals?.pending);
+    hydrateMockDepartments(db.approvals?.recent);
     
     // total requests count
     const total = (db.audit.rows || []).length + (db.approvals.pending || []).length;
@@ -672,6 +753,8 @@
       highCount: (db.approvals.pending || []).filter(r => r.riskLevel === 'high').length,
       completedToday: approved
     };
+
+    db.stats.riskByDepartment = db.stats.riskByDepartment || getHardcodedDefaults().stats.riskByDepartment;
 
     localStorage.setItem('brightai_kernel_mock_db', JSON.stringify(db));
   }
@@ -712,6 +795,24 @@
       return value.split(',').map((item) => item.trim()).filter(Boolean);
     }
     return [];
+  }
+
+  function inferMockDepartment(record = {}) {
+    if (record.department || record.departmentName) return record.department || record.departmentName;
+    const text = `${record.query || record.request_message || record.originalText || ''} ${record.compliancePackage || record.compliance_pack || ''}`.toLowerCase();
+    if (/hr|راتب|موارد|employee|salary|تقييم/.test(text)) return 'الموارد البشرية';
+    if (/sfda|health|طبي|مريض|mrn|مستشفى|وصفة|تشخيص/.test(text)) return 'الرعاية الصحية';
+    if (/finance|مالي|آيبان|iban|بطاق|حساب|تقرير مالي/.test(text)) return 'المالية';
+    if (/procurement|مشتريات|توريد|عقد|مورد|مناقصة/.test(text)) return 'المشتريات';
+    return 'غير محدد';
+  }
+
+  function hydrateMockDepartments(collection = []) {
+    if (!Array.isArray(collection)) return;
+    collection.forEach((record) => {
+      record.department = inferMockDepartment(record);
+      record.departmentName = record.department;
+    });
   }
 
   function getMockRegulatoryReferences(pack = 'general') {
@@ -894,6 +995,11 @@
       query: message,
       maskedText: maskSensitiveText(message, pii),
       compliancePackage: compliancePack || (scenario === 'finance' || scenario === 'hr' ? 'PDPL' : scenario === 'healthcare' ? 'SFDA' : scenario === 'code' ? 'NCA_ECC' : 'general'),
+      department: scenario === 'finance' ? 'المالية'
+        : scenario === 'hr' ? 'الموارد البشرية'
+          : scenario === 'healthcare' ? 'الرعاية الصحية'
+            : scenario === 'legal' ? 'المشتريات'
+              : 'غير محدد',
       userName: KernelUtils?.getUserName() || 'مستخدم تجريبي',
       userId: KernelUtils?.getUserId() || 'user_demo',
       createdAt: new Date().toISOString(),
@@ -1152,12 +1258,24 @@
     } else if (path.endsWith('/audit')) {
       // Filtering audit logs mock
       const searchQuery = searchParams.get('search') || '';
+      const departmentQuery = searchParams.get('department') || '';
+      const riskQuery = searchParams.get('riskLevel') || searchParams.get('risk_level') || '';
       let filteredRows = db.audit.rows;
       if (searchQuery) {
         filteredRows = filteredRows.filter(r => 
           (r.query || '').includes(searchQuery) || 
           (r.traceId || '').includes(searchQuery)
         );
+      }
+      if (departmentQuery) {
+        filteredRows = filteredRows.filter(r => (r.department || r.departmentName || '').toLowerCase() === departmentQuery.toLowerCase());
+      }
+      if (riskQuery) {
+        filteredRows = filteredRows.filter(r => {
+          const level = (r.riskLevel || r.risk_level || '').toLowerCase();
+          const wanted = riskQuery.toLowerCase();
+          return wanted === 'low' ? level === 'low' || level === 'minimal' : level === wanted;
+        });
       }
       payload = {
         rows: filteredRows,

@@ -38,6 +38,14 @@
     "low": 146,
     "minimal": 88
   },
+  "riskByDepartment": {
+    "departments": [
+      { "name": "المشتريات", "low": 120, "medium": 44, "high": 12, "critical": 3, "piiTypes": ["saudi_iban", "commercial_registration", "contract_value"] },
+      { "name": "الموارد البشرية", "low": 68, "medium": 39, "high": 16, "critical": 4, "piiTypes": ["employee_name", "salary", "performance_review"] },
+      { "name": "الرعاية الصحية", "low": 34, "medium": 26, "high": 18, "critical": 9, "piiTypes": ["patient_id", "saudi_id", "diagnosis"] },
+      { "name": "المالية", "low": 52, "medium": 31, "high": 21, "critical": 6, "piiTypes": ["saudi_iban", "card_or_account", "invoice_number"] }
+    ]
+  },
   "latestTraces": [
     {
       "interactionId": "trace-10491",

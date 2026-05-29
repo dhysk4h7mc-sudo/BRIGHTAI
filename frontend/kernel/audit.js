@@ -69,7 +69,8 @@ function normalizeAuditRow(row) {
     responseProvider: metadata.provider || null,
     model: metadata.model || row.response_model,
     userId: row.user_id,
-    userName: row.user_name
+    userName: row.user_name,
+    department: row.department || metadata.department || metadata.departmentName || 'غير محدد'
   };
 }
 
@@ -205,7 +206,21 @@ async function queryAuditTrail(filters, limit, offset) {
   let paramIdx = 1;
 
   if (filters.userId) { conditions.push(`user_id = $${paramIdx++}`); values.push(filters.userId); }
-  if (filters.riskLevel) { conditions.push(`risk_level = $${paramIdx++}`); values.push(filters.riskLevel); }
+  if (filters.riskLevel) {
+    if (filters.riskLevel === 'low') {
+      conditions.push(`risk_level IN ($${paramIdx}, $${paramIdx + 1})`);
+      values.push('low', 'minimal');
+      paramIdx += 2;
+    } else {
+      conditions.push(`risk_level = $${paramIdx++}`);
+      values.push(filters.riskLevel);
+    }
+  }
+  if (filters.department) {
+    conditions.push(`(user_id IN (SELECT id FROM kernel_users WHERE department = $${paramIdx}) OR request_metadata ILIKE $${paramIdx + 1})`);
+    values.push(filters.department, '%' + filters.department + '%');
+    paramIdx += 2;
+  }
   if (filters.compliancePack) { conditions.push(`compliance_pack = $${paramIdx++}`); values.push(filters.compliancePack); }
   if (filters.approvalStatus) { conditions.push(`approval_status = $${paramIdx++}`); values.push(filters.approvalStatus); }
   if (filters.id || filters.interactionId || filters.requestId) {
@@ -229,7 +244,11 @@ async function queryAuditTrail(filters, limit, offset) {
   const whereClause = conditions.length > 0 ? 'WHERE ' + conditions.join(' AND ') : '';
 
   const rowsResult = await pool.query(
-    `SELECT * FROM kernel_interactions ${whereClause} ORDER BY created_at DESC LIMIT $${paramIdx++} OFFSET $${paramIdx++}`,
+    `SELECT kernel_interactions.*, COALESCE(NULLIF(kernel_users.department, ''), 'غير محدد') AS department
+     FROM kernel_interactions
+     LEFT JOIN kernel_users ON kernel_users.id = kernel_interactions.user_id
+     ${whereClause}
+     ORDER BY created_at DESC LIMIT $${paramIdx++} OFFSET $${paramIdx++}`,
     [...values, limit, offset]
   );
 
