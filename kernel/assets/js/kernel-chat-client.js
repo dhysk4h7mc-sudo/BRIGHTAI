@@ -118,7 +118,7 @@
 
         const data = await response.json();
 
-        if (data.requiresApproval) {
+        if (this.isApprovalRequired(data)) {
           this.handleApprovalRequired(data);
         } else {
           this.handleStreamResponse(data);
@@ -134,19 +134,21 @@
 
     // Handle streaming response with typewriter effect
     handleStreamResponse(data) {
-      const { response, metadata } = data;
+      const response = data.response || '';
+      const metadata = data.metadata || data.kernel || {};
+      const traceId = this.getTraceId(data);
 
       // Update governance state
       if (metadata) {
         this.state.governance = {
-          riskLevel: metadata.riskLevel || 'low',
-          piiDetected: metadata.piiDetected || false,
+          riskLevel: metadata.riskLevel || metadata.risk?.level || 'low',
+          piiDetected: metadata.piiDetected || metadata.firewall?.piiDetected || false,
           requiresApproval: false,
         };
       }
 
       // Add AI response with typewriter effect
-      this.addMessageToUI('', 'ai');
+      this.addMessageToUI('', 'ai', { traceId });
       const messages = document.querySelectorAll('.message.ai');
       const lastMessage = messages[messages.length - 1];
 
@@ -158,7 +160,7 @@
       this.state.messages.push({
         role: 'assistant',
         content: response,
-        metadata: metadata,
+        metadata: { ...metadata, traceId },
         timestamp: Date.now(),
       });
 
@@ -167,23 +169,54 @@
 
     // Handle approval required
     handleApprovalRequired(data) {
-      this.state.pendingApproval = data;
+      const pendingApproval = this.normalizeApprovalPayload(data);
+      this.state.pendingApproval = pendingApproval;
       const approvalPanel = document.getElementById('approval-panel');
 
       if (approvalPanel) {
         const reasonEl = document.getElementById('approval-reason');
         const riskEl = document.getElementById('approval-risk');
 
-        if (reasonEl) reasonEl.textContent = data.reason || 'محتوى يتطلب موافقة إدارية';
-        if (riskEl) {
-          riskEl.textContent = `مستوى الخطر: ${this.getRiskLabel(data.riskLevel)}`;
-          riskEl.className = `risk-badge risk-${data.riskLevel}`;
+        if (reasonEl) reasonEl.textContent = pendingApproval.reasonText || 'محتوى يتطلب موافقة إدارية';
+      if (riskEl) {
+          riskEl.textContent = `مستوى الخطر: ${this.getRiskLabel(pendingApproval.riskLevel)}`;
+          riskEl.className = `risk-badge risk-${pendingApproval.riskLevel}`;
         }
 
         approvalPanel.style.display = 'block';
       }
 
-      this.addMessageToUI('تم اكتشاف محتوى حساس. يتطلب موافقة إدارية.', 'governance');
+      this.addMessageToUI('تم اكتشاف محتوى حساس. يتطلب موافقة إدارية.', 'governance', {
+        traceId: pendingApproval.traceId,
+        targetPage: 'approvals',
+      });
+    },
+
+    // Detect either legacy or current approval response contract
+    isApprovalRequired(data) {
+      return Boolean(data && (data.requiresApproval === true || data.status === 'pending_approval'));
+    },
+
+    // Normalize approval fields so the UI never reads undefined values
+    normalizeApprovalPayload(data) {
+      const interactionId = data.interactionId || data.requestId || data.id || '';
+      const riskScore = data.riskScore ?? data.kernel?.risk?.score ?? 0;
+      const riskLevel = data.riskLevel || data.kernel?.risk?.level || 'medium';
+      const reasons = Array.isArray(data.reasons)
+        ? data.reasons
+        : data.reason
+          ? [data.reason]
+          : [];
+
+      return {
+        interactionId,
+        requestId: data.requestId || interactionId,
+        traceId: this.getTraceId(data),
+        riskScore,
+        riskLevel,
+        reasons,
+        reasonText: reasons.length > 0 ? reasons.join('، ') : 'محتوى يتطلب موافقة إدارية',
+      };
     },
 
     // Approve request
@@ -195,18 +228,21 @@
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
+            interactionId: this.state.pendingApproval.interactionId,
             requestId: this.state.pendingApproval.requestId,
+            traceId: this.state.pendingApproval.traceId,
             action: 'approve',
             sessionId: this.state.sessionId,
           }),
         });
 
         const data = await response.json();
-        if (data.success) {
+        if (data.success || data.status === 'completed') {
           this.addMessageToUI('✓ تمت الموافقة. معالجة الطلب...', 'system');
           this.handleStreamResponse({
             response: data.response,
-            metadata: data.metadata,
+            metadata: { ...(data.metadata || data.kernel || {}), traceId: this.getTraceId(data) || this.state.pendingApproval.traceId },
+            traceId: this.getTraceId(data) || this.state.pendingApproval.traceId,
           });
         }
       } catch (error) {
@@ -225,7 +261,9 @@
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
+            interactionId: this.state.pendingApproval.interactionId,
             requestId: this.state.pendingApproval.requestId,
+            traceId: this.state.pendingApproval.traceId,
             action: 'reject',
             sessionId: this.state.sessionId,
           }),
@@ -255,7 +293,7 @@
     },
 
     // Add message to UI
-    addMessageToUI(content, type = 'system') {
+    addMessageToUI(content, type = 'system', meta = {}) {
       const messagesContainer = document.getElementById('messages');
       if (!messagesContainer) return;
 
@@ -267,6 +305,10 @@
       contentEl.textContent = content;
 
       messageEl.appendChild(contentEl);
+      const traceId = meta.traceId || this.getTraceId(meta);
+      if (traceId) {
+        messageEl.appendChild(this.createTraceLink(traceId, meta.targetPage || 'evidence'));
+      }
       messagesContainer.appendChild(messageEl);
 
       // Scroll to bottom
@@ -324,13 +366,13 @@
       try {
         const key = `brightai-chat-${this.state.sessionId}`;
         const saved = localStorage.getItem(key);
-        if (saved) {
-          this.state.messages = JSON.parse(saved);
+      if (saved) {
+        this.state.messages = JSON.parse(saved);
           const messagesContainer = document.getElementById('messages');
           if (messagesContainer) {
             messagesContainer.innerHTML = '';
             this.state.messages.forEach((msg) => {
-              this.addMessageToUI(msg.content, msg.role === 'user' ? 'user' : 'ai');
+              this.addMessageToUI(msg.content, msg.role === 'user' ? 'user' : 'ai', msg.metadata || {});
             });
           }
         }
@@ -361,12 +403,27 @@
       return `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
     },
 
+    getTraceId(data = {}) {
+      const value = data.traceId || data.trace_id || data.kernel?.traceId || data.metadata?.traceId || data.summary?.traceId;
+      return /^AI-\d{4}-\d{5,}$/.test(String(value || '')) ? String(value) : null;
+    },
+
+    createTraceLink(traceId, targetPage = 'evidence') {
+      const link = document.createElement('a');
+      link.className = 'kernel-trace-link';
+      link.href = `/kernel/${targetPage}.html?trace_id=${encodeURIComponent(traceId)}`;
+      link.textContent = traceId;
+      link.title = 'فتح سجل Trace ID';
+      return link;
+    },
+
     // Get risk label
     getRiskLabel(level) {
       const labels = {
         low: 'منخفض',
         medium: 'متوسط',
         high: 'مرتفع',
+        critical: 'حرج',
       };
       return labels[level] || level;
     },

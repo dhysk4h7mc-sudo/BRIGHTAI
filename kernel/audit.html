@@ -482,6 +482,7 @@
   <script>
     let allEntries = [];
     let currentActionFilter = 'all';
+    const selectedTraceId = new URLSearchParams(window.location.search).get('trace_id') || '';
 
     const ACTION_LABELS = {
       'CHAT_REQUEST': { label: 'محادثة', cls: 'chat' },
@@ -570,8 +571,12 @@
         items = items.filter(e =>
           (e.action || '').toLowerCase().includes(search) ||
           (e.actor || '').toLowerCase().includes(search) ||
-          (e.requestId || '').toLowerCase().includes(search)
+          (e.requestId || '').toLowerCase().includes(search) ||
+          (e.traceId || '').toLowerCase().includes(search)
         );
+      }
+      if (selectedTraceId) {
+        items = items.filter(e => (e.traceId || '').toLowerCase() === selectedTraceId.toLowerCase());
       }
 
       const body = document.getElementById('audit-log-body');
@@ -587,21 +592,30 @@
         const time = entry.timestamp
           ? new Date(entry.timestamp).toLocaleString('ar-SA', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
           : '—';
+        const traceId = getTraceId(entry);
         const shortId = (entry.requestId || '').substring(0, 12);
         const shortHash = (entry.hash || '').substring(0, 12);
         const actor = KernelUtils.escapeHtml(entry.actor || 'نظام');
+        const traceLink = traceId
+          ? `<a href="/kernel/evidence.html?trace_id=${encodeURIComponent(traceId)}" class="audit-trace-link">${KernelUtils.escapeHtml(traceId)}</a>`
+          : `<span title="سجل قديم بدون trace_id">${shortId}...</span>`;
 
         return `
           <div class="audit-entry">
             <span class="audit-time">${time}</span>
             <span class="audit-action-badge ${info.cls}" aria-label="${info.label}">${info.label}</span>
             <span class="audit-details">
-              <span class="actor">${actor}</span> — معرف الطلب: ${shortId}...
+              <span class="actor">${actor}</span> — Trace: ${traceLink}
             </span>
             <span class="audit-hash" onclick="copyToClipboard('${entry.hash || ''}')" title="نسخ التجزئة">${shortHash}...</span>
           </div>
         `;
       }).join('');
+    }
+
+    function getTraceId(record = {}) {
+      const value = record.traceId || record.trace_id || record.kernel?.traceId || record.metadata?.traceId || record.summary?.traceId;
+      return /^AI-\d{4}-\d{5,}$/.test(String(value || '')) ? String(value) : '';
     }
 
     function copyHash(el) {

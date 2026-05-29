@@ -3,6 +3,7 @@
 
 CREATE TABLE IF NOT EXISTS kernel_interactions (
     id TEXT PRIMARY KEY,
+    trace_id TEXT,
     created_at BIGINT NOT NULL,
     user_id TEXT,
     user_name TEXT,
@@ -37,9 +38,18 @@ CREATE TABLE IF NOT EXISTS kernel_interactions (
     record_hash TEXT NOT NULL
 );
 
+-- Migration/fallback: existing deployments may already have kernel_interactions
+-- without trace_id because CREATE TABLE IF NOT EXISTS does not alter old tables.
+ALTER TABLE kernel_interactions ADD COLUMN IF NOT EXISTS trace_id TEXT;
+
+-- One monotonic source for AI-YYYY-00000 trace IDs. Existing rows stay nullable
+-- and are displayed through legacy id/request_metadata fallbacks in code.
+CREATE SEQUENCE IF NOT EXISTS kernel_trace_id_seq START WITH 1;
+
 CREATE TABLE IF NOT EXISTS kernel_approval_queue (
     id TEXT PRIMARY KEY,
     interaction_id TEXT NOT NULL UNIQUE REFERENCES kernel_interactions(id),
+    trace_id TEXT,
     risk_score INTEGER NOT NULL,
     risk_level TEXT NOT NULL,
     created_at BIGINT NOT NULL,
@@ -51,6 +61,10 @@ CREATE TABLE IF NOT EXISTS kernel_approval_queue (
     expires_at BIGINT,
     notification_sent INTEGER DEFAULT 0
 );
+
+-- Migration/fallback: older approval rows can resolve trace_id by joining their
+-- interaction row, so this column remains nullable for backward compatibility.
+ALTER TABLE kernel_approval_queue ADD COLUMN IF NOT EXISTS trace_id TEXT;
 
 CREATE TABLE IF NOT EXISTS kernel_compliance_checks (
     id TEXT PRIMARY KEY,
@@ -91,6 +105,8 @@ CREATE INDEX IF NOT EXISTS idx_interactions_user ON kernel_interactions(user_id)
 CREATE INDEX IF NOT EXISTS idx_interactions_risk ON kernel_interactions(risk_level);
 CREATE INDEX IF NOT EXISTS idx_interactions_approval ON kernel_interactions(approval_status);
 CREATE INDEX IF NOT EXISTS idx_interactions_compliance ON kernel_interactions(compliance_pack);
+CREATE INDEX IF NOT EXISTS idx_interactions_trace ON kernel_interactions(trace_id);
 CREATE INDEX IF NOT EXISTS idx_approval_status ON kernel_approval_queue(status);
 CREATE INDEX IF NOT EXISTS idx_approval_created ON kernel_approval_queue(created_at);
+CREATE INDEX IF NOT EXISTS idx_approval_trace ON kernel_approval_queue(trace_id);
 CREATE INDEX IF NOT EXISTS idx_compliance_interaction ON kernel_compliance_checks(interaction_id);

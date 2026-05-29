@@ -481,6 +481,22 @@
         </div>
       </div>
 
+      <!-- Trace Lifecycle Section -->
+      <div class="status-section">
+        <div class="section-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+          </svg>
+          أحدث Trace IDs
+        </div>
+        <div class="status-cards" id="latest-traces">
+          <div class="glass-card-flat status-card">
+            <div class="status-card-value">—</div>
+            <div class="status-card-label">جاري التحميل</div>
+          </div>
+        </div>
+      </div>
+
       <!-- Status Overview Section -->
       <div class="status-section">
         <div class="section-title">
@@ -584,6 +600,7 @@
           medium: 63,
           low: 112,
         },
+        latestTraces: [],
       };
     }
 
@@ -604,7 +621,7 @@
       document.getElementById('sc-approved').textContent = KernelUtils.formatNumber(requests.approved || 0);
       document.getElementById('sc-executed').textContent = KernelUtils.formatNumber(requests.executed || 0);
       document.getElementById('sc-completed').textContent = KernelUtils.formatNumber(requests.completed || 0);
-      document.getElementById('sc-rejected').textContent = KernelUtils.formatNumber(0);
+      document.getElementById('sc-rejected').textContent = KernelUtils.formatNumber(requests.rejected || 0);
 
       // SVG Donut Chart
       renderSVGDonut(requests);
@@ -612,8 +629,43 @@
       // Risk Bars
       renderRiskBars(riskDist);
 
+      renderLatestTraces(data.latestTraces || []);
+
       // Last Update
       document.getElementById('last-update').textContent = new Date().toLocaleTimeString('ar-SA');
+    }
+
+    function renderLatestTraces(traces) {
+      const container = document.getElementById('latest-traces');
+      if (!container) return;
+
+      if (!traces.length) {
+        container.innerHTML = `
+          <div class="glass-card-flat status-card">
+            <div class="status-card-value" style="font-size:1rem;">—</div>
+            <div class="status-card-label">لا توجد Trace IDs بعد</div>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = traces.map((trace) => {
+        const traceId = getTraceId(trace) || trace.interactionId || trace.requestId;
+        const href = getTraceId(trace)
+          ? `/kernel/evidence.html?trace_id=${encodeURIComponent(traceId)}`
+          : `/kernel/evidence.html?id=${encodeURIComponent(traceId)}`;
+        return `
+          <a class="glass-card-flat status-card" href="${href}" style="text-decoration:none;">
+            <div class="status-card-value" style="font-size:1rem; direction:ltr;">${KernelUtils.escapeHtml(traceId)}</div>
+            <div class="status-card-label">${KernelUtils.escapeHtml(trace.status || trace.riskLevel || 'kernel')}</div>
+          </a>
+        `;
+      }).join('');
+    }
+
+    function getTraceId(record = {}) {
+      const value = record.traceId || record.trace_id || record.kernel?.traceId || record.metadata?.traceId || record.summary?.traceId;
+      return /^AI-\d{4}-\d{5,}$/.test(String(value || '')) ? String(value) : '';
     }
 
     function calculateAverageRisk(dist) {

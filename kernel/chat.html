@@ -1153,11 +1153,11 @@
       updateKernelPanel(data);
 
       if (decision === 'blocked') {
-        appendBlockedBubble(data.reason || 'تم حظر الطلب بواسطة جدار الأمان.');
-        saveMessage({ type: 'blocked', content: data.reason, ts: Date.now() });
+        appendBlockedBubble(data.reason || 'تم حظر الطلب بواسطة جدار الأمان.', data);
+        saveMessage({ type: 'blocked', content: data.reason, meta: data, ts: Date.now() });
       } else if (decision === 'pending_approval') {
-        appendPendingBubble(data.requestId, data.riskScore, data.matchedPolicies);
-        saveMessage({ type: 'pending', requestId: data.requestId, ts: Date.now() });
+        appendPendingBubble(data.requestId, data.riskScore, data.matchedPolicies, data);
+        saveMessage({ type: 'pending', requestId: data.requestId, traceId: getTraceId(data), meta: data, ts: Date.now() });
       } else {
         const response = data.response || data.text || '';
         appendAiBubble(response, data);
@@ -1238,6 +1238,7 @@
       const latency = data.latencyMs ? `${data.latencyMs}ms` : '';
       const hash = data.auditHash || data.hash || '';
       const riskScore = data.riskScore || 0;
+      const traceId = getTraceId(data);
       const piiItems = data.piiDetected || [];
       const policies = data.matchedPolicies || [];
       const decision = data.decision || 'allowed';
@@ -1259,6 +1260,7 @@
                 </svg>
                 <span>${KernelUtils.escapeHtml(provider)}${model ? ' · ' + KernelUtils.escapeHtml(model) : ''}${latency ? ' · ' + latency : ''}</span>
                 <span class="badge ${KernelUtils.getDecisionClass(decision)}" style="font-size:0.6rem; padding:1px 6px;">${KernelUtils.getDecisionLabel(decision)}</span>
+                ${traceId ? traceAnchor(traceId, 'evidence') : ''}
               </div>
               <div class="ai-card-actions">
                 <button class="copy-btn" onclick="copyMsg(this, '${id}')" aria-label="نسخ الرد">نسخ</button>
@@ -1289,6 +1291,7 @@
                   <div style="font-size:0.6875rem; color:var(--text-tertiary); margin-bottom:var(--space-1);">السياسات</div>
                   <div class="chips-row">${policies.map(p => `<span class="chip-policy">${KernelUtils.escapeHtml(typeof p === 'string' ? p : p.name || p)}</span>`).join('')}</div>
                 </div>` : ''}
+                ${traceId ? `<div class="kernel-hash">Trace: ${traceAnchor(traceId, 'evidence')}</div>` : ''}
                 ${hash ? `<div class="kernel-hash" onclick="KernelUtils.copyToClipboard('${hash}').then(()=>showToast('تم النسخ','','success'))" title="انقر للنسخ">هاش: ${hash.substring(0, 16)}...</div>` : ''}
               </div>
             </div>` : ''}
@@ -1311,10 +1314,11 @@
       }
     }
 
-    function appendBlockedBubble(reason) {
+    function appendBlockedBubble(reason, data = {}) {
       const msgs = document.getElementById('messages');
       const el = document.createElement('div');
       el.className = 'message';
+      const traceId = getTraceId(data);
       el.innerHTML = `
         <div class="msg-avatar ai-av" aria-hidden="true">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1326,7 +1330,7 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/>
             </svg>
-            <span>${KernelUtils.escapeHtml(reason)}</span>
+            <span>${KernelUtils.escapeHtml(reason)}${traceId ? '<br>Trace: ' + traceAnchor(traceId, 'evidence') : ''}</span>
           </div>
           <div class="msg-time">${KernelUtils.formatRelativeTime(new Date())}</div>
         </div>
@@ -1335,11 +1339,16 @@
       scrollBottom();
     }
 
-    function appendPendingBubble(requestId, riskScore, policies) {
+    function appendPendingBubble(requestId, riskScore, policies, data = {}) {
       const msgs = document.getElementById('messages');
       const el = document.createElement('div');
       el.className = 'message';
       const policiesText = policies && policies.length > 0 ? policies.map(p => typeof p === 'string' ? p : p.name || p).join('، ') : 'مخاطر مرتفعة';
+      const traceId = getTraceId(data) || data.traceId;
+      const approvalsHref = traceId
+        ? `/kernel/approvals.html?trace_id=${encodeURIComponent(traceId)}`
+        : '/kernel/approvals/';
+      const evidenceLink = traceId ? `<br>Trace: ${traceAnchor(traceId, 'evidence')}` : '';
       el.innerHTML = `
         <div class="msg-avatar ai-av" aria-hidden="true">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1353,7 +1362,8 @@
             </svg>
             <span>
               تم تعليق الطلب لمراجعة الحوكمة. درجة المخاطر: <strong>${riskScore || '—'}%</strong>. السبب: ${KernelUtils.escapeHtml(policiesText)}.
-              <br><a href="/kernel/approvals/">مراجعة الموافقات والتنفيذ</a>
+              ${evidenceLink}
+              <br><a href="${approvalsHref}">مراجعة الموافقات والتنفيذ</a>
             </span>
           </div>
           <div class="msg-time">${KernelUtils.formatRelativeTime(new Date())}</div>
@@ -1379,8 +1389,21 @@
     function renderStoredMessage(m) {
       if (m.type === 'user') appendUserBubble(m.content);
       else if (m.type === 'ai') appendAiBubble(m.content, m.meta || {});
-      else if (m.type === 'blocked') appendBlockedBubble(m.content);
-      else if (m.type === 'pending') appendPendingBubble(m.requestId, null, []);
+      else if (m.type === 'blocked') appendBlockedBubble(m.content, m.meta || {});
+      else if (m.type === 'pending') appendPendingBubble(m.requestId, null, [], m.meta || { traceId: m.traceId });
+    }
+
+    function getTraceId(data = {}) {
+      const value = data.traceId || data.trace_id || data.kernel?.traceId || data.metadata?.traceId || data.summary?.traceId;
+      return /^AI-\d{4}-\d{5,}$/.test(String(value || '')) ? String(value) : null;
+    }
+
+    function traceAnchor(traceId, page = 'evidence') {
+      const safe = encodeURIComponent(traceId);
+      const href = page === 'approvals'
+        ? `/kernel/approvals.html?trace_id=${safe}`
+        : `/kernel/evidence.html?trace_id=${safe}`;
+      return `<a href="${href}" class="kernel-trace-link">${KernelUtils.escapeHtml(traceId)}</a>`;
     }
 
     // ── Typewriter ──
@@ -1408,6 +1431,7 @@
       const model = data.model || '';
       const latency = data.latencyMs || '';
       const hash = data.auditHash || data.hash || '';
+      const traceId = getTraceId(data);
 
       const riskColor = riskScore < 30 ? 'var(--success)' : riskScore < 60 ? 'var(--warning)' : 'var(--danger)';
 
@@ -1461,10 +1485,17 @@
         document.getElementById('panel-hash').dataset.full = hash;
       }
 
+      if (traceId) {
+        document.getElementById('panel-hash-section').style.display = '';
+        document.getElementById('panel-hash').innerHTML = traceAnchor(traceId, 'evidence');
+        document.getElementById('panel-hash').dataset.full = traceId;
+      }
+
       // Update bottom sheet analysis
       document.getElementById('bs-kernel-analysis').innerHTML = `
         <div style="margin-bottom:var(--space-2);">القرار: <strong>${KernelUtils.getDecisionLabel(decision)}</strong></div>
         <div>درجة المخاطر: <strong style="color:${riskColor}">${riskScore}%</strong></div>
+        ${traceId ? `<div style="margin-top:var(--space-2);">Trace: ${traceAnchor(traceId, 'evidence')}</div>` : ''}
       `;
     }
 

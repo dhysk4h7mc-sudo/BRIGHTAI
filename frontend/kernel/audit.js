@@ -7,6 +7,63 @@ function computeHash(data) {
   return crypto.createHash('sha256').update(JSON.stringify(data)).digest('hex');
 }
 
+function parseJsonObject(value) {
+  if (!value) return {};
+  if (typeof value === 'object' && !Array.isArray(value)) return value;
+  try {
+    const parsed = JSON.parse(value);
+    return parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? parsed : {};
+  } catch (_error) {
+    return {};
+  }
+}
+
+function getTraceIdFromInteraction(row) {
+  const metadata = parseJsonObject(row.request_metadata);
+  // Legacy fallback: rows written before trace_id existed kept traceId, if any,
+  // inside request_metadata. If neither exists, UI falls back to interaction id.
+  return row.trace_id || metadata.traceId || metadata.trace_id || null;
+}
+
+function normalizeAuditRow(row) {
+  if (!row) return null;
+  const traceId = getTraceIdFromInteraction(row);
+  const status = row.approval_status || 'auto_approved';
+  const action = status === 'blocked' ? 'BLOCKED'
+    : status === 'pending' ? 'APPROVAL_REQUESTED'
+    : status === 'approved' ? 'APPROVED'
+    : status === 'rejected' ? 'REJECTED'
+    : status === 'approved_completed' ? 'EXECUTED'
+    : 'CHAT_REQUEST';
+
+  return {
+    ...row,
+    interactionId: row.id,
+    requestId: row.id,
+    traceId,
+    trace_id: traceId,
+    timestamp: row.created_at,
+    createdAt: row.created_at,
+    action,
+    actor: row.approved_by || row.user_name || row.user_id || 'system',
+    hash: row.record_hash,
+    previousHash: row.previous_hash,
+    recordHash: row.record_hash,
+    requestHash: row.request_hash,
+    responseHash: row.response_hash,
+    riskScore: row.risk_score,
+    riskLevel: row.risk_level,
+    approvalStatus: status,
+    compliancePack: row.compliance_pack,
+    query: row.request_message,
+    originalText: row.request_message,
+    maskedText: row.masked_message,
+    response: row.gemini_response,
+    userId: row.user_id,
+    userName: row.user_name
+  };
+}
+
 async function logInteraction(interaction) {
   const pool = getDb();
 
@@ -21,6 +78,7 @@ async function logInteraction(interaction) {
 
   const chainData = {
     id: interaction.id,
+    trace_id: interaction.trace_id || null,
     created_at: interaction.created_at,
     request_hash: interaction.request_hash,
     response_hash: interaction.response_hash,
@@ -30,7 +88,7 @@ async function logInteraction(interaction) {
 
   await pool.query(`
     INSERT INTO kernel_interactions (
-      id, created_at, user_id, user_name, ip_address, user_agent,
+      id, trace_id, created_at, user_id, user_name, ip_address, user_agent,
       request_message, request_hash, request_metadata,
       pii_detected, pii_types, pii_items, sensitive_data_categories,
       firewall_action, masked_message,
@@ -41,19 +99,19 @@ async function logInteraction(interaction) {
       compliance_pack, compliance_flags,
       previous_hash, record_hash
     ) VALUES (
-      $1, $2, $3, $4, $5, $6,
-      $7, $8, $9,
-      $10, $11, $12, $13,
-      $14, $15,
-      $16, $17, $18,
-      $19, $20, $21, $22,
-      $23, $24, $25,
-      $26, $27, $28, $29,
-      $30, $31,
-      $32, $33
+      $1, $2, $3, $4, $5, $6, $7,
+      $8, $9, $10,
+      $11, $12, $13, $14,
+      $15, $16,
+      $17, $18, $19,
+      $20, $21, $22, $23,
+      $24, $25, $26,
+      $27, $28, $29, $30,
+      $31, $32,
+      $33, $34
     )
   `, [
-    interaction.id, interaction.created_at, interaction.user_id || null, interaction.user_name || null, interaction.ip_address || null, interaction.user_agent || null,
+    interaction.id, interaction.trace_id || null, interaction.created_at, interaction.user_id || null, interaction.user_name || null, interaction.ip_address || null, interaction.user_agent || null,
     interaction.request_message, interaction.request_hash, interaction.request_metadata || null,
     interaction.pii_detected || 0, interaction.pii_types || null, interaction.pii_items || null, interaction.sensitive_data_categories || null,
     interaction.firewall_action || 'allow', interaction.masked_message || null,
@@ -81,10 +139,16 @@ async function queryAuditTrail(filters, limit, offset) {
   if (filters.riskLevel) { conditions.push(`risk_level = $${paramIdx++}`); values.push(filters.riskLevel); }
   if (filters.compliancePack) { conditions.push(`compliance_pack = $${paramIdx++}`); values.push(filters.compliancePack); }
   if (filters.approvalStatus) { conditions.push(`approval_status = $${paramIdx++}`); values.push(filters.approvalStatus); }
+  if (filters.traceId || filters.trace_id) {
+    const traceId = filters.traceId || filters.trace_id;
+    conditions.push(`(trace_id = $${paramIdx} OR request_metadata ILIKE $${paramIdx + 1})`);
+    values.push(traceId, '%' + traceId + '%');
+    paramIdx += 2;
+  }
   if (filters.dateFrom) { conditions.push(`created_at >= $${paramIdx++}`); values.push(filters.dateFrom); }
   if (filters.dateTo) { conditions.push(`created_at <= $${paramIdx++}`); values.push(filters.dateTo); }
   if (filters.search) {
-    conditions.push(`(request_message ILIKE $${paramIdx} OR gemini_response ILIKE $${paramIdx})`);
+    conditions.push(`(request_message ILIKE $${paramIdx} OR gemini_response ILIKE $${paramIdx} OR id ILIKE $${paramIdx} OR COALESCE(trace_id, '') ILIKE $${paramIdx})`);
     values.push('%' + filters.search + '%');
     paramIdx++;
   }
@@ -101,30 +165,73 @@ async function queryAuditTrail(filters, limit, offset) {
     values
   );
 
-  return { rows: rowsResult.rows, total: parseInt(countResult.rows[0].total) };
+  return {
+    rows: rowsResult.rows.map(normalizeAuditRow),
+    entries: rowsResult.rows.map(normalizeAuditRow),
+    total: parseInt(countResult.rows[0].total)
+  };
 }
 
 async function getAuditEntry(id) {
   const pool = getDb();
-  const { rows } = await pool.query('SELECT * FROM kernel_interactions WHERE id = $1', [id]);
+  const { rows } = await pool.query(`
+    SELECT *
+    FROM kernel_interactions
+    WHERE id = $1 OR trace_id = $1 OR request_metadata ILIKE $2
+    ORDER BY CASE WHEN id = $1 THEN 0 ELSE 1 END, created_at DESC
+    LIMIT 1
+  `, [id, '%' + id + '%']);
   return rows[0] || null;
 }
 
 async function verifyChainIntegrity() {
   const pool = getDb();
-  const { rows } = await pool.query('SELECT id, record_hash, previous_hash FROM kernel_interactions ORDER BY created_at ASC');
+  const { rows } = await pool.query('SELECT * FROM kernel_interactions ORDER BY created_at ASC');
 
-  if (rows.length === 0) return { valid: true, brokenAt: null, totalRecords: 0 };
+  if (rows.length === 0) {
+    return {
+      valid: true,
+      brokenAt: null,
+      totalRecords: 0,
+      chainStatus: 'VALID',
+      chainHash: null,
+      totalEntries: 0,
+      entries: [],
+      summary: { actionTypes: {}, actorCount: 0 }
+    };
+  }
 
   let prevHash = '0';
+  let brokenAt = null;
   for (const row of rows) {
     if (row.previous_hash !== prevHash) {
-      return { valid: false, brokenAt: row.id, totalRecords: rows.length };
+      brokenAt = row.id;
+      break;
     }
     prevHash = row.record_hash;
   }
 
-  return { valid: true, brokenAt: null, totalRecords: rows.length };
+  const entries = rows.slice().reverse().map(normalizeAuditRow);
+  const actionTypes = {};
+  const actors = new Set();
+  for (const entry of entries) {
+    actionTypes[entry.action] = (actionTypes[entry.action] || 0) + 1;
+    if (entry.actor) actors.add(entry.actor);
+  }
+
+  return {
+    valid: !brokenAt,
+    brokenAt,
+    totalRecords: rows.length,
+    chainStatus: brokenAt ? 'INVALID' : 'VALID',
+    chainHash: rows[rows.length - 1]?.record_hash || null,
+    totalEntries: rows.length,
+    entries,
+    summary: {
+      actionTypes,
+      actorCount: actors.size
+    }
+  };
 }
 
 async function updateInteraction(id, updates) {
@@ -140,4 +247,13 @@ async function updateInteraction(id, updates) {
   await pool.query(`UPDATE kernel_interactions SET ${fields.join(', ')} WHERE id = $1`, values);
 }
 
-module.exports = { logInteraction, queryAuditTrail, getAuditEntry, verifyChainIntegrity, updateInteraction, computeHash };
+module.exports = {
+  logInteraction,
+  queryAuditTrail,
+  getAuditEntry,
+  verifyChainIntegrity,
+  updateInteraction,
+  computeHash,
+  normalizeAuditRow,
+  getTraceIdFromInteraction
+};

@@ -528,7 +528,10 @@
   <script src="/kernel/assets/js/kernel-nav.js" defer></script>
   <script src="/kernel/assets/js/kernel-api.js" defer></script>
   <script>
-    // Initialize navigation
+    let evidenceRecords = [];
+    const selectedTraceId = new URLSearchParams(window.location.search).get('trace_id') || '';
+    const selectedLegacyId = new URLSearchParams(window.location.search).get('id') || '';
+
     document.addEventListener('DOMContentLoaded', () => {
       if (window.KernelNav) {
         KernelNav.init('sidebarNav');
@@ -537,20 +540,156 @@
       if (window.KernelUtils) {
         KernelUtils.initTheme();
       }
+      loadEvidenceRecords();
     });
 
-    // Select evidence item
-    function selectEvidence(element) {
-      // Remove selected from all
+    async function loadEvidenceRecords() {
+      const list = document.getElementById('evidenceListContainer');
+      const count = document.getElementById('evidenceCount');
+      list.innerHTML = '<div class="evidence-item selected"><p class="evidence-preview">جاري تحميل الأدلة...</p></div>';
+
+      try {
+        if (selectedTraceId || selectedLegacyId) {
+          const identifier = selectedTraceId || selectedLegacyId;
+          const evidence = await kernelAPI.exportEvidence(identifier);
+          evidenceRecords = [normalizeEvidenceRecord(evidence)];
+          renderEvidenceList(evidenceRecords);
+          renderEvidenceDetail(evidence);
+          return;
+        }
+
+        const data = await kernelAPI.getEvidence({ limit: 50 });
+        evidenceRecords = (data.evidence || data.rows || []).map(normalizeEvidenceRecord);
+        renderEvidenceList(evidenceRecords);
+        if (evidenceRecords[0]) {
+          await selectEvidenceByIdentifier(evidenceRecords[0].traceId || evidenceRecords[0].interactionId);
+        } else {
+          renderEmptyDetail('لا توجد أدلة حتى الآن.');
+        }
+      } catch (error) {
+        count.textContent = '0 سجل';
+        list.innerHTML = '<div class="evidence-item selected"><p class="evidence-preview">تعذّر تحميل الأدلة. حاول مرة أخرى.</p></div>';
+        renderEmptyDetail('تعذّر تحميل تفاصيل الأدلة.');
+      }
+    }
+
+    function renderEvidenceList(records) {
+      const list = document.getElementById('evidenceListContainer');
+      document.getElementById('evidenceCount').textContent = `${records.length} سجل`;
+
+      if (!records.length) {
+        list.innerHTML = '<div class="evidence-item selected"><p class="evidence-preview">لا توجد أدلة مطابقة.</p></div>';
+        return;
+      }
+
+      list.innerHTML = records.map((record, index) => {
+        const traceId = record.traceId || record.interactionId;
+        const status = record.approvalStatus || record.status || 'completed';
+        return `
+          <div class="evidence-item ${index === 0 ? 'selected' : ''}" data-id="${KernelUtils.escapeHtml(traceId)}" onclick="selectEvidence(this)">
+            <div class="evidence-item-header">
+              <span class="evidence-id">${KernelUtils.escapeHtml(traceId)}</span>
+              <span class="evidence-time">${record.createdAt ? KernelUtils.formatRelativeTime(record.createdAt) : '—'}</span>
+            </div>
+            <p class="evidence-preview">${KernelUtils.escapeHtml(record.preview || 'سجل حوكمة Kernel')}</p>
+            <div class="evidence-tags">
+              ${record.riskLevel ? `<span class="evidence-tag">${KernelUtils.escapeHtml(record.riskLevel)}</span>` : ''}
+              <span class="evidence-tag ${status === 'blocked' || status === 'rejected' ? 'blocked' : 'approved'}">${KernelUtils.escapeHtml(status)}</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    async function selectEvidence(element) {
       document.querySelectorAll('.evidence-item').forEach(item => {
         item.classList.remove('selected');
       });
-      // Add selected to clicked
       element.classList.add('selected');
+      await selectEvidenceByIdentifier(element.dataset.id);
+    }
 
-      // Update detail panel (in real app, fetch from API)
-      const id = element.dataset.id;
-      document.querySelector('.detail-title').textContent = id;
+    async function selectEvidenceByIdentifier(identifier) {
+      if (!identifier) return;
+      try {
+        const evidence = await kernelAPI.exportEvidence(identifier);
+        renderEvidenceDetail(evidence);
+      } catch (_error) {
+        const fallback = evidenceRecords.find((record) => record.traceId === identifier || record.interactionId === identifier);
+        if (fallback) renderEvidenceDetail(fallback);
+      }
+    }
+
+    function renderEvidenceDetail(evidence) {
+      const record = normalizeEvidenceRecord(evidence);
+      const traceId = record.traceId || record.interactionId;
+      document.querySelector('.detail-title').textContent = traceId;
+      document.querySelector('.detail-subtitle').innerHTML = record.createdAt
+        ? `${new Date(record.createdAt).toLocaleString('ar-SA')} · <a href="/kernel/audit.html?trace_id=${encodeURIComponent(traceId)}">Audit</a>`
+        : `<a href="/kernel/audit.html?trace_id=${encodeURIComponent(traceId)}">Audit</a>`;
+
+      const detailBody = document.querySelector('.detail-body');
+      detailBody.innerHTML = `
+        <div class="detail-section">
+          <h4 class="detail-section-title">Trace ID</h4>
+          <div class="detail-content"><a href="/kernel/evidence.html?trace_id=${encodeURIComponent(traceId)}">${KernelUtils.escapeHtml(traceId)}</a></div>
+        </div>
+        <div class="detail-section">
+          <h4 class="detail-section-title">المدخلات</h4>
+          <div class="detail-content">${KernelUtils.escapeHtml(record.request || '—')}</div>
+        </div>
+        <div class="detail-section">
+          <h4 class="detail-section-title">الاستجابة</h4>
+          <div class="detail-content">${KernelUtils.escapeHtml(record.response || '—')}</div>
+        </div>
+        <div class="detail-section">
+          <h4 class="detail-section-title">سلسلة التدقيق</h4>
+          <div class="detail-meta">
+            <div class="meta-item"><div class="meta-label">Interaction</div><div class="meta-value">${KernelUtils.escapeHtml(record.interactionId || '—')}</div></div>
+            <div class="meta-item"><div class="meta-label">Request Hash</div><div class="meta-value">${KernelUtils.escapeHtml(shortHash(record.requestHash))}</div></div>
+            <div class="meta-item"><div class="meta-label">Previous Hash</div><div class="meta-value">${KernelUtils.escapeHtml(shortHash(record.previousHash))}</div></div>
+            <div class="meta-item"><div class="meta-label">Record Hash</div><div class="meta-value">${KernelUtils.escapeHtml(shortHash(record.recordHash || record.hash))}</div></div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderEmptyDetail(message) {
+      document.querySelector('.detail-title').textContent = '—';
+      document.querySelector('.detail-subtitle').textContent = '';
+      document.querySelector('.detail-body').innerHTML = `<div class="detail-section"><div class="detail-content">${KernelUtils.escapeHtml(message)}</div></div>`;
+    }
+
+    function normalizeEvidenceRecord(record = {}) {
+      const summary = record.summary || {};
+      const audit = record.audit || {};
+      const traceId = getTraceId(record) || getTraceId(summary) || record.interactionId || record.requestId || record.id || '';
+      const request = summary.request || record.request || record.maskedText || record.masked_message || record.query || record.request_message || '';
+      return {
+        ...record,
+        interactionId: record.interactionId || record.interaction_id || summary.interactionId || record.id || record.requestId,
+        requestId: record.requestId || record.interactionId || record.id,
+        traceId,
+        createdAt: record.timestamp || record.createdAt || record.created_at,
+        preview: request.substring(0, 180),
+        request,
+        response: summary.response || record.response || record.gemini_response || '',
+        riskScore: summary.riskScore || record.riskScore || record.risk_score,
+        riskLevel: summary.riskLevel || record.riskLevel || record.risk_level,
+        approvalStatus: summary.approvalStatus || record.approvalStatus || record.approval_status,
+        requestHash: audit.requestHash || record.requestHash || record.request_hash,
+        previousHash: audit.previousHash || record.previousHash || record.previous_hash,
+        recordHash: audit.recordHash || record.recordHash || record.record_hash || record.hash
+      };
+    }
+
+    function getTraceId(record = {}) {
+      const value = record.traceId || record.trace_id || record.kernel?.traceId || record.metadata?.traceId || record.summary?.traceId;
+      return /^AI-\d{4}-\d{5,}$/.test(String(value || '')) ? String(value) : '';
+    }
+
+    function shortHash(hash) {
+      return hash ? `${String(hash).substring(0, 18)}...` : '—';
     }
 
     // Mobile menu toggle
@@ -568,10 +707,12 @@
     // Search functionality
     document.getElementById('searchInput')?.addEventListener('input', (e) => {
       const query = e.target.value.toLowerCase();
-      document.querySelectorAll('.evidence-item').forEach(item => {
-        const text = item.textContent.toLowerCase();
-        item.style.display = text.includes(query) ? 'block' : 'none';
-      });
+      const filtered = evidenceRecords.filter((record) =>
+        (record.traceId || '').toLowerCase().includes(query) ||
+        (record.interactionId || '').toLowerCase().includes(query) ||
+        (record.preview || '').toLowerCase().includes(query)
+      );
+      renderEvidenceList(filtered);
     });
   </script>
   <script src="/frontend/js/production-runtime.v20260427.js" defer></script>

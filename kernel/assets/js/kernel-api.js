@@ -138,7 +138,7 @@
           compliancePack: compliancePackage,
           metadata: { context },
         },
-      });
+      }).then((data) => this.normalizeKernelRecord(data));
     }
 
     // ═══════════════════════════════════════════════════════════════════════════
@@ -164,7 +164,11 @@
      */
     async getAuditLog(params = {}) {
       const queryString = new URLSearchParams(params).toString();
-      return this.request(`/audit${queryString ? '?' + queryString : ''}`);
+      return this.request(`/audit${queryString ? '?' + queryString : ''}`).then((data) => {
+        if (Array.isArray(data.rows)) data.rows = data.rows.map((row) => this.normalizeKernelRecord(row));
+        if (Array.isArray(data.entries)) data.entries = data.entries.map((row) => this.normalizeKernelRecord(row));
+        return data;
+      });
     }
 
     /**
@@ -172,7 +176,18 @@
      * @returns {Promise<Object>} Chain verification data
      */
     async getChain() {
-      return this.request('/chain');
+      return this.request('/chain').then((data) => {
+        if (Array.isArray(data.entries)) data.entries = data.entries.map((row) => this.normalizeKernelRecord(row));
+        return data;
+      });
+    }
+
+    /**
+     * Backward-compatible alias used by older audit.html builds.
+     * @returns {Promise<Object>} Chain verification data
+     */
+    async getAuditChain() {
+      return this.getChain();
     }
 
     /**
@@ -192,7 +207,11 @@
      * @returns {Promise<Object>} Pending approvals list
      */
     async getPendingApprovals() {
-      return this.request('/approvals');
+      return this.request('/approvals').then((data) => {
+        if (Array.isArray(data.pending)) data.pending = data.pending.map((row) => this.normalizeKernelRecord(row));
+        if (Array.isArray(data.recent)) data.recent = data.recent.map((row) => this.normalizeKernelRecord(row));
+        return data;
+      });
     }
 
     /**
@@ -219,10 +238,12 @@
         method: 'POST',
         body: {
           requestId,
+          interactionId: requestId,
+          traceId: this.extractTraceId({ traceId: requestId }) || undefined,
           action: 'approve',
           approver,
         },
-      });
+      }).then((data) => this.normalizeKernelRecord(data));
     }
 
     /**
@@ -237,11 +258,13 @@
         method: 'POST',
         body: {
           requestId,
+          interactionId: requestId,
+          traceId: this.extractTraceId({ traceId: requestId }) || undefined,
           action: 'reject',
           approver,
           reason,
         },
-      });
+      }).then((data) => this.normalizeKernelRecord(data));
     }
 
     // ═══════════════════════════════════════════════════════════════════════════
@@ -255,7 +278,11 @@
      */
     async getEvidence(params = {}) {
       const queryString = new URLSearchParams(params).toString();
-      return this.request(`/evidence${queryString ? '?' + queryString : ''}`);
+      return this.request(`/evidence${queryString ? '?' + queryString : ''}`).then((data) => {
+        if (Array.isArray(data.evidence)) data.evidence = data.evidence.map((row) => this.normalizeKernelRecord(row));
+        if (Array.isArray(data.rows)) data.rows = data.rows.map((row) => this.normalizeKernelRecord(row));
+        return data;
+      });
     }
 
     /**
@@ -264,7 +291,7 @@
      * @returns {Promise<Object>} Evidence record
      */
     async getEvidenceById(requestId) {
-      return this.request(`/evidence/${requestId}`);
+      return this.request(`/evidence/${encodeURIComponent(requestId)}`).then((data) => this.normalizeKernelRecord(data));
     }
 
     /**
@@ -273,7 +300,48 @@
      * @returns {Promise<Object>} Evidence data
      */
     async exportEvidence(requestId) {
-      return this.request(`/evidence/${requestId}/export`);
+      return this.request(`/evidence/${encodeURIComponent(requestId)}/export`).then((data) => this.normalizeKernelRecord(data));
+    }
+
+    /**
+     * Extract a canonical AI-YYYY-00000 trace id from modern or legacy payloads.
+     * Legacy requestId remains an alias for interactionId only.
+     * @param {Object} record - API record
+     * @returns {string|null} Trace id
+     */
+    extractTraceId(record = {}) {
+      const value = record.traceId || record.trace_id || record.kernel?.traceId || record.metadata?.traceId || record.summary?.traceId;
+      return /^AI-\d{4}-\d{5,}$/.test(String(value || '')) ? String(value) : null;
+    }
+
+    /**
+     * Normalize Frontend/Backend field names without breaking old rows.
+     * @param {Object} record - API record
+     * @returns {Object} Normalized record
+     */
+    normalizeKernelRecord(record = {}) {
+      if (!record || typeof record !== 'object') return record;
+      const interactionId = record.interactionId || record.interaction_id || record.id || record.requestId || record.request_id || null;
+      const traceId = this.extractTraceId(record);
+      return {
+        ...record,
+        interactionId,
+        traceId,
+        trace_id: traceId,
+        requestId: interactionId,
+      };
+    }
+
+    /**
+     * Build a clickable trace link for kernel pages.
+     * @param {string} traceId - Canonical trace id
+     * @param {string} page - Target kernel page
+     * @returns {string} URL
+     */
+    traceLink(traceId, page = 'evidence') {
+      const safeTrace = encodeURIComponent(traceId || '');
+      const target = page.endsWith('.html') ? page : `${page}.html`;
+      return `/kernel/${target}?trace_id=${safeTrace}`;
     }
   }
 

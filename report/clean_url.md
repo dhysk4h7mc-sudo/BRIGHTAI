@@ -44,6 +44,17 @@ https://brightai.site/solutions/continuous-ai-governance/
 https://brightai.site/solutions/ai-risk-classification/
 https://brightai.site/solutions/ai-use-case-discovery/
 https://brightai.site/solutions/policy-to-control-mapping/
+https://brightai.site/kernel/
+https://brightai.site/kernel/chat/
+https://brightai.site/kernel/audit/
+https://brightai.site/kernel/approvals/
+https://brightai.site/kernel/stats/
+https://brightai.site/kernel/compliance/
+https://brightai.site/kernel/policies/
+https://brightai.site/kernel/connectors/
+https://brightai.site/kernel/scenarios/
+https://brightai.site/kernel/reports/
+https://brightai.site/kernel/evidence/
 
 
 صفحات الوثائق Docs
@@ -109,4 +120,3 @@ https://brightai.site/demo/ai-reject-dashboard/quality/
 https://brightai.site/demo/ai-reject-dashboard/reports/
 https://brightai.site/demo/ai-reject-dashboard/technical/
 https://brightai.site/demo/ai-reject-dashboard/workflow/
-

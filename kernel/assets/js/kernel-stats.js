@@ -130,6 +130,7 @@
           riskChange: -3.2,
           complianceChange: 2.1,
         },
+        latestTraces: [],
       };
     },
 
@@ -139,8 +140,48 @@
      */
     renderStats(data) {
       if (typeof this.onDataUpdate === 'function') {
-        this.onDataUpdate(data);
+        this.onDataUpdate(this.normalizeStats(data));
       }
+    },
+
+    /**
+     * Normalize backend stats so Stats cards can show trace lifecycle data.
+     * @param {Object} data - Raw stats payload
+     * @returns {Object} Normalized stats
+     */
+    normalizeStats(data = {}) {
+      const requests = data.requests || {
+        total: Number(data.total) || 0,
+        pending: Number(data.pending) || 0,
+        approved: Number(data.approved) || 0,
+        executed: Number(data.executed) || 0,
+        completed: Number(data.autoApproved || data.completed) || 0,
+        rejected: Number(data.rejected) || 0,
+      };
+
+      const riskDistribution = data.riskDistribution || (Array.isArray(data.byRiskLevel)
+        ? data.byRiskLevel.reduce((acc, row) => {
+          acc[row.risk_level || row.riskLevel || 'low'] = Number(row.count) || 0;
+          return acc;
+        }, {})
+        : {});
+
+      return {
+        ...data,
+        requests,
+        riskDistribution,
+        latestTraces: Array.isArray(data.latestTraces) ? data.latestTraces.map((trace) => ({
+          ...trace,
+          traceId: this.extractTraceId(trace),
+          interactionId: trace.interactionId || trace.interaction_id || trace.id || trace.requestId,
+          requestId: trace.interactionId || trace.interaction_id || trace.id || trace.requestId,
+        })) : [],
+      };
+    },
+
+    extractTraceId(record = {}) {
+      const value = record.traceId || record.trace_id || record.kernel?.traceId || record.metadata?.traceId || record.summary?.traceId;
+      return /^AI-\d{4}-\d{5,}$/.test(String(value || '')) ? String(value) : null;
     },
 
     /**

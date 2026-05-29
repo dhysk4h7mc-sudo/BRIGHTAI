@@ -7,6 +7,7 @@ async function kernelChatHandler(req, res) {
   const message = body.message || body.query;
   const compliancePack = body.compliancePack || body.compliancePackage || 'general';
   const metadata = body.metadata || { context: body.context || '' };
+  const traceId = body.traceId || body.trace_id || metadata.traceId || metadata.trace_id || req.headers['x-trace-id'] || req.headers['x-request-id'] || null;
   if (!message) {
     return res.status(400).json({ error: 'message is required', errorCode: 'MISSING_MESSAGE' });
   }
@@ -21,7 +22,8 @@ async function kernelChatHandler(req, res) {
     ipAddress: req.ip,
     userAgent: req.headers['user-agent'],
     compliancePack,
-    metadata
+    metadata,
+    traceId
   });
 
   const statusCode = result.status === 'blocked' ? 403
@@ -44,6 +46,7 @@ async function kernelAuditListHandler(req, res) {
     riskLevel: params.riskLevel,
     compliancePack: params.compliancePack,
     approvalStatus: params.approvalStatus,
+    traceId: params.traceId || params.trace_id,
     dateFrom: params.dateFrom ? parseInt(params.dateFrom) : undefined,
     dateTo: params.dateTo ? parseInt(params.dateTo) : undefined,
     search: params.search
@@ -104,10 +107,12 @@ async function kernelPendingHandler(req, res) {
   } catch (_) {}
 
   const result = await kernel.getPendingApprovals(null, limit, offset);
+  const criticalCount = result.filter((row) => row.riskLevel === 'critical').length;
+  const highCount = result.filter((row) => row.riskLevel === 'high').length;
   res.status(200).json({
     pending: result,
     total: result.length,
-    summary: { totalPending: result.length }
+    summary: { totalPending: result.length, criticalCount, highCount, completedToday: 0 }
   });
 }
 
@@ -139,8 +144,8 @@ async function kernelHealthHandler(req, res) {
 }
 
 async function kernelApprovalsActionHandler(req, res) {
-  const { requestId, interactionId, id, action, approver, approvedBy, rejectedBy, comment, reason } = req.body || {};
-  const targetId = requestId || interactionId || id;
+  const { requestId, interactionId, traceId, trace_id, id, action, approver, approvedBy, rejectedBy, comment, reason } = req.body || {};
+  const targetId = interactionId || traceId || trace_id || requestId || id;
   if (!targetId) return res.status(400).json({ error: 'Missing request ID' });
 
   const normalizedAction = String(action || '').trim().toLowerCase();
@@ -173,9 +178,21 @@ async function kernelChainHandler(req, res) {
 }
 
 async function kernelEvidenceListHandler(req, res) {
-  const result = await kernel.queryAuditTrail({}, 50, 0);
+  const url = req.url || req.originalUrl || '';
+  let params = {};
+  try {
+    const search = url.includes('?') ? url.split('?')[1] : '';
+    params = Object.fromEntries(new URLSearchParams(search));
+  } catch (_) {}
+
+  const result = await kernel.queryAuditTrail({
+    traceId: params.traceId || params.trace_id || params.id,
+    search: params.search
+  }, parseInt(params.limit) || 50, parseInt(params.offset) || 0);
+
   res.status(200).json({
     evidence: result.rows || result.entries || result,
+    rows: result.rows || result.entries || result,
     total: result.total || (Array.isArray(result) ? result.length : 0)
   });
 }
@@ -194,23 +211,24 @@ async function kernelEvidenceExportHandler(req, res, url) {
 
 async function kernelRouteHandler(req, res, method, url) {
   try {
-    if (method === 'POST' && url === '/api/kernel/chat') return await kernelChatHandler(req, res);
-    if (method === 'GET' && url === '/api/kernel/health') return await kernelHealthHandler(req, res);
-    if (method === 'GET' && url.startsWith('/api/kernel/audit/')) return await kernelAuditDetailHandler(req, res, url);
-    if (method === 'GET' && url === '/api/kernel/audit') return await kernelAuditListHandler(req, res);
-    if (method === 'POST' && url.startsWith('/api/kernel/approve/')) return await kernelApproveHandler(req, res, url);
-    if (method === 'POST' && url.startsWith('/api/kernel/reject/')) return await kernelRejectHandler(req, res, url);
-    if (method === 'GET' && url === '/api/kernel/pending') return await kernelPendingHandler(req, res);
-    if (method === 'GET' && url === '/api/kernel/approvals') return await kernelPendingHandler(req, res);
-    if (method === 'POST' && url === '/api/kernel/approvals') return await kernelApprovalsActionHandler(req, res);
-    if (method === 'GET' && url === '/api/kernel/stats') return await kernelStatsHandler(req, res);
-    if (method === 'GET' && url === '/api/kernel/chain') return await kernelChainHandler(req, res);
-    if (method === 'POST' && url === '/api/kernel/chain/verify') return await kernelChainHandler(req, res);
-    if (method === 'GET' && url === '/api/kernel/evidence') return await kernelEvidenceListHandler(req, res);
-    if (method === 'GET' && url.startsWith('/api/kernel/evidence/') && url.endsWith('/export')) return await kernelEvidenceExportHandler(req, res, url);
-    if (method === 'GET' && url.startsWith('/api/kernel/evidence/')) return await kernelEvidenceExportHandler(req, res, url);
-    if (method === 'POST' && url.startsWith('/api/kernel/evidence/')) return await kernelEvidenceHandler(req, res, url);
-    if (method === 'GET' && url === '/api/kernel/compliance/check') return await kernelComplianceCheckHandler(req, res);
+    const path = (url || '').split('?')[0];
+    if (method === 'POST' && path === '/api/kernel/chat') return await kernelChatHandler(req, res);
+    if (method === 'GET' && path === '/api/kernel/health') return await kernelHealthHandler(req, res);
+    if (method === 'GET' && path.startsWith('/api/kernel/audit/')) return await kernelAuditDetailHandler(req, res, path);
+    if (method === 'GET' && path === '/api/kernel/audit') return await kernelAuditListHandler(req, res);
+    if (method === 'POST' && path.startsWith('/api/kernel/approve/')) return await kernelApproveHandler(req, res, path);
+    if (method === 'POST' && path.startsWith('/api/kernel/reject/')) return await kernelRejectHandler(req, res, path);
+    if (method === 'GET' && path === '/api/kernel/pending') return await kernelPendingHandler(req, res);
+    if (method === 'GET' && path === '/api/kernel/approvals') return await kernelPendingHandler(req, res);
+    if (method === 'POST' && path === '/api/kernel/approvals') return await kernelApprovalsActionHandler(req, res);
+    if (method === 'GET' && path === '/api/kernel/stats') return await kernelStatsHandler(req, res);
+    if (method === 'GET' && path === '/api/kernel/chain') return await kernelChainHandler(req, res);
+    if (method === 'POST' && path === '/api/kernel/chain/verify') return await kernelChainHandler(req, res);
+    if (method === 'GET' && path === '/api/kernel/evidence') return await kernelEvidenceListHandler(req, res);
+    if (method === 'GET' && path.startsWith('/api/kernel/evidence/') && path.endsWith('/export')) return await kernelEvidenceExportHandler(req, res, path);
+    if (method === 'GET' && path.startsWith('/api/kernel/evidence/')) return await kernelEvidenceExportHandler(req, res, path);
+    if (method === 'POST' && path.startsWith('/api/kernel/evidence/')) return await kernelEvidenceHandler(req, res, path);
+    if (method === 'GET' && path === '/api/kernel/compliance/check') return await kernelComplianceCheckHandler(req, res);
 
     res.status(404).json({ error: 'Kernel endpoint not found', errorCode: 'KERNEL_NOT_FOUND' });
   } catch (err) {

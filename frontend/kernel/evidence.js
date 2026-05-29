@@ -13,13 +13,23 @@ async function generateEvidenceFile(interactionId) {
   try { riskReasons = JSON.parse(entry.risk_reasons || '[]'); } catch (_) {}
   let complianceFlags = [];
   try { complianceFlags = JSON.parse(entry.compliance_flags || '[]'); } catch (_) {}
+  const requestMetadata = parseJsonObject(entry.request_metadata);
+  // Legacy fallback: records created before trace_id use metadata traceId when
+  // available, otherwise their interaction id remains the clickable alias.
+  const traceId = entry.trace_id || requestMetadata.traceId || requestMetadata.trace_id || entry.id;
 
   const evidence = {
     evidenceId: generateId('ev'),
     generatedAt: new Date().toISOString(),
     interactionId: entry.id,
+    requestId: entry.id,
+    traceId,
+    trace_id: traceId,
     timestamp: entry.created_at,
     summary: {
+      traceId,
+      interactionId: entry.id,
+      requestId: entry.id,
       request: entry.masked_message || entry.request_message,
       response: entry.gemini_response,
       riskScore: entry.risk_score,
@@ -49,6 +59,7 @@ async function generateEvidenceFile(interactionId) {
       flags: complianceFlags
     },
     audit: {
+      traceId,
       requestHash: entry.request_hash,
       responseHash: entry.response_hash,
       previousHash: entry.previous_hash,
@@ -66,6 +77,17 @@ async function generateEvidenceFile(interactionId) {
   evidence.evidenceHash = computeHash(evidence);
 
   return evidence;
+}
+
+function parseJsonObject(value) {
+  if (!value) return {};
+  if (typeof value === 'object' && !Array.isArray(value)) return value;
+  try {
+    const parsed = JSON.parse(value);
+    return parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? parsed : {};
+  } catch (_error) {
+    return {};
+  }
 }
 
 function getRegulatoryReferences(entry) {

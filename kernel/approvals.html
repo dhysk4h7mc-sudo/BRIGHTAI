@@ -611,6 +611,7 @@
   <script>
     let allRequests = [];
     let currentFilter = 'pending';
+    const selectedTraceId = new URLSearchParams(window.location.search).get('trace_id') || '';
     let refreshTimer;
 
     // ── Init ──
@@ -664,6 +665,9 @@
       } else if (currentFilter !== 'all') {
         items = allRequests.filter(r => r.status === currentFilter);
       }
+      if (selectedTraceId) {
+        items = items.filter(r => (r.traceId || r.trace_id || '').toLowerCase() === selectedTraceId.toLowerCase());
+      }
 
       if (items.length === 0) {
         list.innerHTML = `
@@ -674,8 +678,8 @@
                   <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
               </div>
-              <h3>${currentFilter === 'pending' ? 'لا توجد طلبات معلّقة' : 'لا توجد نتائج'}</h3>
-              <p>${currentFilter === 'pending' ? 'جميع الطلبات تمّت معالجتها.' : 'جرّب فلتراً مختلفاً.'}</p>
+              <h3>${selectedTraceId ? 'لا يوجد طلب موافقة لهذا Trace ID' : currentFilter === 'pending' ? 'لا توجد طلبات معلّقة' : 'لا توجد نتائج'}</h3>
+              <p>${selectedTraceId ? KernelUtils.escapeHtml(selectedTraceId) : currentFilter === 'pending' ? 'جميع الطلبات تمّت معالجتها.' : 'جرّب فلتراً مختلفاً.'}</p>
             </div>
           </div>
         `;
@@ -691,6 +695,10 @@
       const riskLabel = KernelUtils.getRiskLabel(req.riskLevel || 'low');
       const statusLabel = KernelUtils.getDecisionLabel(req.status || 'pending');
       const statusClass = KernelUtils.getDecisionClass(req.status || 'pending');
+      const traceId = getTraceId(req);
+      const evidenceHref = traceId
+        ? `/kernel/evidence.html?trace_id=${encodeURIComponent(traceId)}`
+        : `/kernel/evidence.html?id=${encodeURIComponent(req.interactionId || req.requestId || req.id)}`;
 
       const piiItems = req.piiDetected || req.piiTypes || [];
       const policies = req.matchedPolicies || req.matchedRules || [];
@@ -716,6 +724,7 @@
               <div class="request-id-row">
                 <code class="request-id-code">${KernelUtils.escapeHtml((req.id || '').substring(0, 16))}...</code>
                 <span class="badge ${statusClass}">${statusLabel}</span>
+                ${traceId ? `<a class="badge badge-info" href="${evidenceHref}">${KernelUtils.escapeHtml(traceId)}</a>` : ''}
                 ${isExpired && isPending ? '<span class="badge badge-danger">منتهي SLA</span>' : ''}
               </div>
               <div class="request-query-text">"${KernelUtils.escapeHtml((req.query || req.originalText || '').substring(0, 200))}${(req.query || '').length > 200 ? '...' : ''}"</div>
@@ -837,7 +846,7 @@
                 رفض
               </span>
             </button>
-            <a href="/kernel/evidence/?id=${encodeURIComponent(req.id)}" class="btn btn-ghost">
+            <a href="${evidenceHref}" class="btn btn-ghost">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;vertical-align:-2px;">
                 <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
               </svg>
@@ -901,6 +910,10 @@
       const model = result.model || '';
       const latency = result.latencyMs || '';
       const hash = result.auditHash || result.hash || '';
+      const traceId = getTraceId(result);
+      const evidenceHref = traceId
+        ? `/kernel/evidence.html?trace_id=${encodeURIComponent(traceId)}`
+        : `/kernel/evidence.html?id=${encodeURIComponent(result.requestId || requestId)}`;
 
       container.style.display = 'block';
       container.innerHTML = `
@@ -912,18 +925,24 @@
             تم التنفيذ بعد الموافقة
           </div>
           <div class="execution-result-text">${KernelUtils.escapeHtml(responseText)}</div>
-          ${(provider || latency || hash) ? `
+          ${(provider || latency || hash || traceId) ? `
           <div class="execution-meta">
             ${provider ? `<span>المزود: ${KernelUtils.escapeHtml(provider)}${model ? ' · ' + KernelUtils.escapeHtml(model) : ''}</span>` : ''}
             ${latency ? `<span>الاستجابة: ${latency}ms</span>` : ''}
             ${hash ? `<span>الهاش: <code style="font-size:0.6875rem;">${hash.substring(0, 16)}...</code></span>` : ''}
+            ${traceId ? `<span>Trace: <a href="${evidenceHref}">${KernelUtils.escapeHtml(traceId)}</a></span>` : ''}
           </div>` : ''}
-          ${result.requestId ? `
+          ${(result.requestId || traceId) ? `
           <div class="execution-link">
-            <a href="/kernel/evidence/?id=${encodeURIComponent(result.requestId)}">عرض سجل الأدلة الكاملة</a>
+            <a href="${evidenceHref}">عرض سجل الأدلة الكاملة</a>
           </div>` : ''}
         </div>
       `;
+    }
+
+    function getTraceId(record = {}) {
+      const value = record.traceId || record.trace_id || record.kernel?.traceId || record.metadata?.traceId || record.summary?.traceId;
+      return /^AI-\d{4}-\d{5,}$/.test(String(value || '')) ? String(value) : '';
     }
 
     // ── Toast ──
