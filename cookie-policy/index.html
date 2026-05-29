@@ -15,7 +15,7 @@
   <meta name="theme-color" content="#0b1220" />
   
   <title>سياسة ملفات الارتباط | BrightAI</title>
-  <meta name="description" content="سياسة ملفات تعريف الارتباط لمنصة BrightAI لتوضيح كيفية استخدام الكوكيز وإدارتها بما يتوافق مع الخصوصية." />
+  <meta name="description" content="تعرّف على طريقة استخدام BrightAI لملفات الكوكيز وتقنيات مشابهة لتحسين تجربة الموقع، قياس الأداء، حماية الموقع، ودعم الخصوصية بدون بيع بياناتك الشخصية." />
   <meta name="robots" content="index, follow">
   
   <link rel="canonical" href="https://brightai.site/cookie-policy/">
@@ -24,7 +24,7 @@
 <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content="سياسة ملفات الارتباط | BrightAI" />
-  <meta property="og:description" content="سياسة ملفات تعريف الارتباط لمنصة BrightAI لتوضيح كيفية استخدام الكوكيز وإدارتها بما يتوافق مع الخصوصية." />
+  <meta property="og:description" content="شرح واضح لطريقة استخدام BrightAI لملفات الكوكيز وتقنيات مشابهة لتحسين تجربة الموقع، قياس الأداء، وحماية الزوار." />
   <meta property="og:url" content="https://brightai.site/cookie-policy/" />
   <meta property="og:image" content="https://brightai.site/frontend/images/logo-new.PNG" />
   <meta property="og:site_name" content="BrightAI – Saudi AI Safety OS" />
@@ -33,7 +33,7 @@
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="سياسة ملفات الارتباط | BrightAI" />
-  <meta name="twitter:description" content="سياسة ملفات تعريف الارتباط لمنصة BrightAI لتوضيح كيفية استخدام الكوكيز وإدارتها بما يتوافق مع الخصوصية." />
+  <meta name="twitter:description" content="شرح واضح لطريقة استخدام BrightAI لملفات الكوكيز وتقنيات مشابهة لتحسين تجربة الموقع، قياس الأداء، وحماية الزوار." />
   <meta name="twitter:image" content="https://brightai.site/frontend/images/logo-new.PNG" />
 
   <!-- Preloads -->
@@ -88,6 +88,206 @@
     .glow-btn {
       background: linear-gradient(135deg,#00d4ff,#7c5cff);
     }
+    .policy-shell {
+      max-width: 1180px;
+      margin-inline: auto;
+      padding: clamp(72px, 10vw, 112px) 20px 56px;
+    }
+    .policy-hero {
+      display: grid;
+      gap: 22px;
+      padding: clamp(28px, 5vw, 54px);
+      border-radius: 24px;
+      border: 1px solid rgba(255,255,255,.1);
+      background:
+        radial-gradient(circle at 12% 10%, rgba(0,212,255,.22), transparent 26rem),
+        radial-gradient(circle at 88% 16%, rgba(124,92,255,.22), transparent 24rem),
+        linear-gradient(180deg, rgba(15,23,42,.82), rgba(2,6,23,.72));
+      box-shadow: 0 28px 100px rgba(0,0,0,.34);
+      overflow: hidden;
+    }
+    .policy-hero h1 {
+      margin: 0;
+      max-width: 900px;
+      color: #fff;
+      font-size: clamp(2rem, 5vw, 4.25rem);
+      line-height: 1.14;
+      letter-spacing: 0;
+    }
+    .policy-hero p {
+      max-width: 800px;
+      color: rgba(230,237,247,.78);
+      line-height: 1.9;
+      font-size: clamp(1rem, 1.4vw, 1.16rem);
+      margin: 0;
+    }
+    .policy-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+    .policy-pill,
+    .toc-card a,
+    .policy-alert {
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      color: #dff9ff;
+      border-radius: 999px;
+      padding: 9px 13px;
+      font-size: .9rem;
+      font-weight: 800;
+    }
+    .policy-alert {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      border-color: rgba(34,211,238,.32);
+      background: rgba(8,47,73,.34);
+      color: #fff;
+      width: fit-content;
+    }
+    .policy-layout {
+      display: grid;
+      grid-template-columns: minmax(230px, 320px) minmax(0, 1fr);
+      gap: 24px;
+      margin-top: 28px;
+      align-items: start;
+    }
+    .toc-card,
+    .policy-card,
+    .cookie-type-card,
+    .policy-cta {
+      border: 1px solid rgba(255,255,255,.1);
+      background: linear-gradient(180deg, rgba(15,23,42,.78), rgba(2,6,23,.58));
+      border-radius: 18px;
+      box-shadow: 0 18px 70px rgba(0,0,0,.22);
+    }
+    .toc-card {
+      position: sticky;
+      top: 104px;
+      padding: 18px;
+    }
+    .toc-card h2 {
+      margin: 0 0 12px;
+      color: #67e8f9;
+      font-size: 1.05rem;
+    }
+    .toc-card nav {
+      display: grid;
+      gap: 8px;
+    }
+    .toc-card a {
+      display: block;
+      border-radius: 12px;
+      color: rgba(230,237,247,.76);
+      text-decoration: none;
+      font-size: .88rem;
+      line-height: 1.5;
+    }
+    .toc-card a:hover {
+      color: #fff;
+      border-color: rgba(34,211,238,.35);
+      background: rgba(34,211,238,.1);
+    }
+    .policy-content {
+      display: grid;
+      gap: 18px;
+      min-width: 0;
+    }
+    .policy-card {
+      padding: clamp(20px, 3vw, 32px);
+    }
+    .policy-card h2,
+    .policy-cta h2 {
+      margin: 0 0 12px;
+      color: #fff;
+      font-size: clamp(1.35rem, 2.5vw, 2rem);
+      line-height: 1.35;
+      letter-spacing: 0;
+    }
+    .policy-card p,
+    .policy-card li,
+    .policy-cta p {
+      color: rgba(230,237,247,.76);
+      line-height: 1.95;
+      margin-block: 0 10px;
+    }
+    .policy-card ul {
+      margin: 0;
+      padding-inline-start: 1.25rem;
+    }
+    .cookie-type-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 16px;
+    }
+    .cookie-type-card {
+      padding: 18px;
+      min-width: 0;
+    }
+    .cookie-type-card h3 {
+      margin: 0 0 8px;
+      color: #dff9ff;
+      font-size: 1.05rem;
+    }
+    .policy-cta {
+      padding: clamp(22px, 4vw, 36px);
+      display: grid;
+      gap: 14px;
+      background:
+        linear-gradient(135deg, rgba(0,212,255,.16), rgba(124,92,255,.12)),
+        linear-gradient(180deg, rgba(15,23,42,.82), rgba(2,6,23,.72));
+    }
+    .policy-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .policy-actions a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 12px 18px;
+      border-radius: 12px;
+      font-weight: 900;
+      text-decoration: none;
+    }
+    .policy-actions .primary {
+      color: #02111f;
+      background: linear-gradient(135deg,#00d4ff,#67e8f9);
+    }
+    .policy-actions .secondary {
+      color: #e6edf7;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.07);
+    }
+    @media (max-width: 900px) {
+      .policy-layout {
+        grid-template-columns: 1fr;
+      }
+      .toc-card {
+        position: static;
+      }
+      .cookie-type-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (max-width: 520px) {
+      .policy-shell {
+        padding-inline: 14px;
+      }
+      .policy-hero,
+      .policy-card,
+      .policy-cta {
+        border-radius: 16px;
+      }
+      .policy-actions a {
+        width: 100%;
+      }
+    }
   </style>
   <script id="brightai-production-schema" type="application/ld+json">
 {
@@ -123,7 +323,7 @@
       "@id": "https://brightai.site/cookie-policy/#webpage",
       "url": "https://brightai.site/cookie-policy/",
       "name": "سياسة ملفات الارتباط | BrightAI",
-      "description": "سياسة ملفات تعريف الارتباط لمنصة BrightAI لتوضيح كيفية استخدام الكوكيز وإدارتها بما يتوافق مع الخصوصية.",
+      "description": "تعرّف على طريقة استخدام BrightAI لملفات الكوكيز وتقنيات مشابهة لتحسين تجربة الموقع، قياس الأداء، حماية الموقع، ودعم الخصوصية بدون بيع بياناتك الشخصية.",
       "isPartOf": {
         "@id": "https://brightai.site/#website"
       },
@@ -160,69 +360,131 @@
 <div id="brightai-unified-header"></div>
 
 
-<main class="max-w-7xl mx-auto px-5 lg:px-8 py-16 lg:py-24">
-  <!-- Hero Section -->
-  <div class="text-center max-w-3xl mx-auto mb-16 lg:mb-20">
-    <span class="chip inline-block px-3 py-1 rounded-full text-xs font-bold bg-white/5 border border-white/10 text-brand-300">
-      حقيبة الامتثال لنظام البيانات السعودي
-    </span>
-    <h1 class="mt-4 text-3xl sm:text-5xl font-black leading-tight gradient-text">سياسة ملفات الارتباط</h1>
-    <p class="mt-4 text-white/70 text-base lg:text-lg leading-relaxed">شرح شفاف لكيفية تحسين تجربة التصفح وحفظ إعدادات الأمان</p>
-  </div>
+<main class="policy-shell">
+  <header class="policy-hero">
+    <div class="policy-meta">
+      <span class="policy-pill">سياسة ملفات الارتباط</span>
+      <span class="policy-pill">آخر تحديث: 2026</span>
+    </div>
+    <h1>كيف تستخدم BrightAI الكوكيز وتقنيات التصفح المشابهة؟</h1>
+    <p>نستخدم ملفات الكوكيز وتقنيات مشابهة لتحسين تجربة الموقع، فهم طريقة استخدام الزوار، تحسين الأداء، قياس فعالية المحتوى والحملات، وحماية الموقع من الاستخدام المسيء. نحاول نخلي الشرح واضح وبشري، بدون لغة قانونية معقدة أو وعود مطلقة.</p>
+    <div class="policy-alert"><i class="fa-solid fa-shield-heart"></i> نحن لا نبيع بياناتك الشخصية.</div>
+  </header>
 
-  <div class="grid lg:grid-cols-12 gap-8 items-start">
-    <!-- Sidebar -->
-    <aside class="lg:col-span-4 sticky top-28 hidden lg:block">
-      <div class="glass rounded-3xl p-6">
-        <h3 class="font-bold text-lg mb-4 text-brand-300">أقسام الوثيقة</h3>
-        <nav aria-label="Document sections navigation">
-          <ul class="space-y-1">
-            
-    <li>
-      <a href="#sec-1" class="block py-2 px-3 rounded-lg text-white/60 hover:text-white hover:bg-white/5 transition-colors text-sm font-medium">
-        ١ ما هي ملفات تعريف الارتب...
-      </a>
-    </li>
-  
-
-    <li>
-      <a href="#sec-2" class="block py-2 px-3 rounded-lg text-white/60 hover:text-white hover:bg-white/5 transition-colors text-sm font-medium">
-        ٢ أنواع ملفات الارتباط الم...
-      </a>
-    </li>
-  
-
-    <li>
-      <a href="#sec-3" class="block py-2 px-3 rounded-lg text-white/60 hover:text-white hover:bg-white/5 transition-colors text-sm font-medium">
-        ٣ إدارة الكوكيز وسحب الموا...
-      </a>
-    </li>
-  
-          </ul>
-        </nav>
-      </div>
+  <div class="policy-layout">
+    <aside class="toc-card" aria-labelledby="cookie-toc-title">
+      <h2 id="cookie-toc-title">محتويات الصفحة</h2>
+      <nav aria-label="أقسام سياسة الكوكيز">
+        <a href="#intro">مقدمة</a>
+        <a href="#what-are-cookies">ما هي ملفات الكوكيز؟</a>
+        <a href="#why-cookies">لماذا نستخدمها؟</a>
+        <a href="#cookie-types">أنواع الكوكيز</a>
+        <a href="#ai-cookies">الكوكيز والذكاء الاصطناعي</a>
+        <a href="#third-parties">أدوات خارجية</a>
+        <a href="#control">التحكم بالكوكيز</a>
+        <a href="#retention">مدة الاحتفاظ</a>
+        <a href="#privacy">سياسة الخصوصية</a>
+        <a href="#updates">التحديثات والتواصل</a>
+      </nav>
     </aside>
 
-    <!-- Content -->
-    <section class="lg:col-span-8 space-y-6">
-      
-    <article class="glass rounded-2xl p-6 lg:p-8" id="sec-1">
-      <h2 class="text-xl lg:text-2xl font-bold gradient-text mb-4">١. ما هي ملفات تعريف الارتباط (Cookies)؟</h2>
-      <p class="text-white/80 leading-loose text-sm lg:text-base">ملفات تعريف الارتباط هي ملفات نصية صغيرة يتم تخزينها على جهازك عند زيارتك للموقع. تساعدنا هذه الملفات في التعرف على جهازك وحفظ تفضيلات التصفح وجعل جلستك الأمنية داخل لوحة تحكم النواة (Kernel Dashboard) آمنة وخالية من الاختراقات.</p>
-    </article>
-  
+    <section class="policy-content" aria-label="محتوى سياسة ملفات الارتباط">
+      <article class="policy-card" id="intro">
+        <h2>1. مقدمة</h2>
+        <p>BrightAI تعمل في مساحة حساسة: الذكاء الاصطناعي، البيانات، الأمان، والامتثال. لذلك نهتم بأن تكون تجربة الموقع واضحة وسريعة وآمنة، وأن نفهم بشكل عام كيف يتفاعل الزوار مع الصفحات والمحتوى وطلبات الديمو.</p>
+        <p>ملفات الكوكيز تساعدنا نعرف ما الذي يعمل جيداً في الموقع، وما الذي يحتاج تحسين، وكيف نوصل الزائر للمعلومة أو نموذج التواصل المناسب بأقل احتكاك ممكن.</p>
+      </article>
 
-    <article class="glass rounded-2xl p-6 lg:p-8" id="sec-2">
-      <h2 class="text-xl lg:text-2xl font-bold gradient-text mb-4">٢. أنواع ملفات الارتباط المستخدمة</h2>
-      <p class="text-white/80 leading-loose text-sm lg:text-base">نحن نستخدم ثلاثة أنواع رئيسية: ١) ملفات الارتباط الضرورية: لتأمين جلسة تسجيل الدخول وتوثيق هويتك. ٢) ملفات الارتباط الوظيفية: لحفظ خيارات اللغة (العربية/الإنجليزية) وتفضيلات واجهة المستخدم التفاعلية. ٣) ملفات الارتباط التحليلية (جوجل أناليتكس): لفهم كيفية تصفح الموقع والتحسين الفني للموقع.</p>
-    </article>
-  
+      <article class="policy-card" id="what-are-cookies">
+        <h2>2. ما هي ملفات الكوكيز؟</h2>
+        <p>الكوكيز هي ملفات صغيرة يتم تخزينها على جهازك عند زيارة الموقع. تساعد الموقع يتذكر بعض التفضيلات البسيطة، أو يفهم طريقة الاستخدام، أو يحافظ على استقرار بعض الوظائف أثناء التصفح.</p>
+      </article>
 
-    <article class="glass rounded-2xl p-6 lg:p-8" id="sec-3">
-      <h2 class="text-xl lg:text-2xl font-bold gradient-text mb-4">٣. إدارة الكوكيز وسحب الموافقة</h2>
-      <p class="text-white/80 leading-loose text-sm lg:text-base">يمكنك التحكم في ملفات تعريف الارتباط أو رفضها بالكامل من خلال إعدادات متصفحك الخاص، أو من خلال شريط الموافقة الخاص بنا. يرجى العلم بأن تعطيل ملفات تعريف الارتباط الضرورية قد يعطل بعض الميزات الأمنية ويفصل جلسات العمل النشطة داخل لوحة التحكم.</p>
-    </article>
-  
+      <article class="policy-card" id="why-cookies">
+        <h2>3. لماذا نستخدم الكوكيز؟</h2>
+        <ul>
+          <li>تشغيل الموقع بشكل صحيح والحفاظ على استقرار التجربة.</li>
+          <li>تحسين الأداء ومعرفة الصفحات التي تحتاج تطوير.</li>
+          <li>فهم الصفحات الأكثر زيارة ومدة الجلسات بشكل عام.</li>
+          <li>تحسين تجربة المستخدم وتسهيل الوصول للمحتوى المناسب.</li>
+          <li>قياس فعالية الحملات التسويقية ومصادر الزيارة.</li>
+          <li>حماية الموقع من الاستخدام المسيء أو الأنماط غير الطبيعية.</li>
+          <li>تحسين نماذج التواصل وطلب الديمو حتى تكون أبسط وأكثر وضوحاً.</li>
+        </ul>
+      </article>
+
+      <article class="policy-card" id="cookie-types">
+        <h2>4. أنواع الكوكيز التي قد نستخدمها</h2>
+        <div class="cookie-type-grid">
+          <section class="cookie-type-card">
+            <h3>الكوكيز الضرورية</h3>
+            <p>تساعد على تشغيل الموقع، دعم الحماية، إدارة الجلسات الأساسية، والحفاظ على استقرار التجربة. تعطيلها قد يؤثر على بعض وظائف الموقع.</p>
+          </section>
+          <section class="cookie-type-card">
+            <h3>كوكيز الأداء والتحليلات</h3>
+            <p>تساعدنا نفهم عدد الزيارات، الصفحات الأكثر قراءة، مدة الجلسة، وأخطاء الأداء، حتى نحسن الموقع بناءً على إشارات عامة.</p>
+          </section>
+          <section class="cookie-type-card">
+            <h3>كوكيز التفضيلات</h3>
+            <p>قد تُستخدم لتذكر اللغة، إعدادات العرض، أو تفضيلات بسيطة إذا توفرت داخل الموقع، بحيث لا تحتاج تعيد ضبطها في كل زيارة.</p>
+          </section>
+          <section class="cookie-type-card">
+            <h3>كوكيز التسويق</h3>
+            <p>قد تساعد في قياس فعالية الحملات أو معرفة مصدر الزيارة. لا نستخدمها لبيع بياناتك الشخصية.</p>
+          </section>
+          <section class="cookie-type-card">
+            <h3>تقنيات مشابهة</h3>
+            <p>قد تُستخدم تقنيات مثل pixels أو local storage عندما تكون ضرورية لتحسين القياس، الأمان، أو تجربة الاستخدام.</p>
+          </section>
+        </div>
+      </article>
+
+      <article class="policy-card" id="ai-cookies">
+        <h2>5. الكوكيز والذكاء الاصطناعي</h2>
+        <ul>
+          <li>لا تُستخدم الكوكيز وحدها لاتخاذ قرارات مؤثرة عليك كمستخدم.</li>
+          <li>قد تساعد بيانات الاستخدام العامة في تحسين تجربة الموقع ومحتوى BrightAI.</li>
+          <li>لا نستخدم ملفات الكوكيز لتدريب نماذج ذكاء اصطناعي على بيانات شخصية حساسة.</li>
+          <li>أي معالجة لبيانات العملاء داخل خدمات BrightAI تخضع لسياسة الخصوصية والاتفاقيات الموقعة مع العميل.</li>
+        </ul>
+      </article>
+
+      <article class="policy-card" id="third-parties">
+        <h2>6. أدوات خارجية</h2>
+        <p>قد يستخدم الموقع أدوات خارجية تساعد في التحليلات، الاستضافة، الأمان، مراقبة الأخطاء، أو التواصل. هذه الأدوات قد تضع ملفات كوكيز أو تستخدم تقنيات مشابهة حسب إعداداتها وغرضها.</p>
+        <p>نراجع استخدام هذه الأدوات بما يتناسب مع تشغيل الموقع واحتياجات القياس والحماية، ونتجنب ذكر أدوات غير موجودة فعلياً في الكود.</p>
+      </article>
+
+      <article class="policy-card" id="control">
+        <h2>7. كيف تتحكم بالكوكيز؟</h2>
+        <p>تقدر تتحكم بملفات الكوكيز من إعدادات المتصفح: حذفها، حظر بعضها، أو ضبط التنبيهات عند استخدامها. بعض المتصفحات توفر أيضاً خيارات لمنع التتبع أو مسح بيانات المواقع تلقائياً.</p>
+        <p>مهم تعرف أن تعطيل الكوكيز الضرورية قد يؤثر على عمل بعض أجزاء الموقع، خصوصاً الوظائف التي تعتمد على الحماية أو استقرار الجلسة.</p>
+      </article>
+
+      <article class="policy-card" id="retention">
+        <h2>8. مدة الاحتفاظ بالكوكيز</h2>
+        <p>بعض الكوكيز تكون مؤقتة وتنتهي عند إغلاق المتصفح أو انتهاء الجلسة. وبعضها قد يكون دائماً لفترة محددة حتى يتذكر الموقع تفضيلاً معيناً أو يساعد في القياس والتحسين.</p>
+        <p>نحتفظ بالكوكيز للمدة اللازمة للغرض المستخدم، ثم تنتهي أو يمكن حذفها من إعدادات المتصفح.</p>
+      </article>
+
+      <article class="policy-card" id="privacy">
+        <h2>9. علاقتها بسياسة الخصوصية</h2>
+        <p>هذه الصفحة تشرح جانب الكوكيز وتقنيات التصفح المشابهة. لمعرفة كيف نتعامل مع البيانات الشخصية بشكل أوسع، راجع <a class="text-cyan-300" href="/privacy-policy/">سياسة الخصوصية</a>.</p>
+      </article>
+
+      <article class="policy-card" id="updates">
+        <h2>10. التحديثات</h2>
+        <p>قد نحدّث هذه السياسة عند تغيير طريقة تشغيل الموقع، إضافة أدوات قياس أو حماية، أو تحسين طريقة شرحنا للمستخدمين. عند وجود تحديث مهم، نحرص أن تكون الصفحة الحالية هي المرجع الأوضح.</p>
+      </article>
+
+      <section class="policy-cta" aria-labelledby="cookie-contact-title">
+        <h2 id="cookie-contact-title">عندك سؤال عن الكوكيز أو الخصوصية؟</h2>
+        <p>يسعدنا نوضح لك طريقة استخدام الكوكيز أو أي نقطة مرتبطة بالخصوصية داخل BrightAI.</p>
+        <div class="policy-actions">
+          <a class="primary" href="/contact/">تواصل معنا</a>
+          <a class="secondary" href="/privacy-policy/">راجع سياسة الخصوصية</a>
+        </div>
+      </section>
     </section>
   </div>
 </main>
