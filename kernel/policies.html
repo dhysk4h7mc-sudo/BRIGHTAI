@@ -1,303 +1,499 @@
 <!DOCTYPE html>
-<html lang="ar-SA" dir="rtl">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-8LLESL207Q"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-8LLESL207Q');
-</script>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="robots" content="index, follow">
-  <title>محرك سياسات الذكاء الاصطناعي | BrightAI Kernel</title>
-  <meta name="description" content="سياسات تشغيلية لحماية البيانات الحساسة وتصنيف المخاطر وطلب الموافقات البشرية عند استخدام الذكاء الاصطناعي.">
-  <link rel="canonical" href="https://brightai.site/kernel/policies/">
-  <link rel="alternate" hreflang="ar-SA" href="https://brightai.site/kernel/policies/">
-  <link rel="alternate" hreflang="x-default" href="https://brightai.site/kernel/policies/">
-  <link rel="sitemap" type="application/xml" href="https://brightai.site/sitemap.xml">
-  <link rel="stylesheet" href="/frontend/css/tailwind.local.min.css">
-  <link rel="stylesheet" href="/frontend/assets/css/global-fonts.css?v=20260529-official-font">
-  <link rel="stylesheet" href="/frontend/vendor/fontawesome/css/all.min.css?v=20260529-icons">
-  <link rel="stylesheet" href="/frontend/css/sitewide-modernization.css">
-  <link rel="stylesheet" href="/frontend/css/unified-header.css?v=20260529-nav-v1">
-  <link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css">
-  <link rel="stylesheet" href="/kernel/kernel.css">
-  <link rel="stylesheet" href="kernel.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>السياسات | BrightAI Kernel</title>
+  <link rel="stylesheet" href="/kernel/assets/css/kernel.css">
   <style>
-    .policies-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 2rem; }
-    @media (max-width:700px) { .policies-grid { grid-template-columns: 1fr; } }
-
-    .policy-card { padding: 1.25rem; display: flex; flex-direction: column; gap: 0.75rem; }
-    .policy-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.75rem; }
-    .policy-icon { width: 40px; height: 40px; border-radius: 0.625rem; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
-    .policy-name { font-size: 0.9rem; font-weight: 700; flex: 1; line-height: 1.4; }
-    .toggle-wrap { display: flex; align-items: center; gap: 0.4rem; }
-    .toggle { width: 40px; height: 22px; background: var(--brand); border-radius: 99px; position: relative; cursor: not-allowed; flex-shrink: 0; }
-    .toggle::after { content:''; position: absolute; top: 3px; right: 3px; width: 16px; height: 16px; background: white; border-radius: 50%; transition: right 0.2s; }
-    .toggle.off { background: var(--ink-700); }
-    .toggle.off::after { right: auto; left: 3px; }
-    .toggle-label { font-size: 0.7rem; color: var(--text-muted); white-space: nowrap; }
-
-    .policy-desc { font-size: 0.8rem; color: var(--text-muted); line-height: 1.6; }
-    .policy-meta { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-    .policy-trigger { font-size: 0.72rem; background: var(--ink-800); color: var(--text-muted); padding: 0.2rem 0.5rem; border-radius: 0.4rem; border: 1px solid var(--border); }
-    .policy-action { display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.72rem; font-weight: 600; padding: 0.2rem 0.6rem; border-radius: 99px; }
-    .action-block   { background: rgba(239,68,68,0.12); color: #f87171; }
-    .action-approve { background: rgba(251,191,36,0.12); color: #fbbf24; }
-    .action-mask    { background: rgba(0,212,255,0.12); color: var(--brand); }
-    .action-log     { background: rgba(167,139,250,0.12); color: #a78bfa; }
-
-    .demo-note {
-      text-align: center;
+    .policies-layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 1.5rem;
+    }
+    @media (max-width: 1024px) {
+      .policies-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+    .policies-sidebar {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
       padding: 1rem;
-      background: rgba(167,139,250,0.06);
-      border: 1px dashed rgba(167,139,250,0.3);
-      border-radius: 0.75rem;
-      font-size: 0.8rem;
-      color: #a78bfa;
-      margin-bottom: 1.5rem;
+      height: fit-content;
+      position: sticky;
+      top: 1rem;
+    }
+    .policies-sidebar-title {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      padding: 0.5rem 0.75rem;
+      margin-bottom: 0.5rem;
+    }
+    .policy-nav-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+    }
+    .policy-nav-item:hover {
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+    }
+    .policy-nav-item.active {
+      background: var(--primary-light);
+      color: var(--primary-color);
+    }
+    .policy-nav-item svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+    .policy-content {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+    }
+    .policy-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .policy-title-section h2 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 0.25rem;
+    }
+    .policy-title-section p {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+    }
+    .policy-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .policy-btn {
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+    }
+    .policy-btn.primary {
+      background: var(--primary-color);
+      color: white;
+    }
+    .policy-btn.primary:hover {
+      background: var(--primary-hover);
+    }
+    .policy-btn.secondary {
+      background: var(--bg-tertiary);
+      color: var(--text-primary);
+      border: 1px solid var(--border-color);
+    }
+    .policy-btn.secondary:hover {
+      background: var(--bg-secondary);
+    }
+    .policy-body {
+      padding: 1.5rem;
+    }
+    .policy-section {
+      margin-bottom: 2rem;
+    }
+    .policy-section:last-child {
+      margin-bottom: 0;
+    }
+    .policy-section-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .policy-section-title svg {
+      width: 18px;
+      height: 18px;
+      color: var(--primary-color);
+    }
+    .policy-rules {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .policy-rule {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 1rem;
+      background: var(--bg-secondary);
+      border-radius: 8px;
+      border-right: 3px solid var(--primary-color);
+    }
+    .policy-rule-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: var(--primary-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .policy-rule-icon svg {
+      width: 16px;
+      height: 16px;
+      color: var(--primary-color);
+    }
+    .policy-rule-content h4 {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 0.25rem;
+    }
+    .policy-rule-content p {
+      font-size: 0.8125rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+    .policy-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem;
+      background: var(--bg-secondary);
+      border-radius: 8px;
+      margin-bottom: 0.75rem;
+    }
+    .policy-toggle-info {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .policy-toggle-info h4 {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+    .toggle-switch {
+      position: relative;
+      width: 44px;
+      height: 24px;
+      background: var(--border-color);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .toggle-switch.active {
+      background: var(--primary-color);
+    }
+    .toggle-switch::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      width: 20px;
+      height: 20px;
+      background: white;
+      border-radius: 50%;
+      transition: transform 0.2s;
+    }
+    .toggle-switch.active::after {
+      transform: translateX(-20px);
+    }
+    .policy-input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    .policy-input-group label {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+    .policy-input-group input,
+    .policy-input-group select {
+      padding: 0.625rem 1rem;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      font-size: 0.875rem;
+    }
+    .policy-input-group input:focus,
+    .policy-input-group select:focus {
+      outline: none;
+      border-color: var(--primary-color);
     }
   </style>
-  <script id="brightai-production-schema" type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": [
-        "Organization",
-        "LocalBusiness"
-      ],
-      "@id": "https://brightai.site/#organization",
-      "name": "Bright AI",
-      "url": "https://brightai.site",
-      "logo": "https://brightai.site/frontend/images/logo-new.PNG",
-      "areaServed": "SA",
-      "sameAs": []
-    },
-    {
-      "@type": "WebSite",
-      "@id": "https://brightai.site/#website",
-      "url": "https://brightai.site",
-      "name": "Bright AI",
-      "publisher": {
-        "@id": "https://brightai.site/#organization"
-      },
-      "inLanguage": [
-        "ar-SA",
-        "en-SA"
-      ]
-    },
-    {
-      "@type": "WebPage",
-      "@id": "https://brightai.site/kernel/policies/#webpage",
-      "url": "https://brightai.site/kernel/policies/",
-      "name": "محرك سياسات الذكاء الاصطناعي | BrightAI Kernel",
-      "description": "سياسات تشغيلية لحماية البيانات الحساسة وتصنيف المخاطر وطلب الموافقات البشرية عند استخدام الذكاء الاصطناعي.",
-      "isPartOf": {
-        "@id": "https://brightai.site/#website"
-      },
-      "about": {
-        "@id": "https://brightai.site/#organization"
-      },
-      "inLanguage": "ar-SA"
-    },
-    {
-      "@type": "BreadcrumbList",
-      "@id": "https://brightai.site/kernel/policies/#breadcrumb",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Bright AI",
-          "item": "https://brightai.site/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "kernel",
-          "item": "https://brightai.site/kernel/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 3,
-          "name": "محرك سياسات الذكاء الاصطناعي | BrightAI Kernel",
-          "item": "https://brightai.site/kernel/policies/"
-        }
-      ]
-    }
-  ]
-}
-  </script>
-  <link rel="preload" href="/frontend/assets/fonts/TheYearofTheCamel-Medium.otf" as="font" type="font/otf" crossorigin />
 </head>
 <body>
-  
-  <div id="brightai-unified-header"></div>
-  <a href="#policies-main" class="skip-link">تخطي إلى السياسات</a>
+  <div class="kernel-layout">
+    <!-- Sidebar -->
+    <aside class="kernel-sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">
+          <div class="logo-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+              <path d="M2 17l10 5 10-5"/>
+              <path d="M2 12l10 5 10-5"/>
+            </svg>
+          </div>
+          <span class="logo-text">BrightAI</span>
+        </div>
+      </div>
+      <nav class="sidebar-nav" id="sidebarNav"></nav>
+      <div class="sidebar-footer">
+        <button class="theme-toggle" id="themeToggle" title="تبديل المظهر">
+          <svg class="sun-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+          </svg>
+          <svg class="moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="kernel-main">
+      <header class="main-header">
+        <button class="menu-toggle" id="menuToggle">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 12h18M3 6h18M3 18h18"/>
+          </svg>
+        </button>
+        <div class="header-title">
+          <h1>السياسات</h1>
+          <p>إدارة سياسات الحوكمة والتحكم في سلوك النظام</p>
+        </div>
+      </header>
+
+      <div class="main-content">
+        <div class="policies-layout">
+          <!-- Policies Navigation -->
+          <div class="policies-sidebar">
+            <div class="policies-sidebar-title">فئات السياسات</div>
+            <div class="policy-nav-item active" onclick="showPolicy('data-protection')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+              حماية البيانات
+            </div>
+            <div class="policy-nav-item" onclick="showPolicy('access-control')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+              التحكم في الوصول
+            </div>
+            <div class="policy-nav-item" onclick="showPolicy('content-moderation')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+              </svg>
+              مراقبة المحتوى
+            </div>
+            <div class="policy-nav-item" onclick="showPolicy('audit-logging')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+              </svg>
+              سجلات التدقيق
+            </div>
+            <div class="policy-nav-item" onclick="showPolicy('rate-limiting')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+              </svg>
+              حدود الاستخدام
+            </div>
+            <div class="policy-nav-item" onclick="showPolicy('model-selection')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>
+              </svg>
+              اختيار النماذج
+            </div>
+          </div>
+
+          <!-- Policy Content -->
+          <div class="policy-content" id="policyContent">
+            <div class="policy-header">
+              <div class="policy-title-section">
+                <h2>سياسة حماية البيانات</h2>
+                <p>آخر تحديث: 1 يونيو 2024</p>
+              </div>
+              <div class="policy-actions">
+                <button class="policy-btn secondary">تصدير</button>
+                <button class="policy-btn primary">حفظ التغييرات</button>
+              </div>
+            </div>
+            <div class="policy-body">
+              <!-- PII Detection Section -->
+              <div class="policy-section">
+                <h3 class="policy-section-title">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                  </svg>
+                  كشف البيانات الشخصية (PII)
+                </h3>
+                <div class="policy-toggle">
+                  <div class="policy-toggle-info">
+                    <h4>تفعيل الكشف التلقائي عن PII</h4>
+                  </div>
+                  <div class="toggle-switch active" onclick="this.classList.toggle('active')"></div>
+                </div>
+                <div class="policy-rules">
+                  <div class="policy-rule">
+                    <div class="policy-rule-icon">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20 6 9 17 4 12"/>
+                      </svg>
+                    </div>
+                    <div class="policy-rule-content">
+                      <h4>أرقام الهوية الوطنية</h4>
+                      <p>الكشف التلقائي عن أرقام الهوية السعودية ورقم الإقامة وجوازات السفر</p>
+                    </div>
+                  </div>
+                  <div class="policy-rule">
+                    <div class="policy-rule-icon">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20 6 9 17 4 12"/>
+                      </svg>
+                    </div>
+                    <div class="policy-rule-content">
+                      <h4>معلومات الاتصال</h4>
+                      <p>كشف أرقام الجوال والبريد الإلكتروني والعناوين</p>
+                    </div>
+                  </div>
+                  <div class="policy-rule">
+                    <div class="policy-rule-icon">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20 6 9 17 4 12"/>
+                      </svg>
+                    </div>
+                    <div class="policy-rule-content">
+                      <h4>البيانات المالية</h4>
+                      <p>كشف أرقام البطاقات الائتمانية والحسابات البنكية</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Action on Detection -->
+              <div class="policy-section">
+                <h3 class="policy-section-title">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                    <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+                  </svg>
+                  الإجراء عند الكشف
+                </h3>
+                <div class="policy-input-group">
+                  <label>الإجراء الافتراضي</label>
+                  <select>
+                    <option value="block">حظر وإرسال للموافقات</option>
+                    <option value="mask">إخفاء البيانات تلقائياً</option>
+                    <option value="warn">تحذير فقط</option>
+                    <option value="log">تسجيل فقط</option>
+                  </select>
+                </div>
+                <div class="policy-toggle">
+                  <div class="policy-toggle-info">
+                    <h4>إرسال تنبيه للمشرف</h4>
+                  </div>
+                  <div class="toggle-switch active" onclick="this.classList.toggle('active')"></div>
+                </div>
+                <div class="policy-toggle">
+                  <div class="policy-toggle-info">
+                    <h4>تسجيل في سجل التدقيق</h4>
+                  </div>
+                  <div class="toggle-switch active" onclick="this.classList.toggle('active')"></div>
+                </div>
+              </div>
+
+              <!-- Retention Settings -->
+              <div class="policy-section">
+                <h3 class="policy-section-title">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+                  </svg>
+                  إعدادات الاحتفاظ بالبيانات
+                </h3>
+                <div class="policy-input-group">
+                  <label>مدة الاحتفاظ بالسجلات</label>
+                  <select>
+                    <option value="30">30 يوم</option>
+                    <option value="90" selected>90 يوم</option>
+                    <option value="180">180 يوم</option>
+                    <option value="365">سنة</option>
+                    <option value="forever">دائم</option>
+                  </select>
+                </div>
+                <div class="policy-input-group">
+                  <label>مدة الاحتفاظ بالأدلة</label>
+                  <select>
+                    <option value="90">90 يوم</option>
+                    <option value="180">180 يوم</option>
+                    <option value="365" selected>سنة</option>
+                    <option value="730">سنتين</option>
+                    <option value="forever">دائم</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="/kernel/assets/js/kernel-utils.js"></script>
+  <script src="/kernel/assets/js/kernel-nav.js"></script>
+  <script src="/kernel/assets/js/kernel-api.js"></script>
   <script>
-    (function () {
-      var script = document.createElement('script');
-      script.src = window.location.protocol === 'file:' ? 'kernel-nav.js' : '/kernel/kernel-nav.js';
-      document.currentScript.insertAdjacentElement('beforebegin', script);
-    })();
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.KernelNav) {
+        KernelNav.init('sidebarNav');
+        KernelNav.setActive('policies');
+      }
+      if (window.KernelUtils) {
+        KernelUtils.initTheme();
+      }
+    });
+
+    function showPolicy(policyId) {
+      // Update active state
+      document.querySelectorAll('.policy-nav-item').forEach(item => {
+        item.classList.remove('active');
+      });
+      event.currentTarget.classList.add('active');
+      
+      // In a real app, this would load the policy content
+      console.log('Loading policy:', policyId);
+    }
+
+    document.getElementById('menuToggle')?.addEventListener('click', () => {
+      document.getElementById('sidebar').classList.toggle('open');
+    });
+
+    document.getElementById('themeToggle')?.addEventListener('click', () => {
+      if (window.KernelUtils) {
+        KernelUtils.toggleTheme();
+      }
+    });
   </script>
-
-  <main id="policies-main" class="page-wrap">
-
-    <div style="margin-bottom:1.5rem;" class="fade-up">
-      <h1 class="section-title">محرك السياسات — قواعد الحماية الذكية</h1>
-      <p class="section-sub">كل سياسة هنا تُطبّق قواعد تشغيل ذكية على كل طلب AI بلا استثناء. كل سياسة تحدد: متى تعمل، ماذا تفعل، هل تحظر أم تخفي أم تصعّد للموافقة البشرية؟</p>
-    </div>
-
-    <div class="glass fade-up d1" style="padding: 1rem 1.5rem; margin-bottom: 1.5rem; border-left: 3px solid #a78bfa; background: rgba(167,139,250,0.08);">
-      <div style="font-size: 0.75rem; color: #a78bfa; font-weight: 600; margin-bottom: 0.35rem;">عرض توضيحي</div>
-      <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">السياسات هنا تعمل مباشرة في النواة. هذه الصفحة للعرض والفهم فقط، وتُعدّل السياسات في لوحة الإعدادات الحقيقية (غير متوفرة في الديمو).</p>
-    </div>
-
-    <div class="policies-grid">
-
-      <div class="glass policy-card fade-up d1">
-        <div class="policy-header">
-          <div class="policy-icon bg-red"><i class="fas fa-id-card c-red" aria-hidden="true"></i></div>
-          <div class="policy-name">حظر مشاركة رقم الهوية الوطنية</div>
-          <div class="toggle-wrap">
-            <div class="toggle" role="switch" aria-checked="true" aria-label="تفعيل السياسة" title="مفعّل"></div>
-            <span class="toggle-label">مفعّل</span>
-          </div>
-        </div>
-        <div class="policy-desc">يمنع إرسال أي طلب يحتوي على رقم هوية وطنية سعودية (10 أرقام) إلى نماذج الذكاء الاصطناعي ويسجل المحاولة فوراً في سجل التدقيق.</div>
-        <div class="policy-meta">
-          <span class="policy-trigger">يُطبَّق على: جميع الحزم</span>
-          <span class="policy-action action-block"><i class="fas fa-ban fa-xs" aria-hidden="true"></i> حظر فوري</span>
-          <span class="policy-action action-log"><i class="fas fa-book fa-xs" aria-hidden="true"></i> تسجيل</span>
-        </div>
-      </div>
-
-      <div class="glass policy-card fade-up d2">
-        <div class="policy-header">
-          <div class="policy-icon bg-orange"><i class="fas fa-user-nurse c-orange" aria-hidden="true"></i></div>
-          <div class="policy-name">إخفاء بيانات المرضى</div>
-          <div class="toggle-wrap">
-            <div class="toggle" role="switch" aria-checked="true" title="مفعّل"></div>
-            <span class="toggle-label">مفعّل</span>
-          </div>
-        </div>
-        <div class="policy-desc">يكتشف تلقائياً بيانات المرضى (الاسم، رقم الملف، التشخيص، الأدوية) ويخفيها قبل إرسال الطلب للنموذج — مع الاحتفاظ بنسخة مشفرة في السجل.</div>
-        <div class="policy-meta">
-          <span class="policy-trigger">يُطبَّق على: healthcare, general</span>
-          <span class="policy-action action-mask"><i class="fas fa-mask fa-xs" aria-hidden="true"></i> إخفاء تلقائي</span>
-          <span class="policy-action action-log"><i class="fas fa-book fa-xs" aria-hidden="true"></i> تسجيل</span>
-        </div>
-      </div>
-
-      <div class="glass policy-card fade-up d3">
-        <div class="policy-header">
-          <div class="policy-icon bg-yellow"><i class="fas fa-coins c-yellow" aria-hidden="true"></i></div>
-          <div class="policy-name">إجراءات ERP المالية تحتاج موافقة</div>
-          <div class="toggle-wrap">
-            <div class="toggle" role="switch" aria-checked="true" title="مفعّل"></div>
-            <span class="toggle-label">مفعّل</span>
-          </div>
-        </div>
-        <div class="policy-desc">أي طلب يتضمن تعديلاً في بيانات ERP المالية (مدفوعات، فواتير، ميزانيات) يُوضع تلقائياً في قائمة انتظار الموافقة البشرية من مسؤول المالية.</div>
-        <div class="policy-meta">
-          <span class="policy-trigger">يُطبَّق على: general, procurement</span>
-          <span class="policy-action action-approve"><i class="fas fa-user-check fa-xs" aria-hidden="true"></i> يحتاج موافقة مسؤول مالية</span>
-        </div>
-      </div>
-
-      <div class="glass policy-card fade-up d4">
-        <div class="policy-header">
-          <div class="policy-icon bg-orange"><i class="fas fa-vial c-orange" aria-hidden="true"></i></div>
-          <div class="policy-name">CAPA تحتاج موافقة QAM/QCM</div>
-          <div class="toggle-wrap">
-            <div class="toggle" role="switch" aria-checked="true" title="مفعّل"></div>
-            <span class="toggle-label">مفعّل</span>
-          </div>
-        </div>
-        <div class="policy-desc">إجراءات الإجراءات التصحيحية والوقائية (CAPA) التي تولّدها AI تحتاج مراجعة وموافقة صريحة من مدير الجودة (QAM) أو منسق الجودة (QCM) قبل التنفيذ.</div>
-        <div class="policy-meta">
-          <span class="policy-trigger">يُطبَّق على: sfda, healthcare</span>
-          <span class="policy-action action-approve"><i class="fas fa-user-check fa-xs" aria-hidden="true"></i> يحتاج موافقة QAM/QCM</span>
-        </div>
-      </div>
-
-      <div class="glass policy-card fade-up d5">
-        <div class="policy-header">
-          <div class="policy-icon bg-green"><i class="fas fa-stethoscope c-green" aria-hidden="true"></i></div>
-          <div class="policy-name">التوصيات الطبية تحتاج موافقة طبيب</div>
-          <div class="toggle-wrap">
-            <div class="toggle" role="switch" aria-checked="true" title="مفعّل"></div>
-            <span class="toggle-label">مفعّل</span>
-          </div>
-        </div>
-        <div class="policy-desc">أي توصية طبية أو وصفة دوائية تصدر من AI تُعلَّق تلقائياً وتُرسل إلى الطبيب المسؤول للمراجعة والموافقة قبل الإفصاح عنها للمريض.</div>
-        <div class="policy-meta">
-          <span class="policy-trigger">يُطبَّق على: healthcare</span>
-          <span class="policy-action action-approve"><i class="fas fa-user-md fa-xs" aria-hidden="true"></i> يحتاج موافقة طبيب</span>
-        </div>
-      </div>
-
-      <div class="glass policy-card fade-up d6">
-        <div class="policy-header">
-          <div class="policy-icon bg-brand"><i class="fas fa-server c-brand" aria-hidden="true"></i></div>
-          <div class="policy-name">نماذج AI الخارجية تستلزم إخفاء البيانات</div>
-          <div class="toggle-wrap">
-            <div class="toggle" role="switch" aria-checked="true" title="مفعّل"></div>
-            <span class="toggle-label">مفعّل</span>
-          </div>
-        </div>
-        <div class="policy-desc">عند إرسال طلب إلى نماذج AI خارجية (GPT, Gemini, Claude) يتم إخفاء جميع البيانات الحساسة تلقائياً قبل الإرسال مع توثيق ما تم إخفاؤه.</div>
-        <div class="policy-meta">
-          <span class="policy-trigger">يُطبَّق على: جميع الحزم</span>
-          <span class="policy-action action-mask"><i class="fas fa-mask fa-xs" aria-hidden="true"></i> إخفاء إلزامي</span>
-          <span class="policy-action action-log"><i class="fas fa-book fa-xs" aria-hidden="true"></i> تسجيل</span>
-        </div>
-      </div>
-
-      <div class="glass policy-card fade-up d1">
-        <div class="policy-header">
-          <div class="policy-icon bg-purple"><i class="fas fa-file-contract c-purple" aria-hidden="true"></i></div>
-          <div class="policy-name">المناقصات عالية المخاطر تحتاج مراجعة مدير</div>
-          <div class="toggle-wrap">
-            <div class="toggle" role="switch" aria-checked="true" title="مفعّل"></div>
-            <span class="toggle-label">مفعّل</span>
-          </div>
-        </div>
-        <div class="policy-desc">أي تحليل AI لمناقصة أو عقد تزيد قيمته عن الحد المحدد يُحال تلقائياً لمراجعة مدير المشتريات أو الإدارة العليا قبل الإفصاح عن التوصية.</div>
-        <div class="policy-meta">
-          <span class="policy-trigger">يُطبَّق على: procurement</span>
-          <span class="policy-action action-approve"><i class="fas fa-user-tie fa-xs" aria-hidden="true"></i> يحتاج موافقة مدير</span>
-        </div>
-      </div>
-
-      <div class="glass policy-card fade-up d2">
-        <div class="policy-header">
-          <div class="policy-icon bg-red"><i class="fas fa-ban c-red" aria-hidden="true"></i></div>
-          <div class="policy-name">حظر استخراج كلمات المرور والمفاتيح السرية</div>
-          <div class="toggle-wrap">
-            <div class="toggle" role="switch" aria-checked="true" title="مفعّل"></div>
-            <span class="toggle-label">مفعّل</span>
-          </div>
-        </div>
-        <div class="policy-desc">يحظر فوراً أي طلب يحاول استخراج كلمات المرور أو مفاتيح API أو بيانات الاعتماد من سياق المحادثة أو الوثائق المرفوعة.</div>
-        <div class="policy-meta">
-          <span class="policy-trigger">يُطبَّق على: جميع الحزم</span>
-          <span class="policy-action action-block"><i class="fas fa-ban fa-xs" aria-hidden="true"></i> حظر فوري</span>
-          <span class="policy-action action-log"><i class="fas fa-book fa-xs" aria-hidden="true"></i> تنبيه أمني</span>
-        </div>
-      </div>
-
-    </div>
-
-  </main>
-
-  <footer class="kernel-footer">&copy; 2026 BrightAI Kernel</footer>
-  <script defer src="/frontend/js/sitewide-modernization.js"></script>
-  <script defer src="/frontend/js/production-runtime.v20260427.js"></script>
-  <script defer src="/frontend/js/unified-header.js?v=20260529-nav-v1"></script>
 </body>
 </html>

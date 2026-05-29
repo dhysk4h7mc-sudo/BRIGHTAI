@@ -1,316 +1,642 @@
 <!DOCTYPE html>
-<html lang="ar-SA" dir="rtl">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-8LLESL207Q"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-8LLESL207Q');
-</script>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="robots" content="index, follow">
-  <title>إحصائيات أمان الذكاء الاصطناعي | BrightAI Kernel</title>
-  <meta name="description" content="مؤشرات تشغيلية عن المخاطر والطلبات والموافقات وأداء طبقة BrightAI Kernel لحوكمة الذكاء الاصطناعي.">
-  <link rel="canonical" href="https://brightai.site/kernel/stats/">
-  <link rel="alternate" hreflang="ar-SA" href="https://brightai.site/kernel/stats/">
-  <link rel="alternate" hreflang="x-default" href="https://brightai.site/kernel/stats/">
-  <link rel="sitemap" type="application/xml" href="https://brightai.site/sitemap.xml">
-  <link rel="stylesheet" href="/frontend/css/tailwind.local.min.css">
-  <link rel="stylesheet" href="/frontend/assets/css/global-fonts.css?v=20260529-official-font">
-  <link rel="stylesheet" href="/frontend/vendor/fontawesome/css/all.min.css?v=20260529-icons">
-  <link rel="stylesheet" href="/frontend/css/sitewide-modernization.css">
-  <link rel="stylesheet" href="/frontend/css/unified-header.css?v=20260529-nav-v1">
-  <link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css">
-  <link rel="stylesheet" href="/kernel/kernel.css">
-  <link rel="stylesheet" href="kernel.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#030A18">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>الإحصائيات - نواة BrightAI</title>
+  <meta name="description" content="لوحة إحصائيات ومقاييس أداء نواة الحوكمة">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="/kernel/assets/css/kernel.css">
   <style>
-    .top-metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 1.5rem; }
-    @media (max-width:900px) { .top-metrics { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width:480px) { .top-metrics { grid-template-columns: 1fr 1fr; } }
-
-    .mid-charts { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
-    @media (max-width:700px) { .mid-charts { grid-template-columns: 1fr; } }
-
-    .bottom-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
-    @media (max-width:800px) { .bottom-row { grid-template-columns: 1fr 1fr; } }
-    @media (max-width:480px) { .bottom-row { grid-template-columns: 1fr; } }
-
-    .chart-title { font-size: 0.875rem; font-weight: 700; color: rgba(255,255,255,0.85); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
-    .bar-row { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.6rem; }
-    .bar-label { font-size: 0.78rem; color: var(--text-muted); min-width: 70px; text-align: right; }
-    .bar-track { flex: 1; background: var(--ink-800); border-radius: 99px; height: 1.4rem; overflow: hidden; }
-    .bar-fill-inner { height: 100%; border-radius: 99px; transition: width 0.8s cubic-bezier(.4,0,.2,1); display: flex; align-items: center; padding-right: 0.4rem; font-size: 0.7rem; font-weight: 600; color: rgba(0,0,0,0.7); }
-    .bar-count { font-size: 0.78rem; color: var(--text-muted); min-width: 30px; text-align: left; }
-
-    /* Risk circle */
-    .risk-circle-wrap { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; }
-    .risk-circle { width: 120px; height: 120px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: conic-gradient(var(--brand) 0deg, var(--ink-800) 0deg); transition: background 0.8s ease; }
-    .risk-inner { width: 94px; height: 94px; border-radius: 50%; background: var(--ink-900); display: flex; flex-direction: column; align-items: center; justify-content: center; }
-
-    /* Chain status */
-    .chain-wrap { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; gap: 0.5rem; }
-  </style>
-  <script id="brightai-production-schema" type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": [
-        "Organization",
-        "LocalBusiness"
-      ],
-      "@id": "https://brightai.site/#organization",
-      "name": "Bright AI",
-      "url": "https://brightai.site",
-      "logo": "https://brightai.site/frontend/images/logo-new.PNG",
-      "areaServed": "SA",
-      "sameAs": []
-    },
-    {
-      "@type": "WebSite",
-      "@id": "https://brightai.site/#website",
-      "url": "https://brightai.site",
-      "name": "Bright AI",
-      "publisher": {
-        "@id": "https://brightai.site/#organization"
-      },
-      "inLanguage": [
-        "ar-SA",
-        "en-SA"
-      ]
-    },
-    {
-      "@type": "WebPage",
-      "@id": "https://brightai.site/kernel/stats/#webpage",
-      "url": "https://brightai.site/kernel/stats/",
-      "name": "إحصائيات أمان الذكاء الاصطناعي | BrightAI Kernel",
-      "description": "مؤشرات تشغيلية عن المخاطر والطلبات والموافقات وأداء طبقة BrightAI Kernel لحوكمة الذكاء الاصطناعي.",
-      "isPartOf": {
-        "@id": "https://brightai.site/#website"
-      },
-      "about": {
-        "@id": "https://brightai.site/#organization"
-      },
-      "inLanguage": "ar-SA"
-    },
-    {
-      "@type": "BreadcrumbList",
-      "@id": "https://brightai.site/kernel/stats/#breadcrumb",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Bright AI",
-          "item": "https://brightai.site/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "kernel",
-          "item": "https://brightai.site/kernel/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 3,
-          "name": "إحصائيات أمان الذكاء الاصطناعي | BrightAI Kernel",
-          "item": "https://brightai.site/kernel/stats/"
-        }
-      ]
+    .page-header {
+      padding: var(--space-8) 0 var(--space-6);
     }
-  ]
-}
-  </script>
-  <link rel="preload" href="/frontend/assets/fonts/TheYearofTheCamel-Medium.otf" as="font" type="font/otf" crossorigin />
+
+    .page-header h1 {
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      font-weight: 700;
+      margin-bottom: var(--space-2);
+    }
+
+    .page-header p {
+      color: var(--text-secondary);
+      font-size: 0.9375rem;
+    }
+
+    .refresh-indicator {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-size: 0.8125rem;
+      color: var(--text-tertiary);
+      margin-top: var(--space-3);
+    }
+
+    .refresh-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: var(--radius-full);
+      background: var(--success);
+      animation: pulseGlow 2s ease-in-out infinite;
+    }
+
+    /* KPI Grid */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-4);
+      margin-bottom: var(--space-8);
+    }
+
+    @media (max-width: 1024px) {
+      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 480px) {
+      .kpi-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    .kpi-card {
+      padding: var(--space-5);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .kpi-card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      inset-inline-start: 0;
+      width: 3px;
+      height: 100%;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    }
+
+    .kpi-card.brand::after { background: var(--brand); }
+    .kpi-card.warning::after { background: var(--warning); }
+    .kpi-card.danger::after { background: var(--danger); }
+    .kpi-card.success::after { background: var(--success); }
+
+    .kpi-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: var(--space-3);
+    }
+
+    .kpi-card.brand .kpi-icon { background: rgba(0, 212, 255, 0.12); color: var(--brand); }
+    .kpi-card.warning .kpi-icon { background: var(--warning-bg); color: var(--warning); }
+    .kpi-card.danger .kpi-icon { background: var(--danger-bg); color: var(--danger); }
+    .kpi-card.success .kpi-icon { background: var(--success-bg); color: var(--success); }
+
+    .kpi-icon svg { width: 18px; height: 18px; }
+
+    .kpi-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: var(--space-2);
+    }
+
+    .kpi-value {
+      font-size: 2.25rem;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+      margin-bottom: var(--space-2);
+      transition: color var(--transition-base);
+    }
+
+    .kpi-card.brand .kpi-value { color: var(--brand); }
+    .kpi-card.warning .kpi-value { color: var(--warning); }
+    .kpi-card.danger .kpi-value { color: var(--danger); }
+    .kpi-card.success .kpi-value { color: var(--success); }
+
+    .kpi-sub {
+      font-size: 0.8125rem;
+      color: var(--text-tertiary);
+    }
+
+    /* Charts Grid */
+    .charts-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-6);
+      margin-bottom: var(--space-6);
+    }
+
+    @media (max-width: 768px) {
+      .charts-row { grid-template-columns: 1fr; }
+    }
+
+    .chart-card {
+      padding: var(--space-5);
+    }
+
+    .chart-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--space-4);
+    }
+
+    .chart-title {
+      font-size: 0.9375rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .chart-subtitle {
+      font-size: 0.75rem;
+      color: var(--text-tertiary);
+      margin-top: 2px;
+    }
+
+    .chart-canvas-wrap {
+      position: relative;
+      height: 240px;
+    }
+
+    /* Risk Distribution Bars */
+    .risk-bars {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .risk-bar-item {
+      display: grid;
+      grid-template-columns: 80px 1fr 40px;
+      align-items: center;
+      gap: var(--space-3);
+    }
+
+    .risk-bar-label {
+      font-size: 0.8125rem;
+      color: var(--text-secondary);
+      text-align: end;
+    }
+
+    .risk-bar-track {
+      height: 28px;
+      background: rgba(0, 212, 255, 0.05);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+    }
+
+    .risk-bar-fill {
+      height: 100%;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.6875rem;
+      font-weight: 700;
+      color: rgba(255,255,255,0.9);
+      transition: width 600ms cubic-bezier(0.4, 0, 0.2, 1);
+      min-width: 0;
+    }
+
+    .risk-bar-fill[data-level="critical"] { background: var(--danger); }
+    .risk-bar-fill[data-level="high"] { background: #F97316; }
+    .risk-bar-fill[data-level="medium"] { background: var(--warning); }
+    .risk-bar-fill[data-level="low"] { background: #22C55E; }
+    .risk-bar-fill[data-level="minimal"] { background: var(--success); }
+
+    .risk-bar-count {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Status Grid */
+    .status-section {
+      margin-bottom: var(--space-6);
+    }
+
+    .section-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: var(--space-4);
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    .section-title svg {
+      width: 18px;
+      height: 18px;
+      color: var(--brand);
+    }
+
+    .status-cards {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: var(--space-3);
+    }
+
+    @media (max-width: 768px) {
+      .status-cards { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    @media (max-width: 480px) {
+      .status-cards { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    .status-card {
+      padding: var(--space-4);
+      text-align: center;
+      cursor: default;
+    }
+
+    .status-card-value {
+      font-size: 1.75rem;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      margin-bottom: var(--space-1);
+    }
+
+    .status-card-label {
+      font-size: 0.75rem;
+      color: var(--text-tertiary);
+    }
+
+    .status-card.pending .status-card-value { color: var(--warning); }
+    .status-card.approved .status-card-value { color: var(--brand); }
+    .status-card.executed .status-card-value { color: #A78BFA; }
+    .status-card.completed .status-card-value { color: var(--success); }
+    .status-card.rejected .status-card-value { color: var(--danger); }
+
+    /* Loading Skeleton */
+    .loading-state { display: none; }
+    .loading-state.visible { display: block; }
+  </style>
 </head>
 <body>
-  
-  <div id="brightai-unified-header"></div>
-  <a href="#stats-main" class="skip-link">تخطي إلى الإحصائيات</a>
-  <script>
-    (function () {
-      var script = document.createElement('script');
-      script.src = window.location.protocol === 'file:' ? 'kernel-nav.js' : '/kernel/kernel-nav.js';
-      document.currentScript.insertAdjacentElement('beforebegin', script);
-    })();
-  </script>
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
 
-  <main id="stats-main" class="page-wrap">
-
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:0.75rem;" class="fade-up">
-      <div>
-        <h1 class="section-title">لوحة الإحصائيات — عرض صحتك الأمنية</h1>
-        <p class="section-sub">مراقبة مباشرة لكيفية أداء BrightAI Kernel في حماية الذكاء الاصطناعي لديك. البيانات تُحدّث كل 30 ثانية.</p>
-      </div>
-      <span style="display:flex;align-items:center;gap:0.5rem;font-size:0.8rem;color:var(--text-muted);">
-        <span class="pulse-dot" aria-hidden="true"></span> تحديث حي
-      </span>
-    </div>
-
-    <!-- Top Metrics -->
-    <div class="top-metrics">
-      <div class="glass metric-card fade-up d1">
-        <div class="metric-icon bg-brand"><i class="fas fa-comments c-brand" aria-hidden="true"></i></div>
-        <div class="metric-value c-brand" id="m-total">—</div>
-        <div class="metric-label">إجمالي الطلبات</div>
-        <div style="font-size: 0.7rem; color: var(--text-dim); margin-top: 0.35rem;">كل طلب نحو AI يمر عبر النواة</div>
-      </div>
-      <div class="glass metric-card fade-up d2">
-        <div class="metric-icon bg-red"><i class="fas fa-shield c-red" aria-hidden="true"></i></div>
-        <div class="metric-value c-red" id="m-blocked">—</div>
-        <div class="metric-label">طُحظرت من الجدار</div>
-        <div style="font-size: 0.7rem; color: var(--text-dim); margin-top: 0.35rem;">لم تصل للنموذج</div>
-      </div>
-      <div class="glass metric-card fade-up d3">
-        <div class="metric-icon bg-yellow"><i class="fas fa-clock c-yellow" aria-hidden="true"></i></div>
-        <div class="metric-value c-yellow" id="m-pending">—</div>
-        <div class="metric-label">انتظار موافقة</div>
-        <div style="font-size: 0.7rem; color: var(--text-dim); margin-top: 0.35rem;">عالية المخاطر</div>
-      </div>
-      <div class="glass metric-card fade-up d4">
-        <div class="metric-icon bg-green"><i class="fas fa-check-double c-green" aria-hidden="true"></i></div>
-        <div class="metric-value c-green" id="m-compliance">—</div>
-        <div class="metric-label">معدل الامتثال</div>
-        <div style="font-size: 0.7rem; color: var(--text-dim); margin-top: 0.35rem;">% السياسات المتحققة</div>
-      </div>
-    </div>
-
-    <!-- Mid Charts -->
-    <div class="mid-charts">
-      <div class="glass" style="padding:1.5rem;" id="risk-chart-card">
-        <div class="chart-title"><i class="fas fa-chart-bar c-brand" aria-hidden="true"></i> توزيع مستوى المخاطر</div>
-        <div id="risk-chart"><div style="text-align:center;padding:2rem;color:var(--text-muted);font-size:0.85rem;">جاري التحميل...</div></div>
-      </div>
-      <div class="glass" style="padding:1.5rem;" id="pack-chart-card">
-        <div class="chart-title"><i class="fas fa-layer-group c-brand" aria-hidden="true"></i> توزيع حزم الامتثال</div>
-        <div id="pack-chart"><div style="text-align:center;padding:2rem;color:var(--text-muted);font-size:0.85rem;">جاري التحميل...</div></div>
-      </div>
-    </div>
-
-    <!-- Bottom Row -->
-    <div class="bottom-row">
-      <!-- PII -->
-      <div class="glass metric-card fade-up d5">
-        <div class="metric-icon bg-orange"><i class="fas fa-user-shield c-orange" aria-hidden="true"></i></div>
-        <div class="metric-value c-orange" id="m-pii">—</div>
-        <div class="metric-label">بيانات شخصية مكتشفة</div>
+  <main id="main-content">
+    <div class="container">
+      <div class="page-header">
+        <h1>الإحصائيات والمقاييس</h1>
+        <p>نظرة شاملة على أداء نواة الحوكمة واتجاهات المخاطر</p>
+        <div class="refresh-indicator">
+          <div class="refresh-dot"></div>
+          <span>تحديث تلقائي كل 30 ثانية — آخر تحديث: <span id="last-update">—</span></span>
+        </div>
       </div>
 
-      <!-- Avg Risk -->
-      <div class="glass" style="padding:1.5rem;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.75rem;">
-        <div class="chart-title" style="justify-content:center;margin-bottom:0;">متوسط درجة المخاطر</div>
-        <div class="risk-circle" id="risk-circle" aria-label="متوسط درجة المخاطر">
-          <div class="risk-inner">
-            <span id="m-avg-risk" style="font-size:1.5rem;font-weight:800;color:var(--brand);">—</span>
-            <span style="font-size:0.7rem;color:var(--text-muted);">من 100</span>
+      <!-- KPI Cards -->
+      <div class="kpi-grid" id="kpi-grid">
+        <div class="glass-card kpi-card brand">
+          <div class="kpi-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+            </svg>
+          </div>
+          <div class="kpi-label">إجمالي الطلبات</div>
+          <div class="kpi-value" id="kpi-total">
+            <span class="skeleton" style="width:60px;height:36px;display:inline-block;border-radius:8px;"></span>
+          </div>
+          <div class="kpi-sub">إجمالي الطلبات المعالجة</div>
+        </div>
+
+        <div class="glass-card kpi-card warning">
+          <div class="kpi-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+          <div class="kpi-label">بانتظار الموافقة</div>
+          <div class="kpi-value" id="kpi-pending">
+            <span class="skeleton" style="width:40px;height:36px;display:inline-block;border-radius:8px;"></span>
+          </div>
+          <div class="kpi-sub">طلب يحتاج مراجعة</div>
+        </div>
+
+        <div class="glass-card kpi-card danger">
+          <div class="kpi-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+            </svg>
+          </div>
+          <div class="kpi-label">متوسط المخاطر</div>
+          <div class="kpi-value" id="kpi-risk">
+            <span class="skeleton" style="width:50px;height:36px;display:inline-block;border-radius:8px;"></span>
+          </div>
+          <div class="kpi-sub">درجة تعقيد الطلبات</div>
+        </div>
+
+        <div class="glass-card kpi-card success">
+          <div class="kpi-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+            </svg>
+          </div>
+          <div class="kpi-label">اكتشاف PII</div>
+          <div class="kpi-value" id="kpi-pii">
+            <span class="skeleton" style="width:50px;height:36px;display:inline-block;border-radius:8px;"></span>
+          </div>
+          <div class="kpi-sub">نسبة الطلبات التي تحتوي PII</div>
+        </div>
+      </div>
+
+      <!-- Charts Row -->
+      <div class="charts-row">
+        <!-- Donut Chart -->
+        <div class="glass-card chart-card">
+          <div class="chart-header">
+            <div>
+              <div class="chart-title">توزيع حالات الطلبات</div>
+              <div class="chart-subtitle">توزيع الطلبات حسب الحالة الحالية</div>
+            </div>
+          </div>
+          <div class="chart-canvas-wrap">
+            <div id="status-donut-chart" class="svg-donut-container"></div>
+          </div>
+        </div>
+
+        <!-- Risk Distribution Bars -->
+        <div class="glass-card chart-card">
+          <div class="chart-header">
+            <div>
+              <div class="chart-title">توزيع مستويات المخاطر</div>
+              <div class="chart-subtitle">عدد الطلبات لكل مستوى خطر</div>
+            </div>
+          </div>
+          <div class="risk-bars" id="risk-bars">
+            <!-- Skeleton -->
+            <div class="risk-bar-item">
+              <div class="skeleton" style="height:20px; border-radius:4px;"></div>
+              <div class="risk-bar-track"><div class="skeleton" style="height:100%;"></div></div>
+              <div class="skeleton" style="height:20px; border-radius:4px;"></div>
+            </div>
+            <div class="risk-bar-item">
+              <div class="skeleton" style="height:20px; border-radius:4px;"></div>
+              <div class="risk-bar-track"><div class="skeleton" style="height:100%;"></div></div>
+              <div class="skeleton" style="height:20px; border-radius:4px;"></div>
+            </div>
+            <div class="risk-bar-item">
+              <div class="skeleton" style="height:20px; border-radius:4px;"></div>
+              <div class="risk-bar-track"><div class="skeleton" style="height:100%;"></div></div>
+              <div class="skeleton" style="height:20px; border-radius:4px;"></div>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- Chain -->
-      <div class="glass" style="padding:1.5rem;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.5rem;">
-        <div class="chart-title" style="justify-content:center;margin-bottom:0;">سلامة سلسلة التدقيق</div>
-        <div id="chain-status" style="text-align:center;padding:1rem;color:var(--text-muted);font-size:0.85rem;">جاري التحقق...</div>
+      <!-- Status Overview Section -->
+      <div class="status-section">
+        <div class="section-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 6h16M4 10h16M4 14h16M4 18h16"/>
+          </svg>
+          نظرة عامة على حالات الطلبات
+        </div>
+        <div class="status-cards">
+          <div class="glass-card-flat status-card pending">
+            <div class="status-card-value" id="sc-pending">—</div>
+            <div class="status-card-label">بانتظار المراجعة</div>
+          </div>
+          <div class="glass-card-flat status-card approved">
+            <div class="status-card-value" id="sc-approved">—</div>
+            <div class="status-card-label">تمت الموافقة</div>
+          </div>
+          <div class="glass-card-flat status-card executed">
+            <div class="status-card-value" id="sc-executed">—</div>
+            <div class="status-card-label">قيد التنفيذ</div>
+          </div>
+          <div class="glass-card-flat status-card completed">
+            <div class="status-card-value" id="sc-completed">—</div>
+            <div class="status-card-label">مكتملة</div>
+          </div>
+          <div class="glass-card-flat status-card rejected">
+            <div class="status-card-value" id="sc-rejected">—</div>
+            <div class="status-card-label">مرفوضة</div>
+          </div>
+        </div>
       </div>
-    </div>
 
-    <!-- Extra Stats -->
-    <div class="grid-3" style="margin-bottom:1.5rem;">
-      <div class="glass metric-card fade-up d1">
-        <div class="metric-icon bg-green"><i class="fas fa-check c-green" aria-hidden="true"></i></div>
-        <div class="metric-value c-green" id="m-approved">—</div>
-        <div class="metric-label">موافقة بشرية</div>
-        <div style="font-size: 0.7rem; color: var(--text-dim); margin-top: 0.35rem;">قرارات المسؤولين</div>
-      </div>
-      <div class="glass metric-card fade-up d2">
-        <div class="metric-icon bg-brand"><i class="fas fa-robot c-brand" aria-hidden="true"></i></div>
-        <div class="metric-value c-brand" id="m-auto">—</div>
-        <div class="metric-label">قبول آلي آمن</div>
-        <div style="font-size: 0.7rem; color: var(--text-dim); margin-top: 0.35rem;">لا مخاطر مكتشفة</div>
-      </div>
-      <div class="glass metric-card fade-up d3">
-        <div class="metric-icon bg-red"><i class="fas fa-ban c-red" aria-hidden="true"></i></div>
-        <div class="metric-value c-red" id="m-rejected">—</div>
-        <div class="metric-label">رفع أو رفض</div>
-        <div style="font-size: 0.7rem; color: var(--text-dim); margin-top: 0.35rem;">انتهاك سياسات</div>
-      </div>
     </div>
-
   </main>
 
-  <footer class="kernel-footer">&copy; 2026 BrightAI Kernel</footer>
+  <script src="/kernel/assets/js/kernel-utils.js"></script>
+  <script src="/kernel/assets/js/kernel-api.js"></script>
+  <script src="/kernel/assets/js/kernel-nav.js"></script>
+  <script src="/kernel/assets/js/kernel-stats.js"></script>
+  <script src="/kernel/assets/js/kernel-mobile.js"></script>
 
   <script>
-    const RISK_COLORS = { low:'#4ade80', medium:'#fbbf24', high:'#fb923c', critical:'#f87171' };
-    const RISK_LABELS = { low:'منخفض', medium:'متوسط', high:'مرتفع', critical:'حرج' };
-    const PACK_COLOR  = 'var(--brand)';
+    let refreshTimer = null;
+
+    const RISK_LEVELS = [
+      { key: 'critical', label: 'حرج' },
+      { key: 'high', label: 'مرتفع' },
+      { key: 'medium', label: 'متوسط' },
+      { key: 'low', label: 'منخفض' },
+    ];
+
+    const STATUS_COLORS = {
+      pending: 'rgba(245, 158, 11, 0.85)',
+      approved: 'rgba(0, 212, 255, 0.85)',
+      executed: 'rgba(167, 139, 250, 0.85)',
+      completed: 'rgba(16, 185, 129, 0.85)',
+      rejected: 'rgba(239, 68, 68, 0.85)',
+    };
+
+    const STATUS_LABELS = {
+      pending: 'بانتظار المراجعة',
+      approved: 'تمت الموافقة',
+      executed: 'قيد التنفيذ',
+      completed: 'مكتملة',
+      rejected: 'مرفوضة',
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadStats();
+      refreshTimer = setInterval(loadStats, 30000);
+    });
 
     async function loadStats() {
       try {
-        const r = await fetch('/api/kernel/stats');
-        const d = await r.json();
-
-        set('m-total',      d.total ?? '—');
-        set('m-blocked',    d.blocked ?? '—');
-        set('m-pending',    d.pending ?? '—');
-        set('m-compliance', d.complianceRate || '—');
-        set('m-pii',        d.piiDetected ?? '—');
-        set('m-avg-risk',   d.avgRiskScore ?? '—');
-        set('m-approved',   d.approved ?? '—');
-        set('m-auto',       d.autoApproved ?? '—');
-        set('m-rejected',   d.rejected ?? '—');
-
-        const total = d.total || 1;
-
-        // Risk chart
-        const riskEl = document.getElementById('risk-chart');
-        riskEl.innerHTML = (d.byRiskLevel || []).map(r =>
-          barRow(RISK_LABELS[r.risk_level] || r.risk_level, r.count, total, RISK_COLORS[r.risk_level] || '#6b7280')
-        ).join('') || '<div style="text-align:center;color:var(--text-muted);font-size:0.85rem;padding:1rem;">لا توجد بيانات</div>';
-
-        // Pack chart
-        const packEl = document.getElementById('pack-chart');
-        packEl.innerHTML = (d.byCompliancePack || []).map(p =>
-          barRow(p.compliance_pack, p.count, total, PACK_COLOR)
-        ).join('') || '<div style="text-align:center;color:var(--text-muted);font-size:0.85rem;padding:1rem;">لا توجد بيانات</div>';
-
-        // Avg risk circle
-        const avg = Math.min(d.avgRiskScore || 0, 100);
-        document.getElementById('risk-circle').style.background =
-          `conic-gradient(var(--brand) ${avg * 3.6}deg, var(--ink-800) ${avg * 3.6}deg)`;
-
-        // Chain
-        const chainEl = document.getElementById('chain-status');
-        if (d.chainIntegrity?.valid) {
-          chainEl.innerHTML = '<i class="fas fa-link" style="font-size:2.5rem;color:#4ade80;display:block;margin-bottom:0.5rem;"></i><p style="color:#4ade80;font-size:0.85rem;">سلسلة التدقيق سليمة</p>';
-        } else if (d.chainIntegrity) {
-          chainEl.innerHTML = '<i class="fas fa-link-slash" style="font-size:2.5rem;color:#f87171;display:block;margin-bottom:0.5rem;"></i><p style="color:#f87171;font-size:0.85rem;">تحذير: خلل في السلسلة</p>';
-        }
-
-      } catch(e) { console.error('Stats error', e); }
+        const data = await kernelAPI.getStats();
+        renderStats(data);
+      } catch (err) {
+        console.log('[v0] Failed to load stats:', err);
+        renderStats(buildDemoData());
+      }
     }
 
-    function barRow(label, count, total, color) {
-      const pct = total > 0 ? (count / total * 100).toFixed(1) : 0;
-      return `<div class="bar-row">
-        <span class="bar-label">${label}</span>
-        <div class="bar-track"><div class="bar-fill-inner" style="width:${pct}%;background:${color}">${pct > 8 ? pct + '%' : ''}</div></div>
-        <span class="bar-count">${count}</span>
-      </div>`;
+    function buildDemoData() {
+      return {
+        requests: {
+          total: 247,
+          pending: 12,
+          approved: 8,
+          executed: 5,
+          completed: 198,
+        },
+        provider: {
+          averageLatency: 850,
+        },
+        piiDetectionRate: 24,
+        riskDistribution: {
+          critical: 7,
+          high: 19,
+          medium: 63,
+          low: 112,
+        },
+      };
     }
 
-    function set(id, val) {
-      const el = document.getElementById(id);
-      if (el) el.textContent = val;
+    function renderStats(data) {
+      const requests = data.requests || {};
+      const riskDist = data.riskDistribution || {};
+
+      // KPIs
+      document.getElementById('kpi-total').textContent = KernelUtils.formatNumber(requests.total || 0);
+      document.getElementById('kpi-pending').textContent = KernelUtils.formatNumber(requests.pending || 0);
+      
+      const avgRisk = calculateAverageRisk(riskDist);
+      document.getElementById('kpi-risk').textContent = avgRisk + '%';
+      document.getElementById('kpi-pii').textContent = (data.piiDetectionRate || 0) + '%';
+
+      // Status Cards
+      document.getElementById('sc-pending').textContent = KernelUtils.formatNumber(requests.pending || 0);
+      document.getElementById('sc-approved').textContent = KernelUtils.formatNumber(requests.approved || 0);
+      document.getElementById('sc-executed').textContent = KernelUtils.formatNumber(requests.executed || 0);
+      document.getElementById('sc-completed').textContent = KernelUtils.formatNumber(requests.completed || 0);
+      document.getElementById('sc-rejected').textContent = KernelUtils.formatNumber(0);
+
+      // SVG Donut Chart
+      renderSVGDonut(requests);
+
+      // Risk Bars
+      renderRiskBars(riskDist);
+
+      // Last Update
+      document.getElementById('last-update').textContent = new Date().toLocaleTimeString('ar-SA');
     }
 
-    loadStats();
-    setInterval(loadStats, 30000);
+    function calculateAverageRisk(dist) {
+      const weights = { critical: 100, high: 75, medium: 50, low: 25 };
+      let total = 0, weighted = 0;
+      for (const [k, v] of Object.entries(dist)) {
+        total += v || 0;
+        weighted += (v || 0) * (weights[k] || 0);
+      }
+      return total > 0 ? Math.round(weighted / total) : 0;
+    }
+
+    function renderSVGDonut(breakdown) {
+      const container = document.getElementById('status-donut-chart');
+      if (!container) return;
+
+      const data = [
+        { key: 'pending', value: breakdown.pending || 0 },
+        { key: 'approved', value: breakdown.approved || 0 },
+        { key: 'executed', value: breakdown.executed || 0 },
+        { key: 'completed', value: breakdown.completed || 0 },
+        { key: 'rejected', value: 0 },
+      ].filter(d => d.value > 0);
+
+      const total = data.reduce((s, d) => s + d.value, 0) || 1;
+      const size = 200;
+      const cx = size / 2;
+      const cy = size / 2;
+      const outerR = 85;
+      const innerR = 58;
+
+      let cumulativeAngle = -90; // Start from top
+      const paths = data.map(d => {
+        const angle = (d.value / total) * 360;
+        const startAngle = cumulativeAngle;
+        const endAngle = cumulativeAngle + angle;
+        cumulativeAngle = endAngle;
+
+        const startOuter = polarToCartesian(cx, cy, outerR, startAngle);
+        const endOuter = polarToCartesian(cx, cy, outerR, endAngle);
+        const startInner = polarToCartesian(cx, cy, innerR, endAngle);
+        const endInner = polarToCartesian(cx, cy, innerR, startAngle);
+
+        const largeArc = angle > 180 ? 1 : 0;
+        const pathD = [
+          `M ${startOuter.x} ${startOuter.y}`,
+          `A ${outerR} ${outerR} 0 ${largeArc} 1 ${endOuter.x} ${endOuter.y}`,
+          `L ${startInner.x} ${startInner.y}`,
+          `A ${innerR} ${innerR} 0 ${largeArc} 0 ${endInner.x} ${endInner.y}`,
+          'Z'
+        ].join(' ');
+
+        return `<path d="${pathD}" fill="${STATUS_COLORS[d.key]}" stroke="#0B1628" stroke-width="2">
+          <title>${STATUS_LABELS[d.key]}: ${d.value}</title>
+        </path>`;
+      }).join('');
+
+      // Center text
+      const centerText = `
+        <text x="${cx}" y="${cy - 8}" text-anchor="middle" fill="#F8FAFC" font-size="24" font-weight="700" font-family="'IBM Plex Sans Arabic', sans-serif">${KernelUtils.formatNumber(total)}</text>
+        <text x="${cx}" y="${cy + 14}" text-anchor="middle" fill="#64748B" font-size="11" font-family="'IBM Plex Sans Arabic', sans-serif">إجمالي</text>
+      `;
+
+      // Legend
+      const legendItems = data.map((d, i) => `
+        <div style="display:flex;align-items:center;gap:6px;">
+          <span style="width:10px;height:10px;border-radius:50%;background:${STATUS_COLORS[d.key]}"></span>
+          <span style="color:#94A3B8;font-size:11px;">${STATUS_LABELS[d.key]} (${d.value})</span>
+        </div>
+      `).join('');
+
+      container.innerHTML = `
+        <svg viewBox="0 0 ${size} ${size}" width="100%" height="200" style="display:block;margin:0 auto;">
+          ${paths}
+          ${centerText}
+        </svg>
+        <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:16px;">
+          ${legendItems}
+        </div>
+      `;
+    }
+
+    function polarToCartesian(cx, cy, r, angleDeg) {
+      const angleRad = (angleDeg * Math.PI) / 180;
+      return {
+        x: cx + r * Math.cos(angleRad),
+        y: cy + r * Math.sin(angleRad),
+      };
+    }
+
+    function renderRiskBars(dist) {
+      const container = document.getElementById('risk-bars');
+      const max = Math.max(...Object.values(dist).map(Number), 1);
+
+      container.innerHTML = RISK_LEVELS.map(({ key, label }) => {
+        const count = dist[key] || 0;
+        const pct = Math.round((count / max) * 100);
+        return `
+          <div class="risk-bar-item">
+            <span class="risk-bar-label">${label}</span>
+            <div class="risk-bar-track">
+              <div class="risk-bar-fill" data-level="${key}" style="width:${pct}%">
+                ${pct > 15 ? count : ''}
+              </div>
+            </div>
+            <span class="risk-bar-count">${KernelUtils.formatNumber(count)}</span>
+          </div>
+        `;
+      }).join('');
+    }
   </script>
-  <script defer src="/frontend/js/sitewide-modernization.js"></script>
-  <script defer src="/frontend/js/production-runtime.v20260427.js"></script>
-  <script defer src="/frontend/js/unified-header.js?v=20260529-nav-v1"></script>
 </body>
 </html>

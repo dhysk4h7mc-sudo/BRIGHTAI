@@ -1,438 +1,534 @@
 <!DOCTYPE html>
-<html lang="ar-SA" dir="rtl">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-8LLESL207Q"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-8LLESL207Q');
-</script>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="robots" content="index, follow">
-  <title>سجل التدقيق للذكاء الاصطناعي | BrightAI Kernel</title>
-  <meta name="description" content="سجل تدقيق يوضح الطلبات والقرارات والمخاطر والموافقات داخل BrightAI Kernel لدعم المراجعة والامتثال المؤسسي.">
-  <link rel="canonical" href="https://brightai.site/kernel/audit/">
-  <link rel="alternate" hreflang="ar-SA" href="https://brightai.site/kernel/audit/">
-  <link rel="alternate" hreflang="x-default" href="https://brightai.site/kernel/audit/">
-  <link rel="sitemap" type="application/xml" href="https://brightai.site/sitemap.xml">
-  <link rel="stylesheet" href="/frontend/css/tailwind.local.min.css">
-  <link rel="stylesheet" href="/frontend/assets/css/global-fonts.css?v=20260529-official-font">
-  <link rel="stylesheet" href="/frontend/vendor/fontawesome/css/all.min.css?v=20260529-icons">
-  <link rel="stylesheet" href="/frontend/css/sitewide-modernization.css">
-  <link rel="stylesheet" href="/frontend/css/unified-header.css?v=20260529-nav-v1">
-  <link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css">
-  <link rel="stylesheet" href="/kernel/kernel.css">
-  <link rel="stylesheet" href="kernel.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#030A18">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>التدقيق - نواة BrightAI</title>
+  <meta name="description" content="سجل التدقيق والتحقق من سلامة السلسلة التشفيرية">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="/kernel/assets/css/kernel.css">
   <style>
-    .filters-bar { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: flex-end; }
-    .filter-item { display: flex; flex-direction: column; min-width: 140px; flex: 1; }
-    .filter-item.wide { min-width: 200px; flex: 2; }
-    .filter-actions { display: flex; gap: 0.5rem; align-items: flex-end; }
-
-    .table-wrap { overflow-x: auto; }
-    .cursor-row { cursor: pointer; }
-
-    .pagination { display: flex; align-items: center; justify-content: space-between; margin-top: 1rem; flex-wrap: wrap; gap: 0.5rem; }
-    .pagination .info { font-size: 0.8rem; color: var(--text-muted); }
-    .pagination .pag-btns { display: flex; gap: 0.5rem; }
-
-    /* Detail modal pre */
-    .detail-pre { font-size: 0.78rem; color: #94a3b8; background: var(--ink-900); padding: 1rem; border-radius: 0.75rem; overflow-x: auto; direction: ltr; line-height: 1.6; }
-    .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem; }
-    .detail-field { background: var(--ink-800); border: 1px solid var(--border); border-radius: 0.75rem; padding: 0.75rem 1rem; }
-    .detail-field .lbl { font-size: 0.7rem; color: var(--text-muted); margin-bottom: 0.2rem; }
-    .detail-field .val { font-size: 0.875rem; font-weight: 600; }
-    @media (max-width: 600px) { .detail-grid { grid-template-columns: 1fr; } }
-  </style>
-  <script id="brightai-production-schema" type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": [
-        "Organization",
-        "LocalBusiness"
-      ],
-      "@id": "https://brightai.site/#organization",
-      "name": "Bright AI",
-      "url": "https://brightai.site",
-      "logo": "https://brightai.site/frontend/images/logo-new.PNG",
-      "areaServed": "SA",
-      "sameAs": []
-    },
-    {
-      "@type": "WebSite",
-      "@id": "https://brightai.site/#website",
-      "url": "https://brightai.site",
-      "name": "Bright AI",
-      "publisher": {
-        "@id": "https://brightai.site/#organization"
-      },
-      "inLanguage": [
-        "ar-SA",
-        "en-SA"
-      ]
-    },
-    {
-      "@type": "WebPage",
-      "@id": "https://brightai.site/kernel/audit/#webpage",
-      "url": "https://brightai.site/kernel/audit/",
-      "name": "سجل التدقيق للذكاء الاصطناعي | BrightAI Kernel",
-      "description": "سجل تدقيق يوضح الطلبات والقرارات والمخاطر والموافقات داخل BrightAI Kernel لدعم المراجعة والامتثال المؤسسي.",
-      "isPartOf": {
-        "@id": "https://brightai.site/#website"
-      },
-      "about": {
-        "@id": "https://brightai.site/#organization"
-      },
-      "inLanguage": "ar-SA"
-    },
-    {
-      "@type": "BreadcrumbList",
-      "@id": "https://brightai.site/kernel/audit/#breadcrumb",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Bright AI",
-          "item": "https://brightai.site/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "kernel",
-          "item": "https://brightai.site/kernel/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 3,
-          "name": "سجل التدقيق للذكاء الاصطناعي | BrightAI Kernel",
-          "item": "https://brightai.site/kernel/audit/"
-        }
-      ]
+    .page-header {
+      padding: var(--space-8) 0 var(--space-6);
     }
-  ]
-}
-  </script>
-  <link rel="preload" href="/frontend/assets/fonts/TheYearofTheCamel-Medium.otf" as="font" type="font/otf" crossorigin />
+
+    .page-header h1 {
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      font-weight: 700;
+      margin-bottom: var(--space-2);
+    }
+
+    .page-header p {
+      color: var(--text-secondary);
+      font-size: 0.9375rem;
+    }
+
+    /* Chain Status */
+    .chain-status-card {
+      padding: var(--space-5);
+      margin-bottom: var(--space-6);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .chain-status-card.valid {
+      border-color: rgba(16, 185, 129, 0.4);
+    }
+
+    .chain-status-card.invalid {
+      border-color: rgba(239, 68, 68, 0.4);
+    }
+
+    .chain-status-header {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      margin-bottom: var(--space-4);
+    }
+
+    .chain-pulse {
+      width: 12px;
+      height: 12px;
+      border-radius: var(--radius-full);
+      flex-shrink: 0;
+    }
+
+    .chain-pulse.valid {
+      background: var(--success);
+      animation: pulseGlow 2s ease-in-out infinite;
+    }
+
+    .chain-pulse.invalid {
+      background: var(--danger);
+      animation: pulseGlow 2s ease-in-out infinite;
+    }
+
+    .chain-title {
+      font-size: 1.0625rem;
+      font-weight: 600;
+    }
+
+    .chain-title.valid { color: var(--success); }
+    .chain-title.invalid { color: var(--danger); }
+
+    .chain-hash-label {
+      font-size: 0.75rem;
+      color: var(--text-tertiary);
+      margin-bottom: var(--space-2);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .chain-hash-value {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.8125rem;
+      color: var(--brand);
+      word-break: break-all;
+      background: var(--ink-800);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: var(--space-3) var(--space-4);
+      cursor: pointer;
+      transition: border-color var(--transition-fast);
+      display: block;
+    }
+
+    .chain-hash-value:hover { border-color: var(--border-hover); }
+
+    /* Summary Stats */
+    .summary-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-4);
+      margin-bottom: var(--space-6);
+    }
+
+    @media (max-width: 640px) {
+      .summary-row { grid-template-columns: 1fr 1fr; }
+    }
+
+    .summary-stat {
+      padding: var(--space-4);
+      text-align: center;
+    }
+
+    .summary-stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--brand);
+      font-variant-numeric: tabular-nums;
+      margin-bottom: var(--space-1);
+    }
+
+    .summary-stat-label {
+      font-size: 0.8125rem;
+      color: var(--text-secondary);
+    }
+
+    /* Filters */
+    .filters-bar {
+      display: flex;
+      gap: var(--space-3);
+      flex-wrap: wrap;
+      margin-bottom: var(--space-5);
+      align-items: center;
+    }
+
+    .filter-btn {
+      padding: var(--space-2) var(--space-4);
+      background: var(--ink-800);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-full);
+      color: var(--text-secondary);
+      font-family: inherit;
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      min-height: 44px;
+    }
+
+    .filter-btn:hover, .filter-btn.active {
+      background: rgba(0, 212, 255, 0.1);
+      border-color: var(--brand);
+      color: var(--brand);
+    }
+
+    .search-input-wrap {
+      flex: 1;
+      min-width: 200px;
+      position: relative;
+    }
+
+    .search-input-wrap svg {
+      position: absolute;
+      inset-inline-start: var(--space-3);
+      top: 50%;
+      transform: translateY(-50%);
+      width: 16px;
+      height: 16px;
+      color: var(--text-tertiary);
+      pointer-events: none;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: var(--space-2) var(--space-4) var(--space-2) calc(var(--space-3) + 24px);
+      background: var(--ink-800);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-full);
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 0.875rem;
+      min-height: 44px;
+      transition: border-color var(--transition-fast);
+    }
+
+    [dir="rtl"] .search-input {
+      padding-inline-start: calc(var(--space-3) + 24px);
+      padding-inline-end: var(--space-4);
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: var(--brand);
+      box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
+    }
+
+    .search-input::placeholder { color: var(--text-tertiary); }
+
+    /* Audit Log */
+    .audit-log-card {
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .audit-log-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-4) var(--space-5);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .audit-log-title {
+      font-size: 0.9375rem;
+      font-weight: 600;
+    }
+
+    .audit-log-count {
+      font-size: 0.75rem;
+      color: var(--text-tertiary);
+    }
+
+    .audit-log-body {
+      max-height: 600px;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .audit-entry {
+      display: grid;
+      grid-template-columns: 120px auto 1fr auto;
+      gap: var(--space-3);
+      align-items: center;
+      padding: var(--space-3) var(--space-5);
+      border-bottom: 1px solid rgba(0, 212, 255, 0.04);
+      transition: background var(--transition-fast);
+      font-size: 0.8125rem;
+    }
+
+    @media (max-width: 768px) {
+      .audit-entry {
+        grid-template-columns: 1fr;
+        gap: var(--space-1);
+      }
+    }
+
+    .audit-entry:hover {
+      background: rgba(0, 212, 255, 0.03);
+    }
+
+    .audit-entry:last-child {
+      border-bottom: none;
+    }
+
+    .audit-time {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--text-tertiary);
+      white-space: nowrap;
+    }
+
+    .audit-action-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px var(--space-2);
+      border-radius: var(--radius-sm);
+      font-size: 0.6875rem;
+      font-weight: 700;
+      white-space: nowrap;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .audit-action-badge.chat { background: rgba(0, 212, 255, 0.12); color: var(--brand); }
+    .audit-action-badge.approve { background: var(--success-bg); color: var(--success); }
+    .audit-action-badge.reject { background: var(--danger-bg); color: var(--danger); }
+    .audit-action-badge.execute { background: rgba(167, 139, 250, 0.15); color: #A78BFA; }
+    .audit-action-badge.system { background: var(--info-bg); color: var(--info); }
+    .audit-action-badge.block { background: var(--danger-bg); color: var(--danger); }
+
+    .audit-details {
+      color: var(--text-secondary);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .audit-details span.actor {
+      color: var(--brand);
+      font-weight: 500;
+    }
+
+    .audit-hash {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.6875rem;
+      color: var(--text-tertiary);
+      white-space: nowrap;
+      cursor: pointer;
+      transition: color var(--transition-fast);
+    }
+
+    .audit-hash:hover { color: var(--brand); }
+
+    .loading-entries {
+      padding: var(--space-8);
+      text-align: center;
+      color: var(--text-tertiary);
+      font-size: 0.875rem;
+    }
+
+    .error-state {
+      padding: var(--space-8);
+      text-align: center;
+      color: var(--danger);
+      font-size: 0.875rem;
+    }
+  </style>
 </head>
 <body>
-  
-  <div id="brightai-unified-header"></div>
-  <a href="#audit-main" class="skip-link">تخطي إلى سجل التدقيق</a>
-  <script>
-    (function () {
-      var script = document.createElement('script');
-      script.src = window.location.protocol === 'file:' ? 'kernel-nav.js' : '/kernel/kernel-nav.js';
-      document.currentScript.insertAdjacentElement('beforebegin', script);
-    })();
-  </script>
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
 
-  <main id="audit-main" class="page-wrap">
+  <main id="main-content">
+    <div class="container">
+      <div class="page-header">
+        <h1>سجل التدقيق</h1>
+        <p>التحقق من سلامة السلسلة التشفيرية وتتبع جميع الأحداث</p>
+      </div>
 
-    <div style="margin-bottom:1.5rem;" class="fade-up">
-      <h1 class="section-title">سجل التدقيق — سلسلة الأثر الدائمة</h1>
-      <p class="section-sub">كل طلب، كل قرار، كل موافقة يُسجل هنا برقم فريد وبصمة مشفرة. لا يمكن تعديل أو حذف السجل، مما يوفر دليل امتثال كامل يقبله المدققون والسلطات الرسمية.</p>
-    </div>
-
-    <!-- Filters -->
-    <div class="glass" style="padding:1.25rem;margin-bottom:1.25rem;" role="search" aria-label="فلاتر البحث">
-      <div class="filters-bar">
-        <div class="filter-item wide">
-          <label class="form-label" for="f-search">بحث في السجلات</label>
-          <input id="f-search" class="form-input" type="search" placeholder="بحث...">
+      <!-- Chain Status -->
+      <div class="glass-card chain-status-card" id="chain-status-card">
+        <div class="chain-status-header">
+          <div class="chain-pulse valid" id="chain-pulse"></div>
+          <div class="chain-title valid" id="chain-title">جاري التحقق من سلامة السلسلة...</div>
         </div>
-        <div class="filter-item">
-          <label class="form-label" for="f-risk">مستوى المخاطر</label>
-          <select id="f-risk" class="form-select">
-            <option value="">الكل</option>
-            <option value="low">منخفض</option>
-            <option value="medium">متوسط</option>
-            <option value="high">مرتفع</option>
-            <option value="critical">حرج</option>
-          </select>
-        </div>
-        <div class="filter-item">
-          <label class="form-label" for="f-pack">حزمة الامتثال</label>
-          <select id="f-pack" class="form-select">
-            <option value="">الكل</option>
-            <option value="pdpl">PDPL</option>
-            <option value="nca_ecc">NCA ECC</option>
-            <option value="sfda">SFDA</option>
-            <option value="procurement">procurement</option>
-            <option value="healthcare">healthcare</option>
-            <option value="general">general</option>
-          </select>
-        </div>
-        <div class="filter-item">
-          <label class="form-label" for="f-status">حالة الموافقة</label>
-          <select id="f-status" class="form-select">
-            <option value="">الكل</option>
-            <option value="auto_approved">مقبول تلقائي</option>
-            <option value="approved">مقبول</option>
-            <option value="pending">معلق</option>
-            <option value="blocked">محظور</option>
-            <option value="rejected">مرفوض</option>
-          </select>
-        </div>
-        <div class="filter-item">
-          <label class="form-label" for="f-from">من تاريخ</label>
-          <input id="f-from" class="form-input" type="date">
-        </div>
-        <div class="filter-item">
-          <label class="form-label" for="f-to">إلى تاريخ</label>
-          <input id="f-to" class="form-input" type="date">
-        </div>
-        <div class="filter-actions">
-          <button class="btn btn-primary" onclick="applyFilters()">
-            <i class="fas fa-magnifying-glass" aria-hidden="true"></i> بحث
-          </button>
-          <button class="btn btn-ghost" onclick="resetFilters()">مسح</button>
+        <div class="chain-hash-label">تجزئة السلسلة الحالية</div>
+        <div class="chain-hash-value" id="chain-hash" onclick="copyHash(this)" title="انقر للنسخ">
+          جاري التحميل...
         </div>
       </div>
-    </div>
 
-    <!-- Table -->
-    <div class="glass fade-up d2" style="overflow:hidden;">
-      <div class="table-wrap">
-        <table class="kernel-table" aria-label="سجل التدقيق">
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">التاريخ</th>
-              <th scope="col">المخاطر</th>
-              <th scope="col">الحالة</th>
-              <th scope="col">الحزمة</th>
-              <th scope="col">الرسالة</th>
-              <th scope="col">إجراء</th>
-            </tr>
-          </thead>
-          <tbody id="audit-tbody">
-            <tr><td colspan="7" style="text-align:center;padding:3rem;color:var(--text-muted)">
-              <span class="spinner" aria-label="جاري التحميل"></span>
-            </td></tr>
-          </tbody>
-        </table>
+      <!-- Summary Stats -->
+      <div class="summary-row">
+        <div class="glass-card-flat summary-stat">
+          <div class="summary-stat-value" id="stat-total">—</div>
+          <div class="summary-stat-label">إجمالي السجلات</div>
+        </div>
+        <div class="glass-card-flat summary-stat">
+          <div class="summary-stat-value" id="stat-actions">—</div>
+          <div class="summary-stat-label">أنواع الإجراءات</div>
+        </div>
+        <div class="glass-card-flat summary-stat">
+          <div class="summary-stat-value" id="stat-actors">—</div>
+          <div class="summary-stat-label">الجهات الفاعلة</div>
+        </div>
       </div>
+
+      <!-- Filters -->
+      <div class="filters-bar" role="group" aria-label="فلاتر السجل">
+        <button class="filter-btn active" data-action="all" onclick="setActionFilter(this,'all')">الكل</button>
+        <button class="filter-btn" data-action="chat" onclick="setActionFilter(this,'chat')">محادثة</button>
+        <button class="filter-btn" data-action="approve" onclick="setActionFilter(this,'approve')">موافقة</button>
+        <button class="filter-btn" data-action="reject" onclick="setActionFilter(this,'reject')">رفض</button>
+        <button class="filter-btn" data-action="execute" onclick="setActionFilter(this,'execute')">تنفيذ</button>
+        <button class="filter-btn" data-action="block" onclick="setActionFilter(this,'block')">حظر</button>
+        <div class="search-input-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+          </svg>
+          <input type="search" class="search-input" id="audit-search" placeholder="بحث في السجل..." oninput="filterEntries()">
+        </div>
+      </div>
+
+      <!-- Audit Log -->
+      <div class="glass-card audit-log-card">
+        <div class="audit-log-header">
+          <span class="audit-log-title">سجل الأحداث</span>
+          <span class="audit-log-count" id="entries-count">آخر 50 إدخالاً</span>
+        </div>
+        <div class="audit-log-body" id="audit-log-body" aria-label="سجل التدقيق">
+          <div class="loading-entries">جاري تحميل سجل التدقيق...</div>
+        </div>
+      </div>
+
     </div>
-
-    <!-- Pagination -->
-    <div class="pagination" id="pagination"></div>
-
   </main>
 
-  <!-- Detail Modal -->
-  <div id="detail-modal" style="display:none;" role="dialog" aria-modal="true" aria-labelledby="modal-ttl">
-    <div class="modal-backdrop" onclick="closeModal()">
-      <div class="modal-box" onclick="event.stopPropagation()">
-        <div class="modal-header">
-          <div style="display:flex;align-items:center;gap:0.75rem;">
-            <i class="fas fa-shield-halved" style="color:var(--brand);" aria-hidden="true"></i>
-            <h2 id="modal-ttl" style="font-size:1rem;font-weight:700;">تفاصيل السجل</h2>
-            <span id="modal-id" style="font-size:0.7rem;color:var(--text-dim);font-family:monospace;"></span>
-          </div>
-          <button onclick="closeModal()" class="btn btn-ghost btn-sm" aria-label="إغلاق">
-            <i class="fas fa-xmark" aria-hidden="true"></i>
-          </button>
-        </div>
-        <div class="modal-body" id="modal-body"></div>
-        <div class="modal-footer">
-          <button onclick="closeModal()" class="btn btn-ghost">إغلاق</button>
-          <button id="evidence-btn" class="btn btn-primary">
-            <i class="fas fa-file-shield" aria-hidden="true"></i> إنشاء ملف دليل
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <footer class="kernel-footer">&copy; 2026 BrightAI Kernel</footer>
+  <script src="/kernel/assets/js/kernel-utils.js"></script>
+  <script src="/kernel/assets/js/kernel-api.js"></script>
+  <script src="/kernel/assets/js/kernel-nav.js"></script>
 
   <script>
-    let filters = { limit: 20, offset: 0 };
+    let allEntries = [];
+    let currentActionFilter = 'all';
 
-    async function loadAudit() {
-      const p = new URLSearchParams();
-      if (filters.search) p.set('search', filters.search);
-      if (filters.riskLevel) p.set('riskLevel', filters.riskLevel);
-      if (filters.compliancePack) p.set('compliancePack', filters.compliancePack);
-      if (filters.approvalStatus) p.set('approvalStatus', filters.approvalStatus);
-      if (filters.dateFrom) p.set('dateFrom', filters.dateFrom);
-      if (filters.dateTo) p.set('dateTo', filters.dateTo);
-      p.set('limit', filters.limit);
-      p.set('offset', filters.offset);
+    const ACTION_LABELS = {
+      'CHAT_REQUEST': { label: 'محادثة', cls: 'chat' },
+      'APPROVAL_REQUESTED': { label: 'طلب موافقة', cls: 'system' },
+      'APPROVED': { label: 'موافقة', cls: 'approve' },
+      'REJECTED': { label: 'رفض', cls: 'reject' },
+      'EXECUTED': { label: 'تنفيذ', cls: 'execute' },
+      'BLOCKED': { label: 'حظر', cls: 'block' },
+      'SYSTEM': { label: 'نظام', cls: 'system' },
+    };
 
-      const tbody = document.getElementById('audit-tbody');
-      tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:2rem;"><span class="spinner"></span></td></tr>';
+    document.addEventListener('DOMContentLoaded', () => {
+      loadAuditChain();
+      setInterval(loadAuditChain, 30000);
+    });
 
+    async function loadAuditChain() {
       try {
-        const res = await fetch('/api/kernel/audit?' + p);
-        const data = await res.json();
-        renderTable(data.entries || [], data.total || 0);
-      } catch(e) {
-        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:#f87171;padding:2rem;">خطأ في تحميل البيانات</td></tr>';
+        const data = await kernelAPI.getAuditChain();
+        renderChain(data);
+      } catch (err) {
+        console.log('[v0] Failed to load audit chain:', err);
+        renderChainError();
       }
     }
 
-    function renderTable(entries, total) {
-      const tbody = document.getElementById('audit-tbody');
-      if (!entries.length) {
-        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--text-muted);padding:3rem;">لا توجد سجلات</td></tr>';
-        renderPagination(0);
+    function renderChain(data) {
+      const isValid = data.chainStatus === 'VALID';
+      const card = document.getElementById('chain-status-card');
+      const pulse = document.getElementById('chain-pulse');
+      const title = document.getElementById('chain-title');
+      const hash = document.getElementById('chain-hash');
+
+      card.className = `glass-card chain-status-card ${isValid ? 'valid' : 'invalid'}`;
+      pulse.className = `chain-pulse ${isValid ? 'valid' : 'invalid'}`;
+      title.className = `chain-title ${isValid ? 'valid' : 'invalid'}`;
+      title.textContent = isValid
+        ? 'سلامة السلسلة: صحيحة - تم التحقق من جميع الإدخالات'
+        : 'سلامة السلسلة: خطأ - قد يكون هناك تلاعب بالبيانات';
+      hash.textContent = data.chainHash || '—';
+
+      // Summary
+      document.getElementById('stat-total').textContent = KernelUtils.formatNumber(data.totalEntries || 0);
+      const actionCount = data.summary?.actionTypes
+        ? Object.keys(data.summary.actionTypes).length
+        : 0;
+      document.getElementById('stat-actions').textContent = actionCount;
+      document.getElementById('stat-actors').textContent = KernelUtils.formatNumber(data.summary?.actorCount || 0);
+
+      // Entries
+      allEntries = data.entries || [];
+      document.getElementById('entries-count').textContent = `${allEntries.length} إدخالاً`;
+      renderEntries();
+    }
+
+    function renderChainError() {
+      document.getElementById('chain-title').textContent = 'تعذّر تحميل بيانات السلسلة';
+      document.getElementById('chain-hash').textContent = '—';
+      document.getElementById('audit-log-body').innerHTML =
+        '<div class="error-state">تعذّر تحميل سجل التدقيق. يرجى المحاولة مجدداً.</div>';
+    }
+
+    function setActionFilter(btn, filter) {
+      currentActionFilter = filter;
+      document.querySelectorAll('.filter-btn[data-action]').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderEntries();
+    }
+
+    function filterEntries() {
+      renderEntries();
+    }
+
+    function renderEntries() {
+      const search = document.getElementById('audit-search').value.toLowerCase();
+      let items = allEntries;
+
+      if (currentActionFilter !== 'all') {
+        items = items.filter(e => {
+          const actionKey = (e.action || '').toLowerCase();
+          return actionKey.includes(currentActionFilter);
+        });
+      }
+
+      if (search) {
+        items = items.filter(e =>
+          (e.action || '').toLowerCase().includes(search) ||
+          (e.actor || '').toLowerCase().includes(search) ||
+          (e.requestId || '').toLowerCase().includes(search)
+        );
+      }
+
+      const body = document.getElementById('audit-log-body');
+
+      if (items.length === 0) {
+        body.innerHTML = '<div class="loading-entries">لا توجد نتائج لهذا الفلتر.</div>';
         return;
       }
-      tbody.innerHTML = entries.map((e, i) => `
-        <tr class="cursor-row" onclick="showDetail('${e.id}')" tabindex="0" onkeydown="if(event.key==='Enter')showDetail('${e.id}')">
-          <td style="color:var(--text-muted)">${filters.offset + i + 1}</td>
-          <td style="font-size:0.8rem;white-space:nowrap">${new Date(e.created_at).toLocaleString('ar-SA')}</td>
-          <td><span class="badge badge-${e.risk_level}">${e.risk_score ?? 0} — ${riskLabel(e.risk_level)}</span></td>
-          <td><span class="badge badge-${e.approval_status}">${statusLabel(e.approval_status)}</span></td>
-          <td style="color:var(--brand);font-size:0.8rem;">${e.compliance_pack || '—'}</td>
-          <td class="truncate-cell" style="color:var(--text-muted);font-size:0.8rem;">${(e.masked_message || e.request_message || '').substring(0, 60)}…</td>
-          <td>
-            <button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();showDetail('${e.id}')" aria-label="عرض تفاصيل السجل">
-              <i class="fas fa-eye" aria-hidden="true"></i>
-            </button>
-          </td>
-        </tr>
-      `).join('');
-      renderPagination(total);
-    }
 
-    function renderPagination(total) {
-      const el = document.getElementById('pagination');
-      const from = filters.offset + 1;
-      const to   = Math.min(filters.offset + filters.limit, total);
-      el.innerHTML = `
-        <span class="info">${from}–${to} من ${total}</span>
-        <div class="pag-btns">
-          <button class="btn btn-ghost btn-sm" onclick="filters.offset=Math.max(0,filters.offset-filters.limit);loadAudit()" ${filters.offset===0?'disabled':''}>
-            <i class="fas fa-chevron-right" aria-hidden="true"></i> السابق
-          </button>
-          <button class="btn btn-ghost btn-sm" onclick="filters.offset+=filters.limit;loadAudit()" ${to>=total?'disabled':''}>
-            التالي <i class="fas fa-chevron-left" aria-hidden="true"></i>
-          </button>
-        </div>`;
-    }
+      body.innerHTML = items.slice(0, 100).map(entry => {
+        const action = entry.action || 'UNKNOWN';
+        const info = ACTION_LABELS[action] || { label: action, cls: 'system' };
+        const time = entry.timestamp
+          ? new Date(entry.timestamp).toLocaleString('ar-SA', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
+          : '—';
+        const shortId = (entry.requestId || '').substring(0, 12);
+        const shortHash = (entry.hash || '').substring(0, 12);
+        const actor = KernelUtils.escapeHtml(entry.actor || 'نظام');
 
-    async function showDetail(id) {
-      document.getElementById('detail-modal').style.display = 'flex';
-      document.getElementById('modal-id').textContent = id;
-      document.getElementById('modal-body').innerHTML = '<div style="text-align:center;padding:2rem;"><span class="spinner"></span></div>';
-      document.getElementById('evidence-btn').onclick = () => generateEvidence(id);
-
-      try {
-        const res = await fetch('/api/kernel/audit/' + id);
-        const e   = await res.json();
-        document.getElementById('modal-body').innerHTML = renderDetail(e);
-      } catch(_) {
-        document.getElementById('modal-body').innerHTML = '<p style="color:#f87171">خطأ في تحميل التفاصيل</p>';
-      }
-    }
-
-    function renderDetail(e) {
-      const fields = [
-        ['معرّف التفاعل', `<code style="color:var(--brand);font-size:0.75rem;">${esc(e.id || '—')}</code>`],
-        ['التاريخ والوقت', e.created_at ? new Date(e.created_at).toLocaleString('ar-SA') : '—'],
-        ['معرّف المستخدم', `<code>${esc(e.user_id || '—')}</code>`],
-        ['الدور الوظيفي', e.user_role || '—'],
-      ];
-      
-      let html = `
-        <div style="margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border);">
-          <h3 style="font-size: 0.9rem; font-weight: 700; margin-bottom: 1rem; color: var(--text);">معلومات الطلب</h3>
-          <div class="detail-grid">
-            ${fields.map(([l,v]) => `<div class="detail-field"><div class="lbl">${l}</div><div class="val">${v}</div></div>`).join('')}
+        return `
+          <div class="audit-entry">
+            <span class="audit-time">${time}</span>
+            <span class="audit-action-badge ${info.cls}" aria-label="${info.label}">${info.label}</span>
+            <span class="audit-details">
+              <span class="actor">${actor}</span> — معرف الطلب: ${shortId}...
+            </span>
+            <span class="audit-hash" onclick="copyToClipboard('${entry.hash || ''}')" title="نسخ التجزئة">${shortHash}...</span>
           </div>
-        </div>
-
-        <div style="margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border);">
-          <h3 style="font-size: 0.9rem; font-weight: 700; margin-bottom: 1rem; color: var(--text);">تحليل الأمان والمخاطر</h3>
-          <div class="detail-grid">
-            <div class="detail-field"><div class="lbl">حالة التقييم</div><div class="val"><span class="badge badge-${e.approval_status}">${statusLabel(e.approval_status)}</span></div></div>
-            <div class="detail-field"><div class="lbl">درجة المخاطر</div><div class="val"><span class="badge badge-${e.risk_level}">${e.risk_score ?? 0}/100 — ${riskLabel(e.risk_level)}</span></div></div>
-            <div class="detail-field"><div class="lbl">حزمة الامتثال</div><div class="val">${e.compliance_pack || '—'}</div></div>
-            <div class="detail-field"><div class="lbl">النموذج المستخدم</div><div class="val">${e.model_used || '—'}</div></div>
-          </div>
-        </div>
-
-        ${e.pii_detected?.length ? `
-        <div style="margin-bottom: 1.5rem; padding: 1rem; background: rgba(251,146,60,0.1); border: 1px solid rgba(251,146,60,0.2); border-radius: 0.75rem; border-right: 3px solid #fb923c;">
-          <h3 style="font-size: 0.9rem; font-weight: 700; margin-bottom: 0.5rem; color: #fb923c;">⚠ بيانات شخصية مكتشفة</h3>
-          <ul style="padding-right: 1.25rem; font-size: 0.8rem; color: var(--text-muted); line-height: 1.8; margin: 0;">
-            ${e.pii_detected.map(p => `<li>${esc(p)}</li>`).join('')}
-          </ul>
-        </div>
-        ` : ''}
-
-        ${e.risk_reasons?.length ? `
-        <div style="margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border);">
-          <h3 style="font-size: 0.9rem; font-weight: 700; margin-bottom: 0.75rem; color: var(--text);">أسباب تقييم المخاطر</h3>
-          <ul style="padding-right: 1.25rem; font-size: 0.8rem; color: var(--text-muted); line-height: 1.8;">
-            ${e.risk_reasons.map(r => `<li>${esc(r)}</li>`).join('')}
-          </ul>
-        </div>
-        ` : ''}
-
-        ${e.request_message ? `<div style="margin-bottom: 1rem;"><div class="form-label">الطلب الأصلي</div><div class="detail-pre">${esc(e.request_message)}</div></div>` : ''}
-        ${e.masked_message ? `<div style="margin-bottom: 1rem;"><div class="form-label">الطلب بعد إخفاء البيانات</div><div class="detail-pre">${esc(e.masked_message)}</div></div>` : ''}
-
-        <div style="margin-bottom: 1rem; padding: 1rem; background: var(--ink-800); border: 1px solid var(--border); border-radius: 0.75rem;">
-          <div class="form-label" style="margin-bottom: 0.5rem;">بصمة التدقيق (SHA-256)</div>
-          <code style="direction: ltr; font-size: 0.7rem; word-break: break-all; display: block; color: var(--brand);">${esc(e.chain_hash || '—')}</code>
-        </div>
-
-        <details style="cursor: pointer;">
-          <summary style="font-size: 0.8rem; color: var(--brand); font-weight: 600; padding: 0.5rem 0; cursor: pointer;">عرض البيانات التقنية الكاملة</summary>
-          <pre class="detail-pre" style="margin-top: 0.75rem;">${esc(JSON.stringify(e, null, 2))}</pre>
-        </details>
-      `;
-      return html;
+        `;
+      }).join('');
     }
 
-    async function generateEvidence(id) {
-      document.getElementById('evidence-btn').textContent = 'جاري الإنشاء...';
-      try {
-        const res = await fetch('/api/kernel/evidence/' + id, { method: 'POST' });
-        const ev = await res.json();
-        document.getElementById('modal-body').innerHTML = '<div class="form-label" style="color:var(--brand);margin-bottom:0.5rem;">ملف الدليل</div><pre class="detail-pre">' + esc(JSON.stringify(ev,null,2)) + '</pre>';
-      } catch(_) { alert('خطأ في إنشاء ملف الدليل'); }
-      document.getElementById('evidence-btn').innerHTML = '<i class="fas fa-file-shield"></i> إنشاء ملف دليل';
+    function copyHash(el) {
+      const text = el.textContent.trim();
+      copyToClipboard(text);
     }
 
-    function closeModal() { document.getElementById('detail-modal').style.display = 'none'; }
-
-    function applyFilters() {
-      filters.search        = document.getElementById('f-search').value;
-      filters.riskLevel     = document.getElementById('f-risk').value;
-      filters.compliancePack= document.getElementById('f-pack').value;
-      filters.approvalStatus= document.getElementById('f-status').value;
-      filters.dateFrom      = document.getElementById('f-from').value;
-      filters.dateTo        = document.getElementById('f-to').value;
-      filters.offset        = 0;
-      loadAudit();
-    }
-
-    function resetFilters() {
-      ['f-search','f-risk','f-pack','f-status','f-from','f-to'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.value = '';
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        KernelUtils?.showToast?.('تم النسخ!', 'success');
+      }).catch(() => {
+        console.log('[v0] Clipboard copy failed');
       });
-      filters = { limit: 20, offset: 0 };
-      loadAudit();
     }
-
-    function riskLabel(l)   { return { low:'منخفض', medium:'متوسط', high:'مرتفع', critical:'حرج' }[l] || l; }
-    function statusLabel(s) { return { auto_approved:'مقبول تلقائي', approved:'مقبول', pending:'معلق', blocked:'محظور', rejected:'مرفوض' }[s] || s; }
-    function esc(s) { if (typeof s !== 'string') s = String(s); const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
-
-    loadAudit();
   </script>
-  <script defer src="/frontend/js/sitewide-modernization.js"></script>
-  <script defer src="/frontend/js/production-runtime.v20260427.js"></script>
-  <script defer src="/frontend/js/unified-header.js?v=20260529-nav-v1"></script>
 </body>
 </html>

@@ -1,548 +1,591 @@
 <!DOCTYPE html>
-<html lang="ar-SA" dir="rtl">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-8LLESL207Q"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-8LLESL207Q');
-</script>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="robots" content="index, follow">
-  <title>تقارير الامتثال والتشغيل | BrightAI Kernel</title>
-  <meta name="description" content="تقارير استخدام وأحداث أمنية وامتثال تساعد فرق المراجعة على فهم نشاط الذكاء الاصطناعي داخل المؤسسة.">
-  <link rel="canonical" href="https://brightai.site/kernel/reports/">
-  <link rel="alternate" hreflang="ar-SA" href="https://brightai.site/kernel/reports/">
-  <link rel="alternate" hreflang="x-default" href="https://brightai.site/kernel/reports/">
-  <link rel="sitemap" type="application/xml" href="https://brightai.site/sitemap.xml">
-  <link rel="stylesheet" href="/frontend/css/tailwind.local.min.css">
-  <link rel="stylesheet" href="/frontend/assets/css/global-fonts.css?v=20260529-official-font">
-  <link rel="stylesheet" href="/frontend/vendor/fontawesome/css/all.min.css?v=20260529-icons">
-  <link rel="stylesheet" href="/frontend/css/sitewide-modernization.css">
-  <link rel="stylesheet" href="/frontend/css/unified-header.css?v=20260529-nav-v1">
-  <link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css">
-  <link rel="stylesheet" href="/kernel/kernel.css">
-  <link rel="stylesheet" href="kernel.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>التقارير | BrightAI Kernel</title>
+  <link rel="stylesheet" href="/kernel/assets/css/kernel.css">
   <style>
-    .report-types { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 2rem; }
-    @media (max-width: 900px) { .report-types { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 560px) { .report-types { grid-template-columns: 1fr; } }
-
+    .reports-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
     .report-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
       padding: 1.5rem;
+      transition: all 0.3s ease;
+    }
+    .report-card:hover {
+      border-color: var(--primary-color);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      transform: translateY(-2px);
+    }
+    .report-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+    }
+    .report-icon.blue { background: rgba(59, 130, 246, 0.15); color: #3b82f6; }
+    .report-icon.green { background: rgba(16, 185, 129, 0.15); color: #10b981; }
+    .report-icon.purple { background: rgba(139, 92, 246, 0.15); color: #8b5cf6; }
+    .report-icon.orange { background: rgba(249, 115, 22, 0.15); color: #f97316; }
+    .report-title {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+    }
+    .report-desc {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      margin-bottom: 1rem;
+      line-height: 1.6;
+    }
+    .report-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border-color);
+    }
+    .report-date {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+    .report-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .report-btn {
+      padding: 0.375rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 500;
       cursor: pointer;
-      transition: border-color 0.2s, transform 0.2s;
-      border: 1px solid var(--border);
+      transition: all 0.2s;
+      border: none;
     }
-    .report-card:hover { border-color: rgba(0,212,255,0.35); transform: translateY(-2px); }
-    .report-card.selected { border-color: var(--brand); background: rgba(0,212,255,0.06); }
-
-    .report-card .rc-icon { width: 52px; height: 52px; border-radius: 0.875rem; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; margin-bottom: 0.875rem; }
-    .report-card h3 { font-size: 0.95rem; font-weight: 800; margin-bottom: 0.35rem; }
-    .report-card p  { font-size: 0.78rem; color: var(--text-muted); line-height: 1.5; }
-
-    .report-config {
+    .report-btn.primary {
+      background: var(--primary-color);
+      color: white;
+    }
+    .report-btn.primary:hover {
+      background: var(--primary-hover);
+    }
+    .report-btn.secondary {
+      background: var(--bg-tertiary);
+      color: var(--text-primary);
+      border: 1px solid var(--border-color);
+    }
+    .report-btn.secondary:hover {
+      background: var(--bg-secondary);
+    }
+    .filters-bar {
+      display: flex;
+      gap: 1rem;
       margin-bottom: 1.5rem;
-      padding: 1.5rem;
-      display: none;
+      flex-wrap: wrap;
+      align-items: center;
     }
-    .report-config.visible { display: block; }
-
-    .config-row { display: flex; flex-wrap: wrap; gap: 0.875rem; align-items: flex-end; margin-bottom: 1rem; }
-    .config-item { display: flex; flex-direction: column; min-width: 160px; flex: 1; }
-
-    .report-output {
-      margin-top: 1.5rem;
-      padding: 1.5rem;
-      display: none;
-    }
-    .report-output.visible { display: block; }
-
-    .output-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.5rem; }
-    .output-title { font-size: 1rem; font-weight: 700; }
-    .export-btns { display: flex; gap: 0.5rem; }
-
-    /* Summary row */
-    .report-summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.875rem; margin-bottom: 1.5rem; }
-    @media (max-width: 700px) { .report-summary { grid-template-columns: repeat(2, 1fr); } }
-    .rs-box { background: var(--ink-800); border: 1px solid var(--border); border-radius: 0.75rem; padding: 1rem; text-align: center; }
-    .rs-box .rs-val { font-size: 1.6rem; font-weight: 800; margin-bottom: 0.2rem; }
-    .rs-box .rs-lbl { font-size: 0.72rem; color: var(--text-muted); }
-
-    /* Timeline */
-    .timeline { display: flex; flex-direction: column; gap: 0; }
-    .tl-item { display: flex; gap: 1rem; padding: 0.875rem 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
-    .tl-item:last-child { border-bottom: none; }
-    .tl-dot { width: 10px; height: 10px; border-radius: 50%; margin-top: 0.35rem; flex-shrink: 0; }
-    .tl-time { font-size: 0.72rem; color: var(--text-muted); white-space: nowrap; min-width: 80px; }
-    .tl-text { font-size: 0.82rem; color: var(--text-muted); flex: 1; line-height: 1.5; }
-    .tl-badge { flex-shrink: 0; }
-
-    /* Chart bars inside report */
-    .mini-bar-row { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; }
-    .mini-bar-lbl { font-size: 0.78rem; color: var(--text-muted); min-width: 100px; text-align: right; }
-    .mini-bar-track { flex: 1; background: var(--ink-800); border-radius: 99px; height: 1.2rem; overflow: hidden; }
-    .mini-bar-fill { height: 100%; border-radius: 99px; transition: width 0.8s ease; }
-    .mini-bar-val { font-size: 0.75rem; color: var(--text-muted); min-width: 28px; text-align: left; }
-
-    /* Compliance table */
-    .compliance-row { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 0; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 0.82rem; }
-    .compliance-row:last-child { border-bottom: none; }
-    .compliance-pack { color: var(--brand); font-weight: 600; }
-    .compliance-rate { display: flex; align-items: center; gap: 0.5rem; }
-    .compliance-rate .rate-val { font-weight: 700; }
-
-    .no-type-msg { text-align: center; padding: 3rem; color: var(--text-muted); font-size: 0.9rem; }
-    .no-type-msg i { font-size: 3rem; margin-bottom: 1rem; display: block; color: var(--border); }
-
-    .demo-banner {
-      background: rgba(167,139,250,0.08);
-      border: 1px dashed rgba(167,139,250,0.3);
-      border-radius: 0.75rem;
-      padding: 0.875rem 1.25rem;
-      font-size: 0.8rem;
-      color: #a78bfa;
+    .filter-group {
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      margin-bottom: 1.5rem;
+    }
+    .filter-label {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+    }
+    .filter-select {
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background: var(--card-bg);
+      color: var(--text-primary);
+      font-size: 0.875rem;
+      cursor: pointer;
+    }
+    .search-box {
+      flex: 1;
+      min-width: 200px;
+      position: relative;
+    }
+    .search-box input {
+      width: 100%;
+      padding: 0.5rem 1rem 0.5rem 2.5rem;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background: var(--card-bg);
+      color: var(--text-primary);
+      font-size: 0.875rem;
+    }
+    .search-box svg {
+      position: absolute;
+      right: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      width: 16px;
+      height: 16px;
+    }
+    .generate-btn {
+      padding: 0.5rem 1.25rem;
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s;
+    }
+    .generate-btn:hover {
+      background: var(--primary-hover);
+    }
+    .scheduled-section {
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border-color);
+    }
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+    .section-title {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    .schedule-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .schedule-table th,
+    .schedule-table td {
+      padding: 0.75rem 1rem;
+      text-align: right;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .schedule-table th {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      background: var(--bg-secondary);
+    }
+    .schedule-table td {
+      font-size: 0.875rem;
+      color: var(--text-primary);
+    }
+    .schedule-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.375rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+    .schedule-status.active {
+      background: rgba(16, 185, 129, 0.15);
+      color: #10b981;
+    }
+    .schedule-status.paused {
+      background: rgba(245, 158, 11, 0.15);
+      color: #f59e0b;
     }
   </style>
-  <script id="brightai-production-schema" type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": [
-        "Organization",
-        "LocalBusiness"
-      ],
-      "@id": "https://brightai.site/#organization",
-      "name": "Bright AI",
-      "url": "https://brightai.site",
-      "logo": "https://brightai.site/frontend/images/logo-new.PNG",
-      "areaServed": "SA",
-      "sameAs": []
-    },
-    {
-      "@type": "WebSite",
-      "@id": "https://brightai.site/#website",
-      "url": "https://brightai.site",
-      "name": "Bright AI",
-      "publisher": {
-        "@id": "https://brightai.site/#organization"
-      },
-      "inLanguage": [
-        "ar-SA",
-        "en-SA"
-      ]
-    },
-    {
-      "@type": "WebPage",
-      "@id": "https://brightai.site/kernel/reports/#webpage",
-      "url": "https://brightai.site/kernel/reports/",
-      "name": "تقارير الامتثال والتشغيل | BrightAI Kernel",
-      "description": "تقارير استخدام وأحداث أمنية وامتثال تساعد فرق المراجعة على فهم نشاط الذكاء الاصطناعي داخل المؤسسة.",
-      "isPartOf": {
-        "@id": "https://brightai.site/#website"
-      },
-      "about": {
-        "@id": "https://brightai.site/#organization"
-      },
-      "inLanguage": "ar-SA"
-    },
-    {
-      "@type": "BreadcrumbList",
-      "@id": "https://brightai.site/kernel/reports/#breadcrumb",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Bright AI",
-          "item": "https://brightai.site/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "kernel",
-          "item": "https://brightai.site/kernel/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 3,
-          "name": "تقارير الامتثال والتشغيل | BrightAI Kernel",
-          "item": "https://brightai.site/kernel/reports/"
-        }
-      ]
-    }
-  ]
-}
-  </script>
-  <link rel="preload" href="/frontend/assets/fonts/TheYearofTheCamel-Medium.otf" as="font" type="font/otf" crossorigin />
 </head>
 <body>
-  
-  <div id="brightai-unified-header"></div>
-  <a href="#reports-main" class="skip-link">تخطي إلى التقارير</a>
-  <script>
-    (function () {
-      var script = document.createElement('script');
-      script.src = window.location.protocol === 'file:' ? 'kernel-nav.js' : '/kernel/kernel-nav.js';
-      document.currentScript.insertAdjacentElement('beforebegin', script);
-    })();
-  </script>
-
-  <main id="reports-main" class="page-wrap">
-
-    <div style="margin-bottom:1.5rem;" class="fade-up">
-      <h1 class="section-title">التقارير — أدلة التدقيق الجاهزة</h1>
-      <p class="section-sub">BrightAI Kernel تولّد تقارير احترافية جاهزة للتدقيق الخارجي والجهات الرقابية. كل تقرير يحتوي على بصمات مشفرة وسلاسل أثر لا يمكن تزييفها.</p>
-    </div>
-
-    <div class="glass fade-up d1" style="padding: 1rem 1.5rem; margin-bottom: 1.5rem; border-left: 3px solid #a78bfa; background: rgba(167,139,250,0.08);">
-      <div style="font-size: 0.75rem; color: #a78bfa; font-weight: 600; margin-bottom: 0.35rem;">عرض توضيحي</div>
-      <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">التقارير هنا توضح الشكل والمحتوى. يمكن تصديرها كـ JSON و CSV. في الإنتاج، تتم مصادقة التقارير رقمياً بـ SHA-256.</p>
-    </div>
-
-    <!-- Report Types -->
-    <section aria-labelledby="report-types-heading" class="fade-up d2">
-      <h2 id="report-types-heading" class="section-title" style="font-size:1.1rem;">اختر نوع التقرير</h2>
-      <div class="report-types" role="radiogroup" aria-label="نوع التقرير">
-
-        <div class="glass report-card" onclick="selectReport('usage')" tabindex="0" onkeydown="if(event.key==='Enter')selectReport('usage')" role="radio" aria-checked="false" id="card-usage">
-          <div class="rc-icon bg-brand"><i class="fas fa-chart-line c-brand" aria-hidden="true"></i></div>
-          <h3>تقرير الاستخدام</h3>
-          <p>ملخص شامل لعدد الطلبات وحالات المخاطر والموافقات والرفض خلال فترة زمنية</p>
+  <div class="kernel-layout">
+    <!-- Sidebar -->
+    <aside class="kernel-sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">
+          <div class="logo-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+              <path d="M2 17l10 5 10-5"/>
+              <path d="M2 12l10 5 10-5"/>
+            </svg>
+          </div>
+          <span class="logo-text">BrightAI</span>
         </div>
-
-        <div class="glass report-card" onclick="selectReport('compliance')" tabindex="0" onkeydown="if(event.key==='Enter')selectReport('compliance')" role="radio" aria-checked="false" id="card-compliance">
-          <div class="rc-icon bg-purple"><i class="fas fa-layer-group c-purple" aria-hidden="true"></i></div>
-          <h3>تقرير الامتثال</h3>
-          <p>تفصيل مستوى الامتثال لكل حزمة تنظيمية مع معدلات الاكتشاف والمعالجة</p>
-        </div>
-
-        <div class="glass report-card" onclick="selectReport('security')" tabindex="0" onkeydown="if(event.key==='Enter')selectReport('security')" role="radio" aria-checked="false" id="card-security">
-          <div class="rc-icon bg-red"><i class="fas fa-shield-halved c-red" aria-hidden="true"></i></div>
-          <h3>تقرير الأحداث الأمنية</h3>
-          <p>سجل الطلبات المحظورة ومحاولات الاختراق والأحداث ذات الأولوية العالية</p>
-        </div>
-
-        <div class="glass report-card" onclick="selectReport('pii')" tabindex="0" onkeydown="if(event.key==='Enter')selectReport('pii')" role="radio" aria-checked="false" id="card-pii">
-          <div class="rc-icon bg-orange"><i class="fas fa-user-shield c-orange" aria-hidden="true"></i></div>
-          <h3>تقرير البيانات الشخصية</h3>
-          <p>تتبع جميع حالات اكتشاف وإخفاء البيانات الشخصية (PII) عبر التفاعلات</p>
-        </div>
-
-        <div class="glass report-card" onclick="selectReport('approvals')" tabindex="0" onkeydown="if(event.key==='Enter')selectReport('approvals')" role="radio" aria-checked="false" id="card-approvals">
-          <div class="rc-icon bg-green"><i class="fas fa-user-check c-green" aria-hidden="true"></i></div>
-          <h3>تقرير الموافقات</h3>
-          <p>إحصائيات قرارات الموافقة اليدوية بتفاصيل المعتمدين وأوقات الاستجابة</p>
-        </div>
-
-        <div class="glass report-card" onclick="selectReport('audit')" tabindex="0" onkeydown="if(event.key==='Enter')selectReport('audit')" role="radio" aria-checked="false" id="card-audit">
-          <div class="rc-icon bg-yellow"><i class="fas fa-link c-yellow" aria-hidden="true"></i></div>
-          <h3>تقرير سلسلة التدقيق</h3>
-          <p>تقرير كامل لسلسلة التدقيق مع التحقق من سلامة البصمات الرقمية</p>
-        </div>
-
       </div>
-    </section>
+      <nav class="sidebar-nav" id="sidebarNav"></nav>
+      <div class="sidebar-footer">
+        <button class="theme-toggle" id="themeToggle" title="تبديل المظهر">
+          <svg class="sun-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+          </svg>
+          <svg class="moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+      </div>
+    </aside>
 
-    <!-- Config Panel -->
-    <div class="glass report-config fade-up" id="report-config">
-      <h3 style="font-size:0.875rem;font-weight:700;margin-bottom:1rem;color:var(--brand);" id="config-title">إعداد التقرير</h3>
-      <div class="config-row">
-        <div class="config-item">
-          <label class="form-label" for="rpt-from">من تاريخ</label>
-          <input id="rpt-from" class="form-input" type="date">
+    <!-- Main Content -->
+    <main class="kernel-main">
+      <header class="main-header">
+        <button class="menu-toggle" id="menuToggle">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 12h18M3 6h18M3 18h18"/>
+          </svg>
+        </button>
+        <div class="header-title">
+          <h1>التقارير</h1>
+          <p>إنشاء وإدارة تقارير الحوكمة والامتثال</p>
         </div>
-        <div class="config-item">
-          <label class="form-label" for="rpt-to">إلى تاريخ</label>
-          <input id="rpt-to" class="form-input" type="date">
+        <div class="header-actions">
+          <button class="generate-btn" onclick="showGenerateModal()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 5v14M5 12h14"/>
+            </svg>
+            تقرير جديد
+          </button>
         </div>
-        <div class="config-item">
-          <label class="form-label" for="rpt-pack">حزمة الامتثال</label>
-          <select id="rpt-pack" class="form-select">
-            <option value="">الكل</option>
-            <option value="general">عام</option>
-            <option value="pdpl">PDPL</option>
-            <option value="nca_ecc">NCA ECC</option>
-            <option value="sfda">SFDA</option>
-            <option value="healthcare">الرعاية الصحية</option>
-            <option value="procurement">المشتريات</option>
+      </header>
+
+      <div class="main-content">
+        <!-- Filters -->
+        <div class="filters-bar">
+          <div class="filter-group">
+            <span class="filter-label">النوع:</span>
+            <select class="filter-select" id="typeFilter">
+              <option value="all">الكل</option>
+              <option value="governance">حوكمة</option>
+              <option value="compliance">امتثال</option>
+              <option value="audit">تدقيق</option>
+              <option value="risk">مخاطر</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <span class="filter-label">الفترة:</span>
+            <select class="filter-select" id="periodFilter">
+              <option value="all">الكل</option>
+              <option value="daily">يومي</option>
+              <option value="weekly">أسبوعي</option>
+              <option value="monthly">شهري</option>
+              <option value="quarterly">ربع سنوي</option>
+            </select>
+          </div>
+          <div class="search-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+            </svg>
+            <input type="text" placeholder="بحث في التقارير..." id="searchInput">
+          </div>
+        </div>
+
+        <!-- Reports Grid -->
+        <div class="reports-container" id="reportsGrid">
+          <!-- Report Card 1 -->
+          <div class="report-card" data-type="governance">
+            <div class="report-icon blue">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="16" y1="13" x2="8" y2="13"/>
+                <line x1="16" y1="17" x2="8" y2="17"/>
+              </svg>
+            </div>
+            <h3 class="report-title">تقرير الحوكمة الشهري</h3>
+            <p class="report-desc">ملخص شامل لنشاط الحوكمة خلال الشهر الماضي، يتضمن إحصائيات الموافقات والرفض.</p>
+            <div class="report-meta">
+              <span class="report-date">آخر تحديث: منذ 2 ساعة</span>
+              <div class="report-actions">
+                <button class="report-btn secondary">معاينة</button>
+                <button class="report-btn primary">تحميل</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Report Card 2 -->
+          <div class="report-card" data-type="compliance">
+            <div class="report-icon green">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                <polyline points="22 4 12 14.01 9 11.01"/>
+              </svg>
+            </div>
+            <h3 class="report-title">تقرير الامتثال - PDPL</h3>
+            <p class="report-desc">تحليل مفصل لمستوى الامتثال مع نظام حماية البيانات الشخصية السعودي.</p>
+            <div class="report-meta">
+              <span class="report-date">آخر تحديث: منذ يوم</span>
+              <div class="report-actions">
+                <button class="report-btn secondary">معاينة</button>
+                <button class="report-btn primary">تحميل</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Report Card 3 -->
+          <div class="report-card" data-type="audit">
+            <div class="report-icon purple">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/>
+                <rect x="9" y="3" width="6" height="4" rx="1"/>
+                <path d="M9 12l2 2 4-4"/>
+              </svg>
+            </div>
+            <h3 class="report-title">تقرير التدقيق الأسبوعي</h3>
+            <p class="report-desc">سجل مفصل لجميع عمليات التدقيق والمراجعة خلال الأسبوع الماضي.</p>
+            <div class="report-meta">
+              <span class="report-date">آخر تحديث: منذ 3 أيام</span>
+              <div class="report-actions">
+                <button class="report-btn secondary">معاينة</button>
+                <button class="report-btn primary">تحميل</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Report Card 4 -->
+          <div class="report-card" data-type="risk">
+            <div class="report-icon orange">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                <line x1="12" y1="9" x2="12" y2="13"/>
+                <line x1="12" y1="17" x2="12.01" y2="17"/>
+              </svg>
+            </div>
+            <h3 class="report-title">تقرير تقييم المخاطر</h3>
+            <p class="report-desc">تحليل شامل للمخاطر المحتملة وتوصيات التخفيف والمعالجة.</p>
+            <div class="report-meta">
+              <span class="report-date">آخر تحديث: منذ 5 أيام</span>
+              <div class="report-actions">
+                <button class="report-btn secondary">معاينة</button>
+                <button class="report-btn primary">تحميل</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Report Card 5 -->
+          <div class="report-card" data-type="governance">
+            <div class="report-icon blue">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="20" x2="12" y2="10"/>
+                <line x1="18" y1="20" x2="18" y2="4"/>
+                <line x1="6" y1="20" x2="6" y2="16"/>
+              </svg>
+            </div>
+            <h3 class="report-title">تقرير أداء النماذج</h3>
+            <p class="report-desc">إحصائيات استخدام نماذج الذكاء الاصطناعي ومؤشرات الأداء الرئيسية.</p>
+            <div class="report-meta">
+              <span class="report-date">آخر تحديث: منذ ساعة</span>
+              <div class="report-actions">
+                <button class="report-btn secondary">معاينة</button>
+                <button class="report-btn primary">تحميل</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Report Card 6 -->
+          <div class="report-card" data-type="compliance">
+            <div class="report-icon green">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                <line x1="3" y1="9" x2="21" y2="9"/>
+                <line x1="9" y1="21" x2="9" y2="9"/>
+              </svg>
+            </div>
+            <h3 class="report-title">تقرير الامتثال - GDPR</h3>
+            <p class="report-desc">تحليل مستوى الامتثال مع اللائحة العامة لحماية البيانات الأوروبية.</p>
+            <div class="report-meta">
+              <span class="report-date">آخر تحديث: منذ أسبوع</span>
+              <div class="report-actions">
+                <button class="report-btn secondary">معاينة</button>
+                <button class="report-btn primary">تحميل</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scheduled Reports Section -->
+        <div class="scheduled-section">
+          <div class="section-header">
+            <h2 class="section-title">التقارير المجدولة</h2>
+            <button class="report-btn primary" onclick="showScheduleModal()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left: 4px;">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+              جدولة جديدة
+            </button>
+          </div>
+          <div class="card">
+            <table class="schedule-table">
+              <thead>
+                <tr>
+                  <th>اسم التقرير</th>
+                  <th>التكرار</th>
+                  <th>التشغيل القادم</th>
+                  <th>المستلمون</th>
+                  <th>الحالة</th>
+                  <th>إجراءات</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>تقرير الحوكمة الشهري</td>
+                  <td>شهري</td>
+                  <td>1 يوليو 2024</td>
+                  <td>3 مستلمين</td>
+                  <td><span class="schedule-status active">نشط</span></td>
+                  <td>
+                    <button class="report-btn secondary">تعديل</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>تقرير التدقيق الأسبوعي</td>
+                  <td>أسبوعي</td>
+                  <td>الأحد القادم</td>
+                  <td>5 مستلمين</td>
+                  <td><span class="schedule-status active">نشط</span></td>
+                  <td>
+                    <button class="report-btn secondary">تعديل</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>تقرير المخاطر الربع سنوي</td>
+                  <td>ربع سنوي</td>
+                  <td>1 سبتمبر 2024</td>
+                  <td>2 مستلمين</td>
+                  <td><span class="schedule-status paused">متوقف</span></td>
+                  <td>
+                    <button class="report-btn secondary">تعديل</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Generate Report Modal -->
+  <div class="modal-overlay" id="generateModal" style="display: none;">
+    <div class="modal-content" style="max-width: 500px;">
+      <div class="modal-header">
+        <h3>إنشاء تقرير جديد</h3>
+        <button class="modal-close" onclick="hideGenerateModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>نوع التقرير</label>
+          <select class="filter-select" style="width: 100%;">
+            <option value="governance">تقرير حوكمة</option>
+            <option value="compliance">تقرير امتثال</option>
+            <option value="audit">تقرير تدقيق</option>
+            <option value="risk">تقرير مخاطر</option>
+            <option value="custom">تقرير مخصص</option>
           </select>
         </div>
-        <div class="config-item" style="justify-content:flex-end;min-width:auto;flex:0;">
-          <button class="btn btn-primary" onclick="generateReport()" aria-label="إنشاء التقرير">
-            <i class="fas fa-file-chart-column" aria-hidden="true"></i> إنشاء التقرير
-          </button>
+        <div class="form-group">
+          <label>الفترة الزمنية</label>
+          <select class="filter-select" style="width: 100%;">
+            <option value="last7">آخر 7 أيام</option>
+            <option value="last30">آخر 30 يوم</option>
+            <option value="lastQuarter">الربع الأخير</option>
+            <option value="custom">فترة مخصصة</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>صيغة التقرير</label>
+          <select class="filter-select" style="width: 100%;">
+            <option value="pdf">PDF</option>
+            <option value="excel">Excel</option>
+            <option value="csv">CSV</option>
+          </select>
         </div>
       </div>
-    </div>
-
-    <!-- Report Output -->
-    <div class="glass report-output" id="report-output">
-      <div class="output-header">
-        <div class="output-title" id="output-title">التقرير</div>
-        <div class="export-btns">
-          <button class="btn btn-ghost btn-sm" onclick="exportJSON()">
-            <i class="fas fa-code" aria-hidden="true"></i> تصدير JSON
-          </button>
-          <button class="btn btn-ghost btn-sm" onclick="exportCSV()">
-            <i class="fas fa-file-csv" aria-hidden="true"></i> تصدير CSV
-          </button>
-          <button class="btn btn-ghost btn-sm" onclick="window.print()">
-            <i class="fas fa-print" aria-hidden="true"></i> طباعة
-          </button>
-        </div>
-      </div>
-      <div id="output-body">
-        <!-- Rendered by JS -->
+      <div class="modal-footer">
+        <button class="report-btn secondary" onclick="hideGenerateModal()">إلغاء</button>
+        <button class="report-btn primary">إنشاء التقرير</button>
       </div>
     </div>
+  </div>
 
-  </main>
-
-  <footer class="kernel-footer">&copy; 2026 BrightAI Kernel</footer>
-
+  <script src="/kernel/assets/js/kernel-utils.js"></script>
+  <script src="/kernel/assets/js/kernel-nav.js"></script>
+  <script src="/kernel/assets/js/kernel-api.js"></script>
+  <script src="/kernel/assets/js/kernel-reports.js"></script>
+  <script src="/kernel/assets/js/kernel-mobile.js"></script>
   <script>
-    let currentType = null;
-    let lastReportData = null;
-
-    // Set default dates (last 30 days)
-    const now = new Date();
-    const from30 = new Date(now); from30.setDate(from30.getDate() - 30);
-    document.getElementById('rpt-from').value = from30.toISOString().split('T')[0];
-    document.getElementById('rpt-to').value   = now.toISOString().split('T')[0];
-
-    const TITLES = {
-      usage: 'تقرير الاستخدام',
-      compliance: 'تقرير الامتثال',
-      security: 'تقرير الأحداث الأمنية',
-      pii: 'تقرير البيانات الشخصية',
-      approvals: 'تقرير الموافقات',
-      audit: 'تقرير سلسلة التدقيق',
-    };
-
-    function selectReport(type) {
-      currentType = type;
-      document.querySelectorAll('.report-card').forEach(c => {
-        c.classList.remove('selected');
-        c.setAttribute('aria-checked', 'false');
-      });
-      const card = document.getElementById('card-' + type);
-      card.classList.add('selected');
-      card.setAttribute('aria-checked', 'true');
-      const config = document.getElementById('report-config');
-      config.classList.add('visible');
-      document.getElementById('config-title').textContent = 'إعداد ' + (TITLES[type] || 'التقرير');
-      document.getElementById('report-output').classList.remove('visible');
-      config.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }
-
-    async function generateReport() {
-      if (!currentType) { alert('الرجاء اختيار نوع التقرير'); return; }
-      const outputEl = document.getElementById('report-output');
-      const bodyEl   = document.getElementById('output-body');
-      const titleEl  = document.getElementById('output-title');
-
-      outputEl.classList.add('visible');
-      bodyEl.innerHTML = '<div style="text-align:center;padding:3rem;"><span class="spinner" aria-label="جاري إنشاء التقرير"></span><p style="margin-top:1rem;color:var(--text-muted);font-size:0.85rem;">جاري جمع البيانات وإنشاء التقرير...</p></div>';
-      titleEl.textContent = TITLES[currentType] || 'التقرير';
-      outputEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-      const params = new URLSearchParams({
-        type: currentType,
-        dateFrom: document.getElementById('rpt-from').value,
-        dateTo: document.getElementById('rpt-to').value,
-        compliancePack: document.getElementById('rpt-pack').value,
-      });
-
-      try {
-        const res = await fetch('/api/kernel/reports?' + params);
-        const data = await res.json();
-        lastReportData = data;
-        bodyEl.innerHTML = renderReport(currentType, data);
-      } catch(_) {
-        // Render demo data
-        lastReportData = buildDemoData(currentType);
-        bodyEl.innerHTML = renderReport(currentType, lastReportData);
+    // Initialize navigation
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.KernelNav) {
+        KernelNav.init('sidebarNav');
+        KernelNav.setActive('reports');
       }
+      if (window.KernelUtils) {
+        KernelUtils.initTheme();
+      }
+
+      // Filter functionality
+      const typeFilter = document.getElementById('typeFilter');
+      const periodFilter = document.getElementById('periodFilter');
+      const searchInput = document.getElementById('searchInput');
+      const reportsGrid = document.getElementById('reportsGrid');
+
+      function filterReports() {
+        const type = typeFilter.value;
+        const search = searchInput.value.toLowerCase();
+        const cards = reportsGrid.querySelectorAll('.report-card');
+
+        cards.forEach(card => {
+          const cardType = card.dataset.type;
+          const title = card.querySelector('.report-title').textContent.toLowerCase();
+          const desc = card.querySelector('.report-desc').textContent.toLowerCase();
+
+          const typeMatch = type === 'all' || cardType === type;
+          const searchMatch = !search || title.includes(search) || desc.includes(search);
+
+          card.style.display = typeMatch && searchMatch ? 'block' : 'none';
+        });
+      }
+
+      typeFilter.addEventListener('change', filterReports);
+      searchInput.addEventListener('input', filterReports);
+    });
+
+    // Modal functions
+    function showGenerateModal() {
+      document.getElementById('generateModal').style.display = 'flex';
     }
 
-    /* ---- DEMO DATA ---- */
-    function buildDemoData(type) {
-      const base = {
-        type, generatedAt: new Date().toISOString(),
-        dateFrom: document.getElementById('rpt-from').value,
-        dateTo:   document.getElementById('rpt-to').value,
-        pack: document.getElementById('rpt-pack').value || 'الكل',
-        demo: true,
-      };
-      if (type === 'usage') return { ...base, total: 847, blocked: 62, pending: 18, autoApproved: 650, approved: 92, rejected: 25, avgRiskScore: 34, byRiskLevel: [{label:'منخفض',count:510,color:'#4ade80'},{label:'متوسط',count:215,color:'#fbbf24'},{label:'مرتفع',count:98,color:'#fb923c'},{label:'حرج',count:24,color:'#f87171'}] };
-      if (type === 'compliance') return { ...base, packs: [{name:'PDPL',count:230,rate:'96%',color:'var(--brand)'},{name:'NCA ECC',count:180,rate:'92%',color:'#a78bfa'},{name:'SFDA',count:145,rate:'98%',color:'#fb923c'},{name:'Healthcare',count:120,rate:'97%',color:'#4ade80'},{name:'Procurement',count:100,rate:'91%',color:'#fbbf24'},{name:'General',count:72,rate:'89%',color:'#94a3b8'}] };
-      if (type === 'security') return { ...base, total: 62, critical: 8, high: 24, medium: 30, events: [{time:'2026-05-28 14:32',text:'محاولة استخراج بيانات ERP محظورة',level:'critical'},{time:'2026-05-27 09:11',text:'رقم هوية وطنية في طلب PDPL',level:'high'},{time:'2026-05-26 16:45',text:'طلب تعديل فاتورة > 50,000 ريال',level:'high'},{time:'2026-05-25 11:20',text:'بيانات مريض في طلب غير مصنف',level:'medium'},{time:'2026-05-24 08:55',text:'محاولة prompt injection اكتُشفت',level:'critical'},{time:'2026-05-23 15:30',text:'معلومات موردين في تقرير عام',level:'medium'}] };
-      if (type === 'pii') return { ...base, total: 423, byType: [{label:'أسماء أشخاص',count:185,color:'var(--brand)'},{label:'أرقام هوية',count:98,color:'#f87171'},{label:'أرقام جوال',count:72,color:'#fbbf24'},{label:'بريد إلكتروني',count:45,color:'#fb923c'},{label:'بيانات مرضى',count:23,color:'#a78bfa'}] };
-      if (type === 'approvals') return { ...base, total: 135, approved: 92, rejected: 25, pending: 18, avgResponse: '4.2 ساعة', approvers: [{name:'د. عبدالله الشمري',approved:28,rejected:5},{name:'م. محمد العتيبي (QAM)',approved:22,rejected:8},{name:'مدير مالي',approved:18,rejected:4},{name:'مسؤول الامتثال',approved:15,rejected:6},{name:'مسؤول الأمن',approved:9,rejected:2}] };
-      if (type === 'audit') return { ...base, total: 847, valid: 843, tampered: 0, missing: 4, lastHash: '0xa3f7e2b1c9d4...', chainNote: 'سلسلة التدقيق سليمة — لم يُكتشف أي تلاعب', events: [{time:'2026-05-28',hash:'0xa3f7...',status:'valid'},{time:'2026-05-27',hash:'0x9c2e...',status:'valid'},{time:'2026-05-26',hash:'0x5d8a...',status:'valid'},{time:'2026-05-25',hash:'0x7b3f...',status:'missing'}] };
+    function hideGenerateModal() {
+      document.getElementById('generateModal').style.display = 'none';
     }
 
-    /* ---- RENDERERS ---- */
-    function renderReport(type, d) {
-      const dateRange = `<span style="font-size:0.75rem;color:var(--text-muted);">الفترة: ${d.dateFrom || '—'} إلى ${d.dateTo || '—'}${d.demo ? ' &nbsp;|&nbsp; <span style="color:#a78bfa;">بيانات تجريبية</span>' : ''}</span>`;
-
-      if (type === 'usage') return `
-        ${dateRange}
-        <div class="report-summary" style="margin-top:1rem;">
-          <div class="rs-box"><div class="rs-val c-brand">${d.total}</div><div class="rs-lbl">إجمالي الطلبات</div></div>
-          <div class="rs-box"><div class="rs-val c-red">${d.blocked}</div><div class="rs-lbl">محظورة</div></div>
-          <div class="rs-box"><div class="rs-val c-yellow">${d.pending}</div><div class="rs-lbl">معلقة</div></div>
-          <div class="rs-box"><div class="rs-val c-green">${d.autoApproved}</div><div class="rs-lbl">مقبول تلقائي</div></div>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem;">
-          <div>
-            <div style="font-size:0.8rem;font-weight:600;color:var(--text-muted);margin-bottom:0.75rem;">توزيع مستوى المخاطر</div>
-            ${(d.byRiskLevel||[]).map(r => miniBar(r.label, r.count, d.total, r.color)).join('')}
-          </div>
-          <div>
-            <div style="font-size:0.8rem;font-weight:600;color:var(--text-muted);margin-bottom:0.75rem;">ملخص القرارات</div>
-            ${miniBar('مقبول يدوياً', d.approved, d.total, '#4ade80')}
-            ${miniBar('مرفوض', d.rejected, d.total, '#f87171')}
-            ${miniBar('متوسط المخاطر', d.avgRiskScore, 100, 'var(--brand)')}
-          </div>
-        </div>`;
-
-      if (type === 'compliance') return `
-        ${dateRange}
-        <div style="margin-top:1rem;">${(d.packs||[]).map(p => `
-          <div class="compliance-row">
-            <span class="compliance-pack">${p.name}</span>
-            <span style="font-size:0.8rem;color:var(--text-muted);">${p.count} طلب</span>
-            <div class="compliance-rate">
-              <div style="width:80px;background:var(--ink-800);border-radius:99px;height:0.75rem;overflow:hidden;">
-                <div style="height:100%;border-radius:99px;background:${p.color};width:${p.rate}"></div>
-              </div>
-              <span class="rate-val" style="color:${p.color}">${p.rate}</span>
-            </div>
-          </div>`).join('')}
-        </div>`;
-
-      if (type === 'security') return `
-        ${dateRange}
-        <div class="report-summary" style="margin-top:1rem;">
-          <div class="rs-box"><div class="rs-val c-brand">${d.total}</div><div class="rs-lbl">إجمالي الأحداث</div></div>
-          <div class="rs-box"><div class="rs-val c-red">${d.critical}</div><div class="rs-lbl">حرجة</div></div>
-          <div class="rs-box"><div class="rs-val c-orange">${d.high}</div><div class="rs-lbl">مرتفعة</div></div>
-          <div class="rs-box"><div class="rs-val c-yellow">${d.medium}</div><div class="rs-lbl">متوسطة</div></div>
-        </div>
-        <div style="margin-top:1rem;">
-          <div style="font-size:0.8rem;font-weight:600;color:var(--text-muted);margin-bottom:0.75rem;">أبرز الأحداث الأمنية</div>
-          <div class="timeline">${(d.events||[]).map(ev => `
-            <div class="tl-item">
-              <div class="tl-dot" style="background:${ev.level==='critical'?'#f87171':ev.level==='high'?'#fb923c':'#fbbf24'}"></div>
-              <span class="tl-time">${ev.time}</span>
-              <span class="tl-text">${esc(ev.text)}</span>
-              <span class="tl-badge badge badge-${ev.level}">${ev.level==='critical'?'حرج':ev.level==='high'?'مرتفع':'متوسط'}</span>
-            </div>`).join('')}
-          </div>
-        </div>`;
-
-      if (type === 'pii') return `
-        ${dateRange}
-        <div class="report-summary" style="margin-top:1rem;">
-          <div class="rs-box" style="grid-column:span 4;"><div class="rs-val c-orange">${d.total}</div><div class="rs-lbl">إجمالي حقول PII مكتشفة ومخفية</div></div>
-        </div>
-        <div style="margin-top:1rem;">
-          <div style="font-size:0.8rem;font-weight:600;color:var(--text-muted);margin-bottom:0.75rem;">تصنيف البيانات الشخصية المكتشفة</div>
-          ${(d.byType||[]).map(t => miniBar(t.label, t.count, d.total, t.color)).join('')}
-        </div>`;
-
-      if (type === 'approvals') return `
-        ${dateRange}
-        <div class="report-summary" style="margin-top:1rem;">
-          <div class="rs-box"><div class="rs-val c-brand">${d.total}</div><div class="rs-lbl">إجمالي طلبات الموافقة</div></div>
-          <div class="rs-box"><div class="rs-val c-green">${d.approved}</div><div class="rs-lbl">موافق عليه</div></div>
-          <div class="rs-box"><div class="rs-val c-red">${d.rejected}</div><div class="rs-lbl">مرفوض</div></div>
-          <div class="rs-box"><div class="rs-val c-brand" style="font-size:1.1rem;">${d.avgResponse}</div><div class="rs-lbl">متوسط وقت الاستجابة</div></div>
-        </div>
-        <div style="margin-top:1rem;">
-          <div style="font-size:0.8rem;font-weight:600;color:var(--text-muted);margin-bottom:0.75rem;">إحصائيات المعتمدين</div>
-          <table class="kernel-table">
-            <thead><tr><th>المعتمد</th><th>موافقة</th><th>رفض</th><th>المجموع</th></tr></thead>
-            <tbody>${(d.approvers||[]).map(a => `
-              <tr>
-                <td>${esc(a.name)}</td>
-                <td><span class="c-green">${a.approved}</span></td>
-                <td><span class="c-red">${a.rejected}</span></td>
-                <td style="color:var(--text-muted)">${a.approved + a.rejected}</td>
-              </tr>`).join('')}
-            </tbody>
-          </table>
-        </div>`;
-
-      if (type === 'audit') return `
-        ${dateRange}
-        <div class="report-summary" style="margin-top:1rem;">
-          <div class="rs-box"><div class="rs-val c-brand">${d.total}</div><div class="rs-lbl">إجمالي السجلات</div></div>
-          <div class="rs-box"><div class="rs-val c-green">${d.valid}</div><div class="rs-lbl">بصمات سليمة</div></div>
-          <div class="rs-box"><div class="rs-val c-red">${d.tampered}</div><div class="rs-lbl">تلاعب مكتشف</div></div>
-          <div class="rs-box"><div class="rs-val c-yellow">${d.missing}</div><div class="rs-lbl">غير مكتملة</div></div>
-        </div>
-        <div class="disclaimer" style="margin-top:1rem;"><i class="fas fa-link" aria-hidden="true"></i><span>${esc(d.chainNote || '')}</span></div>
-        <div style="margin-top:1rem;">
-          <div style="font-size:0.8rem;font-weight:600;color:var(--text-muted);margin-bottom:0.75rem;">آخر سجلات السلسلة</div>
-          <div class="timeline">${(d.events||[]).map(ev => `
-            <div class="tl-item">
-              <div class="tl-dot" style="background:${ev.status==='valid'?'#4ade80':'#fbbf24'}"></div>
-              <span class="tl-time">${ev.time}</span>
-              <span class="tl-text" style="font-family:monospace;font-size:0.75rem">${ev.hash}</span>
-              <span class="tl-badge badge ${ev.status==='valid'?'badge-approved':'badge-pending'}">${ev.status==='valid'?'سليم':'ناقص'}</span>
-            </div>`).join('')}
-          </div>
-        </div>`;
-
-      return '<div class="no-type-msg"><i class="fas fa-chart-simple"></i><p>نوع تقرير غير معروف</p></div>';
+    function showScheduleModal() {
+      alert('سيتم إضافة نافذة الجدولة قريباً');
     }
 
-    function miniBar(label, count, total, color) {
-      const pct = total > 0 ? Math.round(count / total * 100) : 0;
-      return `<div class="mini-bar-row">
-        <span class="mini-bar-lbl">${esc(String(label))}</span>
-        <div class="mini-bar-track"><div class="mini-bar-fill" style="width:${pct}%;background:${color}"></div></div>
-        <span class="mini-bar-val">${count}</span>
-      </div>`;
-    }
+    // Mobile menu toggle
+    document.getElementById('menuToggle')?.addEventListener('click', () => {
+      document.getElementById('sidebar').classList.toggle('open');
+    });
 
-    function esc(s) { const d = document.createElement('div'); d.textContent = String(s); return d.innerHTML; }
-
-    function exportJSON() {
-      if (!lastReportData) return;
-      const blob = new Blob([JSON.stringify(lastReportData, null, 2)], { type: 'application/json' });
-      download(blob, 'kernel-report-' + currentType + '.json');
-    }
-
-    function exportCSV() {
-      if (!lastReportData) return;
-      const rows = [['type', 'generatedAt', 'dateFrom', 'dateTo', 'demo']];
-      rows.push([lastReportData.type, lastReportData.generatedAt, lastReportData.dateFrom, lastReportData.dateTo, lastReportData.demo]);
-      const csv = rows.map(r => r.map(c => '"' + String(c ?? '').replace(/"/g, '""') + '"').join(',')).join('\n');
-      const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8' });
-      download(blob, 'kernel-report-' + currentType + '.csv');
-    }
-
-    function download(blob, name) {
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = name;
-      a.click();
-      URL.revokeObjectURL(a.href);
-    }
+    // Theme toggle
+    document.getElementById('themeToggle')?.addEventListener('click', () => {
+      if (window.KernelUtils) {
+        KernelUtils.toggleTheme();
+      }
+    });
   </script>
-  <script defer src="/frontend/js/sitewide-modernization.js"></script>
-  <script defer src="/frontend/js/production-runtime.v20260427.js"></script>
-  <script defer src="/frontend/js/unified-header.js?v=20260529-nav-v1"></script>
 </body>
 </html>
