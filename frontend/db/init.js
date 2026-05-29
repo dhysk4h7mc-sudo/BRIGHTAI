@@ -16,6 +16,21 @@ function generateId(prefix) {
   return prefix + '_' + crypto.randomUUID().replace(/-/g, '').slice(0, 16);
 }
 
+async function generateTraceId() {
+  const db = getDb();
+  const year = new Date().getFullYear();
+
+  for (let attempt = 0; attempt < 10; attempt++) {
+    const { rows } = await db.query("SELECT nextval('kernel_trace_id_seq') AS seq");
+    const seq = String(rows[0].seq).padStart(5, '0');
+    const traceId = `AI-${year}-${seq}`;
+    const existing = await db.query('SELECT 1 FROM kernel_interactions WHERE trace_id = $1 LIMIT 1', [traceId]);
+    if (existing.rowCount === 0) return traceId;
+  }
+
+  throw new Error('Unable to generate a unique kernel trace_id');
+}
+
 async function initializeDatabase() {
   const connectionString = process.env.DATABASE_URL ||
     process.env.POSTGRES_URL ||
@@ -45,11 +60,32 @@ async function initializeDatabase() {
   const schemaPath = path.join(__dirname, 'schema-pg.sql');
   const schema = fs.readFileSync(schemaPath, 'utf8');
   await pool.query(schema);
+  await syncTraceIdSequence();
 
   await seedDefaultPolicies();
 
   console.log('[BrightAI Kernel] PostgreSQL schema initialized');
   return pool;
+}
+
+async function syncTraceIdSequence() {
+  const year = new Date().getFullYear();
+  const { rows } = await pool.query(`
+    SELECT COALESCE(MAX((substring(trace_id from $1))::bigint), 0) AS max_seq
+    FROM kernel_interactions
+    WHERE trace_id ~ $2
+  `, [`^AI-${year}-(\\d+)$`, `^AI-${year}-\\d+$`]);
+
+  const maxSeq = Number(rows[0]?.max_seq || 0);
+  if (maxSeq > 0) {
+    await pool.query(`
+      SELECT setval(
+        'kernel_trace_id_seq',
+        GREATEST((SELECT last_value FROM kernel_trace_id_seq), $1),
+        true
+      )
+    `, [maxSeq]);
+  }
 }
 
 async function seedDefaultPolicies() {
@@ -82,4 +118,4 @@ async function seedDefaultPolicies() {
   console.log(`[BrightAI Kernel] Seeded ${defaults.length} default policy rules`);
 }
 
-module.exports = { getDb, initializeDatabase, generateId };
+module.exports = { getDb, initializeDatabase, generateId, generateTraceId };

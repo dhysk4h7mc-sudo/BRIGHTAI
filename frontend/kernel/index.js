@@ -8,27 +8,9 @@ const { runComplianceChecks, saveComplianceChecks, getComplianceStatus } = requi
 const { generateEvidenceFile, generateComplianceReport } = require('./evidence');
 const { isApiKeyConfigured, isNvidiaConfigured } = require('../config');
 const { callOpenAiCompatibleProvider } = require('../services/openaiCompatProvider');
+const { generateTraceId } = require('../db/init');
 
 const { queueForApproval, getPendingApprovals } = approvalStore;
-
-const TRACE_ID_RE = /^AI-\d{4}-\d{5,}$/;
-
-async function generateTraceId() {
-  const { getDb } = require('../db/init');
-  const pool = getDb();
-  const year = new Date().getFullYear();
-  const { rows } = await pool.query("SELECT nextval('kernel_trace_id_seq') AS seq");
-  const seq = String(rows[0].seq).padStart(5, '0');
-  return `AI-${year}-${seq}`;
-}
-
-async function resolveTraceId(...candidates) {
-  const provided = candidates.find((value) => typeof value === 'string' && value.trim());
-  if (provided && TRACE_ID_RE.test(provided.trim())) return provided.trim();
-  // Migration/fallback: legacy callers may send random request ids in trace
-  // headers. Keep them in metadata, but mint a canonical AI-YYYY-00000 trace.
-  return generateTraceId();
-}
 
 function buildSystemInstruction(compliancePack) {
   const base = 'You are BrightAI Saqr AI, a secure AI assistant for Saudi enterprises. Respond in Arabic unless the user writes in English. Be professional, concise, and compliant with Saudi regulations.';
@@ -175,12 +157,16 @@ async function processChat(params) {
   const { message, userId, userName, ipAddress, userAgent, compliancePack, metadata, traceId } = params;
   const pack = compliancePack || 'general';
   const incomingMetadata = parseJsonObject(metadata);
-  const canonicalTraceId = await resolveTraceId(traceId, incomingMetadata.traceId, incomingMetadata.trace_id);
+  const incomingTraceId = traceId || incomingMetadata.traceId || incomingMetadata.trace_id || null;
+  const canonicalTraceId = await generateTraceId();
   const requestMetadata = {
     ...incomingMetadata,
     traceId: canonicalTraceId,
     trace_id: canonicalTraceId
   };
+  if (incomingTraceId && incomingTraceId !== canonicalTraceId) {
+    requestMetadata.upstreamTraceId = incomingTraceId;
+  }
 
   // Layer 1: AI Firewall
   const firewallResult = await scan(message, pack);
@@ -219,6 +205,7 @@ async function processChat(params) {
       interactionId: blockedInteraction.id,
       requestId: blockedInteraction.id,
       traceId: canonicalTraceId,
+      trace_id: canonicalTraceId,
       reason: 'Request blocked by AI Firewall',
       piiTypes: firewallResult.piiTypes,
       riskScore: 100,
@@ -285,6 +272,7 @@ async function processChat(params) {
       interactionId: pendingInteraction.id,
       requestId: pendingInteraction.id,
       traceId: canonicalTraceId,
+      trace_id: canonicalTraceId,
       riskScore: riskResult.score,
       riskLevel: riskResult.level,
       reasons: riskResult.reasons,
@@ -335,6 +323,7 @@ async function processChat(params) {
     interactionId: interaction.id,
     requestId: interaction.id,
     traceId: canonicalTraceId,
+    trace_id: canonicalTraceId,
     response: modelResult.response,
     provider: modelResult.provider,
     model: modelResult.model,
@@ -379,6 +368,7 @@ async function approve(interactionId, approvedBy, comment) {
       interactionId: approvalResult.interactionId || interactionId,
       requestId: approvalResult.interactionId || interactionId,
       traceId: approvalResult.traceId || null,
+      trace_id: approvalResult.traceId || null,
       response: '',
       metadata: { approvalStatus: 'approved', warning: 'Original interaction not found', traceId: approvalResult.traceId || null }
     };
@@ -436,6 +426,7 @@ async function approve(interactionId, approvedBy, comment) {
     interactionId: approvalResult.interactionId || interactionId,
     requestId: approvalResult.interactionId || interactionId,
     traceId,
+    trace_id: traceId,
     completionInteractionId: completionInteraction.id,
     response: modelResult.response,
     provider: modelResult.provider,
@@ -468,6 +459,7 @@ async function reject(interactionId, rejectedBy, comment) {
     interactionId: result.interactionId || interactionId,
     requestId: result.interactionId || interactionId,
     traceId: result.traceId || null,
+    trace_id: result.traceId || null,
     response: null,
     metadata: { approvalStatus: 'rejected', modelInvoked: false, traceId: result.traceId || null }
   };
@@ -555,6 +547,7 @@ async function getStats() {
         interactionId: row.id,
         requestId: row.id,
         traceId,
+        traceIdLegacy: row.trace_id ? null : row.id,
         status: row.approval_status,
         riskLevel: row.risk_level,
         riskScore: row.risk_score,

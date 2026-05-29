@@ -2,6 +2,21 @@
 
 const kernel = require('../kernel');
 
+function parseQueryParams(req) {
+  const url = req.url || req.originalUrl || '';
+  try {
+    const search = url.includes('?') ? url.split('?')[1] : '';
+    return Object.fromEntries(new URLSearchParams(search));
+  } catch (_) {
+    return {};
+  }
+}
+
+function pathValue(url, prefix) {
+  const value = url.split(prefix)[1]?.split('?')[0];
+  return value ? decodeURIComponent(value) : null;
+}
+
 async function kernelChatHandler(req, res) {
   const body = req.body || {};
   const message = body.message || body.query;
@@ -34,14 +49,10 @@ async function kernelChatHandler(req, res) {
 }
 
 async function kernelAuditListHandler(req, res) {
-  const url = req.url || req.originalUrl || '';
-  let params = {};
-  try {
-    const search = url.includes('?') ? url.split('?')[1] : '';
-    params = Object.fromEntries(new URLSearchParams(search));
-  } catch (_) {}
+  const params = parseQueryParams(req);
 
   const filters = {
+    id: params.id || params.interactionId || params.requestId,
     userId: params.userId,
     riskLevel: params.riskLevel,
     compliancePack: params.compliancePack,
@@ -57,7 +68,7 @@ async function kernelAuditListHandler(req, res) {
 }
 
 async function kernelAuditDetailHandler(req, res, url) {
-  const id = url.split('/api/kernel/audit/')[1]?.split('?')[0];
+  const id = pathValue(url, '/api/kernel/audit/');
   if (!id) return res.status(400).json({ error: 'Missing audit ID' });
 
   const entry = await kernel.getAuditEntry(id);
@@ -67,7 +78,7 @@ async function kernelAuditDetailHandler(req, res, url) {
 }
 
 async function kernelApproveHandler(req, res, url) {
-  const id = url.split('/api/kernel/approve/')[1]?.split('?')[0];
+  const id = pathValue(url, '/api/kernel/approve/');
   if (!id) return res.status(400).json({ error: 'Missing interaction ID' });
 
   const { approvedBy, comment } = req.body || {};
@@ -82,7 +93,7 @@ async function kernelApproveHandler(req, res, url) {
 }
 
 async function kernelRejectHandler(req, res, url) {
-  const id = url.split('/api/kernel/reject/')[1]?.split('?')[0];
+  const id = pathValue(url, '/api/kernel/reject/');
   if (!id) return res.status(400).json({ error: 'Missing interaction ID' });
 
   const { rejectedBy, comment } = req.body || {};
@@ -97,16 +108,15 @@ async function kernelRejectHandler(req, res, url) {
 }
 
 async function kernelPendingHandler(req, res) {
-  const url = req.url || '';
+  const params = parseQueryParams(req);
   let limit = 50, offset = 0;
-  try {
-    const search = url.includes('?') ? url.split('?')[1] : '';
-    const params = Object.fromEntries(new URLSearchParams(search));
-    limit = parseInt(params.limit) || 50;
-    offset = parseInt(params.offset) || 0;
-  } catch (_) {}
+  limit = parseInt(params.limit) || 50;
+  offset = parseInt(params.offset) || 0;
 
-  const result = await kernel.getPendingApprovals(null, limit, offset);
+  const result = await kernel.getPendingApprovals(params.role || null, limit, offset, {
+    id: params.id || params.interactionId || params.requestId,
+    traceId: params.traceId || params.trace_id
+  });
   const criticalCount = result.filter((row) => row.riskLevel === 'critical').length;
   const highCount = result.filter((row) => row.riskLevel === 'high').length;
   res.status(200).json({
@@ -122,7 +132,7 @@ async function kernelStatsHandler(req, res) {
 }
 
 async function kernelEvidenceHandler(req, res, url) {
-  const id = url.split('/api/kernel/evidence/')[1]?.split('?')[0];
+  const id = pathValue(url, '/api/kernel/evidence/');
   if (!id) return res.status(400).json({ error: 'Missing interaction ID' });
 
   try {
@@ -178,14 +188,10 @@ async function kernelChainHandler(req, res) {
 }
 
 async function kernelEvidenceListHandler(req, res) {
-  const url = req.url || req.originalUrl || '';
-  let params = {};
-  try {
-    const search = url.includes('?') ? url.split('?')[1] : '';
-    params = Object.fromEntries(new URLSearchParams(search));
-  } catch (_) {}
+  const params = parseQueryParams(req);
 
   const result = await kernel.queryAuditTrail({
+    id: params.id || params.interactionId || params.requestId,
     traceId: params.traceId || params.trace_id || params.id,
     search: params.search
   }, parseInt(params.limit) || 50, parseInt(params.offset) || 0);
@@ -198,7 +204,7 @@ async function kernelEvidenceListHandler(req, res) {
 }
 
 async function kernelEvidenceExportHandler(req, res, url) {
-  const id = url.split('/api/kernel/evidence/')[1]?.replace(/\/export$/, '')?.split('?')[0];
+  const id = pathValue(url, '/api/kernel/evidence/')?.replace(/\/export$/, '');
   if (!id) return res.status(400).json({ error: 'Missing interaction ID' });
 
   try {

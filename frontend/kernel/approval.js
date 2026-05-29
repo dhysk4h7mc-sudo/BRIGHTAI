@@ -1,7 +1,7 @@
 'use strict';
 
 const { getDb, generateId } = require('../db/init');
-const { updateInteraction, getAuditEntry, getTraceIdFromInteraction } = require('./audit');
+const { updateInteraction, getAuditEntry, getTraceIdFromInteraction, getTraceIdLegacyFromInteraction } = require('./audit');
 
 function getRequiredRole(riskLevel) {
   if (riskLevel === 'critical') return 'admin';
@@ -33,12 +33,20 @@ async function queueForApproval(interactionId, riskScore, riskLevel, traceId) {
 async function resolvePendingApproval(identifier) {
   const pool = getDb();
   const { rows } = await pool.query(`
-    SELECT *
-    FROM kernel_approval_queue
-    WHERE (interaction_id = $1 OR trace_id = $1) AND status = 'pending'
-    ORDER BY created_at DESC
+    SELECT aq.*
+    FROM kernel_approval_queue aq
+    JOIN kernel_interactions ki ON aq.interaction_id = ki.id
+    WHERE aq.status = 'pending'
+      AND (
+        aq.interaction_id = $1
+        OR aq.trace_id = $1
+        OR ki.id = $1
+        OR ki.trace_id = $1
+        OR ki.request_metadata ILIKE $2
+      )
+    ORDER BY aq.created_at DESC
     LIMIT 1
-  `, [identifier]);
+  `, [identifier, '%' + identifier + '%']);
   return rows[0] || null;
 }
 
@@ -107,38 +115,77 @@ async function reject(interactionId, rejectedBy, comment) {
   };
 }
 
-async function getPendingApprovals(role, limit, offset) {
+async function getPendingApprovals(role, limit, offset, filters) {
   limit = limit || 50;
   offset = offset || 0;
+  filters = filters || {};
   const pool = getDb();
+  const values = [];
+  let paramIdx = 1;
+  const conditions = [`aq.status = 'pending'`];
+
+  if (role) {
+    conditions.push(`aq.assigned_to = $${paramIdx++}`);
+    values.push(role);
+  }
+
+  const identifier = filters.traceId || filters.trace_id || filters.id || filters.interactionId || filters.requestId;
+  if (identifier) {
+    conditions.push(`(
+      aq.interaction_id = $${paramIdx}
+      OR aq.trace_id = $${paramIdx}
+      OR ki.id = $${paramIdx}
+      OR ki.trace_id = $${paramIdx}
+      OR ki.request_metadata ILIKE $${paramIdx + 1}
+    )`);
+    values.push(identifier, '%' + identifier + '%');
+    paramIdx += 2;
+  }
 
   const { rows } = await pool.query(`
-    SELECT aq.*, ki.trace_id AS interaction_trace_id, ki.request_message, ki.masked_message, ki.user_name, ki.user_id, ki.compliance_pack, ki.risk_reasons, ki.pii_types
+    SELECT aq.*, ki.trace_id AS interaction_trace_id, ki.request_metadata AS interaction_request_metadata, ki.request_message, ki.masked_message, ki.user_name, ki.user_id, ki.compliance_pack, ki.risk_reasons, ki.pii_types
     FROM kernel_approval_queue aq
     JOIN kernel_interactions ki ON aq.interaction_id = ki.id
-    WHERE aq.status = 'pending'
+    WHERE ${conditions.join(' AND ')}
     ORDER BY aq.created_at DESC
-    LIMIT $1 OFFSET $2
-  `, [limit, offset]);
+    LIMIT $${paramIdx++} OFFSET $${paramIdx++}
+  `, [...values, limit, offset]);
 
-  return rows.map((row) => ({
-    ...row,
-    id: row.interaction_id,
-    interactionId: row.interaction_id,
-    requestId: row.interaction_id,
-    traceId: row.trace_id || row.interaction_trace_id || null,
-    riskScore: row.risk_score,
-    riskLevel: row.risk_level,
-    createdAt: row.created_at,
-    query: row.request_message,
-    originalText: row.request_message,
-    maskedText: row.masked_message,
-    userName: row.user_name,
-    userId: row.user_id,
-    compliancePackage: row.compliance_pack,
-    piiTypes: safeJsonArray(row.pii_types),
-    matchedPolicies: safeJsonArray(row.risk_reasons).map((reason) => ({ name: reason }))
-  }));
+  return rows.map((row) => {
+    const metadata = parseJsonObject(row.interaction_request_metadata);
+    const traceId = row.trace_id || row.interaction_trace_id || metadata.traceId || metadata.trace_id || row.interaction_id;
+    return {
+      ...row,
+      id: row.interaction_id,
+      interactionId: row.interaction_id,
+      requestId: row.interaction_id,
+      traceId,
+      trace_id: traceId,
+      traceIdLegacy: getTraceIdLegacyFromInteraction({ id: row.interaction_id, trace_id: row.interaction_trace_id }),
+      riskScore: row.risk_score,
+      riskLevel: row.risk_level,
+      createdAt: row.created_at,
+      query: row.request_message,
+      originalText: row.request_message,
+      maskedText: row.masked_message,
+      userName: row.user_name,
+      userId: row.user_id,
+      compliancePackage: row.compliance_pack,
+      piiTypes: safeJsonArray(row.pii_types),
+      matchedPolicies: safeJsonArray(row.risk_reasons).map((reason) => ({ name: reason }))
+    };
+  });
+}
+
+function parseJsonObject(value) {
+  if (!value) return {};
+  if (typeof value === 'object' && !Array.isArray(value)) return value;
+  try {
+    const parsed = JSON.parse(value);
+    return parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? parsed : {};
+  } catch (_error) {
+    return {};
+  }
 }
 
 function safeJsonArray(value) {

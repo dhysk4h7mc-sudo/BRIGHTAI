@@ -1,29 +1,1542 @@
 /**
- * BrightAI Kernel - API Client
- * Handles all communication with the backend API
+ * BrightAI Kernel - API Client (Demo Mode Enabled)
+ * Handles all communication with the backend API, with a robust offline client-side simulator.
  */
 
 (function (global) {
   'use strict';
+
+  // hardcoded defaults for CORS-free / offline usage (e.g. file:// protocol)
+  function getHardcodedDefaults() {
+    const trace1 = "AI-2026-10491";
+    const trace2 = "AI-2026-10492";
+    const trace3 = "AI-2026-10493";
+    const trace4 = "AI-2026-10494";
+
+    return {
+      stats: {
+        total: 348,
+        blocked: 28,
+        pending: 2,
+        approved: 24,
+        autoApproved: 274,
+        rejected: 20,
+        piiDetected: 64,
+        avgRiskScore: 31.4,
+        complianceRate: "92.5%",
+        byCompliancePack: [
+          { "compliance_pack": "pdpl", "count": 182 },
+          { "compliance_pack": "nca_ecc", "count": 94 },
+          { "compliance_pack": "sfda", "count": 48 },
+          { "compliance_pack": "procurement", "count": 24 }
+        ],
+        byRiskLevel: [
+          { "risk_level": "critical", "count": 12 },
+          { "risk_level": "high", "count": 34 },
+          { "risk_level": "medium", "count": 68 },
+          { "risk_level": "low", "count": 146 },
+          { "risk_level": "minimal", "count": 88 }
+        ],
+        requests: {
+          total: 348,
+          pending: 2,
+          approved: 24,
+          executed: 24,
+          completed: 274,
+          rejected: 20,
+          blocked: 28
+        },
+        piiDetectionRate: 18,
+        riskDistribution: {
+          critical: 12,
+          high: 34,
+          medium: 68,
+          low: 146,
+          minimal: 88
+        },
+        latestTraces: [
+          {
+            interactionId: "trace-10491",
+            requestId: "trace-10491",
+            traceId: trace1,
+            status: "blocked",
+            riskLevel: "critical",
+            riskScore: 100,
+            createdAt: new Date(Date.now() - 600000).toISOString(),
+            hash: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            query: "مشاركة ملف المرضى المصابين بالفيروس التاجي مع جهة بحثية خارجية تشمل أرقام الهواتف والهويات الوطنية 1029482103",
+            compliancePackage: "pdpl"
+          },
+          {
+            interactionId: "trace-10493",
+            requestId: "trace-10493",
+            traceId: trace3,
+            status: "pending",
+            riskLevel: "high",
+            riskScore: 82,
+            createdAt: new Date(Date.now() - 1200000).toISOString(),
+            hash: "ca85d0d1e3d36b8e88fdfb06bb007a22a3eb2cd98c2534c06282ebbc6c483a99",
+            query: "طلب تصدير التقرير المالي الربع سنوي للربع الأول لعام 2026 لـ شركة الاتصالات السعودية STC ويحتوي على أرقام بطاقات مصرفية SA9930000000001234567890",
+            compliancePackage: "pdpl"
+          },
+          {
+            interactionId: "trace-10492",
+            requestId: "trace-10492",
+            traceId: trace2,
+            status: "completed",
+            riskLevel: "minimal",
+            riskScore: 15,
+            createdAt: new Date(Date.now() - 1800000).toISOString(),
+            hash: "2f4007886474ba0e00d23fbc01d2a3ec2cd98c2534c06282ebbc6c483a9937a0",
+            query: "مراجعة عقد توريد توربينات غازية لصالح الشركة السعودية للكهرباء بقيمة 45,000,000 ريال سعودي والتحقق من شروط الضمان والمشتريات الحكومية",
+            compliancePackage: "procurement"
+          }
+        ]
+      },
+      audit: {
+        total: 348,
+        rows: [
+          {
+            id: "ki_10491",
+            interactionId: "trace-10491",
+            requestId: "trace-10491",
+            trace_id: trace1,
+            traceId: trace1,
+            created_at: new Date(Date.now() - 600000).toISOString(),
+            timestamp: new Date(Date.now() - 600000).toISOString(),
+            createdAt: new Date(Date.now() - 600000).toISOString(),
+            user_id: "user_saudi_01",
+            userId: "user_saudi_01",
+            user_name: "سارة القحطاني",
+            userName: "سارة القحطاني",
+            ip_address: "192.168.10.45",
+            user_agent: "Mozilla/5.0",
+            request_message: "مشاركة ملف المرضى المصابين بالفيروس التاجي مع جهة بحثية خارجية تشمل أرقام الهواتف والهويات الوطنية 1029482103",
+            query: "مشاركة ملف المرضى المصابين بالفيروس التاجي مع جهة بحثية خارجية تشمل أرقام الهواتف والهويات الوطنية 1029482103",
+            originalText: "مشاركة ملف المرضى المصابين بالفيروس التاجي مع جهة بحثية خارجية تشمل أرقام الهواتف والهويات الوطنية 1029482103",
+            pii_detected: 1,
+            pii_types: "[\"saudi_id\"]",
+            piiTypes: ["saudi_id"],
+            piiDetected: ["saudi_id"],
+            firewall_action: "block",
+            masked_message: "مشاركة ملف المرضى المصابين بالفيروس التاجي مع جهة بحثية خارجية تشمل أرقام الهواتف والهويات الوطنية [SAUDI_ID]",
+            maskedText: "مشاركة ملف المرضى المصابين بالفيروس التاجي مع جهة بحثية خارجية تشمل أرقام الهواتف والهويات الوطنية [SAUDI_ID]",
+            risk_score: 100,
+            riskScore: 100,
+            risk_level: "critical",
+            riskLevel: "critical",
+            risk_reasons: "[\"Request blocked by AI Firewall due to PDPL violations\"]",
+            approval_status: "blocked",
+            approvalStatus: "blocked",
+            action: "BLOCKED",
+            actor: "system",
+            gemini_response: "عذراً، تم حظر طلبك نظراً لاحتوائه على معلومات شخصية حساسة (رقم هوية وطنية) غير مشفرة، وهو ما يخالف نظام حماية البيانات الشخصية (PDPL) بالمملكة العربية السعودية.",
+            response: "عذراً، تم حظر طلبك نظراً لاحتوائه على معلومات شخصية حساسة (رقم هوية وطنية) غير مشفرة، وهو ما يخالف نظام حماية البيانات الشخصية (PDPL) بالمملكة العربية السعودية.",
+            response_model: "NVIDIA Llama-3.1-Nemotron",
+            response_time_ms: 120,
+            compliance_pack: "pdpl",
+            compliancePack: "pdpl",
+            compliance_flags: "[\"BLOCKED: saudi_id\"]",
+            previous_hash: "a4d3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            previousHash: "a4d3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            record_hash: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            recordHash: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            hash: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            id: "ki_10493",
+            interactionId: "trace-10493",
+            requestId: "trace-10493",
+            trace_id: trace3,
+            traceId: trace3,
+            created_at: new Date(Date.now() - 1200000).toISOString(),
+            timestamp: new Date(Date.now() - 1200000).toISOString(),
+            createdAt: new Date(Date.now() - 1200000).toISOString(),
+            user_id: "user_saudi_02",
+            userId: "user_saudi_02",
+            user_name: "عبد الله الشمري",
+            userName: "عبد الله الشمري",
+            ip_address: "192.168.10.46",
+            user_agent: "Mozilla/5.0",
+            request_message: "طلب تصدير التقرير المالي الربع سنوي للربع الأول لعام 2026 لـ شركة الاتصالات السعودية STC ويحتوي على أرقام بطاقات مصرفية SA9930000000001234567890",
+            query: "طلب تصدير التقرير المالي الربع سنوي للربع الأول لعام 2026 لـ شركة الاتصالات السعودية STC ويحتوي على أرقام بطاقات مصرفية SA9930000000001234567890",
+            originalText: "طلب تصدير التقرير المالي الربع سنوي للربع الأول لعام 2026 لـ شركة الاتصالات السعودية STC ويحتوي على أرقام بطاقات مصرفية SA9930000000001234567890",
+            pii_detected: 1,
+            pii_types: "[\"saudi_iban\"]",
+            piiTypes: ["saudi_iban"],
+            piiDetected: ["saudi_iban"],
+            firewall_action: "allow",
+            masked_message: "طلب تصدير التقرير المالي الربع سنوي للربع الأول لعام 2026 لـ شركة الاتصالات السعودية STC ويحتوي على أرقام بطاقات مصرفية [SAUDI_IBAN]",
+            maskedText: "طلب تصدير التقرير المالي الربع سنوي للربع الأول لعام 2026 لـ شركة الاتصالات السعودية STC ويحتوي على أرقام بطاقات مصرفية [SAUDI_IBAN]",
+            risk_score: 82,
+            riskScore: 82,
+            risk_level: "high",
+            riskLevel: "high",
+            risk_reasons: "[\"كشف بيانات مالية حساسة (IBAN) تتطلب مراجعة بشرية قبل الإرسال\"]",
+            approval_status: "pending",
+            approvalStatus: "pending",
+            action: "APPROVAL_REQUESTED",
+            actor: "system",
+            gemini_response: null,
+            compliance_pack: "pdpl",
+            compliancePack: "pdpl",
+            compliance_flags: "[\"REQUIRES_APPROVAL: saudi_iban\"]",
+            previous_hash: "2f4007886474ba0e00d23fbc01d2a3ec2cd98c2534c06282ebbc6c483a9937a0",
+            previousHash: "2f4007886474ba0e00d23fbc01d2a3ec2cd98c2534c06282ebbc6c483a9937a0",
+            record_hash: "ca85d0d1e3d36b8e88fdfb06bb007a22a3eb2cd98c2534c06282ebbc6c483a99",
+            recordHash: "ca85d0d1e3d36b8e88fdfb06bb007a22a3eb2cd98c2534c06282ebbc6c483a99",
+            hash: "ca85d0d1e3d36b8e88fdfb06bb007a22a3eb2cd98c2534c06282ebbc6c483a99"
+          }
+        ]
+      },
+      approvals: {
+        pending: [
+          {
+            id: "trace-10493",
+            requestId: "trace-10493",
+            interactionId: "trace-10493",
+            trace_id: trace3,
+            traceId: trace3,
+            status: "pending",
+            query: "طلب تصدير التقرير المالي الربع سنوي للربع الأول لعام 2026 لـ شركة الاتصالات السعودية STC ويحتوي على أرقام بطاقات مصرفية SA9930000000001234567890",
+            maskedText: "طلب تصدير التقرير المالي الربع سنوي للربع الأول لعام 2026 لـ شركة الاتصالات السعودية STC ويحتوي على أرقام بطاقات مصرفية [SAUDI_IBAN]",
+            compliancePackage: "pdpl",
+            userName: "عبد الله الشمري",
+            userId: "user_saudi_02",
+            createdAt: new Date(Date.now() - 1200000).toISOString(),
+            riskScore: 82,
+            riskLevel: "high",
+            piiDetected: ["saudi_iban"],
+            matchedPolicies: [{"name": "فحص البيانات المالية العابرة للحدود"}]
+          },
+          {
+            id: "trace-10495",
+            requestId: "trace-10495",
+            interactionId: "trace-10495",
+            trace_id: trace4,
+            traceId: trace4,
+            status: "pending",
+            query: "تصدير الملفات الطبية الكاملة لمرضى العيادات الخارجية بمستشفى الملك فيصل وبها الهوية 1098234102 والإجراءات العلاجية الخاصة بهم",
+            maskedText: "تصدير الملفات الطبية الكاملة لمرضى العيادات الخارجية بمستشفى الملك فيصل وبها الهوية [SAUDI_ID] والإجراءات العلاجية الخاصة بهم",
+            compliancePackage: "healthcare",
+            userName: "نورة العتيبي",
+            userId: "user_saudi_05",
+            createdAt: new Date(Date.now() - 60000).toISOString(),
+            riskScore: 91,
+            riskLevel: "critical",
+            piiDetected: ["saudi_id"],
+            matchedPolicies: [{"name": "حظر تصدير الهويات الوطنية بدون تعمية كاملة"}]
+          }
+        ],
+        recent: [
+          {
+            id: "trace-10492",
+            requestId: "trace-10492",
+            interactionId: "trace-10492",
+            trace_id: trace2,
+            traceId: trace2,
+            status: "completed",
+            query: "مراجعة عقد توريد توربينات غازية لصالح الشركة السعودية للكهرباء بقيمة 45,000,000 ريال سعودي والتحقق من شروط الضمان والمشتريات الحكومية",
+            compliancePackage: "procurement",
+            userName: "سعد المطيري",
+            userId: "user_saudi_03",
+            createdAt: new Date(Date.now() - 1800000).toISOString(),
+            riskScore: 15,
+            riskLevel: "minimal",
+            piiDetected: [],
+            matchedPolicies: [],
+            approver: "النظام الآلي"
+          }
+        ],
+        summary: {
+          totalPending: 2,
+          criticalCount: 1,
+          highCount: 1,
+          completedToday: 14
+        }
+      },
+      evidence: {
+        total: 4,
+        evidence: [
+          {
+            id: "trace-10491",
+            interactionId: "trace-10491",
+            requestId: "trace-10491",
+            traceId: trace1,
+            trace_id: trace1,
+            createdAt: new Date(Date.now() - 600000).toISOString(),
+            preview: "طلب استعلام يحتوي على بيانات شخصية حساسة تم اكتشافها وحجبها تلقائياً (الهوية الوطنية)",
+            status: "blocked",
+            approvalStatus: "blocked",
+            riskLevel: "critical"
+          },
+          {
+            id: "trace-10493",
+            interactionId: "trace-10493",
+            requestId: "trace-10493",
+            traceId: trace3,
+            trace_id: trace3,
+            createdAt: new Date(Date.now() - 1200000).toISOString(),
+            preview: "طلب تصدير التقرير المالي لشركة الاتصالات السعودية STC ويحتوي على أرقام بطاقات مصرفية",
+            status: "pending",
+            approvalStatus: "pending",
+            riskLevel: "high"
+          },
+          {
+            id: "trace-10492",
+            interactionId: "trace-10492",
+            requestId: "trace-10492",
+            traceId: trace2,
+            trace_id: trace2,
+            createdAt: new Date(Date.now() - 1800000).toISOString(),
+            preview: "مراجعة عقد توريد توربينات غازية للشركة السعودية للكهرباء متوافق مع لوائح المشتريات",
+            status: "completed",
+            approvalStatus: "completed",
+            riskLevel: "minimal"
+          }
+        ],
+        rows: [
+          {
+            id: "trace-10491",
+            interactionId: "trace-10491",
+            requestId: "trace-10491",
+            traceId: trace1,
+            trace_id: trace1,
+            createdAt: new Date(Date.now() - 600000).toISOString(),
+            preview: "طلب استعلام يحتوي على بيانات شخصية حساسة تم اكتشافها وحجبها تلقائياً (الهوية الوطنية)",
+            status: "blocked",
+            approvalStatus: "blocked",
+            riskLevel: "critical"
+          },
+          {
+            id: "trace-10493",
+            interactionId: "trace-10493",
+            requestId: "trace-10493",
+            traceId: trace3,
+            trace_id: trace3,
+            createdAt: new Date(Date.now() - 1200000).toISOString(),
+            preview: "طلب تصدير التقرير المالي لشركة الاتصالات السعودية STC ويحتوي على أرقام بطاقات مصرفية",
+            status: "pending",
+            approvalStatus: "pending",
+            riskLevel: "high"
+          },
+          {
+            id: "trace-10492",
+            interactionId: "trace-10492",
+            requestId: "trace-10492",
+            traceId: trace2,
+            trace_id: trace2,
+            createdAt: new Date(Date.now() - 1800000).toISOString(),
+            preview: "مراجعة عقد توريد توربينات غازية للشركة السعودية للكهرباء متوافق مع لوائح المشتريات",
+            status: "completed",
+            approvalStatus: "completed",
+            riskLevel: "minimal"
+          }
+        ],
+        details: {
+          "trace-10491": {
+            id: "trace-10491",
+            interactionId: "trace-10491",
+            requestId: "trace-10491",
+            traceId: trace1,
+            trace_id: trace1,
+            createdAt: new Date(Date.now() - 600000).toISOString(),
+            timestamp: new Date(Date.now() - 600000).toISOString(),
+            request: "مشاركة ملف المرضى المصابين بالفيروس التاجي مع جهة بحثية خارجية تشمل أرقام الهواتف والهويات الوطنية 1029482103",
+            response: "عذراً، تم حظر طلبك نظراً لاحتوائه على معلومات شخصية حساسة (رقم هوية وطنية) غير مشفرة، وهو ما يخالف نظام حماية البيانات الشخصية (PDPL) بالمملكة العربية السعودية.",
+            riskScore: 100,
+            riskLevel: "critical",
+            approvalStatus: "blocked",
+            requestHash: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            previousHash: "a4d3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            recordHash: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          [trace1]: {
+            id: "trace-10491",
+            interactionId: "trace-10491",
+            requestId: "trace-10491",
+            traceId: trace1,
+            trace_id: trace1,
+            createdAt: new Date(Date.now() - 600000).toISOString(),
+            timestamp: new Date(Date.now() - 600000).toISOString(),
+            request: "مشاركة ملف المرضى المصابين بالفيروس التاجي مع جهة بحثية خارجية تشمل أرقام الهواتف والهويات الوطنية 1029482103",
+            response: "عذراً، تم حظر طلبك نظراً لاحتوائه على معلومات شخصية حساسة (رقم هوية وطنية) غير مشفرة، وهو ما يخالف نظام حماية البيانات الشخصية (PDPL) بالمملكة العربية السعودية.",
+            riskScore: 100,
+            riskLevel: "critical",
+            approvalStatus: "blocked",
+            requestHash: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            previousHash: "a4d3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            recordHash: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "trace-10493": {
+            id: "trace-10493",
+            interactionId: "trace-10493",
+            requestId: "trace-10493",
+            traceId: trace3,
+            trace_id: trace3,
+            createdAt: new Date(Date.now() - 1200000).toISOString(),
+            timestamp: new Date(Date.now() - 1200000).toISOString(),
+            request: "طلب تصدير التقرير المالي الربع سنوي للربع الأول لعام 2026 لـ شركة الاتصالات السعودية STC ويحتوي على أرقام بطاقات مصرفية SA9930000000001234567890",
+            response: "بانتظار موافقة مدير الامتثال لوجود أرقام حسابات مصرفية غير مقنعة.",
+            riskScore: 82,
+            riskLevel: "high",
+            approvalStatus: "pending",
+            requestHash: "ca85d0d1e3d36b8e88fdfb06bb007a22a3eb2cd98c2534c06282ebbc6c483a99",
+            previousHash: "2f4007886474ba0e00d23fbc01d2a3ec2cd98c2534c06282ebbc6c483a9937a0",
+            recordHash: "ca85d0d1e3d36b8e88fdfb06bb007a22a3eb2cd98c2534c06282ebbc6c483a99"
+          },
+          [trace3]: {
+            id: "trace-10493",
+            interactionId: "trace-10493",
+            requestId: "trace-10493",
+            traceId: trace3,
+            trace_id: trace3,
+            createdAt: new Date(Date.now() - 1200000).toISOString(),
+            timestamp: new Date(Date.now() - 1200000).toISOString(),
+            request: "طلب تصدير التقرير المالي الربع سنوي للربع الأول لعام 2026 لـ شركة الاتصالات السعودية STC ويحتوي على أرقام بطاقات مصرفية SA9930000000001234567890",
+            response: "بانتظار موافقة مدير الامتثال لوجود أرقام حسابات مصرفية غير مقنعة.",
+            riskScore: 82,
+            riskLevel: "high",
+            approvalStatus: "pending",
+            requestHash: "ca85d0d1e3d36b8e88fdfb06bb007a22a3eb2cd98c2534c06282ebbc6c483a99",
+            previousHash: "2f4007886474ba0e00d23fbc01d2a3ec2cd98c2534c06282ebbc6c483a9937a0",
+            recordHash: "ca85d0d1e3d36b8e88fdfb06bb007a22a3eb2cd98c2534c06282ebbc6c483a99"
+          },
+          "trace-10492": {
+            id: "trace-10492",
+            interactionId: "trace-10492",
+            requestId: "trace-10492",
+            traceId: trace2,
+            trace_id: trace2,
+            createdAt: new Date(Date.now() - 1800000).toISOString(),
+            timestamp: new Date(Date.now() - 1800000).toISOString(),
+            request: "مراجعة عقد توريد توربينات غازية لصالح الشركة السعودية للكهرباء بقيمة 45,000,000 ريال سعودي والتحقق من شروط الضمان والمشتريات الحكومية",
+            response: "تمت مراجعة مسودة العقد بالكامل. كافة البنود تتوافق مع نظام المشتريات الحكومية السعودي. شروط الضمان محددة بـ 3 سنوات وتغطي الأعطال الميكانيكية للتربينات، مما يعتبر ممتازاً ووفق معايير الصناعة.",
+            riskScore: 15,
+            riskLevel: "minimal",
+            approvalStatus: "completed",
+            requestHash: "2f4007886474ba0e00d23fbc01d2a3ec2cd98c2534c06282ebbc6c483a9937a0",
+            previousHash: "ca85d0d1e3d36b8e88fdfb06bb007a22a3eb2cd98c2534c06282ebbc6c483a99",
+            recordHash: "2f4007886474ba0e00d23fbc01d2a3ec2cd98c2534c06282ebbc6c483a9937a0"
+          },
+          [trace2]: {
+            id: "trace-10492",
+            interactionId: "trace-10492",
+            requestId: "trace-10492",
+            traceId: trace2,
+            trace_id: trace2,
+            createdAt: new Date(Date.now() - 1800000).toISOString(),
+            timestamp: new Date(Date.now() - 1800000).toISOString(),
+            request: "مراجعة عقد توريد توربينات غازية لصالح الشركة السعودية للكهرباء بقيمة 45,000,000 ريال سعودي والتحقق من شروط الضمان والمشتريات الحكومية",
+            response: "تمت مراجعة مسودة العقد بالكامل. كافة البنود تتوافق مع نظام المشتريات الحكومية السعودي. شروط الضمان محددة بـ 3 سنوات وتغطي الأعطال الميكانيكية للتربينات، مما يعتبر ممتازاً ووفق معايير الصناعة.",
+            riskScore: 15,
+            riskLevel: "minimal",
+            approvalStatus: "completed",
+            requestHash: "2f4007886474ba0e00d23fbc01d2a3ec2cd98c2534c06282ebbc6c483a9937a0",
+            previousHash: "ca85d0d1e3d36b8e88fdfb06bb007a22a3eb2cd98c2534c06282ebbc6c483a99",
+            recordHash: "2f4007886474ba0e00d23fbc01d2a3ec2cd98c2534c06282ebbc6c483a9937a0"
+          }
+        }
+      },
+      compliance: {
+        state: {
+          pdpl: { 
+            score: 98, 
+            status: "compliant", 
+            lastAudit: new Date(Date.now() - 3600000).toISOString(),
+            requirementScores: { "consent": 100, "access": 100, "breach": 95, "retention": 95, "transfer": 100 } 
+          },
+          gdpr: { 
+            score: 95, 
+            status: "compliant", 
+            lastAudit: new Date(Date.now() - 7200000).toISOString(),
+            requirementScores: { "forget": 100, "portability": 100, "documentation": 85, "dpo": 100, "impact": 90 } 
+          },
+          hipaa: { 
+            score: 78, 
+            status: "partial", 
+            lastAudit: new Date(Date.now() - 14400000).toISOString(),
+            requirementScores: { "encryption": 100, "access_logs": 80, "baa": 50, "training": 80 } 
+          },
+          pci: { 
+            score: 100, 
+            status: "compliant", 
+            lastAudit: new Date(Date.now() - 1800000).toISOString(),
+            requirementScores: { "card_protection": 100, "transit_encryption": 100, "pen_test": 100, "monitoring": 100 } 
+          },
+          iso27001: { 
+            score: 92, 
+            status: "compliant", 
+            lastAudit: new Date(Date.now() - 86400000).toISOString(),
+            requirementScores: { "policy": 100, "risk_mgmt": 100, "internal_audit": 75, "incident": 95 } 
+          }
+        }
+      }
+    };
+  }
+
+  // Initialize Demo Mode LocalStorage flag to true if not set
+  if (localStorage.getItem('brightai_kernel_demo_mode') === null) {
+    localStorage.setItem('brightai_kernel_demo_mode', 'true');
+  }
+
+  let dbInitPromise = null;
+
+  // Initialize unified Local Mock Database inside localStorage
+  function ensureDBInitialized() {
+    if (dbInitPromise) return dbInitPromise;
+
+    dbInitPromise = (async () => {
+      let cached = localStorage.getItem('brightai_kernel_mock_db');
+      if (cached) {
+        try {
+          window.kernelDemoState = JSON.parse(cached);
+          // Sync summary statistics back just in case
+          recalculateSummaryStats();
+          return;
+        } catch (e) {
+          console.error("[BrightAI Kernel] Failed to parse cached mock DB. Re-initializing...", e);
+        }
+      }
+
+      try {
+        // Parallel fetch for default configuration files
+        const [stats, audit, approvals, evidence, compliance] = await Promise.all([
+          fetch('/kernel/api/mock/stats.json').then(r => r.json()),
+          fetch('/kernel/api/mock/audit.json').then(r => r.json()),
+          fetch('/kernel/api/mock/approvals.json').then(r => r.json()),
+          fetch('/kernel/api/mock/evidence.json').then(r => r.json()),
+          fetch('/kernel/api/mock/compliance.json').then(r => r.json())
+        ]);
+        window.kernelDemoState = { stats, audit, approvals, evidence, compliance };
+      } catch (err) {
+        console.warn("[BrightAI Kernel] Failed to fetch local JSON mock files. Using hardcoded fallback.", err);
+        window.kernelDemoState = getHardcodedDefaults();
+      }
+
+      localStorage.setItem('brightai_kernel_mock_db', JSON.stringify(window.kernelDemoState));
+    })();
+
+    return dbInitPromise;
+  }
+
+  // Recalculate summary metrics for compliance and risk
+  function recalculateSummaryStats() {
+    if (!window.kernelDemoState) return;
+    const db = window.kernelDemoState;
+    
+    // total requests count
+    const total = (db.audit.rows || []).length + (db.approvals.pending || []).length;
+    const blocked = (db.audit.rows || []).filter(r => r.approvalStatus === 'blocked' || r.firewall_action === 'block').length;
+    const pending = (db.approvals.pending || []).length;
+    const approved = (db.approvals.recent || []).filter(r => r.status === 'completed' || r.status === 'approved').length;
+    const rejected = (db.audit.rows || []).filter(r => r.approvalStatus === 'rejected' || r.status === 'rejected').length;
+    const completed = (db.audit.rows || []).filter(r => r.approvalStatus === 'completed' || r.approvalStatus === 'auto_approved' || r.status === 'completed' || r.status === 'auto_approved').length;
+    
+    db.stats.requests = {
+      total,
+      pending,
+      approved,
+      executed: approved,
+      completed,
+      rejected,
+      blocked
+    };
+    db.stats.total = total;
+    db.stats.pending = pending;
+    db.stats.blocked = blocked;
+    db.stats.approved = approved;
+    db.stats.rejected = rejected;
+    db.stats.autoApproved = completed;
+
+    db.approvals.summary = {
+      totalPending: pending,
+      criticalCount: (db.approvals.pending || []).filter(r => r.riskLevel === 'critical').length,
+      highCount: (db.approvals.pending || []).filter(r => r.riskLevel === 'high').length,
+      completedToday: approved
+    };
+
+    localStorage.setItem('brightai_kernel_mock_db', JSON.stringify(db));
+  }
+
+  // Generate SHA-256 hash dummy for audit chain
+  function generateHash() {
+    const chars = '0123456789abcdef';
+    let result = '';
+    for (let i = 0; i < 64; i++) {
+      result += chars[Math.floor(Math.random() * chars.length)];
+    }
+    return result;
+  }
+
+  // Local Chat Simulation firewall scanning and scoring
+  function simulateChat(message, compliancePack) {
+    const db = window.kernelDemoState;
+    const isSensitive = /1029|SA99|هوية|آيبان|مرض|سرطان|بطاق|سجل/i.test(message);
+    const traceId = `AI-2026-${String(10000 + Math.floor(Math.random() * 90000))}`;
+    const interactionId = `ki_${String(10000 + Math.floor(Math.random() * 90000))}`;
+    
+    let result = {};
+
+    if (isSensitive) {
+      // Simulate High Risk / Blocked
+      const isCritical = /سرطان|مرض|1029/i.test(message);
+      const riskScore = isCritical ? 95 : 82;
+      const riskLevel = isCritical ? 'critical' : 'high';
+      const status = isCritical ? 'blocked' : 'pending_approval';
+      const pii = isCritical ? ['saudi_id'] : ['saudi_iban'];
+      
+      const newRequest = {
+        id: interactionId,
+        requestId: interactionId,
+        interactionId: interactionId,
+        trace_id: traceId,
+        traceId: traceId,
+        status: isCritical ? 'blocked' : 'pending',
+        query: message,
+        maskedText: message.replace(/\d+/g, '[محجوب]'),
+        compliancePackage: compliancePack || 'pdpl',
+        userName: KernelUtils?.getUserName() || 'مستخدم تجريبي',
+        userId: KernelUtils?.getUserId() || 'user_demo',
+        createdAt: new Date().toISOString(),
+        riskScore,
+        riskLevel,
+        piiDetected: pii,
+        matchedPolicies: [{"name": isCritical ? "حماية سرية البيانات الشخصية والصحية" : "فحص الحسابات المالية"}]
+      };
+
+      if (isCritical) {
+        // blocked - directly to audit logs
+        const auditEntry = {
+          ...newRequest,
+          created_at: newRequest.createdAt,
+          timestamp: newRequest.createdAt,
+          approvalStatus: 'blocked',
+          action: 'BLOCKED',
+          actor: 'system',
+          gemini_response: "عذراً، تم حظر طلبك نظراً لاحتوائه على معلومات شخصية حساسة (هوية وطنية أو بيانات صحية) غير مشفرة، وهو ما يخالف نظام حماية البيانات الشخصية (PDPL) بالمملكة العربية السعودية.",
+          response: "عذراً، تم حظر طلبك نظراً لاحتوائه على معلومات شخصية حساسة (هوية وطنية أو بيانات صحية) غير مشفرة، وهو ما يخالف نظام حماية البيانات الشخصية (PDPL) بالمملكة العربية السعودية.",
+          previousHash: db.audit.rows[0]?.recordHash || generateHash(),
+          recordHash: generateHash(),
+          hash: generateHash()
+        };
+        db.audit.rows.unshift(auditEntry);
+        db.audit.entries = db.audit.rows;
+      } else {
+        // pending approvals
+        db.approvals.pending.unshift(newRequest);
+      }
+
+      result = {
+        status,
+        requiresApproval: !isCritical,
+        interactionId,
+        requestId: interactionId,
+        traceId,
+        riskScore,
+        riskLevel,
+        piiDetected: pii,
+        matchedPolicies: [{"name": isCritical ? "حماية سرية البيانات الشخصية والصحية" : "فحص الحسابات المالية"}],
+        auditHash: generateHash(),
+        hash: generateHash(),
+        reason: isCritical ? 'تم حجب الطلب آلياً لسلامة البيانات' : 'يتطلب مراجعة واعتماد مشرف الامتثال',
+        kernel: {
+          firewall: { piiDetected: true, piiTypes: pii, action: isCritical ? 'block' : 'allow' },
+          risk: { score: riskScore, level: riskLevel },
+          compliance: { pack: compliancePack || 'pdpl', result: 'fail' },
+          traceId
+        }
+      };
+    } else {
+      // Safe request -> auto approved and completed
+      const auditEntry = {
+        id: interactionId,
+        interactionId: interactionId,
+        requestId: interactionId,
+        trace_id: traceId,
+        traceId: traceId,
+        created_at: new Date().toISOString(),
+        timestamp: new Date().toISOString(),
+        createdAt: new Date().toISOString(),
+        user_id: KernelUtils?.getUserId() || 'user_demo',
+        userId: KernelUtils?.getUserId() || 'user_demo',
+        user_name: KernelUtils?.getUserName() || 'مستخدم تجريبي',
+        userName: KernelUtils?.getUserName() || 'مستخدم تجريبي',
+        ip_address: "127.0.0.1",
+        user_agent: navigator.userAgent,
+        request_message: message,
+        query: message,
+        originalText: message,
+        pii_detected: 0,
+        pii_types: "[]",
+        piiTypes: [],
+        piiDetected: [],
+        firewall_action: "allow",
+        masked_message: message,
+        maskedText: message,
+        risk_score: 8,
+        riskScore: 8,
+        risk_level: "minimal",
+        riskLevel: "minimal",
+        risk_reasons: "[]",
+        approval_status: "auto_approved",
+        approvalStatus: "auto_approved",
+        action: "CHAT_REQUEST",
+        actor: KernelUtils?.getUserName() || 'مستخدم تجريبي',
+        gemini_response: "أهلاً بك! لقد تم استلام طلبك ومراجعته بنجاح من خلال بوابة حوكمة نواة BrightAI. الاستعلام متوافق مع كافة حزم حماية البيانات المعتمدة.",
+        response: "أهلاً بك! لقد تم استلام طلبك ومراجعته بنجاح من خلال بوابة حوكمة نواة BrightAI. الاستعلام متوافق مع كافة حزم حماية البيانات المعتمدة.",
+        response_model: "Gemini 2.5 Flash",
+        response_time_ms: 640,
+        compliance_pack: compliancePack || 'general',
+        compliancePack: compliancePack || 'general',
+        compliance_flags: "[]",
+        previousHash: db.audit.rows[0]?.recordHash || generateHash(),
+        recordHash: generateHash(),
+        hash: generateHash()
+      };
+      
+      db.audit.rows.unshift(auditEntry);
+      db.audit.entries = db.audit.rows;
+
+      result = {
+        status: 'completed',
+        interactionId,
+        requestId: interactionId,
+        traceId,
+        response: auditEntry.response,
+        provider: 'gemini',
+        model: 'Gemini 2.5 Flash',
+        riskScore: 8,
+        riskLevel: 'minimal',
+        piiDetected: [],
+        matchedPolicies: [],
+        latencyMs: 640,
+        auditHash: auditEntry.hash,
+        hash: auditEntry.hash,
+        kernel: {
+          firewall: { piiDetected: false, piiTypes: [], action: 'allow' },
+          risk: { score: 8, level: 'minimal' },
+          compliance: { pack: compliancePack || 'general', result: 'pass', flags: [] },
+          tokens: { input: 24, output: 48 },
+          latencyMs: 640,
+          chainHash: auditEntry.hash,
+          traceId
+        }
+      };
+    }
+
+    // Add to evidence details
+    db.evidence.evidence.unshift({
+      id: interactionId,
+      interactionId,
+      requestId: interactionId,
+      traceId,
+      trace_id: traceId,
+      createdAt: new Date().toISOString(),
+      preview: message.substring(0, 180),
+      status: result.status,
+      approvalStatus: result.status,
+      riskLevel: result.riskLevel
+    });
+    db.evidence.rows = db.evidence.evidence;
+
+    db.evidence.details[traceId] = {
+      id: interactionId,
+      interactionId,
+      requestId: interactionId,
+      traceId,
+      trace_id: traceId,
+      createdAt: new Date().toISOString(),
+      timestamp: new Date().toISOString(),
+      request: message,
+      response: result.response || "بانتظار الموافقة لوجود بيانات حساسة.",
+      riskScore: result.riskScore,
+      riskLevel: result.riskLevel,
+      approvalStatus: result.status,
+      requestHash: result.hash || generateHash(),
+      previousHash: db.audit.rows[1]?.recordHash || generateHash(),
+      recordHash: result.hash || generateHash()
+    };
+    db.evidence.details[interactionId] = db.evidence.details[traceId];
+
+    recalculateSummaryStats();
+    notifyUIUpdated();
+
+    return result;
+  }
+
+  // Handle local mock request responses
+  function handleMockRequest(url, options) {
+    const parsedUrl = new URL(url, window.location.origin);
+    const path = parsedUrl.pathname;
+    const searchParams = parsedUrl.searchParams;
+
+    const db = window.kernelDemoState;
+    let payload = null;
+
+    if (path.endsWith('/health')) {
+      payload = {
+        status: "ok",
+        provider: { name: "demo", model: "وضع محاكاة النواة (BrightAI Kernel)", configured: false },
+        kernel: { database: true, routes: true }
+      };
+    } else if (path.endsWith('/stats')) {
+      payload = db.stats;
+    } else if (path.endsWith('/audit')) {
+      // Filtering audit logs mock
+      const searchQuery = searchParams.get('search') || '';
+      let filteredRows = db.audit.rows;
+      if (searchQuery) {
+        filteredRows = filteredRows.filter(r => 
+          (r.query || '').includes(searchQuery) || 
+          (r.traceId || '').includes(searchQuery)
+        );
+      }
+      payload = {
+        rows: filteredRows,
+        entries: filteredRows,
+        total: filteredRows.length
+      };
+    } else if (path.endsWith('/chain') || path.endsWith('/chain/verify')) {
+      payload = {
+        valid: true,
+        brokenAt: null,
+        totalRecords: db.audit.rows.length,
+        chainStatus: 'VALID',
+        chainHash: db.audit.rows[0]?.recordHash || generateHash(),
+        totalEntries: db.audit.rows.length,
+        entries: db.audit.rows,
+        summary: {
+          actionTypes: { "BLOCKED": 1, "CHAT_REQUEST": 1, "APPROVAL_REQUESTED": 1 },
+          actorCount: 2
+        }
+      };
+    } else if (path.endsWith('/approvals') || path.endsWith('/pending')) {
+      if (options && options.method === 'POST') {
+        // Approvals Action (Approve / Reject)
+        const body = JSON.parse(options.body || '{}');
+        const reqId = body.requestId || body.interactionId || body.id;
+        const action = body.action;
+        const approver = body.approver || 'مدير النظام';
+
+        if (action === 'approve') {
+          const index = db.approvals.pending.findIndex(p => p.id === reqId || p.traceId === reqId);
+          if (index !== -1) {
+            const req = db.approvals.pending.splice(index, 1)[0];
+            req.status = 'completed';
+            req.approver = approver;
+            db.approvals.recent.unshift(req);
+
+            // Add completed chat audit record
+            const completedAudit = {
+              id: req.id,
+              interactionId: req.id,
+              requestId: req.id,
+              trace_id: req.traceId,
+              traceId: req.traceId,
+              created_at: new Date().toISOString(),
+              timestamp: new Date().toISOString(),
+              createdAt: new Date().toISOString(),
+              user_id: req.userId,
+              userId: req.userId,
+              user_name: req.userName,
+              userName: req.userName,
+              ip_address: "127.0.0.1",
+              user_agent: navigator.userAgent,
+              request_message: req.query,
+              query: req.query,
+              originalText: req.query,
+              pii_detected: req.piiDetected.length > 0 ? 1 : 0,
+              pii_types: JSON.stringify(req.piiDetected),
+              piiTypes: req.piiDetected,
+              piiDetected: req.piiDetected,
+              firewall_action: "allow",
+              masked_message: req.maskedText,
+              maskedText: req.maskedText,
+              risk_score: req.riskScore,
+              riskScore: req.riskScore,
+              risk_level: req.riskLevel,
+              riskLevel: req.riskLevel,
+              approval_status: "approved_completed",
+              approvalStatus: "approved_completed",
+              action: "EXECUTED",
+              actor: approver,
+              gemini_response: "لقد تم التصريح بهذا الاستعلام بعد المراجعة اليدوية للمشرف والموافقة الطارئة. كافة الحماية مطبقة.",
+              response: "لقد تم التصريح بهذا الاستعلام بعد المراجعة اليدوية للمشرف والموافقة الطارئة. كافة الحماية مطبقة.",
+              response_model: "Gemini 2.5 Flash",
+              response_time_ms: 350,
+              compliance_pack: req.compliancePackage,
+              compliancePack: req.compliancePackage,
+              previousHash: db.audit.rows[0]?.recordHash || generateHash(),
+              recordHash: generateHash(),
+              hash: generateHash()
+            };
+            db.audit.rows.unshift(completedAudit);
+            db.audit.entries = db.audit.rows;
+
+            // Update evidence
+            const evIndex = db.evidence.evidence.findIndex(e => e.id === req.id || e.traceId === req.traceId);
+            if (evIndex !== -1) {
+              db.evidence.evidence[evIndex].status = 'completed';
+              db.evidence.evidence[evIndex].approvalStatus = 'completed';
+            }
+            db.evidence.details[req.traceId] = {
+              ...db.evidence.details[req.traceId],
+              response: completedAudit.response,
+              approvalStatus: 'completed'
+            };
+            if (req.id) db.evidence.details[req.id] = db.evidence.details[req.traceId];
+
+            recalculateSummaryStats();
+            notifyUIUpdated();
+            payload = completedAudit;
+          } else {
+            payload = { error: 'Request not found', errorCode: 'NOT_FOUND' };
+          }
+        } else if (action === 'reject') {
+          const index = db.approvals.pending.findIndex(p => p.id === reqId || p.traceId === reqId);
+          if (index !== -1) {
+            const req = db.approvals.pending.splice(index, 1)[0];
+            req.status = 'rejected';
+            req.approver = approver;
+            req.rejectionReason = body.reason || 'تم الرفض لدواعي حماية البيانات';
+            db.approvals.recent.unshift(req);
+
+            const rejectedAudit = {
+              id: req.id,
+              interactionId: req.id,
+              requestId: req.id,
+              trace_id: req.traceId,
+              traceId: req.traceId,
+              created_at: new Date().toISOString(),
+              timestamp: new Date().toISOString(),
+              createdAt: new Date().toISOString(),
+              user_id: req.userId,
+              userId: req.userId,
+              user_name: req.userName,
+              userName: req.userName,
+              ip_address: "127.0.0.1",
+              user_agent: navigator.userAgent,
+              request_message: req.query,
+              query: req.query,
+              originalText: req.query,
+              pii_detected: req.piiDetected.length > 0 ? 1 : 0,
+              pii_types: JSON.stringify(req.piiDetected),
+              piiTypes: req.piiDetected,
+              piiDetected: req.piiDetected,
+              firewall_action: "allow",
+              masked_message: req.maskedText,
+              maskedText: req.maskedText,
+              risk_score: req.riskScore,
+              riskScore: req.riskScore,
+              risk_level: req.riskLevel,
+              riskLevel: req.riskLevel,
+              approval_status: "rejected",
+              approvalStatus: "rejected",
+              action: "REJECTED",
+              actor: approver,
+              approval_comment: req.rejectionReason,
+              gemini_response: `تم رفض الطلب بواسطة المشرف. السبب: ${req.rejectionReason}`,
+              response: `تم رفض الطلب بواسطة المشرف. السبب: ${req.rejectionReason}`,
+              response_model: null,
+              response_time_ms: 0,
+              compliance_pack: req.compliancePackage,
+              compliancePack: req.compliancePackage,
+              previousHash: db.audit.rows[0]?.recordHash || generateHash(),
+              recordHash: generateHash(),
+              hash: generateHash()
+            };
+            db.audit.rows.unshift(rejectedAudit);
+            db.audit.entries = db.audit.rows;
+
+            // Update evidence
+            const evIndex = db.evidence.evidence.findIndex(e => e.id === req.id || e.traceId === req.traceId);
+            if (evIndex !== -1) {
+              db.evidence.evidence[evIndex].status = 'rejected';
+              db.evidence.evidence[evIndex].approvalStatus = 'rejected';
+            }
+            db.evidence.details[req.traceId] = {
+              ...db.evidence.details[req.traceId],
+              response: rejectedAudit.response,
+              approvalStatus: 'rejected'
+            };
+            if (req.id) db.evidence.details[req.id] = db.evidence.details[req.traceId];
+
+            recalculateSummaryStats();
+            notifyUIUpdated();
+            payload = rejectedAudit;
+          } else {
+            payload = { error: 'Request not found', errorCode: 'NOT_FOUND' };
+          }
+        }
+      } else {
+        payload = db.approvals;
+      }
+    } else if (path.includes('/evidence/')) {
+      const match = path.match(/\/evidence\/([^/]+)/);
+      if (match && match[1]) {
+        const id = decodeURIComponent(match[1]);
+        const record = db.evidence.details[id] || db.evidence.details[id.replace(/\/export$/, '')];
+        if (record) {
+          payload = record;
+        } else {
+          // fallback single lookup
+          payload = {
+            id,
+            interactionId: id,
+            traceId: id,
+            timestamp: new Date().toISOString(),
+            request: "طلب تصدير ملفات الأدلة ومراجعة حوكمة BrightAI Kernel",
+            response: "هذا السجل آمن ومحفوظ بالكامل عبر سلسلة التدقيق الموثوقة وصناعية بشكل كامل.",
+            riskScore: 10,
+            riskLevel: "low",
+            approvalStatus: "completed",
+            requestHash: generateHash(),
+            previousHash: generateHash(),
+            recordHash: generateHash()
+          };
+        }
+      } else {
+        payload = db.evidence;
+      }
+    } else if (path.endsWith('/evidence')) {
+      const traceIdParam = searchParams.get('traceId') || searchParams.get('trace_id');
+      if (traceIdParam) {
+        const detail = db.evidence.details[traceIdParam];
+        payload = {
+          evidence: detail ? [detail] : [],
+          rows: detail ? [detail] : [],
+          total: detail ? 1 : 0
+        };
+      } else {
+        payload = db.evidence;
+      }
+    } else if (path.endsWith('/compliance') || path.endsWith('/compliance/check')) {
+      payload = db.compliance;
+    } else if (path.endsWith('/chat')) {
+      // POST chat simulation
+      if (options && options.body) {
+        const body = JSON.parse(options.body);
+        payload = simulateChat(body.message, body.compliancePack);
+      }
+    } else {
+      payload = { error: 'Not found mock', errorCode: 'MOCK_NOT_FOUND' };
+    }
+
+    return new Response(JSON.stringify(payload), {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+        'Content-Language': 'ar-SA'
+      }
+    });
+  }
+
+  // Intercept globally using fetch wrapper
+  const originalFetch = window.fetch;
+  window.fetch = async function (url, options) {
+    const urlStr = String(url);
+    const isDemoModeActive = localStorage.getItem('brightai_kernel_demo_mode') === 'true';
+
+    if (urlStr.includes('/api/kernel')) {
+      if (isDemoModeActive) {
+        await ensureDBInitialized();
+        return handleMockRequest(urlStr, options);
+      }
+
+      // If live mode is selected but connection fails, fallback to demo mode gracefully
+      try {
+        const response = await originalFetch(url, options);
+        if (!response.ok && (response.status >= 500 || response.status === 404)) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+        return response;
+      } catch (err) {
+        console.warn("[BrightAI Kernel] Backend failed or down. Activating offline Demo Mode...", err);
+        localStorage.setItem('brightai_kernel_demo_mode', 'true');
+        window.kernelDemoModeActive = true;
+        updateBannerUI();
+        await ensureDBInitialized();
+        return handleMockRequest(urlStr, options);
+      }
+    }
+
+    return originalFetch(url, options);
+  };
+
+  // Dispatch unified custom events and call global UI components directly
+  function notifyUIUpdated() {
+    // Save state back to localStorage
+    if (window.kernelDemoState) {
+      localStorage.setItem('brightai_kernel_mock_db', JSON.stringify(window.kernelDemoState));
+    }
+
+    const event = new CustomEvent('kernel-demo-update', {
+      detail: window.kernelDemoState
+    });
+    window.dispatchEvent(event);
+
+    // Coordinate with approvals.html inline methods
+    if (typeof window.loadApprovals === 'function') {
+      window.loadApprovals();
+    }
+    // Coordinate with stats and dashboard
+    if (global.KernelStats && typeof global.KernelStats.loadStats === 'function') {
+      global.KernelStats.loadStats();
+    }
+    // Direct DOM updater for stats cards
+    updateStatsDOMDirectly();
+  }
+
+  // Instant DOM updater to guarantee zero lag or visual skeletons
+  function updateStatsDOMDirectly() {
+    if (!window.kernelDemoState) return;
+    const stats = window.kernelDemoState.stats;
+    const summary = window.kernelDemoState.approvals.summary;
+
+    const totalEl = document.getElementById('stat-total');
+    const pendingEl = document.getElementById('stat-pending');
+    const riskEl = document.getElementById('stat-risk');
+    const piiEl = document.getElementById('stat-pii');
+
+    const fmt = (num) => new Intl.NumberFormat('ar-SA').format(num);
+
+    if (totalEl) totalEl.textContent = fmt(stats.total);
+    if (pendingEl) pendingEl.textContent = fmt(stats.pending);
+    if (riskEl) riskEl.textContent = `${Math.round(stats.avgRiskScore)}%`;
+    if (piiEl) piiEl.textContent = `${stats.piiDetectionRate}%`;
+
+    // Approvals page stats
+    const aprPending = document.getElementById('stat-pending');
+    const aprCritical = document.getElementById('stat-critical');
+    const aprHigh = document.getElementById('stat-high');
+    const aprCompleted = document.getElementById('stat-completed');
+
+    if (aprPending && summary) aprPending.textContent = fmt(summary.totalPending);
+    if (aprCritical && summary) aprCritical.textContent = fmt(summary.criticalCount);
+    if (aprHigh && summary) aprHigh.textContent = fmt(summary.highCount);
+    if (aprCompleted && summary) aprCompleted.textContent = fmt(summary.completedToday);
+
+    const refreshEl = document.getElementById('last-update');
+    if (refreshEl) refreshEl.textContent = new Date().toLocaleTimeString('ar-SA');
+  }
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // Live Feed Simulation (8 Seconds Interval)
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  const poolOfSimulatedRequests = [
+    {
+      query: "طلب تعديل سجل المشتريات والضمان للشركة السعودية للكهرباء للربع الثاني بقيمة 12,000,000 ريال",
+      masked: "طلب تعديل سجل المشتريات والضمان للشركة السعودية للكهرباء للربع الثاني بقيمة 12,000,000 ريال",
+      riskScore: 12,
+      riskLevel: "minimal",
+      status: "completed",
+      response: "تم استلام الطلب وتمريره بنجاح. البنود مطابقة للمواصفات السعودية ولا تحتوي على أي بيانات حساسة.",
+      compliancePack: "procurement"
+    },
+    {
+      query: "استبيان الموظفين الجديد ويحتوي على أرقام الهوية الوطنية 1098485721 والعناوين السكنية الخاصة بهم بمصرف الراجحي",
+      masked: "استبيان الموظفين الجديد ويحتوي على أرقام الهوية الوطنية [SAUDI_ID] والعناوين السكنية الخاصة بهم بمصرف الراجحي",
+      riskScore: 100,
+      riskLevel: "critical",
+      status: "blocked",
+      response: "تم حظر العملية آلياً. يمنع إرسال الهويات الوطنية الخاصة بالموظفين بدون تشفير لحماية الخصوصية بموجب PDPL.",
+      compliancePack: "pdpl",
+      pii: ["saudi_id"]
+    },
+    {
+      query: "استعلام فوري لوزارة الصحة عن قائمة المرضى وحسابات الآيبان SA9910000000123456789012 لدفع مستحقات الضمان الاجتماعي",
+      masked: "استعلام فوري لوزارة الصحة عن قائمة المرضى وحسابات الآيبان [SAUDI_IBAN] لدفع مستحقات الضمان الاجتماعي",
+      riskScore: 85,
+      riskLevel: "high",
+      status: "pending",
+      response: null,
+      compliancePack: "healthcare",
+      pii: ["saudi_iban"]
+    },
+    {
+      query: "صياغة عقد التفاهم وشروط العمل المشترك مع أرامكو السعودية لتطوير حقول الغاز الطبيعي بدون تسريب أسرار صناعية",
+      masked: "صياغة عقد التفاهم وشروط العمل المشترك مع أرامكو السعودية لتطوير حقول الغاز الطبيعي بدون تسريب أسرار صناعية",
+      riskScore: 18,
+      riskLevel: "low",
+      status: "completed",
+      response: "تمت صياغة بنود العقد. كافة المعايير تتطابق مع دليل الأمان الفني والسلامة المهنية المعتمد.",
+      compliancePack: "nca_ecc"
+    }
+  ];
+
+  let liveFeedTimer = null;
+
+  function startLiveFeedSimulator() {
+    if (liveFeedTimer) clearInterval(liveFeedTimer);
+
+    liveFeedTimer = setInterval(async () => {
+      // Don't inject if demo mode is disabled
+      if (localStorage.getItem('brightai_kernel_demo_mode') !== 'true') return;
+
+      // Don't inject if user is currently interacting (e.g. prompt or alert open, or buttons active)
+      if (document.querySelector('.btn-loading') || document.activeElement?.tagName === 'INPUT' || document.activeElement?.tagName === 'TEXTAREA') {
+        return;
+      }
+
+      await ensureDBInitialized();
+      const db = window.kernelDemoState;
+
+      const randomTemplate = poolOfSimulatedRequests[Math.floor(Math.random() * poolOfSimulatedRequests.length)];
+      const traceId = `AI-2026-${String(10000 + Math.floor(Math.random() * 90000))}`;
+      const interactionId = `ki_${String(10000 + Math.floor(Math.random() * 90000))}`;
+
+      const newRecord = {
+        id: interactionId,
+        interactionId: interactionId,
+        requestId: interactionId,
+        trace_id: traceId,
+        traceId: traceId,
+        createdAt: new Date().toISOString(),
+        timestamp: new Date().toISOString(),
+        query: randomTemplate.query,
+        maskedText: randomTemplate.masked,
+        compliancePackage: randomTemplate.compliancePack,
+        userName: ["أحمد الحربي", "نوف السديري", "خالد القحطاني", "مريم الدوسري"][Math.floor(Math.random() * 4)],
+        userId: `user_saudi_sim_${Math.floor(Math.random() * 100)}`,
+        riskScore: randomTemplate.riskScore,
+        riskLevel: randomTemplate.riskLevel,
+        piiDetected: randomTemplate.pii || [],
+        matchedPolicies: randomTemplate.pii ? [{"name": "حماية وحجب البيانات الحساسة للمؤسسة"}] : []
+      };
+
+      if (randomTemplate.status === 'blocked') {
+        // add directly to audit log
+        const auditEntry = {
+          ...newRecord,
+          created_at: newRecord.createdAt,
+          approvalStatus: 'blocked',
+          action: 'BLOCKED',
+          actor: 'system',
+          gemini_response: randomTemplate.response,
+          response: randomTemplate.response,
+          previousHash: db.audit.rows[0]?.recordHash || generateHash(),
+          recordHash: generateHash(),
+          hash: generateHash()
+        };
+        db.audit.rows.unshift(auditEntry);
+      } else if (randomTemplate.status === 'pending') {
+        // add to pending approvals
+        db.approvals.pending.unshift(newRecord);
+      } else {
+        // auto-approved completed
+        const completedAudit = {
+          ...newRecord,
+          created_at: newRecord.createdAt,
+          approvalStatus: 'auto_approved',
+          action: 'CHAT_REQUEST',
+          actor: newRecord.userName,
+          gemini_response: randomTemplate.response,
+          response: randomTemplate.response,
+          previousHash: db.audit.rows[0]?.recordHash || generateHash(),
+          recordHash: generateHash(),
+          hash: generateHash()
+        };
+        db.audit.rows.unshift(completedAudit);
+      }
+
+      // Add to evidence details
+      db.evidence.evidence.unshift({
+        id: interactionId,
+        interactionId,
+        requestId: interactionId,
+        traceId,
+        trace_id: traceId,
+        createdAt: new Date().toISOString(),
+        preview: randomTemplate.query.substring(0, 180),
+        status: randomTemplate.status,
+        approvalStatus: randomTemplate.status,
+        riskLevel: randomTemplate.riskLevel
+      });
+      db.evidence.rows = db.evidence.evidence;
+
+      db.evidence.details[traceId] = {
+        id: interactionId,
+        interactionId,
+        requestId: interactionId,
+        traceId,
+        trace_id: traceId,
+        createdAt: new Date().toISOString(),
+        timestamp: new Date().toISOString(),
+        request: randomTemplate.query,
+        response: randomTemplate.response || "بانتظار موافقة مشرف الحوكمة قبل الإرسال.",
+        riskScore: randomTemplate.riskScore,
+        riskLevel: randomTemplate.riskLevel,
+        approvalStatus: randomTemplate.status,
+        requestHash: generateHash(),
+        previousHash: db.audit.rows[1]?.recordHash || generateHash(),
+        recordHash: generateHash()
+      };
+      db.evidence.details[interactionId] = db.evidence.details[traceId];
+
+      recalculateSummaryStats();
+      notifyUIUpdated();
+
+      // Show temporary smart notification bubble in corner if on approvals page
+      if (pathNameContains('approvals') && randomTemplate.status === 'pending') {
+        showToastNotification("طلب حوكمة جديد", `استقبل النظام طلب عالي المخاطر لـ ${newRecord.userName}.`);
+      }
+    }, 8000);
+  }
+
+  function pathNameContains(str) {
+    return window.location.pathname.toLowerCase().includes(str);
+  }
+
+  function showToastNotification(title, message) {
+    const toastContainer = document.getElementById('toast-container');
+    if (!toastContainer) return;
+    const toast = document.createElement('div');
+    toast.className = 'toast info';
+    toast.style.animation = 'fadeSlideUp 300ms ease-out';
+    toast.innerHTML = `
+      <svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/>
+      </svg>
+      <div class="toast-content">
+        <div class="toast-title">${KernelUtils?.escapeHtml(title) || title}</div>
+        <div class="toast-message">${KernelUtils?.escapeHtml(message) || message}</div>
+      </div>
+      <button class="toast-close" onclick="this.parentElement.remove()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    `;
+    toastContainer.appendChild(toast);
+    setTimeout(() => { if (toast.parentElement) toast.remove(); }, 5000);
+  }
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // Elegant Demo Banner & Toggle Control UI
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  function injectBannerStyles() {
+    const css = `
+      .brightai-demo-banner {
+        background: linear-gradient(135deg, #0b1329 0%, #152244 100%);
+        border-bottom: 2px solid #eab308;
+        padding: 0.625rem 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        color: #f8fafc;
+        font-family: 'IBM Plex Sans Arabic', sans-serif;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        position: relative;
+        z-index: 99999;
+      }
+      .brightai-demo-brand {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 0.9375rem;
+        font-weight: 700;
+      }
+      .brightai-demo-badge {
+        background: rgba(234, 179, 8, 0.12);
+        border: 1px solid #eab308;
+        color: #eab308;
+        padding: 0.125rem 0.625rem;
+        border-radius: 999px;
+        font-size: 0.75rem;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 0.375rem;
+      }
+      .brightai-demo-pulse {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #eab308;
+        animation: brightai-pulse 1.5s infinite;
+      }
+      .brightai-demo-text {
+        font-size: 0.875rem;
+        color: #94a3b8;
+      }
+      .brightai-demo-actions {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+      .brightai-demo-toggle-wrap {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: rgba(255,255,255,0.05);
+        padding: 0.25rem 0.75rem;
+        border-radius: 8px;
+        border: 1px solid rgba(255,255,255,0.1);
+      }
+      .brightai-demo-label {
+        font-size: 0.8125rem;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      .brightai-demo-switch {
+        position: relative;
+        display: inline-block;
+        width: 38px;
+        height: 20px;
+      }
+      .brightai-demo-switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+      .brightai-demo-slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background-color: #475569;
+        transition: .3s;
+        border-radius: 20px;
+      }
+      .brightai-demo-slider:before {
+        position: absolute;
+        content: "";
+        height: 14px; width: 14px;
+        left: 3px; bottom: 3px;
+        background-color: white;
+        transition: .3s;
+        border-radius: 50%;
+      }
+      input:checked + .brightai-demo-slider {
+        background-color: #eab308;
+      }
+      input:checked + .brightai-demo-slider:before {
+        transform: translateX(18px);
+      }
+      .brightai-demo-btn {
+        background: rgba(255,255,255,0.08);
+        border: 1px solid rgba(255,255,255,0.15);
+        color: #f8fafc;
+        padding: 0.375rem 0.875rem;
+        border-radius: 6px;
+        font-size: 0.8125rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .brightai-demo-btn:hover {
+        background: rgba(255,255,255,0.15);
+        border-color: rgba(255,255,255,0.3);
+      }
+      @keyframes brightai-pulse {
+        0% { transform: scale(0.9); opacity: 0.6; }
+        50% { transform: scale(1.2); opacity: 1; }
+        100% { transform: scale(0.9); opacity: 0.6; }
+      }
+      @media (max-width: 768px) {
+        .brightai-demo-banner {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 0.5rem;
+        }
+        .brightai-demo-actions {
+          width: 100%;
+          justify-content: space-between;
+        }
+      }
+    `;
+    const style = document.createElement('style');
+    style.id = 'brightai-demo-banner-styles';
+    style.textContent = css;
+    document.head.appendChild(style);
+  }
+
+  function injectBannerUI() {
+    if (document.getElementById('brightai-demo-banner-ui')) return;
+
+    const banner = document.createElement('div');
+    banner.id = 'brightai-demo-banner-ui';
+    banner.className = 'brightai-demo-banner';
+
+    const isDemo = localStorage.getItem('brightai_kernel_demo_mode') === 'true';
+
+    banner.innerHTML = `
+      <div class="brightai-demo-brand">
+        <span class="brightai-demo-badge">
+          <span class="brightai-demo-pulse"></span>
+          وضع المحاكاة
+        </span>
+        <span class="brightai-demo-text">عرض تجريبي تفاعلي — بيانات سعودية صناعية ومحمية بالكامل</span>
+      </div>
+      <div class="brightai-demo-actions">
+        <div class="brightai-demo-toggle-wrap">
+          <span class="brightai-demo-label" id="brightai-demo-mode-label">وضع المحاكاة</span>
+          <label class="brightai-demo-switch">
+            <input type="checkbox" id="brightai-demo-toggle-checkbox" ${isDemo ? 'checked' : ''}>
+            <span class="brightai-demo-slider"></span>
+          </label>
+        </div>
+        <button class="brightai-demo-btn" id="brightai-demo-reset-btn">إعادة تعيين البيانات</button>
+      </div>
+    `;
+
+    // Inject as the first child of the body element to display at top
+    if (document.body) {
+      document.body.insertBefore(banner, document.body.firstChild);
+    }
+
+    // Attach control listeners
+    document.getElementById('brightai-demo-toggle-checkbox')?.addEventListener('change', (e) => {
+      const active = e.target.checked;
+      localStorage.setItem('brightai_kernel_demo_mode', active ? 'true' : 'false');
+      window.location.reload();
+    });
+
+    document.getElementById('brightai-demo-reset-btn')?.addEventListener('click', () => {
+      if (confirm('هل أنت متأكد من إعادة تعيين كافة البيانات التجريبية لحالتها الأصلية؟')) {
+        localStorage.removeItem('brightai_kernel_mock_db');
+        window.location.reload();
+      }
+    });
+  }
+
+  function updateBannerUI() {
+    const checkbox = document.getElementById('brightai-demo-toggle-checkbox');
+    if (checkbox) {
+      checkbox.checked = localStorage.getItem('brightai_kernel_demo_mode') === 'true';
+    }
+  }
+
+  // Auto initialize on DOM Load
+  document.addEventListener('DOMContentLoaded', async () => {
+    injectBannerStyles();
+    injectBannerUI();
+    
+    const isDemo = localStorage.getItem('brightai_kernel_demo_mode') === 'true';
+    if (isDemo) {
+      await ensureDBInitialized();
+      updateStatsDOMDirectly();
+      startLiveFeedSimulator();
+    }
+  });
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // Unified KernelAPI Mock Logic
+  // ═══════════════════════════════════════════════════════════════════════════
 
   class KernelAPI {
     constructor() {
       this.baseURL = '/api/kernel';
       this.timeout = 30000;
       this.retryAttempts = 3;
-      this.retryDelays = [500, 1000, 2000]; // Exponential backoff
+      this.retryDelays = [500, 1000, 2000];
     }
 
-    /**
-     * Make an API request with retry logic
-     * @param {string} endpoint - API endpoint
-     * @param {Object} options - Fetch options
-     * @returns {Promise<Object>} Response data
-     */
     async request(endpoint, options = {}) {
       const url = `${this.baseURL}${endpoint}`;
-      const method = options.method || 'GET';
-      
       const headers = {
         'Content-Type': 'application/json',
         'x-kernel-user-id': KernelUtils?.getUserId() || 'anonymous',
@@ -31,75 +1544,24 @@
         ...(options.headers || {}),
       };
 
-      let lastError;
-      
-      for (let attempt = 0; attempt < this.retryAttempts; attempt++) {
-        try {
-          const controller = new AbortController();
-          const timeoutId = setTimeout(() => controller.abort(), this.timeout);
+      // Always calls window.fetch which will be intercepted smoothly
+      const response = await fetch(url, {
+        method: options.method || 'GET',
+        headers,
+        body: options.body ? JSON.stringify(options.body) : undefined,
+      });
 
-          const response = await fetch(url, {
-            method,
-            headers,
-            body: options.body ? JSON.stringify(options.body) : undefined,
-            signal: controller.signal,
-          });
-
-          clearTimeout(timeoutId);
-
-          if (!response.ok) {
-            const errorData = await response.json().catch(() => ({}));
-            throw new APIError(
-              errorData.error || `HTTP ${response.status}`,
-              response.status,
-              errorData
-            );
-          }
-
-          return await response.json();
-        } catch (error) {
-          lastError = error;
-          
-          // Don't retry on client errors (4xx)
-          if (error instanceof APIError && error.status >= 400 && error.status < 500) {
-            throw error;
-          }
-
-          // Wait before retrying (exponential backoff)
-          if (attempt < this.retryAttempts - 1) {
-            await this.sleep(this.retryDelays[attempt]);
-          }
-        }
+      if (!response.ok) {
+        throw new APIError(`HTTP ${response.status}`, response.status);
       }
 
-      throw lastError;
+      return await response.json();
     }
 
-    /**
-     * Sleep for a duration
-     * @param {number} ms - Milliseconds
-     * @returns {Promise<void>}
-     */
-    sleep(ms) {
-      return new Promise((resolve) => setTimeout(resolve, ms));
-    }
-
-    // ═══════════════════════════════════════════════════════════════════════════
-    // Health & Status Endpoints
-    // ═══════════════════════════════════════════════════════════════════════════
-
-    /**
-     * Check system health
-     * @returns {Promise<Object>} Health status
-     */
     async health() {
       return this.request('/health');
     }
 
-    /**
-     * Get provider status
-     * @returns {Promise<Object>} Provider info
-     */
     async getProviderStatus() {
       try {
         const health = await this.health();
@@ -119,17 +1581,6 @@
       }
     }
 
-    // ═══════════════════════════════════════════════════════════════════════════
-    // Chat Endpoints
-    // ═══════════════════════════════════════════════════════════════════════════
-
-    /**
-     * Send a chat message
-     * @param {string} query - User query
-     * @param {string} context - Optional context
-     * @param {string} compliancePackage - Compliance package
-     * @returns {Promise<Object>} Chat response
-     */
     async chat(query, context = '', compliancePackage = 'general') {
       return this.request('/chat', {
         method: 'POST',
@@ -141,27 +1592,10 @@
       }).then((data) => this.normalizeKernelRecord(data));
     }
 
-    // ═══════════════════════════════════════════════════════════════════════════
-    // Statistics Endpoints
-    // ═══════════════════════════════════════════════════════════════════════════
-
-    /**
-     * Get system statistics
-     * @returns {Promise<Object>} Statistics data
-     */
     async getStats() {
       return this.request('/stats');
     }
 
-    // ═══════════════════════════════════════════════════════════════════════════
-    // Audit Endpoints
-    // ═══════════════════════════════════════════════════════════════════════════
-
-    /**
-     * Get audit log entries
-     * @param {Object} params - Filter parameters
-     * @returns {Promise<Object>} Audit entries
-     */
     async getAuditLog(params = {}) {
       const queryString = new URLSearchParams(params).toString();
       return this.request(`/audit${queryString ? '?' + queryString : ''}`).then((data) => {
@@ -171,10 +1605,6 @@
       });
     }
 
-    /**
-     * Get audit chain status
-     * @returns {Promise<Object>} Chain verification data
-     */
     async getChain() {
       return this.request('/chain').then((data) => {
         if (Array.isArray(data.entries)) data.entries = data.entries.map((row) => this.normalizeKernelRecord(row));
@@ -182,30 +1612,14 @@
       });
     }
 
-    /**
-     * Backward-compatible alias used by older audit.html builds.
-     * @returns {Promise<Object>} Chain verification data
-     */
     async getAuditChain() {
       return this.getChain();
     }
 
-    /**
-     * Verify chain integrity
-     * @returns {Promise<Object>} Verification result
-     */
     async verifyChain() {
       return this.request('/chain/verify', { method: 'POST' });
     }
 
-    // ═══════════════════════════════════════════════════════════════════════════
-    // Approvals Endpoints
-    // ═══════════════════════════════════════════════════════════════════════════
-
-    /**
-     * Get pending approvals
-     * @returns {Promise<Object>} Pending approvals list
-     */
     async getPendingApprovals() {
       return this.request('/approvals').then((data) => {
         if (Array.isArray(data.pending)) data.pending = data.pending.map((row) => this.normalizeKernelRecord(row));
@@ -214,10 +1628,6 @@
       });
     }
 
-    /**
-     * Get pending count only
-     * @returns {Promise<number>} Pending count
-     */
     async getPendingCount() {
       try {
         const data = await this.getPendingApprovals();
@@ -227,12 +1637,6 @@
       }
     }
 
-    /**
-     * Approve a request
-     * @param {string} requestId - Request ID
-     * @param {string} approver - Approver name
-     * @returns {Promise<Object>} Approval result
-     */
     async approveRequest(requestId, approver) {
       return this.request('/approvals', {
         method: 'POST',
@@ -246,13 +1650,6 @@
       }).then((data) => this.normalizeKernelRecord(data));
     }
 
-    /**
-     * Reject a request
-     * @param {string} requestId - Request ID
-     * @param {string} approver - Approver name
-     * @param {string} reason - Rejection reason
-     * @returns {Promise<Object>} Rejection result
-     */
     async rejectRequest(requestId, approver, reason = '') {
       return this.request('/approvals', {
         method: 'POST',
@@ -267,15 +1664,6 @@
       }).then((data) => this.normalizeKernelRecord(data));
     }
 
-    // ═══════════════════════════════════════════════════════════════════════════
-    // Evidence Endpoints
-    // ═══════════════════════════════════════════════════════════════════════════
-
-    /**
-     * Get evidence records
-     * @param {Object} params - Filter parameters
-     * @returns {Promise<Object>} Evidence records
-     */
     async getEvidence(params = {}) {
       const queryString = new URLSearchParams(params).toString();
       return this.request(`/evidence${queryString ? '?' + queryString : ''}`).then((data) => {
@@ -285,40 +1673,19 @@
       });
     }
 
-    /**
-     * Get single evidence record
-     * @param {string} requestId - Request ID
-     * @returns {Promise<Object>} Evidence record
-     */
     async getEvidenceById(requestId) {
       return this.request(`/evidence/${encodeURIComponent(requestId)}`).then((data) => this.normalizeKernelRecord(data));
     }
 
-    /**
-     * Export evidence as JSON
-     * @param {string} requestId - Request ID
-     * @returns {Promise<Object>} Evidence data
-     */
     async exportEvidence(requestId) {
       return this.request(`/evidence/${encodeURIComponent(requestId)}/export`).then((data) => this.normalizeKernelRecord(data));
     }
 
-    /**
-     * Extract a canonical AI-YYYY-00000 trace id from modern or legacy payloads.
-     * Legacy requestId remains an alias for interactionId only.
-     * @param {Object} record - API record
-     * @returns {string|null} Trace id
-     */
     extractTraceId(record = {}) {
       const value = record.traceId || record.trace_id || record.kernel?.traceId || record.metadata?.traceId || record.summary?.traceId;
       return /^AI-\d{4}-\d{5,}$/.test(String(value || '')) ? String(value) : null;
     }
 
-    /**
-     * Normalize Frontend/Backend field names without breaking old rows.
-     * @param {Object} record - API record
-     * @returns {Object} Normalized record
-     */
     normalizeKernelRecord(record = {}) {
       if (!record || typeof record !== 'object') return record;
       const interactionId = record.interactionId || record.interaction_id || record.id || record.requestId || record.request_id || null;
@@ -332,12 +1699,6 @@
       };
     }
 
-    /**
-     * Build a clickable trace link for kernel pages.
-     * @param {string} traceId - Canonical trace id
-     * @param {string} page - Target kernel page
-     * @returns {string} URL
-     */
     traceLink(traceId, page = 'evidence') {
       const safeTrace = encodeURIComponent(traceId || '');
       const target = page.endsWith('.html') ? page : `${page}.html`;
@@ -345,9 +1706,6 @@
     }
   }
 
-  /**
-   * Custom API Error class
-   */
   class APIError extends Error {
     constructor(message, status, data = {}) {
       super(message);
@@ -357,10 +1715,8 @@
     }
   }
 
-  // Create global instance
   const kernelAPI = new KernelAPI();
 
-  // Export to global scope
   global.KernelAPI = KernelAPI;
   global.kernelAPI = kernelAPI;
   global.APIError = APIError;

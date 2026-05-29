@@ -3,7 +3,7 @@
 
 CREATE TABLE IF NOT EXISTS kernel_interactions (
     id TEXT PRIMARY KEY,
-    trace_id TEXT,
+    trace_id TEXT UNIQUE,
     created_at BIGINT NOT NULL,
     user_id TEXT,
     user_name TEXT,
@@ -105,6 +105,7 @@ CREATE INDEX IF NOT EXISTS idx_interactions_user ON kernel_interactions(user_id)
 CREATE INDEX IF NOT EXISTS idx_interactions_risk ON kernel_interactions(risk_level);
 CREATE INDEX IF NOT EXISTS idx_interactions_approval ON kernel_interactions(approval_status);
 CREATE INDEX IF NOT EXISTS idx_interactions_compliance ON kernel_interactions(compliance_pack);
+CREATE UNIQUE INDEX IF NOT EXISTS idx_interactions_trace_unique ON kernel_interactions(trace_id) WHERE trace_id IS NOT NULL;
 CREATE INDEX IF NOT EXISTS idx_interactions_trace ON kernel_interactions(trace_id);
 CREATE INDEX IF NOT EXISTS idx_approval_status ON kernel_approval_queue(status);
 CREATE INDEX IF NOT EXISTS idx_approval_created ON kernel_approval_queue(created_at);

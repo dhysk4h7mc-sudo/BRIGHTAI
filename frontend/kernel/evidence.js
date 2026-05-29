@@ -17,6 +17,7 @@ async function generateEvidenceFile(interactionId) {
   // Legacy fallback: records created before trace_id use metadata traceId when
   // available, otherwise their interaction id remains the clickable alias.
   const traceId = entry.trace_id || requestMetadata.traceId || requestMetadata.trace_id || entry.id;
+  const traceIdLegacy = entry.trace_id ? null : entry.id;
 
   const evidence = {
     evidenceId: generateId('ev'),
@@ -25,9 +26,11 @@ async function generateEvidenceFile(interactionId) {
     requestId: entry.id,
     traceId,
     trace_id: traceId,
+    traceIdLegacy,
     timestamp: entry.created_at,
     summary: {
       traceId,
+      traceIdLegacy,
       interactionId: entry.id,
       requestId: entry.id,
       request: entry.masked_message || entry.request_message,
@@ -60,6 +63,7 @@ async function generateEvidenceFile(interactionId) {
     },
     audit: {
       traceId,
+      traceIdLegacy,
       requestHash: entry.request_hash,
       responseHash: entry.response_hash,
       previousHash: entry.previous_hash,

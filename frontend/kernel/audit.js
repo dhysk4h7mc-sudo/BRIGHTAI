@@ -25,9 +25,14 @@ function getTraceIdFromInteraction(row) {
   return row.trace_id || metadata.traceId || metadata.trace_id || null;
 }
 
+function getTraceIdLegacyFromInteraction(row) {
+  return row && !row.trace_id ? row.id : null;
+}
+
 function normalizeAuditRow(row) {
   if (!row) return null;
-  const traceId = getTraceIdFromInteraction(row);
+  const traceId = getTraceIdFromInteraction(row) || row.id;
+  const traceIdLegacy = getTraceIdLegacyFromInteraction(row);
   const status = row.approval_status || 'auto_approved';
   const action = status === 'blocked' ? 'BLOCKED'
     : status === 'pending' ? 'APPROVAL_REQUESTED'
@@ -42,6 +47,7 @@ function normalizeAuditRow(row) {
     requestId: row.id,
     traceId,
     trace_id: traceId,
+    traceIdLegacy,
     timestamp: row.created_at,
     createdAt: row.created_at,
     action,
@@ -139,9 +145,13 @@ async function queryAuditTrail(filters, limit, offset) {
   if (filters.riskLevel) { conditions.push(`risk_level = $${paramIdx++}`); values.push(filters.riskLevel); }
   if (filters.compliancePack) { conditions.push(`compliance_pack = $${paramIdx++}`); values.push(filters.compliancePack); }
   if (filters.approvalStatus) { conditions.push(`approval_status = $${paramIdx++}`); values.push(filters.approvalStatus); }
+  if (filters.id || filters.interactionId || filters.requestId) {
+    conditions.push(`id = $${paramIdx++}`);
+    values.push(filters.id || filters.interactionId || filters.requestId);
+  }
   if (filters.traceId || filters.trace_id) {
     const traceId = filters.traceId || filters.trace_id;
-    conditions.push(`(trace_id = $${paramIdx} OR request_metadata ILIKE $${paramIdx + 1})`);
+    conditions.push(`(id = $${paramIdx} OR trace_id = $${paramIdx} OR request_metadata ILIKE $${paramIdx + 1})`);
     values.push(traceId, '%' + traceId + '%');
     paramIdx += 2;
   }
@@ -181,7 +191,7 @@ async function getAuditEntry(id) {
     ORDER BY CASE WHEN id = $1 THEN 0 ELSE 1 END, created_at DESC
     LIMIT 1
   `, [id, '%' + id + '%']);
-  return rows[0] || null;
+  return normalizeAuditRow(rows[0]) || null;
 }
 
 async function verifyChainIntegrity() {
@@ -255,5 +265,6 @@ module.exports = {
   updateInteraction,
   computeHash,
   normalizeAuditRow,
-  getTraceIdFromInteraction
+  getTraceIdFromInteraction,
+  getTraceIdLegacyFromInteraction
 };

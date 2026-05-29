@@ -42,14 +42,20 @@
       isLoading: false,
     },
 
-    /**
-     * Initialize statistics module
-     * @param {Object} options - Configuration options
-     */
     init(options = {}) {
       this.config = { ...this.config, ...options };
       this.loadStats();
       this.startAutoRefresh();
+
+      // الاستماع لتحديثات المحاكي التجريبي لإعادة رسم المخططات والعدادات فورياً وبطريقة سلسة
+      window.addEventListener('kernel-demo-update', (e) => {
+        if (e.detail && e.detail.stats) {
+          const normalized = this.normalizeStats(e.detail.stats);
+          this.state.currentData = normalized;
+          this.renderStats(normalized);
+          this.updateLastRefreshTime();
+        }
+      });
     },
 
     /**
