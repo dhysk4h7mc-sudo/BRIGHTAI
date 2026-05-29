@@ -1,8 +1,8 @@
 (function () {
   "use strict";
 
-  var LOGO_PATH = "/frontend/images/logo-new.PNG";
-  var LOGO_ABSOLUTE = "https://brightai.site/frontend/images/logo-new.PNG";
+  var LOGO_PATH = "/frontend/assets/images/logo.png";
+  var LOGO_ABSOLUTE = "https://brightai.site/frontend/assets/images/logo.png";
   var LEGACY_LOGO_RE = /(logo(?:-new)?\.(?:png|jpg|jpeg|webp|avif)|logo\.PNG|og-cover\.jpg)/i;
 
   function onReady(callback) {

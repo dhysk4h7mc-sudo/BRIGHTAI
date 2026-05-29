@@ -19,7 +19,7 @@ const PRECACHE_URLS = [
   '/frontend/css/main.bundle.min.css',
   '/frontend/js/runtime-config.min.js',
   '/frontend/js/navigation.min.js',
-  '/frontend/images/logo-new.PNG',
+  '/frontend/assets/images/logo.png',
   '/frontend/images/hero-brain.svg'
 ];
 

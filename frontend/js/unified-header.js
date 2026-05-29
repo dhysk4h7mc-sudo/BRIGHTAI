@@ -165,7 +165,7 @@
         <!-- الشعار -->
         <a href="${prefix}/" class="brightai-logo-link" aria-label="BrightAI ${t.home}">
           <div class="brightai-logo-box">
-            <img src="/frontend/images/logo-new.webp" alt="Bright AI Logo" width="40" height="40" class="brightai-logo-img" decoding="async" fetchpriority="high">
+            <img src="/frontend/assets/images/logo.png" alt="Bright AI Logo" width="40" height="40" class="brightai-logo-img" decoding="async" fetchpriority="high">
           </div>
           <span class="brightai-logo-text">Bright<span class="brightai-logo-text-gradient">AI</span></span>
           <span class="brightai-logo-badge">${t.logoSub}</span>
