@@ -155,6 +155,59 @@
     .provider-dot.active { background: var(--success); animation: pulseGlow 2s ease-in-out infinite; }
     .provider-dot.demo { background: var(--warning); }
 
+    .provider-banner {
+      margin: var(--space-3) var(--space-4) 0;
+      padding: var(--space-3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      background: rgba(0, 212, 255, 0.06);
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: var(--space-3);
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .provider-banner.demo {
+      background: rgba(245, 158, 11, 0.08);
+      border-color: rgba(245, 158, 11, 0.25);
+    }
+
+    .provider-banner-title {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      min-width: 0;
+      color: var(--text-primary);
+      font-size: 0.875rem;
+      font-weight: 600;
+    }
+
+    .provider-banner-meta {
+      margin-top: var(--space-1);
+      color: var(--text-tertiary);
+      font-size: 0.75rem;
+      line-height: 1.5;
+    }
+
+    .provider-banner-mode {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-full);
+      padding: 4px 10px;
+      color: var(--text-secondary);
+      font-size: 0.75rem;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 640px) {
+      .provider-banner {
+        grid-template-columns: 1fr;
+      }
+      .provider-banner-mode {
+        justify-self: start;
+      }
+    }
+
     /* ── Chat Center ── */
     .chat-center {
       display: flex;
@@ -1087,6 +1140,17 @@
         </div>
       </div>
 
+      <div class="provider-banner" id="provider-banner" role="status" aria-live="polite">
+        <div>
+          <div class="provider-banner-title">
+            <span class="provider-dot demo" id="provider-banner-dot"></span>
+            <span id="provider-banner-active">جاري فحص المزود...</span>
+          </div>
+          <div class="provider-banner-meta" id="provider-banner-residency">Data residency: —</div>
+        </div>
+        <div class="provider-banner-mode" id="provider-banner-mode">Demo</div>
+      </div>
+
       <!-- Pending Banner (hidden by default) -->
       <div class="pending-banner" id="pending-banner" style="display:none;" role="alert">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1740,15 +1804,33 @@
         const dot = document.getElementById('sidebar-provider-dot');
         const text = document.getElementById('sidebar-provider-text');
         const model = document.getElementById('sidebar-provider-model');
-        if (data.configured) {
+        const banner = document.getElementById('provider-banner');
+        const bannerDot = document.getElementById('provider-banner-dot');
+        const bannerActive = document.getElementById('provider-banner-active');
+        const bannerResidency = document.getElementById('provider-banner-residency');
+        const bannerMode = document.getElementById('provider-banner-mode');
+        const isProduction = data.mode !== 'demo' && data.configured;
+        const providerName = data.provider || 'local';
+        const modelName = data.model || '';
+        const residency = data.dataResidency || 'غير محدد';
+
+        if (isProduction) {
           dot.className = 'provider-dot active';
-          text.textContent = data.provider + ' نشط';
-          model.textContent = data.model || '';
+          text.textContent = providerName + ' نشط';
+          model.textContent = modelName;
         } else {
           dot.className = 'provider-dot demo';
           text.textContent = 'وضع تجريبي';
-          model.textContent = 'أضف NVIDIA_API_KEY للتفعيل';
+          model.textContent = providerName === 'allam'
+            ? 'ALLaM خيار سيادي للعرض فقط'
+            : 'أضف مفتاح مزود إنتاجي للتفعيل';
         }
+
+        if (banner) banner.className = `provider-banner ${isProduction ? 'active' : 'demo'}`;
+        if (bannerDot) bannerDot.className = `provider-dot ${isProduction ? 'active' : 'demo'}`;
+        if (bannerActive) bannerActive.textContent = `${providerName} · ${modelName || 'Demo Mode'}`;
+        if (bannerResidency) bannerResidency.textContent = `Data residency: ${residency}`;
+        if (bannerMode) bannerMode.textContent = isProduction ? 'Production' : 'Demo';
       } catch {}
     }
 

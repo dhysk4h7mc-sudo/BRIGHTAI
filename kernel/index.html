@@ -929,21 +929,23 @@
       if (!banner || !statusText) return;
 
       try {
-        const response = await fetch('/api/kernel/health');
-        if (!response.ok) throw new Error('Health check failed');
+        const response = await fetch('/api/kernel/providers');
+        if (!response.ok) throw new Error('Provider check failed');
         
         const data = await response.json();
+        const provider = data.activeProvider || data.provider || {};
+        const isProduction = provider.configured && provider.mode !== 'demo';
         
-        if (data.provider?.configured && data.provider?.name !== 'demo') {
+        if (isProduction) {
           banner.className = 'provider-banner active';
-          statusText.textContent = `${data.provider.model || 'NVIDIA MiniMax M2.7'} نشط`;
+          statusText.textContent = `${provider.name || 'provider'} · ${provider.model || 'model'} نشط`;
         } else {
           banner.className = 'provider-banner demo';
-          statusText.textContent = 'وضع تجريبي — أضف NVIDIA_API_KEY للتفعيل';
+          statusText.textContent = `وضع تجريبي — ALLaM خيار سيادي للعرض، والمزود النشط ${provider.name || 'local'}`;
         }
       } catch (error) {
         banner.className = 'provider-banner demo';
-        statusText.textContent = 'وضع تجريبي — أضف NVIDIA_API_KEY للتفعيل';
+        statusText.textContent = 'وضع تجريبي — ALLaM خيار سيادي للعرض بدون اتصال فعلي';
       }
     }
 

@@ -1004,7 +1004,8 @@
         actor: KernelUtils?.getUserName() || 'مستخدم تجريبي',
         gemini_response: responseText,
         response: responseText,
-        response_model: "Gemini 2.5 Flash",
+        response_model: "brightai-kernel-demo",
+        provider: 'local',
         response_time_ms: latencyMs,
         compliance_pack: newRequest.compliancePackage,
         compliancePack: newRequest.compliancePackage,
@@ -1023,8 +1024,8 @@
         requestId: interactionId,
         traceId,
         response: responseText,
-        provider: 'gemini',
-        model: 'Gemini 2.5 Flash',
+        provider: 'local',
+        model: 'brightai-kernel-demo',
         riskScore,
         riskLevel,
         piiDetected: pii,
@@ -1084,6 +1085,7 @@
       recordHash: result.hash || generateHash(),
       evidenceHash: result.hash || generateHash(),
       response_model: result.model || 'Demo Mode',
+      provider: result.provider || 'local',
       response_time_ms: latencyMs,
       compliancePack: newRequest.compliancePackage,
       userName: newRequest.userName,
@@ -1106,10 +1108,43 @@
     const db = window.kernelDemoState;
     let payload = null;
 
-    if (path.endsWith('/health')) {
+    if (path.endsWith('/providers')) {
+      payload = {
+        activeProvider: {
+          name: 'local',
+          configured: true,
+          model: 'brightai-kernel-demo',
+          region: 'local',
+          dataResidency: 'Browser demo only; no external transfer',
+          supportsArabic: true,
+          mode: 'demo',
+          adapter: 'demo'
+        },
+        provider: {
+          name: 'local',
+          configured: true,
+          model: 'brightai-kernel-demo',
+          region: 'local',
+          dataResidency: 'Browser demo only; no external transfer',
+          supportsArabic: true,
+          mode: 'demo',
+          adapter: 'demo'
+        },
+        providers: {
+          nvidia: { name: 'nvidia', configured: false, model: 'nvidia/llama-3.1-nemotron-70b-instruct', region: 'global', dataResidency: 'NVIDIA configured region', supportsArabic: true, mode: 'production' },
+          gemini: { name: 'gemini', configured: false, model: 'gemini-2.5-flash', region: 'global', dataResidency: 'Google configured region', supportsArabic: true, mode: 'production' },
+          openai: { name: 'openai', configured: false, model: 'gpt-4.1-mini', region: 'global', dataResidency: 'OpenAI configured region', supportsArabic: true, mode: 'production' },
+          anthropic: { name: 'anthropic', configured: false, model: 'claude-3-5-sonnet-latest', region: 'global', dataResidency: 'Anthropic configured region', supportsArabic: true, mode: 'production' },
+          allam: { name: 'allam', configured: false, model: 'allam-demo-sovereign-sa', region: 'Saudi Arabia', dataResidency: 'Saudi Arabia sovereign option (demo adapter)', supportsArabic: true, mode: 'demo', adapter: 'demo', note: 'ALLaM is displayed as a Saudi sovereign option; this demo does not claim a live connection.' },
+          local: { name: 'local', configured: true, model: 'brightai-kernel-demo', region: 'local', dataResidency: 'Browser demo only; no external transfer', supportsArabic: true, mode: 'demo', adapter: 'demo' }
+        },
+        order: ['nvidia', 'gemini', 'openai', 'anthropic', 'allam', 'local'],
+        demoMode: true
+      };
+    } else if (path.endsWith('/health')) {
       payload = {
         status: "ok",
-        provider: { name: "demo", model: "وضع محاكاة النواة (BrightAI Kernel)", configured: false },
+        provider: { name: "local", model: "brightai-kernel-demo", configured: true, mode: 'demo', region: 'local', dataResidency: 'Browser demo only; no external transfer', supportsArabic: true },
         kernel: { database: true, routes: true }
       };
     } else if (path.endsWith('/stats')) {
@@ -1896,19 +1931,31 @@
 
     async getProviderStatus() {
       try {
-        const health = await this.health();
+        const providerData = await this.request('/providers');
+        const active = providerData.activeProvider || providerData.provider || {};
         return {
-          status: health.status,
-          provider: health.provider?.name || 'demo',
-          model: health.provider?.model || 'Demo Mode',
-          configured: health.provider?.configured || false,
+          status: providerData.demoMode ? 'degraded' : 'ok',
+          provider: active.name || 'local',
+          model: active.model || 'Demo Mode',
+          configured: Boolean(active.configured),
+          mode: active.mode || (active.configured ? 'production' : 'demo'),
+          region: active.region || '',
+          dataResidency: active.dataResidency || '',
+          supportsArabic: active.supportsArabic !== false,
+          activeProvider: active,
+          providers: providerData.providers || {},
         };
       } catch (error) {
         return {
           status: 'error',
-          provider: 'demo',
+          provider: 'local',
           model: 'Demo Mode',
           configured: false,
+          mode: 'demo',
+          region: 'local',
+          dataResidency: 'Demo mode',
+          supportsArabic: true,
+          providers: {},
         };
       }
     }

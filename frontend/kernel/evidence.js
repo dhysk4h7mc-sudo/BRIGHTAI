@@ -25,6 +25,10 @@ async function generateEvidenceFile(interactionId) {
     [traceId]
   );
   const events = eventRows.map(normalizeAuditEventRow);
+  const modelEvent = [...events].reverse().find((event) => event.eventType === 'MODEL_CALLED') || {};
+  const modelPayload = modelEvent.payload || {};
+  const provider = modelPayload.provider || requestMetadata.provider || null;
+  const model = modelPayload.model || requestMetadata.model || entry.response_model || null;
 
   const evidence = {
     evidenceId: generateId('ev'),
@@ -47,7 +51,8 @@ async function generateEvidenceFile(interactionId) {
       approvalStatus: entry.approval_status,
       approvedBy: entry.approved_by,
       approvedAt: entry.approved_at ? new Date(entry.approved_at).toISOString() : null,
-      model: entry.response_model,
+      provider,
+      model,
       responseTimeMs: entry.response_time_ms,
       tokensInput: entry.response_tokens_input,
       tokensOutput: entry.response_tokens_output

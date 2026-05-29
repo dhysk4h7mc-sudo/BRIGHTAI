@@ -39,7 +39,9 @@ const config = {
   gemini: {
     apiKey: readSecret('GEMINI_API_KEY') || readSecret('GOOGLE_API_KEY'),
     model: process.env.GEMINI_MODEL || 'gemini-2.5-flash',
-    endpoint: 'https://generativelanguage.googleapis.com/v1beta/models'
+    endpoint: 'https://generativelanguage.googleapis.com/v1beta/models',
+    region: process.env.GEMINI_REGION || 'global',
+    dataResidency: process.env.GEMINI_DATA_RESIDENCY || 'Google configured region'
   },
 
   // Groq AI Configuration
@@ -61,7 +63,40 @@ const config = {
     apiKey: readSecret('NVIDIA_API_KEY'),
     model: process.env.NVIDIA_MODEL || 'nvidia/llama-3.1-nemotron-70b-instruct',
     baseUrl: nvidiaBaseUrl,
-    endpoint: process.env.NVIDIA_ENDPOINT || `${nvidiaBaseUrl.replace(/\/$/, '')}/chat/completions`
+    endpoint: process.env.NVIDIA_ENDPOINT || `${nvidiaBaseUrl.replace(/\/$/, '')}/chat/completions`,
+    region: process.env.NVIDIA_REGION || 'global',
+    dataResidency: process.env.NVIDIA_DATA_RESIDENCY || 'NVIDIA configured region'
+  },
+
+  // OpenAI Configuration
+  openai: {
+    apiKey: readSecret('OPENAI_API_KEY'),
+    model: process.env.OPENAI_MODEL || 'gpt-4.1-mini',
+    endpoint: process.env.OPENAI_ENDPOINT || 'https://api.openai.com/v1/chat/completions',
+    region: process.env.OPENAI_REGION || 'global',
+    dataResidency: process.env.OPENAI_DATA_RESIDENCY || 'OpenAI configured region'
+  },
+
+  // Anthropic Configuration
+  anthropic: {
+    apiKey: readSecret('ANTHROPIC_API_KEY'),
+    model: process.env.ANTHROPIC_MODEL || 'claude-3-5-sonnet-latest',
+    endpoint: process.env.ANTHROPIC_ENDPOINT || 'https://api.anthropic.com/v1/messages',
+    region: process.env.ANTHROPIC_REGION || 'global',
+    dataResidency: process.env.ANTHROPIC_DATA_RESIDENCY || 'Anthropic configured region'
+  },
+
+  // ALLaM sovereign option for Saudi demos. This adapter is intentionally demo-only here.
+  allam: {
+    model: process.env.ALLAM_MODEL || 'allam-demo-sovereign-sa',
+    region: process.env.ALLAM_REGION || 'Saudi Arabia',
+    dataResidency: process.env.ALLAM_DATA_RESIDENCY || 'Saudi Arabia sovereign option (demo adapter)'
+  },
+
+  local: {
+    model: process.env.LOCAL_MODEL || 'brightai-kernel-demo',
+    region: process.env.LOCAL_REGION || 'local',
+    dataResidency: process.env.LOCAL_DATA_RESIDENCY || 'Browser/server demo only; no external transfer'
   },
 
   // DeepSeek Configuration
@@ -113,8 +148,8 @@ function validateConfig() {
     errors.push('AI_GATEWAY_MOCK_MODE must not be enabled in production');
   }
 
-  if (!mockMode && !config.gemini.apiKey && !config.groq.apiKey && !config.nvidia.apiKey && !config.deepseek.apiKey) {
-    errors.push('At least one provider key is required (GEMINI_API_KEY, GROQ_API_KEY, NVIDIA_API_KEY, or DEEPSEEK_API_KEY)');
+  if (!mockMode && !config.gemini.apiKey && !config.groq.apiKey && !config.nvidia.apiKey && !config.deepseek.apiKey && !config.openai.apiKey && !config.anthropic.apiKey) {
+    console.warn('Warning: No production AI provider key is configured. Demo/local fallback will be used where supported.');
   }
 
   if (config.server.nodeEnv === 'production' && !config.gemini.apiKey) {
@@ -153,6 +188,14 @@ function isDeepSeekConfigured() {
   return !!config.deepseek.apiKey;
 }
 
+function isOpenAiConfigured() {
+  return !!config.openai.apiKey;
+}
+
+function isAnthropicConfigured() {
+  return !!config.anthropic.apiKey;
+}
+
 /**
  * Check if GA4 Measurement Protocol is configured
  * @returns {boolean}
@@ -169,5 +212,7 @@ module.exports = {
   isGroqConfigured,
   isNvidiaConfigured,
   isDeepSeekConfigured,
+  isOpenAiConfigured,
+  isAnthropicConfigured,
   isGa4MpConfigured
 };

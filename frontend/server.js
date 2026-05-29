@@ -618,7 +618,7 @@ function startServer() {
   // Validate configuration
   if (!validateConfig()) {
     console.warn('Warning: Server starting with incomplete configuration');
-    console.warn('AI features may return 503 until at least one provider key is configured (GEMINI_API_KEY, GROQ_API_KEY, NVIDIA_API_KEY, or DEEPSEEK_API_KEY)');
+    console.warn('AI features may use demo/local fallback until a production provider key is configured (GEMINI_API_KEY, NVIDIA_API_KEY, OPENAI_API_KEY, ANTHROPIC_API_KEY, GROQ_API_KEY, or DEEPSEEK_API_KEY)');
   }
 
   const server = http.createServer(handleRequest);

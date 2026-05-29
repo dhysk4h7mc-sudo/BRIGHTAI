@@ -31,6 +31,7 @@ function getTraceIdLegacyFromInteraction(row) {
 function normalizeAuditRow(row) {
   if (!row) return null;
   const traceId = getTraceIdFromInteraction(row) || row.id;
+  const metadata = parseJsonObject(row.request_metadata);
   const traceIdLegacy = getTraceIdLegacyFromInteraction(row);
   const status = row.approval_status || 'auto_approved';
   const action = status === 'blocked' ? 'BLOCKED'
@@ -64,6 +65,9 @@ function normalizeAuditRow(row) {
     originalText: row.request_message,
     maskedText: row.masked_message,
     response: row.gemini_response,
+    provider: metadata.provider || null,
+    responseProvider: metadata.provider || null,
+    model: metadata.model || row.response_model,
     userId: row.user_id,
     userName: row.user_name
   };

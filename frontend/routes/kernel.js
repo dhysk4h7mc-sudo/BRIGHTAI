@@ -154,6 +154,11 @@ async function kernelHealthHandler(req, res) {
   res.status(200).json(health);
 }
 
+async function kernelProvidersHandler(req, res) {
+  const providers = await kernel.getProviders();
+  res.status(200).json(providers);
+}
+
 async function kernelApprovalsActionHandler(req, res) {
   const { requestId, interactionId, traceId, trace_id, id, action, approver, approvedBy, rejectedBy, comment, reason } = req.body || {};
   const targetId = interactionId || traceId || trace_id || requestId || id;
@@ -433,6 +438,7 @@ async function kernelRouteHandler(req, res, method, url) {
     const path = (url || '').split('?')[0];
     if (method === 'POST' && path === '/api/kernel/chat') return await kernelChatHandler(req, res);
     if (method === 'GET' && path === '/api/kernel/health') return await kernelHealthHandler(req, res);
+    if (method === 'GET' && path === '/api/kernel/providers') return await kernelProvidersHandler(req, res);
     if (method === 'GET' && path.startsWith('/api/kernel/audit/')) return await kernelAuditDetailHandler(req, res, path);
     if (method === 'GET' && path === '/api/kernel/audit') return await kernelAuditListHandler(req, res);
     if (method === 'POST' && path.startsWith('/api/kernel/approve/')) return await kernelApproveHandler(req, res, path);

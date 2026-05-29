@@ -1,3 +1,8 @@
+# ==============================================================================
+# BrightAI - Render.com & Static Hosting Comprehensive HTTP Headers Configuration
+# ==============================================================================
+
+# الترويسات الافتراضية الشاملة لكافة موارد الموقع لضمان أقصى درجات الأمان والامتثال للأنظمة المحلية
 /*
   Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
   X-Frame-Options: SAMEORIGIN
@@ -7,28 +12,17 @@
   X-Robots-Tag: index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1
   Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; form-action 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://js.sentry-cdn.com https://www.clarity.ms https://*.clarity.ms https://cdnjs.cloudflare.com https://cdn.tailwindcss.com https://tovik.app; script-src-elem 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://js.sentry-cdn.com https://www.clarity.ms https://*.clarity.ms https://cdnjs.cloudflare.com https://cdn.tailwindcss.com https://tovik.app; script-src-attr 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; style-src-elem 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; style-src-attr 'unsafe-inline'; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com https://cdnjs.cloudflare.com; connect-src 'self' https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://stats.g.doubleclick.net https://o4510966719840256.ingest.us.sentry.io https://*.sentry.io https://www.clarity.ms https://*.clarity.ms https://c.bing.com https://api.contractai.sa https://tovik.app; frame-src 'self' https://tovik.app https://www.googletagmanager.com; worker-src 'self' blob:; manifest-src 'self'; media-src 'self' data: blob: https:; upgrade-insecure-requests
   Cache-Control: public, max-age=0, must-revalidate
-  Link: </>; rel="preconnect"; crossorigin
 
+# منع التخزين المؤقت تماماً لروابط واجهات البرمجة الخلفية لضمان سرية البيانات
 /api/*
-  Cache-Control: no-store
+  Cache-Control: no-store, no-cache, must-revalidate, proxy-revalidate
 
+# ترويسات التخزين المؤقت الفورية لملفات HTML الرئيسية وصفحة الهبوط والدليل النشط
 /*.html
   Cache-Control: public, max-age=0, must-revalidate
 
 /**/*.html
   Cache-Control: public, max-age=0, must-revalidate
-
-/*.css
-  Cache-Control: public, max-age=3600, stale-while-revalidate=604800
-
-/**/*.css
-  Cache-Control: public, max-age=3600, stale-while-revalidate=604800
-
-/*.js
-  Cache-Control: public, max-age=3600, stale-while-revalidate=604800
-
-/**/*.js
-  Cache-Control: public, max-age=3600, stale-while-revalidate=604800
 
 /sw.js
   Cache-Control: public, max-age=0, must-revalidate
@@ -36,18 +30,7 @@
 /service-worker.js
   Cache-Control: public, max-age=0, must-revalidate
 
-/*.v*.css
-  Cache-Control: public, max-age=31536000, immutable
-
-/**/*.v*.css
-  Cache-Control: public, max-age=31536000, immutable
-
-/*.v*.js
-  Cache-Control: public, max-age=31536000, immutable
-
-/**/*.v*.js
-  Cache-Control: public, max-age=31536000, immutable
-
+# التخزين المؤقت الطويل والأبدي لملفات أصول التصميم والخطوط ذات البصمة الزمنية أو غير المتغيرة
 /*.woff
   Cache-Control: public, max-age=31536000, immutable
 
@@ -72,6 +55,7 @@
 /**/*.otf
   Cache-Control: public, max-age=31536000, immutable
 
+# ترويسات التخزين المؤقت الطويل والمتوسط لملفات الصور والأيقونات المحدثة
 /*.png
   Cache-Control: public, max-age=7776000, stale-while-revalidate=2592000
 
@@ -114,6 +98,20 @@
 /**/*.ico
   Cache-Control: public, max-age=7776000, stale-while-revalidate=2592000
 
+# التخزين المؤقت الطويل لملفات التنسيقات والبرمجيات ذات البصمة الزمنية
+/*.v*.css
+  Cache-Control: public, max-age=31536000, immutable
+
+/**/*.v*.css
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.v*.js
+  Cache-Control: public, max-age=31536000, immutable
+
+/**/*.v*.js
+  Cache-Control: public, max-age=31536000, immutable
+
+# ترويسات التخزين لملفات النصوص العامة وملحقات السيو والبحث
 /llms.txt
   Content-Type: text/plain; charset=utf-8
   Cache-Control: public, max-age=86400
@@ -123,7 +121,7 @@
   Cache-Control: public, max-age=86400
 
 /sitemap.xml
-  Content-Type: application/xml
+  Content-Type: application/xml; charset=utf-8
   Cache-Control: public, max-age=86400
 
 /robots.txt
@@ -131,5 +129,5 @@
   Cache-Control: public, max-age=86400
 
 /manifest.webmanifest
-  Content-Type: application/manifest+json
+  Content-Type: application/manifest+json; charset=utf-8
   Cache-Control: public, max-age=86400

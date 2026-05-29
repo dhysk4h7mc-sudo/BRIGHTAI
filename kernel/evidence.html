@@ -663,6 +663,8 @@
           <h4 class="detail-section-title">سلسلة التدقيق</h4>
           <div class="detail-meta">
             <div class="meta-item"><div class="meta-label">Interaction</div><div class="meta-value">${KernelUtils.escapeHtml(record.interactionId || '—')}</div></div>
+            <div class="meta-item"><div class="meta-label">Provider</div><div class="meta-value">${KernelUtils.escapeHtml(record.provider || '—')}</div></div>
+            <div class="meta-item"><div class="meta-label">Model</div><div class="meta-value">${KernelUtils.escapeHtml(record.model || '—')}</div></div>
             <div class="meta-item"><div class="meta-label">Request Hash</div><div class="meta-value">${KernelUtils.escapeHtml(shortHash(record.requestHash))}</div></div>
             <div class="meta-item"><div class="meta-label">Response Hash</div><div class="meta-value">${KernelUtils.escapeHtml(shortHash(record.responseHash))}</div></div>
             <div class="meta-item"><div class="meta-label">Previous Hash</div><div class="meta-value">${KernelUtils.escapeHtml(shortHash(record.previousHash))}</div></div>

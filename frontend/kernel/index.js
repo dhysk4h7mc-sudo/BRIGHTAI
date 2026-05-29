@@ -9,6 +9,7 @@ const { generateEvidenceFile, generateComplianceReport } = require('./evidence')
 const { isApiKeyConfigured, isNvidiaConfigured } = require('../config');
 const { callOpenAiCompatibleProvider } = require('../services/openaiCompatProvider');
 const { generateTraceId } = require('../db/init');
+const { getActiveProvider, getProvidersResponse } = require('./providers');
 
 const { queueForApproval, getPendingApprovals } = approvalStore;
 
@@ -93,11 +94,146 @@ async function callGemini(maskedMessage, compliancePack) {
   }
 }
 
+async function callOpenAI(maskedMessage, compliancePack) {
+  const { config } = require('../config');
+  const model = config.openai.model;
+  const apiKey = config.openai.apiKey;
+  const systemInstruction = buildSystemInstruction(compliancePack);
+  const startTime = Date.now();
+
+  if (!apiKey) {
+    return {
+      response: '[BrightAI Kernel] Error: OPENAI_API_KEY not configured.',
+      provider: 'openai',
+      model,
+      inputTokens: 0,
+      outputTokens: 0,
+      latencyMs: 0,
+      error: 'OPENAI_API_KEY not configured'
+    };
+  }
+
+  try {
+    const fetchResponse = await fetch(config.openai.endpoint, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        model,
+        messages: [
+          { role: 'system', content: systemInstruction },
+          { role: 'user', content: maskedMessage }
+        ],
+        temperature: 0.3,
+        max_tokens: 4096
+      })
+    });
+
+    const data = await fetchResponse.json().catch(() => ({}));
+    const latencyMs = Date.now() - startTime;
+    if (!fetchResponse.ok) {
+      const message = data?.error?.message || `OpenAI API error: ${fetchResponse.status}`;
+      return { response: `[BrightAI Kernel] ${message}`, provider: 'openai', model, inputTokens: 0, outputTokens: 0, latencyMs, error: message };
+    }
+
+    const usage = data.usage || {};
+    return {
+      response: data.choices?.[0]?.message?.content || '',
+      provider: 'openai',
+      model: data.model || model,
+      inputTokens: usage.prompt_tokens || 0,
+      outputTokens: usage.completion_tokens || 0,
+      latencyMs,
+      error: null
+    };
+  } catch (err) {
+    return { response: `[BrightAI Kernel] Network error: ${err.message}`, provider: 'openai', model, inputTokens: 0, outputTokens: 0, latencyMs: Date.now() - startTime, error: err.message };
+  }
+}
+
+async function callAnthropic(maskedMessage, compliancePack) {
+  const { config } = require('../config');
+  const model = config.anthropic.model;
+  const apiKey = config.anthropic.apiKey;
+  const systemInstruction = buildSystemInstruction(compliancePack);
+  const startTime = Date.now();
+
+  if (!apiKey) {
+    return {
+      response: '[BrightAI Kernel] Error: ANTHROPIC_API_KEY not configured.',
+      provider: 'anthropic',
+      model,
+      inputTokens: 0,
+      outputTokens: 0,
+      latencyMs: 0,
+      error: 'ANTHROPIC_API_KEY not configured'
+    };
+  }
+
+  try {
+    const fetchResponse = await fetch(config.anthropic.endpoint, {
+      method: 'POST',
+      headers: {
+        'x-api-key': apiKey,
+        'anthropic-version': process.env.ANTHROPIC_VERSION || '2023-06-01',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        model,
+        system: systemInstruction,
+        messages: [{ role: 'user', content: maskedMessage }],
+        temperature: 0.3,
+        max_tokens: 4096
+      })
+    });
+
+    const data = await fetchResponse.json().catch(() => ({}));
+    const latencyMs = Date.now() - startTime;
+    if (!fetchResponse.ok) {
+      const message = data?.error?.message || `Anthropic API error: ${fetchResponse.status}`;
+      return { response: `[BrightAI Kernel] ${message}`, provider: 'anthropic', model, inputTokens: 0, outputTokens: 0, latencyMs, error: message };
+    }
+
+    const usage = data.usage || {};
+    return {
+      response: data.content?.map((part) => part.text || '').join('') || '',
+      provider: 'anthropic',
+      model: data.model || model,
+      inputTokens: usage.input_tokens || 0,
+      outputTokens: usage.output_tokens || 0,
+      latencyMs,
+      error: null
+    };
+  } catch (err) {
+    return { response: `[BrightAI Kernel] Network error: ${err.message}`, provider: 'anthropic', model, inputTokens: 0, outputTokens: 0, latencyMs: Date.now() - startTime, error: err.message };
+  }
+}
+
+function callDemoProvider(provider) {
+  const name = provider?.name || 'local';
+  const model = provider?.model || 'brightai-kernel-demo';
+  const isAllam = name === 'allam';
+  return {
+    response: isAllam
+      ? '[BrightAI Kernel] Demo mode: ALLaM is shown as a Saudi sovereign option, but this adapter is not connected to a live ALLaM service in this build.'
+      : '[BrightAI Kernel] Demo mode: no production kernel model provider configured.',
+    provider: name,
+    model,
+    inputTokens: 0,
+    outputTokens: 0,
+    latencyMs: 0,
+    error: isAllam ? 'ALLaM demo adapter only' : 'No production kernel model provider configured'
+  };
+}
+
 async function callKernelModel(maskedMessage, compliancePack) {
   const { config } = require('../config');
   const systemInstruction = buildSystemInstruction(compliancePack);
+  const activeProvider = getActiveProvider();
 
-  if (isNvidiaConfigured()) {
+  if (activeProvider.name === 'nvidia' && isNvidiaConfigured()) {
     const startTime = Date.now();
     try {
       const result = await callOpenAiCompatibleProvider({
@@ -137,20 +273,15 @@ async function callKernelModel(maskedMessage, compliancePack) {
     }
   }
 
-  if (isApiKeyConfigured()) {
+  if (activeProvider.name === 'gemini' && isApiKeyConfigured()) {
     const geminiResult = await callGemini(maskedMessage, compliancePack);
     return { ...geminiResult, provider: 'gemini' };
   }
 
-  return {
-    response: '[BrightAI Kernel] Demo mode: no NVIDIA_API_KEY or GEMINI_API_KEY configured.',
-    provider: 'demo',
-    model: 'demo',
-    inputTokens: 0,
-    outputTokens: 0,
-    latencyMs: 0,
-    error: 'No kernel model provider configured'
-  };
+  if (activeProvider.name === 'openai') return callOpenAI(maskedMessage, compliancePack);
+  if (activeProvider.name === 'anthropic') return callAnthropic(maskedMessage, compliancePack);
+
+  return callDemoProvider(activeProvider);
 }
 
 async function processChat(params) {
@@ -341,6 +472,8 @@ async function processChat(params) {
 
   // Auto-approved: call the configured Kernel model provider.
   const modelResult = await callKernelModel(firewallResult.maskedText, pack);
+  requestMetadata.provider = modelResult.provider;
+  requestMetadata.model = modelResult.model;
 
   // 4. MODEL_CALLED
   await logAuditEvent(canonicalTraceId, 'MODEL_CALLED', 'system', {
@@ -480,6 +613,8 @@ async function approve(interactionId, approvedBy, comment) {
       ...metadata,
       traceId,
       trace_id: traceId,
+      provider: modelResult.provider,
+      model: modelResult.model,
       approvedInteractionId: approvalResult.interactionId || interactionId,
       approvalEvent: 'human_approved_completion'
     }),
@@ -565,12 +700,7 @@ async function reject(interactionId, rejectedBy, comment) {
 }
 
 async function getHealth() {
-  const { config } = require('../config');
-  const provider = isNvidiaConfigured()
-    ? { name: 'nvidia', model: config.nvidia.model, configured: true }
-    : isApiKeyConfigured()
-      ? { name: 'gemini', model: config.gemini.model, configured: true }
-      : { name: 'demo', model: 'demo', configured: false };
+  const provider = getActiveProvider();
 
   let database = false;
   try {
@@ -583,7 +713,7 @@ async function getHealth() {
   }
 
   return {
-    status: database && provider.configured ? 'ok' : 'degraded',
+    status: database && provider.configured && provider.mode !== 'demo' ? 'ok' : 'degraded',
     provider,
     kernel: {
       database,
@@ -669,5 +799,6 @@ module.exports = {
   generateEvidenceFile,
   generateComplianceReport,
   getStats,
-  getHealth
+  getHealth,
+  getProviders: getProvidersResponse
 };
