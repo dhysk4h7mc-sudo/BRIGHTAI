@@ -6,6 +6,123 @@
 (function (global) {
   'use strict';
 
+  const STATUS_KEYS = ['blocked', 'pending', 'approved', 'executed', 'completed', 'rejected'];
+  const RISK_KEYS = ['critical', 'high', 'medium', 'low', 'minimal'];
+
+  function toNumber(value, fallback = 0) {
+    if (value === null || value === undefined || value === '') return fallback;
+    const normalized = typeof value === 'string' ? value.replace('%', '').replace(/,/g, '').trim() : value;
+    const number = Number(normalized);
+    return Number.isFinite(number) ? number : fallback;
+  }
+
+  function toPercent(value, fallback = 0) {
+    const percent = toNumber(value, fallback);
+    return Math.max(0, Math.min(100, Math.round(percent * 10) / 10));
+  }
+
+  function normalizeRiskLevels(raw = {}) {
+    const riskLevels = RISK_KEYS.reduce((acc, key) => {
+      acc[key] = 0;
+      return acc;
+    }, {});
+
+    const source = raw.riskLevels || raw.riskDistribution || {};
+    if (Array.isArray(raw.byRiskLevel)) {
+      raw.byRiskLevel.forEach((row) => {
+        const key = row.risk_level || row.riskLevel || row.level || row.key;
+        if (RISK_KEYS.includes(key)) riskLevels[key] = toNumber(row.count || row.value);
+      });
+      return riskLevels;
+    }
+
+    Object.entries(source).forEach(([key, value]) => {
+      if (RISK_KEYS.includes(key)) riskLevels[key] = toNumber(value);
+    });
+
+    return riskLevels;
+  }
+
+  function calculateAverageRisk(riskLevels) {
+    const weights = { critical: 100, high: 75, medium: 50, low: 25, minimal: 10 };
+    let total = 0;
+    let weighted = 0;
+
+    Object.entries(riskLevels || {}).forEach(([level, count]) => {
+      const value = toNumber(count);
+      total += value;
+      weighted += value * (weights[level] || 0);
+    });
+
+    return total > 0 ? Math.round(weighted / total) : 0;
+  }
+
+  function normalizeTrace(trace = {}) {
+    const traceId = trace.traceId || trace.trace_id || trace.kernel?.traceId || trace.metadata?.traceId || trace.summary?.traceId || '';
+    const interactionId = trace.interactionId || trace.interaction_id || trace.id || trace.requestId || trace.request_id || '';
+    return {
+      ...trace,
+      traceId: /^AI-\d{4}-\d{5,}$/.test(String(traceId)) ? String(traceId) : '',
+      interactionId,
+      requestId: interactionId,
+    };
+  }
+
+  function normalizeStats(raw = {}) {
+    const source = raw && typeof raw === 'object' ? raw : {};
+    const statusSource = source.statusDistribution || {};
+    const requests = source.requests || statusSource;
+    const statistics = source.statistics || {};
+
+    const blocked = toNumber(source.blocked ?? requests.blocked ?? statusSource.blocked);
+    const pending = toNumber(source.pendingApproval ?? source.pending ?? requests.pending ?? statusSource.pending ?? statistics.pendingRequests);
+    const approved = toNumber(source.approved ?? requests.approved ?? statusSource.approved);
+    const executed = toNumber(source.executed ?? requests.executed ?? statusSource.executed);
+    const completed = toNumber(source.completed ?? source.autoApproved ?? requests.completed ?? requests.autoApproved ?? statusSource.completed);
+    const rejected = toNumber(source.rejected ?? requests.rejected ?? statusSource.rejected);
+
+    const statusDistribution = STATUS_KEYS.reduce((acc, key) => {
+      acc[key] = { blocked, pending, approved, executed, completed, rejected }[key] || 0;
+      return acc;
+    }, {});
+
+    const derivedTotal = STATUS_KEYS.reduce((sum, key) => sum + statusDistribution[key], 0);
+    const totalRequests = toNumber(
+      source.totalRequests ?? source.total ?? requests.total ?? statistics.totalRequests,
+      derivedTotal
+    ) || derivedTotal;
+
+    const riskLevels = normalizeRiskLevels(source);
+    const avgRisk = toPercent(
+      source.avgRisk ?? source.avgRiskScore ?? statistics.averageRiskScore,
+      calculateAverageRisk(riskLevels)
+    );
+
+    const piiDetected = toNumber(source.piiDetected ?? source.pii_detected);
+    const piiDetectionRate = toPercent(
+      source.piiDetectionRate ?? source.pii_detection_rate,
+      totalRequests > 0 ? (piiDetected / totalRequests) * 100 : 0
+    );
+
+    const complianceFallback = totalRequests > 0
+      ? ((approved + executed + completed) / totalRequests) * 100
+      : 0;
+    const chainSource = source.chainIntegrity ?? source.chain_integrity ?? source.chainStatus ?? source.chain?.integrity ?? source.chain?.valid;
+
+    return {
+      totalRequests,
+      pendingApproval: pending,
+      avgRisk,
+      piiDetectionRate,
+      statusDistribution,
+      riskLevels,
+      complianceRate: toPercent(source.complianceRate ?? source.compliance_rate, complianceFallback),
+      chainIntegrity: chainSource === undefined ? 'unknown' : chainSource,
+      lastUpdated: source.lastUpdated || source.updatedAt || source.generatedAt || source.timestamp || new Date().toISOString(),
+      latestTraces: Array.isArray(source.latestTraces) ? source.latestTraces.map(normalizeTrace) : [],
+    };
+  }
+
   // hardcoded defaults for CORS-free / offline usage (e.g. file:// protocol)
   function getHardcodedDefaults() {
     const trace1 = "AI-2026-10491";
@@ -572,83 +689,157 @@
   // Local Chat Simulation firewall scanning and scoring
   function simulateChat(message, compliancePack) {
     const db = window.kernelDemoState;
-    const isSensitive = /1029|SA99|هوية|آيبان|مرض|سرطان|بطاق|سجل/i.test(message);
-    const traceId = `AI-2026-${String(10000 + Math.floor(Math.random() * 90000))}`;
-    const interactionId = `ki_${String(10000 + Math.floor(Math.random() * 90000))}`;
     
+    // Determine Scenario
+    let scenario = 'general';
+    let traceId = `AI-2026-${String(10000 + Math.floor(Math.random() * 90000))}`;
+    let riskScore = 8;
+    let riskLevel = 'minimal';
+    let status = 'completed';
+    let pii = [];
+    let matchedPolicies = [];
+    let responseText = "أهلاً بك! لقد تم استلام طلبك ومراجعته بنجاح من خلال بوابة حوكمة نواة BrightAI. الاستعلام متوافق مع كافة حزم حماية البيانات المعتمدة.";
+    let latencyMs = 450;
+
+    if (/آيبان|تمويل|FIN88|Finance/i.test(message)) {
+      scenario = 'finance';
+      traceId = 'AI-2026-FIN88';
+      riskScore = 82;
+      riskLevel = 'high';
+      status = 'pending_approval';
+      pii = ['saudi_iban'];
+      matchedPolicies = [{"name": "سياسة حوكمة البيانات المالية وحماية الآيبان"}];
+      responseText = "بانتظار موافقة مدير الامتثال لوجود أرقام حسابات مصرفية (آيبان) وعقد تمويل شخصي معلّق.";
+      latencyMs = 780;
+    } else if (/خالد الحربي|تقييم سنوي|راتب|HR99|HR/i.test(message)) {
+      scenario = 'hr';
+      traceId = 'AI-2026-HR99';
+      riskScore = 65;
+      riskLevel = 'medium';
+      status = 'completed';
+      pii = ['salary', 'employee_name'];
+      matchedPolicies = [{"name": "سياسة حماية بيانات الموظفين والتقييمات السرية"}];
+      responseText = "تمت مراجعة ملف الموظف خالد الحربي بنجاح. لقد قامت بوابة الحوكمة تلقائياً بحجب البيانات الحساسة المتعلقة بالراتب والمكافآت [Salary: *******] لضمان الخصوصية والامتثال لنظام حماية البيانات الشخصية.";
+      latencyMs = 620;
+    } else if (/عقد المورد|شرط جزائي|لوائح الشركة|LEG77|Legal/i.test(message)) {
+      scenario = 'legal';
+      traceId = 'AI-2026-LEG77';
+      riskScore = 15;
+      riskLevel = 'minimal';
+      status = 'completed';
+      pii = [];
+      matchedPolicies = [{"name": "سياسة مراجعة العقود القياسية للشركات"}];
+      responseText = "تم تحليل عقد المورد بنجاح. البند الخاص بالشرط الجزائي البالغ 50,000 ريال يتوافق تماماً مع الأنظمة الداخلية لشركة المشتريات ولا توجد مخاطر إضافية.";
+      latencyMs = 510;
+    } else if (/CAPA|MRN-12345|سكري|MED55|Healthcare/i.test(message)) {
+      scenario = 'healthcare';
+      traceId = 'AI-2026-MED55';
+      riskScore = 91;
+      riskLevel = 'critical';
+      status = 'blocked';
+      pii = ['patient_id'];
+      matchedPolicies = [{"name": "سياسة حماية البيانات الصحية للمرضى وحوكمة الهيئة العامة للغذاء والدواء SFDA"}];
+      responseText = "عذراً، تم حظر طلبك نظراً لاحتوائه على معلومات شخصية صحية وحساسة (ملف طبي MRN-12345) بدون تصريح مسبق، وهو ما يخالف نظام الهيئة العامة للغذاء والدواء SFDA ولوائح حماية البيانات الصحية.";
+      latencyMs = 890;
+    } else if (/db_password|mock_secret_password_123|COD44|Code/i.test(message)) {
+      scenario = 'code';
+      traceId = 'AI-2026-COD44';
+      riskScore = 95;
+      riskLevel = 'critical';
+      status = 'blocked';
+      pii = ['credentials'];
+      matchedPolicies = [{"name": "ضوابط الأمن السيبراني الوطنية للأسرار البرمجية NCA ECC"}];
+      responseText = "عذراً، تم حظر طلب الاستعلام فوراً لاحتوائه على كلمات سر ومفاتيح أمنية مكشوفة (db_password) في الكود البرمجي المرفق، وهو ما ينتهك ضوابط الأمن السيبراني الوطنية NCA ECC.";
+      latencyMs = 950;
+    }
+
+    const interactionId = `ki_${String(10000 + Math.floor(Math.random() * 90000))}`;
     let result = {};
 
-    if (isSensitive) {
-      // Simulate High Risk / Blocked
-      const isCritical = /سرطان|مرض|1029/i.test(message);
-      const riskScore = isCritical ? 95 : 82;
-      const riskLevel = isCritical ? 'critical' : 'high';
-      const status = isCritical ? 'blocked' : 'pending_approval';
-      const pii = isCritical ? ['saudi_id'] : ['saudi_iban'];
-      
-      const newRequest = {
-        id: interactionId,
-        requestId: interactionId,
-        interactionId: interactionId,
-        trace_id: traceId,
-        traceId: traceId,
-        status: isCritical ? 'blocked' : 'pending',
-        query: message,
-        maskedText: message.replace(/\d+/g, '[محجوب]'),
-        compliancePackage: compliancePack || 'pdpl',
-        userName: KernelUtils?.getUserName() || 'مستخدم تجريبي',
-        userId: KernelUtils?.getUserId() || 'user_demo',
-        createdAt: new Date().toISOString(),
-        riskScore,
-        riskLevel,
-        piiDetected: pii,
-        matchedPolicies: [{"name": isCritical ? "حماية سرية البيانات الشخصية والصحية" : "فحص الحسابات المالية"}]
-      };
+    const newRequest = {
+      id: interactionId,
+      requestId: interactionId,
+      interactionId: interactionId,
+      trace_id: traceId,
+      traceId: traceId,
+      status: status === 'pending_approval' ? 'pending' : status,
+      query: message,
+      maskedText: message.replace(/\d+/g, '[محجوب]').replace(/mock_secret_password_123/g, '********'),
+      compliancePackage: compliancePack || (scenario === 'finance' || scenario === 'hr' ? 'PDPL' : scenario === 'healthcare' ? 'SFDA' : scenario === 'code' ? 'NCA_ECC' : 'general'),
+      userName: KernelUtils?.getUserName() || 'مستخدم تجريبي',
+      userId: KernelUtils?.getUserId() || 'user_demo',
+      createdAt: new Date().toISOString(),
+      riskScore,
+      riskLevel,
+      piiDetected: pii,
+      matchedPolicies
+    };
 
-      if (isCritical) {
-        // blocked - directly to audit logs
-        const auditEntry = {
-          ...newRequest,
-          created_at: newRequest.createdAt,
-          timestamp: newRequest.createdAt,
-          approvalStatus: 'blocked',
-          action: 'BLOCKED',
-          actor: 'system',
-          gemini_response: "عذراً، تم حظر طلبك نظراً لاحتوائه على معلومات شخصية حساسة (هوية وطنية أو بيانات صحية) غير مشفرة، وهو ما يخالف نظام حماية البيانات الشخصية (PDPL) بالمملكة العربية السعودية.",
-          response: "عذراً، تم حظر طلبك نظراً لاحتوائه على معلومات شخصية حساسة (هوية وطنية أو بيانات صحية) غير مشفرة، وهو ما يخالف نظام حماية البيانات الشخصية (PDPL) بالمملكة العربية السعودية.",
-          previousHash: db.audit.rows[0]?.recordHash || generateHash(),
-          recordHash: generateHash(),
-          hash: generateHash()
-        };
-        db.audit.rows.unshift(auditEntry);
-        db.audit.entries = db.audit.rows;
-      } else {
-        // pending approvals
-        db.approvals.pending.unshift(newRequest);
-      }
+    if (status === 'blocked') {
+      const auditEntry = {
+        ...newRequest,
+        created_at: newRequest.createdAt,
+        timestamp: newRequest.createdAt,
+        approvalStatus: 'blocked',
+        action: 'BLOCKED',
+        actor: 'system',
+        gemini_response: responseText,
+        response: responseText,
+        previousHash: db.audit.rows[0]?.recordHash || generateHash(),
+        recordHash: generateHash(),
+        hash: generateHash()
+      };
+      db.audit.rows.unshift(auditEntry);
+      db.audit.entries = db.audit.rows;
 
       result = {
-        status,
-        requiresApproval: !isCritical,
+        status: 'blocked',
+        requiresApproval: false,
         interactionId,
         requestId: interactionId,
         traceId,
         riskScore,
         riskLevel,
         piiDetected: pii,
-        matchedPolicies: [{"name": isCritical ? "حماية سرية البيانات الشخصية والصحية" : "فحص الحسابات المالية"}],
+        matchedPolicies,
+        auditHash: auditEntry.hash,
+        hash: auditEntry.hash,
+        reason: responseText,
+        kernel: {
+          firewall: { piiDetected: pii.length > 0, piiTypes: pii, action: 'block' },
+          risk: { score: riskScore, level: riskLevel },
+          compliance: { pack: newRequest.compliancePackage, result: 'fail' },
+          traceId
+        }
+      };
+    } else if (status === 'pending_approval') {
+      // Check if already in pending list to avoid duplicates
+      const exists = db.approvals.pending.some(p => p.traceId === traceId);
+      if (!exists) {
+        db.approvals.pending.unshift(newRequest);
+      }
+
+      result = {
+        status: 'pending_approval',
+        requiresApproval: true,
+        interactionId,
+        requestId: interactionId,
+        traceId,
+        riskScore,
+        riskLevel,
+        piiDetected: pii,
+        matchedPolicies,
         auditHash: generateHash(),
         hash: generateHash(),
-        reason: isCritical ? 'تم حجب الطلب آلياً لسلامة البيانات' : 'يتطلب مراجعة واعتماد مشرف الامتثال',
+        reason: responseText,
         kernel: {
-          firewall: { piiDetected: true, piiTypes: pii, action: isCritical ? 'block' : 'allow' },
+          firewall: { piiDetected: true, piiTypes: pii, action: 'allow' },
           risk: { score: riskScore, level: riskLevel },
-          compliance: { pack: compliancePack || 'pdpl', result: 'fail' },
+          compliance: { pack: newRequest.compliancePackage, result: 'fail' },
           traceId
         }
       };
     } else {
-      // Safe request -> auto approved and completed
       const auditEntry = {
         id: interactionId,
         interactionId: interactionId,
@@ -667,28 +858,28 @@
         request_message: message,
         query: message,
         originalText: message,
-        pii_detected: 0,
-        pii_types: "[]",
-        piiTypes: [],
-        piiDetected: [],
+        pii_detected: pii.length > 0 ? 1 : 0,
+        pii_types: JSON.stringify(pii),
+        piiTypes: pii,
+        piiDetected: pii,
         firewall_action: "allow",
-        masked_message: message,
-        maskedText: message,
-        risk_score: 8,
-        riskScore: 8,
-        risk_level: "minimal",
-        riskLevel: "minimal",
-        risk_reasons: "[]",
+        masked_message: newRequest.maskedText,
+        maskedText: newRequest.maskedText,
+        risk_score: riskScore,
+        riskScore: riskScore,
+        risk_level: riskLevel,
+        riskLevel: riskLevel,
+        risk_reasons: JSON.stringify(matchedPolicies.map(p => p.name)),
         approval_status: "auto_approved",
         approvalStatus: "auto_approved",
         action: "CHAT_REQUEST",
         actor: KernelUtils?.getUserName() || 'مستخدم تجريبي',
-        gemini_response: "أهلاً بك! لقد تم استلام طلبك ومراجعته بنجاح من خلال بوابة حوكمة نواة BrightAI. الاستعلام متوافق مع كافة حزم حماية البيانات المعتمدة.",
-        response: "أهلاً بك! لقد تم استلام طلبك ومراجعته بنجاح من خلال بوابة حوكمة نواة BrightAI. الاستعلام متوافق مع كافة حزم حماية البيانات المعتمدة.",
+        gemini_response: responseText,
+        response: responseText,
         response_model: "Gemini 2.5 Flash",
-        response_time_ms: 640,
-        compliance_pack: compliancePack || 'general',
-        compliancePack: compliancePack || 'general',
+        response_time_ms: latencyMs,
+        compliance_pack: newRequest.compliancePackage,
+        compliancePack: newRequest.compliancePackage,
         compliance_flags: "[]",
         previousHash: db.audit.rows[0]?.recordHash || generateHash(),
         recordHash: generateHash(),
@@ -703,22 +894,22 @@
         interactionId,
         requestId: interactionId,
         traceId,
-        response: auditEntry.response,
+        response: responseText,
         provider: 'gemini',
         model: 'Gemini 2.5 Flash',
-        riskScore: 8,
-        riskLevel: 'minimal',
-        piiDetected: [],
-        matchedPolicies: [],
-        latencyMs: 640,
+        riskScore,
+        riskLevel,
+        piiDetected: pii,
+        matchedPolicies,
+        latencyMs,
         auditHash: auditEntry.hash,
         hash: auditEntry.hash,
         kernel: {
-          firewall: { piiDetected: false, piiTypes: [], action: 'allow' },
-          risk: { score: 8, level: 'minimal' },
-          compliance: { pack: compliancePack || 'general', result: 'pass', flags: [] },
+          firewall: { piiDetected: pii.length > 0, piiTypes: pii, action: 'allow' },
+          risk: { score: riskScore, level: riskLevel },
+          compliance: { pack: newRequest.compliancePackage, result: 'pass', flags: [] },
           tokens: { input: 24, output: 48 },
-          latencyMs: 640,
+          latencyMs,
           chainHash: auditEntry.hash,
           traceId
         }
@@ -726,19 +917,22 @@
     }
 
     // Add to evidence details
-    db.evidence.evidence.unshift({
-      id: interactionId,
-      interactionId,
-      requestId: interactionId,
-      traceId,
-      trace_id: traceId,
-      createdAt: new Date().toISOString(),
-      preview: message.substring(0, 180),
-      status: result.status,
-      approvalStatus: result.status,
-      riskLevel: result.riskLevel
-    });
-    db.evidence.rows = db.evidence.evidence;
+    const evExists = db.evidence.evidence.some(e => e.traceId === traceId);
+    if (!evExists) {
+      db.evidence.evidence.unshift({
+        id: interactionId,
+        interactionId,
+        requestId: interactionId,
+        traceId,
+        trace_id: traceId,
+        createdAt: new Date().toISOString(),
+        preview: message.substring(0, 180),
+        status: result.status,
+        approvalStatus: result.status,
+        riskLevel: result.riskLevel
+      });
+      db.evidence.rows = db.evidence.evidence;
+    }
 
     db.evidence.details[traceId] = {
       id: interactionId,
@@ -749,10 +943,10 @@
       createdAt: new Date().toISOString(),
       timestamp: new Date().toISOString(),
       request: message,
-      response: result.response || "بانتظار الموافقة لوجود بيانات حساسة.",
-      riskScore: result.riskScore,
-      riskLevel: result.riskLevel,
-      approvalStatus: result.status,
+      response: responseText,
+      riskScore: riskScore,
+      riskLevel: riskLevel,
+      approvalStatus: status,
       requestHash: result.hash || generateHash(),
       previousHash: db.audit.rows[1]?.recordHash || generateHash(),
       recordHash: result.hash || generateHash()
@@ -1091,7 +1285,7 @@
   // Instant DOM updater to guarantee zero lag or visual skeletons
   function updateStatsDOMDirectly() {
     if (!window.kernelDemoState) return;
-    const stats = window.kernelDemoState.stats;
+    const stats = normalizeStats(window.kernelDemoState.stats);
     const summary = window.kernelDemoState.approvals.summary;
 
     const totalEl = document.getElementById('stat-total');
@@ -1101,10 +1295,10 @@
 
     const fmt = (num) => new Intl.NumberFormat('ar-SA').format(num);
 
-    if (totalEl) totalEl.textContent = fmt(stats.total);
-    if (pendingEl) pendingEl.textContent = fmt(stats.pending);
-    if (riskEl) riskEl.textContent = `${Math.round(stats.avgRiskScore)}%`;
-    if (piiEl) piiEl.textContent = `${stats.piiDetectionRate}%`;
+    if (totalEl) totalEl.textContent = fmt(stats.totalRequests);
+    if (pendingEl) pendingEl.textContent = fmt(stats.pendingApproval);
+    if (riskEl) riskEl.textContent = `${Math.round(stats.avgRisk)}%`;
+    if (piiEl) piiEl.textContent = `${Math.round(stats.piiDetectionRate)}%`;
 
     // Approvals page stats
     const aprPending = document.getElementById('stat-pending');
@@ -1593,7 +1787,7 @@
     }
 
     async getStats() {
-      return this.request('/stats');
+      return this.request('/stats').then((data) => normalizeStats(data));
     }
 
     async getAuditLog(params = {}) {
@@ -1720,5 +1914,6 @@
   global.KernelAPI = KernelAPI;
   global.kernelAPI = kernelAPI;
   global.APIError = APIError;
+  global.normalizeStats = normalizeStats;
 
 })(typeof window !== 'undefined' ? window : this);

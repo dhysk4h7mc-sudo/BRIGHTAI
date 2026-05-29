@@ -304,69 +304,9 @@
         </div>
         <div class="header-actions">
           <button class="add-btn" onclick="showAddModal()">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 5v14M5 12h14"/>
-            </svg>
-            سيناريو جديد
-          </button>
-        </div>
-      </header>
-
-      <div class="main-content">
-        <!-- Scenarios Grid -->
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="no        <!-- Scenarios Grid -->
         <div class="scenarios-grid">
-          <!-- Scenario 1: PII Detection -->
-          <div class="scenario-card">
-            <div class="scenario-header">
-              <div class="scenario-info">
-                <div class="scenario-icon red">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                  </svg>
-                </div>
-                <span class="scenario-name">كشف البيانات الشخصية</span>
-              </div>
-              <div class="scenario-status active">
-                <span class="scenario-status-dot"></span>
-                نشط
-              </div>
-            </div>
-            <div class="scenario-body">
-              <p class="scenario-desc">الكشف التلقائي عن البيانات الشخصية الحساسة (PII) في المدخلات والمخرجات وحجبها أو تنبيه المشرف.</p>
-              <div class="scenario-rules">
-                <div class="scenario-rule">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                  كشف أرقام الهوية الوطنية
-                </div>
-                <div class="scenario-rule">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                  كشف أرقام الجوال والبريد الإلكتروني
-                </div>
-                <div class="scenario-rule">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                  كشف البيانات المالية والبنكية
-                </div>
-              </div>
-            </div>
-            <div class="scenario-footer">
-              <div class="scenario-stats">
-                <div class="scenario-stat">
-                  <div class="stat-value">1,234</div>
-                  <div class="stat-label">تم الكشف</div>
-                </div>
-                <div class="scenario-stat">
-                  <div class="stat-value">98%</div>
-                  <div class="stat-label">دقة</div>
-                </div>
-              </div>
-              <div class="scenario-actions">
-                <button class="scenario-btn secondary">تعديل</button>
-                <button class="scenario-btn primary">اختبار</button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Scenario 2: Financial Analysis -->
+          <!-- Scenario 1: Finance -->
           <div class="scenario-card">
             <div class="scenario-header">
               <div class="scenario-info">
@@ -375,7 +315,7 @@
                     <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
                   </svg>
                 </div>
-                <span class="scenario-name">التحليل المالي</span>
+                <span class="scenario-name">القطاع المالي (عقد تمويل + آيبان)</span>
               </div>
               <div class="scenario-status active">
                 <span class="scenario-status-dot"></span>
@@ -383,19 +323,19 @@
               </div>
             </div>
             <div class="scenario-body">
-              <p class="scenario-desc">قواعد خاصة للتعامل مع طلبات التحليل المالي والتقارير المالية مع ضمان الدقة والامتثال.</p>
+              <p class="scenario-desc">الكشف التلقائي عن أرقام الحسابات البنكية (IBAN) في عقود التمويل وحوكمتها وفقاً لنظام حماية البيانات الشخصية PDPL.</p>
               <div class="scenario-rules">
                 <div class="scenario-rule">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                  التحقق من صلاحيات المستخدم
+                  كشف أرقام الآيبان SA99
                 </div>
                 <div class="scenario-rule">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                  تسجيل جميع العمليات المالية
+                  حماية عقود التمويل الشخصية
                 </div>
                 <div class="scenario-rule">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                  موافقة مشرف للمبالغ الكبيرة
+                  حوكمة البيانات البنكية الحساسة
                 </div>
               </div>
             </div>
@@ -406,18 +346,18 @@
                   <div class="stat-label">طلب</div>
                 </div>
                 <div class="scenario-stat">
-                  <div class="stat-value">100%</div>
-                  <div class="stat-label">امتثال</div>
+                  <div class="stat-value" style="color:var(--warning);">82%</div>
+                  <div class="stat-label">خطورة معلقة</div>
                 </div>
               </div>
               <div class="scenario-actions">
                 <button class="scenario-btn secondary">تعديل</button>
-                <button class="scenario-btn primary">اختبار</button>
+                <button class="scenario-btn primary" onclick="runDemoScenario('finance', 'PDPL', 'أريد مراجعة عقد تمويل شخصي يحتوي على رقم الآيبان SA9930000000001234567890 وتوقيع العميل لضمان سرية البيانات.')">جرّب السيناريو الآن</button>
               </div>
             </div>
           </div>
 
-          <!-- Scenario 3: HR Queries -->
+          <!-- Scenario 2: HR -->
           <div class="scenario-card">
             <div class="scenario-header">
               <div class="scenario-info">
@@ -426,7 +366,7 @@
                     <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
                   </svg>
                 </div>
-                <span class="scenario-name">استفسارات الموارد البشرية</span>
+                <span class="scenario-name">الموارد البشرية (بيانات موظف + راتب)</span>
               </div>
               <div class="scenario-status active">
                 <span class="scenario-status-dot"></span>
@@ -434,19 +374,19 @@
               </div>
             </div>
             <div class="scenario-body">
-              <p class="scenario-desc">التعامل مع استفسارات الموارد البشرية مع حماية خصوصية بيانات الموظفين.</p>
+              <p class="scenario-desc">الكشف التلقائي عن رواتب الموظفين ومكافآتهم في ملفات التقييم السنوي وحجبها تلقائياً لحفظ الخصوصية والامتثال لـ PDPL.</p>
               <div class="scenario-rules">
                 <div class="scenario-rule">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                  إخفاء الرواتب والمكافآت
+                  حجب الرواتب والمكافآت الحساسة
                 </div>
                 <div class="scenario-rule">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                  حماية التقييمات السرية
+                  حماية التقييمات السنوية السرية
                 </div>
                 <div class="scenario-rule">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                  تقييد الوصول حسب الدور
+                  الامتثال للائحة حماية بيانات الموظفين
                 </div>
               </div>
             </div>
@@ -457,18 +397,18 @@
                   <div class="stat-label">استفسار</div>
                 </div>
                 <div class="scenario-stat">
-                  <div class="stat-value">95%</div>
-                  <div class="stat-label">رضا</div>
+                  <div class="stat-value" style="color:var(--success);">98%</div>
+                  <div class="stat-label">نسبة حماية</div>
                 </div>
               </div>
               <div class="scenario-actions">
                 <button class="scenario-btn secondary">تعديل</button>
-                <button class="scenario-btn primary">اختبار</button>
+                <button class="scenario-btn primary" onclick="runDemoScenario('hr', 'PDPL', 'يرجى تحليل ملف الموظف خالد الحربي والتقييم السنوي متضمناً الراتب والمكافآت لمراجعة شروط زيادة الرواتب.')">جرّب السيناريو الآن</button>
               </div>
             </div>
           </div>
 
-          <!-- Scenario 4: Legal Documents -->
+          <!-- Scenario 3: Legal -->
           <div class="scenario-card">
             <div class="scenario-header">
               <div class="scenario-info">
@@ -477,58 +417,7 @@
                     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
                   </svg>
                 </div>
-                <span class="scenario-name">المستندات القانونية</span>
-              </div>
-              <div class="scenario-status testing">
-                <span class="scenario-status-dot"></span>
-                اختبار
-              </div>
-            </div>
-            <div class="scenario-body">
-              <p class="scenario-desc">تحليل ومراجعة المستندات القانونية مع ضمان السرية والامتثال للأنظمة.</p>
-              <div class="scenario-rules">
-                <div class="scenario-rule">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                  تشفير المستندات الحساسة
-                </div>
-                <div class="scenario-rule">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                  موافقة قانونية مسبقة
-                </div>
-                <div class="scenario-rule">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                  تتبع كامل للوصول
-                </div>
-              </div>
-            </div>
-            <div class="scenario-footer">
-              <div class="scenario-stats">
-                <div class="scenario-stat">
-                  <div class="stat-value">123</div>
-                  <div class="stat-label">مستند</div>
-                </div>
-                <div class="scenario-stat">
-                  <div class="stat-value">87%</div>
-                  <div class="stat-label">دقة</div>
-                </div>
-              </div>
-              <div class="scenario-actions">
-                <button class="scenario-btn secondary">تعديل</button>
-                <button class="scenario-btn primary">اختبار</button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Scenario 5: Customer Support -->
-          <div class="scenario-card">
-            <div class="scenario-header">
-              <div class="scenario-info">
-                <div class="scenario-icon orange">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-                  </svg>
-                </div>
-                <span class="scenario-name">دعم العملاء</span>
+                <span class="scenario-name">الشؤون القانونية (عقد مورد + شرط جزائي)</span>
               </div>
               <div class="scenario-status active">
                 <span class="scenario-status-dot"></span>
@@ -536,87 +425,138 @@
               </div>
             </div>
             <div class="scenario-body">
-              <p class="scenario-desc">الرد على استفسارات العملاء مع الحفاظ على جودة الخدمة وحماية البيانات.</p>
+              <p class="scenario-desc">تحليل بنود عقود الموردين والتحقق من الشروط الجزائية وضمان خلوها من أي مخاطر أو بنود مخالفة للوائح العامة.</p>
               <div class="scenario-rules">
                 <div class="scenario-rule">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                  التحقق من هوية العميل
+                  فحص عقود التوريد والمشتريات
                 </div>
                 <div class="scenario-rule">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                  عدم مشاركة بيانات حساسة
+                  تدقيق قيم الشروط الجزائية
                 </div>
                 <div class="scenario-rule">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                  تصعيد للدعم البشري عند الحاجة
+                  التحقق من توافق البنود القانونية
                 </div>
               </div>
             </div>
             <div class="scenario-footer">
               <div class="scenario-stats">
                 <div class="scenario-stat">
-                  <div class="stat-value">2,345</div>
-                  <div class="stat-label">محادثة</div>
+                  <div class="stat-value">123</div>
+                  <div class="stat-label">عقد</div>
                 </div>
                 <div class="scenario-stat">
-                  <div class="stat-value">92%</div>
-                  <div class="stat-label">رضا</div>
+                  <div class="stat-value" style="color:var(--success);">100%</div>
+                  <div class="stat-label">نسبة امتثال</div>
                 </div>
               </div>
               <div class="scenario-actions">
                 <button class="scenario-btn secondary">تعديل</button>
-                <button class="scenario-btn primary">اختبار</button>
+                <button class="scenario-btn primary" onclick="runDemoScenario('legal', 'general', 'يرجى فحص عقد المورد لشركة المشتريات والتأكد من توافق الشرط الجزائي البالغ 50,000 ريال مع لوائح الشركة.')">جرّب السيناريو الآن</button>
               </div>
             </div>
           </div>
 
-          <!-- Scenario 6: Code Review -->
+          <!-- Scenario 4: Healthcare -->
           <div class="scenario-card">
             <div class="scenario-header">
               <div class="scenario-info">
-                <div class="scenario-icon blue">
+                <div class="scenario-icon red">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+                    <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
                   </svg>
                 </div>
-                <span class="scenario-name">مراجعة الكود</span>
+                <span class="scenario-name">الرعاية الصحية (CAPA + ملف مريض)</span>
               </div>
-              <div class="scenario-status inactive">
+              <div class="scenario-status testing">
                 <span class="scenario-status-dot"></span>
-                غير نشط
+                اختبار
               </div>
             </div>
             <div class="scenario-body">
-              <p class="scenario-desc">مراجعة وتحليل الكود البرمجي مع ضمان عدم تسريب الأسرار والمفاتيح.</p>
+              <p class="scenario-desc">حظر تسريب أرقام السجلات الطبية والملفات الحساسة في تقارير الإجراءات الوقائية (CAPA) تماشياً مع معايير SFDA.</p>
               <div class="scenario-rules">
                 <div class="scenario-rule">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                  كشف المفاتيح والأسرار
+                  كشف أرقام الملفات الطبية MRN
                 </div>
                 <div class="scenario-rule">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                  فحص الثغرات الأمنية
+                  حماية سجلات المرضى والتشخيصات
                 </div>
                 <div class="scenario-rule">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                  تسجيل جميع المراجعات
+                  الالتزام التام بمعايير ولوائح SFDA
                 </div>
               </div>
             </div>
             <div class="scenario-footer">
               <div class="scenario-stats">
                 <div class="scenario-stat">
-                  <div class="stat-value">0</div>
-                  <div class="stat-label">مراجعة</div>
+                  <div class="stat-value">91%</div>
+                  <div class="stat-label">خطورة حرجة</div>
                 </div>
                 <div class="scenario-stat">
-                  <div class="stat-value">--</div>
-                  <div class="stat-label">دقة</div>
+                  <div class="stat-value" style="color:var(--danger);">0%</div>
+                  <div class="stat-label">نسبة تسريب</div>
                 </div>
               </div>
               <div class="scenario-actions">
                 <button class="scenario-btn secondary">تعديل</button>
-                <button class="scenario-btn primary">تفعيل</button>
+                <button class="scenario-btn primary" onclick="runDemoScenario('healthcare', 'SFDA', 'مراجعة تقرير تصحيحي CAPA لمريض مصاب بالسكري ورقمه الطبي MRN-12345، مع تحديد الإجراءات الوقائية المطلوبة.')">جرّب السيناريو الآن</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Scenario 5: Code Review -->
+          <div class="scenario-card">
+            <div class="scenario-header">
+              <div class="scenario-info">
+                <div class="scenario-icon orange">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+                  </svg>
+                </div>
+                <span class="scenario-name">أمن الكود البرمجي (Secrets مكشوفة)</span>
+              </div>
+              <div class="scenario-status active">
+                <span class="scenario-status-dot"></span>
+                نشط
+              </div>
+            </div>
+            <div class="scenario-body">
+              <p class="scenario-desc">فحص الملفات والأكواد البرمجية المرفوعة لمنع تسريب المفاتيح وكلمات السر والأسرار تماشياً مع ضوابط الأمن السيبراني NCA ECC.</p>
+              <div class="scenario-rules">
+                <div class="scenario-rule">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                  كشف كلمات السر والأسرار البرمجية
+                </div>
+                <div class="scenario-rule">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                  فحص الثغرات الأمنية في الأكواد
+                </div>
+                <div class="scenario-rule">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                  الامتثال لضوابط NCA ECC السيبرانية
+                </div>
+              </div>
+            </div>
+            <div class="scenario-footer">
+              <div class="scenario-stats">
+                <div class="scenario-stat">
+                  <div class="stat-value">1,420</div>
+                  <div class="stat-label">فحص كود</div>
+                </div>
+                <div class="scenario-stat">
+                  <div class="stat-value" style="color:var(--success);">95%</div>
+                  <div class="stat-label">منع مخاطر</div>
+                </div>
+              </div>
+              <div class="scenario-actions">
+                <button class="scenario-btn secondary">تعديل</button>
+                <button class="scenario-btn primary" onclick="runDemoScenario('code', 'NCA_ECC', 'فحص الكود التالي للتأكد من عدم وجود ثغرات أمنية: const db_password = \'mock_secret_password_123\'; connect(db_password);')">جرّب السيناريو الآن</button>
               </div>
             </div>
           </div>
@@ -643,6 +583,14 @@
 
     function showAddModal() {
       alert('سيتم إضافة نافذة إنشاء السيناريو قريباً');
+    }
+
+    function runDemoScenario(scenario, compliancePack, samplePrompt) {
+      const url = new URL('/kernel/chat.html', window.location.origin);
+      url.searchParams.set('scenario', scenario);
+      url.searchParams.set('compliancePack', compliancePack);
+      url.searchParams.set('samplePrompt', samplePrompt);
+      window.location.href = url.toString();
     }
 
     document.getElementById('menuToggle')?.addEventListener('click', () => {

@@ -847,10 +847,13 @@
     // Load and display stats
     async function loadStats() {
       try {
-        const response = await fetch('/api/kernel/stats');
-        if (!response.ok) throw new Error('Failed to load stats');
-        
-        const data = await response.json();
+        const normalize = typeof normalizeStats === 'function' ? normalizeStats : (value) => value;
+        const data = typeof kernelAPI !== 'undefined'
+          ? await kernelAPI.getStats()
+          : normalize(await fetch('/api/kernel/stats').then((response) => {
+            if (!response.ok) throw new Error('Failed to load stats');
+            return response.json();
+          }));
         
         // Animate counters
         const totalEl = document.getElementById('stat-total');
@@ -859,27 +862,27 @@
         const piiEl = document.getElementById('stat-pii');
 
         if (totalEl && typeof KernelUtils !== 'undefined') {
-          KernelUtils.animateCount(totalEl, 0, data.statistics?.totalRequests || 0, 1000);
+          KernelUtils.animateCount(totalEl, 0, data.totalRequests || 0, 1000);
         } else if (totalEl) {
-          totalEl.textContent = data.statistics?.totalRequests || '0';
+          totalEl.textContent = data.totalRequests || '0';
         }
 
         if (pendingEl && typeof KernelUtils !== 'undefined') {
-          KernelUtils.animateCount(pendingEl, 0, data.statistics?.pendingRequests || 0, 1000);
+          KernelUtils.animateCount(pendingEl, 0, data.pendingApproval || 0, 1000);
         } else if (pendingEl) {
-          pendingEl.textContent = data.statistics?.pendingRequests || '0';
+          pendingEl.textContent = data.pendingApproval || '0';
         }
 
         if (riskEl && typeof KernelUtils !== 'undefined') {
-          KernelUtils.animateCount(riskEl, 0, Math.round(data.statistics?.averageRiskScore || 0), 1000, '%');
+          KernelUtils.animateCount(riskEl, 0, Math.round(data.avgRisk || 0), 1000, '%');
         } else if (riskEl) {
-          riskEl.textContent = Math.round(data.statistics?.averageRiskScore || 0) + '%';
+          riskEl.textContent = Math.round(data.avgRisk || 0) + '%';
         }
 
         if (piiEl && typeof KernelUtils !== 'undefined') {
-          KernelUtils.animateCount(piiEl, 0, data.piiDetectionRate || 0, 1000, '%');
+          KernelUtils.animateCount(piiEl, 0, Math.round(data.piiDetectionRate || 0), 1000, '%');
         } else if (piiEl) {
-          piiEl.textContent = (data.piiDetectionRate || 0) + '%';
+          piiEl.textContent = Math.round(data.piiDetectionRate || 0) + '%';
         }
       } catch (error) {
         // Show zeros on error

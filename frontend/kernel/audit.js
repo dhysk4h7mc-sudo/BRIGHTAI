@@ -4,7 +4,8 @@ const crypto = require('crypto');
 const { getDb, generateId } = require('../db/init');
 
 function computeHash(data) {
-  return crypto.createHash('sha256').update(JSON.stringify(data)).digest('hex');
+  const content = typeof data === 'string' ? data : JSON.stringify(data);
+  return crypto.createHash('sha256').update(content).digest('hex');
 }
 
 function parseJsonObject(value) {
@@ -20,8 +21,6 @@ function parseJsonObject(value) {
 
 function getTraceIdFromInteraction(row) {
   const metadata = parseJsonObject(row.request_metadata);
-  // Legacy fallback: rows written before trace_id existed kept traceId, if any,
-  // inside request_metadata. If neither exists, UI falls back to interaction id.
   return row.trace_id || metadata.traceId || metadata.trace_id || null;
 }
 
@@ -67,6 +66,22 @@ function normalizeAuditRow(row) {
     response: row.gemini_response,
     userId: row.user_id,
     userName: row.user_name
+  };
+}
+
+function normalizeAuditEventRow(row) {
+  if (!row) return null;
+  return {
+    serialId: row.serial_id,
+    eventId: row.event_id,
+    traceId: row.trace_id,
+    eventType: row.event_type,
+    actor: row.actor,
+    timestamp: Number(row.timestamp),
+    payload: parseJsonObject(row.payload),
+    payloadHash: row.payload_hash,
+    previousHash: row.previous_hash,
+    recordHash: row.record_hash
   };
 }
 
@@ -130,6 +145,50 @@ async function logInteraction(interaction) {
   ]);
 
   return interaction;
+}
+
+async function logAuditEvent(traceId, eventType, actor, payload) {
+  const pool = getDb();
+  const eventId = generateId('ae');
+  const timestamp = Date.now();
+
+  const payloadStr = typeof payload === 'string' ? payload : JSON.stringify(payload || {});
+  const payloadHash = computeHash(payloadStr);
+
+  const { rows } = await pool.query('SELECT record_hash FROM kernel_audit_events ORDER BY serial_id DESC LIMIT 1');
+  const previousHash = rows.length > 0 ? rows[0].record_hash : '0';
+
+  const chainData = {
+    event_id: eventId,
+    trace_id: traceId,
+    event_type: eventType,
+    actor: actor || 'system',
+    timestamp: Number(timestamp),
+    payload_hash: payloadHash,
+    previous_hash: previousHash
+  };
+
+  const recordHash = computeHash(chainData);
+
+  await pool.query(`
+    INSERT INTO kernel_audit_events (
+      event_id, trace_id, event_type, actor, timestamp, payload, payload_hash, previous_hash, record_hash
+    ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+  `, [
+    eventId, traceId, eventType, actor || 'system', timestamp, payloadStr, payloadHash, previousHash, recordHash
+  ]);
+
+  return {
+    eventId,
+    traceId,
+    eventType,
+    actor: actor || 'system',
+    timestamp,
+    payload: parseJsonObject(payloadStr),
+    payloadHash,
+    previousHash,
+    recordHash
+  };
 }
 
 async function queryAuditTrail(filters, limit, offset) {
@@ -196,12 +255,13 @@ async function getAuditEntry(id) {
 
 async function verifyChainIntegrity() {
   const pool = getDb();
-  const { rows } = await pool.query('SELECT * FROM kernel_interactions ORDER BY created_at ASC');
+  const { rows } = await pool.query('SELECT * FROM kernel_audit_events ORDER BY serial_id ASC');
 
   if (rows.length === 0) {
     return {
       valid: true,
       brokenAt: null,
+      reason: null,
       totalRecords: 0,
       chainStatus: 'VALID',
       chainHash: null,
@@ -213,25 +273,56 @@ async function verifyChainIntegrity() {
 
   let prevHash = '0';
   let brokenAt = null;
+  let reason = null;
+
   for (const row of rows) {
-    if (row.previous_hash !== prevHash) {
-      brokenAt = row.id;
+    // 1. Recalculate payload_hash
+    const recalculatedPayloadHash = computeHash(row.payload);
+    if (row.payload_hash !== recalculatedPayloadHash) {
+      brokenAt = row.event_id;
+      reason = `Payload hash mismatch: recalculated ${recalculatedPayloadHash} does not match stored ${row.payload_hash}`;
       break;
     }
+
+    // 2. Verify previous_hash
+    if (row.previous_hash !== prevHash) {
+      brokenAt = row.event_id;
+      reason = `Previous hash mismatch: row previous_hash ${row.previous_hash} does not match expected previous hash ${prevHash}`;
+      break;
+    }
+
+    // 3. Recalculate record_hash
+    const chainData = {
+      event_id: row.event_id,
+      trace_id: row.trace_id,
+      event_type: row.event_type,
+      actor: row.actor,
+      timestamp: Number(row.timestamp),
+      payload_hash: row.payload_hash,
+      previous_hash: row.previous_hash
+    };
+    const recalculatedRecordHash = computeHash(chainData);
+    if (row.record_hash !== recalculatedRecordHash) {
+      brokenAt = row.event_id;
+      reason = `Record hash mismatch: recalculated ${recalculatedRecordHash} does not match stored ${row.record_hash}`;
+      break;
+    }
+
     prevHash = row.record_hash;
   }
 
-  const entries = rows.slice().reverse().map(normalizeAuditRow);
+  const entries = rows.slice().reverse().map(normalizeAuditEventRow);
   const actionTypes = {};
   const actors = new Set();
   for (const entry of entries) {
-    actionTypes[entry.action] = (actionTypes[entry.action] || 0) + 1;
+    actionTypes[entry.eventType] = (actionTypes[entry.eventType] || 0) + 1;
     if (entry.actor) actors.add(entry.actor);
   }
 
   return {
     valid: !brokenAt,
     brokenAt,
+    reason,
     totalRecords: rows.length,
     chainStatus: brokenAt ? 'INVALID' : 'VALID',
     chainHash: rows[rows.length - 1]?.record_hash || null,
@@ -259,12 +350,14 @@ async function updateInteraction(id, updates) {
 
 module.exports = {
   logInteraction,
+  logAuditEvent,
   queryAuditTrail,
   getAuditEntry,
   verifyChainIntegrity,
   updateInteraction,
   computeHash,
   normalizeAuditRow,
+  normalizeAuditEventRow,
   getTraceIdFromInteraction,
   getTraceIdLegacyFromInteraction
 };

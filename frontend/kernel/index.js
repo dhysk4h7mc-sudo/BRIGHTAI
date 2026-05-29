@@ -2,7 +2,7 @@
 
 const { scan } = require('./firewall');
 const { computeRiskScore } = require('./risk-scorer');
-const { logInteraction, queryAuditTrail, getAuditEntry, verifyChainIntegrity, getTraceIdFromInteraction } = require('./audit');
+const { logInteraction, logAuditEvent, queryAuditTrail, getAuditEntry, verifyChainIntegrity, getTraceIdFromInteraction } = require('./audit');
 const approvalStore = require('./approval');
 const { runComplianceChecks, saveComplianceChecks, getComplianceStatus } = require('./compliance');
 const { generateEvidenceFile, generateComplianceReport } = require('./evidence');
@@ -158,7 +158,7 @@ async function processChat(params) {
   const pack = compliancePack || 'general';
   const incomingMetadata = parseJsonObject(metadata);
   const incomingTraceId = traceId || incomingMetadata.traceId || incomingMetadata.trace_id || null;
-  const canonicalTraceId = await generateTraceId();
+  const canonicalTraceId = incomingTraceId || await generateTraceId();
   const requestMetadata = {
     ...incomingMetadata,
     traceId: canonicalTraceId,
@@ -168,10 +168,46 @@ async function processChat(params) {
     requestMetadata.upstreamTraceId = incomingTraceId;
   }
 
+  const actor = userId || userName || 'system';
+
+  // 1. REQUEST_RECEIVED
+  await logAuditEvent(canonicalTraceId, 'REQUEST_RECEIVED', actor, {
+    message,
+    userId,
+    userName,
+    ipAddress,
+    userAgent,
+    compliancePack: pack,
+    requestMetadata
+  });
+
   // Layer 1: AI Firewall
   const firewallResult = await scan(message, pack);
 
+  // 2. PII_SCANNED
+  await logAuditEvent(canonicalTraceId, 'PII_SCANNED', 'system', {
+    piiDetected: firewallResult.piiDetected ? 1 : 0,
+    piiTypes: firewallResult.piiTypes,
+    piiItems: firewallResult.piiItems,
+    sensitiveCategories: firewallResult.sensitiveCategories,
+    firewallAction: firewallResult.firewallAction,
+    maskedText: firewallResult.maskedText
+  });
+
   if (firewallResult.firewallAction === 'block') {
+    // 3. RISK_SCORED (for blocked event)
+    await logAuditEvent(canonicalTraceId, 'RISK_SCORED', 'system', {
+      score: 100,
+      level: 'critical',
+      reasons: ['Request blocked by AI Firewall'],
+      complianceFlags: [`Blocked: ${firewallResult.piiTypes.join(', ')}`]
+    });
+
+    // 4. EVIDENCE_GENERATED (for blocked event)
+    await logAuditEvent(canonicalTraceId, 'EVIDENCE_GENERATED', 'system', {
+      message: 'Blocked by firewall evidence generated'
+    });
+
     const blockedInteraction = await logInteraction({
       user_id: userId,
       user_name: userName,
@@ -233,8 +269,27 @@ async function processChat(params) {
     user: userId ? { id: userId, name: userName } : null
   });
 
+  // 3. RISK_SCORED
+  await logAuditEvent(canonicalTraceId, 'RISK_SCORED', 'system', {
+    score: riskResult.score,
+    level: riskResult.level,
+    reasons: riskResult.reasons,
+    complianceFlags: complianceResult.flags
+  });
+
   // Layer 3: Approval gate
   if (riskResult.requiresApproval) {
+    // 4. APPROVAL_REQUESTED
+    await logAuditEvent(canonicalTraceId, 'APPROVAL_REQUESTED', 'system', {
+      assignedTo: approvalStore.getRequiredRole(riskResult.level),
+      status: 'pending'
+    });
+
+    // 5. EVIDENCE_GENERATED (pending state)
+    await logAuditEvent(canonicalTraceId, 'EVIDENCE_GENERATED', 'system', {
+      message: 'Initial pending approval evidence generated'
+    });
+
     const pendingInteraction = await logInteraction({
       user_id: userId,
       user_name: userName,
@@ -287,7 +342,23 @@ async function processChat(params) {
   // Auto-approved: call the configured Kernel model provider.
   const modelResult = await callKernelModel(firewallResult.maskedText, pack);
 
-  // Audit trail
+  // 4. MODEL_CALLED
+  await logAuditEvent(canonicalTraceId, 'MODEL_CALLED', 'system', {
+    response: modelResult.response,
+    model: modelResult.model,
+    provider: modelResult.provider,
+    inputTokens: modelResult.inputTokens,
+    outputTokens: modelResult.outputTokens,
+    latencyMs: modelResult.latencyMs,
+    error: modelResult.error
+  });
+
+  // 5. EVIDENCE_GENERATED
+  await logAuditEvent(canonicalTraceId, 'EVIDENCE_GENERATED', 'system', {
+    message: 'Completed auto-approved transaction evidence generated'
+  });
+
+  // Audit trail consolidated read-model
   const interaction = await logInteraction({
     user_id: userId,
     user_name: userName,
@@ -382,6 +453,23 @@ async function approve(interactionId, approvedBy, comment) {
   const riskReasons = original.risk_reasons || JSON.stringify(['Approved human review completion']);
   const complianceFlags = original.compliance_flags || JSON.stringify([]);
 
+  // 1. MODEL_CALLED event
+  await logAuditEvent(traceId, 'MODEL_CALLED', approvedBy, {
+    response: modelResult.response,
+    model: modelResult.model,
+    provider: modelResult.provider,
+    inputTokens: modelResult.inputTokens,
+    outputTokens: modelResult.outputTokens,
+    latencyMs: modelResult.latencyMs,
+    error: modelResult.error
+  });
+
+  // 2. EVIDENCE_GENERATED event
+  await logAuditEvent(traceId, 'EVIDENCE_GENERATED', approvedBy, {
+    message: 'Completed approved transaction evidence generated'
+  });
+
+  // Consolidated read-model log (does not change history meaning, but gives a record for completed trace)
   const completionInteraction = await logInteraction({
     user_id: original.user_id,
     user_name: original.user_name,
@@ -452,16 +540,27 @@ async function approve(interactionId, approvedBy, comment) {
 
 async function reject(interactionId, rejectedBy, comment) {
   const result = await approvalStore.reject(interactionId, rejectedBy, comment);
+  const original = await getAuditEntry(result.interactionId || interactionId);
+  const traceId = result.traceId || (original ? getTraceIdFromInteraction(original) : null);
+
+  // 1. EVIDENCE_GENERATED event
+  if (traceId) {
+    await logAuditEvent(traceId, 'EVIDENCE_GENERATED', rejectedBy, {
+      message: 'Transaction rejected evidence generated',
+      comment: comment || 'Rejected'
+    });
+  }
+
   return {
     ...result,
     success: true,
     action: 'rejected',
     interactionId: result.interactionId || interactionId,
     requestId: result.interactionId || interactionId,
-    traceId: result.traceId || null,
-    trace_id: result.traceId || null,
+    traceId,
+    trace_id: traceId,
     response: null,
-    metadata: { approvalStatus: 'rejected', modelInvoked: false, traceId: result.traceId || null }
+    metadata: { approvalStatus: 'rejected', modelInvoked: false, traceId }
   };
 }
 

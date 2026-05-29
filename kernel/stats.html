@@ -378,7 +378,7 @@
         <p>نظرة شاملة على أداء نواة الحوكمة واتجاهات المخاطر</p>
         <div class="refresh-indicator">
           <div class="refresh-dot"></div>
-          <span>تحديث تلقائي كل 30 ثانية — آخر تحديث: <span id="last-update">—</span></span>
+          <span>تحديث تلقائي كل 30 ثانية — آخر تحديث: <span id="last-update">لم يحدث بعد</span></span>
         </div>
       </div>
 
@@ -491,7 +491,7 @@
         </div>
         <div class="status-cards" id="latest-traces">
           <div class="glass-card-flat status-card">
-            <div class="status-card-value">—</div>
+            <div class="status-card-value" style="font-size:1rem;">جاري التحميل</div>
             <div class="status-card-label">جاري التحميل</div>
           </div>
         </div>
@@ -507,23 +507,23 @@
         </div>
         <div class="status-cards">
           <div class="glass-card-flat status-card pending">
-            <div class="status-card-value" id="sc-pending">—</div>
+            <div class="status-card-value" id="sc-pending">0</div>
             <div class="status-card-label">بانتظار المراجعة</div>
           </div>
           <div class="glass-card-flat status-card approved">
-            <div class="status-card-value" id="sc-approved">—</div>
+            <div class="status-card-value" id="sc-approved">0</div>
             <div class="status-card-label">تمت الموافقة</div>
           </div>
           <div class="glass-card-flat status-card executed">
-            <div class="status-card-value" id="sc-executed">—</div>
+            <div class="status-card-value" id="sc-executed">0</div>
             <div class="status-card-label">قيد التنفيذ</div>
           </div>
           <div class="glass-card-flat status-card completed">
-            <div class="status-card-value" id="sc-completed">—</div>
+            <div class="status-card-value" id="sc-completed">0</div>
             <div class="status-card-label">مكتملة</div>
           </div>
           <div class="glass-card-flat status-card rejected">
-            <div class="status-card-value" id="sc-rejected">—</div>
+            <div class="status-card-value" id="sc-rejected">0</div>
             <div class="status-card-label">مرفوضة</div>
           </div>
         </div>
@@ -548,9 +548,11 @@
       { key: 'high', label: 'مرتفع' },
       { key: 'medium', label: 'متوسط' },
       { key: 'low', label: 'منخفض' },
+      { key: 'minimal', label: 'ضئيل' },
     ];
 
     const STATUS_COLORS = {
+      blocked: 'rgba(239, 68, 68, 0.92)',
       pending: 'rgba(245, 158, 11, 0.85)',
       approved: 'rgba(0, 212, 255, 0.85)',
       executed: 'rgba(167, 139, 250, 0.85)',
@@ -559,6 +561,7 @@
     };
 
     const STATUS_LABELS = {
+      blocked: 'محجوبة',
       pending: 'بانتظار المراجعة',
       approved: 'تمت الموافقة',
       executed: 'قيد التنفيذ',
@@ -589,6 +592,7 @@
           approved: 8,
           executed: 5,
           completed: 198,
+          rejected: 24,
         },
         provider: {
           averageLatency: 850,
@@ -599,37 +603,37 @@
           high: 19,
           medium: 63,
           low: 112,
+          minimal: 46,
         },
         latestTraces: [],
       };
     }
 
     function renderStats(data) {
-      const requests = data.requests || {};
-      const riskDist = data.riskDistribution || {};
+      const stats = typeof normalizeStats === 'function' ? normalizeStats(data) : data;
+      const statusDist = stats.statusDistribution || {};
+      const riskDist = stats.riskLevels || {};
 
       // KPIs
-      document.getElementById('kpi-total').textContent = KernelUtils.formatNumber(requests.total || 0);
-      document.getElementById('kpi-pending').textContent = KernelUtils.formatNumber(requests.pending || 0);
-      
-      const avgRisk = calculateAverageRisk(riskDist);
-      document.getElementById('kpi-risk').textContent = avgRisk + '%';
-      document.getElementById('kpi-pii').textContent = (data.piiDetectionRate || 0) + '%';
+      document.getElementById('kpi-total').textContent = KernelUtils.formatNumber(stats.totalRequests || 0);
+      document.getElementById('kpi-pending').textContent = KernelUtils.formatNumber(stats.pendingApproval || 0);
+      document.getElementById('kpi-risk').textContent = Math.round(stats.avgRisk || 0) + '%';
+      document.getElementById('kpi-pii').textContent = Math.round(stats.piiDetectionRate || 0) + '%';
 
       // Status Cards
-      document.getElementById('sc-pending').textContent = KernelUtils.formatNumber(requests.pending || 0);
-      document.getElementById('sc-approved').textContent = KernelUtils.formatNumber(requests.approved || 0);
-      document.getElementById('sc-executed').textContent = KernelUtils.formatNumber(requests.executed || 0);
-      document.getElementById('sc-completed').textContent = KernelUtils.formatNumber(requests.completed || 0);
-      document.getElementById('sc-rejected').textContent = KernelUtils.formatNumber(requests.rejected || 0);
+      document.getElementById('sc-pending').textContent = KernelUtils.formatNumber(statusDist.pending || 0);
+      document.getElementById('sc-approved').textContent = KernelUtils.formatNumber(statusDist.approved || 0);
+      document.getElementById('sc-executed').textContent = KernelUtils.formatNumber(statusDist.executed || 0);
+      document.getElementById('sc-completed').textContent = KernelUtils.formatNumber(statusDist.completed || 0);
+      document.getElementById('sc-rejected').textContent = KernelUtils.formatNumber(statusDist.rejected || 0);
 
       // SVG Donut Chart
-      renderSVGDonut(requests);
+      renderSVGDonut(statusDist);
 
       // Risk Bars
       renderRiskBars(riskDist);
 
-      renderLatestTraces(data.latestTraces || []);
+      renderLatestTraces(stats.latestTraces || []);
 
       // Last Update
       document.getElementById('last-update').textContent = new Date().toLocaleTimeString('ar-SA');
@@ -642,7 +646,7 @@
       if (!traces.length) {
         container.innerHTML = `
           <div class="glass-card-flat status-card">
-            <div class="status-card-value" style="font-size:1rem;">—</div>
+            <div class="status-card-value" style="font-size:1rem;">لا توجد</div>
             <div class="status-card-label">لا توجد Trace IDs بعد</div>
           </div>
         `;
@@ -683,11 +687,12 @@
       if (!container) return;
 
       const data = [
+        { key: 'blocked', value: breakdown.blocked || 0 },
         { key: 'pending', value: breakdown.pending || 0 },
         { key: 'approved', value: breakdown.approved || 0 },
         { key: 'executed', value: breakdown.executed || 0 },
         { key: 'completed', value: breakdown.completed || 0 },
-        { key: 'rejected', value: 0 },
+        { key: 'rejected', value: breakdown.rejected || 0 },
       ].filter(d => d.value > 0);
 
       const total = data.reduce((s, d) => s + d.value, 0) || 1;

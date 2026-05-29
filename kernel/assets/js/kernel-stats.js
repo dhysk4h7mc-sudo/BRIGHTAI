@@ -27,6 +27,7 @@
         { key: 'minimal', label: 'ضئيل', color: '#10B981' },
       ],
       statusTypes: [
+        { key: 'blocked', label: 'محجوبة', color: 'rgba(239, 68, 68, 0.92)' },
         { key: 'pending', label: 'بانتظار المراجعة', color: 'rgba(245, 158, 11, 0.85)' },
         { key: 'approved', label: 'تمت الموافقة', color: 'rgba(0, 212, 255, 0.85)' },
         { key: 'executed', label: 'قيد التنفيذ', color: 'rgba(167, 139, 250, 0.85)' },
@@ -92,11 +93,12 @@
         if (!response.ok) throw new Error('Failed to fetch stats');
         
         const data = await response.json();
-        this.state.currentData = data;
-        this.renderStats(data);
+        const normalized = this.normalizeStats(data);
+        this.state.currentData = normalized;
+        this.renderStats(normalized);
       } catch (error) {
         console.log('[v0] Stats fetch failed, using demo data:', error);
-        const demoData = this.generateDemoData();
+        const demoData = this.normalizeStats(this.generateDemoData());
         this.state.currentData = demoData;
         this.renderStats(demoData);
       } finally {
@@ -156,31 +158,35 @@
      * @returns {Object} Normalized stats
      */
     normalizeStats(data = {}) {
-      const requests = data.requests || {
-        total: Number(data.total) || 0,
-        pending: Number(data.pending) || 0,
-        approved: Number(data.approved) || 0,
-        executed: Number(data.executed) || 0,
-        completed: Number(data.autoApproved || data.completed) || 0,
-        rejected: Number(data.rejected) || 0,
-      };
+      if (typeof global.normalizeStats === 'function') {
+        return global.normalizeStats(data);
+      }
 
-      const riskDistribution = data.riskDistribution || (Array.isArray(data.byRiskLevel)
-        ? data.byRiskLevel.reduce((acc, row) => {
-          acc[row.risk_level || row.riskLevel || 'low'] = Number(row.count) || 0;
-          return acc;
-        }, {})
-        : {});
-
+      const requests = data.requests || {};
+      const statusDistribution = data.statusDistribution || {};
+      const riskLevels = data.riskLevels || data.riskDistribution || {};
       return {
-        ...data,
-        requests,
-        riskDistribution,
+        totalRequests: Number(data.totalRequests || data.total || requests.total) || 0,
+        pendingApproval: Number(data.pendingApproval || data.pending || requests.pending || statusDistribution.pending) || 0,
+        avgRisk: Number(data.avgRisk || data.avgRiskScore) || this.calculateAverageRisk(riskLevels),
+        piiDetectionRate: Number(data.piiDetectionRate) || 0,
+        statusDistribution: {
+          blocked: Number(data.blocked || requests.blocked || statusDistribution.blocked) || 0,
+          pending: Number(data.pending || requests.pending || statusDistribution.pending) || 0,
+          approved: Number(data.approved || requests.approved || statusDistribution.approved) || 0,
+          executed: Number(data.executed || requests.executed || statusDistribution.executed) || 0,
+          completed: Number(data.autoApproved || data.completed || requests.completed || statusDistribution.completed) || 0,
+          rejected: Number(data.rejected || requests.rejected || statusDistribution.rejected) || 0,
+        },
+        riskLevels,
+        complianceRate: Number(String(data.complianceRate || 0).replace('%', '')) || 0,
+        chainIntegrity: data.chainIntegrity || 'unknown',
+        lastUpdated: data.lastUpdated || new Date().toISOString(),
         latestTraces: Array.isArray(data.latestTraces) ? data.latestTraces.map((trace) => ({
           ...trace,
-          traceId: this.extractTraceId(trace),
-          interactionId: trace.interactionId || trace.interaction_id || trace.id || trace.requestId,
-          requestId: trace.interactionId || trace.interaction_id || trace.id || trace.requestId,
+          traceId: this.extractTraceId(trace) || '',
+          interactionId: trace.interactionId || trace.interaction_id || trace.id || trace.requestId || '',
+          requestId: trace.interactionId || trace.interaction_id || trace.id || trace.requestId || '',
         })) : [],
       };
     },

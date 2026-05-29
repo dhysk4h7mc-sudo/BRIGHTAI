@@ -763,6 +763,127 @@
     .bs-content {
       padding: 0 var(--space-4) calc(var(--space-4) + var(--safe-area-bottom));
     }
+
+    /* Governance Journey Tracker & Demo CSS */
+    .journey-tracker-card {
+      margin-top: 1rem;
+      padding: 1.25rem;
+      background: rgba(3, 10, 24, 0.7);
+      border: 1px solid rgba(0, 212, 255, 0.25);
+      border-radius: 12px;
+      animation: fadeSlideUp 0.4s ease-out;
+      box-shadow: 0 4px 20px rgba(0, 212, 255, 0.05);
+    }
+    .journey-tracker-title {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--brand);
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .journey-tracker-title svg {
+      color: var(--brand);
+      animation: spin 8s linear infinite;
+    }
+    .journey-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      position: relative;
+      padding-inline-start: 1.5rem;
+      margin-top: 1rem;
+    }
+    .journey-steps::before {
+      content: '';
+      position: absolute;
+      top: 0.25rem;
+      bottom: 0.25rem;
+      right: auto;
+      left: 0.35rem;
+      width: 2px;
+      background: rgba(0, 212, 255, 0.15);
+    }
+    html[dir="rtl"] .journey-steps::before {
+      right: 0.35rem;
+      left: auto;
+    }
+    .journey-step {
+      position: relative;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      font-size: 0.8125rem;
+    }
+    .journey-step-bullet {
+      position: absolute;
+      top: 0.15rem;
+      left: -1.45rem;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--text-tertiary);
+      border: 2px solid var(--bg);
+      z-index: 2;
+      transition: all 0.3s;
+    }
+    html[dir="rtl"] .journey-step-bullet {
+      right: -1.45rem;
+      left: auto;
+    }
+    .journey-step.success .journey-step-bullet {
+      background: var(--success);
+      box-shadow: 0 0 8px var(--success);
+    }
+    .journey-step.warning .journey-step-bullet {
+      background: var(--warning);
+      box-shadow: 0 0 8px var(--warning);
+    }
+    .journey-step.danger .journey-step-bullet {
+      background: var(--danger);
+      box-shadow: 0 0 8px var(--danger);
+    }
+    .journey-step-content {
+      flex: 1;
+    }
+    .journey-step-header {
+      font-weight: 600;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .journey-step-desc {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      margin-top: 0.125rem;
+      line-height: 1.4;
+    }
+    .evidence-btn-container {
+      margin-top: 1rem;
+      display: flex;
+      justify-content: flex-end;
+    }
+    .evidence-btn-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: rgba(0, 212, 255, 0.1);
+      border: 1px solid var(--brand);
+      border-radius: 8px;
+      color: var(--brand) !important;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      text-decoration: none !important;
+      transition: all 0.2s;
+    }
+    .evidence-btn-link:hover {
+      background: var(--brand);
+      color: var(--ink-900) !important;
+      box-shadow: 0 0 16px rgba(0, 212, 255, 0.5);
+    }
   </style>
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://brightai.site/kernel/chat/">
@@ -1091,6 +1212,41 @@
       checkPendingBanner();
       setInterval(checkPendingBanner, 30000);
       buildBottomSheetCompliance();
+
+      // Check scenario params for Demo
+      const params = new URLSearchParams(window.location.search);
+      const scenario = params.get('scenario');
+      const compliancePack = params.get('compliancePack');
+      const samplePrompt = params.get('samplePrompt');
+
+      if (scenario) {
+        // Clear previous messages to isolate this demo scenario
+        KernelUtils.storage.remove('chatMessages');
+        const msgs = document.getElementById('messages');
+        if (msgs) msgs.innerHTML = '';
+        
+        if (compliancePack) {
+          const el = document.querySelector(`[data-pkg="${compliancePack}"]`);
+          if (el) {
+            selectCompliance(el, compliancePack);
+          } else {
+            // Case-insensitive fallback
+            const item = Array.from(document.querySelectorAll('.compliance-item')).find(i => i.dataset.pkg.toLowerCase() === compliancePack.toLowerCase());
+            if (item) selectCompliance(item, item.dataset.pkg);
+          }
+        }
+
+        const input = document.getElementById('chat-input');
+        if (input) {
+          input.value = samplePrompt || '';
+          resizeTextarea(input);
+          updateCharCounter(input.value);
+        }
+
+        setTimeout(() => {
+          showScenarioIntroCard(scenario, compliancePack || 'general', samplePrompt || '');
+        }, 100);
+      }
     });
 
     // ── Compliance Selection ──
@@ -1301,6 +1457,11 @@
       `;
 
       msgs.appendChild(el);
+
+      const msgBody = el.querySelector('.msg-body');
+      const msgTime = msgBody.querySelector('.msg-time');
+      appendGovernanceJourneyTrackerIfScenario(msgBody, data, msgTime);
+
       scrollBottom();
 
       // Typewriter effect
@@ -1336,6 +1497,9 @@
         </div>
       `;
       msgs.appendChild(el);
+      const msgBody = el.querySelector('.msg-body');
+      const msgTime = msgBody.querySelector('.msg-time');
+      appendGovernanceJourneyTrackerIfScenario(msgBody, data, msgTime);
       scrollBottom();
     }
 
@@ -1370,6 +1534,9 @@
         </div>
       `;
       msgs.appendChild(el);
+      const msgBody = el.querySelector('.msg-body');
+      const msgTime = msgBody.querySelector('.msg-time');
+      appendGovernanceJourneyTrackerIfScenario(msgBody, data, msgTime);
       scrollBottom();
     }
 
@@ -1693,6 +1860,201 @@
       document.getElementById('chat-bottom-sheet').classList.remove('open');
       document.getElementById('bs-backdrop').classList.remove('open');
       document.body.style.overflow = '';
+    }
+
+    // ── Demo & Governance Journey Tracker Helpers ──
+    function showScenarioIntroCard(scenario, compliancePack, samplePrompt) {
+      const msgs = document.getElementById('messages');
+      if (!msgs) return;
+      
+      const intro = document.createElement('div');
+      intro.className = 'glass-card scenario-intro-card';
+      intro.id = 'scenario-intro-card';
+      intro.style.cssText = `
+        padding: var(--space-4);
+        border: 1px solid var(--brand);
+        background: rgba(0, 212, 255, 0.05);
+        border-radius: var(--radius-lg);
+        margin-bottom: var(--space-4);
+        animation: fadeSlideUp 0.3s ease-out;
+      `;
+      
+      let scenarioLabel = 'سيناريو مخصص';
+      if (scenario === 'finance') scenarioLabel = 'القطاع المالي (IBAN + عقد تمويل)';
+      else if (scenario === 'hr') scenarioLabel = 'الموارد البشرية (بيانات موظف + تقييم أداء)';
+      else if (scenario === 'legal') scenarioLabel = 'الشؤون القانونية (عقد مورد + شرط جزائي)';
+      else if (scenario === 'healthcare') scenarioLabel = 'الرعاية الصحية / SFDA (CAPA + Patient ID)';
+      else if (scenario === 'code') scenarioLabel = 'أمن البرمجيات / NCA ECC (Secrets مكشوفة)';
+
+      intro.innerHTML = `
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:var(--space-2); flex-wrap:wrap; gap:var(--space-2);">
+          <div style="display:flex; align-items:center; gap:var(--space-2);">
+            <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:var(--brand); animation:pulseGlow 1.5s infinite;"></span>
+            <strong style="color:var(--brand); font-size:0.9375rem;">ديمو نشط: ${scenarioLabel}</strong>
+          </div>
+          <span class="badge badge-info" style="font-size:0.75rem;">حزمة الامتثال: ${compliancePack}</span>
+        </div>
+        <div style="font-size:0.875rem; color:var(--text-secondary); line-height:1.6; margin-bottom:var(--space-3); background:rgba(0,0,0,0.2); padding:var(--space-2) var(--space-3); border-radius:var(--radius-sm); border-inline-start:3px solid var(--brand);">
+          "${KernelUtils.escapeHtml(samplePrompt)}"
+        </div>
+        <div style="display:flex; justify-content:flex-end;">
+          <button class="btn btn-primary" onclick="runScenarioImmediately()" style="min-height: 38px; font-size: 0.8125rem; background:var(--brand); color:var(--ink-900); font-weight:600; cursor:pointer; border:none; border-radius:var(--radius-md); padding:0 1rem; transition:all 0.2s;">
+            تشغيل السيناريو الآن
+          </button>
+        </div>
+      `;
+      msgs.appendChild(intro);
+      scrollBottom();
+    }
+
+    window.runScenarioImmediately = function() {
+      const card = document.getElementById('scenario-intro-card');
+      if (card) card.remove();
+      sendMessage();
+    };
+
+    function appendGovernanceJourneyTrackerIfScenario(msgBody, data, insertBeforeElement = null) {
+      const traceId = getTraceId(data) || data.traceId || data.trace_id;
+      if (!traceId) return;
+
+      // Check if it matches one of our 5 scenarios
+      const scenarioMap = {
+        'AI-2026-FIN88': {
+          name: 'القطاع المالي (IBAN + عقد تمويل)',
+          pii: 'أرقام آيبان سعودية حساسة (SA99)',
+          policy: 'سياسة حوكمة البيانات المالية وحماية الآيبان',
+          decision: 'تعليق للمراجعة البشرية (Pending Approval)',
+          decisionClass: 'warning',
+          decisionDesc: 'يتطلب مراجعة واعتماد مشرف الامتثال قبل تمريره إلى محرك الذكاء الاصطناعي.',
+          steps: [
+            { name: 'فحص البيانات الحساسة (PII Scan)', status: 'warning', desc: 'تم كشف بيانات مالية حساسة (Saudi IBAN)' },
+            { name: 'حساب درجة المخاطر (Risk Score)', status: 'warning', desc: 'خطورة مرتفعة (82%) بسبب مشاركة حساب بنكي' },
+            { name: 'تطبيق سياسات الحوكمة (Policy)', status: 'success', desc: 'تفعيل سياسة حوكمة البيانات المالية وحماية الآيبان' },
+            { name: 'قرار حوكمة النواة (Approval)', status: 'warning', desc: 'يتطلب موافقة بشرية من مشرف الامتثال' },
+            { name: 'تسجيل دليل التدقيق (Evidence)', status: 'success', desc: 'تم التوقيع الإلكتروني وتوليد هاش التدقيق والحفظ بالليدجر' }
+          ]
+        },
+        'AI-2026-HR99': {
+          name: 'الموارد البشرية (بيانات موظف + راتب)',
+          pii: 'أرقام رواتب ومعلومات سرية للموظفين',
+          policy: 'سياسة حماية بيانات الموظفين والتقييمات السرية',
+          decision: 'مكتمل مع تعمية البيانات (Masking Applied)',
+          decisionClass: 'success',
+          decisionDesc: 'تم إخفاء وحجب معلومات الرواتب الحساسة تلقائياً وتمرير الاستعلام المفلتر بأمان.',
+          steps: [
+            { name: 'فحص البيانات الحساسة (PII Scan)', status: 'warning', desc: 'تم كشف معلومات حساسة (Salary / Employee Name)' },
+            { name: 'حساب درجة المخاطر (Risk Score)', status: 'success', desc: 'خطورة متوسطة (65%) - تم خفضها إلى (10%) بعد التعمية' },
+            { name: 'تطبيق سياسات الحوكمة (Policy)', status: 'success', desc: 'تفعيل سياسة حماية بيانات الموظفين والتقييمات السرية' },
+            { name: 'قرار حوكمة النواة (Approval)', status: 'success', desc: 'تم حجب الرواتب وتمرير الطلب بنجاح (Auto-Approved with Masking)' },
+            { name: 'تسجيل دليل التدقيق (Evidence)', status: 'success', desc: 'تم تسجيل العقد المفلتر وتوليد هاش التدقيق والحفظ بالليدجر' }
+          ]
+        },
+        'AI-2026-LEG77': {
+          name: 'الشؤون القانونية (عقد مورد + شرط جزائي)',
+          pii: 'لا توجد بيانات شخصية حساسة',
+          policy: 'سياسة مراجعة العقود القياسية للشركات',
+          decision: 'موافقة فورية (Auto-Approved)',
+          decisionClass: 'success',
+          decisionDesc: 'الطلب آمن ويتوافق تماماً مع الأنظمة الداخلية لشركة المشتريات واللوائح العامة.',
+          steps: [
+            { name: 'فحص البيانات الحساسة (PII Scan)', status: 'success', desc: 'لم يتم كشف أي بيانات شخصية حساسة (No PII)' },
+            { name: 'حساب درجة المخاطر (Risk Score)', status: 'success', desc: 'خطورة منخفضة جداً (15%)' },
+            { name: 'تطبيق سياسات الحوكمة (Policy)', status: 'success', desc: 'تفعيل سياسة مراجعة العقود القياسية للشركات' },
+            { name: 'قرار حوكمة النواة (Approval)', status: 'success', desc: 'تمت الموافقة التلقائية الفورية وتمرير الطلب للذكاء الاصطناعي' },
+            { name: 'تسجيل دليل التدقيق (Evidence)', status: 'success', desc: 'تم تسجيل السجل وتوليد هاش التدقيق والحفظ بالليدجر' }
+          ]
+        },
+        'AI-2026-MED55': {
+          name: 'الرعاية الصحية (CAPA + ملف مريض)',
+          pii: 'أرقام ملفات طبية حساسة للمريض (MRN)',
+          policy: 'سياسة حماية البيانات الصحية للمرضى وحوكمة الهيئة العامة للغذاء والدواء SFDA',
+          decision: 'تم الحظر تلقائياً (Blocked)',
+          decisionClass: 'danger',
+          decisionDesc: 'تم حجب وحظر الاستعلام بالكامل لمنع تسريب الهوية الطبية والتشخيصات غير المشفرة.',
+          steps: [
+            { name: 'فحص البيانات الحساسة (PII Scan)', status: 'danger', desc: 'تم كشف بيانات صحية حساسة للغاية (MRN Patient ID)' },
+            { name: 'حساب درجة المخاطر (Risk Score)', status: 'danger', desc: 'خطورة حرجة جداً (91%) تنتهك خصوصية المريض' },
+            { name: 'تطبيق سياسات الحوكمة (Policy)', status: 'success', desc: 'تفعيل سياسة حماية البيانات الصحية للمرضى وحوكمة SFDA' },
+            { name: 'قرار حوكمة النواة (Approval)', status: 'danger', desc: 'حظر تلقائي فوري ومنع تمرير الاستعلام لحماية السرية' },
+            { name: 'تسجيل دليل التدقيق (Evidence)', status: 'success', desc: 'تم تسجيل محاولة الاختراق والمنع وتوليد الهاش للحوكمة' }
+          ]
+        },
+        'AI-2026-COD44': {
+          name: 'أمن الكود البرمجي (Secrets مكشوفة)',
+          pii: 'كلمات سر ومفاتيح مشفرة مكشوفة (Secrets)',
+          policy: 'ضوابط الأمن السيبراني الوطنية للأسرار البرمجية NCA ECC',
+          decision: 'تم الحظر تلقائياً (Blocked)',
+          decisionClass: 'danger',
+          decisionDesc: 'تم حظر الاستعلام فوراً لمنع مشاركة كلمات السر والأسرار السيبرانية الحساسة خارج البيئة الآمنة.',
+          steps: [
+            { name: 'فحص البيانات الحساسة (PII Scan)', status: 'danger', desc: 'تم كشف كلمات سر مكشوفة (Credentials/Secrets)' },
+            { name: 'حساب درجة المخاطر (Risk Score)', status: 'danger', desc: 'خطورة حرجة جداً (95%) تهدد أمن الأنظمة البرمجية' },
+            { name: 'تطبيق سياسات الحوكمة (Policy)', status: 'success', desc: 'تفعيل ضوابط الأمن السيبراني الوطنية للأسرار البرمجية NCA ECC' },
+            { name: 'قرار حوكمة النواة (Approval)', status: 'danger', desc: 'حظر فوري وإرسال تنبيه عاجل لفريق الأمن السيبراني' },
+            { name: 'تسجيل دليل التدقيق (Evidence)', status: 'success', desc: 'تم تسجيل الحدث الأمني وتوليد الهاش لإثبات الامتثال' }
+          ]
+        }
+      };
+
+      const sc = scenarioMap[traceId];
+      if (!sc) return;
+
+      const card = document.createElement('div');
+      card.className = 'journey-tracker-card';
+      
+      let stepsHtml = sc.steps.map(step => {
+        let statusIcon = '●';
+        if (step.status === 'success') statusIcon = '✓';
+        else if (step.status === 'warning') statusIcon = '⚠';
+        else if (step.status === 'danger') statusIcon = '✕';
+
+        return `
+          <div class="journey-step ${step.status}">
+            <span class="journey-step-bullet"></span>
+            <div class="journey-step-content">
+              <div class="journey-step-header">
+                <span style="font-weight:700;">${step.name}</span>
+                <span class="badge badge-${step.status === 'success' ? 'success' : step.status === 'warning' ? 'warning' : 'danger'}" style="font-size:0.6rem; padding:1px 6px;">
+                  ${statusIcon} ${step.status === 'success' ? 'آمن' : step.status === 'warning' ? 'تنبيه' : 'حظر'}
+                </span>
+              </div>
+              <div class="journey-step-desc">${step.desc}</div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      card.innerHTML = `
+        <div class="journey-tracker-title">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation: spin 8s linear infinite;">
+            <circle cx="12" cy="12" r="10"/><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+          </svg>
+          <span>رحلة حوكمة الطلب في النواة: ${sc.name}</span>
+        </div>
+        <div style="font-size:0.75rem; color:var(--text-secondary); margin-bottom:var(--space-3); line-height:1.5;">
+          <strong>معرف التتبع (Trace ID):</strong> <code style="color:var(--brand);">${traceId}</code>
+          <br><strong>حالة القرار:</strong> <span class="badge ${sc.decisionClass}" style="font-size:0.65rem; padding:1px 6px;">${sc.decision}</span>
+          <br><span style="font-size:0.7rem; color:var(--text-muted);">${sc.decisionDesc}</span>
+        </div>
+        <div class="journey-steps">
+          ${stepsHtml}
+        </div>
+        <div class="evidence-btn-container">
+          <a href="/kernel/evidence.html?trace_id=${encodeURIComponent(traceId)}" class="evidence-btn-link" target="_blank">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
+            </svg>
+            افتح ملف الأدلة لهذا السيناريو
+          </a>
+        </div>
+      `;
+      
+      if (insertBeforeElement) {
+        msgBody.insertBefore(card, insertBeforeElement);
+      } else {
+        msgBody.appendChild(card);
+      }
+      scrollBottom();
     }
   </script>
   <script src="/frontend/js/production-runtime.v20260427.js" defer></script>

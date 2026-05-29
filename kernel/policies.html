@@ -11,245 +11,316 @@
     gtag('config', 'G-8LLESL207Q');
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>السياسات | BrightAI Kernel</title>
-  <meta name="description" content="إدارة سياسات BrightAI Kernel للتحكم في الطلبات، المخاطر، الموافقات، وحزم الامتثال المؤسسية.">
+  <title>محرر السياسات البصري | BrightAI Kernel</title>
+  <meta name="description" content="قم ببناء وإدارة قواعد حماية البيانات وسياسات الحوكمة وحساب المخاطر لـ BrightAI Kernel للامتثال لمتطلبات PDPL وSAMA وNCA.">
   <link rel="stylesheet" href="/kernel/assets/css/kernel.css">
   <link rel="stylesheet" href="/frontend/vendor/fontawesome/css/all.min.css">
   <link rel="stylesheet" href="/frontend/css/unified-header.css?v=20260529-nav-v1">
   <style>
+    :root {
+      --primary-color: #6366f1;
+      --primary-hover: #4f46e5;
+      --primary-light: rgba(99, 102, 241, 0.1);
+      --bg-primary: #0b0f19;
+      --bg-secondary: #111827;
+      --bg-tertiary: #1f2937;
+      --card-bg: rgba(17, 24, 39, 0.7);
+      --border-color: #374151;
+      --text-primary: #f3f4f6;
+      --text-secondary: #9ca3af;
+      --text-muted: #6b7280;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+
     .policies-layout {
       display: grid;
-      grid-template-columns: 280px 1fr;
-      gap: 1.5rem;
+      grid-template-columns: 1fr;
+      gap: 2rem;
     }
-    @media (max-width: 1024px) {
+
+    @media (min-width: 1200px) {
       .policies-layout {
-        grid-template-columns: 1fr;
+        grid-template-columns: 2fr 1fr;
       }
     }
-    .policies-sidebar {
+
+    .card {
       background: var(--card-bg);
       border: 1px solid var(--border-color);
-      border-radius: 12px;
-      padding: 1rem;
-      height: fit-content;
-      position: sticky;
-      top: 1rem;
+      border-radius: 16px;
+      backdrop-filter: blur(8px);
+      box-shadow: var(--shadow-lg);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
     }
-    .policies-sidebar-title {
-      font-size: 0.75rem;
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .card-title {
+      font-size: 1.25rem;
       font-weight: 600;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      padding: 0.5rem 0.75rem;
-      margin-bottom: 0.5rem;
-    }
-    .policy-nav-item {
       display: flex;
       align-items: center;
       gap: 0.75rem;
-      padding: 0.75rem;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.2s;
-      color: var(--text-secondary);
-      font-size: 0.875rem;
     }
-    .policy-nav-item:hover {
-      background: var(--bg-secondary);
-      color: var(--text-primary);
-    }
-    .policy-nav-item.active {
-      background: var(--primary-light);
+
+    .card-title i {
       color: var(--primary-color);
     }
-    .policy-nav-item svg {
-      width: 18px;
-      height: 18px;
-      flex-shrink: 0;
-    }
-    .policy-content {
-      background: var(--card-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-    }
-    .policy-header {
-      padding: 1.5rem;
-      border-bottom: 1px solid var(--border-color);
-      display: flex;
+
+    .badge {
+      display: inline-flex;
       align-items: center;
-      justify-content: space-between;
+      padding: 0.25rem 0.625rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 500;
     }
-    .policy-title-section h2 {
-      font-size: 1.25rem;
-      font-weight: 600;
-      color: var(--text-primary);
-      margin-bottom: 0.25rem;
+
+    .badge-success { background: rgba(16, 185, 129, 0.1); color: var(--success); }
+    .badge-warning { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
+    .badge-danger { background: rgba(239, 68, 68, 0.1); color: var(--danger); }
+    .badge-primary { background: rgba(99, 102, 241, 0.1); color: var(--primary-color); }
+
+    /* Custom Form styling */
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      margin-bottom: 1rem;
     }
-    .policy-title-section p {
-      font-size: 0.875rem;
-      color: var(--text-muted);
+
+    @media (min-width: 768px) {
+      .form-row {
+        grid-template-columns: repeat(2, 1fr);
+      }
     }
-    .policy-actions {
+
+    .form-group {
       display: flex;
+      flex-direction: column;
       gap: 0.5rem;
     }
-    .policy-btn {
-      padding: 0.5rem 1rem;
-      border-radius: 8px;
+
+    .form-group label {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+
+    .form-control {
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+      color: var(--text-primary);
+      font-size: 0.875rem;
+      transition: all 0.2s;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.25rem;
+      border-radius: 10px;
       font-size: 0.875rem;
       font-weight: 500;
       cursor: pointer;
-      border: none;
       transition: all 0.2s;
+      border: none;
     }
-    .policy-btn.primary {
+
+    .btn-primary {
       background: var(--primary-color);
       color: white;
     }
-    .policy-btn.primary:hover {
+
+    .btn-primary:hover {
       background: var(--primary-hover);
+      transform: translateY(-1px);
     }
-    .policy-btn.secondary {
+
+    .btn-secondary {
       background: var(--bg-tertiary);
       color: var(--text-primary);
       border: 1px solid var(--border-color);
     }
-    .policy-btn.secondary:hover {
-      background: var(--bg-secondary);
-    }
-    .policy-body {
-      padding: 1.5rem;
-    }
-    .policy-section {
-      margin-bottom: 2rem;
-    }
-    .policy-section:last-child {
-      margin-bottom: 0;
-    }
-    .policy-section-title {
-      font-size: 1rem;
-      font-weight: 600;
-      color: var(--text-primary);
-      margin-bottom: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    .policy-section-title svg {
-      width: 18px;
-      height: 18px;
-      color: var(--primary-color);
-    }
-    .policy-rules {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-    }
-    .policy-rule {
-      display: flex;
-      align-items: flex-start;
-      gap: 0.75rem;
-      padding: 1rem;
-      background: var(--bg-secondary);
-      border-radius: 8px;
-      border-right: 3px solid var(--primary-color);
-    }
-    .policy-rule-icon {
-      width: 32px;
-      height: 32px;
-      border-radius: 8px;
-      background: var(--primary-light);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-    .policy-rule-icon svg {
-      width: 16px;
-      height: 16px;
-      color: var(--primary-color);
-    }
-    .policy-rule-content h4 {
-      font-size: 0.875rem;
-      font-weight: 600;
-      color: var(--text-primary);
-      margin-bottom: 0.25rem;
-    }
-    .policy-rule-content p {
-      font-size: 0.8125rem;
-      color: var(--text-secondary);
-      line-height: 1.5;
-    }
-    .policy-toggle {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1rem;
-      background: var(--bg-secondary);
-      border-radius: 8px;
-      margin-bottom: 0.75rem;
-    }
-    .policy-toggle-info {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-    .policy-toggle-info h4 {
-      font-size: 0.875rem;
-      font-weight: 500;
-      color: var(--text-primary);
-    }
-    .toggle-switch {
-      position: relative;
-      width: 44px;
-      height: 24px;
+
+    .btn-secondary:hover {
       background: var(--border-color);
+    }
+
+    .btn-danger {
+      background: rgba(239, 68, 68, 0.1);
+      color: var(--danger);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+    }
+
+    .btn-danger:hover {
+      background: var(--danger);
+      color: white;
+    }
+
+    /* Table styling */
+    .table-container {
+      overflow-x: auto;
       border-radius: 12px;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    .toggle-switch.active {
-      background: var(--primary-color);
-    }
-    .toggle-switch::after {
-      content: '';
-      position: absolute;
-      top: 2px;
-      right: 2px;
-      width: 20px;
-      height: 20px;
-      background: white;
-      border-radius: 50%;
-      transition: transform 0.2s;
-    }
-    .toggle-switch.active::after {
-      transform: translateX(-20px);
-    }
-    .policy-input-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      margin-bottom: 1rem;
-    }
-    .policy-input-group label {
-      font-size: 0.875rem;
-      font-weight: 500;
-      color: var(--text-primary);
-    }
-    .policy-input-group input,
-    .policy-input-group select {
-      padding: 0.625rem 1rem;
-      border-radius: 8px;
       border: 1px solid var(--border-color);
       background: var(--bg-secondary);
-      color: var(--text-primary);
-      font-size: 0.875rem;
     }
-    .policy-input-group input:focus,
-    .policy-input-group select:focus {
-      outline: none;
-      border-color: var(--primary-color);
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: right;
+    }
+
+    th {
+      background: var(--bg-tertiary);
+      padding: 1rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    td {
+      padding: 1rem;
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr:hover td {
+      background: rgba(31, 41, 55, 0.5);
+    }
+
+    /* Toggle switch design */
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 44px;
+      height: 24px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: var(--bg-tertiary);
+      transition: .3s;
+      border-radius: 24px;
+      border: 1px solid var(--border-color);
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 3px;
+      bottom: 3px;
+      background-color: var(--text-secondary);
+      transition: .3s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: var(--primary-color);
+      border-color: var(--primary-hover);
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(20px);
+      background-color: white;
+    }
+
+    /* Live Preview console */
+    .preview-console {
+      background: #0d1117;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.25rem;
+      font-family: 'Courier New', Courier, monospace;
+    }
+
+    .preview-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      font-family: inherit;
+    }
+
+    .preview-result {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: var(--bg-secondary);
+      border-radius: 8px;
+      border-right: 4px solid var(--primary-color);
+      font-family: inherit;
+    }
+
+    .preview-metric {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.35rem 0;
+      border-bottom: 1px dashed var(--border-color);
+      font-size: 0.8125rem;
+      font-family: inherit;
+    }
+
+    .preview-metric:last-child {
+      border-bottom: none;
+    }
+
+    /* Mode selector bar */
+    .mode-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--primary-light);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      padding: 1rem 1.5rem;
+      border-radius: 12px;
+      margin-bottom: 1.5rem;
     }
   </style>
   <meta name="robots" content="index, follow">
@@ -259,73 +330,21 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": [
-        "Organization",
-        "LocalBusiness"
-      ],
-      "@id": "https://brightai.site/#organization",
-      "name": "Bright AI",
-      "url": "https://brightai.site",
-      "logo": "https://brightai.site/frontend/images/logo-new.PNG",
-      "areaServed": "SA",
-      "sameAs": []
-    },
-    {
-      "@type": "WebSite",
-      "@id": "https://brightai.site/#website",
-      "url": "https://brightai.site",
-      "name": "Bright AI",
-      "publisher": {
-        "@id": "https://brightai.site/#organization"
-      },
-      "inLanguage": [
-        "ar-SA",
-        "en-SA"
-      ]
-    },
-    {
       "@type": "WebPage",
       "@id": "https://brightai.site/kernel/policies/#webpage",
       "url": "https://brightai.site/kernel/policies/",
-      "name": "السياسات | BrightAI Kernel",
-      "description": "إدارة سياسات الحوكمة والتحكم في سلوك النظام",
+      "name": "محرر السياسات البصري | BrightAI Kernel",
+      "description": "قم ببناء وإدارة قواعد حماية البيانات وحساب المخاطر لـ BrightAI Kernel.",
       "isPartOf": {
-        "@id": "https://brightai.site/#website"
-      },
-      "about": {
-        "@id": "https://brightai.site/#organization"
+        "@type": "WebSite",
+        "url": "https://brightai.site",
+        "name": "Bright AI"
       },
       "inLanguage": "ar-SA"
-    },
-    {
-      "@type": "BreadcrumbList",
-      "@id": "https://brightai.site/kernel/policies/#breadcrumb",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Bright AI",
-          "item": "https://brightai.site/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "kernel",
-          "item": "https://brightai.site/kernel/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 3,
-          "name": "السياسات | BrightAI Kernel",
-          "item": "https://brightai.site/kernel/policies/"
-        }
-      ]
     }
   ]
 }
   </script>
-  <link rel="preload" href="/frontend/assets/fonts/TheYearofTheCamel-Medium.otf" as="font" type="font/otf" crossorigin />
-  <link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css">
 </head>
 <body>
   <div id="brightai-unified-header"></div>
@@ -366,177 +385,180 @@
           </svg>
         </button>
         <div class="header-title">
-          <h1>السياسات</h1>
-          <p>إدارة سياسات الحوكمة والتحكم في سلوك النظام</p>
+          <h1>محرر السياسات البصري</h1>
+          <p>إدارة سياسات الحوكمة وكشف البيانات الشخصية والتحكم التفاعلي في سلوك النواة</p>
         </div>
       </header>
 
       <div class="main-content">
+        <!-- Demo Mode Status Bar -->
+        <div class="mode-bar">
+          <div>
+            <h4 style="margin: 0 0 0.25rem 0; font-weight: 600;"><i class="fas fa-magic" style="margin-left: 0.5rem; color: var(--primary-color);"></i>وضع العرض التجريبي (Demo Mode)</h4>
+            <p style="margin: 0; font-size: 0.8125rem; color: var(--text-secondary);">تشغيل المحاكاة البرمجية الحية محلياً وحفظ البيانات تلقائياً دون متطلبات خارجية.</p>
+          </div>
+          <div>
+            <label class="switch">
+              <input type="checkbox" id="demoModeToggle" checked>
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+
         <div class="policies-layout">
-          <!-- Policies Navigation -->
-          <div class="policies-sidebar">
-            <div class="policies-sidebar-title">فئات السياسات</div>
-            <div class="policy-nav-item active" onclick="showPolicy('data-protection')">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-              </svg>
-              حماية البيانات
+          <!-- Right side: CRUD Policy List and Add Form -->
+          <div>
+            <!-- Add Policy Form -->
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title"><i class="fas fa-plus-circle"></i>إضافة قاعدة أمنية جديدة</h3>
+              </div>
+              <form id="addPolicyForm" onsubmit="savePolicy(event)">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="ruleName">اسم السياسة</label>
+                    <input type="text" id="ruleName" class="form-control" placeholder="مثال: تعمية أرقام الهويات الوطنية" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="ruleDesc">وصف السياسة</label>
+                    <input type="text" id="ruleDesc" class="form-control" placeholder="مثال: حجب وتشفير الهويات الوطنية لحماية السرية" required>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="piiType">نوع البيانات (IF PII Type)</label>
+                    <select id="piiType" class="form-control">
+                      <option value="saudi_id">الهوية الوطنية / الإقامة (saudi_id)</option>
+                      <option value="iban">الحساب البنكي السعودي (iban)</option>
+                      <option value="phone">رقم الجوال السعودي (phone)</option>
+                      <option value="email">البريد الإلكتروني (email)</option>
+                      <option value="patient_id">معرف المريض / ملف طبي (patient_id)</option>
+                      <option value="credit_card">بطاقة الائتمان (credit_card)</option>
+                      <option value="passport">جواز السفر (passport)</option>
+                      <option value="ip_address">عنوان IP الخاص بالجهاز (ip_address)</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="compliancePack">حزمة الامتثال (AND Compliance Pack)</label>
+                    <select id="compliancePack" class="form-control">
+                      <option value="general">حزمة عامة (general)</option>
+                      <option value="pdpl">نظام حماية البيانات الشخصية (pdpl)</option>
+                      <option value="nca_ecc">ضوابط الأمن السيبراني NCA (nca_ecc)</option>
+                      <option value="sfda">هيئة الغذاء والدواء الطبية (sfda)</option>
+                      <option value="healthcare">منشآت الرعاية الصحية (healthcare)</option>
+                      <option value="procurement">المنافسات والمشتريات الحكومية (procurement)</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="ruleAction">الإجراء الأمني (THEN Action)</label>
+                    <select id="ruleAction" class="form-control">
+                      <option value="mask">تعمية وحجب البيانات (mask)</option>
+                      <option value="block">حظر ومنع الطلب بالكامل (block)</option>
+                      <option value="escalate">تصعيد وتطلب موافقة بشرية (escalate)</option>
+                      <option value="allow">السماح بتمرير البيانات (allow)</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="riskModifier">تعديل مؤشر المخاطر (ADD Risk Modifier)</label>
+                    <input type="number" id="riskModifier" class="form-control" value="15" min="0" max="100">
+                  </div>
+                </div>
+
+                <div style="display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: 1rem;">
+                  <button type="reset" class="btn btn-secondary"><i class="fas fa-undo"></i>إعادة تعيين</button>
+                  <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i>إضافة وحفظ السياسة</button>
+                </div>
+              </form>
             </div>
-            <div class="policy-nav-item" onclick="showPolicy('access-control')">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-              </svg>
-              التحكم في الوصول
-            </div>
-            <div class="policy-nav-item" onclick="showPolicy('content-moderation')">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
-              </svg>
-              مراقبة المحتوى
-            </div>
-            <div class="policy-nav-item" onclick="showPolicy('audit-logging')">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
-              </svg>
-              سجلات التدقيق
-            </div>
-            <div class="policy-nav-item" onclick="showPolicy('rate-limiting')">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-              </svg>
-              حدود الاستخدام
-            </div>
-            <div class="policy-nav-item" onclick="showPolicy('model-selection')">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>
-              </svg>
-              اختيار النماذج
+
+            <!-- Policy List Table -->
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title"><i class="fas fa-shield-alt"></i>قواعد وسياسات الحماية الحالية</h3>
+                <span class="badge badge-primary" id="policyCount">جاري التحميل...</span>
+              </div>
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>اسم السياسة</th>
+                      <th>نوع البيانات (PII)</th>
+                      <th>حزمة الامتثال</th>
+                      <th>الإجراء المتخذ</th>
+                      <th>تأثير المخاطر</th>
+                      <th>حالة التفعيل</th>
+                      <th>إجراء</th>
+                    </tr>
+                  </thead>
+                  <tbody id="policyTableBody">
+                    <tr>
+                      <td colspan="7" style="text-align: center; color: var(--text-muted);">جاري تحميل البيانات من النواة...</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
 
-          <!-- Policy Content -->
-          <div class="policy-content" id="policyContent">
-            <div class="policy-header">
-              <div class="policy-title-section">
-                <h2>سياسة حماية البيانات</h2>
-                <p>آخر تحديث: 1 يونيو 2024</p>
+          <!-- Left side: Live Interactive Preview Console -->
+          <div>
+            <div class="card" style="position: sticky; top: 1.5rem;">
+              <div class="card-header">
+                <h3 class="card-title"><i class="fas fa-terminal"></i>شاشة المحاكاة المباشرة (Preview)</h3>
               </div>
-              <div class="policy-actions">
-                <button class="policy-btn secondary">تصدير</button>
-                <button class="policy-btn primary">حفظ التغييرات</button>
-              </div>
-            </div>
-            <div class="policy-body">
-              <!-- PII Detection Section -->
-              <div class="policy-section">
-                <h3 class="policy-section-title">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                  </svg>
-                  كشف البيانات الشخصية (PII)
-                </h3>
-                <div class="policy-toggle">
-                  <div class="policy-toggle-info">
-                    <h4>تفعيل الكشف التلقائي عن PII</h4>
-                  </div>
-                  <div class="toggle-switch active" onclick="this.classList.toggle('active')"></div>
-                </div>
-                <div class="policy-rules">
-                  <div class="policy-rule">
-                    <div class="policy-rule-icon">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="20 6 9 17 4 12"/>
-                      </svg>
-                    </div>
-                    <div class="policy-rule-content">
-                      <h4>أرقام الهوية الوطنية</h4>
-                      <p>الكشف التلقائي عن أرقام الهوية السعودية ورقم الإقامة وجوازات السفر</p>
-                    </div>
-                  </div>
-                  <div class="policy-rule">
-                    <div class="policy-rule-icon">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="20 6 9 17 4 12"/>
-                      </svg>
-                    </div>
-                    <div class="policy-rule-content">
-                      <h4>معلومات الاتصال</h4>
-                      <p>كشف أرقام الجوال والبريد الإلكتروني والعناوين</p>
-                    </div>
-                  </div>
-                  <div class="policy-rule">
-                    <div class="policy-rule-icon">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="20 6 9 17 4 12"/>
-                      </svg>
-                    </div>
-                    <div class="policy-rule-content">
-                      <h4>البيانات المالية</h4>
-                      <p>كشف أرقام البطاقات الائتمانية والحسابات البنكية</p>
-                    </div>
-                  </div>
-                </div>
+              <div class="form-group" style="margin-bottom: 1rem;">
+                <label for="previewText">اكتب نصاً تجريبياً للفحص الفوري</label>
+                <textarea id="previewText" class="form-control" style="min-height: 120px; font-family: inherit;" placeholder="اكتب نصاً يحتوي على بيانات شخصية هنا.. مثل: الهوية الوطنية هي 1023456789 أو حسابي SA5512345678901234567890" oninput="runLivePreview()"></textarea>
               </div>
 
-              <!-- Action on Detection -->
-              <div class="policy-section">
-                <h3 class="policy-section-title">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
-                    <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
-                  </svg>
-                  الإجراء عند الكشف
-                </h3>
-                <div class="policy-input-group">
-                  <label>الإجراء الافتراضي</label>
-                  <select>
-                    <option value="block">حظر وإرسال للموافقات</option>
-                    <option value="mask">إخفاء البيانات تلقائياً</option>
-                    <option value="warn">تحذير فقط</option>
-                    <option value="log">تسجيل فقط</option>
-                  </select>
-                </div>
-                <div class="policy-toggle">
-                  <div class="policy-toggle-info">
-                    <h4>إرسال تنبيه للمشرف</h4>
-                  </div>
-                  <div class="toggle-switch active" onclick="this.classList.toggle('active')"></div>
-                </div>
-                <div class="policy-toggle">
-                  <div class="policy-toggle-info">
-                    <h4>تسجيل في سجل التدقيق</h4>
-                  </div>
-                  <div class="toggle-switch active" onclick="this.classList.toggle('active')"></div>
-                </div>
+              <div class="form-group" style="margin-bottom: 1.25rem;">
+                <label for="previewPack">حزمة الامتثال النشطة للتجربة</label>
+                <select id="previewPack" class="form-control" onchange="runLivePreview()">
+                  <option value="general">حزمة عامة (general)</option>
+                  <option value="pdpl">نظام حماية البيانات الشخصية (pdpl)</option>
+                  <option value="nca_ecc">ضوابط الأمن السيبراني NCA (nca_ecc)</option>
+                  <option value="sfda">هيئة الغذاء والدواء الطبية (sfda)</option>
+                  <option value="healthcare">الرعاية الصحية (healthcare)</option>
+                  <option value="procurement">المنافسات الحكومية (procurement)</option>
+                </select>
               </div>
 
-              <!-- Retention Settings -->
-              <div class="policy-section">
-                <h3 class="policy-section-title">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-                  </svg>
-                  إعدادات الاحتفاظ بالبيانات
-                </h3>
-                <div class="policy-input-group">
-                  <label>مدة الاحتفاظ بالسجلات</label>
-                  <select>
-                    <option value="30">30 يوم</option>
-                    <option value="90" selected>90 يوم</option>
-                    <option value="180">180 يوم</option>
-                    <option value="365">سنة</option>
-                    <option value="forever">دائم</option>
-                  </select>
+              <div class="preview-console">
+                <div class="preview-header">
+                  <span style="color: var(--primary-color); font-weight: bold;">[BRIGHTAI_KERNEL_SCAN]</span>
+                  <span class="badge badge-success" id="scanStatusBadge">جاهز</span>
                 </div>
-                <div class="policy-input-group">
-                  <label>مدة الاحتفاظ بالأدلة</label>
-                  <select>
-                    <option value="90">90 يوم</option>
-                    <option value="180">180 يوم</option>
-                    <option value="365" selected>سنة</option>
-                    <option value="730">سنتين</option>
-                    <option value="forever">دائم</option>
-                  </select>
+                
+                <div id="previewResults">
+                  <div class="preview-metric">
+                    <span>البيانات المكتشفة PII:</span>
+                    <span id="resPiiDetected" style="color: var(--text-muted);">لا يوجد بيانات</span>
+                  </div>
+                  <div class="preview-metric">
+                    <span>إجراء الجدار الناري Firewall:</span>
+                    <span id="resFirewallAction" style="color: var(--success); font-weight: bold;">PASS</span>
+                  </div>
+                  <div class="preview-metric">
+                    <span>مؤشر المخاطر الأساسي:</span>
+                    <span id="resRiskBefore" style="color: var(--success);">0</span>
+                  </div>
+                  <div class="preview-metric">
+                    <span>مؤشر المخاطر النهائي:</span>
+                    <span id="resRiskAfter" style="color: var(--success);">0</span>
+                  </div>
+                  <div class="preview-metric">
+                    <span>موافقة إشرافية مطلوبة؟:</span>
+                    <span id="resApprovalRequired" style="color: var(--success);">تلقائي (لا)</span>
+                  </div>
+
+                  <div class="preview-result">
+                    <div style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.35rem; font-weight: bold;">المخرجات بعد الحجب والمعالجة (Masked Output):</div>
+                    <div id="resMaskedOutput" style="word-break: break-all; font-size: 0.875rem; color: var(--text-primary);">اكتب نصاً في الأعلى للبدء..</div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -545,13 +567,13 @@
       </div>
     </main>
   </div>
+
   <script src="/frontend/js/unified-header.js?v=20260529-nav-v1" defer></script>
-
-
   <script src="/kernel/assets/js/kernel-utils.js" defer></script>
   <script src="/kernel/assets/js/kernel-nav.js" defer></script>
-  <script src="/kernel/assets/js/kernel-api.js" defer></script>
   <script>
+    let policiesList = [];
+
     document.addEventListener('DOMContentLoaded', () => {
       if (window.KernelNav) {
         KernelNav.init('sidebarNav');
@@ -560,28 +582,326 @@
       if (window.KernelUtils) {
         KernelUtils.initTheme();
       }
+
+      // Check localStorage for saved demo mode
+      const savedDemo = localStorage.getItem('demo_mode');
+      const demoToggle = document.getElementById('demoModeToggle');
+      if (savedDemo !== null) {
+        demoToggle.checked = savedDemo === 'true';
+      }
+      
+      demoToggle.addEventListener('change', () => {
+        localStorage.setItem('demo_mode', demoToggle.checked);
+        loadPolicies();
+      });
+
+      loadPolicies();
     });
 
-    function showPolicy(policyId) {
-      // Update active state
-      document.querySelectorAll('.policy-nav-item').forEach(item => {
-        item.classList.remove('active');
-      });
-      event.currentTarget.classList.add('active');
-      
-      // In a real app, this would load the policy content
-      console.log('Loading policy:', policyId);
+    function getApiUrl() {
+      const demoMode = document.getElementById('demoModeToggle').checked;
+      return `/api/kernel/policies?demo=${demoMode}`;
     }
 
-    document.getElementById('menuToggle')?.addEventListener('click', () => {
-      document.getElementById('sidebar').classList.toggle('open');
-    });
+    async function loadPolicies() {
+      const tableBody = document.getElementById('policyTableBody');
+      const countBadge = document.getElementById('policyCount');
+      
+      try {
+        const response = await fetch(getApiUrl());
+        if (!response.ok) throw new Error('فشل جلب البيانات من النواة');
+        
+        policiesList = await response.json();
+        countBadge.textContent = `${policiesList.length} قواعد نشطة`;
+        
+        if (policiesList.length === 0) {
+          tableBody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: var(--text-muted);">لا يوجد سياسات مسجلة حالياً. قم بإضافة قاعدة في الأعلى.</td></tr>`;
+          return;
+        }
 
-    document.getElementById('themeToggle')?.addEventListener('click', () => {
-      if (window.KernelUtils) {
-        KernelUtils.toggleTheme();
+        tableBody.innerHTML = policiesList.map(rule => {
+          const actionLabels = {
+            mask: '<span class="badge badge-primary"><i class="fas fa-eye-slash" style="margin-left: 0.35rem;"></i>تعمية (mask)</span>',
+            block: '<span class="badge badge-danger"><i class="fas fa-ban" style="margin-left: 0.35rem;"></i>حظر (block)</span>',
+            escalate: '<span class="badge badge-warning"><i class="fas fa-arrow-up" style="margin-left: 0.35rem;"></i>تصعيد (escalate)</span>',
+            allow: '<span class="badge badge-success"><i class="fas fa-check" style="margin-left: 0.35rem;"></i>تمرير (allow)</span>'
+          };
+
+          const piiLabels = {
+            saudi_id: 'هوية وطنية سعودية',
+            iban: 'حساب بنكي SA-IBAN',
+            phone: 'رقم جوال سعودي',
+            email: 'بريد إلكتروني',
+            patient_id: 'معرف مريض طبي',
+            credit_card: 'بطاقة ائتمان',
+            passport: 'جواز سفر',
+            ip_address: 'عنوان IP'
+          };
+
+          const packLabels = {
+            general: 'عامة (general)',
+            pdpl: 'حماية البيانات PDPL',
+            nca_ecc: 'الأمن السيبراني NCA',
+            sfda: 'هيئة الغذاء والدواء SFDA',
+            healthcare: 'الرعاية الصحية',
+            procurement: 'المشتريات الحكومية'
+          };
+
+          return `
+            <tr id="row-${rule.id}">
+              <td style="font-weight: 500;">
+                <div>${escapeHtml(rule.name)}</div>
+                <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem;">${escapeHtml(rule.description || '')}</div>
+              </td>
+              <td><code>${rule.pii_type}</code><br><span style="font-size: 0.75rem; color: var(--text-muted);">${piiLabels[rule.pii_type] || rule.pii_type}</span></td>
+              <td><span class="badge badge-primary">${packLabels[rule.compliance_pack] || rule.compliance_pack}</span></td>
+              <td>${actionLabels[rule.action] || rule.action}</td>
+              <td style="font-weight: 600;">+${rule.risk_score_modifier}</td>
+              <td>
+                <label class="switch">
+                  <input type="checkbox" ${rule.is_active === 1 || rule.is_active === '1' || rule.is_active === true ? 'checked' : ''} onchange="togglePolicyActive('${rule.id}', this.checked)">
+                  <span class="slider"></span>
+                </label>
+              </td>
+              <td>
+                <button class="btn btn-danger" style="padding: 0.4rem 0.75rem; font-size: 0.75rem;" onclick="deletePolicy('${rule.id}')"><i class="fas fa-trash-alt"></i>حذف</button>
+              </td>
+            </tr>
+          `;
+        }).join('');
+
+        runLivePreview();
+      } catch (err) {
+        tableBody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: var(--danger);"><i class="fas fa-exclamation-triangle" style="margin-left: 0.5rem;"></i>حدث خطأ أثناء الاتصال بالنواة: ${err.message}</td></tr>`;
       }
-    });
+    }
+
+    async function savePolicy(e) {
+      e.preventDefault();
+      
+      const name = document.getElementById('ruleName').value;
+      const description = document.getElementById('ruleDesc').value;
+      const piiType = document.getElementById('piiType').value;
+      const compliancePack = document.getElementById('compliancePack').value;
+      const action = document.getElementById('ruleAction').value;
+      const riskScoreModifier = parseInt(document.getElementById('riskModifier').value, 10);
+
+      try {
+        const response = await fetch(getApiUrl(), {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            name, description, piiType, compliancePack, action, riskScoreModifier
+          })
+        });
+
+        if (!response.ok) throw new Error('فشل إضافة السياسة');
+        
+        document.getElementById('addPolicyForm').reset();
+        await loadPolicies();
+      } catch (err) {
+        alert(`خطأ: ${err.message}`);
+      }
+    }
+
+    async function togglePolicyActive(id, isActive) {
+      try {
+        const demoMode = document.getElementById('demoModeToggle').checked;
+        const response = await fetch(`/api/kernel/policies/${id}?demo=${demoMode}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            is_active: isActive ? 1 : 0
+          })
+        });
+
+        if (!response.ok) throw new Error('فشل تعديل حالة السياسة');
+        loadPolicies();
+      } catch (err) {
+        alert(`خطأ: ${err.message}`);
+      }
+    }
+
+    async function deletePolicy(id) {
+      if (!confirm('هل أنت متأكد من رغبتك في حذف هذه القاعدة الأمنية بالكامل؟')) return;
+
+      try {
+        const demoMode = document.getElementById('demoModeToggle').checked;
+        const response = await fetch(`/api/kernel/policies/${id}?demo=${demoMode}`, {
+          method: 'DELETE'
+        });
+
+        if (!response.ok) throw new Error('فشل حذف السياسة');
+        loadPolicies();
+      } catch (err) {
+        alert(`خطأ: ${err.message}`);
+      }
+    }
+
+    // Live local scanning logic mimicking server firewall.js & risk-scorer.js
+    function runLivePreview() {
+      const text = document.getElementById('previewText').value;
+      const pack = document.getElementById('previewPack').value;
+      const badge = document.getElementById('scanStatusBadge');
+
+      if (!text.trim()) {
+        document.getElementById('resPiiDetected').textContent = 'لا يوجد بيانات';
+        document.getElementById('resPiiDetected').className = '';
+        document.getElementById('resFirewallAction').textContent = 'PASS';
+        document.getElementById('resFirewallAction').style.color = 'var(--success)';
+        document.getElementById('resRiskBefore').textContent = '0';
+        document.getElementById('resRiskAfter').textContent = '0';
+        document.getElementById('resApprovalRequired').textContent = 'تلقائي (لا)';
+        document.getElementById('resApprovalRequired').style.color = 'var(--success)';
+        document.getElementById('resMaskedOutput').textContent = 'اكتب نصاً في الأعلى للبدء..';
+        badge.textContent = 'جاهز';
+        badge.className = 'badge badge-success';
+        return;
+      }
+
+      badge.textContent = 'جاري الفحص...';
+      badge.className = 'badge badge-warning';
+
+      // Define local regex patterns similar to pii-patterns.js
+      const detectors = [
+        { type: 'saudi_id', pattern: /\b(1|2)\d{9}\b/g, maskPreserve: 4, label: 'هوية وطنية' },
+        { type: 'phone', pattern: /(\+966|966|05|5)([\s-]?\d){7,9}\d\b/g, maskPreserve: 3, label: 'رقم جوال' },
+        { type: 'iban', pattern: /\bSA\d{2}\s?\d{2}\s?\d{4}\s?\d{4}\s?\d{4}\s?\d{4}\s?\d{0,4}\b/gi, maskPreserve: 4, label: 'حساب بنكي SA-IBAN' },
+        { type: 'email', pattern: /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/g, maskPreserve: 0, label: 'بريد إلكتروني' },
+        { type: 'patient_id', pattern: /\b(?:patient|pt|mrn|medical\.record)[.\s#:]*([A-Z0-9]{4,20})\b/gi, maskPreserve: 2, label: 'معرف مريض طبي' },
+        { type: 'credit_card', pattern: /\b(?:\d{4}[\s-]?){3}\d{4}\b/g, maskPreserve: 4, label: 'بطاقة ائتمانية' },
+        { type: 'passport', pattern: /\b[A-Z]{1,2}\d{6,9}\b/g, maskPreserve: 0, label: 'جواز سفر' },
+        { type: 'ip_address', pattern: /\b(?:\d{1,3}\.){3}\d{1,3}\b/g, maskPreserve: 0, label: 'عنوان IP' }
+      ];
+
+      let piiDetected = false;
+      const detectedTypes = new Set();
+      const detectedLabels = [];
+      let maskedText = text;
+      let maxAction = 'allow';
+      let totalRiskModifier = 0;
+
+      // Filter active policies
+      const activePolicies = policiesList.filter(r => r.is_active === 1 || r.is_active === '1' || r.is_active === true);
+
+      for (const det of detectors) {
+        const regex = new RegExp(det.pattern.source, 'gi');
+        let match;
+        while ((match = regex.exec(text)) !== null) {
+          piiDetected = true;
+          detectedTypes.add(det.type);
+          if (!detectedLabels.includes(det.label)) detectedLabels.push(det.label);
+
+          // Get policy for this type and pack
+          let policy = activePolicies.find(p => p.pii_type === det.type && p.compliance_pack === pack);
+          if (!policy) {
+            policy = activePolicies.find(p => p.pii_type === det.type && (p.compliance_pack === 'general' || !p.compliance_pack));
+          }
+
+          const action = policy ? policy.action : 'mask';
+          const riskMod = policy ? Number(policy.risk_score_modifier) : 10;
+          totalRiskModifier += riskMod;
+
+          if (action === 'block') maxAction = 'block';
+          else if (action === 'escalate' && maxAction !== 'block') maxAction = 'escalate';
+          else if (action === 'mask' && maxAction === 'allow') maxAction = 'mask';
+
+          if (action === 'mask') {
+            const original = match[0];
+            const preserve = det.maskPreserve;
+            let masked = original;
+            if (preserve < original.length) {
+              masked = '*'.repeat(original.length - preserve) + original.slice(-preserve);
+            } else {
+              masked = '*'.repeat(original.length);
+            }
+            maskedText = maskedText.replace(original, masked);
+          }
+        }
+      }
+
+      // Calculate score logic similar to risk-scorer.js
+      let baseRiskScore = 0;
+      if (piiDetected) {
+        baseRiskScore += 15;
+        detectedTypes.forEach(t => {
+          const typeScores = { saudi_id: 15, iban: 20, patient_id: 25, credit_card: 20, passport: 15, phone: 5, email: 5, ip_address: 3 };
+          if (t !== 'phone' && t !== 'email' && t !== 'ip_address') {
+            baseRiskScore += typeScores[t] || 5;
+          }
+        });
+        if (detectedTypes.size > 2) baseRiskScore += 10;
+      }
+
+      let finalRiskScore = baseRiskScore + totalRiskModifier;
+      if (maxAction === 'block') finalRiskScore += 40;
+      else if (maxAction === 'escalate') finalRiskScore += 20;
+
+      finalRiskScore = Math.min(100, Math.max(0, finalRiskScore));
+
+      let riskLevel = 'low';
+      if (finalRiskScore >= 76) riskLevel = 'critical';
+      else if (finalRiskScore >= 51) riskLevel = 'high';
+      else if (finalRiskScore >= 26) riskLevel = 'medium';
+
+      const requiresApproval = riskLevel !== 'low';
+
+      // Update Preview UI Elements
+      const resPii = document.getElementById('resPiiDetected');
+      if (piiDetected) {
+        resPii.textContent = `نعم (${detectedLabels.join(', ')})`;
+        resPii.className = 'badge badge-danger';
+      } else {
+        resPii.textContent = 'لا يوجد';
+        resPii.className = 'badge badge-success';
+      }
+
+      const resAction = document.getElementById('resFirewallAction');
+      resAction.textContent = maxAction.toUpperCase();
+      if (maxAction === 'block') {
+        resAction.style.color = 'var(--danger)';
+        document.getElementById('resMaskedOutput').innerHTML = `<span style="color: var(--danger); font-weight: bold;"><i class="fas fa-ban"></i> [تم حظر المحتوى بالكامل بموجب السياسات النشطة]</span>`;
+      } else if (maxAction === 'escalate') {
+        resAction.style.color = 'var(--warning)';
+        document.getElementById('resMaskedOutput').textContent = maskedText;
+      } else {
+        resAction.style.color = 'var(--success)';
+        document.getElementById('resMaskedOutput').textContent = maskedText;
+      }
+
+      document.getElementById('resRiskBefore').textContent = baseRiskScore;
+      const resAfter = document.getElementById('resRiskAfter');
+      resAfter.textContent = finalRiskScore;
+      if (finalRiskScore >= 76) resAfter.style.color = 'var(--danger)';
+      else if (finalRiskScore >= 51) resAfter.style.color = 'var(--warning)';
+      else resAfter.style.color = 'var(--success)';
+
+      const resApp = document.getElementById('resApprovalRequired');
+      if (requiresApproval) {
+        resApp.textContent = `نعم (${riskLevel.toUpperCase()})`;
+        resApp.style.color = 'var(--danger)';
+      } else {
+        resApp.textContent = 'تلقائي (لا)';
+        resApp.style.color = 'var(--success)';
+      }
+
+      badge.textContent = 'مكتمل';
+      badge.className = 'badge badge-success';
+    }
+
+    function escapeHtml(text) {
+      if (typeof text !== 'string') return '';
+      return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
   </script>
   <script src="/frontend/js/production-runtime.v20260427.js" defer></script>
 </body>

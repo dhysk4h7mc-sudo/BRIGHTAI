@@ -1,7 +1,7 @@
 'use strict';
 
-const { getAuditEntry, computeHash } = require('./audit');
-const { generateId } = require('../db/init');
+const { getAuditEntry, computeHash, normalizeAuditEventRow } = require('./audit');
+const { generateId, getDb } = require('../db/init');
 
 async function generateEvidenceFile(interactionId) {
   const entry = await getAuditEntry(interactionId);
@@ -14,10 +14,17 @@ async function generateEvidenceFile(interactionId) {
   let complianceFlags = [];
   try { complianceFlags = JSON.parse(entry.compliance_flags || '[]'); } catch (_) {}
   const requestMetadata = parseJsonObject(entry.request_metadata);
-  // Legacy fallback: records created before trace_id use metadata traceId when
-  // available, otherwise their interaction id remains the clickable alias.
+
   const traceId = entry.trace_id || requestMetadata.traceId || requestMetadata.trace_id || entry.id;
   const traceIdLegacy = entry.trace_id ? null : entry.id;
+
+  // Query all linear events for this specific trace from the cryptographic audit events ledger
+  const pool = getDb();
+  const { rows: eventRows } = await pool.query(
+    'SELECT * FROM kernel_audit_events WHERE trace_id = $1 ORDER BY serial_id ASC',
+    [traceId]
+  );
+  const events = eventRows.map(normalizeAuditEventRow);
 
   const evidence = {
     evidenceId: generateId('ev'),
@@ -68,8 +75,10 @@ async function generateEvidenceFile(interactionId) {
       responseHash: entry.response_hash,
       previousHash: entry.previous_hash,
       recordHash: entry.record_hash,
-      integrityVerified: true
+      integrityVerified: true,
+      eventsCount: events.length
     },
+    events: events, // Embed the complete chain of cryptographic events
     user: {
       id: entry.user_id,
       name: entry.user_name,
@@ -123,7 +132,6 @@ function getRegulatoryReferences(entry) {
 }
 
 async function generateComplianceReport(filters) {
-  const { getDb } = require('../db/init');
   const pool = getDb();
 
   const conditions = [];

@@ -100,6 +100,20 @@ CREATE TABLE IF NOT EXISTS kernel_users (
     created_at BIGINT NOT NULL
 );
 
+-- Cryptographic Append-Only Audit Ledger Events Table
+CREATE TABLE IF NOT EXISTS kernel_audit_events (
+    serial_id SERIAL PRIMARY KEY,
+    event_id TEXT NOT NULL UNIQUE,
+    trace_id TEXT NOT NULL,
+    event_type TEXT NOT NULL,
+    actor TEXT,
+    timestamp BIGINT NOT NULL,
+    payload TEXT NOT NULL,
+    payload_hash TEXT NOT NULL,
+    previous_hash TEXT NOT NULL,
+    record_hash TEXT NOT NULL
+);
+
 CREATE INDEX IF NOT EXISTS idx_interactions_created ON kernel_interactions(created_at);
 CREATE INDEX IF NOT EXISTS idx_interactions_user ON kernel_interactions(user_id);
 CREATE INDEX IF NOT EXISTS idx_interactions_risk ON kernel_interactions(risk_level);
@@ -111,3 +125,8 @@ CREATE INDEX IF NOT EXISTS idx_approval_status ON kernel_approval_queue(status);
 CREATE INDEX IF NOT EXISTS idx_approval_created ON kernel_approval_queue(created_at);
 CREATE INDEX IF NOT EXISTS idx_approval_trace ON kernel_approval_queue(trace_id);
 CREATE INDEX IF NOT EXISTS idx_compliance_interaction ON kernel_compliance_checks(interaction_id);
+
+-- Indexes for Cryptographic Append-Only Audit Ledger
+CREATE INDEX IF NOT EXISTS idx_audit_events_trace ON kernel_audit_events(trace_id);
+CREATE INDEX IF NOT EXISTS idx_audit_events_type ON kernel_audit_events(event_type);
+CREATE INDEX IF NOT EXISTS idx_audit_events_timestamp ON kernel_audit_events(timestamp);

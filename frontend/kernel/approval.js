@@ -1,7 +1,7 @@
 'use strict';
 
 const { getDb, generateId } = require('../db/init');
-const { updateInteraction, getAuditEntry, getTraceIdFromInteraction, getTraceIdLegacyFromInteraction } = require('./audit');
+const { updateInteraction, getAuditEntry, getTraceIdFromInteraction, getTraceIdLegacyFromInteraction, logAuditEvent } = require('./audit');
 
 function getRequiredRole(riskLevel) {
   if (riskLevel === 'critical') return 'admin';
@@ -60,6 +60,14 @@ async function approve(interactionId, approvedBy, comment) {
   const original = await getAuditEntry(targetInteractionId);
   const traceId = pending.trace_id || (original ? getTraceIdFromInteraction(original) : null);
 
+  // 1. Log APPROVAL_APPROVED event (never modify past events, always append)
+  if (traceId) {
+    await logAuditEvent(traceId, 'APPROVAL_APPROVED', approvedBy, {
+      comment: comment || '',
+      approvedAt: now
+    });
+  }
+
   await pool.query(
     'UPDATE kernel_approval_queue SET status = \'approved\', approved_by = $1, approved_at = $2, approval_comment = $3 WHERE interaction_id = $4',
     [approvedBy, now, comment || '', targetInteractionId]
@@ -91,6 +99,14 @@ async function reject(interactionId, rejectedBy, comment) {
   const targetInteractionId = pending.interaction_id;
   const original = await getAuditEntry(targetInteractionId);
   const traceId = pending.trace_id || (original ? getTraceIdFromInteraction(original) : null);
+
+  // 1. Log APPROVAL_REJECTED event (append new event to secure ledger)
+  if (traceId) {
+    await logAuditEvent(traceId, 'APPROVAL_REJECTED', rejectedBy, {
+      comment: comment || 'Rejected',
+      rejectedAt: now
+    });
+  }
 
   await pool.query(
     'UPDATE kernel_approval_queue SET status = \'rejected\', approved_by = $1, approved_at = $2, approval_comment = $3 WHERE interaction_id = $4',

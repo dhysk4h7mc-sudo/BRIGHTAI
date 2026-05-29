@@ -215,6 +215,197 @@ async function kernelEvidenceExportHandler(req, res, url) {
   }
 }
 
+const { sanitizeUserInput } = require('../utils/sanitizer');
+
+async function kernelPoliciesGetHandler(req, res) {
+  const params = parseQueryParams(req);
+  const isDemoMode = params.demo === 'true';
+
+  if (!isDemoMode) {
+    try {
+      const { getDb } = require('../db/init');
+      const pool = getDb();
+      const { rows } = await pool.query('SELECT * FROM kernel_policy_rules ORDER BY created_at DESC');
+      return res.status(200).json(rows);
+    } catch (_) { }
+  }
+
+  try {
+    const fs = require('fs');
+    const path = require('path');
+    const mockPath = path.join(__dirname, '../../kernel/api/mock/policies.json');
+    if (fs.existsSync(mockPath)) {
+      const mockData = JSON.parse(fs.readFileSync(mockPath, 'utf8'));
+      return res.status(200).json(mockData);
+    }
+    return res.status(200).json([]);
+  } catch (err) {
+    return res.status(500).json({ error: 'فشل تحميل السياسات', details: err.message });
+  }
+}
+
+async function kernelPoliciesPostHandler(req, res) {
+  const params = parseQueryParams(req);
+  const isDemoMode = params.demo === 'true';
+  const body = req.body || {};
+
+  const name = sanitizeUserInput(body.name || '');
+  const description = sanitizeUserInput(body.description || '');
+  const piiType = sanitizeUserInput(body.piiType || body.pii_type || '');
+  const compliancePack = sanitizeUserInput(body.compliancePack || body.compliance_pack || 'general');
+  const action = sanitizeUserInput(body.action || 'mask');
+  const riskScoreModifier = parseInt(body.riskScoreModifier || body.risk_score_modifier || 0, 10);
+  const isActive = body.is_active !== undefined ? parseInt(body.is_active, 10) : 1;
+
+  if (!name || !piiType) {
+    return res.status(400).json({ error: 'الاسم ونوع البيانات مطلوبة' });
+  }
+
+  const crypto = require('crypto');
+  const id = 'pr_' + crypto.randomUUID().replace(/-/g, '').slice(0, 16);
+  const now = Date.now();
+
+  if (!isDemoMode) {
+    try {
+      const { getDb } = require('../db/init');
+      const pool = getDb();
+      await pool.query(
+        `INSERT INTO kernel_policy_rules (id, name, description, pii_type, action, risk_score_modifier, compliance_pack, is_active, created_at, updated_at)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
+        [id, name, description, piiType, action, riskScoreModifier, compliancePack, isActive, now, now]
+      );
+      return res.status(201).json({ id, name, description, pii_type: piiType, compliance_pack: compliancePack, action, risk_score_modifier: riskScoreModifier, is_active: isActive, created_at: now, updated_at: now });
+    } catch (_) { }
+  }
+
+  try {
+    const fs = require('fs');
+    const path = require('path');
+    const mockPath = path.join(__dirname, '../../kernel/api/mock/policies.json');
+    let mockData = [];
+    if (fs.existsSync(mockPath)) {
+      mockData = JSON.parse(fs.readFileSync(mockPath, 'utf8'));
+    }
+    const newRule = { id, name, description, pii_type: piiType, compliance_pack: compliancePack, action, risk_score_modifier: riskScoreModifier, is_active: isActive };
+    mockData.unshift(newRule);
+    fs.writeFileSync(mockPath, JSON.stringify(mockData, null, 2), 'utf8');
+    return res.status(201).json(newRule);
+  } catch (err) {
+    return res.status(500).json({ error: 'فشل حفظ السياسة', details: err.message });
+  }
+}
+
+async function kernelPoliciesPatchHandler(req, res, url) {
+  const id = pathValue(url, '/api/kernel/policies/');
+  if (!id) return res.status(400).json({ error: 'معرف السياسة مفقود' });
+
+  const params = parseQueryParams(req);
+  const isDemoMode = params.demo === 'true';
+  const body = req.body || {};
+  const now = Date.now();
+
+  const name = body.name !== undefined ? sanitizeUserInput(body.name) : undefined;
+  const description = body.description !== undefined ? sanitizeUserInput(body.description) : undefined;
+  const piiType = body.pii_type !== undefined ? sanitizeUserInput(body.pii_type) : (body.piiType !== undefined ? sanitizeUserInput(body.piiType) : undefined);
+  const compliancePack = body.compliance_pack !== undefined ? sanitizeUserInput(body.compliance_pack) : (body.compliancePack !== undefined ? sanitizeUserInput(body.compliancePack) : undefined);
+  const action = body.action !== undefined ? sanitizeUserInput(body.action) : undefined;
+  const riskScoreModifier = body.risk_score_modifier !== undefined ? parseInt(body.risk_score_modifier, 10) : (body.riskScoreModifier !== undefined ? parseInt(body.riskScoreModifier, 10) : undefined);
+  const isActive = body.is_active !== undefined ? parseInt(body.is_active, 10) : undefined;
+
+  if (!isDemoMode) {
+    try {
+      const { getDb } = require('../db/init');
+      const pool = getDb();
+      
+      const updates = [];
+      const values = [];
+      let index = 1;
+
+      if (name !== undefined) { updates.push(`name = $${index++}`); values.push(name); }
+      if (description !== undefined) { updates.push(`description = $${index++}`); values.push(description); }
+      if (piiType !== undefined) { updates.push(`pii_type = $${index++}`); values.push(piiType); }
+      if (compliancePack !== undefined) { updates.push(`compliance_pack = $${index++}`); values.push(compliancePack); }
+      if (action !== undefined) { updates.push(`action = $${index++}`); values.push(action); }
+      if (riskScoreModifier !== undefined) { updates.push(`risk_score_modifier = $${index++}`); values.push(riskScoreModifier); }
+      if (isActive !== undefined) { updates.push(`is_active = $${index++}`); values.push(isActive); }
+      
+      updates.push(`updated_at = $${index++}`); values.push(now);
+
+      if (updates.length > 1) {
+        values.push(id);
+        const queryText = `UPDATE kernel_policy_rules SET ${updates.join(', ')} WHERE id = $${index} RETURNING *`;
+        const { rows } = await pool.query(queryText, values);
+        if (rows.length > 0) {
+          return res.status(200).json(rows[0]);
+        }
+      }
+    } catch (_) { }
+  }
+
+  try {
+    const fs = require('fs');
+    const path = require('path');
+    const mockPath = path.join(__dirname, '../../kernel/api/mock/policies.json');
+    if (fs.existsSync(mockPath)) {
+      const mockData = JSON.parse(fs.readFileSync(mockPath, 'utf8'));
+      const ruleIndex = mockData.findIndex(r => r.id === id);
+      if (ruleIndex !== -1) {
+        const rule = mockData[ruleIndex];
+        if (name !== undefined) rule.name = name;
+        if (description !== undefined) rule.description = description;
+        if (piiType !== undefined) rule.pii_type = piiType;
+        if (compliancePack !== undefined) rule.compliance_pack = compliancePack;
+        if (action !== undefined) rule.action = action;
+        if (riskScoreModifier !== undefined) rule.risk_score_modifier = riskScoreModifier;
+        if (isActive !== undefined) rule.is_active = isActive;
+        
+        fs.writeFileSync(mockPath, JSON.stringify(mockData, null, 2), 'utf8');
+        return res.status(200).json(rule);
+      }
+    }
+    return res.status(404).json({ error: 'السياسة غير موجودة' });
+  } catch (err) {
+    return res.status(500).json({ error: 'فشل تعديل السياسة', details: err.message });
+  }
+}
+
+async function kernelPoliciesDeleteHandler(req, res, url) {
+  const id = pathValue(url, '/api/kernel/policies/');
+  if (!id) return res.status(400).json({ error: 'معرف السياسة مفقود' });
+
+  const params = parseQueryParams(req);
+  const isDemoMode = params.demo === 'true';
+
+  if (!isDemoMode) {
+    try {
+      const { getDb } = require('../db/init');
+      const pool = getDb();
+      const { rowCount } = await pool.query('DELETE FROM kernel_policy_rules WHERE id = $1', [id]);
+      if (rowCount > 0) {
+        return res.status(200).json({ success: true, message: 'تم حذف القاعدة بنجاح' });
+      }
+    } catch (_) { }
+  }
+
+  try {
+    const fs = require('fs');
+    const path = require('path');
+    const mockPath = path.join(__dirname, '../../kernel/api/mock/policies.json');
+    if (fs.existsSync(mockPath)) {
+      const mockData = JSON.parse(fs.readFileSync(mockPath, 'utf8'));
+      const ruleIndex = mockData.findIndex(r => r.id === id);
+      if (ruleIndex !== -1) {
+        mockData.splice(ruleIndex, 1);
+        fs.writeFileSync(mockPath, JSON.stringify(mockData, null, 2), 'utf8');
+        return res.status(200).json({ success: true, message: 'تم حذف القاعدة بنجاح' });
+      }
+    }
+    return res.status(404).json({ error: 'السياسة غير موجودة' });
+  } catch (err) {
+    return res.status(500).json({ error: 'فشل حذف السياسة', details: err.message });
+  }
+}
+
 async function kernelRouteHandler(req, res, method, url) {
   try {
     const path = (url || '').split('?')[0];
@@ -235,6 +426,12 @@ async function kernelRouteHandler(req, res, method, url) {
     if (method === 'GET' && path.startsWith('/api/kernel/evidence/')) return await kernelEvidenceExportHandler(req, res, path);
     if (method === 'POST' && path.startsWith('/api/kernel/evidence/')) return await kernelEvidenceHandler(req, res, path);
     if (method === 'GET' && path === '/api/kernel/compliance/check') return await kernelComplianceCheckHandler(req, res);
+
+    // API policy rules paths
+    if (method === 'GET' && path === '/api/kernel/policies') return await kernelPoliciesGetHandler(req, res);
+    if (method === 'POST' && path === '/api/kernel/policies') return await kernelPoliciesPostHandler(req, res);
+    if (method === 'PATCH' && path.startsWith('/api/kernel/policies/')) return await kernelPoliciesPatchHandler(req, res, path);
+    if (method === 'DELETE' && path.startsWith('/api/kernel/policies/')) return await kernelPoliciesDeleteHandler(req, res, path);
 
     res.status(404).json({ error: 'Kernel endpoint not found', errorCode: 'KERNEL_NOT_FOUND' });
   } catch (err) {

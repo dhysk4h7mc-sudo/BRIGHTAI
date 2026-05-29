@@ -18,13 +18,33 @@ async function lookupPolicy(piiType, compliancePack) {
       'SELECT action, risk_score_modifier FROM kernel_policy_rules WHERE pii_type = $1 AND compliance_pack = $2 AND is_active = 1',
       [piiType, compliancePack]
     );
-    if (rows.length > 0) return { action: rows[0].action, riskModifier: rows[0].risk_score_modifier };
+    if (rows.length > 0) return { action: rows[0].action, riskModifier: Number(rows[0].risk_score_modifier) };
     const { rows: generalRows } = await pool.query(
       'SELECT action, risk_score_modifier FROM kernel_policy_rules WHERE pii_type = $1 AND compliance_pack = \'general\' AND is_active = 1',
       [piiType]
     );
-    if (generalRows.length > 0) return { action: generalRows[0].action, riskModifier: generalRows[0].risk_score_modifier };
+    if (generalRows.length > 0) return { action: generalRows[0].action, riskModifier: Number(generalRows[0].risk_score_modifier) };
   } catch (_) { }
+
+  // Fallback to local policies.json in Demo Mode or DB failure
+  try {
+    const fs = require('fs');
+    const path = require('path');
+    const mockPath = path.join(__dirname, '../../kernel/api/mock/policies.json');
+    if (fs.existsSync(mockPath)) {
+      const mockData = JSON.parse(fs.readFileSync(mockPath, 'utf8'));
+      const activeRules = mockData.filter(r => r.is_active !== 0 && r.is_active !== '0' && r.is_active !== false && r.status !== 'inactive');
+      
+      const matched = activeRules.find(r => r.pii_type === piiType && r.compliance_pack === compliancePack);
+      if (matched) return { action: matched.action, riskModifier: Number(matched.risk_score_modifier) };
+      
+      const generalMatched = activeRules.find(r => r.pii_type === piiType && (r.compliance_pack === 'general' || !r.compliance_pack));
+      if (generalMatched) return { action: generalMatched.action, riskModifier: Number(generalMatched.risk_score_modifier) };
+    }
+  } catch (err) {
+    console.error('[BrightAI Kernel] Failed to load mock policies in fallback:', err.message);
+  }
+
   const pattern = piiPatterns.find(p => p.type === piiType);
   return { action: 'mask', riskModifier: pattern ? pattern.riskModifier : 10 };
 }
