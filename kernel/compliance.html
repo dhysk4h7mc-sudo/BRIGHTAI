@@ -2,10 +2,21 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-8LLESL207Q"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-8LLESL207Q');
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="theme-color" content="#030A18">
   <title>الامتثال | BrightAI Kernel</title>
+  <meta name="description" content="متابعة حالة الامتثال داخل BrightAI Kernel عبر أطر PDPL وNCA ECC وحزم الحوكمة السعودية.">
   <link rel="stylesheet" href="/kernel/assets/css/kernel.css">
+  <link rel="stylesheet" href="/frontend/vendor/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="/frontend/css/unified-header.css?v=20260529-nav-v1">
   <style>
     .compliance-overview {
       display: grid;
@@ -179,8 +190,83 @@
       margin-bottom: 1rem;
     }
   </style>
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://brightai.site/kernel/compliance/">
+  <script id="brightai-production-schema" type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": [
+        "Organization",
+        "LocalBusiness"
+      ],
+      "@id": "https://brightai.site/#organization",
+      "name": "Bright AI",
+      "url": "https://brightai.site",
+      "logo": "https://brightai.site/frontend/images/logo-new.PNG",
+      "areaServed": "SA",
+      "sameAs": []
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://brightai.site/#website",
+      "url": "https://brightai.site",
+      "name": "Bright AI",
+      "publisher": {
+        "@id": "https://brightai.site/#organization"
+      },
+      "inLanguage": [
+        "ar-SA",
+        "en-SA"
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://brightai.site/kernel/compliance/#webpage",
+      "url": "https://brightai.site/kernel/compliance/",
+      "name": "الامتثال | BrightAI Kernel",
+      "description": "مراقبة الامتثال للأنظمة والمعايير المحلية والدولية",
+      "isPartOf": {
+        "@id": "https://brightai.site/#website"
+      },
+      "about": {
+        "@id": "https://brightai.site/#organization"
+      },
+      "inLanguage": "ar-SA"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://brightai.site/kernel/compliance/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Bright AI",
+          "item": "https://brightai.site/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "kernel",
+          "item": "https://brightai.site/kernel/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "الامتثال | BrightAI Kernel",
+          "item": "https://brightai.site/kernel/compliance/"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+  <link rel="preload" href="/frontend/assets/fonts/TheYearofTheCamel-Medium.otf" as="font" type="font/otf" crossorigin />
+  <link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css">
 </head>
 <body>
+  <div id="brightai-unified-header"></div>
   <div class="kernel-layout">
     <!-- Sidebar -->
     <aside class="kernel-sidebar" id="sidebar">
@@ -450,12 +536,14 @@
       </div>
     </main>
   </div>
+  <script src="/frontend/js/unified-header.js?v=20260529-nav-v1" defer></script>
 
-  <script src="/kernel/assets/js/kernel-utils.js"></script>
-  <script src="/kernel/assets/js/kernel-nav.js"></script>
-  <script src="/kernel/assets/js/kernel-api.js"></script>
-  <script src="/kernel/assets/js/kernel-compliance.js"></script>
-  <script src="/kernel/assets/js/kernel-mobile.js"></script>
+
+  <script src="/kernel/assets/js/kernel-utils.js" defer></script>
+  <script src="/kernel/assets/js/kernel-nav.js" defer></script>
+  <script src="/kernel/assets/js/kernel-api.js" defer></script>
+  <script src="/kernel/assets/js/kernel-compliance.js" defer></script>
+  <script src="/kernel/assets/js/kernel-mobile.js" defer></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       if (window.KernelNav) {
@@ -551,5 +639,6 @@
       }
     });
   </script>
+  <script src="/frontend/js/production-runtime.v20260427.js" defer></script>
 </body>
 </html>

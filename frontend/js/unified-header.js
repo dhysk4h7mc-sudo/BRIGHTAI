@@ -119,6 +119,26 @@
       icon: 'fa-user-check'
     },
     {
+      title: isEnglish ? 'Statistics' : 'الإحصائيات',
+      url: isEnglish ? '/kernel/stats/' : '/kernel/stats/',
+      icon: 'fa-chart-line'
+    },
+    {
+      title: isEnglish ? 'Compliance' : 'الامتثال',
+      url: isEnglish ? '/kernel/compliance/' : '/kernel/compliance/',
+      icon: 'fa-shield-halved'
+    },
+    {
+      title: isEnglish ? 'Policies' : 'السياسات',
+      url: isEnglish ? '/kernel/policies/' : '/kernel/policies/',
+      icon: 'fa-book'
+    },
+    {
+      title: isEnglish ? 'Connectors' : 'الموصلات',
+      url: isEnglish ? '/kernel/connectors/' : '/kernel/connectors/',
+      icon: 'fa-plug'
+    },
+    {
       title: isEnglish ? 'Reports' : 'التقارير',
       url: isEnglish ? '/kernel/reports/' : '/kernel/reports/',
       icon: 'fa-file-shield'
@@ -129,9 +149,9 @@
       icon: 'fa-flask-vial'
     },
     {
-      title: isEnglish ? 'Statistics' : 'الإحصائيات',
-      url: isEnglish ? '/kernel/stats/' : '/kernel/stats/',
-      icon: 'fa-chart-line'
+      title: isEnglish ? 'Evidence' : 'الأدلة',
+      url: isEnglish ? '/kernel/evidence/' : '/kernel/evidence/',
+      icon: 'fa-folder-open'
     }
   ];
 

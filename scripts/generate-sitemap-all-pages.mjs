@@ -114,7 +114,13 @@ function groupRelPath(relPath) {
       normalized === "kernel/chat.html" ||
       normalized === "kernel/audit.html" ||
       normalized === "kernel/approvals.html" ||
-      normalized === "kernel/stats.html"
+      normalized === "kernel/stats.html" ||
+      normalized === "kernel/compliance.html" ||
+      normalized === "kernel/policies.html" ||
+      normalized === "kernel/connectors.html" ||
+      normalized === "kernel/scenarios.html" ||
+      normalized === "kernel/reports.html" ||
+      normalized === "kernel/evidence.html"
     ) {
       return "kernel";
     }

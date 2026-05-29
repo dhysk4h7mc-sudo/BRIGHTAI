@@ -7,6 +7,8 @@ const { queueForApproval, approve, reject, getPendingApprovals } = require('./ap
 const { runComplianceChecks, saveComplianceChecks, getComplianceStatus } = require('./compliance');
 const { generateEvidenceFile, generateComplianceReport } = require('./evidence');
 const { generateId } = require('../db/init');
+const { isApiKeyConfigured, isNvidiaConfigured } = require('../config');
+const { callOpenAiCompatibleProvider } = require('../services/openaiCompatProvider');
 
 function buildSystemInstruction(compliancePack) {
   const base = 'You are BrightAI Saqr AI, a secure AI assistant for Saudi enterprises. Respond in Arabic unless the user writes in English. Be professional, concise, and compliant with Saudi regulations.';
@@ -87,6 +89,66 @@ async function callGemini(maskedMessage, compliancePack) {
       error: err.message
     };
   }
+}
+
+async function callKernelModel(maskedMessage, compliancePack) {
+  const { config } = require('../config');
+  const systemInstruction = buildSystemInstruction(compliancePack);
+
+  if (isNvidiaConfigured()) {
+    const startTime = Date.now();
+    try {
+      const result = await callOpenAiCompatibleProvider({
+        provider: 'nvidia',
+        model: config.nvidia.model,
+        temperature: 0.3,
+        maxTokens: 4096,
+        messages: [
+          { role: 'system', content: systemInstruction },
+          { role: 'user', content: maskedMessage }
+        ]
+      });
+
+      const choice = result.data?.choices?.[0] || {};
+      const text = choice.message?.content || choice.text || '';
+      const usage = result.data?.usage || {};
+
+      return {
+        response: text,
+        provider: 'nvidia',
+        model: result.model,
+        inputTokens: usage.prompt_tokens || usage.input_tokens || 0,
+        outputTokens: usage.completion_tokens || usage.output_tokens || 0,
+        latencyMs: Date.now() - startTime,
+        error: null
+      };
+    } catch (err) {
+      return {
+        response: `[BrightAI Kernel] NVIDIA API error: ${err.message}`,
+        provider: 'nvidia',
+        model: config.nvidia.model,
+        inputTokens: 0,
+        outputTokens: 0,
+        latencyMs: Date.now() - startTime,
+        error: err.message
+      };
+    }
+  }
+
+  if (isApiKeyConfigured()) {
+    const geminiResult = await callGemini(maskedMessage, compliancePack);
+    return { ...geminiResult, provider: 'gemini' };
+  }
+
+  return {
+    response: '[BrightAI Kernel] Demo mode: no NVIDIA_API_KEY or GEMINI_API_KEY configured.',
+    provider: 'demo',
+    model: 'demo',
+    inputTokens: 0,
+    outputTokens: 0,
+    latencyMs: 0,
+    error: 'No kernel model provider configured'
+  };
 }
 
 async function processChat(params) {
@@ -191,8 +253,8 @@ async function processChat(params) {
     };
   }
 
-  // Auto-approved: call Gemini
-  const geminiResult = await callGemini(firewallResult.maskedText, pack);
+  // Auto-approved: call the configured Kernel model provider.
+  const modelResult = await callKernelModel(firewallResult.maskedText, pack);
 
   // Audit trail
   const interaction = await logInteraction({
@@ -212,12 +274,12 @@ async function processChat(params) {
     risk_level: riskResult.level,
     risk_reasons: JSON.stringify(riskResult.reasons),
     approval_status: 'auto_approved',
-    gemini_response: geminiResult.response,
-    response_model: geminiResult.model,
-    response_tokens_input: geminiResult.inputTokens,
-    response_tokens_output: geminiResult.outputTokens,
-    response_time_ms: geminiResult.latencyMs,
-    response_error: geminiResult.error,
+    gemini_response: modelResult.response,
+    response_model: modelResult.model,
+    response_tokens_input: modelResult.inputTokens,
+    response_tokens_output: modelResult.outputTokens,
+    response_time_ms: modelResult.latencyMs,
+    response_error: modelResult.error,
     compliance_pack: pack,
     compliance_flags: JSON.stringify(complianceResult.flags)
   });
@@ -227,14 +289,44 @@ async function processChat(params) {
   return {
     status: 'completed',
     interactionId: interaction.id,
-    response: geminiResult.response,
+    response: modelResult.response,
+    provider: modelResult.provider,
+    model: modelResult.model,
     kernel: {
       firewall: { piiDetected: firewallResult.piiDetected, piiTypes: firewallResult.piiTypes, action: firewallResult.firewallAction },
       risk: { score: riskResult.score, level: riskResult.level },
       compliance: { pack, result: complianceResult.overallResult, flags: complianceResult.flags },
-      tokens: { input: geminiResult.inputTokens, output: geminiResult.outputTokens },
-      latencyMs: geminiResult.latencyMs,
+      tokens: { input: modelResult.inputTokens, output: modelResult.outputTokens },
+      latencyMs: modelResult.latencyMs,
       chainHash: interaction.record_hash
+    }
+  };
+}
+
+async function getHealth() {
+  const { config } = require('../config');
+  const provider = isNvidiaConfigured()
+    ? { name: 'nvidia', model: config.nvidia.model, configured: true }
+    : isApiKeyConfigured()
+      ? { name: 'gemini', model: config.gemini.model, configured: true }
+      : { name: 'demo', model: 'demo', configured: false };
+
+  let database = false;
+  try {
+    const { getDb } = require('../db/init');
+    const pool = getDb();
+    await pool.query('SELECT 1');
+    database = true;
+  } catch (_error) {
+    database = false;
+  }
+
+  return {
+    status: database && provider.configured ? 'ok' : 'degraded',
+    provider,
+    kernel: {
+      database,
+      routes: true
     }
   };
 }
@@ -273,8 +365,10 @@ module.exports = {
   getPendingApprovals,
   queryAuditTrail,
   getAuditEntry,
+  verifyChainIntegrity,
   getComplianceStatus,
   generateEvidenceFile,
   generateComplianceReport,
-  getStats
+  getStats,
+  getHealth
 };

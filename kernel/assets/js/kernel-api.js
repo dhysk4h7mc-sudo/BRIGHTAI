@@ -134,9 +134,9 @@
       return this.request('/chat', {
         method: 'POST',
         body: {
-          query,
-          context,
-          compliancePackage,
+          message: query,
+          compliancePack: compliancePackage,
+          metadata: { context },
         },
       });
     }

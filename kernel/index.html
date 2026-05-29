@@ -2,6 +2,14 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-8LLESL207Q"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-8LLESL207Q');
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="theme-color" content="#030A18">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -11,13 +19,15 @@
   <meta name="description" content="منصة حوكمة الذكاء الاصطناعي المؤسسية للسوق السعودي مع كشف البيانات الحساسة وتقييم المخاطر وسلسلة التدقيق غير القابلة للتلاعب.">
   
   <link rel="manifest" href="/kernel/manifest.json">
-  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="icon" href="/frontend/images/logo-new.PNG" type="image/png">
   
   <!-- Preload fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   
   <link rel="stylesheet" href="/kernel/assets/css/kernel.css">
+  <link rel="stylesheet" href="/frontend/vendor/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="/frontend/css/unified-header.css?v=20260529-nav-v1">
   
   <style>
     /* Page-specific styles */
@@ -416,8 +426,77 @@
       transform: translateY(0);
     }
   </style>
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://brightai.site/kernel/">
+  <script id="brightai-production-schema" type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": [
+        "Organization",
+        "LocalBusiness"
+      ],
+      "@id": "https://brightai.site/#organization",
+      "name": "Bright AI",
+      "url": "https://brightai.site",
+      "logo": "https://brightai.site/frontend/images/logo-new.PNG",
+      "areaServed": "SA",
+      "sameAs": []
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://brightai.site/#website",
+      "url": "https://brightai.site",
+      "name": "Bright AI",
+      "publisher": {
+        "@id": "https://brightai.site/#organization"
+      },
+      "inLanguage": [
+        "ar-SA",
+        "en-SA"
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://brightai.site/kernel/#webpage",
+      "url": "https://brightai.site/kernel/",
+      "name": "نواة BrightAI - حوكمة الذكاء الاصطناعي للمؤسسات السعودية",
+      "description": "منصة حوكمة الذكاء الاصطناعي المؤسسية للسوق السعودي مع كشف البيانات الحساسة وتقييم المخاطر وسلسلة التدقيق غير القابلة للتلاعب.",
+      "isPartOf": {
+        "@id": "https://brightai.site/#website"
+      },
+      "about": {
+        "@id": "https://brightai.site/#organization"
+      },
+      "inLanguage": "ar-SA"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://brightai.site/kernel/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Bright AI",
+          "item": "https://brightai.site/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "نواة BrightAI - حوكمة الذكاء الاصطناعي للمؤسسات السعودية",
+          "item": "https://brightai.site/kernel/"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+  <link rel="preload" href="/frontend/assets/fonts/TheYearofTheCamel-Medium.otf" as="font" type="font/otf" crossorigin />
+  <link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css">
 </head>
 <body>
+  <div id="brightai-unified-header"></div>
   <a href="#main-content" class="skip-link">تخطي إلى المحتوى الرئيسي</a>
 
   <main id="main-content">
@@ -432,25 +511,25 @@
         </p>
         
         <div class="hero-actions">
-          <a href="/kernel/chat.html" class="btn btn-primary btn-lg">
+          <a href="/kernel/chat/" class="btn btn-primary btn-lg">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
             </svg>
             ابدأ المحادثة
           </a>
-          <a href="/kernel/stats.html" class="btn btn-secondary btn-lg">
+          <a href="/kernel/stats/" class="btn btn-secondary btn-lg">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
             </svg>
             لوحة المعلومات
           </a>
-          <a href="/kernel/scenarios.html" class="btn btn-gold btn-lg">
+          <a href="/kernel/scenarios/" class="btn btn-gold btn-lg">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
             </svg>
             جرّب السيناريوهات
           </a>
-          <a href="/kernel/approvals.html" class="btn btn-ghost btn-lg">
+          <a href="/kernel/approvals/" class="btn btn-ghost btn-lg">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
             </svg>
@@ -619,71 +698,73 @@
   </main>
 
   <!-- Scripts -->
-  <script src="/kernel/assets/js/kernel-utils.js"></script>
-  <script src="/kernel/assets/js/kernel-api.js"></script>
-  <script src="/kernel/assets/js/kernel-nav.js"></script>
+  <script src="/frontend/js/unified-header.js?v=20260529-nav-v1" defer></script>
+
+  <script src="/kernel/assets/js/kernel-utils.js" defer></script>
+  <script src="/kernel/assets/js/kernel-api.js" defer></script>
+  <script src="/kernel/assets/js/kernel-nav.js" defer></script>
   
   <script>
     // Navigation cards data
     const navCardsData = [
       {
-        href: '/kernel/chat.html',
+        href: '/kernel/chat/',
         icon: '<path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>',
         title: 'المحادثة الآمنة',
         desc: 'تواصل مع الذكاء الاصطناعي بحماية كاملة لبياناتك الحساسة'
       },
       {
-        href: '/kernel/stats.html',
+        href: '/kernel/stats/',
         icon: '<path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>',
         title: 'الإحصائيات',
         desc: 'لوحة معلومات شاملة لمراقبة النظام والأداء'
       },
       {
-        href: '/kernel/approvals.html',
+        href: '/kernel/approvals/',
         icon: '<path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>',
         title: 'الموافقات',
         desc: 'مراجعة واعتماد الطلبات عالية المخاطر'
       },
       {
-        href: '/kernel/audit.html',
+        href: '/kernel/audit/',
         icon: '<path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>',
         title: 'سجل التدقيق',
         desc: 'سلسلة تدقيق مشفرة وغير قابلة للتلاعب'
       },
       {
-        href: '/kernel/evidence.html',
+        href: '/kernel/evidence/',
         icon: '<path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>',
         title: 'الأدلة',
         desc: 'سجلات أدلة جاهزة للتدقيق والمراجعة',
         isNew: true
       },
       {
-        href: '/kernel/reports.html',
+        href: '/kernel/reports/',
         icon: '<path d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>',
         title: 'التقارير',
         desc: 'تقارير تفصيلية قابلة للتصدير والطباعة',
         isNew: true
       },
       {
-        href: '/kernel/scenarios.html',
+        href: '/kernel/scenarios/',
         icon: '<path d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>',
         title: 'السيناريوهات',
         desc: 'محاكاة سيناريوهات واقعية لاختبار النظام'
       },
       {
-        href: '/kernel/compliance.html',
+        href: '/kernel/compliance/',
         icon: '<path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>',
         title: 'الامتثال',
         desc: 'حزم الامتثال للأطر التنظيمية المختلفة'
       },
       {
-        href: '/kernel/policies.html',
+        href: '/kernel/policies/',
         icon: '<path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>',
         title: 'السياسات',
         desc: 'قواعد وسياسات الحوكمة القابلة للتخصيص'
       },
       {
-        href: '/kernel/connectors.html',
+        href: '/kernel/connectors/',
         icon: '<path d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>',
         title: 'الموصلات',
         desc: 'تكامل مع أنظمة ERP و CRM و HIS والمزيد'
@@ -866,5 +947,6 @@
       setInterval(loadStats, 30000);
     });
   </script>
+  <script src="/frontend/js/production-runtime.v20260427.js" defer></script>
 </body>
 </html>

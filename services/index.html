@@ -125,6 +125,82 @@
     ]
   }
   </script>
+  <script id="brightai-production-schema" type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": [
+        "Organization",
+        "LocalBusiness"
+      ],
+      "@id": "https://brightai.site/#organization",
+      "name": "Bright AI",
+      "url": "https://brightai.site",
+      "logo": "https://brightai.site/frontend/images/logo-new.PNG",
+      "areaServed": "SA",
+      "sameAs": []
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://brightai.site/#website",
+      "url": "https://brightai.site",
+      "name": "Bright AI",
+      "publisher": {
+        "@id": "https://brightai.site/#organization"
+      },
+      "inLanguage": [
+        "ar-SA",
+        "en-SA"
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://brightai.site/services/#webpage",
+      "url": "https://brightai.site/services/",
+      "name": "خدمات ذكاء اصطناعي للشركات السعودية | حوكمة وأمان AI | BrightAI",
+      "description": "خدمات BrightAI لتشغيل الذكاء الاصطناعي الآمن داخل الشركات السعودية: حوكمة الذكاء الاصطناعي، AI Firewall، Audit Trail، Human Approval، AI Evidence File، أتمتة الأعمال وتكامل ERP وCRM وHIS وSharePoint.",
+      "isPartOf": {
+        "@id": "https://brightai.site/#website"
+      },
+      "about": {
+        "@id": "https://brightai.site/#organization"
+      },
+      "inLanguage": "ar-SA"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://brightai.site/services/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Bright AI",
+          "item": "https://brightai.site/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "خدمات ذكاء اصطناعي للشركات السعودية | حوكمة وأمان AI | BrightAI",
+          "item": "https://brightai.site/services/"
+        }
+      ]
+    },
+    {
+      "@type": "Service",
+      "@id": "https://brightai.site/services/#service",
+      "name": "خدمات ذكاء اصطناعي للشركات السعودية | حوكمة وأمان AI | BrightAI",
+      "description": "خدمات BrightAI لتشغيل الذكاء الاصطناعي الآمن داخل الشركات السعودية: حوكمة الذكاء الاصطناعي، AI Firewall، Audit Trail، Human Approval، AI Evidence File، أتمتة الأعمال وتكامل ERP وCRM وHIS وSharePoint.",
+      "provider": {
+        "@id": "https://brightai.site/#organization"
+      },
+      "areaServed": "Saudi Arabia",
+      "serviceType": "AI SaaS and automation services",
+      "url": "https://brightai.site/services/"
+    }
+  ]
+}
+  </script>
 </head>
 <body class="legal-services-page">
   <div id="brightai-unified-header"></div>
@@ -135,11 +211,17 @@
         <div>
           <span class="lp-eyebrow"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i> خدمات AI مؤسسية للسوق السعودي</span>
           <h1>خدمات <span class="lp-gradient-text">BrightAI</span> لتشغيل الذكاء الاصطناعي الآمن داخل شركتك</h1>
+<section class="answer-block" aria-labelledby="answer-title-services-index-html">
+    <h2 id="answer-title-services-index-html">إجابة مختصرة</h2>
+    <p>تساعد Bright AI الجهات والشركات في السعودية على تحويل خدمات BrightAI لتشغيل الذكاء الاصطناعي الآمن داخل شركتك إلى سير عمل قابل للقياس عبر الأتمتة الذكية، جاهزية البيانات، التكامل الآمن، ولوحات متابعة تشغيلية. توضّح الصفحة متى يناسب الحل، وما البيانات المطلوبة، وكيف يبدأ الفريق بأمان.</p>
+  </section>
+
           <p class="lp-lead">نساعد الشركات السعودية على تحويل الذكاء الاصطناعي من تجارب متناثرة إلى طبقة تشغيل قابلة للحوكمة والمراجعة. تشمل خدماتنا حوكمة الذكاء الاصطناعي، AI Firewall، AI Audit Trail، Human Approval Layer، AI Evidence File، الأتمتة الذكية، تكامل ERP / CRM / HIS / SharePoint، وبناء مساعدين AI داخليين مع ضوابط مناسبة للبيانات الحساسة والامتثال للأنظمة السعودية.</p>
           <div class="lp-hero-actions" aria-label="إجراءات صفحة الخدمات">
             <a class="lp-btn lp-btn-primary" href="/contact/"><i class="fa-solid fa-calendar-check" aria-hidden="true"></i> احجز ديمو</a>
             <a class="lp-btn lp-btn-whatsapp" href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> تواصل واتساب</a>
             <a class="lp-btn" href="/solutions/ai-governance-platform/"><i class="fa-solid fa-diagram-project" aria-hidden="true"></i> استكشف منصة الحوكمة</a>
+            <a class="lp-btn" href="/kernel/"><i class="fa-solid fa-gauge-high" aria-hidden="true"></i> افتح BrightAI Kernel</a>
           </div>
         </div>
         <aside class="lp-hero-panel" aria-label="ملخص قدرات BrightAI">
@@ -295,6 +377,9 @@
           <li><a href="/solutions/ai-audit-trail/">AI Audit Trail</a></li>
           <li><a href="/solutions/human-approval-layer/">Human Approval</a></li>
           <li><a href="/solutions/ai-evidence-file/">Evidence File</a></li>
+          <li><a href="/kernel/">BrightAI Kernel</a></li>
+          <li><a href="/kernel/chat/">Kernel Chat</a></li>
+          <li><a href="/kernel/evidence/">Evidence Export</a></li>
         </ul>
       </nav>
       <nav aria-label="روابط قانونية">

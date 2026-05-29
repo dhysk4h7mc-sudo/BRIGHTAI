@@ -11,16 +11,16 @@
     config: {
       pages: [
         { id: 'home', href: '/kernel/', label: 'الرئيسية', icon: 'home', showInBottomNav: true },
-        { id: 'chat', href: '/kernel/chat.html', label: 'المحادثة', icon: 'chat', showInBottomNav: true },
-        { id: 'stats', href: '/kernel/stats.html', label: 'الإحصائيات', icon: 'stats', showInBottomNav: true },
-        { id: 'approvals', href: '/kernel/approvals.html', label: 'الموافقات', icon: 'approvals', showInBottomNav: true, showPending: true },
-        { id: 'audit', href: '/kernel/audit.html', label: 'التدقيق', icon: 'audit', showInBottomNav: true },
-        { id: 'evidence', href: '/kernel/evidence.html', label: 'الأدلة', icon: 'evidence', isNew: true },
-        { id: 'reports', href: '/kernel/reports.html', label: 'التقارير', icon: 'reports', isNew: true },
-        { id: 'scenarios', href: '/kernel/scenarios.html', label: 'السيناريوهات', icon: 'scenarios' },
-        { id: 'compliance', href: '/kernel/compliance.html', label: 'الامتثال', icon: 'compliance' },
-        { id: 'policies', href: '/kernel/policies.html', label: 'السياسات', icon: 'policies' },
-        { id: 'connectors', href: '/kernel/connectors.html', label: 'الموصلات', icon: 'connectors' },
+        { id: 'chat', href: '/kernel/chat/', label: 'المحادثة', icon: 'chat', showInBottomNav: true },
+        { id: 'stats', href: '/kernel/stats/', label: 'الإحصائيات', icon: 'stats', showInBottomNav: true },
+        { id: 'approvals', href: '/kernel/approvals/', label: 'الموافقات', icon: 'approvals', showInBottomNav: true, showPending: true },
+        { id: 'audit', href: '/kernel/audit/', label: 'التدقيق', icon: 'audit', showInBottomNav: true },
+        { id: 'evidence', href: '/kernel/evidence/', label: 'الأدلة', icon: 'evidence', isNew: true },
+        { id: 'reports', href: '/kernel/reports/', label: 'التقارير', icon: 'reports', isNew: true },
+        { id: 'scenarios', href: '/kernel/scenarios/', label: 'السيناريوهات', icon: 'scenarios' },
+        { id: 'compliance', href: '/kernel/compliance/', label: 'الامتثال', icon: 'compliance' },
+        { id: 'policies', href: '/kernel/policies/', label: 'السياسات', icon: 'policies' },
+        { id: 'connectors', href: '/kernel/connectors/', label: 'الموصلات', icon: 'connectors' },
       ],
       moreMenuThreshold: 5, // Show 'More' menu after this many items
       pendingCheckInterval: 30000, // Check pending approvals every 30s
@@ -72,7 +72,7 @@
         if (p.href === '/kernel/' || p.href === '/kernel/index.html') {
           return path === '/kernel/' || path === '/kernel/index.html' || path === '/kernel';
         }
-        return path.includes(p.href);
+        return path === p.href || path === p.href.replace(/\/$/, '') || path === `${p.href.replace(/\/$/, '')}.html`;
       });
       this.state.currentPage = page ? page.id : 'home';
     },
@@ -126,7 +126,12 @@
         </div>
       `;
 
-      // Insert at beginning of body
+      const unifiedHeader = document.getElementById('brightai-unified-header');
+      if (unifiedHeader && unifiedHeader.parentNode === document.body) {
+        unifiedHeader.insertAdjacentElement('afterend', topNav);
+        return;
+      }
+
       document.body.insertBefore(topNav, document.body.firstChild);
     },
 

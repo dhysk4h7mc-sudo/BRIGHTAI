@@ -32,6 +32,8 @@ function readSecret(name, fallback = '') {
   return value;
 }
 
+const nvidiaBaseUrl = process.env.NVIDIA_URL || 'https://integrate.api.nvidia.com/v1';
+
 const config = {
   // Gemini AI Configuration
   gemini: {
@@ -58,7 +60,8 @@ const config = {
   nvidia: {
     apiKey: readSecret('NVIDIA_API_KEY'),
     model: process.env.NVIDIA_MODEL || 'nvidia/llama-3.1-nemotron-70b-instruct',
-    endpoint: process.env.NVIDIA_ENDPOINT || 'https://integrate.api.nvidia.com/v1/chat/completions'
+    baseUrl: nvidiaBaseUrl,
+    endpoint: process.env.NVIDIA_ENDPOINT || `${nvidiaBaseUrl.replace(/\/$/, '')}/chat/completions`
   },
 
   // DeepSeek Configuration
