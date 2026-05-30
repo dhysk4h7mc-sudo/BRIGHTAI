@@ -18,7 +18,7 @@ import {
 
 const BASE_URL = "https://brightai.site";
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
-const ROOT = path.resolve(SCRIPT_DIR, "..");
+const ROOT = path.resolve(process.env.SEO_ROOT || path.resolve(SCRIPT_DIR, ".."));
 
 const ROBOTS_PATH = path.join(ROOT, "robots.txt");
 const SITEMAP_PATH = path.join(ROOT, "sitemap.xml");

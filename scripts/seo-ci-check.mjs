@@ -27,7 +27,7 @@ import {
 import { runAudit as runInternalLinksAudit } from "./internal-links-common.mjs";
 
 const BASE_URL = "https://brightai.site";
-const ROOT = process.cwd();
+const ROOT = path.resolve(process.env.SEO_ROOT || process.cwd());
 const SITEMAP_PATH = path.join(ROOT, "sitemap.xml");
 const OG_IMAGE_URL = `${BASE_URL}/frontend/assets/images/logo.png`;
 const HTML_IGNORE_DIRS = new Set([".git", "node_modules", "dist", "build", "coverage", ".next", ".nuxt", ".render-static"]);
@@ -402,7 +402,7 @@ async function checkBrokenLinks() {
     },
   };
 
-  const report = await runInternalLinksAudit();
+  const report = await runInternalLinksAudit({ root: ROOT });
   result.summary = {
     filesScanned: report.filesScanned,
     referencesScanned: report.referencesScanned,
