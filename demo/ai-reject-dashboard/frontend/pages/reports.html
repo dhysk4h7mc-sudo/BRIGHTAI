@@ -10,9 +10,10 @@
 </script>
 <meta name="ai-assistant" content="صقر AI by BrightAI">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>صقر AI — التقارير | ميس للمنتجات الطبية</title>
-  <meta name="description" content="صقر AI — التقارير | ميس للمنتجات الطبية من BrightAI، صفحة عامة قابلة للفهرسة ضمن تجربة الموقع وخدمات الذكاء الاصطناعي وحوكمة الأنظمة.">
-  
+<title>تقارير صقر AI للجودة والإنتاج التنفيذي | BrightAI</title>
+<meta name="description" content="أنشئ تقارير واضحة عن الرفض والجودة والإنتاج لمشاركتها مع الإدارة وفرق الامتثال، مع مؤشرات تساعد مصانع السعودية على تحسين الأداء، مع خطوة تالية واضحة." />
+
+
   <!-- Font and Core Design System Stylesheets -->
   <link rel="stylesheet" href="/demo/ai-reject-dashboard/frontend/assets/css/design-system.css">
   <link rel="stylesheet" href="/demo/ai-reject-dashboard/frontend/assets/css/notifications.css">
@@ -36,7 +37,7 @@
       gap: 24px;
       margin-top: 20px;
     }
-    
+
     .builder-sidebar {
       background: var(--white);
       border: 1px solid var(--gray-200);
@@ -52,13 +53,13 @@
       background: var(--gray-900);
       border-color: var(--gray-800);
     }
-    
+
     .draggable-list {
       display: flex;
       flex-direction: column;
       gap: 8px;
     }
-    
+
     .draggable-item {
       padding: 10px 14px;
       background: var(--gray-50);
@@ -79,7 +80,7 @@
       border-color: var(--gray-700);
       color: var(--gray-300);
     }
-    
+
     .draggable-item:hover {
       background: var(--teal-50);
       border-color: var(--teal);
@@ -90,7 +91,7 @@
       background: rgba(0, 166, 166, 0.1);
       color: var(--teal);
     }
-    
+
     .drop-zone {
       border: 2px dashed var(--gray-300);
       border-radius: var(--radius-lg);
@@ -102,12 +103,12 @@
       gap: 12px;
       transition: all 0.3s;
     }
-    
+
     .drop-zone.dragover {
       border-color: var(--teal);
       background: rgba(0, 166, 166, 0.05);
     }
-    
+
     .dropped-section {
       background: var(--white);
       border: 1px solid var(--gray-200);
@@ -124,12 +125,12 @@
       background: var(--gray-800);
       border-color: var(--gray-700);
     }
-    
+
     .dropped-section .drag-handle {
       color: var(--gray-400);
       cursor: move;
     }
-    
+
     /* Live Preview Paper Layout */
     .preview-paper {
       background: var(--white);
@@ -147,7 +148,7 @@
       background: var(--gray-900);
       border-color: var(--gray-800);
     }
-    
+
     .preview-watermark {
       position: absolute;
       top: 50%;
@@ -162,7 +163,7 @@
       white-space: nowrap;
       z-index: 1;
     }
-    
+
     .preview-header {
       border-bottom: 2px solid var(--gray-200);
       padding-bottom: 16px;
@@ -175,13 +176,13 @@
     [data-theme="dark"] .preview-header {
       border-color: var(--gray-800);
     }
-    
+
     .preview-logo {
       font-size: 1.1rem;
       font-weight: 800;
       color: var(--primary);
     }
-    
+
     .preview-section-box {
       border: 1px solid var(--gray-100);
       border-radius: var(--radius-md);
@@ -196,7 +197,7 @@
       border-color: var(--gray-800);
       background: var(--gray-800);
     }
-    
+
     .preview-footer {
       border-top: 1px solid var(--gray-200);
       padding-top: 12px;
@@ -216,13 +217,13 @@
       transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
       cursor: pointer;
     }
-    
+
     .template-card:hover {
       transform: translateY(-4px);
       border-color: var(--teal);
       box-shadow: var(--shadow-md);
     }
-    
+
     .template-card.active {
       border-color: var(--primary);
       background: rgba(var(--primary-rgb), 0.02);
@@ -337,7 +338,7 @@
 <a class="skip-link" href="#main-content">تجاوز إلى المحتوى الرئيسي</a>
 
   <div class="app-layout" x-data="reportsApp()">
-    
+
     <!-- Sidebar navigation -->
     <aside class="sidebar">
       <div class="sidebar-brand">
@@ -363,7 +364,7 @@
     </aside>
 
     <main class="main-content" id="main-content">
-      
+
       <!-- Topbar Header -->
       <header class="topbar">
         <div class="topbar-left">
@@ -378,12 +379,12 @@
           <button class="btn btn-secondary text-xs" @click="toggleLanguage()" aria-label="زر تفاعلي">
             <span x-text="lang === 'ar' ? 'English' : 'العربية'"></span>
           </button>
-          
+
           <!-- Dark Mode Toggle -->
           <button class="btn btn-secondary text-xs" @click="toggleTheme()" aria-label="زر تفاعلي">
             <span x-text="theme === 'light' ? '🌙' : '☀️'"></span>
           </button>
-          
+
           <!-- User info -->
           <div class="user-badge">
             <span class="avatar">QA</span>
@@ -393,7 +394,7 @@
       </header>
 
       <div class="page-content">
-        
+
         <!-- Safety/Advisory notice -->
         <div class="disclaimer">
           <strong>⚠️ تنبيه سرية وأمان:</strong> جميع التقارير المصدرة من النظام تحتوي على بصمة أمان رقمية وعلامة مائية لاسم المولد.
@@ -404,7 +405,7 @@
         <div class="section mt-20">
           <h3 x-text="lang === 'ar' ? '1. اختر نموذج تقرير جاهز أو ابدأ من الصفر' : '1. Select a report template or build custom'"></h3>
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 12px;">
-            
+
             <div class="card template-card" :class="activeTemplate === 'executive' ? 'active' : ''" @click="selectTemplate('executive')">
               <div style="font-size: 1.5rem; margin-bottom: 8px;">📊</div>
               <h4 style="font-weight: 700; font-size: 0.82rem; color: var(--primary);" x-text="lang === 'ar' ? 'الإيجاز التنفيذي (PDF)' : 'Executive Brief (PDF)'"></h4>
@@ -445,10 +446,10 @@
 
         <!-- 2. Main Builder Workspace -->
         <div class="reports-layout">
-          
+
           <!-- Side Controller / Filters & Sections -->
           <div class="builder-sidebar">
-            
+
             <!-- Filters Panel -->
             <div>
               <h4 style="font-size: 0.8rem; font-weight: 700; margin-bottom: 12px; color: var(--navy);" x-text="lang === 'ar' ? 'فلاتر نطاق البيانات' : 'Data Range Filters'"></h4>
@@ -462,7 +463,7 @@
                     <option value="custom" x-text="lang === 'ar' ? 'تحديد فترة مخصصة' : 'Custom Range'"></option>
                   </select>
                 </div>
-                
+
                 <div x-show="filters.dateRange === 'custom'">
                   <div style="display: flex; gap: 8px;">
                     <div>
@@ -509,7 +510,7 @@
             <div>
               <h4 style="font-size: 0.8rem; font-weight: 700; margin-bottom: 4px; color: var(--navy);" x-text="lang === 'ar' ? 'أقسام التقارير المتاحة' : 'Available Sections'"></h4>
               <p style="font-size: 0.65rem; color: var(--gray-500); margin-bottom: 12px;" x-text="lang === 'ar' ? 'قم بسحب الأقسام وتنزيلها في منطقة باني التقرير المجاورة:' : 'Drag elements into the dropping builder area:'"></p>
-              
+
               <div class="draggable-list">
                 <div class="draggable-item" draggable="true" @dragstart="dragStart($event, 'cover')" x-text="lang === 'ar' ? '📖 صفحة الغلاف والترويسة' : '📖 Cover Page'"></div>
                 <div class="draggable-item" draggable="true" @dragstart="dragStart($event, 'summary')" x-text="lang === 'ar' ? '🤖 إيجاز الذكاء الاصطناعي' : '🤖 AI Summary Brief'"></div>
@@ -526,7 +527,7 @@
 
           <!-- Drop Area and Live Preview -->
           <div style="display: flex; flex-direction: column; gap: 20px;">
-            
+
             <!-- Target Builder (Drag over area) -->
             <div class="card" style="padding: 20px;">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
@@ -536,7 +537,7 @@
 
               <!-- Drop Target Zone -->
               <div class="drop-zone" :class="dragOver ? 'dragover' : ''" @dragover.prevent="dragOver = true" @dragleave="dragOver = false" @drop="handleDrop($event)">
-                
+
                 <template x-for="(sec, idx) in droppedSections" :key="idx">
                   <div class="dropped-section">
                     <div style="display: flex; align-items: center; gap: 10px;">
@@ -582,10 +583,10 @@
             <!-- Live Preview Area -->
             <div class="card" style="padding: 20px;">
               <h4 style="font-size: 0.85rem; font-weight: 700; color: var(--primary); margin-bottom: 12px;" x-text="lang === 'ar' ? 'معاينة حية للمستند قبل الطباعة والتصدير' : 'Live Document Preview'"></h4>
-              
+
               <!-- Simulating Paper Document layout -->
               <div class="preview-paper">
-                
+
                 <!-- Expiry banner if selected -->
                 <div x-show="security.expiryDate" style="background: rgba(231, 111, 81, 0.1); border: 1px solid var(--danger); padding: 8px 12px; border-radius: 6px; font-size: 0.65rem; color: var(--danger); margin-bottom: 20px; display: flex; justify-content: space-between; font-weight: 700;">
                   <span x-text="lang === 'ar' ? '⚠️ مستند ذو صلاحية مؤقتة سرية' : '⚠️ Temporary Sensitive Document'"></span>
@@ -604,7 +605,7 @@
                 <template x-for="(sec, idx) in droppedSections" :key="idx">
                   <div class="preview-section-box">
                     <h5 style="font-weight: 700; font-size: 0.76rem; color: var(--primary); margin-bottom: 6px;" x-text="getSectionTitle(sec)"></h5>
-                    
+
                     <!-- Previews contents by type -->
                     <div x-show="sec === 'cover'" style="text-align: center; padding: 30px 0;">
                       <h2 style="font-weight: 800; font-size: 1.4rem; color: var(--navy);" x-text="lang === 'ar' ? 'تقرير المرفوضات والامتثال الفني' : 'Quality Reject &amp; Compliance Report'"></h2>
@@ -707,11 +708,11 @@
         <!-- 3. Scheduled Reports Section -->
         <div class="section mt-20">
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
-            
+
             <!-- Schedule Form -->
             <div class="card" style="padding: 20px;">
               <h3 style="font-size: 0.85rem; font-weight: 700; color: var(--primary); margin-bottom: 12px;" x-text="lang === 'ar' ? '📅 إعداد جدولة آلية للتقارير (Scheduled Reports)' : '📅 Schedule Automated Reports'"></h3>
-              
+
               <div style="display: flex; flex-direction: column; gap: 12px;">
                 <div>
                   <label class="form-label" x-text="lang === 'ar' ? 'معدل التكرار الدوري' : 'Frequency'"></label>
@@ -743,7 +744,7 @@
             <!-- History List -->
             <div class="card" style="padding: 20px;">
               <h4 style="font-size: 0.85rem; font-weight: 700; color: var(--primary); margin-bottom: 12px;" x-text="lang === 'ar' ? '📜 السجل التاريخي للتقارير المصدرة' : '📜 Generated Reports History'"></h4>
-              
+
               <div style="max-height: 250px; overflow-y: auto;">
                 <table class="table" style="font-size: 0.65rem;">
                   <thead>

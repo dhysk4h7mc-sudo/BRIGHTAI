@@ -10,9 +10,10 @@
 </script>
 <meta name="ai-assistant" content="صقر AI by BrightAI">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>صقر AI — إدارة الجودة والـ CAPA | ميس للمنتجات الطبية</title>
+<title>صقر AI للجودة وإدارة CAPA في المصانع | BrightAI</title>
+<meta name="description" content="تابع مؤشرات الجودة وإجراءات CAPA المرتبطة بالرفض، واربط الملاحظات بالأسباب التشغيلية لمساعدة فرق الجودة السعودية على تحسين الامتثال، مع خطوة تالية واضحة." />
   <meta name="robots" content="index, follow">
-  <meta name="description" content="نظام إدارة الجودة الاستراتيجي لـ BrightAI - ممتثل لمعايير هيئة الغذاء والدواء السعودية ومتطلبات ISO 13485.">
+
   <link rel="canonical" href="https://brightai.site/demo/ai-reject-dashboard/frontend/pages/quality/">
 <link rel="alternate" hreflang="ar-SA" href="https://brightai.site/demo/ai-reject-dashboard/quality/">
 <link rel="alternate" hreflang="x-default" href="https://brightai.site/demo/ai-reject-dashboard/quality/">
@@ -20,7 +21,7 @@
   <link rel="stylesheet" href="/demo/ai-reject-dashboard/frontend/assets/css/design-system.css">
   <link rel="stylesheet" href="/demo/ai-reject-dashboard/frontend/assets/css/notifications.css">
 <link rel="stylesheet" href="/demo/ai-reject-dashboard/frontend/assets/css/dashboard.css">
-  
+
   <!-- Bespoke Page Styling for Premium Veeva Vault & MasterControl QMS Aesthetics -->
   <style>
     body {
@@ -29,7 +30,7 @@
       overflow-x: hidden;
       min-height: 100vh;
     }
-    
+
     .app-wrapper {
       display: flex;
       width: 100%;
@@ -143,7 +144,7 @@
       font-weight: 700;
       font-size: var(--font-size-sm);
     }
-    
+
     [dir="rtl"] .fishbone-head {
       inset-inline-end: auto;
       inset-inline-start: 0;
@@ -305,7 +306,6 @@
 <div id="brightai-unified-header"></div>
 <a class="skip-link" href="#main-content">تجاوز إلى المحتوى الرئيسي</a>
 
-
   <div class="app-wrapper">
 
     <!-- SIDEBAR -->
@@ -343,7 +343,7 @@
               <line x1="3" y1="18" x2="21" y2="18"></line>
             </svg>
           </button>
-          
+
           <div class="page-title-area">
             <h2 x-text="lang === 'ar' ? 'منظور إدارة الجودة والامتثال (QMS Dashboard)' : 'QMS Quality &amp; Compliance View'"></h2>
             <div class="breadcrumb" style="margin-bottom:0;" x-text="lang === 'ar' ? 'متابعة الـ CAPA، رصد عدم المطابقة، والجاهزية لتدقيق الغذاء والدواء SFDA' : 'CAPA Kanban, Root Cause Analysis &amp; SFDA readiness metrics'"></div>
@@ -368,7 +368,6 @@
       <!-- MAIN PAGE CONTENT CONTAINER -->
       <main class="content-container" id="main-content">
 <h1 class="sr-only bright-a11y-h1">لوحة الجودة وتحسين الرفض بالذكاء الاصطناعي</h1>
-
 
         <!-- BREADCRUMBS -->
         <nav class="breadcrumb">
@@ -580,7 +579,7 @@
                 <span x-text="lang === 'ar' ? 'أداة التحقيق الخمس الاستقصائية (5 Whys Tool)' : 'Interactive Quality 5 Whys Tool'"></span>
               </div>
             </div>
-            
+
             <div style="display:flex; flex-direction:column; gap:var(--spacing-xs); flex-grow:1; overflow-y:auto; justify-content:center;">
               <template x-for="step in whysSteps">
                 <div style="display:flex; gap:var(--spacing-sm); align-items:center;">
@@ -589,7 +588,7 @@
                 </div>
               </template>
             </div>
-            
+
             <div style="display:flex; gap:var(--spacing-sm); margin-top:var(--spacing-sm);">
               <button class="btn btn-outline" style="flex-grow:1;" @click="generateNextWhy()" x-text="lang === 'ar' ? 'توليد السؤال التالي' : 'Ask Next Why'" aria-label="زر تفاعلي"></button>
               <button class="btn btn-primary" @click="saveWhysInvestigation()" x-text="lang === 'ar' ? 'حفظ وإرسال التحقيق' : 'Save Investigation'" aria-label="زر تفاعلي"></button>
@@ -624,7 +623,7 @@
                 <span style="font-size:var(--font-size-xs);" x-text="lang === 'ar' ? 'ربط إجراءات الـ CAPA المفتوحة بالسجلات المعلقة' : 'CAPA linked to open reject vouchers'"></span>
               </label>
             </div>
-            
+
             <p style="font-size:10px; color:var(--text-muted); line-height:1.5;" x-text="lang === 'ar' ? 'ملاحظة: مؤشرات الجاهزية تدعم الرصد المسبق لمتطلبات التدقيق للبلدية وهيئة الغذاء والدواء السعودية SFDA.' : 'Advisory score mapped to regulatory audit readiness frameworks for Saudi SFDA inspections.'"></p>
           </div>
         </section>

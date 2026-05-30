@@ -10,9 +10,10 @@
 </script>
 <meta name="ai-assistant" content="صقر AI by BrightAI">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>صقر AI — الإنتاج والتشغيل | ميس للمنتجات الطبية</title>
+<title>صقر AI لمتابعة الإنتاج وتشغيل المصانع | BrightAI</title>
+<meta name="description" content="راقب أداء الإنتاج ومصادر الرفض في مصانع المنتجات الطبية، وحدد نقاط التعطل والهدر بسرعة عبر لوحة صقر AI المصممة لفرق التشغيل في السعودية، دون تعقيد زائد." />
   <meta name="robots" content="index, follow">
-  <meta name="description" content="نظام إدارة وتتبع التصنيع والعمليات لـ BrightAI - ممتثل لمعايير ممارسات التصنيع الجيد GMP وكفاءة الماكينات.">
+
   <link rel="canonical" href="https://brightai.site/demo/ai-reject-dashboard/frontend/pages/production/">
 <link rel="alternate" hreflang="ar-SA" href="https://brightai.site/demo/ai-reject-dashboard/production/">
 <link rel="alternate" hreflang="x-default" href="https://brightai.site/demo/ai-reject-dashboard/production/">
@@ -20,7 +21,7 @@
   <link rel="stylesheet" href="/demo/ai-reject-dashboard/frontend/assets/css/design-system.css">
   <link rel="stylesheet" href="/demo/ai-reject-dashboard/frontend/assets/css/notifications.css">
 <link rel="stylesheet" href="/demo/ai-reject-dashboard/frontend/assets/css/dashboard.css">
-  
+
   <!-- Bespoke Page Styling for Premium Siemens Opcenter & Rockwell MES Aesthetics -->
   <style>
     body {
@@ -29,7 +30,7 @@
       overflow-x: hidden;
       min-height: 100vh;
     }
-    
+
     .app-wrapper {
       display: flex;
       width: 100%;
@@ -247,7 +248,6 @@
 <div id="brightai-unified-header"></div>
 <a class="skip-link" href="#main-content">تجاوز إلى المحتوى الرئيسي</a>
 
-
   <div class="app-wrapper">
 
     <!-- SIDEBAR -->
@@ -285,7 +285,7 @@
               <line x1="3" y1="18" x2="21" y2="18"></line>
             </svg>
           </button>
-          
+
           <div class="page-title-area">
             <h2 x-text="lang === 'ar' ? 'منظور الإنتاج والعمليات (MES Dashboard)' : 'MES Production &amp; Operations View'"></h2>
             <div class="breadcrumb" style="margin-bottom:0;" x-text="lang === 'ar' ? 'متابعة كفاءة الآلات OEE، حالة خطوط الإنتاج والورديات من واقع Excel' : 'Overall Equipment Effectiveness, active line monitoring &amp; shift handover logs'"></div>
@@ -310,7 +310,6 @@
       <!-- MAIN PAGE CONTENT CONTAINER -->
       <main class="content-container" id="main-content">
 <h1 class="sr-only bright-a11y-h1">لوحة الإنتاج والعمليات لتحليلات الرفض بالذكاء الاصطناعي</h1>
-
 
         <!-- BREADCRUMBS -->
         <nav class="breadcrumb">
@@ -391,9 +390,9 @@
                     'badge-danger': machine.status === 'Down'
                   }" x-text="machine.status"></span>
                 </div>
-                
+
                 <div style="font-weight:700; font-size:var(--font-size-md); color:var(--text-secondary); margin-top:var(--spacing-xs);" x-text="formatCurrency(machine.cost) + (lang === 'ar' ? ' هدر مالي' : ' Scrap cost')"></div>
-                
+
                 <div style="display:flex; flex-direction:column; gap:var(--spacing-xs); margin-top:var(--spacing-sm);">
                   <div style="display:flex; justify-content:space-between; font-size:11px;">
                     <span x-text="lang === 'ar' ? 'معدل التلف الفعلي:' : 'Scrap reject rate:'"></span>

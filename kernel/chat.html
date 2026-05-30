@@ -14,8 +14,9 @@
   <meta name="theme-color" content="#030A18">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <title>المحادثة الآمنة - نواة BrightAI</title>
-  <meta name="description" content="محادثة آمنة مع الذكاء الاصطناعي مع حماية البيانات الحساسة وتقييم المخاطر الفوري">
+  <title>محادثة BrightAI Kernel الآمنة لفرق العمل | BrightAI</title>
+<meta name="description" content="استخدم واجهة محادثة آمنة داخل BrightAI Kernel تساعد الفرق على الاستفادة من AI مع ضوابط للبيانات، السياسات، وسجل واضح للقرارات، مع خطوة تالية واضحة." />
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="/kernel/assets/css/kernel.css">
@@ -1297,7 +1298,7 @@
         KernelUtils.storage.remove('chatMessages');
         const msgs = document.getElementById('messages');
         if (msgs) msgs.innerHTML = '';
-        
+
         if (compliancePack) {
           const el = document.querySelector(`[data-pkg="${compliancePack}"]`);
           if (el) {
@@ -1957,7 +1958,7 @@
     function showScenarioIntroCard(scenario, compliancePack, samplePrompt) {
       const msgs = document.getElementById('messages');
       if (!msgs) return;
-      
+
       const intro = document.createElement('div');
       intro.className = 'glass-card scenario-intro-card';
       intro.id = 'scenario-intro-card';
@@ -1969,7 +1970,7 @@
         margin-bottom: var(--space-4);
         animation: fadeSlideUp 0.3s ease-out;
       `;
-      
+
       let scenarioLabel = 'سيناريو مخصص';
       if (scenario === 'finance') scenarioLabel = 'القطاع المالي (IBAN + عقد تمويل)';
       else if (scenario === 'hr') scenarioLabel = 'الموارد البشرية (بيانات موظف + تقييم أداء)';
@@ -2092,7 +2093,7 @@
 
       const card = document.createElement('div');
       card.className = 'journey-tracker-card';
-      
+
       let stepsHtml = sc.steps.map(step => {
         let statusIcon = '●';
         if (step.status === 'success') statusIcon = '✓';
@@ -2139,7 +2140,7 @@
           </a>
         </div>
       `;
-      
+
       if (insertBeforeElement) {
         msgBody.insertBefore(card, insertBeforeElement);
       } else {

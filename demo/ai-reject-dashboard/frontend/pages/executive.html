@@ -10,9 +10,10 @@
 </script>
 <meta name="ai-assistant" content="صقر AI by BrightAI">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>صقر AI — لوحة الإدارة التنفيذية | ميس للمنتجات الطبية</title>
+<title>صقر AI للإدارة التنفيذية وتحليل الرفض | BrightAI</title>
+<meta name="description" content="لوحة تنفيذية تعرض مؤشرات الرفض والتكلفة والاتجاهات الحرجة لمصانع المنتجات الطبية في السعودية، وتساعد الإدارة على اتخاذ قرارات أسرع مبنية على بيانات." />
   <meta name="robots" content="index, follow">
-  <meta name="description" content="لوحة الإدارة التنفيذية الاستراتيجية لـ BrightAI - مخصصة لمجلس الإدارة والقيادة العليا لمصانع ميس.">
+
   <link rel="canonical" href="https://brightai.site/demo/ai-reject-dashboard/frontend/pages/executive/">
 <link rel="alternate" hreflang="ar-SA" href="https://brightai.site/demo/ai-reject-dashboard/executive/">
 <link rel="alternate" hreflang="x-default" href="https://brightai.site/demo/ai-reject-dashboard/executive/">
@@ -20,7 +21,7 @@
   <link rel="stylesheet" href="/demo/ai-reject-dashboard/frontend/assets/css/design-system.css">
   <link rel="stylesheet" href="/demo/ai-reject-dashboard/frontend/assets/css/notifications.css">
 <link rel="stylesheet" href="/demo/ai-reject-dashboard/frontend/assets/css/dashboard.css">
-  
+
   <!-- Bespoke Page Styling for Premium McKinsey/BCG Consulting Reports Aesthetics -->
   <style>
     body {
@@ -29,7 +30,7 @@
       overflow-x: hidden;
       min-height: 100vh;
     }
-    
+
     .app-wrapper {
       display: flex;
       width: 100%;
@@ -237,7 +238,6 @@
 <div id="brightai-unified-header"></div>
 <a class="skip-link" href="#main-content">تجاوز إلى المحتوى الرئيسي</a>
 
-
   <div class="app-wrapper">
 
     <!-- 1. SIDEBAR (Collapsible Navigation) -->
@@ -275,7 +275,7 @@
               <line x1="3" y1="18" x2="21" y2="18"></line>
             </svg>
           </button>
-          
+
           <div class="page-title-area">
             <h2 x-text="lang === 'ar' ? 'منظور الإدارة التنفيذية الاستراتيجية' : 'Executive Management View'"></h2>
             <div class="breadcrumb" style="margin-bottom:0;" x-text="lang === 'ar' ? 'إيجاز القرارات والمخاطر والمؤشرات الكبرى لمجلس الإدارة' : 'Board-level critical decision audit &amp; mitigation summary'"></div>
@@ -321,7 +321,6 @@
       <main class="content-container" id="main-content">
 <h1 class="sr-only bright-a11y-h1">لوحة الإدارة التنفيذية لتحليلات الرفض بالذكاء الاصطناعي</h1>
 
-
         <!-- BREADCRUMBS -->
         <nav class="breadcrumb">
           <li class="breadcrumb-item"><a href="/demo/" class="breadcrumb-link" x-text="lang === 'ar' ? 'لوحة القيادة' : 'Dashboard'"></a></li>
@@ -336,7 +335,7 @@
               <span style="font-size:var(--font-size-lg);">🤖</span>
               <h2 style="font-weight:700; font-size:var(--font-size-md); color:var(--color-primary);" x-text="lang === 'ar' ? 'الإيجاز الاستراتيجي لمجلس الإدارة (مولد بـ Gemini)' : 'AI-Generated Board Brief'"></h2>
             </div>
-            
+
             <div style="display:flex; gap:var(--spacing-xs);">
               <button class="btn btn-sm btn-outline" @click="refreshBrief()" x-text="lang === 'ar' ? 'تحديث الإيجاز الذكي' : 'Refresh Brief'" aria-label="زر تفاعلي"></button>
               <button class="btn btn-sm btn-primary" @click="exportReport('pdf')" x-text="lang === 'ar' ? 'تصدير التقرير التنفيذي' : 'Export Brief PDF'" aria-label="زر تفاعلي"></button>
@@ -483,7 +482,7 @@
               </div>
               <span class="badge badge-success" x-text="lang === 'ar' ? 'دقة: متوسطة' : 'Conf: Medium'"></span>
             </div>
-            
+
             <div style="display:flex; flex-direction:column; gap:var(--spacing-md); flex-grow:1; justify-content:center;">
               <div style="display:flex; justify-content:space-between; align-items:center; padding-bottom:var(--spacing-sm); border-bottom:1px solid var(--color-border);">
                 <span style="font-size:var(--font-size-sm); color:var(--text-secondary);" x-text="lang === 'ar' ? 'الماكينات المهددة بالتوقف المفاجئ:' : 'Machines at imminent failure risk:'"></span>
@@ -498,7 +497,7 @@
                 <span style="font-weight:600; color:var(--color-primary);" x-text="lang === 'ar' ? 'ظروف الرطوبة بالمستودع 2' : 'Warehouse 2 Moisture'"></span>
               </div>
             </div>
-            
+
             <p style="font-size:11px; color:var(--text-muted); line-height:1.5; margin-top:var(--spacing-sm);" x-text="lang === 'ar' ? 'تم تقدير البيانات باستخدام خوارزميات Moving Averages و Seasonal Signals الإحصائية المحلية بناءً على سجل ملف Excel المعتمد.' : 'Data calculated using local Seasonal Signal &amp; Moving Average projections based on live Excel feed.'"></p>
           </div>
         </section>
@@ -566,7 +565,7 @@
         sidebarCollapsed: false,
         darkMode: false,
         lang: 'ar',
-        
+
         // C-Level metrics YTD
         kpis: {
           ytdCost: 158329773.03,
@@ -618,10 +617,10 @@
         initThemeAndLang() {
           this.darkMode = localStorage.getItem('darkMode') === 'true';
           this.lang = localStorage.getItem('lang') || 'ar';
-          
+
           document.documentElement.setAttribute('data-theme', this.darkMode ? 'dark' : 'light');
           document.documentElement.setAttribute('dir', this.lang === 'ar' ? 'rtl' : 'ltr');
-          
+
           if (this.darkMode) {
             document.body.classList.add('dark');
           }
@@ -642,7 +641,7 @@
           this.lang = this.lang === 'ar' ? 'en' : 'ar';
           localStorage.setItem('lang', this.lang);
           document.documentElement.setAttribute('dir', this.lang === 'ar' ? 'rtl' : 'ltr');
-          
+
           // Language specific texts
           if (this.lang === 'ar') {
             this.briefText = 'يظهر تحليل باريتو والإحصاءات التنفيذية أن تلف شريط الإسفنج في المستودعات (SAR 145K) وانحراف ماكينة الإنتاج (SAR 92K) يمثلان 80% من التكلفة التشغيلية المهدرة هذا الشهر. تم تفعيل إجراءات CAPA وتعيين صاحب العلاقة. يوصى مجلس الإدارة باعتماد إغلاق الموافقات المعلقة فوراً لخفض المخاطر المالية المترتبة.';
@@ -779,7 +778,7 @@
         updateChartThemes() {
           const mode = this.darkMode ? 'dark' : 'light';
           const opts = { theme: { mode: mode } };
-          
+
           Object.values(this.charts).forEach(chart => {
             if (chart && typeof chart.updateOptions === 'function') {
               chart.updateOptions(opts);

@@ -14,21 +14,22 @@
   <meta name="theme-color" content="#030A18">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  
-  <title>نواة BrightAI - حوكمة الذكاء الاصطناعي للمؤسسات السعودية</title>
-  <meta name="description" content="منصة حوكمة الذكاء الاصطناعي المؤسسية للسوق السعودي مع كشف البيانات الحساسة وتقييم المخاطر وسلسلة التدقيق غير القابلة للتلاعب.">
-  
+
+  <title>BrightAI Kernel لتشغيل حوكمة AI داخل المنشآت | BrightAI</title>
+<meta name="description" content="استكشف نواة BrightAI لتشغيل حوكمة الذكاء الاصطناعي داخل المنشآت السعودية، من السياسات والموافقات إلى الأدلة والتقارير التنفيذية، مع خطوة تالية واضحة." />
+
+
   <link rel="manifest" href="/kernel/manifest.json">
   <link rel="icon" href="/frontend/assets/images/logo.png" type="image/png">
-  
+
   <!-- Preload fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  
+
   <link rel="stylesheet" href="/kernel/assets/css/kernel.css">
   <link rel="stylesheet" href="/frontend/vendor/fontawesome/css/all.min.css">
   <link rel="stylesheet" href="/frontend/css/unified-header.css?v=20260529-nav-v1">
-  
+
   <style>
     /* Page-specific styles */
     .hero {
@@ -518,7 +519,7 @@
         <p class="hero-subtitle">
           طبقة أمان وحوكمة الذكاء الاصطناعي للمؤسسات السعودية. كشف البيانات الحساسة، تقييم المخاطر، وسلسلة تدقيق غير قابلة للتلاعب.
         </p>
-        
+
         <div class="hero-actions">
           <a href="/kernel/chat/" class="btn btn-primary btn-lg">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -595,7 +596,7 @@
     <section class="features-section container animate-on-scroll">
       <h2 class="section-title">المزايا الأساسية</h2>
       <p class="section-subtitle">تقنيات متقدمة لحماية مؤسستك وضمان الامتثال</p>
-      
+
       <div class="features-grid" id="features-grid">
         <!-- Features will be rendered by JavaScript -->
       </div>
@@ -605,7 +606,7 @@
     <section class="problems-section container animate-on-scroll">
       <h2 class="section-title">التحديات والحلول</h2>
       <p class="section-subtitle">كيف تساعدك نواة BrightAI في مواجهة تحديات الذكاء الاصطناعي المؤسسي</p>
-      
+
       <div class="problems-grid">
         <div class="glass-card problem-card problem">
           <div class="problem-header">
@@ -622,7 +623,7 @@
             <li>عدم وجود سجل تدقيق موثوق للأدلة</li>
           </ul>
         </div>
-        
+
         <div class="glass-card problem-card solution">
           <div class="problem-header">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -645,7 +646,7 @@
     <section class="compliance-section container animate-on-scroll">
       <h2 class="section-title">مواءمة الامتثال</h2>
       <p class="section-subtitle">دعم داخلي للأطر التنظيمية السعودية والدولية</p>
-      
+
       <div class="compliance-badges">
         <div class="compliance-badge">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -690,7 +691,7 @@
           ISO 42001
         </div>
       </div>
-      
+
       <div class="disclaimer">
         هذه المواءمة داخلية لدعم الحوكمة ولا تمثل شهادة امتثال رسمية. يُرجى استشارة خبراء الامتثال للحصول على شهادات معتمدة.
       </div>
@@ -730,7 +731,7 @@
   <script src="/kernel/assets/js/kernel-utils.js" defer></script>
   <script src="/kernel/assets/js/kernel-api.js" defer></script>
   <script src="/kernel/assets/js/kernel-nav.js" defer></script>
-  
+
   <script>
     // Navigation cards data
     const navCardsData = [
@@ -881,7 +882,7 @@
             if (!response.ok) throw new Error('Failed to load stats');
             return response.json();
           }));
-        
+
         // Animate counters
         const totalEl = document.getElementById('stat-total');
         const pendingEl = document.getElementById('stat-pending');
@@ -925,17 +926,17 @@
     async function checkProviderStatus() {
       const banner = document.getElementById('provider-banner');
       const statusText = document.getElementById('provider-status');
-      
+
       if (!banner || !statusText) return;
 
       try {
         const response = await fetch('/api/kernel/providers');
         if (!response.ok) throw new Error('Provider check failed');
-        
+
         const data = await response.json();
         const provider = data.activeProvider || data.provider || {};
         const isProduction = provider.configured && provider.mode !== 'demo';
-        
+
         if (isProduction) {
           banner.className = 'provider-banner active';
           statusText.textContent = `${provider.name || 'provider'} · ${provider.model || 'model'} نشط`;
@@ -974,7 +975,7 @@
       loadStats();
       checkProviderStatus();
       setupScrollAnimations();
-      
+
       // Refresh stats periodically
       setInterval(loadStats, 30000);
     });

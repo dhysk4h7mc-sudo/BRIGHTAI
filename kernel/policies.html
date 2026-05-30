@@ -11,8 +11,9 @@
     gtag('config', 'G-8LLESL207Q');
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>محرر السياسات البصري | BrightAI Kernel</title>
-  <meta name="description" content="قم ببناء وإدارة قواعد حماية البيانات وسياسات الحوكمة وحساب المخاطر لـ BrightAI Kernel للامتثال لمتطلبات PDPL وSAMA وNCA.">
+  <title>محرر سياسات BrightAI Kernel البصري | BrightAI</title>
+<meta name="description" content="أنشئ وراجع سياسات الذكاء الاصطناعي داخل محرر بصري واضح، ثم اربطها بالضوابط والموافقات لضمان تشغيل منظم وقابل للتدقيق. بما يناسب بيئة العمل السعودية." />
+
   <link rel="stylesheet" href="/kernel/assets/css/kernel.css">
   <link rel="stylesheet" href="/frontend/vendor/fontawesome/css/all.min.css">
   <link rel="stylesheet" href="/frontend/css/unified-header.css?v=20260529-nav-v1">
@@ -593,7 +594,7 @@
                   <span style="color: var(--primary-color); font-weight: bold;">[BRIGHTAI_KERNEL_SCAN]</span>
                   <span class="badge badge-success" id="scanStatusBadge">جاهز</span>
                 </div>
-                
+
                 <div id="previewResults">
                   <div class="preview-metric">
                     <span>البيانات المكتشفة PII:</span>
@@ -650,7 +651,7 @@
       if (savedDemo !== null) {
         demoToggle.checked = savedDemo === 'true';
       }
-      
+
       demoToggle.addEventListener('change', () => {
         localStorage.setItem('demo_mode', demoToggle.checked);
         loadPolicies();
@@ -667,14 +668,14 @@
     async function loadPolicies() {
       const tableBody = document.getElementById('policyTableBody');
       const countBadge = document.getElementById('policyCount');
-      
+
       try {
         const response = await fetch(getApiUrl());
         if (!response.ok) throw new Error('فشل جلب البيانات من النواة');
-        
+
         policiesList = await response.json();
         countBadge.textContent = `${policiesList.length} قواعد نشطة`;
-        
+
         if (policiesList.length === 0) {
           tableBody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: var(--text-muted);">لا يوجد سياسات مسجلة حالياً. قم بإضافة قاعدة في الأعلى.</td></tr>`;
           return;
@@ -739,7 +740,7 @@
 
     async function savePolicy(e) {
       e.preventDefault();
-      
+
       const name = document.getElementById('ruleName').value;
       const description = document.getElementById('ruleDesc').value;
       const piiType = document.getElementById('piiType').value;
@@ -759,7 +760,7 @@
         });
 
         if (!response.ok) throw new Error('فشل إضافة السياسة');
-        
+
         document.getElementById('addPolicyForm').reset();
         await loadPolicies();
       } catch (err) {

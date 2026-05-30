@@ -10,9 +10,10 @@
 </script>
 <meta name="ai-assistant" content="صقر AI by BrightAI">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>صقر AI — لوحة القيادة الرئيسية | ميس للمنتجات الطبية</title>
+<title>صقر AI للرفض والجودة في المنتجات الطبية | BrightAI</title>
+<meta name="description" content="استكشف لوحة صقر AI لتحليل الرفض وتحسين الجودة في مصانع المنتجات الطبية السعودية، مع مؤشرات تنفيذية تساعد على تقليل الهدر ورفع الامتثال، دون تعقيد زائد." />
   <meta name="robots" content="index, follow">
-  <meta name="description" content="لوحة القيادة والتحليلات التنبئية المتكاملة لـ BrightAI وشات بوت الأمان - مصانع ميس للمنتجات الطبية.">
+
   <link rel="canonical" href="https://brightai.site/demo/ai-reject-dashboard/">
 <link rel="alternate" hreflang="ar-SA" href="https://brightai.site/demo/ai-reject-dashboard/">
 <link rel="alternate" hreflang="x-default" href="https://brightai.site/demo/ai-reject-dashboard/">
@@ -20,7 +21,7 @@
   <link rel="stylesheet" href="/demo/ai-reject-dashboard/frontend/assets/css/design-system.css">
   <link rel="stylesheet" href="/demo/ai-reject-dashboard/frontend/assets/css/notifications.css">
   <link rel="stylesheet" href="/demo/ai-reject-dashboard/frontend/assets/css/dashboard.css">
-  
+
   <!-- Bespoke Page Styling for Amplitude/Mixpanel Premium Aesthetics -->
   <style>
     /* Custom Styling Overrides for Advanced Layout Controls */
@@ -30,7 +31,7 @@
       overflow-x: hidden;
       min-height: 100vh;
     }
-    
+
     .app-wrapper {
       display: flex;
       width: 100%;
@@ -103,7 +104,7 @@
       flex-direction: column;
       box-shadow: var(--shadow-4);
     }
-    
+
     [dir="rtl"] .ai-assistant-drawer {
       transform: translateX(-100%);
     }
@@ -317,7 +318,7 @@
               <line x1="3" y1="18" x2="21" y2="18"></line>
             </svg>
           </button>
-          
+
           <div class="topbar-search-container">
             <input type="text" class="topbar-search-input" :placeholder="lang === 'ar' ? 'ابحث عن منتج، رمز وثيقة، أو قسم...' : 'Search items, docs, depts...'" x-model="searchQuery" @input="debouncedSearch()">
             <span class="topbar-search-icon">🔍</span>
@@ -395,7 +396,7 @@
                 <button class="btn btn-sm" :class="activePreset === 'year' ? 'btn-primary' : 'btn-outline'" @click="setPresetDate('year')" x-text="lang === 'ar' ? 'هذا العام' : 'Year'" aria-label="زر تفاعلي"></button>
               </div>
             </div>
-            
+
             <div style="display:flex; gap:var(--spacing-sm);">
               <button class="btn btn-sm btn-outline" @click="saveFilterPreset()" x-text="lang === 'ar' ? 'حفظ الفلترة الحالية' : 'Save Filter Preset'" aria-label="زر تفاعلي"></button>
               <button class="btn btn-sm btn-ghost" @click="clearAllFilters()" x-text="lang === 'ar' ? 'مسح الفلاتر' : 'Clear All'" aria-label="زر تفاعلي"></button>
@@ -444,7 +445,7 @@
                 <option value="Review">Review</option>
               </select>
             </div>
-            
+
             <div class="form-group">
               <label class="form-label" x-text="lang === 'ar' ? 'تصدير البيانات' : 'Export Data'"></label>
               <button class="btn btn-outline" style="width:100%; height:40px;" @click="exportFilteredData()">
@@ -551,7 +552,7 @@
             </div>
             <div id="chart-dept-cost" style="height:320px;"></div>
           </div>
-          
+
           <!-- Bar Chart: Top 10 Reasons -->
           <div class="card card-outlined" style="grid-column: span 2;">
             <div class="card-header">
@@ -587,7 +588,7 @@
 
         <!-- DASHBOARD SPLIT LAYOUT (AI Insights Panel, Activity Feed, Quick Actions) -->
         <section class="dashboard-layout-grid">
-          
+
           <!-- Main Area (AI Insights & Activity Feed) -->
           <div style="display:flex; flex-direction:column; gap:var(--spacing-xl);">
             <!-- AI Insights Panel -->
@@ -601,7 +602,7 @@
               </div>
               <div class="card-body">
                 <p style="font-size:var(--font-size-sm); line-height:1.6; color:var(--text-secondary); margin-bottom:var(--spacing-md);" x-text="aiSummary"></p>
-                
+
                 <h2 style="font-weight:600; font-size:var(--font-size-sm); color:var(--text-primary); margin-bottom:var(--spacing-sm);" x-text="lang === 'ar' ? 'أهم 3 نتائج وتوصيات حرجة:' : 'Top 3 Critical Insights:'"></h2>
                 <div style="display:flex; flex-direction:column; gap:var(--spacing-sm);">
                   <template x-for="finding in aiFindings">
@@ -682,7 +683,7 @@
               <h3 class="card-title" x-text="lang === 'ar' ? 'سجل المرفوضات الفعلي (الربط المباشر مع Excel)' : 'Active Reject Log (Live Excel Feed)'"></h3>
               <span class="badge badge-primary" x-text="filteredRejects.length + ' سجل مصفى'"></span>
             </div>
-            
+
             <div style="display:flex; align-items:center; gap:var(--spacing-sm); flex-wrap:wrap;">
               <!-- Bulk Actions Bar (Visible when rows selected) -->
               <div x-show="selectedRows.length > 0" style="display:flex; align-items:center; gap:var(--spacing-sm); background-color:var(--color-primary-light); padding:4px var(--spacing-sm); border-radius:var(--radius-md); border:1px solid var(--color-primary);">
@@ -796,15 +797,15 @@
           <!-- Pagination Bar -->
           <div class="pagination">
             <span class="pagination-info" x-text="lang === 'ar' ? `عرض سجلات من ${pagination.start} إلى ${pagination.end} من أصل ${filteredRejects.length}` : `Showing ${pagination.start} - ${pagination.end} of ${filteredRejects.length} records`"></span>
-            
+
             <div class="pagination-nav">
               <button class="pagination-link" :class="{ 'is-disabled': pagination.page === 1 }" @click="setPage(pagination.page - 1)" aria-label="الصفحة السابقة">
                 <span class="pagination-arrow-icon">←</span>
                 <span x-text="lang === 'ar' ? 'السابق' : 'Prev'"></span>
               </button>
-              
+
               <button class="pagination-link is-active" x-text="pagination.page" aria-label="زر تفاعلي"></button>
-              
+
               <button class="pagination-link" :class="{ 'is-disabled': pagination.page === pagination.totalPages }" @click="setPage(pagination.page + 1)" aria-label="الصفحة التالية">
                 <span x-text="lang === 'ar' ? 'التالي' : 'Next'"></span>
                 <span class="pagination-arrow-icon">→</span>
