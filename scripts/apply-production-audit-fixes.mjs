@@ -56,6 +56,34 @@ function extractDescription(html, title) {
   return stripTags(meta?.[1] || extractFirst(html, /<p\b[^>]*>([\s\S]*?)<\/p>/i) || title).slice(0, 220);
 }
 
+function extractMetaContent(html, nameOrProperty) {
+  const escaped = nameOrProperty.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const byName = new RegExp(`<meta\\b[^>]*(?:name|property)=["']${escaped}["'][^>]*content=["']([^"']*)["'][^>]*>`, "i");
+  const byContent = new RegExp(`<meta\\b[^>]*content=["']([^"']*)["'][^>]*(?:name|property)=["']${escaped}["'][^>]*>`, "i");
+  return stripTags((html.match(byName) || html.match(byContent) || [])[1] || "");
+}
+
+function extractExistingSchemaName(html, idPattern) {
+  const script = html.match(/<script\b[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/i)?.[1];
+  if (!script) return "";
+  try {
+    const parsed = JSON.parse(script);
+    const nodes = Array.isArray(parsed?.["@graph"]) ? parsed["@graph"] : [parsed];
+    const node = nodes.find((item) => String(item?.["@id"] || "").includes(idPattern));
+    return stripTags(node?.name || "");
+  } catch {
+    return "";
+  }
+}
+
+function brandNameForSchema(html, fallback = "Bright AI") {
+  return extractExistingSchemaName(html, "#organization")
+    || extractMetaContent(html, "og:site_name")
+    || extractMetaContent(html, "publisher")
+    || extractMetaContent(html, "author")
+    || fallback;
+}
+
 function extractH1(html, title) {
   return extractFirst(html, /<h1\b[^>]*>([\s\S]*?)<\/h1>/i) || title.replace(/\s*\|\s*Bright AI\s*$/i, "");
 }
@@ -66,11 +94,11 @@ function detectLanguage(relPath, html) {
   return "ar";
 }
 
-function orgGraph() {
+function orgGraph(brandName) {
   return {
     "@type": ["Organization", "LocalBusiness"],
     "@id": `${BASE_URL}/#organization`,
-    name: "Bright AI",
+    name: brandName,
     url: BASE_URL,
     logo: `${BASE_URL}/frontend/assets/images/logo.png`,
     areaServed: "SA",
@@ -78,20 +106,20 @@ function orgGraph() {
   };
 }
 
-function websiteGraph() {
+function websiteGraph(brandName) {
   return {
     "@type": "WebSite",
     "@id": `${BASE_URL}/#website`,
     url: BASE_URL,
-    name: "Bright AI",
+    name: brandName,
     publisher: { "@id": `${BASE_URL}/#organization` },
     inLanguage: ["ar-SA", "en-SA"]
   };
 }
 
-function breadcrumbGraph(relPath, title, canonical) {
+function breadcrumbGraph(relPath, title, canonical, brandName) {
   const parts = routeFromRel(relPath).split("/").filter(Boolean);
-  const items = [{ "@type": "ListItem", position: 1, name: "Bright AI", item: `${BASE_URL}/` }];
+  const items = [{ "@type": "ListItem", position: 1, name: brandName, item: `${BASE_URL}/` }];
   let current = BASE_URL;
   parts.forEach((part, index) => {
     current += `/${part}`;
@@ -172,9 +200,10 @@ function schemaJson(relPath, html) {
   const title = extractTitle(html);
   const description = extractDescription(html, title);
   const lang = detectLanguage(relPath, html);
+  const brandName = brandNameForSchema(html);
   const graph = [
-    orgGraph(),
-    websiteGraph(),
+    orgGraph(brandName),
+    websiteGraph(brandName),
     {
       "@type": "WebPage",
       "@id": `${canonical}#webpage`,
@@ -185,7 +214,7 @@ function schemaJson(relPath, html) {
       about: { "@id": `${BASE_URL}/#organization` },
       inLanguage: lang === "en" ? "en-SA" : "ar-SA"
     },
-    breadcrumbGraph(relPath, title, canonical)
+    breadcrumbGraph(relPath, title, canonical, brandName)
   ];
   const service = serviceGraph(relPath, title, description, canonical);
   if (service) graph.push(service);
@@ -228,10 +257,8 @@ function ensureAssetTags(html) {
 
 function ensureSchema(html, relPath) {
   const marker = "brightai-production-schema";
+  if (html.includes(`id="${marker}"`)) return html;
   const script = `<script id="${marker}" type="application/ld+json">\n${schemaJson(relPath, html)}\n  </script>`;
-  if (html.includes(`id="${marker}"`)) {
-    return html.replace(/<script\b[^>]*id=["']brightai-production-schema["'][\s\S]*?<\/script>/i, script);
-  }
   return html.replace(/<\/head>/i, `  ${script}\n</head>`);
 }
 
