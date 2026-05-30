@@ -329,6 +329,252 @@
       color: var(--danger);
       font-size: 0.875rem;
     }
+
+    /* Trace Timeline */
+    .trace-timeline-card {
+      padding: var(--space-5);
+      margin-bottom: var(--space-6);
+    }
+
+    .trace-timeline-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: var(--space-4);
+      margin-bottom: var(--space-5);
+    }
+
+    @media (max-width: 720px) {
+      .trace-timeline-header {
+        flex-direction: column;
+      }
+    }
+
+    .trace-timeline-eyebrow {
+      color: var(--text-tertiary);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: var(--space-1);
+    }
+
+    .trace-timeline-title {
+      font-size: 1.0625rem;
+      font-weight: 700;
+      margin-bottom: var(--space-1);
+    }
+
+    .trace-timeline-subtitle {
+      color: var(--text-secondary);
+      font-size: 0.8125rem;
+    }
+
+    .trace-id-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      min-height: 40px;
+      padding: var(--space-2) var(--space-3);
+      background: rgba(0, 212, 255, 0.08);
+      border: 1px solid var(--border-active);
+      border-radius: var(--radius-sm);
+      color: var(--brand-light);
+      cursor: pointer;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.8125rem;
+      transition: border-color var(--transition-fast), background var(--transition-fast);
+    }
+
+    .trace-id-chip:hover {
+      background: rgba(0, 212, 255, 0.13);
+      border-color: var(--brand);
+    }
+
+    .trace-id-chip i {
+      font-size: 0.875rem;
+    }
+
+    .trace-timeline-list {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(126px, 1fr));
+      gap: var(--space-3);
+      margin-bottom: var(--space-5);
+    }
+
+    @media (max-width: 1024px) {
+      .trace-timeline-list {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .trace-timeline-list {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .trace-step {
+      position: relative;
+      min-height: 150px;
+      padding: var(--space-4);
+      background: rgba(17, 30, 56, 0.72);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+    }
+
+    .trace-step::before {
+      content: '';
+      position: absolute;
+      inset-block-start: 0;
+      inset-inline: 0;
+      height: 3px;
+      background: var(--text-tertiary);
+      opacity: 0.75;
+    }
+
+    .trace-step.complete::before { background: var(--success); }
+    .trace-step.pending::before { background: var(--warning); }
+    .trace-step.skipped::before { background: var(--text-tertiary); }
+
+    .trace-step-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-2);
+      margin-bottom: var(--space-3);
+    }
+
+    .trace-step-index {
+      width: 28px;
+      height: 28px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius-full);
+      background: rgba(0, 212, 255, 0.08);
+      border: 1px solid var(--border);
+      color: var(--brand-light);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    .trace-step-status {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      color: var(--text-tertiary);
+    }
+
+    .trace-step.complete .trace-step-status { color: var(--success); }
+    .trace-step.pending .trace-step-status { color: var(--warning); }
+
+    .trace-step-code {
+      direction: ltr;
+      text-align: left;
+      font-family: 'IBM Plex Mono', monospace;
+      color: var(--text-primary);
+      font-size: 0.75rem;
+      line-height: 1.35;
+      word-break: break-word;
+      margin-bottom: var(--space-2);
+    }
+
+    .trace-step-meta {
+      color: var(--text-secondary);
+      font-size: 0.75rem;
+      line-height: 1.55;
+    }
+
+    .trace-step-hash {
+      direction: ltr;
+      text-align: left;
+      margin-top: var(--space-3);
+      color: var(--text-tertiary);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.6875rem;
+      word-break: break-all;
+    }
+
+    .hash-chain-visual {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: var(--space-4);
+      align-items: center;
+      padding: var(--space-4);
+      background: rgba(3, 10, 24, 0.45);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+    }
+
+    @media (max-width: 720px) {
+      .hash-chain-visual {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .hash-chain-track {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      overflow-x: auto;
+      padding-bottom: var(--space-1);
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .hash-node {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      flex: 0 0 auto;
+      color: var(--text-secondary);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.6875rem;
+    }
+
+    .hash-node-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: var(--radius-full);
+      background: var(--success);
+      box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.12);
+    }
+
+    .hash-node.invalid .hash-node-dot {
+      background: var(--danger);
+      box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.12);
+    }
+
+    .hash-link {
+      width: 34px;
+      height: 1px;
+      flex: 0 0 34px;
+      background: rgba(148, 163, 184, 0.35);
+    }
+
+    .hash-chain-result {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      min-height: 38px;
+      padding: var(--space-2) var(--space-3);
+      border-radius: var(--radius-sm);
+      font-size: 0.8125rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .hash-chain-result.valid {
+      background: var(--success-bg);
+      color: var(--success);
+    }
+
+    .hash-chain-result.invalid {
+      background: var(--danger-bg);
+      color: var(--danger);
+    }
   </style>
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://brightai.site/kernel/audit/">
@@ -453,6 +699,31 @@
         </div>
       </div>
 
+      <!-- Trace Timeline -->
+      <div class="glass-card trace-timeline-card" id="trace-timeline-card">
+        <div class="trace-timeline-header">
+          <div>
+            <div class="trace-timeline-eyebrow">Trace Timeline</div>
+            <div class="trace-timeline-title">مسار الطلب من الاستلام حتى الدليل</div>
+            <div class="trace-timeline-subtitle" id="trace-timeline-subtitle">يتم اختيار أحدث trace تلقائياً أو حسب trace_id في الرابط.</div>
+          </div>
+          <button class="trace-id-chip" id="copy-trace-id" type="button" onclick="copySelectedTraceId()" title="نسخ trace id">
+            <i class="fa-regular fa-copy" aria-hidden="true"></i>
+            <span id="selected-trace-id">—</span>
+          </button>
+        </div>
+        <div class="trace-timeline-list" id="trace-timeline-list" aria-label="Trace timeline">
+          <div class="loading-entries">جاري بناء خط التتبع...</div>
+        </div>
+        <div class="hash-chain-visual" aria-label="التحقق البصري من hash chain">
+          <div class="hash-chain-track" id="hash-chain-track"></div>
+          <div class="hash-chain-result valid" id="hash-chain-result">
+            <i class="fa-solid fa-shield-check" aria-hidden="true"></i>
+            <span>جاري التحقق</span>
+          </div>
+        </div>
+      </div>
+
       <!-- Filters -->
       <div class="filters-bar" role="group" aria-label="فلاتر السجل">
         <button class="filter-btn active" data-action="all" onclick="setActionFilter(this,'all')">الكل</button>
@@ -493,6 +764,7 @@
 
   <script>
     let allEntries = [];
+    let activeTraceId = '';
     let currentActionFilter = 'all';
     const auditSearchParams = new URLSearchParams(window.location.search);
     const selectedTraceId = auditSearchParams.get('trace_id') || '';
@@ -507,7 +779,48 @@
       'EXECUTED': { label: 'تنفيذ', cls: 'execute' },
       'BLOCKED': { label: 'حظر', cls: 'block' },
       'SYSTEM': { label: 'نظام', cls: 'system' },
+      'REQUEST_RECEIVED': { label: 'استلام', cls: 'chat' },
+      'PII_SCANNED': { label: 'فحص PII', cls: 'system' },
+      'RISK_SCORED': { label: 'تقييم خطر', cls: 'system' },
+      'MODEL_CALLED': { label: 'استدعاء نموذج', cls: 'execute' },
+      'EVIDENCE_GENERATED': { label: 'دليل', cls: 'approve' },
     };
+
+    const TRACE_STAGES = [
+      {
+        key: 'REQUEST_RECEIVED',
+        label: 'استلام الطلب',
+        meta: (record) => `المستخدم: ${record.userName || record.user_name || record.actor || 'غير محدد'}`
+      },
+      {
+        key: 'PII_SCANNED',
+        label: 'فحص البيانات الحساسة',
+        meta: (record) => {
+          const piiTypes = getPiiTypes(record);
+          return piiTypes.length ? `تم رصد: ${piiTypes.join(', ')}` : 'لا توجد PII مرصودة';
+        }
+      },
+      {
+        key: 'RISK_SCORED',
+        label: 'احتساب المخاطر',
+        meta: (record) => `الدرجة: ${getRiskScore(record)} · المستوى: ${getRiskLabel(getRiskLevel(record))}`
+      },
+      {
+        key: 'APPROVAL_REQUESTED',
+        label: 'طلب موافقة',
+        meta: (record) => `الحالة: ${getApprovalLabel(record.approvalStatus || record.approval_status || record.status)}`
+      },
+      {
+        key: 'MODEL_CALLED',
+        label: 'استدعاء النموذج',
+        meta: (record) => `النموذج: ${record.model || record.response_model || record.responseModel || record.responseProvider || 'غير متوفر'}`
+      },
+      {
+        key: 'EVIDENCE_GENERATED',
+        label: 'توليد الدليل',
+        meta: (record) => `الدليل مرتبط بسجل hash: ${shortHash(getRecordHash(record))}`
+      }
+    ];
 
     document.addEventListener('DOMContentLoaded', () => {
       loadAuditChain();
@@ -534,6 +847,9 @@
         if (selectedRiskLevel) params.riskLevel = selectedRiskLevel;
         const data = await kernelAPI.getAuditLog(params);
         allEntries = data.rows || data.entries || [];
+        activeTraceId = resolveActiveTraceId(allEntries);
+        renderTraceTimeline();
+        renderHashChainVisual(data);
         renderEntries();
       } catch (err) {
         console.log('[v0] Failed to load filtered audit entries:', err);
@@ -565,6 +881,9 @@
 
       // Entries
       allEntries = data.entries || [];
+      activeTraceId = resolveActiveTraceId(allEntries);
+      renderTraceTimeline();
+      renderHashChainVisual(data);
       document.getElementById('entries-count').textContent = `${allEntries.length} إدخالاً`;
       renderEntries();
     }
@@ -572,6 +891,12 @@
     function renderChainError() {
       document.getElementById('chain-title').textContent = 'تعذّر تحميل بيانات السلسلة';
       document.getElementById('chain-hash').textContent = '—';
+      document.getElementById('trace-timeline-list').innerHTML =
+        '<div class="error-state">تعذّر بناء خط التتبع.</div>';
+      document.getElementById('hash-chain-track').innerHTML = '';
+      document.getElementById('hash-chain-result').className = 'hash-chain-result invalid';
+      document.getElementById('hash-chain-result').innerHTML =
+        '<i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i><span>غير متاح</span>';
       document.getElementById('audit-log-body').innerHTML =
         '<div class="error-state">تعذّر تحميل سجل التدقيق. يرجى المحاولة مجدداً.</div>';
     }
@@ -608,7 +933,7 @@
         );
       }
       if (selectedTraceId) {
-        items = items.filter(e => (e.traceId || '').toLowerCase() === selectedTraceId.toLowerCase());
+        items = items.filter(e => getTraceId(e).toLowerCase() === selectedTraceId.toLowerCase());
       }
       if (selectedDepartment) {
         items = items.filter(e => getDepartment(e).toLowerCase() === selectedDepartment.toLowerCase());
@@ -632,14 +957,14 @@
       }
 
       body.innerHTML = items.slice(0, 100).map(entry => {
-        const action = entry.action || 'UNKNOWN';
+        const action = entry.action || entry.eventType || entry.event_type || 'UNKNOWN';
         const info = ACTION_LABELS[action] || { label: action, cls: 'system' };
         const time = entry.timestamp
           ? new Date(entry.timestamp).toLocaleString('ar-SA', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
           : '—';
         const traceId = getTraceId(entry);
         const shortId = (entry.requestId || '').substring(0, 12);
-        const shortHash = (entry.hash || '').substring(0, 12);
+        const shortHashValue = shortHash(getRecordHash(entry));
         const actor = KernelUtils.escapeHtml(entry.actor || 'نظام');
         const department = getDepartment(entry);
         const riskLevel = getRiskLevel(entry);
@@ -654,7 +979,7 @@
             <span class="audit-details">
               <span class="actor">${actor}</span> — ${KernelUtils.escapeHtml(department)} · ${KernelUtils.escapeHtml(getRiskLabel(riskLevel))} · Trace: ${traceLink}
             </span>
-            <span class="audit-hash" onclick="copyToClipboard('${entry.hash || ''}')" title="نسخ التجزئة">${shortHash}...</span>
+            <span class="audit-hash" onclick="copyToClipboard('${getRecordHash(entry)}')" title="نسخ التجزئة">${shortHashValue}</span>
           </div>
         `;
       }).join('');
@@ -663,6 +988,199 @@
     function getTraceId(record = {}) {
       const value = record.traceId || record.trace_id || record.kernel?.traceId || record.metadata?.traceId || record.summary?.traceId;
       return /^AI-\d{4}-\d{5,}$/.test(String(value || '')) ? String(value) : '';
+    }
+
+    function resolveActiveTraceId(entries = []) {
+      if (selectedTraceId) return selectedTraceId;
+      const firstWithTrace = entries.find((entry) => getTraceId(entry));
+      return firstWithTrace ? getTraceId(firstWithTrace) : '';
+    }
+
+    function renderTraceTimeline() {
+      const traceLabel = document.getElementById('selected-trace-id');
+      const subtitle = document.getElementById('trace-timeline-subtitle');
+      const list = document.getElementById('trace-timeline-list');
+      traceLabel.textContent = activeTraceId || '—';
+
+      if (!activeTraceId) {
+        subtitle.textContent = 'لا يوجد trace_id صالح في السجلات المحملة.';
+        list.innerHTML = '<div class="loading-entries">لا يوجد trace timeline لهذا العرض.</div>';
+        return;
+      }
+
+      const traceEntries = allEntries.filter((entry) => getTraceId(entry) === activeTraceId);
+      const baseRecord = traceEntries[0] || {};
+      subtitle.textContent = selectedTraceId
+        ? 'تم عرض trace محدد من الرابط.'
+        : 'تم اختيار أحدث trace متاح تلقائياً.';
+
+      list.innerHTML = TRACE_STAGES.map((stage, index) => {
+        const event = findStageEvent(traceEntries, stage.key);
+        const source = event || baseRecord;
+        const state = getStageState(stage.key, source, event);
+        const hash = getRecordHash(source) || getPayloadHash(source);
+        const time = getStageTime(source);
+        return `
+          <article class="trace-step ${state.cls}">
+            <div class="trace-step-head">
+              <span class="trace-step-index">${index + 1}</span>
+              <span class="trace-step-status">${state.label}</span>
+            </div>
+            <div class="trace-step-code">${stage.key}</div>
+            <div class="trace-step-meta">${KernelUtils.escapeHtml(stage.label)}${time ? ` · ${KernelUtils.escapeHtml(time)}` : ''}</div>
+            <div class="trace-step-meta">${KernelUtils.escapeHtml(stage.meta(source))}</div>
+            <div class="trace-step-hash">${KernelUtils.escapeHtml(hash ? shortHash(hash) : 'hash: —')}</div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    function renderHashChainVisual(data = {}) {
+      const track = document.getElementById('hash-chain-track');
+      const result = document.getElementById('hash-chain-result');
+      const entries = sortChainEntries(allEntries).filter((entry) => getRecordHash(entry));
+      const verification = verifyVisibleHashChain(entries, data);
+      const sample = entries.slice(-6);
+
+      if (!sample.length) {
+        track.innerHTML = '<span class="hash-node">لا توجد hashes كافية للعرض</span>';
+      } else {
+        track.innerHTML = sample.map((entry, index) => {
+          const nodeValid = isNodeLinked(entries, entry, data);
+          const link = index < sample.length - 1 ? '<span class="hash-link" aria-hidden="true"></span>' : '';
+          return `
+            <span class="hash-node ${nodeValid ? 'valid' : 'invalid'}">
+              <span class="hash-node-dot" aria-hidden="true"></span>
+              <span>${KernelUtils.escapeHtml(shortHash(getRecordHash(entry)))}</span>
+            </span>${link}
+          `;
+        }).join('');
+      }
+
+      result.className = `hash-chain-result ${verification.valid ? 'valid' : 'invalid'}`;
+      result.innerHTML = verification.valid
+        ? '<i class="fa-solid fa-shield-check" aria-hidden="true"></i><span>Hash chain مطابق بصرياً</span>'
+        : `<i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i><span>${KernelUtils.escapeHtml(verification.reason)}</span>`;
+    }
+
+    function findStageEvent(entries, stageKey) {
+      return entries.find((entry) => (entry.eventType || entry.event_type || entry.action) === stageKey);
+    }
+
+    function getStageState(stageKey, record = {}, event = null) {
+      if (event) return { cls: 'complete', label: 'مكتمل' };
+      const approvalStatus = String(record.approvalStatus || record.approval_status || '').toLowerCase();
+      const hasResponse = Boolean(record.response || record.gemini_response || record.response_model || record.model);
+      const isBlocked = approvalStatus === 'blocked' || String(record.action || '').toUpperCase() === 'BLOCKED';
+      const isPending = approvalStatus === 'pending';
+
+      if (stageKey === 'REQUEST_RECEIVED') return { cls: 'complete', label: 'مكتمل' };
+      if (stageKey === 'PII_SCANNED') return { cls: 'complete', label: 'مكتمل' };
+      if (stageKey === 'RISK_SCORED') return { cls: 'complete', label: 'مكتمل' };
+      if (stageKey === 'APPROVAL_REQUESTED') {
+        return (isPending || ['approved', 'rejected', 'approved_completed'].includes(approvalStatus))
+          ? { cls: 'complete', label: 'مكتمل' }
+          : { cls: 'skipped', label: 'غير مطلوب' };
+      }
+      if (stageKey === 'MODEL_CALLED') {
+        if (hasResponse) return { cls: 'complete', label: 'مكتمل' };
+        return isBlocked || isPending
+          ? { cls: 'skipped', label: isPending ? 'بانتظار الموافقة' : 'تم الحظر' }
+          : { cls: 'pending', label: 'غير مؤكد' };
+      }
+      if (stageKey === 'EVIDENCE_GENERATED') {
+        return getRecordHash(record)
+          ? { cls: 'complete', label: 'مكتمل' }
+          : { cls: 'pending', label: 'غير مؤكد' };
+      }
+      return { cls: 'pending', label: 'غير مؤكد' };
+    }
+
+    function sortChainEntries(entries = []) {
+      return entries.slice().sort((a, b) => {
+        const serialA = Number(a.serialId || a.serial_id || 0);
+        const serialB = Number(b.serialId || b.serial_id || 0);
+        if (serialA || serialB) return serialA - serialB;
+        return Number(new Date(a.timestamp || a.createdAt || a.created_at || 0)) - Number(new Date(b.timestamp || b.createdAt || b.created_at || 0));
+      });
+    }
+
+    function verifyVisibleHashChain(entries = [], data = {}) {
+      if (data.chainStatus === 'INVALID' || data.valid === false) {
+        return { valid: false, reason: 'Hash chain غير مطابق' };
+      }
+      if (data.chainStatus === 'VALID' || data.valid === true) {
+        return { valid: true, reason: 'مطابق' };
+      }
+      for (let index = 1; index < entries.length; index += 1) {
+        const expected = getRecordHash(entries[index - 1]);
+        const actual = getPreviousHash(entries[index]);
+        if (actual && expected && actual !== expected) {
+          return { valid: false, reason: 'انقطاع في previousHash' };
+        }
+      }
+      return { valid: true, reason: 'مطابق' };
+    }
+
+    function isNodeLinked(entries, entry, data = {}) {
+      if (data.chainStatus === 'INVALID' || data.valid === false) return false;
+      if (data.chainStatus === 'VALID' || data.valid === true) return true;
+      const index = entries.indexOf(entry);
+      if (index <= 0) return true;
+      const previousHash = getPreviousHash(entry);
+      return !previousHash || previousHash === getRecordHash(entries[index - 1]);
+    }
+
+    function getPiiTypes(record = {}) {
+      const value = record.piiTypes || record.pii_types || record.piiDetected || record.pii_detected || [];
+      if (Array.isArray(value)) return value.filter(Boolean).map(String);
+      if (typeof value === 'string') {
+        try {
+          const parsed = JSON.parse(value);
+          return Array.isArray(parsed) ? parsed.filter(Boolean).map(String) : [];
+        } catch (_error) {
+          return value ? [value] : [];
+        }
+      }
+      return [];
+    }
+
+    function getRiskScore(record = {}) {
+      const value = record.riskScore ?? record.risk_score ?? record.risk?.score ?? 0;
+      return Number.isFinite(Number(value)) ? Number(value) : 0;
+    }
+
+    function getApprovalLabel(status) {
+      const labels = {
+        blocked: 'محظور',
+        pending: 'بانتظار الموافقة',
+        approved: 'موافق عليه',
+        rejected: 'مرفوض',
+        approved_completed: 'تم التنفيذ',
+        auto_approved: 'موافقة تلقائية'
+      };
+      return labels[String(status || '').toLowerCase()] || 'غير مطلوب';
+    }
+
+    function getStageTime(record = {}) {
+      const value = record.timestamp || record.createdAt || record.created_at;
+      return value ? new Date(value).toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit', second: '2-digit' }) : '';
+    }
+
+    function getRecordHash(record = {}) {
+      return String(record.recordHash || record.record_hash || record.hash || '');
+    }
+
+    function getPayloadHash(record = {}) {
+      return String(record.payloadHash || record.payload_hash || '');
+    }
+
+    function getPreviousHash(record = {}) {
+      return String(record.previousHash || record.previous_hash || '');
+    }
+
+    function shortHash(hash = '') {
+      return hash ? `${String(hash).substring(0, 12)}...` : '—';
     }
 
     function getDepartment(record = {}) {
@@ -689,6 +1207,11 @@
     function copyHash(el) {
       const text = el.textContent.trim();
       copyToClipboard(text);
+    }
+
+    function copySelectedTraceId() {
+      if (!activeTraceId) return;
+      copyToClipboard(activeTraceId);
     }
 
     function copyToClipboard(text) {
