@@ -137,18 +137,19 @@
       const response = data.response || '';
       const metadata = data.metadata || data.kernel || {};
       const traceId = this.getTraceId(data);
+      const governanceMeta = this.normalizeGovernanceMeta({ ...data, ...metadata, traceId });
 
       // Update governance state
       if (metadata) {
         this.state.governance = {
-          riskLevel: metadata.riskLevel || metadata.risk?.level || 'low',
-          piiDetected: metadata.piiDetected || metadata.firewall?.piiDetected || false,
+          riskLevel: governanceMeta.riskLevel,
+          piiDetected: governanceMeta.piiDetected,
           requiresApproval: false,
         };
       }
 
       // Add AI response with typewriter effect
-      this.addMessageToUI('', 'ai', { traceId });
+      this.addMessageToUI('', 'ai', { ...data, ...metadata, traceId });
       const messages = document.querySelectorAll('.message.ai');
       const lastMessage = messages[messages.length - 1];
 
@@ -160,7 +161,7 @@
       this.state.messages.push({
         role: 'assistant',
         content: response,
-        metadata: { ...metadata, traceId },
+        metadata: { ...metadata, traceId, governance: governanceMeta },
         timestamp: Date.now(),
       });
 
@@ -178,7 +179,7 @@
         const riskEl = document.getElementById('approval-risk');
 
         if (reasonEl) reasonEl.textContent = pendingApproval.reasonText || 'محتوى يتطلب موافقة إدارية';
-      if (riskEl) {
+        if (riskEl) {
           riskEl.textContent = `مستوى الخطر: ${this.getRiskLabel(pendingApproval.riskLevel)}`;
           riskEl.className = `risk-badge risk-${pendingApproval.riskLevel}`;
         }
@@ -189,6 +190,10 @@
       this.addMessageToUI('تم اكتشاف محتوى حساس. يتطلب موافقة إدارية.', 'governance', {
         traceId: pendingApproval.traceId,
         targetPage: 'approvals',
+        riskScore: pendingApproval.riskScore,
+        riskLevel: pendingApproval.riskLevel,
+        firewallAction: 'pending_approval',
+        piiDetected: data.piiDetected || data.kernel?.firewall?.piiDetected || data.metadata?.firewall?.piiDetected || false,
       });
     },
 
@@ -309,6 +314,9 @@
       if (traceId) {
         messageEl.appendChild(this.createTraceLink(traceId, meta.targetPage || 'evidence'));
       }
+      if (this.shouldRenderGovernanceCard(type, meta)) {
+        messageEl.appendChild(this.createGovernanceCard(meta));
+      }
       messagesContainer.appendChild(messageEl);
 
       // Scroll to bottom
@@ -411,9 +419,174 @@
     createTraceLink(traceId, targetPage = 'evidence') {
       const link = document.createElement('a');
       link.className = 'kernel-trace-link';
-      link.href = `/kernel/${targetPage}.html?trace_id=${encodeURIComponent(traceId)}`;
+      link.href = targetPage === 'approvals'
+        ? `/kernel/approvals/?trace_id=${encodeURIComponent(traceId)}`
+        : `/kernel/${targetPage}/?trace_id=${encodeURIComponent(traceId)}`;
       link.textContent = traceId;
       link.title = 'فتح سجل Trace ID';
+      return link;
+    },
+
+    shouldRenderGovernanceCard(type, meta = {}) {
+      return ['ai', 'governance'].includes(type) || Boolean(
+        meta.riskScore !== undefined ||
+        meta.riskLevel ||
+        meta.piiDetected !== undefined ||
+        meta.firewallAction ||
+        meta.firewall ||
+        meta.kernel?.firewall ||
+        this.getTraceId(meta)
+      );
+    },
+
+    normalizePiiItems(value) {
+      if (Array.isArray(value)) return value.filter(Boolean);
+      if (!value || typeof value !== 'object') return [];
+      if (Array.isArray(value.items)) return value.items.filter(Boolean);
+      if (Array.isArray(value.detected)) return value.detected.filter(Boolean);
+      if (Array.isArray(value.entities)) return value.entities.filter(Boolean);
+      if (value.type || value.name) return [value];
+      return Object.entries(value)
+        .filter(([, detected]) => detected === true)
+        .map(([type]) => type);
+    },
+
+    normalizeBooleanSignal(value) {
+      if (Array.isArray(value)) return value.length > 0;
+      if (typeof value === 'boolean') return value;
+      if (typeof value === 'number') return value > 0;
+      if (typeof value === 'string') {
+        const normalized = value.trim().toLowerCase();
+        return ['true', 'yes', 'detected', 'found', '1'].includes(normalized);
+      }
+      return Boolean(value && typeof value === 'object' && this.normalizePiiItems(value).length > 0);
+    },
+
+    clampRiskScore(value) {
+      const score = Number(value);
+      if (!Number.isFinite(score)) return 0;
+      return Math.max(0, Math.min(100, Math.round(score)));
+    },
+
+    normalizeGovernanceMeta(data = {}) {
+      const riskScore = this.clampRiskScore(
+        data.riskScore ??
+        data.kernel?.risk?.score ??
+        data.metadata?.riskScore ??
+        data.metadata?.risk?.score ??
+        data.summary?.riskScore ??
+        0
+      );
+      const riskLevel = data.riskLevel || data.kernel?.risk?.level || data.metadata?.riskLevel || data.metadata?.risk?.level || (
+        riskScore < 30 ? 'low' : riskScore < 60 ? 'medium' : riskScore < 85 ? 'high' : 'critical'
+      );
+      const rawPii = data.piiDetected ??
+        data.pii ??
+        data.firewall?.piiDetected ??
+        data.kernel?.piiDetected ??
+        data.kernel?.firewall?.piiDetected ??
+        data.metadata?.piiDetected ??
+        data.metadata?.firewall?.piiDetected;
+      const piiItems = this.normalizePiiItems(rawPii);
+      const piiDetected = piiItems.length > 0 || this.normalizeBooleanSignal(rawPii);
+      const firewallAction = data.firewallAction ||
+        data.firewall?.action ||
+        data.kernel?.firewall?.action ||
+        data.metadata?.firewall?.action ||
+        data.decision ||
+        data.status ||
+        'allowed';
+
+      return {
+        riskScore,
+        riskLevel,
+        piiDetected,
+        piiItems,
+        firewallAction,
+        traceId: data.traceId || this.getTraceId(data),
+      };
+    },
+
+    governanceHref(page, traceId) {
+      const safe = traceId ? `?trace_id=${encodeURIComponent(traceId)}` : '';
+      if (page === 'audit') return `/kernel/audit/${safe}`;
+      if (page === 'policies') {
+        return traceId
+          ? `/kernel/policies/?create=1&trace_id=${encodeURIComponent(traceId)}`
+          : '/kernel/policies/?create=1';
+      }
+      return `/kernel/evidence/${safe}`;
+    },
+
+    cssToken(value) {
+      return String(value || '').toLowerCase().replace(/[^a-z0-9_-]/g, '-');
+    },
+
+    createGovernanceCard(meta = {}) {
+      const normalized = this.normalizeGovernanceMeta(meta);
+      const card = document.createElement('div');
+      card.className = 'kernel-governance-card';
+      card.setAttribute('aria-label', 'ملخص الحوكمة');
+
+      const grid = document.createElement('div');
+      grid.className = 'kernel-governance-grid';
+
+      const piiItemsText = normalized.piiItems
+        .map((item) => (typeof item === 'string' ? item : item.type || item.name || 'PII'))
+        .join('، ');
+      const piiLabel = normalized.piiDetected
+        ? `نعم${piiItemsText ? ` · ${piiItemsText}` : ''}`
+        : 'لا';
+      const actionLabel = this.getDecisionLabel(normalized.firewallAction) || normalized.firewallAction;
+
+      grid.appendChild(this.createGovernanceItem('Risk score', `${normalized.riskScore}%`, `risk-${this.cssToken(normalized.riskLevel)}`));
+      grid.appendChild(this.createGovernanceItem('PII detected', piiLabel, normalized.piiDetected ? 'pii-yes' : 'pii-no'));
+      grid.appendChild(this.createGovernanceItem('Firewall action', actionLabel, `action-${this.cssToken(normalized.firewallAction)}`));
+      grid.appendChild(this.createGovernanceItem('Trace ID', normalized.traceId || 'غير متوفر', 'trace'));
+      card.appendChild(grid);
+
+      const actions = document.createElement('div');
+      actions.className = 'kernel-governance-actions';
+      actions.setAttribute('aria-label', 'إجراءات الحوكمة');
+      actions.appendChild(this.createGovernanceButton('Audit', 'fa-list-check', this.governanceHref('audit', normalized.traceId)));
+      actions.appendChild(this.createGovernanceButton('Evidence', 'fa-file-shield', this.governanceHref('evidence', normalized.traceId)));
+      actions.appendChild(this.createGovernanceButton('Create Policy', 'fa-shield-halved', this.governanceHref('policies', normalized.traceId)));
+      card.appendChild(actions);
+
+      return card;
+    },
+
+    createGovernanceItem(label, value, valueClass = '') {
+      const item = document.createElement('div');
+      item.className = 'kernel-governance-item';
+
+      const labelEl = document.createElement('span');
+      labelEl.className = 'kernel-governance-label';
+      labelEl.textContent = label;
+
+      const valueEl = document.createElement('span');
+      valueEl.className = `kernel-governance-value ${valueClass}`.trim();
+      valueEl.textContent = value;
+
+      item.appendChild(labelEl);
+      item.appendChild(valueEl);
+      return item;
+    },
+
+    createGovernanceButton(label, icon, href) {
+      const link = document.createElement('a');
+      link.className = 'kernel-governance-btn';
+      link.href = href;
+
+      const iconEl = document.createElement('i');
+      iconEl.className = `fa-solid ${icon}`;
+      iconEl.setAttribute('aria-hidden', 'true');
+
+      const labelEl = document.createElement('span');
+      labelEl.textContent = label;
+
+      link.appendChild(iconEl);
+      link.appendChild(labelEl);
       return link;
     },
 
@@ -426,6 +599,21 @@
         critical: 'حرج',
       };
       return labels[level] || level;
+    },
+
+    getDecisionLabel(decision) {
+      const labels = {
+        allowed: 'مسموح',
+        masked: 'مخفى',
+        blocked: 'محظور',
+        pending: 'بانتظار الموافقة',
+        pending_approval: 'بانتظار الموافقة',
+        approved: 'موافق عليه',
+        rejected: 'مرفوض',
+        completed: 'مكتمل',
+        executed_after_approval: 'تم التنفيذ بعد الموافقة',
+      };
+      return labels[String(decision || '').toLowerCase()] || decision;
     },
 
     // Logging

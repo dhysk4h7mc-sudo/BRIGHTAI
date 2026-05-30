@@ -75,6 +75,30 @@ kernel/
 | `policies.html` | محرر سياسات بصري مع CRUD، preview محلي، وtoggle `بيانات تجريبية`. |
 | `connectors.html` | عرض موصلات قراءة تجريبية لأنظمة المؤسسة بدون الوصول لبيانات حقيقية. |
 
+## تحديث واجهة المحادثة
+
+تم تحسين `kernel/chat.html` و`kernel/assets/js/kernel-chat-client.js` بحيث تعرض واجهة المحادثة بطاقة حوكمة بعد كل طلب تتم معالجته أو تعليقه أو حظره.
+
+البطاقة تعرض القيم التالية بشكل ثابت:
+
+- `Risk score`: درجة المخاطر كنسبة مئوية مع لون مناسب لمستوى الخطر.
+- `PII detected`: هل تم كشف بيانات شخصية أو حساسة، مع عرض نوع البيانات عند توفره.
+- `Firewall action`: قرار جدار الحوكمة مثل `allowed`, `blocked`, أو `pending_approval`.
+- `Trace ID`: معرف التتبع بصيغة قابلة للقراءة والنسخ البصري، مع عزل اتجاهه كـ LTR داخل واجهة RTL.
+
+وتوفر البطاقة ثلاثة إجراءات مباشرة:
+
+- `Audit`: يفتح سجل التدقيق مع تمرير `trace_id` عند توفره.
+- `Evidence`: يفتح صفحة الأدلة المرتبطة بنفس `trace_id`.
+- `Create Policy`: يفتح محرر السياسات في وضع إنشاء سياسة جديدة مع ربطها بالسياق عند توفر `trace_id`.
+
+قواعد العرض المهمة:
+
+- البطاقة تظهر في الردود العادية، الطلبات المعلقة للموافقة، ورسائل الحظر.
+- تصميم البطاقة يحافظ على `dir="rtl"` مع عزل القيم المختلطة مثل `Trace ID`.
+- أزرار `Audit`, `Evidence`, و`Create Policy` تستخدم grid responsive: ثلاثة أعمدة على الشاشات الواسعة، عمودين على الجوال المتوسط، وعمود واحد تحت `420px` لمنع التداخل.
+- `kernel-chat-client.js` يحتوي نسخة DOM مستقلة من منطق البطاقة حتى تبقى الرسائل التي ينشئها client module متسقة مع بطاقة `chat.html`.
+
 كل صفحات HTML تعتمد على:
 
 - `/kernel/assets/css/kernel.css`
@@ -92,7 +116,7 @@ kernel/
 | --- | --- | --- |
 | `kernel/assets/js/kernel-api.js` | API client، تطبيع البيانات، demo toggle، mock database، mock request handler، ومحاكاة chat/approvals/evidence. | `window.kernelAPI`, `window.KernelAPI`, `window.normalizeStats`, `window.kernelShouldUseDemoData` |
 | `kernel/assets/js/kernel-utils.js` | أدوات مشتركة: escape HTML، formatters، debounce/throttle، theme، clipboard، animations. | `window.KernelUtils` |
-| `kernel/assets/js/kernel-nav.js` | تعريف صفحات Kernel، بناء navigation، active route، وعداد الموافقات. | `window.KernelNav` |
+| `kernel/assets/js/kernel-nav.js` | تعريف صفحات Kernel، بناء navigation، active route، عداد الموافقات، وشريط حالة المزود/قاعدة البيانات المشترك. | `window.KernelNav` |
 | `kernel/assets/js/kernel-mobile.js` | drawer، bottom nav، touch gestures، pull-to-refresh، وسلوك الجوال. | `window.KernelMobile` |
 | `kernel/assets/js/kernel-chat-client.js` | واجهة المحادثة، retry، typewriter، history، approve/reject من داخل المحادثة. | `window.KernelChatClient` |
 | `kernel/assets/js/kernel-stats.js` | تحميل الإحصائيات، refresh دوري، charts، وتفاعل مع حدث `kernel-demo-update`. | `window.KernelStats` |
@@ -110,6 +134,24 @@ kernel/
 - حالات status/risk للموافقات، الإحصائيات، وسجل التدقيق.
 
 الهوية البصرية الحالية داكنة ومؤسسية، مع cyan كـ brand color ودرجات success/warning/danger واضحة.
+
+## شريط حالة Kernel المشترك
+
+تمت إضافة status bar مشترك لكل صفحات `kernel/` عبر `kernel/assets/js/kernel-nav.js`، ويظهر مباشرة أسفل تنقل Kernel العلوي. الشريط يقرأ حالتين فقط من واجهات الإنتاج:
+
+- `/api/kernel/providers` لمعرفة المزود النشط وحالته.
+- `/api/kernel/health` لمعرفة حالة قاعدة البيانات وصحة Kernel.
+
+قواعد العرض:
+
+- لا يعرض أي API key أو secrets أو raw provider payload.
+- يعرض NVIDIA بصيغة `NVIDIA · Connected` فقط إذا كان `configured=true` و`mode=production`.
+- يعرض حالة قاعدة البيانات كـ `Connected` أو `Degraded` بناءً على health response.
+- يعرض `Degraded` بشكل واضح إذا كان المزود fallback أو `local` أو demo adapter.
+- يعرض `Fallback / Local demo` في خانة mode عند تفعيل fallback أو local demo.
+- عند تعذر الوصول إلى endpoints، يتحول الشريط إلى degraded state بدل fallback صامت.
+
+التنسيق الخاص بالشريط موجود داخل `kernel/assets/css/kernel.css` تحت قسم `Shared Kernel Status Bar`.
 
 ## Production API
 

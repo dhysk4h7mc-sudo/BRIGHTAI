@@ -511,7 +511,6 @@
     .kernel-analysis-body {
       display: none;
       padding-top: var(--space-3);
-      display: flex;
       flex-direction: column;
       gap: var(--space-3);
     }
@@ -593,6 +592,139 @@
     }
 
     .kernel-hash:hover { color: var(--brand); }
+
+    .kernel-governance-card {
+      margin-block-start: var(--space-3);
+      padding: var(--space-3);
+      background: rgba(3, 10, 24, 0.72);
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      border-radius: var(--radius-md);
+      direction: rtl;
+    }
+
+    .ai-card .kernel-governance-card {
+      margin: 0 var(--space-4) var(--space-4);
+    }
+
+    .kernel-governance-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: var(--space-2);
+    }
+
+    .kernel-governance-item {
+      min-width: 0;
+      padding: var(--space-2);
+      background: rgba(15, 23, 42, 0.76);
+      border: 1px solid rgba(148, 163, 184, 0.12);
+      border-radius: var(--radius-sm);
+    }
+
+    .kernel-governance-label {
+      display: block;
+      color: var(--text-tertiary);
+      font-size: 0.6875rem;
+      line-height: 1.4;
+      margin-bottom: 2px;
+    }
+
+    .kernel-governance-value {
+      display: block;
+      min-width: 0;
+      color: var(--text-primary);
+      font-size: 0.8125rem;
+      font-weight: 700;
+      line-height: 1.35;
+      overflow-wrap: anywhere;
+    }
+
+    .kernel-governance-value.trace {
+      direction: ltr;
+      unicode-bidi: isolate;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.75rem;
+    }
+
+    .kernel-governance-value.risk-low,
+    .kernel-governance-value.action-allowed { color: var(--success); }
+    .kernel-governance-value.risk-medium,
+    .kernel-governance-value.action-pending,
+    .kernel-governance-value.action-pending_approval { color: var(--warning); }
+    .kernel-governance-value.risk-high,
+    .kernel-governance-value.risk-critical,
+    .kernel-governance-value.action-blocked,
+    .kernel-governance-value.pii-yes { color: var(--danger); }
+    .kernel-governance-value.pii-no { color: var(--success); }
+
+    .kernel-governance-actions {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(112px, 1fr));
+      gap: var(--space-2);
+      margin-block-start: var(--space-3);
+    }
+
+    .kernel-governance-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      min-height: 40px;
+      min-width: 0;
+      padding: var(--space-2) var(--space-3);
+      border: 1px solid rgba(0, 212, 255, 0.24);
+      border-radius: var(--radius-sm);
+      background: rgba(0, 212, 255, 0.08);
+      color: var(--text-primary);
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: all var(--transition-fast);
+    }
+
+    .kernel-governance-btn:hover {
+      border-color: var(--brand);
+      color: var(--brand);
+      background: rgba(0, 212, 255, 0.14);
+    }
+
+    .kernel-governance-btn i {
+      font-size: 0.8125rem;
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 720px) {
+      .msg-body { max-width: calc(100% - 44px); }
+
+      .ai-card-header {
+        align-items: flex-start;
+        gap: var(--space-2);
+      }
+
+      .ai-card-provider {
+        min-width: 0;
+        flex-wrap: wrap;
+      }
+
+      .kernel-governance-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .kernel-governance-actions {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 420px) {
+      .kernel-governance-grid,
+      .kernel-governance-actions {
+        grid-template-columns: 1fr;
+      }
+
+      .ai-card .kernel-governance-card {
+        margin-inline: var(--space-3);
+      }
+    }
 
     /* Loading Dots */
     .loading-msg .ai-card-content {
@@ -1467,11 +1599,12 @@
       const model = data.model || '';
       const latency = data.latencyMs ? `${data.latencyMs}ms` : '';
       const hash = data.auditHash || data.hash || '';
-      const riskScore = data.riskScore || 0;
-      const traceId = getTraceId(data);
-      const piiItems = data.piiDetected || [];
+      const governance = normalizeGovernanceMeta(data);
+      const riskScore = governance.riskScore;
+      const traceId = governance.traceId;
+      const piiItems = governance.piiItems;
       const policies = data.matchedPolicies || [];
-      const decision = data.decision || 'allowed';
+      const decision = governance.firewallAction;
 
       const riskColor = riskScore < 30 ? 'var(--success)' : riskScore < 60 ? 'var(--warning)' : 'var(--danger)';
 
@@ -1497,6 +1630,7 @@
               </div>
             </div>
             <div class="ai-card-content" id="content-${id}"></div>
+            ${renderGovernanceCard(data)}
             ${(piiItems.length > 0 || policies.length > 0 || hash) ? `
             <div class="kernel-analysis">
               <div class="kernel-analysis-toggle" onclick="toggleAnalysis(this)" aria-expanded="false" role="button" tabindex="0">
@@ -1573,6 +1707,7 @@
       msgs.appendChild(el);
       const msgBody = el.querySelector('.msg-body');
       const msgTime = msgBody.querySelector('.msg-time');
+      msgBody.insertBefore(createGovernanceCardElement(data), msgTime);
       appendGovernanceJourneyTrackerIfScenario(msgBody, data, msgTime);
       scrollBottom();
     }
@@ -1587,6 +1722,7 @@
         ? `/kernel/approvals/?trace_id=${encodeURIComponent(traceId)}`
         : '/kernel/approvals/';
       const evidenceLink = traceId ? `<br>Trace: ${traceAnchor(traceId, 'evidence')}` : '';
+      const pendingMeta = { ...data, riskScore, matchedPolicies: policies, decision: 'pending_approval', status: 'pending_approval' };
       el.innerHTML = `
         <div class="msg-avatar ai-av" aria-hidden="true">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1610,7 +1746,8 @@
       msgs.appendChild(el);
       const msgBody = el.querySelector('.msg-body');
       const msgTime = msgBody.querySelector('.msg-time');
-      appendGovernanceJourneyTrackerIfScenario(msgBody, data, msgTime);
+      msgBody.insertBefore(createGovernanceCardElement(pendingMeta), msgTime);
+      appendGovernanceJourneyTrackerIfScenario(msgBody, pendingMeta, msgTime);
       scrollBottom();
     }
 
@@ -1645,6 +1782,130 @@
         ? `/kernel/approvals/?trace_id=${safe}`
         : `/kernel/evidence/?trace_id=${safe}`;
       return `<a href="${href}" class="kernel-trace-link">${KernelUtils.escapeHtml(traceId)}</a>`;
+    }
+
+    function normalizePiiItems(value) {
+      if (Array.isArray(value)) return value.filter(Boolean);
+      if (!value || typeof value !== 'object') return [];
+      if (Array.isArray(value.items)) return value.items.filter(Boolean);
+      if (Array.isArray(value.detected)) return value.detected.filter(Boolean);
+      if (Array.isArray(value.entities)) return value.entities.filter(Boolean);
+      if (value.type || value.name) return [value];
+      return Object.entries(value)
+        .filter(([, detected]) => detected === true)
+        .map(([type]) => type);
+    }
+
+    function normalizeBooleanSignal(value) {
+      if (Array.isArray(value)) return value.length > 0;
+      if (typeof value === 'boolean') return value;
+      if (typeof value === 'number') return value > 0;
+      if (typeof value === 'string') {
+        const normalized = value.trim().toLowerCase();
+        return ['true', 'yes', 'detected', 'found', '1'].includes(normalized);
+      }
+      return Boolean(value && typeof value === 'object' && normalizePiiItems(value).length > 0);
+    }
+
+    function clampRiskScore(value) {
+      const score = Number(value);
+      if (!Number.isFinite(score)) return 0;
+      return Math.max(0, Math.min(100, Math.round(score)));
+    }
+
+    function normalizeGovernanceMeta(data = {}) {
+      const riskScore = clampRiskScore(
+        data.riskScore ??
+        data.kernel?.risk?.score ??
+        data.metadata?.riskScore ??
+        data.metadata?.risk?.score ??
+        data.summary?.riskScore ??
+        0
+      );
+      const riskLevel = data.riskLevel || data.kernel?.risk?.level || data.metadata?.riskLevel || data.metadata?.risk?.level || (
+        riskScore < 30 ? 'low' : riskScore < 60 ? 'medium' : riskScore < 85 ? 'high' : 'critical'
+      );
+      const rawPii = data.piiDetected ??
+        data.pii ??
+        data.firewall?.piiDetected ??
+        data.kernel?.piiDetected ??
+        data.kernel?.firewall?.piiDetected ??
+        data.metadata?.piiDetected ??
+        data.metadata?.firewall?.piiDetected;
+      const piiItems = normalizePiiItems(rawPii);
+      const piiDetected = piiItems.length > 0 || normalizeBooleanSignal(rawPii);
+      const firewallAction = data.firewallAction ||
+        data.firewall?.action ||
+        data.kernel?.firewall?.action ||
+        data.metadata?.firewall?.action ||
+        data.decision ||
+        data.status ||
+        'allowed';
+
+      return {
+        riskScore,
+        riskLevel,
+        piiDetected,
+        piiItems,
+        firewallAction,
+        traceId: getTraceId(data),
+      };
+    }
+
+    function getGovernanceActionHref(page, traceId) {
+      const safe = traceId ? `?trace_id=${encodeURIComponent(traceId)}` : '';
+      if (page === 'audit') return `/kernel/audit/${safe}`;
+      if (page === 'policies') return traceId
+        ? `/kernel/policies/?create=1&trace_id=${encodeURIComponent(traceId)}`
+        : '/kernel/policies/?create=1';
+      return `/kernel/evidence/${safe}`;
+    }
+
+    function cssToken(value) {
+      return String(value || '').toLowerCase().replace(/[^a-z0-9_-]/g, '-');
+    }
+
+    function renderGovernanceCard(data = {}) {
+      const meta = normalizeGovernanceMeta(data);
+      const piiText = meta.piiDetected
+        ? `نعم${meta.piiItems.length ? ` · ${meta.piiItems.map(p => KernelUtils.escapeHtml(typeof p === 'string' ? p : p.type || p.name || 'PII')).join('، ')}` : ''}`
+        : 'لا';
+      const actionLabel = KernelUtils.getDecisionLabel(meta.firewallAction) || meta.firewallAction;
+      const traceText = meta.traceId ? KernelUtils.escapeHtml(meta.traceId) : 'غير متوفر';
+
+      return `
+        <div class="kernel-governance-card" aria-label="ملخص الحوكمة">
+          <div class="kernel-governance-grid">
+            <div class="kernel-governance-item">
+              <span class="kernel-governance-label">Risk score</span>
+              <span class="kernel-governance-value risk-${cssToken(meta.riskLevel)}">${meta.riskScore}%</span>
+            </div>
+            <div class="kernel-governance-item">
+              <span class="kernel-governance-label">PII detected</span>
+              <span class="kernel-governance-value ${meta.piiDetected ? 'pii-yes' : 'pii-no'}">${piiText}</span>
+            </div>
+            <div class="kernel-governance-item">
+              <span class="kernel-governance-label">Firewall action</span>
+              <span class="kernel-governance-value action-${cssToken(meta.firewallAction)}">${KernelUtils.escapeHtml(actionLabel)}</span>
+            </div>
+            <div class="kernel-governance-item">
+              <span class="kernel-governance-label">Trace ID</span>
+              <span class="kernel-governance-value trace">${traceText}</span>
+            </div>
+          </div>
+          <div class="kernel-governance-actions" aria-label="إجراءات الحوكمة">
+            <a class="kernel-governance-btn" href="${getGovernanceActionHref('audit', meta.traceId)}"><i class="fa-solid fa-list-check" aria-hidden="true"></i><span>Audit</span></a>
+            <a class="kernel-governance-btn" href="${getGovernanceActionHref('evidence', meta.traceId)}"><i class="fa-solid fa-file-shield" aria-hidden="true"></i><span>Evidence</span></a>
+            <a class="kernel-governance-btn" href="${getGovernanceActionHref('policies', meta.traceId)}"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i><span>Create Policy</span></a>
+          </div>
+        </div>
+      `;
+    }
+
+    function createGovernanceCardElement(data = {}) {
+      const template = document.createElement('template');
+      template.innerHTML = renderGovernanceCard(data).trim();
+      return template.content.firstElementChild;
     }
 
     // ── Typewriter ──
