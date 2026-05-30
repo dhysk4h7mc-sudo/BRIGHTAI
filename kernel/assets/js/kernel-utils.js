@@ -81,6 +81,14 @@
     },
 
     /**
+     * Check whether the user requested reduced motion.
+     * @returns {boolean} Reduced motion preference
+     */
+    prefersReducedMotion() {
+      return Boolean(global.matchMedia?.('(prefers-reduced-motion: reduce)').matches);
+    },
+
+    /**
      * Format percentage
      * @param {number} num - Number to format as percentage
      * @returns {string} Formatted percentage
@@ -288,6 +296,11 @@
      */
     animateCount(element, start, end, duration = 1000, suffix = '') {
       if (!element) return;
+
+      if (this.prefersReducedMotion()) {
+        element.textContent = KernelUtils.formatNumber(end) + suffix;
+        return;
+      }
       
       const startTime = performance.now();
       const diff = end - start;

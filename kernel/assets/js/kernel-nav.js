@@ -205,7 +205,7 @@
     renderMoreMenu(pages) {
       return `
         <div class="nav-more" id="nav-more">
-          <button class="nav-more-btn" id="nav-more-btn" aria-expanded="false" aria-haspopup="true">
+          <button class="nav-more-btn" id="nav-more-btn" aria-expanded="false" aria-haspopup="true" aria-controls="nav-dropdown" aria-label="عرض المزيد من صفحات Kernel">
             المزيد
             ${this.createIcon('chevronDown')}
           </button>

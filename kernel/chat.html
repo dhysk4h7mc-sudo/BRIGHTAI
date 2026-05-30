@@ -10,7 +10,7 @@
     gtag('js', new Date());
     gtag('config', 'G-8LLESL207Q');
   </script>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#030A18">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -431,7 +431,7 @@
       font-size: 0.6875rem;
       cursor: pointer;
       transition: all var(--transition-fast);
-      min-height: 28px;
+      min-height: 44px;
     }
 
     .copy-btn:hover { color: var(--brand); border-color: var(--brand); }
@@ -495,7 +495,7 @@
       cursor: pointer;
       font-size: 0.75rem;
       color: var(--text-tertiary);
-      min-height: 32px;
+      min-height: 44px;
     }
 
     .kernel-analysis-toggle:hover { color: var(--text-secondary); }
@@ -668,7 +668,7 @@
       align-items: center;
       justify-content: center;
       gap: var(--space-2);
-      min-height: 40px;
+      min-height: 44px;
       min-width: 0;
       padding: var(--space-2) var(--space-3);
       border: 1px solid rgba(0, 212, 255, 0.24);
@@ -1633,7 +1633,7 @@
             ${renderGovernanceCard(data)}
             ${(piiItems.length > 0 || policies.length > 0 || hash) ? `
             <div class="kernel-analysis">
-              <div class="kernel-analysis-toggle" onclick="toggleAnalysis(this)" aria-expanded="false" role="button" tabindex="0">
+              <div class="kernel-analysis-toggle" onclick="toggleAnalysis(this)" onkeydown="handleAnalysisToggleKeydown(event, this)" aria-expanded="false" role="button" tabindex="0">
                 <span>تفاصيل تحليل النواة</span>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 9l-7 7-7-7"/></svg>
               </div>
@@ -2014,6 +2014,12 @@
       toggleEl.setAttribute('aria-expanded', isOpen);
     }
 
+    function handleAnalysisToggleKeydown(event, toggleEl) {
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+      event.preventDefault();
+      toggleAnalysis(toggleEl);
+    }
+
     // ── Copy Message ──
     async function copyMsg(btn, msgId) {
       const contentEl = document.getElementById(`content-${msgId}`);
@@ -2259,7 +2265,7 @@
           "${KernelUtils.escapeHtml(samplePrompt)}"
         </div>
         <div style="display:flex; justify-content:flex-end;">
-          <button class="btn btn-primary" onclick="runScenarioImmediately()" style="min-height: 38px; font-size: 0.8125rem; background:var(--brand); color:var(--ink-900); font-weight:600; cursor:pointer; border:none; border-radius:var(--radius-md); padding:0 1rem; transition:all 0.2s;">
+          <button class="btn btn-primary" onclick="runScenarioImmediately()" style="min-height: 44px; font-size: 0.8125rem; background:var(--brand); color:var(--ink-900); font-weight:600; cursor:pointer; border:none; border-radius:var(--radius-md); padding:0 1rem; transition:all 0.2s;">
             تشغيل السيناريو الآن
           </button>
         </div>

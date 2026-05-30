@@ -63,7 +63,7 @@ kernel/
 
 | الملف | الدور |
 | --- | --- |
-| `index.html` | لوحة دخول Kernel، بطاقات تنقل، مؤشرات مختصرة، وحالة مزود الذكاء الاصطناعي. |
+| `index.html` | Dashboard تشغيلية مختصرة: status strip، ثلاثة إجراءات رئيسية، مؤشرات، وآخر traces. |
 | `chat.html` | واجهة محادثة آمنة مع تحليل مخاطر، PII، سياسات، مزود، وسجل trace. |
 | `stats.html` | Dashboard للإحصائيات، توزيع الحالات، المخاطر، الأقسام، وآخر Trace IDs. |
 | `approvals.html` | لوحة الموافقات البشرية للطلبات عالية المخاطر أو المعلقة. |
@@ -74,6 +74,29 @@ kernel/
 | `compliance.html` | عرض حزم الامتثال وحالة المتطلبات حسب الإطار التنظيمي. |
 | `policies.html` | محرر سياسات بصري مع CRUD، preview محلي، وtoggle `بيانات تجريبية`. |
 | `connectors.html` | عرض موصلات قراءة تجريبية لأنظمة المؤسسة بدون الوصول لبيانات حقيقية. |
+
+## تحديث Dashboard الرئيسية
+
+تمت إعادة تنظيم `kernel/index.html` كصفحة dashboard عملية بدل صفحة landing مزخرفة.
+
+ترتيب الصفحة الحالي:
+
+1. `status strip`: يعرض حالة المزود، قاعدة البيانات، ووقت آخر تحديث.
+2. `primary actions`: ثلاثة مسارات تشغيل مباشرة فقط:
+   - تشغيل محادثة آمنة عبر `/kernel/chat/`.
+   - مراجعة الموافقات عبر `/kernel/approvals/`.
+   - فتح سجل التدقيق عبر `/kernel/audit/`.
+3. `metrics`: إجمالي الطلبات، الطلبات بانتظار الموافقة، متوسط المخاطر، ونسبة كشف `PII`.
+4. `recent traces`: آخر خمسة سجلات من `latestTraces`، مع fallback إلى `/api/kernel/audit` إذا لم ترجع الإحصائيات traces.
+
+قواعد التنفيذ:
+
+- لا توجد مكتبات جديدة؛ الصفحة تعتمد على `kernel-utils.js`, `kernel-api.js`, و`kernel-nav.js`.
+- الصفحة تستخدم نفس هوية BrightAI الداكنة مع تقليل الزخرفة والحفاظ على سطح تشغيلي واضح.
+- `Production API` يبقى الافتراضي، ولا يتم تفعيل demo بصمت عند فشل الاتصال.
+- القيم المختلطة مثل `Trace ID` معزولة بصرياً باتجاه `LTR` داخل الواجهة العربية.
+- روابط الأدلة في جدول traces تمرر `traceId` إلى `/kernel/evidence/`.
+- تم تحديث head للصفحة بإزالة منع التكبير من viewport، وإضافة Open Graph/Twitter tags، وتحويل JSON-LD إلى صيغة array صالحة للفحص المحلي.
 
 ## تحديث واجهة المحادثة
 
@@ -297,6 +320,19 @@ node -c kernel/assets/js/kernel-reports.js
 npm run seo:gate
 ```
 
+بعد تعديل `kernel/index.html` تحديداً، تحقق أيضاً من السكربت المضمن وSEO المحلي:
+
+```bash
+node -e "const fs=require('fs'); const html=fs.readFileSync('kernel/index.html','utf8'); const scripts=[...html.matchAll(/<script(?![^>]*src=)[^>]*>([\s\S]*?)<\/script>/gi)].map(m=>m[1]); const json=scripts.find(s=>s.includes('schema.org')); JSON.parse(json); scripts.filter(s=>!s.trim().startsWith('{')&&!s.trim().startsWith('[')).forEach(s=>new Function(s)); console.log('json-ld and inline scripts ok');"
+node scripts/seo-health-check.mjs
+```
+
+وإذا كانت أداة `google-indexing-seo-guardian` متاحة داخل `.agents/skills`، شغّل فحص الصفحة المباشر:
+
+```bash
+python3 .agents/skills/google-indexing-seo-guardian/scripts/google_indexing_audit.py kernel/index.html
+```
+
 إذا تغيرت روابط داخل HTML أو بنية navigation، شغّل أيضاً:
 
 ```bash
@@ -326,3 +362,12 @@ npm run verify:all
 - لا تكسر `kernel-demo-update` لأنه ينعش الإحصائيات والموافقات عند demo.
 - لا تغيّر mock schema بدون تحديث normalize functions والصفحات المستهلكة.
 - حدّث README مع أي صفحة أو ملف mock أو endpoint جديد.
+### التعديلات المنفذة
+
+- إزالة `user-scalable=no` و`maximum-scale=1.0` من صفحات Kernel التي كانت تمنع التكبير.
+- تحديث `kernel/assets/js/kernel-mobile.js` حتى لا يعيد فرض منع التكبير ديناميكياً.
+- إضافة `aria-label` للأزرار الأيقونية المستهدفة مثل تبديل المظهر، فتح القائمة، إغلاق المودال، إغلاق التنبيه، وقائمة المزيد.
+- تقوية focus states في CSS المشترك وتحسين ظهور focus في dropdown.
+- تحسين contrast لأزرار success/danger وأزرار primary المحلية في صفحات reports/scenarios/compliance.
+- احترام `prefers-reduced-motion` في عدادات JS، تأثير typewriter، وscroll smooth في connectors.
+- رفع touch targets للأزرار الأساسية إلى 44px أو أكثر.

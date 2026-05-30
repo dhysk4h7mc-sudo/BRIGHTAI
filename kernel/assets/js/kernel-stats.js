@@ -409,6 +409,11 @@
       const startTime = performance.now();
       const diff = end - start;
 
+      if (window.KernelUtils?.prefersReducedMotion?.()) {
+        element.textContent = formatter(end) + suffix;
+        return;
+      }
+
       const animate = (currentTime) => {
         const elapsed = currentTime - startTime;
         const progress = Math.min(elapsed / duration, 1);

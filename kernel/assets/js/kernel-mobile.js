@@ -59,12 +59,9 @@
      * Setup viewport for mobile
      */
     setupViewport() {
-      // Prevent zoom on input focus (iOS)
       const viewportMeta = document.querySelector('meta[name="viewport"]');
       if (viewportMeta) {
-        viewportMeta.setAttribute('content', 
-          'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'
-        );
+        viewportMeta.setAttribute('content', 'width=device-width, initial-scale=1.0');
       }
 
       // Set CSS custom property for viewport height (handles mobile browser bars)

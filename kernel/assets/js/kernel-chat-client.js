@@ -287,6 +287,11 @@
       let index = 0;
       const contentEl = container.querySelector('.message-content') || container;
 
+      if (window.KernelUtils?.prefersReducedMotion?.()) {
+        contentEl.textContent = text;
+        return;
+      }
+
       const type = () => {
         if (index < text.length) {
           contentEl.textContent += text[index++];

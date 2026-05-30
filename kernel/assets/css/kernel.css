@@ -399,24 +399,24 @@ code, .font-mono {
 }
 
 .btn-success {
-  background: var(--success);
+  background: #047857;
   color: white;
-  border-color: var(--success);
+  border-color: #047857;
 }
 
 .btn-success:hover:not(:disabled) {
-  background: #059669;
+  background: #065f46;
   box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
 }
 
 .btn-danger {
-  background: var(--danger);
+  background: #b91c1c;
   color: white;
-  border-color: var(--danger);
+  border-color: #b91c1c;
 }
 
 .btn-danger:hover:not(:disabled) {
-  background: #DC2626;
+  background: #991b1b;
   box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
 }
 
@@ -469,6 +469,7 @@ code, .font-mono {
 .btn-icon {
   padding: var(--space-2);
   min-width: 44px;
+  min-height: 44px;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -807,7 +808,8 @@ textarea.input {
   border-radius: 0 0 var(--radius-md) var(--radius-md);
 }
 
-.nav-dropdown-item:hover {
+.nav-dropdown-item:hover,
+.nav-dropdown-item:focus-visible {
   background: rgba(0, 212, 255, 0.1);
   color: var(--brand);
 }
@@ -1195,9 +1197,14 @@ textarea.input {
 
 .toast-close {
   padding: var(--space-1);
+  min-width: 44px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background: transparent;
   border: none;
-  color: var(--text-tertiary);
+  color: var(--text-secondary);
   cursor: pointer;
   border-radius: var(--radius-sm);
   transition: color var(--transition-fast);
@@ -1689,6 +1696,7 @@ textarea.input {
 :focus-visible {
   outline: 2px solid var(--brand);
   outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(0, 212, 255, 0.18);
 }
 
 .sr-only {
@@ -2095,6 +2103,7 @@ textarea.input {
 }
 
 .theme-toggle {
+  min-height: 44px;
   width: 100%;
   display: flex;
   align-items: center;
@@ -2155,6 +2164,10 @@ textarea.input {
 .menu-toggle {
   display: none;
   padding: var(--space-2);
+  min-width: 44px;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
   background: var(--ink-700);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
@@ -2264,8 +2277,8 @@ textarea.input {
 }
 
 .modal-close {
-  width: 32px;
-  height: 32px;
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2331,7 +2344,7 @@ textarea.input {
 :root {
   --card-bg: var(--bg-elevated);
   --border-color: var(--border);
-  --text-muted: var(--text-tertiary);
+  --text-muted: var(--text-secondary);
   --bg-secondary: var(--ink-800);
   --bg-tertiary: var(--ink-700);
   --primary-color: var(--brand);
