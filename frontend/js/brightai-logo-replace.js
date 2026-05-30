@@ -16,7 +16,6 @@
   var PROCESSED_ATTR = "data-brightai-logo-replaced";
   var LEGACY_LOGO_PATTERNS = [
     "logo.png",
-    "logo.PNG",
     "IMG_7919.JPG",
     "img_7919.jpg"
   ];

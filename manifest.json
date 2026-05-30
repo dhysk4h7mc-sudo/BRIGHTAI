@@ -1,7 +1,7 @@
 {
-  "name": "Bright AI | حلول AI للشركات السعودية",
-  "short_name": "Bright AI",
-  "description": "منصة Bright AI للشركات السعودية: أتمتة ذكية، وكلاء AI، تحليل بيانات، وحلول تشغيلية قابلة للقياس.",
+  "name": "Saudi AI Safety OS",
+  "short_name": "Saudi AI Safety OS",
+  "description": "Saudi AI Safety OS للشركات السعودية: طبقة أمان وحوكمة وتشغيل للذكاء الاصطناعي مع AI Firewall و Audit Trail و Human Approval و Evidence File.",
   "start_url": "/",
   "id": "/",
   "scope": "/",
@@ -47,12 +47,12 @@
       "sizes": "1200x630",
       "type": "image/png",
       "platform": "wide",
-      "label": "واجهة Bright AI الرئيسية"
+      "label": "واجهة Saudi AI Safety OS الرئيسية"
     }
   ],
   "shortcuts": [
     {
-      "name": "خدمات Bright AI",
+      "name": "خدمات Saudi AI Safety OS",
       "short_name": "الخدمات",
       "description": "استعرض خدمات AI والأتمتة وتحليل البيانات",
       "url": "/services/",
@@ -68,7 +68,7 @@
     {
       "name": "تواصل معنا",
       "short_name": "التواصل",
-      "description": "تواصل مع فريق Bright AI",
+      "description": "تواصل مع فريق Saudi AI Safety OS",
       "url": "/contact/",
       "icons": [{"src": "/frontend/images/android-chrome-192x192.png", "sizes": "192x192", "type": "image/png"}]
     }
