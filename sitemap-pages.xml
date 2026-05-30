@@ -5,13 +5,13 @@
     <loc>https://brightai.site/</loc>
     <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/" />
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-05-30</lastmod>
   </url>
   <url>
     <loc>https://brightai.site/about/</loc>
     <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/about/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/about/" />
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-05-30</lastmod>
   </url>
   <url>
     <loc>https://brightai.site/assessment/ai-governance-readiness/</loc>
@@ -32,16 +32,22 @@
     <lastmod>2026-05-29</lastmod>
   </url>
   <url>
+    <loc>https://brightai.site/blog/pdpl-ai-safety/</loc>
+    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/blog/pdpl-ai-safety/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/blog/pdpl-ai-safety/" />
+    <lastmod>2026-05-29</lastmod>
+  </url>
+  <url>
     <loc>https://brightai.site/contact/</loc>
     <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/contact/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/contact/" />
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-05-30</lastmod>
   </url>
   <url>
     <loc>https://brightai.site/docs/</loc>
     <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/docs/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/docs/" />
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-05-30</lastmod>
   </url>
   <url>
     <loc>https://brightai.site/docs/ai-audit-readiness/</loc>
@@ -83,6 +89,12 @@
     <loc>https://brightai.site/docs/ai-risk-management/</loc>
     <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/docs/ai-risk-management/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/docs/ai-risk-management/" />
+    <lastmod>2026-05-29</lastmod>
+  </url>
+  <url>
+    <loc>https://brightai.site/docs/docs/</loc>
+    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/docs/docs/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/docs/docs/" />
     <lastmod>2026-05-29</lastmod>
   </url>
   <url>
@@ -129,13 +141,13 @@
     <loc>https://brightai.site/pricing/</loc>
     <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/pricing/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/pricing/" />
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-05-30</lastmod>
   </url>
   <url>
     <loc>https://brightai.site/services/</loc>
     <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/services/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/services/" />
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-05-30</lastmod>
   </url>
   <url>
     <loc>https://brightai.site/sitemap/</loc>

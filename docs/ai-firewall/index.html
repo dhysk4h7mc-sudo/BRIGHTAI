@@ -177,15 +177,15 @@
           "name": "هل يحذف البيانات دائمًا؟",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "ليس دائمًا. السلوك يعتمد على السياسة: تنقية، منع، أو تصعيد."
+            "text": "لا. السلوك يعتمد على السياسة: قد يسمح، ينقي، يمنع، أو يصعد الطلب لموافقة بشرية."
           }
         },
         {
           "@type": "Question",
-          "name": "تنبيه امتثال",
+          "name": "هل يكفي تدريب الموظفين؟",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "هذا المحتوى لأغراض معرفية وتشغيلية ولا يعد استشارة قانونية."
+            "text": "التدريب مهم، لكنه لا يكفي بدون طبقة تنفيذية تمنع الأخطاء المتكررة وتوثق القرارات."
           }
         }
       ]
@@ -266,10 +266,18 @@
       "mainEntity": [
         {
           "@type": "Question",
-          "name": "ما الذي يكتشفه؟ بيانات شخصية مثل الهوية والجوال والبريد. بيانات مالية مثل الآيبان والعقود. بيانات صحية أو معرفات مرضى. معلومات سرية داخلية أو مستندات حساسة. آلية القرار Allow: الطلب آمن ويمر للنموذج. Mask: تنقية البيانات الحساسة قبل الإرسال. Block: منع الطلب عند تجاوز السياسة. Escalate: تحويله لموافقة بشرية عند الحاجة. Checklist تعريف أنواع البيانات الحساسة. ضبط قواعد mask/block/escalate. ربط الأحداث بسجل التدقيق. اختبار القواعد على عينات حقيقية غير حساسة. FAQ هل يحذف البيانات دائمًا؟",
+          "name": "هل يحذف البيانات دائمًا؟",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "ليس دائمًا. السلوك يعتمد على السياسة: تنقية، منع، أو تصعيد."
+            "text": "لا. السلوك يعتمد على السياسة: قد يسمح، ينقي، يمنع، أو يصعد الطلب لموافقة بشرية."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "هل يكفي تدريب الموظفين؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "التدريب مهم، لكنه لا يكفي بدون طبقة تنفيذية تمنع الأخطاء المتكررة وتوثق القرارات."
           }
         }
       ]
@@ -297,12 +305,14 @@
 <main class="wrap doc">
   <nav class="crumb-nav"><a href="/">الرئيسية</a> / <a href="/docs/">الوثائق</a> / AI Firewall</nav>
   <section class="hero"><span class="pill">Security Control</span><h1>وثائق AI Firewall</h1><p class="muted">AI Firewall يفحص كل طلب AI قبل وصوله للنموذج ويساعد على حماية البيانات الشخصية والمالية والطبية.</p></section>
-  <section class="card"><h2>الإجابة المختصرة</h2><p>AI Firewall هو طبقة تحكم تمر عبرها طلبات الذكاء الاصطناعي لاكتشاف البيانات الحساسة وتنقيتها أو حجبها أو تصعيدها حسب السياسة الداخلية.</p></section>
-  <section><h2>ما الذي يكتشفه؟</h2><div class="grid"><div class="card">بيانات شخصية مثل الهوية والجوال والبريد.</div><div class="card">بيانات مالية مثل الآيبان والعقود.</div><div class="card">بيانات صحية أو معرفات مرضى.</div><div class="card">معلومات سرية داخلية أو مستندات حساسة.</div></div></section>
-  <section><h2>آلية القرار</h2><ol><li>Allow: الطلب آمن ويمر للنموذج.</li><li>Mask: تنقية البيانات الحساسة قبل الإرسال.</li><li>Block: منع الطلب عند تجاوز السياسة.</li><li>Escalate: تحويله لموافقة بشرية عند الحاجة.</li></ol></section>
-  <section><h2>Checklist</h2><ul><li>تعريف أنواع البيانات الحساسة.</li><li>ضبط قواعد mask/block/escalate.</li><li>ربط الأحداث بسجل التدقيق.</li><li>اختبار القواعد على عينات حقيقية غير حساسة.</li></ul></section>
-  <section class="card"><h2>FAQ</h2><h3>هل يحذف البيانات دائمًا؟</h3><p>ليس دائمًا. السلوك يعتمد على السياسة: تنقية، منع، أو تصعيد.</p><h3>تنبيه امتثال</h3><p>هذا المحتوى لأغراض معرفية وتشغيلية ولا يعد استشارة قانونية.</p></section>
-  <div class="cta" style="margin-top: 20px;"><a class="btn" href="/solutions/ai-firewall/">استكشف صفحة الحل</a><a class="btn secondary" href="/contact/" style="background:transparent; color:#e5edf8; border:1px solid rgba(148,163,184,.28); display:inline-flex; align-items:center; justify-content:center; padding:12px 18px; border-radius:12px; text-decoration:none; font-weight:800;">اطلب ديمو تنفيذي</a></div>
+  <section class="card"><h2>تعريف AI Firewall</h2><p>AI Firewall هو طبقة تحكم تمر عبرها طلبات الذكاء الاصطناعي قبل وصولها إلى النموذج. يفحص النصوص والملفات والمدخلات لاكتشاف البيانات الشخصية أو السرية، ثم يقرر السماح، التنقية، الحجب، أو التصعيد لموافقة بشرية حسب سياسة المؤسسة.</p></section>
+  <section><h2>متى يصبح خط الدفاع الأول؟</h2><p>يصبح AI Firewall ضروريًا عندما ينسخ الموظف نص عقد، شكوى عميل، كشف مالي، أو مرفق داخلي داخل أداة AI. هنا لا يفيد الوعي وحده؛ تحتاج طبقة تفحص المدخل قبل وصوله للنموذج وتقرر في أجزاء من الثانية هل يمر، يتنقى، ينحجب، أو ينتظر موافقة.</p></section>
+  <section><h2>أنواع التسرب التي يمنعها</h2><div class="grid"><div class="card">بيانات هوية وجوال وبريد مرتبطة بعميل أو موظف.</div><div class="card">أرقام عقود، آيبان، مطالبات، أو مبالغ مالية.</div><div class="card">تفاصيل صحية أو وصف حالة يمكن ربطه بشخص.</div><div class="card">معلومات داخلية مثل أسعار، عروض، أو مرفقات سرية.</div></div></section>
+  <section><h2>منطق القرار داخل الجدار</h2><ol><li>Allow عندما لا توجد بيانات حساسة أو مخالفة سياسة.</li><li>Mask عند الحاجة لإخفاء حقول محددة قبل الإرسال.</li><li>Block إذا كان الطلب خارج السياسة أو عالي الخطورة.</li><li>Escalate عند الحاجة إلى <a href="/solutions/human-approval-layer/">Human Approval Layer</a>.</li><li>Log لتسجيل القرار داخل <a href="/solutions/ai-audit-trail/">AI Audit Trail</a>.</li></ol></section>
+  <section class="card"><h2>مثال سعودي</h2><p>شركة تأمين في الرياض تستخدم AI لتلخيص مطالبات العملاء. إذا احتوى الطلب على رقم هوية أو وصف طبي مفصل، يقوم AI Firewall بتنقية الحقول أو منع الطلب حسب السياسة، ثم يسجل القرار لتستطيع الإدارة إثبات أن بيانات العميل لم تنتقل للنموذج بدون ضابط.</p></section>
+  <section><h2>روابط تنفيذية مرتبطة</h2><p>AI Firewall يكون أقوى عندما يعمل ضمن منظومة لا كأداة منفردة. اربطه مع <a href="/docs/pdpl-ai-governance/">حوكمة PDPL للذكاء الاصطناعي</a> لتحديد البيانات الشخصية، ومع <a href="/docs/ai-risk-management/">إدارة مخاطر AI</a> لتحديد متى يتحول الطلب من تنقية بسيطة إلى تصعيد أو منع كامل.</p></section>
+  <section class="card"><h2>FAQ</h2><h3>هل يحذف البيانات دائمًا؟</h3><p>لا. السلوك يعتمد على السياسة: قد يسمح، ينقي، يمنع، أو يصعد الطلب لموافقة بشرية.</p><h3>هل يكفي تدريب الموظفين؟</h3><p>التدريب مهم، لكنه لا يكفي بدون طبقة تنفيذية تمنع الأخطاء المتكررة وتوثق القرارات.</p><p>هذا المحتوى لأغراض معرفية وتشغيلية ولا يعد استشارة قانونية.</p></section>
+  <div class="cta" style="margin-top: 20px;"><a class="btn" href="/solutions/ai-firewall/">استكشف صفحة الحل</a><a class="btn secondary" href="/services/" style="background:transparent; color:#e5edf8; border:1px solid rgba(148,163,184,.28); display:inline-flex; align-items:center; justify-content:center; padding:12px 18px; border-radius:12px; text-decoration:none; font-weight:800;">خدمات حماية بيانات AI</a></div>
 </main>
 
 <script src="/frontend/js/unified-header.js?v=20260529-nav-v1" defer></script>
