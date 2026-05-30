@@ -180,7 +180,7 @@ services:
       }
       NODE
 
-      SEO_ROOT=.render-static npm run seo:production-guard
+      npm run seo:production-guard
     staticPublishPath: .render-static
     headers:
       - path: /*

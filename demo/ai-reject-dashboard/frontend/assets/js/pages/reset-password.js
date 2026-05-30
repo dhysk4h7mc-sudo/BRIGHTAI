@@ -44,7 +44,7 @@ document.getElementById('reset-form').addEventListener('submit', async () => {
       alertBox.style.display = 'block';
       
       setTimeout(() => {
-        window.location.href = '/demo/frontend/pages/login/';
+        window.location.href = '/demo/ai-reject-dashboard/frontend/pages/login/';
       }, 3000);
     } else {
       throw new Error(data.message || 'Failed to reset password');
