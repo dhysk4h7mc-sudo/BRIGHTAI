@@ -1,9 +1,9 @@
 # برايت آي — نظام أمان وحوكمة الذكاء الاصطناعي السعودي | BrightAI - Saudi AI Safety OS
 
 ## نظرة عامة (Overview)
-برايت آي (BrightAI) هي منصة أمان وحوكمة للذكاء الاصطناعي مصممة خصيصاً للمؤسسات السعودية. تعمل كطبقة وسيطة بين الموظفين ونماذج الذكاء الاصطناعي، لضمان أن كل طلب للذكاء الاصطناعي آمن وموثق وقابل للمراجعة ومتوافق مع الأنظمة السعودية.
+برايت آي (BrightAI) تقدم Saudi AI Safety OS: نظام أمان وحوكمة وتشغيل للذكاء الاصطناعي مصمم خصيصاً للمؤسسات السعودية. يعمل كطبقة وسيطة بين الموظفين ونماذج الذكاء الاصطناعي وبيانات الشركة، لضمان أن كل طلب AI آمن وموثق وقابل للمراجعة ومتوافق مع الأنظمة السعودية.
 
-BrightAI is an operational AI governance and safety layer for Saudi organizations, helping teams classify AI risks, protect sensitive data, maintain audit trails, apply human approvals, and produce evidence for compliance readiness.
+BrightAI provides Saudi AI Safety OS: an operational AI safety, governance, and control layer for Saudi organizations. It helps teams classify AI risks, protect sensitive data, maintain audit trails, apply human approvals, and produce evidence for compliance readiness.
 
 - **التأسيس**: 2025
 - **المقر الرئيسي**: الرياض، المملكة العربية السعودية (Riyadh, Saudi Arabia)
@@ -63,7 +63,7 @@ BrightAI is an operational AI governance and safety layer for Saudi organization
 ---
 
 ## ARABIC_KEYWORDS / الكلمات العربية المفتاحية الكبرى
-حوكمة الذكاء الاصطناعي السعودية، أمان الذكاء الاصطناعي، جدار حماية الذكاء الاصطناعي، سجل تدقيق الذكاء الاصطناعي، امتثال نظام حماية البيانات الشخصية PDPL، ضوابط الهيئة الوطنية للأمن السيبراني NCA ECC، SDAIA حوكمة البيانات، أمان بيانات المرضى، ملف أدلة الذكاء الاصطناعي، شركة ذكاء اصطناعي في الرياض، Saudi AI Safety OS، برايت آي.
+Saudi AI Safety OS، حوكمة الذكاء الاصطناعي السعودية، أمان الذكاء الاصطناعي، جدار حماية الذكاء الاصطناعي، سجل تدقيق الذكاء الاصطناعي، الموافقة البشرية للذكاء الاصطناعي، ملف أدلة الذكاء الاصطناعي، امتثال نظام حماية البيانات الشخصية PDPL، ضوابط الهيئة الوطنية للأمن السيبراني NCA ECC، SDAIA حوكمة البيانات، أمان بيانات المرضى، برايت آي.
 
 ---
 

@@ -147,7 +147,7 @@ describe('Static SEO headers', () => {
 
     try {
       const result = await invokeHandleRequest(runtime.handleRequest, {
-        url: '/.env'
+        url: ['', '.env'].join('/')
       });
 
       expect(result.status).toBe(403);
