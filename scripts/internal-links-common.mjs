@@ -60,9 +60,12 @@ const JS_FILE_REGEX = /\.(?:m?js)$/i;
 
 function matchesIgnorePattern(relPath, ignorePatterns) {
   return ignorePatterns.some((pattern) => {
+    const matchesAnywhere = pattern.startsWith("**/");
     const normalizedPattern = normalizeRelativePath(pattern.replace(/^\*\*\//, "").replace(/\/\*\*$/, ""));
     if (!normalizedPattern) return false;
-    return relPath === normalizedPattern || relPath.startsWith(`${normalizedPattern}/`) || relPath.includes(`/${normalizedPattern}/`);
+    return relPath === normalizedPattern
+      || relPath.startsWith(`${normalizedPattern}/`)
+      || (matchesAnywhere && relPath.includes(`/${normalizedPattern}/`));
   });
 }
 

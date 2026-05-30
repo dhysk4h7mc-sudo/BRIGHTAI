@@ -807,8 +807,8 @@
       container.innerHTML = traces.map((trace) => {
         const traceId = getTraceId(trace) || trace.interactionId || trace.requestId;
         const href = getTraceId(trace)
-          ? `/kernel/evidence.html?trace_id=${encodeURIComponent(traceId)}`
-          : `/kernel/evidence.html?id=${encodeURIComponent(traceId)}`;
+          ? `/kernel/evidence/?trace_id=${encodeURIComponent(traceId)}`
+          : `/kernel/evidence/?id=${encodeURIComponent(traceId)}`;
         return `
           <a class="glass-card-flat status-card" href="${href}" style="text-decoration:none;">
             <div class="status-card-value" style="font-size:1rem; direction:ltr;">${KernelUtils.escapeHtml(traceId)}</div>
@@ -989,7 +989,7 @@
           const percent = Math.round((count / total) * 100);
           const piiTypes = getPiiTypesForCell(department, level.key);
           const piiLabel = piiTypes.length ? piiTypes.join('، ') : 'لا توجد PII شائعة';
-          const href = `/kernel/audit.html?department=${encodeURIComponent(department.name)}&riskLevel=${encodeURIComponent(level.key)}`;
+          const href = `/kernel/audit/?department=${encodeURIComponent(department.name)}&riskLevel=${encodeURIComponent(level.key)}`;
           const title = `${department.name} - ${level.label}: ${count} (${percent}%). أكثر PII شيوعاً: ${piiLabel}`;
 
           return `

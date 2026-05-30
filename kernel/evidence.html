@@ -642,14 +642,14 @@
       const traceId = record.traceId || record.interactionId;
       document.querySelector('.detail-title').textContent = traceId;
       document.querySelector('.detail-subtitle').innerHTML = record.createdAt
-        ? `${new Date(record.createdAt).toLocaleString('ar-SA')} · <a href="/kernel/audit.html?trace_id=${encodeURIComponent(traceId)}">Audit</a>`
-        : `<a href="/kernel/audit.html?trace_id=${encodeURIComponent(traceId)}">Audit</a>`;
+        ? `${new Date(record.createdAt).toLocaleString('ar-SA')} · <a href="/kernel/audit/?trace_id=${encodeURIComponent(traceId)}">Audit</a>`
+        : `<a href="/kernel/audit/?trace_id=${encodeURIComponent(traceId)}">Audit</a>`;
 
       const detailBody = document.querySelector('.detail-body');
       detailBody.innerHTML = `
         <div class="detail-section">
           <h4 class="detail-section-title">Trace ID</h4>
-          <div class="detail-content"><a href="/kernel/evidence.html?trace_id=${encodeURIComponent(traceId)}">${KernelUtils.escapeHtml(traceId)}</a></div>
+          <div class="detail-content"><a href="/kernel/evidence/?trace_id=${encodeURIComponent(traceId)}">${KernelUtils.escapeHtml(traceId)}</a></div>
         </div>
         <div class="detail-section">
           <h4 class="detail-section-title">المدخلات</h4>

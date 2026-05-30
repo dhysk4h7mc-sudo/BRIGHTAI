@@ -641,7 +641,7 @@
         const department = getDepartment(entry);
         const riskLevel = getRiskLevel(entry);
         const traceLink = traceId
-          ? `<a href="/kernel/evidence.html?trace_id=${encodeURIComponent(traceId)}" class="audit-trace-link">${KernelUtils.escapeHtml(traceId)}</a>`
+          ? `<a href="/kernel/evidence/?trace_id=${encodeURIComponent(traceId)}" class="audit-trace-link">${KernelUtils.escapeHtml(traceId)}</a>`
           : `<span title="سجل قديم بدون trace_id">${shortId}...</span>`;
 
         return `

@@ -706,8 +706,8 @@
       const statusClass = KernelUtils.getDecisionClass(req.status || 'pending');
       const traceId = getTraceId(req);
       const evidenceHref = traceId
-        ? `/kernel/evidence.html?trace_id=${encodeURIComponent(traceId)}`
-        : `/kernel/evidence.html?id=${encodeURIComponent(req.interactionId || req.requestId || req.id)}`;
+        ? `/kernel/evidence/?trace_id=${encodeURIComponent(traceId)}`
+        : `/kernel/evidence/?id=${encodeURIComponent(req.interactionId || req.requestId || req.id)}`;
 
       const piiItems = req.piiDetected || req.piiTypes || [];
       const policies = req.matchedPolicies || req.matchedRules || [];
@@ -921,8 +921,8 @@
       const hash = result.auditHash || result.hash || '';
       const traceId = getTraceId(result);
       const evidenceHref = traceId
-        ? `/kernel/evidence.html?trace_id=${encodeURIComponent(traceId)}`
-        : `/kernel/evidence.html?id=${encodeURIComponent(result.requestId || requestId)}`;
+        ? `/kernel/evidence/?trace_id=${encodeURIComponent(traceId)}`
+        : `/kernel/evidence/?id=${encodeURIComponent(result.requestId || requestId)}`;
 
       container.style.display = 'block';
       container.innerHTML = `
