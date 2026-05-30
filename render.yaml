@@ -83,7 +83,6 @@ services:
       npm run assets:replace-refs
       npm run production:fixes
       npm run sitemap:all
-      bash scripts/seo-hreflang-dirs.sh
 
       rm -rf .render-static
       mkdir -p .render-static
