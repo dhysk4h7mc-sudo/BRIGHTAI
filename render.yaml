@@ -99,6 +99,12 @@ services:
         --exclude='components' \
         --exclude='lib' \
         --exclude='scripts' \
+        --exclude='frontend/tests' \
+        --exclude='frontend/scripts' \
+        --exclude='frontend/*.test.js' \
+        --exclude='frontend/*.e2e.test.js' \
+        --exclude='frontend/*.spec.js' \
+        --exclude='frontend/vitest.config.*' \
         --exclude='next.config.*' \
         --exclude='next-env.d.ts' \
         --exclude='tsconfig*.json' \
