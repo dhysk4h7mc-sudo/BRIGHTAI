@@ -69,9 +69,15 @@
           this.state.scheduledReports = data.scheduled || [];
         }
       } catch (error) {
-        console.log('[v0] Reports fetch failed, using demo data');
-        this.state.reports = this.generateDemoReports();
-        this.state.scheduledReports = this.generateDemoScheduled();
+        if (typeof global.kernelShouldUseDemoData === 'function' && global.kernelShouldUseDemoData()) {
+          console.log('[v0] Reports fetch failed, using demo data');
+          this.state.reports = this.generateDemoReports();
+          this.state.scheduledReports = this.generateDemoScheduled();
+        } else {
+          console.warn('[BrightAI Kernel] Reports production API failed:', error);
+          this.state.reports = [];
+          this.state.scheduledReports = [];
+        }
       }
       
       this.renderReports();
@@ -392,12 +398,15 @@
           URL.revokeObjectURL(url);
           this.showToast('تم تحميل التقرير بنجاح', 'success');
         } else {
-          // Demo mode - show success anyway
-          this.showToast('تم تحميل التقرير (وضع تجريبي)', 'success');
+          throw new Error('Failed to download report');
         }
       } catch (error) {
         console.log('[v0] Download failed:', error);
-        this.showToast('تم تحميل التقرير (وضع تجريبي)', 'success');
+        if (typeof global.kernelShouldUseDemoData === 'function' && global.kernelShouldUseDemoData()) {
+          this.showToast('تم تحميل التقرير (وضع تجريبي)', 'success');
+        } else {
+          this.showToast('فشل في تحميل التقرير', 'error');
+        }
       }
     },
 

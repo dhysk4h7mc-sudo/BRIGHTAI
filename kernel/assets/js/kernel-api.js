@@ -1,6 +1,6 @@
 /**
- * BrightAI Kernel - API Client (Demo Mode Enabled)
- * Handles all communication with the backend API, with a robust offline client-side simulator.
+ * BrightAI Kernel - API Client
+ * Handles production API calls, with an opt-in client-side demo simulator.
  */
 
 (function (global) {
@@ -664,13 +664,47 @@
             requirementScores: { "policy": 100, "risk_mgmt": 100, "internal_audit": 75, "incident": 95 } 
           }
         }
-      }
+      },
+      policies: [
+        {
+          id: "pr_saudi_id_pdpl",
+          name: "تعمية الهوية الوطنية السعودية - نظام PDPL",
+          description: "إخفاء وحجب أرقام الهويات الوطنية والإقامات في الطلبات للامتثال لنظام حماية البيانات الشخصية السعودي.",
+          pii_type: "saudi_id",
+          compliance_pack: "pdpl",
+          action: "mask",
+          risk_score_modifier: 15,
+          is_active: 1
+        },
+        {
+          id: "pr_iban_pdpl",
+          name: "حظر أرقام الآيبان SA-IBAN - نظام PDPL",
+          description: "منع خروج أرقام الحسابات البنكية السعودية خارج البيئة المؤسسية امتثالاً لنظام PDPL وضوابط SAMA.",
+          pii_type: "iban",
+          compliance_pack: "pdpl",
+          action: "block",
+          risk_score_modifier: 25,
+          is_active: 1
+        }
+      ]
     };
   }
 
-  // Initialize Demo Mode LocalStorage flag to true if not set
+  function isFileProtocol() {
+    return window.location.protocol === 'file:';
+  }
+
+  function isDemoModeSelected() {
+    return localStorage.getItem('brightai_kernel_demo_mode') === 'true';
+  }
+
+  function shouldUseDemoData() {
+    return isDemoModeSelected() || isFileProtocol();
+  }
+
+  // Initialize Demo Mode LocalStorage flag to false if not set
   if (localStorage.getItem('brightai_kernel_demo_mode') === null) {
-    localStorage.setItem('brightai_kernel_demo_mode', 'true');
+    localStorage.setItem('brightai_kernel_demo_mode', 'false');
   }
 
   let dbInitPromise = null;
@@ -694,14 +728,15 @@
 
       try {
         // Parallel fetch for default configuration files
-        const [stats, audit, approvals, evidence, compliance] = await Promise.all([
+        const [stats, audit, approvals, evidence, compliance, policies] = await Promise.all([
           fetch('/kernel/api/mock/stats.json').then(r => r.json()),
           fetch('/kernel/api/mock/audit.json').then(r => r.json()),
           fetch('/kernel/api/mock/approvals.json').then(r => r.json()),
           fetch('/kernel/api/mock/evidence.json').then(r => r.json()),
-          fetch('/kernel/api/mock/compliance.json').then(r => r.json())
+          fetch('/kernel/api/mock/compliance.json').then(r => r.json()),
+          fetch('/kernel/api/mock/policies.json').then(r => r.json())
         ]);
-        window.kernelDemoState = { stats, audit, approvals, evidence, compliance };
+        window.kernelDemoState = { stats, audit, approvals, evidence, compliance, policies };
       } catch (err) {
         console.warn("[BrightAI Kernel] Failed to fetch local JSON mock files. Using hardcoded fallback.", err);
         window.kernelDemoState = getHardcodedDefaults();
@@ -755,6 +790,7 @@
     };
 
     db.stats.riskByDepartment = db.stats.riskByDepartment || getHardcodedDefaults().stats.riskByDepartment;
+    db.policies = Array.isArray(db.policies) ? db.policies : getHardcodedDefaults().policies;
 
     localStorage.setItem('brightai_kernel_mock_db', JSON.stringify(db));
   }
@@ -1214,6 +1250,8 @@
     const db = window.kernelDemoState;
     let payload = null;
 
+    const method = String(options?.method || 'GET').toUpperCase();
+
     if (path.endsWith('/providers')) {
       payload = {
         activeProvider: {
@@ -1297,7 +1335,7 @@
         }
       };
     } else if (path.endsWith('/approvals') || path.endsWith('/pending')) {
-      if (options && options.method === 'POST') {
+      if (method === 'POST') {
         // Approvals Action (Approve / Reject)
         const body = JSON.parse(options.body || '{}');
         const reqId = body.requestId || body.interactionId || body.id;
@@ -1457,6 +1495,48 @@
       } else {
         payload = db.approvals;
       }
+    } else if (path.endsWith('/policies')) {
+      if (method === 'POST') {
+        const body = JSON.parse(options?.body || '{}');
+        const newPolicy = {
+          id: `policy_${Date.now()}`,
+          name: body.name || 'سياسة جديدة',
+          description: body.description || '',
+          pii_type: body.piiType || body.pii_type || 'saudi_id',
+          compliance_pack: body.compliancePack || body.compliance_pack || 'general',
+          action: body.action || 'mask',
+          risk_score_modifier: toNumber(body.riskScoreModifier ?? body.risk_score_modifier, 0),
+          is_active: 1
+        };
+        db.policies.unshift(newPolicy);
+        recalculateSummaryStats();
+        payload = newPolicy;
+      } else {
+        payload = db.policies;
+      }
+    } else if (path.includes('/policies/')) {
+      const match = path.match(/\/policies\/([^/]+)/);
+      const id = match?.[1] ? decodeURIComponent(match[1]) : '';
+      const index = db.policies.findIndex((policy) => String(policy.id) === id);
+
+      if (index === -1) {
+        payload = { error: 'Policy not found', errorCode: 'NOT_FOUND' };
+      } else if (method === 'PATCH') {
+        const body = JSON.parse(options?.body || '{}');
+        db.policies[index] = {
+          ...db.policies[index],
+          ...body,
+          is_active: body.is_active ?? db.policies[index].is_active
+        };
+        recalculateSummaryStats();
+        payload = db.policies[index];
+      } else if (method === 'DELETE') {
+        const removed = db.policies.splice(index, 1)[0];
+        recalculateSummaryStats();
+        payload = { success: true, deleted: removed.id };
+      } else {
+        payload = db.policies[index];
+      }
     } else if (path.includes('/evidence/')) {
       const match = path.match(/\/evidence\/([^/]+)/);
       if (match && match[1]) {
@@ -1521,29 +1601,14 @@
   const originalFetch = window.fetch;
   window.fetch = async function (url, options) {
     const urlStr = String(url);
-    const isDemoModeActive = localStorage.getItem('brightai_kernel_demo_mode') === 'true';
 
     if (urlStr.includes('/api/kernel')) {
-      if (isDemoModeActive) {
+      if (shouldUseDemoData()) {
         await ensureDBInitialized();
         return handleMockRequest(urlStr, options);
       }
 
-      // If live mode is selected but connection fails, fallback to demo mode gracefully
-      try {
-        const response = await originalFetch(url, options);
-        if (!response.ok && (response.status >= 500 || response.status === 404)) {
-          throw new Error(`HTTP ${response.status}`);
-        }
-        return response;
-      } catch (err) {
-        console.warn("[BrightAI Kernel] Backend failed or down. Activating offline Demo Mode...", err);
-        localStorage.setItem('brightai_kernel_demo_mode', 'true');
-        window.kernelDemoModeActive = true;
-        updateBannerUI();
-        await ensureDBInitialized();
-        return handleMockRequest(urlStr, options);
-      }
+      return originalFetch(url, options);
     }
 
     return originalFetch(url, options);
@@ -1657,8 +1722,8 @@
     if (liveFeedTimer) clearInterval(liveFeedTimer);
 
     liveFeedTimer = setInterval(async () => {
-      // Don't inject if demo mode is disabled
-      if (localStorage.getItem('brightai_kernel_demo_mode') !== 'true') return;
+      // Don't inject if demo data is inactive
+      if (!shouldUseDemoData()) return;
 
       // Don't inject if user is currently interacting (e.g. prompt or alert open, or buttons active)
       if (document.querySelector('.btn-loading') || document.activeElement?.tagName === 'INPUT' || document.activeElement?.tagName === 'TEXTAREA') {
@@ -1952,13 +2017,13 @@
       <div class="brightai-demo-brand">
         <span class="brightai-demo-badge">
           <span class="brightai-demo-pulse"></span>
-          وضع المحاكاة
+          بيانات تجريبية
         </span>
-        <span class="brightai-demo-text">عرض تجريبي تفاعلي — بيانات سعودية صناعية ومحمية بالكامل</span>
+        <span class="brightai-demo-text" id="brightai-demo-helper-text"></span>
       </div>
       <div class="brightai-demo-actions">
         <div class="brightai-demo-toggle-wrap">
-          <span class="brightai-demo-label" id="brightai-demo-mode-label">وضع المحاكاة</span>
+          <span class="brightai-demo-label" id="brightai-demo-mode-label">بيانات تجريبية</span>
           <label class="brightai-demo-switch">
             <input type="checkbox" id="brightai-demo-toggle-checkbox" ${isDemo ? 'checked' : ''}>
             <span class="brightai-demo-slider"></span>
@@ -1991,7 +2056,22 @@
   function updateBannerUI() {
     const checkbox = document.getElementById('brightai-demo-toggle-checkbox');
     if (checkbox) {
-      checkbox.checked = localStorage.getItem('brightai_kernel_demo_mode') === 'true';
+      checkbox.checked = shouldUseDemoData();
+      checkbox.disabled = isFileProtocol();
+    }
+
+    const badge = document.querySelector('#brightai-demo-banner-ui .brightai-demo-badge');
+    if (badge) {
+      badge.lastChild.textContent = shouldUseDemoData() ? ' بيانات تجريبية' : ' Production API';
+    }
+
+    const helper = document.getElementById('brightai-demo-helper-text');
+    if (helper) {
+      helper.textContent = isFileProtocol()
+        ? 'تم تفعيل البيانات التجريبية تلقائياً لأن الصفحة مفتوحة محلياً عبر file://'
+        : shouldUseDemoData()
+          ? 'بيانات سعودية صناعية ومحمية بالكامل، لا تُستخدم إلا عند تفعيل هذا الخيار'
+          : 'الوضع الافتراضي يتصل بواجهة الإنتاج /api/kernel بدون محاكاة محلية';
     }
   }
 
@@ -1999,9 +2079,9 @@
   document.addEventListener('DOMContentLoaded', async () => {
     injectBannerStyles();
     injectBannerUI();
+    updateBannerUI();
     
-    const isDemo = localStorage.getItem('brightai_kernel_demo_mode') === 'true';
-    if (isDemo) {
+    if (shouldUseDemoData()) {
       await ensureDBInitialized();
       updateStatsDOMDirectly();
       startLiveFeedSimulator();
@@ -2064,14 +2144,15 @@
           providers: providerData.providers || {},
         };
       } catch (error) {
+        const demoDataActive = shouldUseDemoData();
         return {
           status: 'error',
-          provider: 'local',
-          model: 'Demo Mode',
+          provider: demoDataActive ? 'local' : 'production-api',
+          model: demoDataActive ? 'Demo Mode' : 'Unavailable',
           configured: false,
-          mode: 'demo',
-          region: 'local',
-          dataResidency: 'Demo mode',
+          mode: demoDataActive ? 'demo' : 'production',
+          region: demoDataActive ? 'local' : '',
+          dataResidency: demoDataActive ? 'Demo mode' : 'Production API unavailable',
           supportsArabic: true,
           providers: {},
         };
@@ -2218,5 +2299,7 @@
   global.kernelAPI = kernelAPI;
   global.APIError = APIError;
   global.normalizeStats = normalizeStats;
+  global.kernelDemoDataSelected = isDemoModeSelected;
+  global.kernelShouldUseDemoData = shouldUseDemoData;
 
 })(typeof window !== 'undefined' ? window : this);

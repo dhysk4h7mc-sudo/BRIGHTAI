@@ -1810,28 +1810,36 @@
         const bannerActive = document.getElementById('provider-banner-active');
         const bannerResidency = document.getElementById('provider-banner-residency');
         const bannerMode = document.getElementById('provider-banner-mode');
-        const isProduction = data.mode !== 'demo' && data.configured;
+        const isProduction = data.mode === 'production' && data.configured === true;
+        const isDemoData = typeof window.kernelShouldUseDemoData === 'function' && window.kernelShouldUseDemoData();
         const providerName = data.provider || 'local';
+        const providerLabel = String(providerName).toLowerCase() === 'nvidia' ? 'NVIDIA' : providerName;
         const modelName = data.model || '';
         const residency = data.dataResidency || 'غير محدد';
 
         if (isProduction) {
           dot.className = 'provider-dot active';
-          text.textContent = providerName + ' نشط';
+          text.textContent = `${providerLabel} · Connected`;
           model.textContent = modelName;
-        } else {
+        } else if (isDemoData) {
           dot.className = 'provider-dot demo';
-          text.textContent = 'وضع تجريبي';
+          text.textContent = `${providerLabel} · Degraded`;
           model.textContent = providerName === 'allam'
             ? 'ALLaM خيار سيادي للعرض فقط'
-            : 'أضف مفتاح مزود إنتاجي للتفعيل';
+            : 'Fallback / Local demo';
+        } else {
+          dot.className = 'provider-dot demo';
+          text.textContent = 'Production API · Degraded';
+          model.textContent = 'لم يتم تفعيل مزود إنتاجي بعد';
         }
 
         if (banner) banner.className = `provider-banner ${isProduction ? 'active' : 'demo'}`;
         if (bannerDot) bannerDot.className = `provider-dot ${isProduction ? 'active' : 'demo'}`;
-        if (bannerActive) bannerActive.textContent = `${providerName} · ${modelName || 'Demo Mode'}`;
+        if (bannerActive) bannerActive.textContent = isProduction
+          ? `${providerLabel} · Connected`
+          : `${providerLabel} · Degraded`;
         if (bannerResidency) bannerResidency.textContent = `Data residency: ${residency}`;
-        if (bannerMode) bannerMode.textContent = isProduction ? 'Production' : 'Demo';
+        if (bannerMode) bannerMode.textContent = isProduction && !isDemoData ? 'Production' : 'Fallback / Local demo';
       } catch {}
     }
 

@@ -97,10 +97,17 @@
         this.state.currentData = normalized;
         this.renderStats(normalized);
       } catch (error) {
-        console.log('[v0] Stats fetch failed, using demo data:', error);
-        const demoData = this.normalizeStats(this.generateDemoData());
-        this.state.currentData = demoData;
-        this.renderStats(demoData);
+        if (typeof global.kernelShouldUseDemoData === 'function' && global.kernelShouldUseDemoData()) {
+          console.log('[v0] Stats fetch failed, using demo data:', error);
+          const demoData = this.normalizeStats(this.generateDemoData());
+          this.state.currentData = demoData;
+          this.renderStats(demoData);
+        } else {
+          console.warn('[BrightAI Kernel] Stats production API failed:', error);
+          const emptyData = this.normalizeStats({});
+          this.state.currentData = emptyData;
+          this.renderStats(emptyData);
+        }
       } finally {
         this.state.isLoading = false;
         this.updateLastRefreshTime();

@@ -721,7 +721,11 @@
         renderStats(data);
       } catch (err) {
         console.log('[v0] Failed to load stats:', err);
-        renderStats(buildDemoData());
+        if (typeof window.kernelShouldUseDemoData === 'function' && window.kernelShouldUseDemoData()) {
+          renderStats(buildDemoData());
+        } else {
+          renderStats({});
+        }
       }
     }
 

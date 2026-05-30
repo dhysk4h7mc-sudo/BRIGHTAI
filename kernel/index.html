@@ -935,18 +935,26 @@
 
         const data = await response.json();
         const provider = data.activeProvider || data.provider || {};
-        const isProduction = provider.configured && provider.mode !== 'demo';
+        const providerName = String(provider.name || 'provider').toLowerCase();
+        const providerLabel = providerName === 'nvidia' ? 'NVIDIA' : (provider.name || 'Provider');
+        const isProduction = provider.configured === true && provider.mode === 'production';
+        const isDemoData = typeof window.kernelShouldUseDemoData === 'function' && window.kernelShouldUseDemoData();
 
         if (isProduction) {
           banner.className = 'provider-banner active';
-          statusText.textContent = `${provider.name || 'provider'} · ${provider.model || 'model'} نشط`;
+          statusText.textContent = `${providerLabel} · Connected`;
+        } else if (isDemoData) {
+          banner.className = 'provider-banner demo';
+          statusText.textContent = `Degraded — Fallback / Local demo، والمزود النشط ${providerLabel}`;
         } else {
           banner.className = 'provider-banner demo';
-          statusText.textContent = `وضع تجريبي — ALLaM خيار سيادي للعرض، والمزود النشط ${provider.name || 'local'}`;
+          statusText.textContent = 'Production API · Degraded — لم يتم تفعيل مزود إنتاجي بعد';
         }
       } catch (error) {
         banner.className = 'provider-banner demo';
-        statusText.textContent = 'وضع تجريبي — ALLaM خيار سيادي للعرض بدون اتصال فعلي';
+        statusText.textContent = typeof window.kernelShouldUseDemoData === 'function' && window.kernelShouldUseDemoData()
+          ? 'وضع تجريبي — ALLaM خيار سيادي للعرض بدون اتصال فعلي'
+          : 'تعذّر الاتصال بواجهة الإنتاج /api/kernel';
       }
     }
 

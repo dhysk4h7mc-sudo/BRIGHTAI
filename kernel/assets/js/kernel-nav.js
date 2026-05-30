@@ -24,6 +24,7 @@
       ],
       moreMenuThreshold: 5, // Show 'More' menu after this many items
       pendingCheckInterval: 30000, // Check pending approvals every 30s
+      statusCheckInterval: 45000, // Refresh provider and DB status every 45s
     },
 
     // State
@@ -32,6 +33,7 @@
       isDrawerOpen: false,
       isMoreMenuOpen: false,
       currentPage: null,
+      statusIntervalId: null,
     },
 
     // Icons SVG paths
@@ -93,6 +95,7 @@
      */
     render() {
       this.renderTopNav();
+      this.renderStatusBar();
       this.renderBottomNav();
       this.renderMobileDrawer();
     },
@@ -133,6 +136,47 @@
       }
 
       document.body.insertBefore(topNav, document.body.firstChild);
+    },
+
+    /**
+     * Render shared kernel provider/database status bar.
+     */
+    renderStatusBar() {
+      if (document.getElementById('kernel-status-bar')) return;
+
+      const statusBar = document.createElement('section');
+      statusBar.className = 'kernel-status-bar loading';
+      statusBar.id = 'kernel-status-bar';
+      statusBar.setAttribute('role', 'status');
+      statusBar.setAttribute('aria-live', 'polite');
+
+      statusBar.innerHTML = `
+        <div class="container kernel-status-bar-inner">
+          <div class="kernel-status-provider">
+            <span class="kernel-status-dot" id="kernel-status-dot" aria-hidden="true"></span>
+            <span class="kernel-status-label">Kernel Provider</span>
+            <strong id="kernel-status-provider-text">Checking...</strong>
+          </div>
+          <div class="kernel-status-meta">
+            <span class="kernel-status-pill">
+              <span>DB</span>
+              <strong id="kernel-status-db-text">Checking...</strong>
+            </span>
+            <span class="kernel-status-pill">
+              <span>Mode</span>
+              <strong id="kernel-status-mode-text">Checking...</strong>
+            </span>
+          </div>
+        </div>
+      `;
+
+      const topNav = document.getElementById('top-nav');
+      if (topNav && topNav.parentNode) {
+        topNav.insertAdjacentElement('afterend', statusBar);
+        return;
+      }
+
+      document.body.insertBefore(statusBar, document.body.firstChild);
     },
 
     /**
@@ -383,6 +427,151 @@
     startPendingCheck() {
       this.checkPendingCount();
       setInterval(() => this.checkPendingCount(), this.config.pendingCheckInterval);
+      this.startStatusCheck();
+    },
+
+    /**
+     * Start shared kernel status checks.
+     */
+    startStatusCheck() {
+      this.checkKernelStatus();
+      if (this.state.statusIntervalId) return;
+      this.state.statusIntervalId = setInterval(() => this.checkKernelStatus(), this.config.statusCheckInterval);
+    },
+
+    /**
+     * Fetch JSON with a short timeout so the status bar never blocks the page.
+     * @param {string} path - API path
+     * @returns {Promise<Object>}
+     */
+    async fetchJson(path) {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 6000);
+
+      try {
+        const response = await fetch(path, {
+          headers: { Accept: 'application/json' },
+          signal: controller.signal,
+        });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        return await response.json();
+      } finally {
+        clearTimeout(timeoutId);
+      }
+    },
+
+    /**
+     * Check provider and DB status from the production kernel APIs.
+     */
+    async checkKernelStatus() {
+      const bar = document.getElementById('kernel-status-bar');
+      if (!bar) return;
+
+      try {
+        const [providersData, healthData] = await Promise.all([
+          this.fetchJson('/api/kernel/providers'),
+          this.fetchJson('/api/kernel/health'),
+        ]);
+        this.updateKernelStatusBar(providersData, healthData);
+      } catch (error) {
+        this.updateKernelStatusError();
+      }
+    },
+
+    /**
+     * Return the active provider without exposing secrets or raw provider payloads.
+     * @param {Object} providersData - /api/kernel/providers response
+     * @returns {Object}
+     */
+    getActiveProvider(providersData = {}) {
+      const active = providersData.activeProvider || providersData.provider || {};
+      if (active && active.name) return active;
+
+      const providers = providersData.providers || {};
+      const order = providersData.order || ['nvidia', 'gemini', 'openai', 'anthropic', 'allam', 'local'];
+      const productionProvider = order
+        .map((name) => providers[name])
+        .find((provider) => provider && provider.configured === true && provider.mode === 'production');
+
+      return productionProvider || providers.local || {};
+    },
+
+    /**
+     * Map provider names into display labels.
+     * @param {string} name - Provider name
+     * @returns {string}
+     */
+    getProviderLabel(name) {
+      const normalized = String(name || '').trim().toLowerCase();
+      const labels = {
+        nvidia: 'NVIDIA',
+        gemini: 'Gemini',
+        openai: 'OpenAI',
+        anthropic: 'Anthropic',
+        allam: 'ALLaM',
+        local: 'Local Demo',
+      };
+      return labels[normalized] || (name ? String(name) : 'Provider');
+    },
+
+    /**
+     * Update the shared status bar UI.
+     * @param {Object} providersData - /api/kernel/providers response
+     * @param {Object} healthData - /api/kernel/health response
+     */
+    updateKernelStatusBar(providersData = {}, healthData = {}) {
+      const bar = document.getElementById('kernel-status-bar');
+      const dot = document.getElementById('kernel-status-dot');
+      const providerText = document.getElementById('kernel-status-provider-text');
+      const dbText = document.getElementById('kernel-status-db-text');
+      const modeText = document.getElementById('kernel-status-mode-text');
+      if (!bar || !dot || !providerText || !dbText || !modeText) return;
+
+      const activeProvider = this.getActiveProvider(providersData);
+      const providerName = String(activeProvider.name || '').toLowerCase();
+      const providerLabel = this.getProviderLabel(providerName || activeProvider.name);
+      const isProductionProvider = activeProvider.configured === true && activeProvider.mode === 'production';
+      const isNvidiaConnected = providerName === 'nvidia' && isProductionProvider;
+      const isFallback = providersData.demoMode === true
+        || activeProvider.mode === 'demo'
+        || activeProvider.adapter === 'demo'
+        || providerName === 'local'
+        || providerName === 'allam';
+      const dbConnected = Boolean(
+        healthData.kernel?.database === true
+        || healthData.database === true
+        || healthData.database?.connected === true
+        || healthData.db?.connected === true
+      );
+      const healthDegraded = healthData.status && healthData.status !== 'ok';
+      const degraded = isFallback || !isProductionProvider || !dbConnected || healthDegraded;
+
+      bar.className = `kernel-status-bar ${degraded ? 'degraded' : 'connected'}`;
+      dot.className = `kernel-status-dot ${degraded ? 'degraded' : 'connected'}`;
+
+      providerText.textContent = isNvidiaConnected || isProductionProvider
+        ? `${providerLabel} · Connected`
+        : `${providerLabel} · Degraded`;
+      dbText.textContent = dbConnected ? 'Connected' : 'Degraded';
+      modeText.textContent = isFallback ? 'Fallback / Local demo' : 'Production';
+    },
+
+    /**
+     * Show an explicit degraded state when status APIs cannot be reached.
+     */
+    updateKernelStatusError() {
+      const bar = document.getElementById('kernel-status-bar');
+      const dot = document.getElementById('kernel-status-dot');
+      const providerText = document.getElementById('kernel-status-provider-text');
+      const dbText = document.getElementById('kernel-status-db-text');
+      const modeText = document.getElementById('kernel-status-mode-text');
+      if (!bar || !dot || !providerText || !dbText || !modeText) return;
+
+      bar.className = 'kernel-status-bar degraded';
+      dot.className = 'kernel-status-dot degraded';
+      providerText.textContent = 'Production API · Degraded';
+      dbText.textContent = 'Unknown';
+      modeText.textContent = 'Fallback unavailable';
     },
 
     /**
