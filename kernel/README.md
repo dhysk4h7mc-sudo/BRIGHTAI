@@ -16,7 +16,7 @@
 - بيانات المحاكاة لا تعمل إلا عند تفعيل toggle واضح باسم `بيانات تجريبية`.
 - عند فتح الصفحات مباشرة عبر `file://` يتم تفعيل البيانات التجريبية تلقائياً حتى تبقى المعاينة المحلية شغالة بدون backend.
 - لا يتم تحويل جلسة HTTP/HTTPS إلى demo بصمت عند فشل Production API.
-- `kernel-api.js` هو نقطة التحكم المشتركة في API client، mock interception، banner الخاص بالبيانات التجريبية، وتطبيع بيانات الإحصائيات.
+- `kernel-api.js` هو API client وتطبيع البيانات فقط، بينما demo store وmock interception وبانر البيانات التجريبية مفصولة في ملفات مستقلة.
 
 ## هيكل الملفات
 
@@ -42,7 +42,10 @@ kernel/
 │       ├── kernel-api.js
 │       ├── kernel-chat-client.js
 │       ├── kernel-compliance.js
+│       ├── kernel-demo-banner.js
+│       ├── kernel-demo-store.js
 │       ├── kernel-mobile.js
+│       ├── kernel-mock-handlers.js
 │       ├── kernel-nav.js
 │       ├── kernel-reports.js
 │       ├── kernel-stats.js
@@ -91,7 +94,7 @@ kernel/
 
 قواعد التنفيذ:
 
-- لا توجد مكتبات جديدة؛ الصفحة تعتمد على `kernel-utils.js`, `kernel-api.js`, و`kernel-nav.js`.
+- لا توجد مكتبات جديدة؛ الصفحة تعتمد على وحدات Kernel المشتركة تحت `kernel/assets/js/` بدون إطار Frontend إضافي.
 - الصفحة تستخدم نفس هوية BrightAI الداكنة مع تقليل الزخرفة والحفاظ على سطح تشغيلي واضح.
 - `Production API` يبقى الافتراضي، ولا يتم تفعيل demo بصمت عند فشل الاتصال.
 - القيم المختلطة مثل `Trace ID` معزولة بصرياً باتجاه `LTR` داخل الواجهة العربية.
@@ -127,6 +130,9 @@ kernel/
 - `/kernel/assets/css/kernel.css`
 - `/kernel/assets/js/kernel-utils.js`
 - `/kernel/assets/js/kernel-api.js`
+- `/kernel/assets/js/kernel-demo-store.js`
+- `/kernel/assets/js/kernel-mock-handlers.js`
+- `/kernel/assets/js/kernel-demo-banner.js`
 - `/kernel/assets/js/kernel-nav.js`
 - `/frontend/js/unified-header.js`
 - `/frontend/js/production-runtime.v20260427.js`
@@ -137,7 +143,10 @@ kernel/
 
 | الملف | المسؤولية | أهم exports |
 | --- | --- | --- |
-| `kernel/assets/js/kernel-api.js` | API client، تطبيع البيانات، demo toggle، mock database، mock request handler، ومحاكاة chat/approvals/evidence. | `window.kernelAPI`, `window.KernelAPI`, `window.normalizeStats`, `window.kernelShouldUseDemoData` |
+| `kernel/assets/js/kernel-api.js` | API client، أخطاء API، وتطبيع بيانات الإحصائيات والسجلات. | `window.kernelAPI`, `window.KernelAPI`, `window.APIError`, `window.normalizeStats`, `window.KernelApiHelpers` |
+| `kernel/assets/js/kernel-demo-store.js` | حالة demo mode، تحميل mock database، hardcoded fallback، localStorage، live feed، وتحديثات `kernel-demo-update`. | `window.KernelDemoStore`, `window.kernelShouldUseDemoData`, `window.kernelDemoDataSelected` |
+| `kernel/assets/js/kernel-mock-handlers.js` | اعتراض `/api/kernel` عند تفعيل demo، ومحاكاة chat/approvals/evidence/policies/providers/health. | `window.KernelMockHandlers` |
+| `kernel/assets/js/kernel-demo-banner.js` | واجهة banner وتبديل `بيانات تجريبية` وإعادة تعيين قاعدة demo. | `window.KernelDemoBanner` |
 | `kernel/assets/js/kernel-utils.js` | أدوات مشتركة: escape HTML، formatters، debounce/throttle، theme، clipboard، animations. | `window.KernelUtils` |
 | `kernel/assets/js/kernel-nav.js` | تعريف صفحات Kernel، بناء navigation، active route، عداد الموافقات، وشريط حالة المزود/قاعدة البيانات المشترك. | `window.KernelNav` |
 | `kernel/assets/js/kernel-mobile.js` | drawer، bottom nav، touch gestures، pull-to-refresh، وسلوك الجوال. | `window.KernelMobile` |
@@ -202,7 +211,7 @@ kernel/
 | `/api/kernel/reports/:id/download` | تحميل تقرير. |
 | `/api/kernel/reports/schedule` | جدولة تقرير. |
 
-ملاحظة مهمة: mock handler داخل `kernel-api.js` يغطي مسارات Kernel الأساسية مثل stats/audit/chain/approvals/evidence/compliance/chat/policies/providers/health. أما reports فتملك fallback محلي داخل `kernel-reports.js` عندما تكون `بيانات تجريبية` مفعلة أو عند `file://`.
+ملاحظة مهمة: mock handler داخل `kernel-mock-handlers.js` يغطي مسارات Kernel الأساسية مثل stats/audit/chain/approvals/evidence/compliance/chat/policies/providers/health. أما reports فتملك fallback محلي داخل `kernel-reports.js` عندما تكون `بيانات تجريبية` مفعلة أو عند `file://`.
 
 ## وضع البيانات التجريبية
 
@@ -248,7 +257,7 @@ brightai_kernel_demo_mode
 | `kernel/api/mock/connectors.json` | array | fixture للموصلات. |
 | `kernel/api/mock/scenarios.json` | array | fixture للسيناريوهات. |
 
-عند تفعيل demo، يحاول `kernel-api.js` تحميل:
+عند تفعيل demo، يحاول `kernel-demo-store.js` تحميل:
 
 - `stats.json`
 - `audit.json`
@@ -257,7 +266,7 @@ brightai_kernel_demo_mode
 - `compliance.json`
 - `policies.json`
 
-إذا فشل تحميل هذه الملفات، يستخدم hardcoded fallback داخل `kernel-api.js`.
+إذا فشل تحميل هذه الملفات، يستخدم hardcoded fallback داخل `kernel-demo-store.js`.
 
 ## Manifest
 
@@ -282,7 +291,7 @@ BrightAI Kernel - Enterprise AI Governance
 1. أنشئ HTML داخل `kernel/`.
 2. استخدم `dir="rtl"` و`lang="ar"` أو ما يطابق الصفحة الحالية.
 3. اربط `/kernel/assets/css/kernel.css`.
-4. حمّل `kernel-utils.js`, ثم `kernel-api.js`, ثم `kernel-nav.js`.
+4. حمّل `kernel-utils.js`, ثم `kernel-api.js`, ثم `kernel-demo-store.js`, ثم `kernel-mock-handlers.js`, ثم `kernel-demo-banner.js`, ثم `kernel-nav.js`.
 5. استدع `KernelNav.init('sidebarNav')` واضبط الصفحة النشطة عبر `KernelNav.setActive('<page-id>')`.
 6. أضف الصفحة إلى `KernelNav.config.pages` داخل `kernel-nav.js`.
 7. إذا استخدمت `/api/kernel` لا تضف fallback demo صامت؛ اعتمد على `window.kernelShouldUseDemoData()`.
@@ -290,20 +299,22 @@ BrightAI Kernel - Enterprise AI Governance
 
 ## تعديل API أو demo mode
 
-قبل تعديل `kernel-api.js` راجع هذه المناطق:
+قبل تعديل API أو demo mode راجع هذه المناطق:
 
 - `normalizeStats`
-- `getHardcodedDefaults`
-- `ensureDBInitialized`
-- `handleMockRequest`
-- fetch wrapper حول `window.fetch`
-- `injectBannerUI` و`updateBannerUI`
-- exports في نهاية الملف
+- `KernelAPI` داخل `kernel-api.js`
+- `getHardcodedDefaults` و`ensureDBInitialized` داخل `kernel-demo-store.js`
+- `handleMockRequest` وfetch wrapper حول `window.fetch` داخل `kernel-mock-handlers.js`
+- `injectBannerUI` و`updateBannerUI` داخل `kernel-demo-banner.js`
+- exports في نهاية كل ملف مشترك
 
 بعد التعديل، شغّل:
 
 ```bash
 node -c kernel/assets/js/kernel-api.js
+node -c kernel/assets/js/kernel-demo-store.js
+node -c kernel/assets/js/kernel-mock-handlers.js
+node -c kernel/assets/js/kernel-demo-banner.js
 ```
 
 وشغّل syntax check لأي JS آخر تغير.
@@ -315,6 +326,9 @@ node -c kernel/assets/js/kernel-api.js
 ```bash
 git diff --check
 node -c kernel/assets/js/kernel-api.js
+node -c kernel/assets/js/kernel-demo-store.js
+node -c kernel/assets/js/kernel-mock-handlers.js
+node -c kernel/assets/js/kernel-demo-banner.js
 node -c kernel/assets/js/kernel-stats.js
 node -c kernel/assets/js/kernel-reports.js
 npm run seo:gate

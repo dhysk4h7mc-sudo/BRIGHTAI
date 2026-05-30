@@ -74,12 +74,23 @@
       margin-top: var(--space-1);
     }
 
-    /* Filters */
+    /* Controls */
+    .approvals-controls {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: var(--space-4);
+      align-items: start;
+      margin-bottom: var(--space-4);
+    }
+
+    @media (max-width: 768px) {
+      .approvals-controls { grid-template-columns: 1fr; }
+    }
+
     .filters-bar {
       display: flex;
-      gap: var(--space-3);
+      gap: var(--space-2);
       flex-wrap: wrap;
-      margin-bottom: var(--space-6);
       align-items: center;
     }
 
@@ -95,10 +106,172 @@
       min-height: 44px;
     }
 
+    .filter-btn .tab-count {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 24px;
+      height: 24px;
+      margin-inline-start: var(--space-2);
+      padding: 0 var(--space-2);
+      border-radius: var(--radius-full);
+      background: rgba(148, 163, 184, 0.12);
+      color: var(--text-primary);
+      font-size: 0.75rem;
+      font-variant-numeric: tabular-nums;
+    }
+
     .filter-btn:hover, .filter-btn.active {
       background: rgba(0, 212, 255, 0.1);
       border-color: var(--brand);
       color: var(--brand);
+    }
+
+    .sort-control {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      justify-content: flex-end;
+      color: var(--text-secondary);
+      font-size: 0.8125rem;
+      white-space: nowrap;
+    }
+
+    .sort-control select {
+      min-height: 44px;
+      padding: 0 var(--space-3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      background: var(--ink-800);
+      color: var(--text-primary);
+      font: inherit;
+    }
+
+    .bulk-toolbar {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-4);
+      margin-bottom: var(--space-6);
+      padding: var(--space-4);
+      border: 1px solid rgba(0, 212, 255, 0.22);
+      border-radius: var(--radius-lg);
+      background: rgba(0, 212, 255, 0.06);
+    }
+
+    .bulk-toolbar.active { display: flex; }
+
+    @media (max-width: 680px) {
+      .bulk-toolbar {
+        align-items: stretch;
+        flex-direction: column;
+      }
+    }
+
+    .bulk-summary {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    .bulk-count {
+      color: var(--text-primary);
+      font-weight: 700;
+    }
+
+    .bulk-note {
+      color: var(--text-tertiary);
+      font-size: 0.75rem;
+      line-height: 1.6;
+    }
+
+    .bulk-actions {
+      display: flex;
+      gap: var(--space-2);
+      flex-wrap: wrap;
+    }
+
+    .select-visible-row {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      margin-bottom: var(--space-4);
+      color: var(--text-secondary);
+      font-size: 0.8125rem;
+    }
+
+    .select-visible-row input,
+    .request-select input {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--brand);
+      cursor: pointer;
+    }
+
+    .request-select {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      min-height: 32px;
+      color: var(--text-tertiary);
+      font-size: 0.75rem;
+      white-space: nowrap;
+    }
+
+    .request-links {
+      display: flex;
+      gap: var(--space-2);
+      flex-wrap: wrap;
+      margin-bottom: var(--space-4);
+    }
+
+    .request-link-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 30px;
+      padding: 0 var(--space-3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-full);
+      background: rgba(148, 163, 184, 0.08);
+      color: var(--brand);
+      font-size: 0.75rem;
+      text-decoration: none;
+    }
+
+    .request-link-badge:hover {
+      border-color: var(--brand);
+      text-decoration: none;
+    }
+
+    .escalation-box {
+      margin-bottom: var(--space-4);
+      padding: var(--space-3) var(--space-4);
+      border: 1px solid rgba(245, 158, 11, 0.24);
+      border-radius: var(--radius-md);
+      background: rgba(245, 158, 11, 0.08);
+    }
+
+    .escalation-title {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      margin-bottom: var(--space-2);
+      color: var(--warning);
+      font-size: 0.8125rem;
+      font-weight: 700;
+    }
+
+    .escalation-reasons {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 4px;
+      color: var(--text-secondary);
+      font-size: 0.8125rem;
+      line-height: 1.6;
     }
 
     /* Requests List */
@@ -590,13 +763,28 @@
         </div>
       </div>
 
-      <!-- Filters -->
-      <div class="filters-bar" role="group" aria-label="فلاتر الطلبات">
-        <button class="filter-btn active" data-filter="pending" onclick="setFilter(this,'pending')">قيد الانتظار</button>
-        <button class="filter-btn" data-filter="all" onclick="setFilter(this,'all')">الكل</button>
-        <button class="filter-btn" data-filter="completed" onclick="setFilter(this,'completed')">مكتملة</button>
-        <button class="filter-btn" data-filter="rejected" onclick="setFilter(this,'rejected')">مرفوضة</button>
-        <button class="filter-btn" data-filter="expired" onclick="setFilter(this,'expired')">منتهية</button>
+      <!-- Controls -->
+      <div class="approvals-controls">
+        <div class="filters-bar" id="status-tabs" role="tablist" aria-label="حالات الطلبات"></div>
+        <label class="sort-control" for="risk-sort">
+          ترتيب المخاطر
+          <select id="risk-sort" onchange="setRiskSort(this.value)">
+            <option value="desc">الأعلى خطراً أولاً</option>
+            <option value="asc">الأقل خطراً أولاً</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="bulk-toolbar" id="bulk-toolbar" aria-live="polite">
+        <div class="bulk-summary">
+          <span class="bulk-count" id="bulk-count">0 طلب محدد</span>
+          <span class="bulk-note">الموافقة الجماعية لا تختار الطلبات الحرجة افتراضياً، والحرجة تتطلب مراجعة فردية.</span>
+        </div>
+        <div class="bulk-actions">
+          <button class="btn btn-success" type="button" onclick="handleBulkAction('approve')">موافقة جماعية</button>
+          <button class="btn btn-danger" type="button" onclick="handleBulkAction('reject')">رفض جماعي</button>
+          <button class="btn btn-ghost" type="button" onclick="clearSelection()">إلغاء التحديد</button>
+        </div>
       </div>
 
       <!-- Requests List -->
@@ -615,16 +803,31 @@
 
   <script src="/kernel/assets/js/kernel-utils.js" defer></script>
   <script src="/kernel/assets/js/kernel-api.js" defer></script>
+  <script src="/kernel/assets/js/kernel-demo-store.js" defer></script>
+  <script src="/kernel/assets/js/kernel-mock-handlers.js" defer></script>
+  <script src="/kernel/assets/js/kernel-demo-banner.js" defer></script>
   <script src="/kernel/assets/js/kernel-nav.js" defer></script>
 
   <script>
     let allRequests = [];
     let currentFilter = 'pending';
+    let riskSortOrder = 'desc';
+    const selectedRequestIds = new Set();
     const selectedTraceId = new URLSearchParams(window.location.search).get('trace_id') || '';
     let refreshTimer;
+    const statusTabs = [
+      { key: 'pending', label: 'قيد الانتظار' },
+      { key: 'critical', label: 'حرجة' },
+      { key: 'all', label: 'الكل' },
+      { key: 'completed', label: 'مكتملة' },
+      { key: 'rejected', label: 'مرفوضة' },
+      { key: 'expired', label: 'منتهية' },
+      { key: 'escalated', label: 'مصعّدة' },
+    ];
 
     // ── Init ──
     document.addEventListener('DOMContentLoaded', () => {
+      renderStatusTabs();
       loadApprovals();
       refreshTimer = setInterval(loadApprovals, 15000);
     });
@@ -637,7 +840,9 @@
           ...(data.pending || []),
           ...(data.recent || []),
         ];
+        pruneSelection();
         updateSummary(data.summary || {});
+        renderStatusTabs();
         renderList();
       } catch (err) {
         document.getElementById('loading-state').style.display = 'none';
@@ -657,26 +862,71 @@
       document.getElementById('stat-completed').textContent = KernelUtils.formatNumber(s.completedToday || 0);
     }
 
-    function setFilter(btn, filter) {
+    function renderStatusTabs() {
+      const tabs = document.getElementById('status-tabs');
+      if (!tabs) return;
+      const counts = getStatusCounts();
+      tabs.innerHTML = statusTabs.map((tab) => `
+        <button
+          class="filter-btn ${currentFilter === tab.key ? 'active' : ''}"
+          type="button"
+          role="tab"
+          aria-selected="${currentFilter === tab.key ? 'true' : 'false'}"
+          data-filter="${tab.key}"
+          onclick="setFilter('${tab.key}')"
+        >
+          ${tab.label}
+          <span class="tab-count">${KernelUtils.formatNumber(counts[tab.key] || 0)}</span>
+        </button>
+      `).join('');
+    }
+
+    function getStatusCounts() {
+      return statusTabs.reduce((acc, tab) => {
+        acc[tab.key] = allRequests.filter((request) => matchesFilter(request, tab.key)).length;
+        return acc;
+      }, {});
+    }
+
+    function setFilter(filter) {
       currentFilter = filter;
-      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
+      clearSelection(false);
+      renderStatusTabs();
       renderList();
+    }
+
+    function setRiskSort(order) {
+      riskSortOrder = order === 'asc' ? 'asc' : 'desc';
+      renderList();
+    }
+
+    function matchesFilter(request, filter) {
+      const status = (request.status || 'pending').toLowerCase();
+      if (filter === 'pending') return ['pending', 'escalated'].includes(status);
+      if (filter === 'critical') return isCriticalRequest(request);
+      if (filter === 'all') return true;
+      return status === filter;
+    }
+
+    function getVisibleRequests() {
+      let items = allRequests.filter((request) => matchesFilter(request, currentFilter));
+      if (currentFilter === 'pending') {
+        items = allRequests.filter((request) => matchesFilter(request, 'pending'));
+      }
+      if (selectedTraceId) {
+        items = items.filter(r => (r.traceId || r.trace_id || '').toLowerCase() === selectedTraceId.toLowerCase());
+      }
+      return items.sort((a, b) => {
+        const diff = toRiskScore(a) - toRiskScore(b);
+        return riskSortOrder === 'asc' ? diff : -diff;
+      });
     }
 
     function renderList() {
       document.getElementById('loading-state').style.display = 'none';
       const list = document.getElementById('requests-list');
-
-      let items = allRequests;
-      if (currentFilter === 'pending') {
-        items = allRequests.filter(r => ['pending', 'escalated'].includes(r.status));
-      } else if (currentFilter !== 'all') {
-        items = allRequests.filter(r => r.status === currentFilter);
-      }
-      if (selectedTraceId) {
-        items = items.filter(r => (r.traceId || r.trace_id || '').toLowerCase() === selectedTraceId.toLowerCase());
-      }
+      const items = getVisibleRequests();
+      updateBulkToolbar();
 
       if (items.length === 0) {
         list.innerHTML = `
@@ -695,19 +945,34 @@
         return;
       }
 
-      list.innerHTML = items.map(req => buildRequestCard(req)).join('');
+      const selectable = items.filter((request) => canSelectRequest(request));
+      const safeSelectable = selectable.filter((request) => !isCriticalRequest(request));
+      const allSafeSelected = safeSelectable.length > 0 && safeSelectable.every((request) => selectedRequestIds.has(getRequestId(request)));
+      list.innerHTML = `
+        <label class="select-visible-row">
+          <input type="checkbox" ${allSafeSelected ? 'checked' : ''} onchange="toggleVisibleSelection(this.checked)">
+          <span>تحديد الطلبات الظاهرة غير الحرجة (${KernelUtils.formatNumber(safeSelectable.length)})</span>
+        </label>
+        ${items.map(req => buildRequestCard(req)).join('')}
+      `;
+      updateBulkToolbar();
     }
 
     function buildRequestCard(req) {
-      const riskScore = req.riskScore || 0;
+      const requestId = getRequestId(req);
+      const riskScore = toRiskScore(req);
       const riskColor = riskScore < 30 ? 'var(--success)' : riskScore < 60 ? 'var(--warning)' : 'var(--danger)';
       const riskLabel = KernelUtils.getRiskLabel(req.riskLevel || 'low');
       const statusLabel = KernelUtils.getDecisionLabel(req.status || 'pending');
       const statusClass = KernelUtils.getDecisionClass(req.status || 'pending');
       const traceId = getTraceId(req);
+      const recordId = req.interactionId || req.requestId || req.id || requestId;
       const evidenceHref = traceId
         ? `/kernel/evidence/?trace_id=${encodeURIComponent(traceId)}`
-        : `/kernel/evidence/?id=${encodeURIComponent(req.interactionId || req.requestId || req.id)}`;
+        : `/kernel/evidence/?id=${encodeURIComponent(recordId)}`;
+      const auditHref = traceId
+        ? `/kernel/audit/?trace_id=${encodeURIComponent(traceId)}`
+        : `/kernel/audit/?id=${encodeURIComponent(recordId)}`;
 
       const piiItems = req.piiDetected || req.piiTypes || [];
       const policies = req.matchedPolicies || req.matchedRules || [];
@@ -725,15 +990,23 @@
       const isPending = ['pending', 'escalated'].includes(req.status);
       const isCompleted = ['completed', 'executed_after_approval'].includes(req.status);
       const isRejected = req.status === 'rejected';
+      const selectable = canSelectRequest(req) && !isExpired;
+      const isSelected = selectedRequestIds.has(requestId);
+      const escalationReasons = buildEscalationReasons(req, {
+        riskScore,
+        piiItems,
+        policies,
+        isExpired,
+      });
 
       return `
-        <div class="glass-card request-card status-${req.status || 'pending'}" id="card-${req.id}">
+        <div class="glass-card request-card status-${req.status || 'pending'}" id="card-${KernelUtils.escapeHtml(requestId)}">
           <div class="request-card-top">
             <div class="request-meta-left">
               <div class="request-id-row">
-                <code class="request-id-code">${KernelUtils.escapeHtml((req.id || '').substring(0, 16))}...</code>
+                <code class="request-id-code">${KernelUtils.escapeHtml((requestId || '').substring(0, 16))}...</code>
                 <span class="badge ${statusClass}">${statusLabel}</span>
-                ${traceId ? `<a class="badge badge-info" href="${evidenceHref}">${KernelUtils.escapeHtml(traceId)}</a>` : ''}
+                ${traceId ? `<span class="badge badge-info">${KernelUtils.escapeHtml(traceId)}</span>` : ''}
                 ${isExpired && isPending ? '<span class="badge badge-danger">منتهي SLA</span>' : ''}
               </div>
               <div class="request-query-text">"${KernelUtils.escapeHtml((req.query || req.originalText || '').substring(0, 200))}${(req.query || '').length > 200 ? '...' : ''}"</div>
@@ -743,6 +1016,11 @@
                 ${KernelUtils.escapeHtml(req.maskedText.substring(0, 200))}...
               </div>` : ''}
             </div>
+            ${selectable ? `
+            <label class="request-select" title="${isCriticalRequest(req) ? 'الطلبات الحرجة لا تدخل في التحديد الجماعي الافتراضي' : 'تحديد الطلب'}">
+              <input type="checkbox" ${isSelected ? 'checked' : ''} onchange="toggleRequestSelection('${jsString(requestId)}', this.checked)">
+              <span>تحديد</span>
+            </label>` : ''}
           </div>
 
           <!-- Info Grid -->
@@ -766,6 +1044,11 @@
             </div>` : ''}
           </div>
 
+          <div class="request-links" aria-label="روابط السجل والأدلة">
+            <a class="request-link-badge" href="${auditHref}">Audit</a>
+            <a class="request-link-badge" href="${evidenceHref}">Evidence</a>
+          </div>
+
           <!-- Risk Bar -->
           <div class="risk-bar-row">
             <span class="risk-bar-label">${riskLabel}</span>
@@ -774,6 +1057,14 @@
             </div>
             <span class="risk-bar-value" style="color:${riskColor};">${riskScore}%</span>
           </div>
+
+          ${escalationReasons.length > 0 ? `
+          <div class="escalation-box">
+            <div class="escalation-title">سبب التصعيد</div>
+            <ul class="escalation-reasons">
+              ${escalationReasons.map((reason) => `<li>${KernelUtils.escapeHtml(reason)}</li>`).join('')}
+            </ul>
+          </div>` : ''}
 
           <!-- SLA Bar (pending only) -->
           ${isPending ? `
@@ -829,8 +1120,8 @@
           <div class="request-actions">
             <button
               class="btn btn-success"
-              id="approve-btn-${req.id}"
-              onclick="handleAction('${req.id}','approve',this)"
+              id="approve-btn-${KernelUtils.escapeHtml(requestId)}"
+              onclick="handleAction('${jsString(requestId)}','approve',this)"
               aria-label="الموافقة على الطلب"
             >
               <span class="action-spinner" aria-hidden="true"></span>
@@ -843,8 +1134,8 @@
             </button>
             <button
               class="btn btn-danger"
-              id="reject-btn-${req.id}"
-              onclick="handleAction('${req.id}','reject',this)"
+              id="reject-btn-${KernelUtils.escapeHtml(requestId)}"
+              onclick="handleAction('${jsString(requestId)}','reject',this)"
               aria-label="رفض الطلب"
             >
               <span class="action-spinner" aria-hidden="true"></span>
@@ -861,26 +1152,190 @@
               </svg>
               الأدلة
             </a>
+            <a href="${auditHref}" class="btn btn-ghost">
+              Audit
+            </a>
           </div>` : ''}
 
           <!-- Execution Result Container -->
-          <div id="result-${req.id}" style="display:none;"></div>
+          <div id="result-${KernelUtils.escapeHtml(requestId)}" style="display:none;"></div>
         </div>
       `;
+    }
+
+    function getRequestId(request = {}) {
+      return String(request.id || request.requestId || request.interactionId || request.traceId || request.trace_id || '');
+    }
+
+    function toRiskScore(request = {}) {
+      const raw = request.riskScore ?? request.risk_score ?? 0;
+      const normalized = typeof raw === 'string' ? raw.replace('%', '').replace(/,/g, '').trim() : raw;
+      const score = Number(normalized);
+      return Number.isFinite(score) ? Math.max(0, Math.min(100, score)) : 0;
+    }
+
+    function isCriticalRequest(request = {}) {
+      return String(request.riskLevel || request.risk_level || '').toLowerCase() === 'critical' || toRiskScore(request) >= 90;
+    }
+
+    function canSelectRequest(request = {}) {
+      const status = String(request.status || 'pending').toLowerCase();
+      return ['pending', 'escalated'].includes(status);
+    }
+
+    function jsString(value) {
+      return String(value).replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+    }
+
+    function buildEscalationReasons(request, context) {
+      const reasons = [];
+      const explicitReason = request.escalationReason || request.escalation_reason || request.reason;
+      if (explicitReason) reasons.push(String(explicitReason));
+
+      if (context.riskScore >= 90) {
+        reasons.push(`Risk score ${context.riskScore}% مصنف critical ويتطلب اعتماداً فردياً.`);
+      } else if (context.riskScore >= 60) {
+        reasons.push(`Risk score ${context.riskScore}% أعلى من حد الموافقة الآلية.`);
+      }
+
+      if (context.piiItems.length > 0) {
+        reasons.push(`تم رصد بيانات حساسة: ${context.piiItems.map((item) => typeof item === 'string' ? item : item.type || item.name || 'PII').join(', ')}.`);
+      }
+
+      if (context.policies.length > 0) {
+        reasons.push(`تطابق مع سياسات حوكمة: ${context.policies.map((policy) => typeof policy === 'string' ? policy : policy.name || policy.id || 'Policy').join(', ')}.`);
+      }
+
+      if (request.compliancePackage && request.compliancePackage !== 'general') {
+        reasons.push(`حزمة الامتثال ${request.compliancePackage} تتطلب أثر تدقيق قبل التنفيذ.`);
+      }
+
+      if (context.isExpired) {
+        reasons.push('تجاوز الطلب SLA المحدد للمراجعة.');
+      }
+
+      return [...new Set(reasons)].slice(0, 5);
+    }
+
+    function pruneSelection() {
+      const validIds = new Set(allRequests.filter(canSelectRequest).map(getRequestId));
+      [...selectedRequestIds].forEach((id) => {
+        if (!validIds.has(id)) selectedRequestIds.delete(id);
+      });
+    }
+
+    function toggleRequestSelection(requestId, checked) {
+      if (checked) selectedRequestIds.add(requestId);
+      else selectedRequestIds.delete(requestId);
+      updateBulkToolbar();
+    }
+
+    function toggleVisibleSelection(checked) {
+      getVisibleRequests()
+        .filter((request) => canSelectRequest(request) && !isCriticalRequest(request))
+        .forEach((request) => {
+          const requestId = getRequestId(request);
+          if (checked) selectedRequestIds.add(requestId);
+          else selectedRequestIds.delete(requestId);
+        });
+      renderList();
+    }
+
+    function clearSelection(shouldRender = true) {
+      selectedRequestIds.clear();
+      updateBulkToolbar();
+      if (shouldRender) renderList();
+    }
+
+    function getSelectedRequests() {
+      const ids = new Set(selectedRequestIds);
+      return allRequests.filter((request) => ids.has(getRequestId(request)) && canSelectRequest(request));
+    }
+
+    function updateBulkToolbar() {
+      const toolbar = document.getElementById('bulk-toolbar');
+      const count = document.getElementById('bulk-count');
+      if (!toolbar || !count) return;
+
+      const selected = getSelectedRequests();
+      toolbar.classList.toggle('active', selected.length > 0);
+      const criticalCount = selected.filter(isCriticalRequest).length;
+      count.textContent = `${KernelUtils.formatNumber(selected.length)} طلب محدد${criticalCount ? `، منها ${KernelUtils.formatNumber(criticalCount)} حرجة` : ''}`;
+    }
+
+    async function handleBulkAction(action) {
+      const selected = getSelectedRequests();
+      if (selected.length === 0) return;
+
+      const criticalSelected = selected.filter(isCriticalRequest);
+      if (action === 'approve' && criticalSelected.length > 0) {
+        showToast('مراجعة فردية مطلوبة', 'لا يمكن اعتماد الطلبات الحرجة عبر bulk approve. راجعها واحداً واحداً.', 'error');
+        return;
+      }
+
+      const actionLabel = action === 'approve' ? 'الموافقة وتنفيذ' : 'رفض';
+      const reason = action === 'reject' ? (prompt('سبب الرفض الجماعي (مطلوب لسجل التدقيق):') || '').trim() : '';
+      if (action === 'reject' && !reason) {
+        showToast('سبب الرفض مطلوب', 'أدخل سبباً واضحاً قبل الرفض الجماعي.', 'error');
+        return;
+      }
+
+      const confirmed = confirm(`تأكيد ${actionLabel} ${selected.length} طلب؟\nسيتم ربط القرار بسجل Audit و Evidence لكل Request.`);
+      if (!confirmed) return;
+
+      await executeBulkAction(selected, action, reason);
+    }
+
+    async function executeBulkAction(requests, action, reason = '') {
+      const approver = KernelUtils.getUserName() || 'مدير النظام';
+      setBulkBusy(true);
+
+      let successCount = 0;
+      const failures = [];
+
+      for (const request of requests) {
+        const requestId = getRequestId(request);
+        try {
+          if (action === 'approve') {
+            await kernelAPI.approveRequest(requestId, approver);
+          } else {
+            await kernelAPI.rejectRequest(requestId, approver, reason);
+          }
+          selectedRequestIds.delete(requestId);
+          successCount += 1;
+        } catch (error) {
+          failures.push(requestId);
+        }
+      }
+
+      setBulkBusy(false);
+      showToast(
+        action === 'approve' ? 'تمت الموافقة الجماعية' : 'تم الرفض الجماعي',
+        failures.length
+          ? `نجح ${successCount} وتعذر ${failures.length}.`
+          : `تمت معالجة ${successCount} طلب بنجاح.`,
+        failures.length ? 'error' : 'success'
+      );
+      await loadApprovals();
+    }
+
+    function setBulkBusy(isBusy) {
+      document.querySelectorAll('#bulk-toolbar button').forEach((button) => {
+        button.disabled = isBusy;
+      });
     }
 
     // ── Approve / Reject ──
     async function handleAction(requestId, action, btn) {
       const approver = KernelUtils.getUserName() || 'مدير النظام';
-      const cardId = `card-${requestId}`;
 
       // Set loading state on button
       btn.classList.add('btn-loading');
       btn.disabled = true;
 
       // Disable sibling button
-      const siblingSelector = action === 'approve' ? `#reject-btn-${requestId}` : `#approve-btn-${requestId}`;
-      const sibling = document.querySelector(siblingSelector);
+      const siblingId = action === 'approve' ? `reject-btn-${requestId}` : `approve-btn-${requestId}`;
+      const sibling = document.getElementById(siblingId);
       if (sibling) sibling.disabled = true;
 
       try {
@@ -894,10 +1349,13 @@
 
         if (action === 'approve') {
           showApprovalResult(requestId, result);
+          selectedRequestIds.delete(requestId);
           showToast('تمت الموافقة', 'جاري تنفيذ الذكاء الاصطناعي...', 'success');
         } else {
+          selectedRequestIds.delete(requestId);
           showToast('تم الرفض', 'تم رفض الطلب بنجاح.', 'info');
         }
+        updateBulkToolbar();
 
         // Refresh after a moment
         setTimeout(() => { loadApprovals(); }, 1500);
