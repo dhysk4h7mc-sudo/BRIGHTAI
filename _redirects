@@ -116,6 +116,11 @@ https://www.brightai.site/*    https://brightai.site/:splat  301
 /blog                         /blog/                        301
 /blog/index.html              /blog/                        301
 /blog.html                    /blog/                        301
+/blog/ai-audit-trail-saudi    /blog/ai-audit-trail-saudi/   301
+/blog/ai-audit-trail-saudi.html /blog/ai-audit-trail-saudi/ 301
+/blog/ai-audit-trail-saudi/index.html /blog/ai-audit-trail-saudi/ 301
+/blog/ai-audit-trail-saudi/iindex.html /blog/ai-audit-trail-saudi/ 301
+/blog/ai-audit-trail-saudi/   /blog/ai-audit-trail-saudi/iindex.html 200
 /blog/ai-governance           /blog/ai-governance/          301
 /blog/ai-governance.html      /blog/ai-governance/          301
 /blog/ai-governance/index.html /blog/ai-governance/         301
@@ -343,3 +348,27 @@ https://www.brightai.site/*    https://brightai.site/:splat  301
 /docs/kernel-evidence         /docs/kernel-evidence/        301
 /docs/kernel-evidence.html    /docs/kernel-evidence/        301
 /docs/kernel-evidence/index.html /docs/kernel-evidence/     301
+
+/docs/kernel-stats            /docs/kernel-stats/           301
+/docs/kernel-stats.html       /docs/kernel-stats/           301
+/docs/kernel-stats/index.html /docs/kernel-stats/           301
+
+/docs/kernel-reports          /docs/kernel-reports/         301
+/docs/kernel-reports.html     /docs/kernel-reports/         301
+/docs/kernel-reports/index.html /docs/kernel-reports/       301
+
+/docs/kernel-policies         /docs/kernel-policies/        301
+/docs/kernel-policies.html    /docs/kernel-policies/        301
+/docs/kernel-policies/index.html /docs/kernel-policies/     301
+
+/docs/kernel-compliance       /docs/kernel-compliance/      301
+/docs/kernel-compliance.html  /docs/kernel-compliance/      301
+/docs/kernel-compliance/index.html /docs/kernel-compliance/ 301
+
+/docs/kernel-connectors       /docs/kernel-connectors/      301
+/docs/kernel-connectors.html  /docs/kernel-connectors/      301
+/docs/kernel-connectors/index.html /docs/kernel-connectors/ 301
+
+/docs/kernel-scenarios        /docs/kernel-scenarios/       301
+/docs/kernel-scenarios.html   /docs/kernel-scenarios/       301
+/docs/kernel-scenarios/index.html /docs/kernel-scenarios/   301

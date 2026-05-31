@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="ar-SA" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8LLESL207Q"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-8LLESL207Q');
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Kernel Policies - محرر السياسات البصري | BrightAI</title>
+  <meta name="description" content="شرح عملي لمحرر السياسات في BrightAI Kernel: كيف تنشئ وتعدل سياسات الذكاء الاصطناعي بشكل بصري وتربطها بالضوابط.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://brightai.site/docs/kernel-policies/">
+
+  <meta property="og:title" content="Kernel Policies - محرر السياسات البصري">
+  <meta property="og:description" content="شرح عملي لمحرر السياسات في BrightAI Kernel: كيف تنشئ وتعدل سياسات AI بشكل بصري.">
+  <meta property="og:url" content="https://brightai.site/docs/kernel-policies/">
+  <meta property="og:type" content="article">
+  <meta property="og:locale" content="ar_SA">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Kernel Policies - محرر السياسات البصري">
+  <meta name="twitter:description" content="شرح عملي لمحرر السياسات في BrightAI Kernel">
+
+  <link rel="stylesheet" href="/frontend/css/tailwind.local.min.css">
+  <link rel="stylesheet" href="/frontend/assets/css/global-fonts.css?v=20260529-official-font">
+  <link rel="stylesheet" href="/frontend/vendor/fontawesome/css/all.min.css?v=20260529-icons">
+  <link rel="stylesheet" href="/frontend/css/sitewide-modernization.css">
+  <link rel="stylesheet" href="/frontend/css/unified-header.css?v=20260529-nav-v1">
+  <link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css">
+
+  <style>
+    body {
+      background: #060914;
+      color: #e6edf7;
+      font-family: 'TheYearofTheCamel', system-ui, sans-serif;
+      line-height: 1.9;
+    }
+    .wrap {
+      max-width: 1100px;
+      margin: auto;
+      padding: 44px 20px;
+    }
+    .hero {
+      padding: 42px 0;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+      margin-bottom: 2rem;
+    }
+    h1 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.3;
+      margin: 0.5rem 0 1rem;
+      color: #fff;
+    }
+    h2 {
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      margin: 2.5rem 0 1rem;
+      color: #fff;
+    }
+    h3 {
+      font-size: 1.3rem;
+      margin: 1.5rem 0 0.8rem;
+      color: #e5edf8;
+    }
+    .pill {
+      display: inline-block;
+      border: 1px solid rgba(103, 232, 249, 0.35);
+      border-radius: 999px;
+      padding: 6px 14px;
+      color: #a5f3fc;
+      font-size: 0.85rem;
+      background: rgba(0, 212, 255, 0.08);
+      margin-bottom: 1rem;
+    }
+    .card {
+      background: rgba(15, 23, 42, 0.72);
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      border-radius: 16px;
+      padding: 24px;
+      margin: 1.5rem 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+    }
+    th, td {
+      padding: 12px;
+      text-align: right;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+    }
+    th {
+      background: rgba(103, 232, 249, 0.1);
+      color: #67e8f9;
+      font-weight: bold;
+    }
+    .warning-box {
+      background: rgba(251, 191, 36, 0.1);
+      border-right: 4px solid #fbbf24;
+      padding: 16px;
+      border-radius: 8px;
+      margin: 1.5rem 0;
+    }
+    .tip-box {
+      background: rgba(34, 197, 94, 0.1);
+      border-right: 4px solid #22c55e;
+      padding: 16px;
+      border-radius: 8px;
+      margin: 1.5rem 0;
+    }
+    .cta-section {
+      background: linear-gradient(135deg, rgba(103, 232, 249, 0.1), rgba(59, 130, 246, 0.1));
+      border: 1px solid rgba(103, 232, 249, 0.3);
+      border-radius: 16px;
+      padding: 32px;
+      margin: 3rem 0;
+      text-align: center;
+    }
+    .cta-button {
+      display: inline-block;
+      background: #67e8f9;
+      color: #060914;
+      padding: 14px 32px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      margin: 8px;
+      transition: all 0.3s ease;
+    }
+    .cta-button:hover {
+      background: #a5f3fc;
+      transform: translateY(-2px);
+    }
+    ul, ol {
+      margin: 1rem 0;
+      padding-right: 1.5rem;
+    }
+    li {
+      margin: 0.5rem 0;
+    }
+    .breadcrumb {
+      margin-bottom: 20px;
+      font-size: 0.9rem;
+      color: #9fb0c7;
+    }
+    .breadcrumb a {
+      color: #67e8f9;
+      text-decoration: none;
+    }
+    .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+  </style>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://brightai.site/#organization",
+        "name": "BrightAI",
+        "url": "https://brightai.site"
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://brightai.site/#website",
+        "url": "https://brightai.site",
+        "name": "BrightAI",
+        "publisher": {
+          "@id": "https://brightai.site/#organization"
+        }
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://brightai.site/docs/kernel-policies/#webpage",
+        "url": "https://brightai.site/docs/kernel-policies/",
+        "name": "Kernel Policies - محرر السياسات البصري",
+        "description": "شرح عملي لمحرر السياسات في BrightAI Kernel",
+        "isPartOf": {
+          "@id": "https://brightai.site/#website"
+        },
+        "inLanguage": "ar-SA"
+      },
+      {
+        "@type": "TechArticle",
+        "@id": "https://brightai.site/docs/kernel-policies/#article",
+        "headline": "Kernel Policies - محرر السياسات البصري",
+        "description": "شرح عملي لمحرر السياسات في BrightAI Kernel: كيف تنشئ وتعدل سياسات AI بشكل بصري.",
+        "author": {
+          "@type": "Person",
+          "name": "يزيد الشمري"
+        },
+        "publisher": {
+          "@id": "https://brightai.site/#organization"
+        },
+        "inLanguage": "ar-SA"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://brightai.site/docs/kernel-policies/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "الرئيسية",
+            "item": "https://brightai.site/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "الوثائق",
+            "item": "https://brightai.site/docs/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Kernel Policies",
+            "item": "https://brightai.site/docs/kernel-policies/"
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+<a class="skip-link" href="#main-content">تجاوز إلى المحتوى</a>
+<div id="brightai-unified-header"></div>
+
+<main class="wrap" id="main-content">
+  <nav class="breadcrumb">
+    <a href="/">الرئيسية</a> /
+    <a href="/docs/">الوثائق</a> /
+    Kernel Policies
+  </nav>
+
+  <section class="hero">
+    <span class="pill">BrightAI Kernel</span>
+    <h1>Kernel Policies: محرر السياسات البصري</h1>
+    <p style="color: #9fb0c7; font-size: 1.1rem;">أنشئ وعدّل سياسات الذكاء الاصطناعي بشكل بصري واربطها بالضوابط والموافقات</p>
+  </section>
+
+  <section class="card">
+    <h2>الفكرة ببساطة</h2>
+    <p>السياسات هي <strong>القواعد</strong> اللي تحكم استخدام AI في شركتك. مثلاً:</p>
+    <ul>
+      <li>"ممنوع إرسال بيانات عملاء للذكاء الاصطناعي بدون موافقة"</li>
+      <li>"كل طلب يحتوي على معلومات مالية يحتاج موافقة مدير المالية"</li>
+      <li>"قسم الموارد البشرية ممنوع من استخدام AI في قرارات التوظيف"</li>
+    </ul>
+    <p>المشكلة: السياسات عادة تكون في ملف Word أو PDF، وما أحد يطبقها فعلياً.</p>
+    <p><strong>Kernel Policies</strong> يحل هالمشكلة. تكتب السياسة في محرر بصري، وتربطها مباشرة بالضوابط التقنية، فتصير السياسة <strong>تنفيذية</strong> مو نظرية.</p>
+  </section>
+
+  <section class="card">
+    <h2>ليش هالشي مهم للشركات السعودية؟</h2>
+    <p>لأن <strong>السياسات بدون تنفيذ = ورق</strong>. الجهات التنظيمية ما تبي تشوف سياسة مكتوبة، تبي تشوف كيف تطبقونها.</p>
+    <p>Kernel Policies يعطيك:</p>
+    <ul>
+      <li><strong>سياسات قابلة للتنفيذ:</strong> كل سياسة مربوطة بضابط تقني</li>
+      <li><strong>تحديثات سريعة:</strong> لو تغيرت اللوائح، تقدر تعدل السياسة في دقائق</li>
+      <li><strong>إثبات الامتثال:</strong> تقدر تثبت إن السياسة مطبقة فعلياً، مو بس مكتوبة</li>
+      <li><strong>مراجعة ومو افقة:</strong> كل سياسة تمر بمراجعة وموافقة قبل التفعيل</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2>كيف تنشئ سياسة؟</h2>
+    <ol>
+      <li><strong>افتح محرر السياسات:</strong> اضغط "سياسة جديدة"</li>
+      <li><strong>اكتب اسم السياسة:</strong> مثلاً "حماية بيانات العملاء"</li>
+      <li><strong>حدد النطاق:</strong> هل السياسة تطبق على كل الشركة؟ أو قسم معين؟</li>
+      <li><strong>اكتب القواعد:</strong> استخدم المحرر البصري لكتابة القواعد بشكل واضح</li>
+      <li><strong>اربط بالضوابط:</strong> حدد وش الإجراء التقني (حظر، موافقة، تحذير)</li>
+      <li><strong>حدد المسؤولين:</strong> مين يقدر يوافق على الاستثناءات؟</li>
+      <li><strong>راجع وفعّل:</strong> راجع السياسة، ثم فعّلها</li>
+    </ol>
+  </section>
+
+  <section class="card">
+    <h2>وش اللي يميز Kernel Policies؟</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>الميزة</th>
+          <th>الفائدة</th>
+          <th>الخطر لو ما استخدمته</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>محرر بصري</strong></td>
+          <td>ما تحتاج تكتب كود، كل شي بصري</td>
+          <td>سياسات معقدة يصعب تحديثها</td>
+        </tr>
+        <tr>
+          <td><strong>ربط مباشر بالضوابط</strong></td>
+          <td>السياسة تطبق تلقائياً على كل طلب</td>
+          <td>سياسات نظرية ما أحد يطبقها</td>
+        </tr>
+        <tr>
+          <td><strong>إصدارات (Versioning)</strong></td>
+          <td>تقدر ترجع لإصدار سابق لو احتجت</td>
+          <td>فقدان تاريخ التعديلات</td>
+        </tr>
+        <tr>
+          <td><strong>معاينة قبل التفعيل</strong></td>
+          <td>تقدر تختبر السياسة قبل ما تطبقها</td>
+          <td>سياسات خاطئة تعطل العمل</td>
+        </tr>
+        <tr>
+          <td><strong>موافقات متعددة</strong></td>
+          <td>السياسات الحساسة تحتاج موافقة أكثر من شخص</td>
+          <td>سياسات تتفعل بدون مراجعة كافية</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="card">
+    <h2>متى تستخدم Kernel Policies؟</h2>
+    <h3>✅ استخدمه في هالحالات:</h3>
+    <ul>
+      <li>تبي تنشئ سياسات جديدة لاستخدام AI</li>
+      <li>تبي تعدل سياسات موجودة بسرعة</li>
+      <li>تبي تربط السياسات بضوابط تقنية</li>
+      <li>تبي تثبت إن السياسات مطبقة فعلياً</li>
+      <li>تبي تراجع تاريخ التعديلات على السياسات</li>
+    </ul>
+
+    <h3>❌ ما تحتاجه إذا:</h3>
+    <ul>
+      <li>ما عندك سياسات واضحة بعد (ابدأ بكتابتها أولاً)</li>
+      <li>تبي بس تشوف السياسات الحالية (استخدم Compliance)</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2>أخطاء شائعة - انتبه لها</h2>
+    <div class="warning-box">
+      <h3>❌ الخطأ الأول: سياسات معقدة جداً</h3>
+      <p>لو السياسة فيها 20 قاعدة واستثناء، ما أحد بيفهمها.</p>
+      <p><strong>الحل:</strong> ابدأ بسياسات بسيطة وواضحة، ثم عدّلها بناءً على الاستخدام الفعلي.</p>
+    </div>
+
+    <div class="warning-box">
+      <h3>❌ الخطأ الثاني: عدم اختبار السياسة قبل التفعيل</h3>
+      <p>لو فعّلت سياسة خاطئة، ممكن تحظر كل الطلبات أو تسمح بطلبات خطرة.</p>
+      <p><strong>الحل:</strong> استخدم "معاينة" لاختبار السياسة على بيانات تجريبية قبل التفعيل.</p>
+    </div>
+
+    <div class="warning-box">
+      <h3>❌ الخطأ الثالث: عدم توثيق سبب التعديل</h3>
+      <p>لو عدّلت سياسة بدون ما تكتب السبب، ما بتعرف ليش عدّلتها بعد 6 شهور.</p>
+      <p><strong>الحل:</strong> اكتب سبب التعديل في حقل "ملاحظات" قبل الحفظ.</p>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>نصيحة يزيد</h2>
+    <div class="tip-box">
+      <p><strong>من تجربتي مع الشركات السعودية:</strong></p>
+      <p>أفضل طريقة لبناء سياسات فعالة هي إنك تبدأ بـ <strong>3 سياسات أساسية</strong>:</p>
+      <ol>
+        <li><strong>حماية البيانات الشخصية:</strong> أي طلب فيه بيانات عملاء يحتاج موافقة</li>
+        <li><strong>حماية الأسرار التجارية:</strong> أي طلب فيه معلومات سرية يُحظر تلقائياً</li>
+        <li><strong>الاستخدام المسؤول:</strong> أي طلب عالي المخاطر يحتاج مراجعة</li>
+      </ol>
+      <p>بعد 3 شهور من الاستخدام، راجع السجلات وعدّل السياسات بناءً على الواقع.</p>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>قائمة تحقق قبل الاعتماد على Kernel Policies</h2>
+    <ol>
+      <li>✅ كتبت السياسات الأساسية بشكل واضح</li>
+      <li>✅ ربطت كل سياسة بضابط تقني</li>
+      <li>✅ حددت المسؤولين عن الموافقات</li>
+      <li>✅ اختبرت السياسات في بيئة تجريبية</li>
+      <li>✅ راجعت السياسات مع فريق الامتثال</li>
+      <li>✅ وثّقت سبب كل سياسة</li>
+    </ol>
+  </section>
+
+  <section class="cta-section">
+    <h2>جاهز تنشئ سياساتك؟</h2>
+    <p>افتح محرر السياسات وابدأ ببناء سياسات تنفيذية</p>
+    <a href="/kernel/policies/" class="cta-button">افتح Kernel Policies</a>
+    <a href="/kernel/" class="cta-button" style="background: transparent; border: 2px solid #67e8f9; color: #67e8f9;">رجع لـ Kernel Dashboard</a>
+    <a href="/contact/" class="cta-button" style="background: transparent; border: 2px solid #67e8f9; color: #67e8f9;">تواصل معنا</a>
+  </section>
+
+</main>
+
+<script src="/frontend/js/unified-header.js" defer></script>
+<script src="/frontend/js/production-runtime.v20260427.js" defer></script>
+
+</body>
+</html>

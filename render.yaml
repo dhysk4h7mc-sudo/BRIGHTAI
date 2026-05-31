@@ -831,6 +831,119 @@ services:
         source: /docs/governance-application/index.html
         destination: /docs/governance-application/
 
+      # ── Kernel Docs Redirects ───────────────────────────────────────────────
+      # BrightAI Kernel documentation pages under /docs/kernel-*
+
+      # kernel-chat
+      - type: redirect
+        source: /docs/kernel-chat
+        destination: /docs/kernel-chat/
+      - type: redirect
+        source: /docs/kernel-chat.html
+        destination: /docs/kernel-chat/
+      - type: redirect
+        source: /docs/kernel-chat/index.html
+        destination: /docs/kernel-chat/
+
+      # kernel-audit-trail
+      - type: redirect
+        source: /docs/kernel-audit-trail
+        destination: /docs/kernel-audit-trail/
+      - type: redirect
+        source: /docs/kernel-audit-trail.html
+        destination: /docs/kernel-audit-trail/
+      - type: redirect
+        source: /docs/kernel-audit-trail/index.html
+        destination: /docs/kernel-audit-trail/
+
+      # kernel-approvals
+      - type: redirect
+        source: /docs/kernel-approvals
+        destination: /docs/kernel-approvals/
+      - type: redirect
+        source: /docs/kernel-approvals.html
+        destination: /docs/kernel-approvals/
+      - type: redirect
+        source: /docs/kernel-approvals/index.html
+        destination: /docs/kernel-approvals/
+
+      # kernel-evidence
+      - type: redirect
+        source: /docs/kernel-evidence
+        destination: /docs/kernel-evidence/
+      - type: redirect
+        source: /docs/kernel-evidence.html
+        destination: /docs/kernel-evidence/
+      - type: redirect
+        source: /docs/kernel-evidence/index.html
+        destination: /docs/kernel-evidence/
+
+      # kernel-stats
+      - type: redirect
+        source: /docs/kernel-stats
+        destination: /docs/kernel-stats/
+      - type: redirect
+        source: /docs/kernel-stats.html
+        destination: /docs/kernel-stats/
+      - type: redirect
+        source: /docs/kernel-stats/index.html
+        destination: /docs/kernel-stats/
+
+      # kernel-reports
+      - type: redirect
+        source: /docs/kernel-reports
+        destination: /docs/kernel-reports/
+      - type: redirect
+        source: /docs/kernel-reports.html
+        destination: /docs/kernel-reports/
+      - type: redirect
+        source: /docs/kernel-reports/index.html
+        destination: /docs/kernel-reports/
+
+      # kernel-policies
+      - type: redirect
+        source: /docs/kernel-policies
+        destination: /docs/kernel-policies/
+      - type: redirect
+        source: /docs/kernel-policies.html
+        destination: /docs/kernel-policies/
+      - type: redirect
+        source: /docs/kernel-policies/index.html
+        destination: /docs/kernel-policies/
+
+      # kernel-compliance
+      - type: redirect
+        source: /docs/kernel-compliance
+        destination: /docs/kernel-compliance/
+      - type: redirect
+        source: /docs/kernel-compliance.html
+        destination: /docs/kernel-compliance/
+      - type: redirect
+        source: /docs/kernel-compliance/index.html
+        destination: /docs/kernel-compliance/
+
+      # kernel-connectors
+      - type: redirect
+        source: /docs/kernel-connectors
+        destination: /docs/kernel-connectors/
+      - type: redirect
+        source: /docs/kernel-connectors.html
+        destination: /docs/kernel-connectors/
+      - type: redirect
+        source: /docs/kernel-connectors/index.html
+        destination: /docs/kernel-connectors/
+
+      # kernel-scenarios
+      - type: redirect
+        source: /docs/kernel-scenarios
+        destination: /docs/kernel-scenarios/
+      - type: redirect
+        source: /docs/kernel-scenarios.html
+        destination: /docs/kernel-scenarios/
+      - type: redirect
+        source: /docs/kernel-scenarios/index.html
+        destination: /docs/kernel-scenarios/
+
       # ── Kernel Module Redirects ─────────────────────────────────────────────
       # BrightAI Kernel dashboard pages that exist and are normalized to /path/
       - type: redirect
@@ -1286,6 +1399,21 @@ services:
       - type: redirect
         source: /blog/index.html
         destination: /blog/
+      - type: redirect
+        source: /blog/ai-audit-trail-saudi
+        destination: /blog/ai-audit-trail-saudi/
+      - type: redirect
+        source: /blog/ai-audit-trail-saudi.html
+        destination: /blog/ai-audit-trail-saudi/
+      - type: redirect
+        source: /blog/ai-audit-trail-saudi/index.html
+        destination: /blog/ai-audit-trail-saudi/
+      - type: redirect
+        source: /blog/ai-audit-trail-saudi/iindex.html
+        destination: /blog/ai-audit-trail-saudi/
+      - type: rewrite
+        source: /blog/ai-audit-trail-saudi/
+        destination: /blog/ai-audit-trail-saudi/iindex.html
       - type: redirect
         source: /blog/ai-governance
         destination: /blog/ai-governance/
