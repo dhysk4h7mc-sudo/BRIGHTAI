@@ -39,6 +39,7 @@
   --btext-primary: #ffffff;
   --btext-secondary: rgba(255, 255, 255, 0.7);
   --btext-muted: rgba(255, 255, 255, 0.45);
+  --brightai-page-gutter: clamp(16px, 3vw, 32px);
 }
 
 /* تنسيق الهيدر الرئيسي الملتصق */
@@ -430,6 +431,57 @@
 }
 .brightai-dropdown-kernel .brightai-dropdown-title {
   font-size: 0.88rem;
+}
+
+@media (min-width: 1024px) {
+  .brightai-dropdown {
+    position: fixed;
+    top: calc(var(--brightai-header-height, 74px) + 0.65rem);
+    left: 50%;
+    right: auto;
+    inset-inline-start: auto;
+    transform: translateX(-50%) translateY(10px);
+    max-width: calc(100vw - (var(--brightai-page-gutter) * 2));
+  }
+
+  .brightai-menu-item:hover > .brightai-dropdown,
+  .brightai-menu-item:focus-within > .brightai-dropdown,
+  .brightai-menu-item.is-open > .brightai-dropdown {
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .brightai-dropdown::before {
+    left: 50%;
+    inset-inline-start: 50%;
+    transform: translateX(-50%) rotate(45deg);
+  }
+
+  .brightai-dropdown-solutions {
+    width: min(720px, calc(100vw - (var(--brightai-page-gutter) * 2)));
+    max-height: calc(100vh - var(--brightai-header-height, 74px) - 2rem);
+  }
+
+  .brightai-dropdown-resources {
+    width: min(52rem, calc(100vw - (var(--brightai-page-gutter) * 2)));
+    max-height: calc(100vh - var(--brightai-header-height, 74px) - 2rem);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .brightai-dropdown-kernel {
+    width: min(18rem, calc(100vw - (var(--brightai-page-gutter) * 2)));
+    max-height: calc(100vh - var(--brightai-header-height, 74px) - 2rem);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1199px) {
+  .brightai-dropdown-resources {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: min(42rem, calc(100vw - (var(--brightai-page-gutter) * 2)));
+  }
 }
 
 /* أزرار الإجراءات والـ CTA */
