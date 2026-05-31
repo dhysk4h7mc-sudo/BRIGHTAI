@@ -63,6 +63,9 @@
     async loadReports() {
       try {
         const response = await fetch('/api/kernel/reports');
+        if (!response.ok) {
+          throw new Error(`Reports API returned ${response.status}`);
+        }
         if (response.ok) {
           const data = await response.json();
           this.state.reports = data.reports || [];
@@ -81,6 +84,7 @@
       }
       
       this.renderReports();
+      this.renderScheduledReports();
     },
 
     /**
@@ -236,6 +240,51 @@
       }
 
       grid.innerHTML = filtered.map(report => this.renderReportCard(report)).join('');
+    },
+
+    /**
+     * Render scheduled reports table
+     */
+    renderScheduledReports() {
+      const tbody = document.getElementById('scheduledReportsBody');
+      if (!tbody) return;
+
+      tbody.setAttribute('aria-busy', 'false');
+
+      if (!this.state.scheduledReports.length) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="6">
+              <div class="empty-state empty-state-inline">لا توجد تقارير مجدولة حالياً.</div>
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      const frequencyLabels = this.config.frequencies.reduce((labels, item) => {
+        labels[item.id] = item.label;
+        return labels;
+      }, {});
+      const statusLabels = {
+        active: 'نشط',
+        paused: 'متوقف',
+      };
+
+      tbody.innerHTML = this.state.scheduledReports.map((report) => {
+        const status = report.status || 'active';
+        const recipients = Number(report.recipients || 0);
+        return `
+          <tr>
+            <td>${this.escapeHtml(report.name || 'تقرير مجدول')}</td>
+            <td>${this.escapeHtml(frequencyLabels[report.frequency] || report.frequency || '—')}</td>
+            <td>${this.escapeHtml(report.nextRun || '—')}</td>
+            <td>${recipients} ${recipients === 1 ? 'مستلم' : 'مستلمين'}</td>
+            <td><span class="schedule-status ${this.escapeHtml(status)}">${this.escapeHtml(statusLabels[status] || status)}</span></td>
+            <td><button class="report-btn secondary" type="button">تعديل</button></td>
+          </tr>
+        `;
+      }).join('');
     },
 
     /**

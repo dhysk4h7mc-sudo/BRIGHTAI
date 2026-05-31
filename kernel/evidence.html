@@ -424,68 +424,37 @@
           <div class="evidence-list">
             <div class="evidence-header">
               <span class="evidence-title">سجل الأدلة</span>
-              <span class="evidence-count" id="evidenceCount">12 سجل</span>
+              <span class="evidence-count" id="evidenceCount">
+                <span class="skeleton skeleton-chip" aria-hidden="true"></span>
+                <span class="sr-only">جاري تحميل عدد الأدلة</span>
+              </span>
             </div>
-            <div id="evidenceListContainer">
-              <!-- Evidence Item 1 -->
-              <div class="evidence-item selected" data-id="EVD-001" onclick="selectEvidence(this)">
+            <div id="evidenceListContainer" aria-busy="true">
+              <div class="evidence-item skeleton-item selected">
                 <div class="evidence-item-header">
-                  <span class="evidence-id">EVD-001</span>
-                  <span class="evidence-time">منذ 5 دقائق</span>
+                  <span class="skeleton skeleton-line skeleton-line-sm"></span>
+                  <span class="skeleton skeleton-line skeleton-line-xs"></span>
                 </div>
-                <p class="evidence-preview">طلب استعلام يحتوي على بيانات شخصية حساسة تم اكتشافها وحجبها تلقائياً</p>
+                <p class="evidence-preview">
+                  <span class="skeleton skeleton-line"></span>
+                  <span class="skeleton skeleton-line skeleton-line-short"></span>
+                </p>
                 <div class="evidence-tags">
-                  <span class="evidence-tag pii">PII</span>
-                  <span class="evidence-tag blocked">محظور</span>
+                  <span class="skeleton skeleton-tag"></span>
+                  <span class="skeleton skeleton-tag"></span>
                 </div>
               </div>
-
-              <!-- Evidence Item 2 -->
-              <div class="evidence-item" data-id="EVD-002" onclick="selectEvidence(this)">
+              <div class="evidence-item skeleton-item">
                 <div class="evidence-item-header">
-                  <span class="evidence-id">EVD-002</span>
-                  <span class="evidence-time">منذ 15 دقيقة</span>
+                  <span class="skeleton skeleton-line skeleton-line-sm"></span>
+                  <span class="skeleton skeleton-line skeleton-line-xs"></span>
                 </div>
-                <p class="evidence-preview">محادثة تحليل بيانات مالية تمت الموافقة عليها بعد مراجعة المشرف</p>
+                <p class="evidence-preview">
+                  <span class="skeleton skeleton-line"></span>
+                  <span class="skeleton skeleton-line skeleton-line-short"></span>
+                </p>
                 <div class="evidence-tags">
-                  <span class="evidence-tag approved">موافق عليه</span>
-                </div>
-              </div>
-
-              <!-- Evidence Item 3 -->
-              <div class="evidence-item" data-id="EVD-003" onclick="selectEvidence(this)">
-                <div class="evidence-item-header">
-                  <span class="evidence-id">EVD-003</span>
-                  <span class="evidence-time">منذ 30 دقيقة</span>
-                </div>
-                <p class="evidence-preview">طلب تحليل عقد يحتوي على معلومات تجارية سرية</p>
-                <div class="evidence-tags">
-                  <span class="evidence-tag blocked">محظور</span>
-                </div>
-              </div>
-
-              <!-- Evidence Item 4 -->
-              <div class="evidence-item" data-id="EVD-004" onclick="selectEvidence(this)">
-                <div class="evidence-item-header">
-                  <span class="evidence-id">EVD-004</span>
-                  <span class="evidence-time">منذ ساعة</span>
-                </div>
-                <p class="evidence-preview">استعلام عام عن السياسات الداخلية للشركة - تم التعامل معه بنجاح</p>
-                <div class="evidence-tags">
-                  <span class="evidence-tag approved">موافق عليه</span>
-                </div>
-              </div>
-
-              <!-- Evidence Item 5 -->
-              <div class="evidence-item" data-id="EVD-005" onclick="selectEvidence(this)">
-                <div class="evidence-item-header">
-                  <span class="evidence-id">EVD-005</span>
-                  <span class="evidence-time">منذ ساعتين</span>
-                </div>
-                <p class="evidence-preview">محاولة استخراج بيانات موظفين - تم رفضها تلقائياً</p>
-                <div class="evidence-tags">
-                  <span class="evidence-tag pii">PII</span>
-                  <span class="evidence-tag blocked">محظور</span>
+                  <span class="skeleton skeleton-tag"></span>
                 </div>
               </div>
             </div>
@@ -494,37 +463,32 @@
           <!-- Evidence Detail Panel -->
           <div class="evidence-detail" id="evidenceDetail">
             <div class="detail-header">
-              <h3 class="detail-title">EVD-001</h3>
-              <p class="detail-subtitle">5 يونيو 2024، 10:30 ص</p>
+              <h3 class="detail-title"><span class="skeleton skeleton-title"></span></h3>
+              <p class="detail-subtitle"><span class="skeleton skeleton-line skeleton-line-sm"></span></p>
             </div>
             <div class="detail-body">
               <div class="detail-section">
-                <h4 class="detail-section-title">المدخلات الأصلية</h4>
-                <div class="detail-content">أريد تحليل بيانات العميل أحمد محمد، رقم الهوية: 1234567890، ورقم الجوال: 0512345678</div>
+                <h4 class="detail-section-title"><span class="skeleton skeleton-line skeleton-line-xs"></span></h4>
+                <div class="detail-content skeleton-panel">
+                  <span class="skeleton skeleton-line"></span>
+                  <span class="skeleton skeleton-line"></span>
+                  <span class="skeleton skeleton-line skeleton-line-short"></span>
+                </div>
               </div>
               <div class="detail-section">
-                <h4 class="detail-section-title">النص المعدل</h4>
-                <div class="detail-content">أريد تحليل بيانات العميل [اسم محجوب]، رقم الهوية: [محجوب]، ورقم الجوال: [محجوب]</div>
+                <h4 class="detail-section-title"><span class="skeleton skeleton-line skeleton-line-xs"></span></h4>
+                <div class="detail-content skeleton-panel">
+                  <span class="skeleton skeleton-line"></span>
+                  <span class="skeleton skeleton-line skeleton-line-short"></span>
+                </div>
               </div>
               <div class="detail-section">
-                <h4 class="detail-section-title">تفاصيل القرار</h4>
+                <h4 class="detail-section-title"><span class="skeleton skeleton-line skeleton-line-xs"></span></h4>
                 <div class="detail-meta">
-                  <div class="meta-item">
-                    <div class="meta-label">النموذج</div>
-                    <div class="meta-value">Claude 3.5</div>
-                  </div>
-                  <div class="meta-item">
-                    <div class="meta-label">القرار</div>
-                    <div class="meta-value" style="color: #f97316;">محظور</div>
-                  </div>
-                  <div class="meta-item">
-                    <div class="meta-label">السبب</div>
-                    <div class="meta-value">كشف PII</div>
-                  </div>
-                  <div class="meta-item">
-                    <div class="meta-label">المستخدم</div>
-                    <div class="meta-value">user_123</div>
-                  </div>
+                  <div class="meta-item"><span class="skeleton skeleton-line skeleton-line-xs"></span><span class="skeleton skeleton-line skeleton-line-sm"></span></div>
+                  <div class="meta-item"><span class="skeleton skeleton-line skeleton-line-xs"></span><span class="skeleton skeleton-line skeleton-line-sm"></span></div>
+                  <div class="meta-item"><span class="skeleton skeleton-line skeleton-line-xs"></span><span class="skeleton skeleton-line skeleton-line-sm"></span></div>
+                  <div class="meta-item"><span class="skeleton skeleton-line skeleton-line-xs"></span><span class="skeleton skeleton-line skeleton-line-sm"></span></div>
                 </div>
               </div>
             </div>
