@@ -149,6 +149,7 @@ function groupRelPath(relPath) {
     normalized === "demo/index.html" ||
     normalized === "sitemap/index.html" ||
     normalized === "blog/pdpl-ai-safety/index.html" ||
+    normalized === "blog/ai-governance/index.html" ||
     normalized === "docs/docs.html" ||
     (normalized.startsWith("docs/") && normalized.endsWith("/index.html")) ||
     normalized === "blog/ai-governance.html"

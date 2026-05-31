@@ -128,26 +128,28 @@
       ]
     },
     {
-      "@type": "FAQPage",
-      "@id": "https://brightai.site/blog/#faq",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "مرجع API REST API Authentication Requests Approvals Audit Logs Webhooks Setup Events Security Testing SDKs Python SDK Node.js SDK Java SDK .NET SDK أفضل الممارسات أمان البيانات",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "أفضل الممارسات لحماية البيانات الحساسة"
+      "@type": "CollectionPage",
+      "@id": "https://brightai.site/blog/#collection",
+      "url": "https://brightai.site/blog/",
+      "name": "مدونة BrightAI لحوكمة الذكاء الاصطناعي الآمن",
+      "inLanguage": "ar-SA",
+      "mainEntity": {
+        "@type": "ItemList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "url": "https://brightai.site/blog/ai-governance/",
+            "name": "حوكمة الذكاء الاصطناعي المسؤول"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "url": "https://brightai.site/blog/pdpl-ai-safety/",
+            "name": "PDPL والذكاء الاصطناعي"
           }
-        },
-        {
-          "@type": "Question",
-          "name": "محتاج مساعدة إضافية؟",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "فريق الدعم الفني متاح 24/7 لمساعدتك"
-          }
-        }
-      ]
+        ]
+      }
     }
   ]
 }
@@ -214,7 +216,7 @@
           </div>
           <h3 class="mt-4 text-xl font-bold">مقدمة سريعة</h3>
           <p class="mt-2 text-sm text-white/60">تعرف على BrightAI وكيف يعمل في 5 دقائق</p>
-          <a href="#" class="mt-4 inline-flex items-center gap-2 text-brand-300 text-sm font-bold hover:gap-3 transition-all">استكشف الصفحة المرتبطة في Bright AI</a>
+          <a href="/docs/ai-governance-platform/" class="mt-4 inline-flex items-center gap-2 text-brand-300 text-sm font-bold hover:gap-3 transition-all">استكشف دليل الحوكمة</a>
         </article>
 
         <article class="doc-card glass rounded-2xl p-6">
@@ -224,7 +226,7 @@
           </div>
           <h3 class="mt-4 text-xl font-bold">دليل التركيب</h3>
           <p class="mt-2 text-sm text-white/60">خطوات تركيب BrightAI في بيئتك</p>
-          <a href="#" class="mt-4 inline-flex items-center gap-2 text-brand-300 text-sm font-bold hover:gap-3 transition-all">استكشف الصفحة المرتبطة في Bright AI</a>
+          <a href="/docs/governance-application/" class="mt-4 inline-flex items-center gap-2 text-brand-300 text-sm font-bold hover:gap-3 transition-all">راجع خطوات التطبيق</a>
         </article>
 
         <article class="doc-card glass rounded-2xl p-6">
@@ -234,7 +236,7 @@
           </div>
           <h3 class="mt-4 text-xl font-bold">الإعدادات الأساسية</h3>
           <p class="mt-2 text-sm text-white/60">ضبط الإعدادات الأولية والتكاملات</p>
-          <a href="#" class="mt-4 inline-flex items-center gap-2 text-brand-300 text-sm font-bold hover:gap-3 transition-all">استكشف الصفحة المرتبطة في Bright AI</a>
+          <a href="/assessment/ai-governance-readiness/" class="mt-4 inline-flex items-center gap-2 text-brand-300 text-sm font-bold hover:gap-3 transition-all">قيّم جاهزية فريقك</a>
         </article>
       </div>
     </div>
@@ -250,28 +252,28 @@
           <i class="fa-solid fa-shield-virus text-2xl text-brand-500"></i>
           <h3 class="mt-3 font-bold">AI Firewall</h3>
           <p class="mt-2 text-xs text-white/60">حماية البيانات وفلترة الطلبات</p>
-          <a href="#" class="mt-3 text-brand-300 text-xs font-bold">المزيد →</a>
+          <a href="/docs/ai-firewall/" class="mt-3 text-brand-300 text-xs font-bold">المزيد →</a>
         </article>
 
         <article class="doc-card glass rounded-2xl p-6">
           <i class="fa-solid fa-file-shield text-2xl text-brand-500"></i>
           <h3 class="mt-3 font-bold">Audit Trail</h3>
           <p class="mt-2 text-xs text-white/60">سجل تدقيق شامل لكل عملية</p>
-          <a href="#" class="mt-3 text-brand-300 text-xs font-bold">المزيد →</a>
+          <a href="/docs/ai-audit-trail/" class="mt-3 text-brand-300 text-xs font-bold">المزيد →</a>
         </article>
 
         <article class="doc-card glass rounded-2xl p-6">
           <i class="fa-solid fa-user-check text-2xl text-brand-500"></i>
           <h3 class="mt-3 font-bold">Human Approval</h3>
           <p class="mt-2 text-xs text-white/60">نظام الموافقات البشرية</p>
-          <a href="#" class="mt-3 text-brand-300 text-xs font-bold">المزيد →</a>
+          <a href="/docs/human-approval-layer/" class="mt-3 text-brand-300 text-xs font-bold">المزيد →</a>
         </article>
 
         <article class="doc-card glass rounded-2xl p-6">
           <i class="fa-solid fa-folder-tree text-2xl text-brand-500"></i>
           <h3 class="mt-3 font-bold">Evidence File</h3>
           <p class="mt-2 text-xs text-white/60">ملفات التدقيق التلقائية</p>
-          <a href="#" class="mt-3 text-brand-300 text-xs font-bold">المزيد →</a>
+          <a href="/docs/ai-evidence-file/" class="mt-3 text-brand-300 text-xs font-bold">المزيد →</a>
         </article>
       </div>
     </div>
@@ -290,7 +292,7 @@
           </div>
           <h3 class="font-bold">دليل الامتثال PDPL</h3>
           <p class="mt-2 text-sm text-white/60">كيفية تحقيق التوافق مع نظام حماية البيانات الشخصية السعودي</p>
-          <a href="#" class="mt-4 inline-flex items-center gap-2 text-brand-300 text-sm font-bold">
+          <a href="/docs/pdpl-chatgpt-data-protection/" class="mt-4 inline-flex items-center gap-2 text-brand-300 text-sm font-bold">
             اقرأ الدليل <i class="fa-solid fa-arrow-left"></i>
           </a>
         </article>
@@ -302,7 +304,7 @@
           </div>
           <h3 class="font-bold">دليل الامتثال NCA ECC</h3>
           <p class="mt-2 text-sm text-white/60">تطبيق الضوابط الأمنية الأساسية 2-2024</p>
-          <a href="#" class="mt-4 inline-flex items-center gap-2 text-brand-300 text-sm font-bold">
+          <a href="/docs/nca-ecc-ai-controls/" class="mt-4 inline-flex items-center gap-2 text-brand-300 text-sm font-bold">
             اقرأ الدليل <i class="fa-solid fa-arrow-left"></i>
           </a>
         </article>
@@ -314,7 +316,7 @@
           </div>
           <h3 class="font-bold">دليل ISO 13485 &amp; SFDA</h3>
           <p class="mt-2 text-sm text-white/60">متطلبات المصانع الطبية ونظام الجودة</p>
-          <a href="#" class="mt-4 inline-flex items-center gap-2 text-brand-300 text-sm font-bold">
+          <a href="/services/" class="mt-4 inline-flex items-center gap-2 text-brand-300 text-sm font-bold">
             اقرأ الدليل <i class="fa-solid fa-arrow-left"></i>
           </a>
         </article>
@@ -371,7 +373,7 @@
             <li>• Microsoft Dynamics 365</li>
             <li>• Odoo</li>
           </ul>
-          <a href="#" class="mt-4 inline-flex items-center gap-2 text-brand-300 text-sm font-bold">
+          <a href="/contact/" class="mt-4 inline-flex items-center gap-2 text-brand-300 text-sm font-bold">
             شاهد الأمثلة <i class="fa-solid fa-arrow-left"></i>
           </a>
         </article>
@@ -386,46 +388,46 @@
             <li>• Meditech</li>
             <li>• أنظمة محلية</li>
           </ul>
-          <a href="#" class="mt-4 inline-flex items-center gap-2 text-brand-300 text-sm font-bold">
+          <a href="/services/" class="mt-4 inline-flex items-center gap-2 text-brand-300 text-sm font-bold">
             شاهد الأمثلة <i class="fa-solid fa-arrow-left"></i>
           </a>
         </article>
       </div>
     </div>
 
-    <!-- API Reference -->
+    <!-- Technical Paths -->
     <div class="mb-16">
       <h2 class="text-2xl font-black mb-6 flex items-center gap-3">
         <i class="fa-solid fa-code text-brand-500"></i>
-        مرجع API
+        مسارات تقنية للتنفيذ
       </h2>
       <div class="glass rounded-2xl p-8">
         <div class="grid md:grid-cols-3 gap-6">
           <div>
-            <h3 class="font-bold mb-3">REST API</h3>
+            <h3 class="font-bold mb-3">الطلبات والضوابط</h3>
             <ul class="space-y-2 text-sm text-white/70">
-              <li><a href="#" class="hover:text-brand-300">Authentication</a></li>
-              <li><a href="#" class="hover:text-brand-300">Requests</a></li>
-              <li><a href="#" class="hover:text-brand-300">Approvals</a></li>
-              <li><a href="#" class="hover:text-brand-300">Audit Logs</a></li>
+              <li><a href="/docs/ai-governance-platform/" class="hover:text-brand-300">حوكمة الوصول والصلاحيات</a></li>
+              <li><a href="/docs/ai-firewall/" class="hover:text-brand-300">فلترة طلبات الذكاء الاصطناعي</a></li>
+              <li><a href="/docs/human-approval-layer/" class="hover:text-brand-300">مسارات الموافقة البشرية</a></li>
+              <li><a href="/docs/ai-audit-trail/" class="hover:text-brand-300">سجلات التدقيق</a></li>
             </ul>
           </div>
           <div>
-            <h3 class="font-bold mb-3">Webhooks</h3>
+            <h3 class="font-bold mb-3">الأمن والاختبار</h3>
             <ul class="space-y-2 text-sm text-white/70">
-              <li><a href="#" class="hover:text-brand-300">Setup</a></li>
-              <li><a href="#" class="hover:text-brand-300">Events</a></li>
-              <li><a href="#" class="hover:text-brand-300">Security</a></li>
-              <li><a href="#" class="hover:text-brand-300">Testing</a></li>
+              <li><a href="/docs/governance-application/" class="hover:text-brand-300">إعداد التطبيق داخل المؤسسة</a></li>
+              <li><a href="/docs/ai-audit-trail/" class="hover:text-brand-300">تتبع الأحداث والتغييرات</a></li>
+              <li><a href="/docs/nca-ecc-ai-controls/" class="hover:text-brand-300">ضوابط NCA ECC</a></li>
+              <li><a href="/assessment/ai-governance-readiness/" class="hover:text-brand-300">اختبار جاهزية الحوكمة</a></li>
             </ul>
           </div>
           <div>
-            <h3 class="font-bold mb-3">SDKs</h3>
+            <h3 class="font-bold mb-3">خطوات ما بعد القراءة</h3>
             <ul class="space-y-2 text-sm text-white/70">
-              <li><a href="#" class="hover:text-brand-300">Python SDK</a></li>
-              <li><a href="#" class="hover:text-brand-300">Node.js SDK</a></li>
-              <li><a href="#" class="hover:text-brand-300">Java SDK</a></li>
-              <li><a href="#" class="hover:text-brand-300">.NET SDK</a></li>
+              <li><a href="/docs/ai-governance-platform/" class="hover:text-brand-300">ابدأ من منصة الحوكمة</a></li>
+              <li><a href="/docs/ai-firewall/" class="hover:text-brand-300">حدد طبقة الحماية</a></li>
+              <li><a href="/docs/human-approval-layer/" class="hover:text-brand-300">اضبط الموافقات</a></li>
+              <li><a href="/contact/" class="hover:text-brand-300">اطلب ربطاً مخصصاً</a></li>
             </ul>
           </div>
         </div>
@@ -443,28 +445,28 @@
           <i class="fa-solid fa-shield-check text-2xl text-brand-500"></i>
           <h3 class="mt-3 font-bold">أمان البيانات</h3>
           <p class="mt-2 text-sm text-white/60">أفضل الممارسات لحماية البيانات الحساسة</p>
-          <a href="#" class="mt-3 text-brand-300 text-sm font-bold">اقرأ المزيد →</a>
+          <a href="/docs/pdpl-chatgpt-data-protection/" class="mt-3 text-brand-300 text-sm font-bold">اقرأ المزيد →</a>
         </article>
 
         <article class="doc-card glass rounded-2xl p-6">
           <i class="fa-solid fa-users-gear text-2xl text-brand-500"></i>
           <h3 class="mt-3 font-bold">إدارة المستخدمين</h3>
           <p class="mt-2 text-sm text-white/60">تنظيم الصلاحيات والأدوار بفعالية</p>
-          <a href="#" class="mt-3 text-brand-300 text-sm font-bold">اقرأ المزيد →</a>
+          <a href="/docs/human-approval-layer/" class="mt-3 text-brand-300 text-sm font-bold">اقرأ المزيد →</a>
         </article>
 
         <article class="doc-card glass rounded-2xl p-6">
           <i class="fa-solid fa-gauge-high text-2xl text-brand-500"></i>
           <h3 class="mt-3 font-bold">تحسين الأداء</h3>
           <p class="mt-2 text-sm text-white/60">نصائح لتحسين سرعة الاستجابة</p>
-          <a href="#" class="mt-3 text-brand-300 text-sm font-bold">اقرأ المزيد →</a>
+          <a href="/docs/ai-risk-management/" class="mt-3 text-brand-300 text-sm font-bold">اقرأ المزيد →</a>
         </article>
 
         <article class="doc-card glass rounded-2xl p-6">
           <i class="fa-solid fa-bug text-2xl text-brand-500"></i>
           <h3 class="mt-3 font-bold">استكشاف الأخطاء</h3>
           <p class="mt-2 text-sm text-white/60">حل المشاكل الشائعة بسرعة</p>
-          <a href="#" class="mt-3 text-brand-300 text-sm font-bold">اقرأ المزيد →</a>
+          <a href="/docs/ai-audit-readiness/" class="mt-3 text-brand-300 text-sm font-bold">اقرأ المزيد →</a>
         </article>
       </div>
     </div>
@@ -505,6 +507,8 @@
         <li><a href="/demo/">مساعد Bright AI التجريبي</a></li>
         <li><a href="/contact/">تواصل مع Bright AI لتنفيذ حلول AI</a></li>
         <li><a href="/assessment/ai-governance-readiness/">تقييم جاهزية حوكمة الذكاء الاصطناعي للشركات</a></li>
+        <li><a href="/blog/ai-governance/">مقال حوكمة الذكاء الاصطناعي المسؤول</a></li>
+        <li><a href="/blog/pdpl-ai-safety/">مقال PDPL وحماية بيانات الذكاء الاصطناعي</a></li>
     </ul>
   </div>
 </section>
@@ -520,11 +524,6 @@
     </div>
   </div>
 </footer>
-
-<script>
-  }
-  });
-</script>
 
   <script defer="" src="/frontend/js/sitewide-modernization.js"></script>
   <script src="/frontend/js/production-runtime.v20260427.js" defer=""></script>
