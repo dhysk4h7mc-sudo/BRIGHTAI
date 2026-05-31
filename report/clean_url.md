@@ -1,13 +1,12 @@
 #الصفحات الرئيسية
 
-
 https://brightai.site/
 https://brightai.site/about/
 https://brightai.site/blog/
 https://brightai.site/blog/ai-governance/
 https://brightai.site/contact/
 https://brightai.site/services/
-https://brightai.site/pricing/
+https://brightai.site/pricing/ 
 https://brightai.site/demo/
 https://brightai.site/sitemap/
 https://brightai.site/trust/
@@ -15,9 +14,7 @@ https://brightai.site/offline/
 https://brightai.site/frontend/font-demo
 https://brightai.site/assessment/ai-governance-readiness/
 
-
 الصفحات القانونية والثقة
-
 
 https://brightai.site/cookie-policy/
 https://brightai.site/privacy-policy/
@@ -31,9 +28,7 @@ https://brightai.site/en/terms/
 https://brightai.site/en/pdpl-statement/
 https://brightai.site/en/data-processing-agreement/
 
-
 صفحات الحلول
-
 
 https://brightai.site/solutions/ai-governance-platform/
 https://brightai.site/solutions/ai-firewall/
@@ -56,9 +51,7 @@ https://brightai.site/kernel/scenarios/
 https://brightai.site/kernel/reports/
 https://brightai.site/kernel/evidence/
 
-
 صفحات الوثائق Docs
-
 
 https://brightai.site/docs/
 https://brightai.site/docs/docs/
@@ -77,7 +70,6 @@ https://brightai.site/docs/pdpl-ai-governance/
 https://brightai.site/docs/pdpl-chatgpt-data-protection/
 
 صفحات BrightAI Kernel
-
 
 https://brightai.site/kernel/
 https://brightai.site/kernel/chat/
@@ -101,10 +93,7 @@ https://brightai.site/demo/ai-tenders-analysis/reports/
 https://brightai.site/demo/ai-tenders-analysis/settings/
 https://brightai.site/demo/ai-tenders-analysis/templates/
 
-
-
 صفحات AI Reject Dashboard
-
 
 https://brightai.site/demo/ai-reject-dashboard/
 https://brightai.site/demo/ai-reject-dashboard/users/
