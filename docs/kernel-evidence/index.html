@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="ar-SA" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8LLESL207Q"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-8LLESL207Q');
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Kernel Evidence - ملفات الأدلة للتدقيق | BrightAI</title>
+  <meta name="description" content="شرح عملي لملفات الأدلة في BrightAI Kernel: كيف تجمع كل التفاصيل عن كل طلب في ملف واحد قابل للتصدير والمراجعة.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://brightai.site/docs/kernel-evidence/">
+
+  <meta property="og:title" content="Kernel Evidence - ملفات الأدلة للتدقيق">
+  <meta property="og:description" content="شرح عملي لملفات الأدلة في BrightAI Kernel">
+  <meta property="og:url" content="https://brightai.site/docs/kernel-evidence/">
+  <meta property="og:type" content="article">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Kernel Evidence - ملفات الأدلة للتدقيق">
+
+  <link rel="stylesheet" href="/frontend/css/tailwind.local.min.css">
+  <link rel="stylesheet" href="/frontend/assets/css/global-fonts.css?v=20260529-official-font">
+  <link rel="stylesheet" href="/frontend/vendor/fontawesome/css/all.min.css?v=20260529-icons">
+  <link rel="stylesheet" href="/frontend/css/sitewide-modernization.css">
+  <link rel="stylesheet" href="/frontend/css/unified-header.css?v=20260529-nav-v1">
+  <link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css">
+
+  <style>
+    body {
+      background: #060914;
+      color: #e6edf7;
+      font-family: 'TheYearofTheCamel', system-ui, sans-serif;
+      line-height: 1.9;
+    }
+    .wrap {
+      max-width: 1100px;
+      margin: auto;
+      padding: 44px 20px;
+    }
+    .hero {
+      padding: 42px 0;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+      margin-bottom: 2rem;
+    }
+    h1 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.3;
+      margin: 0.5rem 0 1rem;
+      color: #fff;
+    }
+    h2 {
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      margin: 2.5rem 0 1rem;
+      color: #fff;
+    }
+    h3 {
+      font-size: 1.3rem;
+      margin: 1.5rem 0 0.8rem;
+      color: #e5edf8;
+    }
+    .pill {
+      display: inline-block;
+      border: 1px solid rgba(103, 232, 249, 0.35);
+      border-radius: 999px;
+      padding: 6px 14px;
+      color: #a5f3fc;
+      font-size: 0.85rem;
+      background: rgba(0, 212, 255, 0.08);
+      margin-bottom: 1rem;
+    }
+    .card {
+      background: rgba(15, 23, 42, 0.72);
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      border-radius: 16px;
+      padding: 24px;
+      margin: 1.5rem 0;
+    }
+    .evidence-preview {
+      background: rgba(15, 23, 42, 0.95);
+      border: 2px solid rgba(103, 232, 249, 0.3);
+      border-radius: 12px;
+      padding: 24px;
+      margin: 2rem 0;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+      direction: ltr;
+      text-align: left;
+    }
+    .evidence-section {
+      margin: 1rem 0;
+      padding: 12px;
+      background: rgba(103, 232, 249, 0.05);
+      border-right: 3px solid #67e8f9;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+    }
+    th, td {
+      padding: 12px;
+      text-align: right;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+    }
+    th {
+      background: rgba(103, 232, 249, 0.1);
+      color: #67e8f9;
+      font-weight: bold;
+    }
+    .warning-box {
+      background: rgba(251, 191, 36, 0.1);
+      border-right: 4px solid #fbbf24;
+      padding: 16px;
+      border-radius: 8px;
+      margin: 1.5rem 0;
+    }
+    .tip-box {
+      background: rgba(34, 197, 94, 0.1);
+      border-right: 4px solid #22c55e;
+      padding: 16px;
+      border-radius: 8px;
+      margin: 1.5rem 0;
+    }
+    .cta-section {
+      background: linear-gradient(135deg, rgba(103, 232, 249, 0.1), rgba(59, 130, 246, 0.1));
+      border: 1px solid rgba(103, 232, 249, 0.3);
+      border-radius: 16px;
+      padding: 32px;
+      margin: 3rem 0;
+      text-align: center;
+    }
+    .cta-button {
+      display: inline-block;
+      background: #67e8f9;
+      color: #060914;
+      padding: 14px 32px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      margin: 8px;
+      transition: all 0.3s ease;
+    }
+    .cta-button:hover {
+      background: #a5f3fc;
+      transform: translateY(-2px);
+    }
+    ul, ol {
+      margin: 1rem 0;
+      padding-right: 1.5rem;
+    }
+    li {
+      margin: 0.5rem 0;
+    }
+    .breadcrumb {
+      margin-bottom: 20px;
+      font-size: 0.9rem;
+      color: #9fb0c7;
+    }
+    .breadcrumb a {
+      color: #67e8f9;
+      text-decoration: none;
+    }
+    .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+  </style>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://brightai.site/#organization",
+        "name": "BrightAI",
+        "url": "https://brightai.site"
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://brightai.site/#website",
+        "url": "https://brightai.site",
+        "name": "BrightAI",
+        "publisher": {"@id": "https://brightai.site/#organization"}
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://brightai.site/docs/kernel-evidence/#webpage",
+        "url": "https://brightai.site/docs/kernel-evidence/",
+        "name": "Kernel Evidence - ملفات الأدلة للتدقيق",
+        "isPartOf": {"@id": "https://brightai.site/#website"},
+        "inLanguage": "ar-SA"
+      },
+      {
+        "@type": "TechArticle",
+        "@id": "https://brightai.site/docs/kernel-evidence/#article",
+        "headline": "Kernel Evidence - ملفات الأدلة للتدقيق",
+        "author": {"@type": "Person", "name": "يزيد الشمري"},
+        "publisher": {"@id": "https://brightai.site/#organization"},
+        "inLanguage": "ar-SA"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://brightai.site/docs/kernel-evidence/#breadcrumb",
+        "itemListElement": [
+          {"@type": "ListItem", "position": 1, "name": "الرئيسية", "item": "https://brightai.site/"},
+          {"@type": "ListItem", "position": 2, "name": "الوثائق", "item": "https://brightai.site/docs/"},
+          {"@type": "ListItem", "position": 3, "name": "Kernel Evidence", "item": "https://brightai.site/docs/kernel-evidence/"}
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+<a class="skip-link" href="#main-content">تجاوز إلى المحتوى</a>
+<div id="brightai-unified-header"></div>
+
+<main class="wrap" id="main-content">
+  <nav class="breadcrumb">
+    <a href="/">الرئيسية</a> /
+    <a href="/docs/">الوثائق</a> /
+    Kernel Evidence
+  </nav>
+
+  <section class="hero">
+    <span class="pill">BrightAI Kernel</span>
+    <h1>Kernel Evidence: ملف الدليل الكامل لكل طلب</h1>
+    <p style="color: #9fb0c7; font-size: 1.1rem;">كل طلب يصير له ملف دليل شامل - جاهز للتصدير والمراجعة والتدقيق</p>
+  </section>
+
+  <section class="card">
+    <h2>الفكرة ببساطة</h2>
+    <p>تخيل إن المدقق يسألك: "أثبت لي إن هالطلب مر بكل الضوابط الصحيحة".</p>
+    <p>بدل ما تروح تجمع معلومات من أماكن متفرقة (سجل التدقيق، الموافقات، السياسات، المخاطر)، تفتح <strong>ملف الدليل (Evidence File)</strong> وتعطيه إياه. كل شي موجود في مكان واحد:</p>
+    <ul>
+      <li>تفاصيل الطلب الكاملة</li>
+      <li>نتائج فحص البيانات الحساسة</li>
+      <li>تصنيف المخاطر والسبب</li>
+      <li>السياسات المطبقة</li>
+      <li>الموافقات (إذا كانت مطلوبة)</li>
+      <li>الرد من النموذج</li>
+      <li>سجل التدقيق الكامل</li>
+      <li>Hash للتحقق من السلامة</li>
+    </ul>
+    <p>كل هالمعلومات في ملف واحد، منظم، قابل للتصدير كـ PDF أو JSON.</p>
+  </section>
+
+  <section class="card">
+    <h2>ليش ملفات الأدلة مهمة؟</h2>
+    <p>لأن <strong>الامتثال مو بس سياسات، هو أدلة</strong>.</p>
+    <p>الجهات التنظيمية ما تكتفي بإنك تقول "عندنا ضوابط". يبون يشوفون:</p>
+    <ul>
+      <li>إن الضوابط <strong>مطبقة فعلاً</strong> على كل طلب</li>
+      <li>إن كل قرار <strong>موثق ومبرر</strong></li>
+      <li>إن الأدلة <strong>كاملة وغير قابلة للتعديل</strong></li>
+    </ul>
+    <p>ملف الدليل يعطيك كل هالشي في صيغة جاهزة للتقديم.</p>
+  </section>
+
+  <section class="card">
+    <h2>وش اللي يكون داخل ملف الدليل؟</h2>
+    <div class="evidence-preview">
+      <div class="evidence-section">
+        <strong>═══ EVIDENCE FILE ═══</strong><br>
+        Trace ID: AI-2026-10493<br>
+        Generated: 2026-05-31 14:23:15 UTC<br>
+        Hash: a3f2b9e8c4d1f7a6...
+      </div>
+
+      <div class="evidence-section">
+        <strong>1. REQUEST DETAILS</strong><br>
+        User: ahmad.mohammed@company.sa<br>
+        Department: Finance<br>
+        Timestamp: 2026-05-31 14:20:00<br>
+        Content: [REDACTED - Contains PII]
+      </div>
+
+      <div class="evidence-section">
+        <strong>2. PII SCAN RESULTS</strong><br>
+        Status: DETECTED<br>
+        Types: NATIONAL_ID, BANK_ACCOUNT<br>
+        Count: 3 instances<br>
+        Action: FLAGGED
+      </div>
+
+      <div class="evidence-section">
+        <strong>3. RISK ASSESSMENT</strong><br>
+        Risk Score: 78/100 (HIGH)<br>
+        Risk Level: HIGH<br>
+        Reason: Financial data + PII detected<br>
+        Policies Applied: FIN-001, PDPL-002
+      </div>
+
+      <div class="evidence-section">
+        <strong>4. APPROVAL WORKFLOW</strong><br>
+        Required: YES<br>
+        Approver: finance.manager@company.sa<br>
+        Decision: APPROVED<br>
+        Timestamp: 2026-05-31 14:21:30<br>
+        Notes: Verified with customer consent
+      </div>
+
+      <div class="evidence-section">
+        <strong>5. MODEL EXECUTION</strong><br>
+        Provider: NVIDIA<br>
+        Model: minimaxai/minimax-m2.7<br>
+        Status: SUCCESS<br>
+        Duration: 2.3s
+      </div>
+
+      <div class="evidence-section">
+        <strong>6. AUDIT TRAIL</strong><br>
+        Total Events: 6<br>
+        Hash Chain: VALID<br>
+        Integrity: VERIFIED
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>متى تحتاج ملفات الأدلة؟</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>الحالة</th>
+          <th>كيف تستخدمه</th>
+          <th>الفائدة</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>تدقيق خارجي</strong></td>
+          <td>صدّر ملفات الأدلة لفترة محددة وقدمها للمدقق</td>
+          <td>توفر أسابيع من جمع الأدلة اليدوي</td>
+        </tr>
+        <tr>
+          <td><strong>تحقيق في حادثة</strong></td>
+          <td>افتح ملف الدليل للطلب المشبوه</td>
+          <td>تشوف كل التفاصيل في مكان واحد</td>
+        </tr>
+        <tr>
+          <td><strong>شكوى عميل</strong></td>
+          <td>اطبع ملف الدليل وريه للعميل</td>
+          <td>تثبت إنك اتبعت كل الضوابط</td>
+        </tr>
+        <tr>
+          <td><strong>مراجعة داخلية</strong></td>
+          <td>راجع عينة من ملفات الأدلة شهرياً</td>
+          <td>تتأكد إن النظام يشتغل صح</td>
+        </tr>
+        <tr>
+          <td><strong>إثبات الامتثال</strong></td>
+          <td>قدم ملفات الأدلة للجهة التنظيمية</td>
+          <td>دليل ملموس على الالتزام</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="card">
+    <h2>وش اللي يميز ملفات الأدلة في Kernel؟</h2>
+    <h3>✅ شاملة</h3>
+    <p>كل شي عن الطلب في ملف واحد - ما تحتاج تدور في أماكن متفرقة</p>
+
+    <h3>✅ منظمة</h3>
+    <p>الملف مقسم لأقسام واضحة، سهل تقرأه وتفهمه</p>
+
+    <h3>✅ قابلة للتصدير</h3>
+    <p>تقدر تصدرها كـ PDF (للطباعة والمراجعة) أو JSON (للتحليل البرمجي)</p>
+
+    <h3>✅ محمية ضد التعديل</h3>
+    <p>كل ملف دليل له Hash فريد - أي تعديل يكسر الـ Hash</p>
+
+    <h3>✅ مرتبطة بالسجلات</h3>
+    <p>كل ملف دليل مرتبط بسجل التدقيق والموافقات والسياسات</p>
+
+    <h3>✅ قابلة للبحث</h3>
+    <p>تقدر تبحث في ملفات الأدلة حسب التاريخ، القسم، المستخدم، أو المخاطر</p>
+  </section>
+
+  <section class="card">
+    <h2>أخطاء شائعة - انتبه لها</h2>
+    <div class="warning-box">
+      <h3>❌ الخطأ الأول: تخزين ملفات الأدلة بدون حماية</h3>
+      <p>ملفات الأدلة تحتوي معلومات حساسة. لو أي أحد يقدر يوصل لها، ممكن تتسرب.</p>
+      <p><strong>الحل:</strong> خلي الوصول لملفات الأدلة محصور على المدققين والمسؤولين فقط.</p>
+    </div>
+
+    <div class="warning-box">
+      <h3>❌ الخطأ الثاني: عدم مراجعة ملفات الأدلة قبل التدقيق</h3>
+      <p>لو انتظرت للتدقيق عشان تشوف ملفات الأدلة، ممكن تلقى مشاكل متأخر.</p>
+      <p><strong>الحل:</strong> راجع عينة من ملفات الأدلة بشكل دوري (مثلاً: 10 ملفات كل شهر).</p>
+    </div>
+
+    <div class="warning-box">
+      <h3>❌ الخطأ الثالث: تصدير ملفات أدلة ناقصة</h3>
+      <p>لو ملف الدليل ما يحتوي كل الأقسام المطلوبة، ما بيكون مفيد للتدقيق.</p>
+      <p><strong>الحل:</strong> تأكد إن كل ملف دليل يحتوي: الطلب، الفحص، المخاطر، الموافقات، والسجل.</p>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>نصيحة يزيد</h2>
+    <div class="tip-box">
+      <p><strong>من تجربتي مع الشركات السعودية:</strong></p>
+      <p>ملفات الأدلة هي <strong>سلاحك السري</strong> وقت التدقيق.</p>
+      <p>شفت شركة كانت متوترة جداً قبل التدقيق. لما جا المدقق، فتحوا Kernel Evidence وقالوا له: "تفضل، اختر أي طلب تبي تراجعه". المدقق اختار 5 طلبات عشوائية، وفي أقل من 10 دقائق صدروا له ملفات الأدلة الكاملة.</p>
+      <p>المدقق كان مبهور. قال: "أول مرة أشوف شركة عندها هالمستوى من التوثيق". التدقيق انتهى في نصف الوقت المتوقع، وبدون أي ملاحظات جوهرية.</p>
+      <p>نصيحتي: <strong>اطبع ملف دليل واحد وشوفه بنفسك</strong>. تأكد إنه واضح، كامل، ومفهوم. لو أنت ما تفهمه، المدقق ما بيفهمه. وإذا كان ناقص، كمّله قبل ما يجي التدقيق.</p>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>قائمة تحقق قبل الاعتماد على ملفات الأدلة</h2>
+    <ol>
+      <li>✅ اختبرت إنشاء ملف دليل: هل يحتوي كل الأقسام؟</li>
+      <li>✅ صدّرت ملف دليل كـ PDF: هل الشكل واضح؟</li>
+      <li>✅ تحققت من Hash: هل يكتشف التعديلات؟</li>
+      <li>✅ حددت مدة الحفظ: كم تحتفظ بملفات الأدلة؟</li>
+      <li>✅ ضبطت الصلاحيات: مين يقدر يوصل لملفات الأدلة؟</li>
+      <li>✅ ربطت مع Audit Trail: كل ملف دليل مرتبط بالسجل؟</li>
+      <li>✅ درّبت المدققين: كيف يقرأون ملفات الأدلة؟</li>
+    </ol>
+  </section>
+
+  <section class="cta-section">
+    <h2>جاهز تشوف ملفات الأدلة؟</h2>
+    <p>افتح Evidence وشوف كيف يجمع كل التفاصيل في مكان واحد</p>
+    <a href="/kernel/evidence/" class="cta-button">افتح Evidence</a>
+    <a href="/kernel/" class="cta-button" style="background: transparent; border: 2px solid #67e8f9; color: #67e8f9;">رجع لـ Kernel Dashboard</a>
+    <a href="/contact/" class="cta-button" style="background: transparent; border: 2px solid #67e8f9; color: #67e8f9;">تواصل معنا</a>
+  </section>
+
+</main>
+
+<script src="/frontend/js/unified-header.js" defer></script>
+<script src="/frontend/js/production-runtime.v20260427.js" defer></script>
+
+</body>
+</html>

@@ -326,3 +326,20 @@ https://www.brightai.site/*    https://brightai.site/:splat  301
 # ── API and WebSocket Backend Connectivity ───────────────────────────────────
 /api/*                        https://brightai-api.onrender.com/api/:splat  200
 /ws/*                         https://brightai-api.onrender.com/ws/:splat   200
+
+# ── Kernel Docs Redirections ──────────────────────────────────────────────────
+/docs/kernel-chat             /docs/kernel-chat/            301
+/docs/kernel-chat.html        /docs/kernel-chat/            301
+/docs/kernel-chat/index.html  /docs/kernel-chat/            301
+
+/docs/kernel-audit-trail      /docs/kernel-audit-trail/     301
+/docs/kernel-audit-trail.html /docs/kernel-audit-trail/     301
+/docs/kernel-audit-trail/index.html /docs/kernel-audit-trail/ 301
+
+/docs/kernel-approvals        /docs/kernel-approvals/       301
+/docs/kernel-approvals.html   /docs/kernel-approvals/       301
+/docs/kernel-approvals/index.html /docs/kernel-approvals/   301
+
+/docs/kernel-evidence         /docs/kernel-evidence/        301
+/docs/kernel-evidence.html    /docs/kernel-evidence/        301
+/docs/kernel-evidence/index.html /docs/kernel-evidence/     301
