@@ -1,3 +1,27 @@
+1. Information Gain
+2. Entity SEO
+3. Topical Map
+5. Internal Link Sculpting
+6. Anchor Text Strategy
+7. Content Pruning
+9. SERP Intent Shift
+Topical Map
+ارسم خريطة مجالك كامل.
+Content Hub
+سو صفحة أم لكل موضوع كبير.
+Information Gain
+أضف شيء جديد ما عند المنافسين.
+Internal Linking
+اربط الصفحات بذكاء، مو عشوائي.
+Content Pruning
+نظّف المحتوى الضعيف والمكرر.
+1. Citation-Worthy Content
+2. Chunk-Level SEO
+3. Query Fan-Out Optimization
+6. Answer Blocks
+7. Comparison Pages
+
+
 # BrightAI — Saudi AI Safety OS
 
 **برايت آي — نظام أمان وحوكمة الذكاء الاصطناعي للشركات السعودية**
