@@ -469,6 +469,15 @@ services:
       - type: redirect
         source: /sitemap/index.html
         destination: /sitemap/
+      - type: redirect
+        source: /report
+        destination: /report/
+      - type: redirect
+        source: /report.html
+        destination: /report/
+      - type: redirect
+        source: /report/index.html
+        destination: /report/
 
       # ── Solutions Module Redirects ──────────────────────────────────────────
       # Solutions root redirect to services
@@ -796,22 +805,31 @@ services:
       # 14. Governance-application (docs)
       - type: redirect
         source: /docs/Governanceـapplication
-        destination: /docs/Governanceـapplication/
+        destination: /docs/governance-application/
       - type: redirect
         source: /docs/Governanceـapplication.html
-        destination: /docs/Governanceـapplication/
+        destination: /docs/governance-application/
       - type: redirect
         source: /docs/Governanceـapplication/index.html
-        destination: /docs/Governanceـapplication/
+        destination: /docs/governance-application/
       - type: redirect
         source: /docs/Governance%D9%80application
-        destination: /docs/Governance%D9%80application/
+        destination: /docs/governance-application/
       - type: redirect
         source: /docs/Governance%D9%80application.html
-        destination: /docs/Governance%D9%80application/
+        destination: /docs/governance-application/
       - type: redirect
         source: /docs/Governance%D9%80application/index.html
-        destination: /docs/Governance%D9%80application/
+        destination: /docs/governance-application/
+      - type: redirect
+        source: /docs/governance-application
+        destination: /docs/governance-application/
+      - type: redirect
+        source: /docs/governance-application.html
+        destination: /docs/governance-application/
+      - type: redirect
+        source: /docs/governance-application/index.html
+        destination: /docs/governance-application/
 
       # ── Kernel Module Redirects ─────────────────────────────────────────────
       # BrightAI Kernel dashboard pages that exist and are normalized to /path/
@@ -1260,8 +1278,59 @@ services:
 
       # ── Blog Module Redirects ────────────────────────────────────────────────
       - type: redirect
+        source: /blog
+        destination: /blog/
+      - type: redirect
+        source: /blog.html
+        destination: /blog/
+      - type: redirect
+        source: /blog/index.html
+        destination: /blog/
+      - type: redirect
         source: /blog/ai-governance
-        destination: /blog/ai-governance.html
+        destination: /blog/ai-governance/
+      - type: redirect
+        source: /blog/ai-governance.html
+        destination: /blog/ai-governance/
+      - type: redirect
+        source: /blog/ai-governance/index.html
+        destination: /blog/ai-governance/
+      - type: redirect
+        source: /blog/pdpl-ai-safety
+        destination: /blog/pdpl-ai-safety/
+      - type: redirect
+        source: /blog/pdpl-ai-safety.html
+        destination: /blog/pdpl-ai-safety/
+      - type: redirect
+        source: /blog/pdpl-ai-safety/index.html
+        destination: /blog/pdpl-ai-safety/
+      - type: redirect
+        source: /blog/ai-governance-saudi-arabia
+        destination: /blog/ai-governance-saudi-arabia/
+      - type: redirect
+        source: /blog/ai-governance-saudi-arabia.html
+        destination: /blog/ai-governance-saudi-arabia/
+      - type: redirect
+        source: /blog/ai-governance-saudi-arabia/index.html
+        destination: /blog/ai-governance-saudi-arabia/
+      - type: redirect
+        source: /blog/ai-customer-data-protection-saudi
+        destination: /blog/ai-customer-data-protection-saudi/
+      - type: redirect
+        source: /blog/ai-customer-data-protection-saudi.html
+        destination: /blog/ai-customer-data-protection-saudi/
+      - type: redirect
+        source: /blog/ai-customer-data-protection-saudi/index.html
+        destination: /blog/ai-customer-data-protection-saudi/
+      - type: redirect
+        source: /blog/pdpl-and-ai-saudi
+        destination: /blog/pdpl-and-ai-saudi/
+      - type: redirect
+        source: /blog/pdpl-and-ai-saudi.html
+        destination: /blog/pdpl-and-ai-saudi/
+      - type: redirect
+        source: /blog/pdpl-and-ai-saudi/index.html
+        destination: /blog/pdpl-and-ai-saudi/
 
 databases:
   - name: brightai-db

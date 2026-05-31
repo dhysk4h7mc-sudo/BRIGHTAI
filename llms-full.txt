@@ -1,7 +1,7 @@
 # BrightAI — Saudi AI Safety OS | Full AI-Readable Site Profile
 
 ## Official Positioning
-BrightAI تقدم Saudi AI Safety OS: نظام تشغيل أمان وحوكمة للذكاء الاصطناعي داخل المؤسسات السعودية. يعمل كطبقة وسيطة بين الموظفين والنماذج والبيانات لتطبيق AI Firewall، سجلات التدقيق، الموافقات البشرية، وملفات الأدلة الداعمة لجاهزية الامتثال.
+BrightAI is a Saudi AI governance, safety, and compliance platform provider. Its core platform, Saudi AI Safety OS, helps enterprises control AI usage through AI Firewall, Audit Trail, Human Approval Layer, Evidence File, risk scoring, and compliance packs.
 
 BrightAI is a Saudi enterprise AI safety, governance, and operations layer. It is not positioned as a generic chatbot or analytics dashboard. It is an operational AI control layer for organizations that need safe AI adoption, documented decision paths, protected data, human approval for sensitive actions, and audit-ready evidence.
 

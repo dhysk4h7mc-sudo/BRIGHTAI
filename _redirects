@@ -39,6 +39,9 @@ https://www.brightai.site/*    https://brightai.site/:splat  301
 /sitemap                      /sitemap/                     301
 /sitemap/index.html           /sitemap/                     301
 /sitemap.html                 /sitemap/                     301
+/report                       /report/                      301
+/report/index.html            /report/                      301
+/report.html                  /report/                      301
 
 # ── Privacy, Policies and Legal Statements (Arabic) ─────────────────────────
 /privacy-policy               /privacy-policy/              301
@@ -110,7 +113,24 @@ https://www.brightai.site/*    https://brightai.site/:splat  301
 /docs/Governance%D9%80application/index.html /docs/governance-application/ 301
 
 # ── Blog Module Redirections ──────────────────────────────────────────────────
+/blog                         /blog/                        301
+/blog/index.html              /blog/                        301
+/blog.html                    /blog/                        301
+/blog/ai-governance           /blog/ai-governance/          301
 /blog/ai-governance.html      /blog/ai-governance/          301
+/blog/ai-governance/index.html /blog/ai-governance/         301
+/blog/pdpl-ai-safety          /blog/pdpl-ai-safety/         301
+/blog/pdpl-ai-safety.html     /blog/pdpl-ai-safety/         301
+/blog/pdpl-ai-safety/index.html /blog/pdpl-ai-safety/       301
+/blog/ai-governance-saudi-arabia /blog/ai-governance-saudi-arabia/ 301
+/blog/ai-governance-saudi-arabia.html /blog/ai-governance-saudi-arabia/ 301
+/blog/ai-governance-saudi-arabia/index.html /blog/ai-governance-saudi-arabia/ 301
+/blog/ai-customer-data-protection-saudi /blog/ai-customer-data-protection-saudi/ 301
+/blog/ai-customer-data-protection-saudi.html /blog/ai-customer-data-protection-saudi/ 301
+/blog/ai-customer-data-protection-saudi/index.html /blog/ai-customer-data-protection-saudi/ 301
+/blog/pdpl-and-ai-saudi    /blog/pdpl-and-ai-saudi/   301
+/blog/pdpl-and-ai-saudi.html /blog/pdpl-and-ai-saudi/ 301
+/blog/pdpl-and-ai-saudi/index.html /blog/pdpl-and-ai-saudi/ 301
 
 
 # ── Kernel Module Redirections ────────────────────────────────────────────────

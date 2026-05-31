@@ -40,6 +40,7 @@ const OWNER_DECISION_PATTERNS = [
   /^tenders\/render-backend\//i,
   /^interview\/pages\//i,
   /^mais-OBM\//i,
+  /^demo\/ai-reject-dashboard\/frontend\/components\//i,
 ];
 
 const PILLAR_LINKS_AR = [

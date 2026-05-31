@@ -18,6 +18,7 @@ const ROOT_INDEX_DIRS = new Set([
   "mais-OBM",
   "partners",
   "pricing",
+  "report",
   "services",
   "sectors",
   "smart-automation",
@@ -64,6 +65,8 @@ const TENDERS_DEMO_COUNTERPARTS = new Map([
 const NON_INDEXABLE_REL_PATH_PATTERNS = [
   /^(404|500)\.html$/i,
   /^error\.html$/i,
+  /^offline\/index\.html$/i,
+  /^frontend\/font-demo\.html$/i,
   /^en\/docs\/docs\.html$/i,
   /^blog\/(ai-automation-project-analysis|digital-transformation-automation|financial-hr-automation|industrial-automation-productivity|machine-learning-computer-vision|process-automation-ai-efficiency)\.html$/i,
   /^aimais\/public\//i,
@@ -73,6 +76,7 @@ const NON_INDEXABLE_REL_PATH_PATTERNS = [
   /^blog\/atou\.doc\.html$/i,
   /^blog\/generative-artificial-intelligence\.html$/i,
   /^demo\/mais-dashboard\//i,
+  /^demo\/ai-reject-dashboard\/frontend\/components\//i,
   /^demo\/ai-reject-dashboard\/frontend\/pages\//i,
 ];
 

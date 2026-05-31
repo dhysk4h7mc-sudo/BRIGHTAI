@@ -135,16 +135,12 @@ npm run sitemap:generate
 **الوظائف:**
 - مسح جميع ملفات HTML في المشروع
 - تصنيف الصفحات (pages, kernel, demo, legal)
-- توليد sitemaps منفصلة لكل فئة
-- إنشاء sitemap index رئيسي
+- توليد `sitemap.xml` واحد شامل لكل الصفحات العامة القابلة للفهرسة
+- منع الخرائط المقسمة القديمة لتفادي أي مراجع stale في `robots.txt`
 - إضافة hreflang tags للصفحات متعددة اللغات
 
 **المخرجات:**
-- `sitemap.xml` (Sitemap Index)
-- `sitemap-pages.xml`
-- `sitemap-kernel.xml`
-- `sitemap-demo.xml`
-- `sitemap-legal.xml`
+- `sitemap.xml`
 - `reports/sitemap-quality-report.md`
 
 ---

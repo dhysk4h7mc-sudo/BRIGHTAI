@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8LLESL207Q"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-8LLESL207Q');
+</script>
+<title>PDPL والذكاء الاصطناعي: ما الذي يجب أن تعرفه الشركات السعودية؟ | BrightAI</title>
+<meta name="description" content="دليل شامل حول PDPL والذكاء الاصطناعي للشركات السعودية: المخاطر، الامتثال، حماية البيانات الشخصية، ودور AI Firewall و Audit Trail في بناء بيئة AI آمنة وخاضعة للحوكمة.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://brightai.site/blog/pdpl-and-ai-saudi/">
+
+<!-- Open Graph -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="PDPL والذكاء الاصطناعي: ما الذي يجب أن تعرفه الشركات السعودية؟">
+<meta property="og:description" content="كيف توائم الشركات السعودية بين استخدام الذكاء الاصطناعي ومتطلبات نظام حماية البيانات الشخصية (PDPL)؟ دليل عملي للمدراء التقنيين ومسؤولي الامتثال.">
+<meta property="og:url" content="https://brightai.site/blog/pdpl-and-ai-saudi/">
+<meta property="og:site_name" content="BrightAI">
+<meta property="og:locale" content="ar_SA">
+<meta property="article:published_time" content="2026-05-31T08:00:00+03:00">
+<meta property="article:modified_time" content="2026-05-31T08:00:00+03:00">
+<meta property="article:tag" content="PDPL">
+<meta property="article:tag" content="الذكاء الاصطناعي">
+<meta property="article:tag" content="نظام حماية البيانات الشخصية">
+<meta property="article:tag" content="امتثال">
+<meta property="article:tag" content="خصوصية البيانات">
+<meta property="article:section" content="حوكمة الذكاء الاصطناعي">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="PDPL والذكاء الاصطناعي: ما الذي يجب أن تعرفه الشركات السعودية؟">
+<meta name="twitter:description" content="دليل عملي لامتثال PDPL في مشاريع الذكاء الاصطناعي داخل المملكة العربية السعودية.">
+<meta name="twitter:site" content="@BrightAI">
+<link rel="stylesheet" href="/frontend/vendor/fontawesome/css/all.min.css?v=20260529-icons">
+<link rel="stylesheet" href="/frontend/css/sitewide-modernization.css">
+<link rel="stylesheet" href="/frontend/css/unified-header.css?v=20260529-nav-v1">
+
+<!-- Article Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "PDPL والذكاء الاصطناعي: ما الذي يجب أن تعرفه الشركات السعودية؟",
+  "description": "دليل شامل حول PDPL والذكاء الاصطناعي للشركات السعودية: المخاطر، الامتثال، حماية البيانات الشخصية، ودور AI Firewall و Audit Trail.",
+  "author": {
+    "@type": "Organization",
+    "name": "BrightAI"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "BrightAI",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://brightai.site/logo.png"
+    }
+  },
+  "datePublished": "2026-05-31",
+  "dateModified": "2026-05-31",
+  "mainEntityOfPage": "https://brightai.site/blog/pdpl-and-ai-saudi/",
+  "keywords": "PDPL والذكاء الاصطناعي, نظام حماية البيانات الشخصية السعودية, امتثال PDPL, خصوصية البيانات AI, حماية البيانات الشخصية"
+}
+</script>
+
+<!-- BreadcrumbList Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "الرئيسية",
+      "item": "https://brightai.site/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "المدونة",
+      "item": "https://brightai.site/blog/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "PDPL والذكاء الاصطناعي: ما الذي يجب أن تعرفه الشركات السعودية؟",
+      "item": "https://brightai.site/blog/pdpl-and-ai-saudi/"
+    }
+  ]
+}
+</script>
+
+<!-- FAQPage Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "هل يُعتبر استخدام أدوات الذكاء الاصطناعي العامة انتهاكًا لنظام PDPL السعودي؟",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "ليس الاستخدام بحد ذاته انتهاكًا، لكن إدخال بيانات شخصية حقيقية دون ضوابط حماية أو موافقة المستخدم قد يُعرّض الشركة للمساءلة القانونية. الحل يكمن في استخدام طبقات حماية مثل AI Firewall وتقنيات إخفاء الهوية."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "ما البيانات التي يمنع إرسالها مباشرة إلى نماذج الذكاء الاصطناعي؟",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "يجب تجنّب إرسال بيانات التعريف الشخصية (PII) مثل الأسماء، أرقام الهوية، أرقام الجوال، البريد الإلكتروني، والبيانات الصحية أو المالية دون معالجة مسبقة."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "ما دور سجل التدقيق (Audit Trail) في امتثال PDPL؟",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "يوفّر سجل التدقيق تتبعًا زمنيًا كاملًا لعمليات معالجة البيانات، مما يساعد الجهة على إثبات الامتثال عند المراجعة من قبل الجهة التنظيمية."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "هل BrightAI تضمن امتثال الشركة لنظام PDPL؟",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "لا، BrightAI لا تقدم استشارات قانونية ولا تضمن الامتثال القانوني الكامل. ما توفره هو أدوات تدعم الجاهزية التشغيلية، والضوابط، وقابلية التدقيق، وسير عمل أكثر أمانًا بحسب نطاق المشروع."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "ما الفرق بين PDPL السعودي و GDPR الأوروبي في سياق الذكاء الاصطناعي؟",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "يتشاركان في المبادئ الأساسية كحقوق المستخدم وشرعية المعالجة، لكن PDPL يركّز على السياق التنظيمي السعودي ومتطلبات SDAIA و NDMP، ويستلزم مراعاة خصوصية القطاع المحلي والحوكمة الوطنية."
+      }
+    }
+  ]
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg-primary: #0A0E17;
+    --bg-secondary: #111826;
+    --bg-card: #161D2D;
+    --bg-card-hover: #1B2336;
+    --border: rgba(255, 255, 255, 0.08);
+    --border-hover: rgba(255, 255, 255, 0.15);
+    --text-primary: #F1F5F9;
+    --text-secondary: #94A3B8;
+    --text-muted: #64748B;
+    --accent: #C9A961;
+    --accent-hover: #D9BA78;
+    --accent-soft: rgba(201, 169, 97, 0.12);
+    --success: #10B981;
+    --warning: #F59E0B;
+    --danger: #EF4444;
+    --info: #3B82F6;
+    --shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.5);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'Tajawal', 'Cairo', system-ui, sans-serif;
+    line-height: 1.8;
+    font-size: 17px;
+    overflow-x: hidden;
+  }
+
+  a { color: var(--accent); text-decoration: none; transition: all 0.2s ease; }
+  a:hover { color: var(--accent-hover); border-bottom: 1px dashed var(--accent-hover); }
+  .brightai-header a:hover { border-bottom: none; }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* Hero */
+  .hero {
+    padding: 90px 0 70px;
+    position: relative;
+    background:
+      radial-gradient(circle at 20% 30%, rgba(201, 169, 97, 0.08) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(59, 130, 246, 0.05) 0%, transparent 50%);
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+  }
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 28px;
+    position: relative;
+    z-index: 1;
+  }
+  .breadcrumb a { color: var(--text-secondary); font-size: 13px; }
+  .breadcrumb a:hover { color: var(--accent); border-bottom: none; }
+  .breadcrumb span { color: var(--text-muted); }
+
+  .hero-badge {
+    display: inline-block;
+    padding: 6px 14px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    border: 1px solid rgba(201, 169, 97, 0.3);
+    position: relative;
+    z-index: 1;
+  }
+  .hero h1 {
+    font-size: clamp(32px, 5vw, 52px);
+    line-height: 1.25;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+    margin-bottom: 22px;
+    position: relative;
+    z-index: 1;
+  }
+  .hero h1 .highlight {
+    background: linear-gradient(120deg, var(--accent) 0%, #E5C885 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .hero-sub {
+    font-size: 19px;
+    color: var(--text-secondary);
+    max-width: 760px;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-meta {
+    display: flex;
+    gap: 28px;
+    margin-top: 32px;
+    color: var(--text-muted);
+    font-size: 14px;
+    position: relative;
+    z-index: 1;
+    flex-wrap: wrap;
+  }
+  .hero-meta span { display: flex; align-items: center; gap: 6px; }
+
+  /* Short Answer */
+  .short-answer {
+    background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-secondary) 100%);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px 36px;
+    margin: 40px 0 60px;
+    position: relative;
+    overflow: hidden;
+  }
+  .short-answer::before {
+    content: '"';
+    position: absolute;
+    top: -30px;
+    right: 30px;
+    font-size: 150px;
+    color: var(--accent);
+    opacity: 0.1;
+    font-family: serif;
+    line-height: 1;
+  }
+  .short-answer-label {
+    display: inline-block;
+    font-size: 12px;
+    color: var(--accent);
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+  }
+  .short-answer p {
+    font-size: 18px;
+    line-height: 1.9;
+    color: var(--text-primary);
+  }
+
+  /* Sections */
+  section { padding: 50px 0; }
+  .section-tag {
+    display: inline-block;
+    font-size: 12px;
+    color: var(--accent);
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  h2 {
+    font-size: clamp(26px, 4vw, 36px);
+    font-weight: 900;
+    margin-bottom: 22px;
+    line-height: 1.3;
+    letter-spacing: -0.3px;
+  }
+  h3 {
+    font-size: 22px;
+    font-weight: 700;
+    margin: 32px 0 14px;
+    color: var(--text-primary);
+  }
+  p {
+    color: var(--text-secondary);
+    margin-bottom: 18px;
+    font-size: 17px;
+  }
+  strong { color: var(--text-primary); font-weight: 700; }
+
+  /* Lists */
+  ul, ol {
+    padding-right: 22px;
+    margin: 18px 0 28px;
+  }
+  ul li, ol li {
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+    padding-right: 8px;
+  }
+  ul li::marker { color: var(--accent); }
+
+  /* Cards Grid */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin: 30px 0;
+  }
+  .feature-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 28px;
+    transition: all 0.3s ease;
+  }
+  .feature-card:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--border-hover);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+  }
+  .feature-icon {
+    width: 48px;
+    height: 48px;
+    background: var(--accent-soft);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin-bottom: 18px;
+  }
+  .feature-card h4 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: var(--text-primary);
+  }
+  .feature-card p {
+    font-size: 15px;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+
+  /* Risk table */
+  .risk-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 30px 0;
+    background: var(--bg-card);
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .risk-table th {
+    background: rgba(201, 169, 97, 0.08);
+    padding: 16px 20px;
+    text-align: right;
+    font-size: 14px;
+    color: var(--accent);
+    font-weight: 700;
+    border-bottom: 1px solid var(--border);
+  }
+  .risk-table td {
+    padding: 16px 20px;
+    font-size: 15px;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border);
+  }
+  .risk-table tr:last-child td { border-bottom: none; }
+  .risk-table .level-high { color: var(--danger); font-weight: 700; }
+  .risk-table .level-med { color: var(--warning); font-weight: 700; }
+  .risk-table .level-low { color: var(--success); font-weight: 700; }
+
+  /* Checklist */
+  .checklist {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 32px;
+    margin: 30px 0;
+  }
+  .checklist-item {
+    display: flex;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: flex-start;
+  }
+  .checklist-item:last-child { border-bottom: none; }
+  .check-icon {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    background: rgba(16, 185, 129, 0.12);
+    color: var(--success);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 14px;
+    margin-top: 2px;
+  }
+  .checklist-item div { color: var(--text-secondary); line-height: 1.7; }
+  .checklist-item strong { color: var(--text-primary); }
+
+  /* Compliance notice */
+  .compliance-notice {
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(245, 158, 11, 0.03) 100%);
+    border-right: 3px solid var(--warning);
+    padding: 22px 26px;
+    border-radius: 10px;
+    margin: 30px 0;
+  }
+  .compliance-notice strong { color: var(--warning); }
+  .compliance-notice p { margin: 0; color: var(--text-secondary); }
+
+  /* FAQ */
+  .faq { margin: 40px 0; }
+  .faq-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 14px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+  .faq-item:hover { border-color: var(--border-hover); }
+  .faq-question {
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 20px 24px;
+    text-align: right;
+    color: var(--text-primary);
+    font-size: 17px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: inherit;
+    line-height: 1.6;
+  }
+  .faq-question::after {
+    content: '+';
+    font-size: 24px;
+    color: var(--accent);
+    font-weight: 400;
+    transition: transform 0.3s;
+    flex-shrink: 0;
+    margin-right: 14px;
+  }
+  .faq-item.active .faq-question::after {
+    content: '−';
+  }
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+  .faq-answer-inner {
+    padding: 0 24px 22px;
+    color: var(--text-secondary);
+    line-height: 1.9;
+  }
+  .faq-item.active .faq-answer { max-height: 500px; }
+
+  /* CTA */
+  .cta-section {
+    background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-secondary) 100%);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 60px 40px;
+    text-align: center;
+    margin: 70px 0 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    top: -50%; right: -20%;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(201, 169, 97, 0.12) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .cta-section h2 {
+    position: relative;
+    margin-bottom: 18px;
+  }
+  .cta-section p {
+    color: var(--text-secondary);
+    font-size: 18px;
+    max-width: 600px;
+    margin: 0 auto 32px;
+    position: relative;
+  }
+  .cta-buttons {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+    position: relative;
+  }
+  .btn {
+    display: inline-block;
+    padding: 15px 34px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    text-decoration: none !important;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #0A0E17;
+  }
+  .btn-primary:hover {
+    background: var(--accent-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(201, 169, 97, 0.3);
+    border-bottom: none !important;
+  }
+  .btn-outline {
+    background: transparent;
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+  }
+  .btn-outline:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    border-bottom: 1px solid var(--accent) !important;
+  }
+
+  /* Internal links */
+  .links-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+    margin: 30px 0;
+  }
+  .link-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--text-primary);
+    transition: all 0.2s ease;
+  }
+  .link-card:hover {
+    border-color: var(--accent);
+    background: var(--bg-card-hover);
+    border-bottom: 1px solid var(--accent) !important;
+    color: var(--accent);
+  }
+  .link-card::before { content: '←'; color: var(--accent); font-size: 18px; }
+
+  /* Footer */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 40px 0;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 14px;
+  }
+
+  /* Code block */
+  .code-block {
+    background: #06090F;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 22px;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    color: #C9D1D9;
+    direction: ltr;
+    text-align: left;
+    overflow-x: auto;
+    margin: 20px 0;
+  }
+  .code-block .comment { color: #8B949E; }
+  .code-block .keyword { color: #FF7B72; }
+  .code-block .string { color: #A5D6FF; }
+
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .hero { padding: 60px 0 40px; }
+    .short-answer, .cta-section { padding: 24px; }
+    .checklist { padding: 22px; }
+    .risk-table th, .risk-table td { padding: 12px 14px; font-size: 14px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="brightai-unified-header"></div>
+
+<header class="hero">
+  <div class="container">
+    <div class="breadcrumb">
+      <a href="/">الرئيسية</a>
+      <span>/</span>
+      <a href="/blog/">المدونة</a>
+      <span>/</span>
+      <span>PDPL والذكاء الاصطناعي</span>
+    </div>
+    <div class="hero-badge">حوكمة AI · امتثال · خصوصية</div>
+    <h1>PDPL والذكاء الاصطناعي:<br><span class="highlight">ما الذي يجب أن تعرفه الشركات السعودية؟</span></h1>
+    <p class="hero-sub">
+      دليل عملي للمدراء التقنيين ومسؤولي الامتثال حول مواءمة مشاريع الذكاء الاصطناعي مع
+      <strong>نظام حماية البيانات الشخصية السعودية</strong>، وكيفية بناء بيئة AI خاضعة للحوكمة دون تعطيل الابتكار.
+    </p>
+    <div class="hero-meta">
+      <span>📅 31 مايو 2026</span>
+      <span>⏱️ 12 دقيقة قراءة</span>
+      <span>✍️ فريق BrightAI</span>
+      <span>🏷️ حوكمة الذكاء الاصطناعي</span>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- Short Answer -->
+  <div class="short-answer">
+    <div class="short-answer-label">الخلاصة السريعة</div>
+    <p>
+      لا يوجد تعارض جوهري بين <strong>PDPL والذكاء الاصطناعي</strong>؛ النظام السعودي لا يمنع استخدام AI، لكنه يضع شروطًا صارمة حول
+      شرعية المعالجة، تقليل البيانات، الشفافية، وحقوق أصحاب البيانات. التحدي الحقيقي للشركات ليس في "هل نستخدم AI؟"
+      بل في "كيف نستخدمه بضوابط قابلة للتدقيق؟". الحل العملي يمر عبر ثلاث طبقات: <strong>AI Firewall</strong>،
+      <strong>Audit Trail</strong>، و<strong>طبقة موافقة بشرية</strong> — مع إبقاء المسؤولية القانونية النهائية على عاتق الجهة
+      وبالرجوع إلى مستشار قانوني متخصص.
+    </p>
+  </div>
+
+  <!-- Section 1: Relation -->
+  <section>
+    <div class="section-tag">الفصل الأول</div>
+    <h2>ما العلاقة بين PDPL والذكاء الاصطناعي؟</h2>
+    <p>
+      يصدر نظام <a href="https://www.sdaia.gov.sa" target="_blank">نظام حماية البيانات الشخصية السعودية (PDPL)</a>
+      الإطار القانوني العام لمعالجة أي بيانات شخصية داخل المملكة، سواء تمت المعالجة عبر نظام تقليدي أو عبر نماذج
+      الذكاء الاصطناعي. ومع الانتشار السريع لأدوات Generative AI، باتت معظم الشركات السعودية تواجه أسئلة متشابهة:
+    </p>
+    <ul>
+      <li>هل تدريب النماذج أو استدعاؤها يعد "معالجة" بالمعنى النظامي؟</li>
+      <li>هل نحتاج موافقة صريحة من المستخدم قبل تمرير بياناته إلى نموذج AI؟</li>
+      <li>كيف نوفّق بين الحاجة إلى بيانات تدريب عالية الجودة ومبدأ تقليل البيانات (Data Minimization)؟</li>
+      <li>من المسؤول عن قرار خاطئ اتخذه نظام AI مؤتمت؟</li>
+    </ul>
+    <p>
+      الإجابة المختصرة: نعم، أي تفاعل مع بيانات شخصية عبر AI هو معالجة، ويستوجب أساسًا قانونيًا (موافقة، تنفيذ عقد،
+      مصلحة مشروعة، أو التزام نظامي). وهذا ما يجعل <strong>امتثال PDPL</strong> جزءًا لا يتجزأ من تصميم أي منتج AI
+      داخلي أو متكامل مع أدوات خارجية.
+    </p>
+  </section>
+
+  <!-- Section 2: Risks -->
+  <section>
+    <div class="section-tag">الفصل الثاني</div>
+    <h2>أين تظهر مخاطر خصوصية البيانات في مشاريع AI؟</h2>
+    <p>
+      تظهر <strong>خصوصية البيانات AI</strong> في نقاط محددة داخل دورة حياة النموذج، وأهمها:
+    </p>
+
+    <table class="risk-table">
+      <thead>
+        <tr>
+          <th>النقطة</th>
+          <th>المخاطرة</th>
+          <th>درجة الخطورة</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>إدخال بيانات حقيقية في Prompts</td>
+          <td>تسرّب PII إلى مزوّد خارجي، واستخدامها في التدريب</td>
+          <td><span class="level-high">عالية</span></td>
+        </tr>
+        <tr>
+          <td>تدريب النماذج على بيانات عملاء</td>
+          <td>عدم وجود أساس قانوني، إمكانية إعادة التعريف</td>
+          <td><span class="level-high">عالية</span></td>
+        </tr>
+        <tr>
+          <td>التخزين المؤقت في Logs</td>
+          <td>تسجيل بيانات حساسة دون تشفير أو صلاحية</td>
+          <td><span class="level-med">متوسطة</span></td>
+        </tr>
+        <tr>
+          <td>مخرجات النماذج (Hallucinations)</td>
+          <td>كشف بيانات عملاء آخرين عن طريق الخطأ</td>
+          <td><span class="level-med">متوسطة</span></td>
+        </tr>
+        <tr>
+          <td>صلاحيات الموظفين</td>
+          <td>وصول غير محدود إلى بيانات حساسة</td>
+          <td><span class="level-low">منخفضة إلى متوسطة</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Section 3: What not to send -->
+  <section>
+    <div class="section-tag">الفصل الثالث</div>
+    <h2>ما البيانات التي يجب ألا تُرسل مباشرة إلى أدوات AI؟</h2>
+    <p>
+      كقاعدة ذهبية في <strong>حماية البيانات الشخصية</strong>: كل ما يمكنه تعريف شخص طبيعي — بشكل مباشر أو غير مباشر —
+      يجب أن يخضع لمرحلة معالجة قبل الوصول إلى أي نموذج AI خارجي أو داخلي. القائمة العملية تشمل:
+    </p>
+    <div class="cards-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🆔</div>
+        <h4>بيانات الهوية</h4>
+        <p>رقم الهوية الوطنية، الإقامة، جواز السفر، رقم الحدود، السجل التجاري الشخصي.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📱</div>
+        <h4>بيانات الاتصال</h4>
+        <p>أرقام الجوال، البريد الإلكتروني الشخصي، العنوان المنزلي، معرفات التواصل الاجتماعي.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💳</div>
+        <h4>البيانات المالية</h4>
+        <p>أرقام البطاقات، IBAN، سجل الرواتب، المعلومات الضريبية، تفاصيل الحسابات البنكية.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🏥</div>
+        <h4>البيانات الصحية</h4>
+        <p>السجلات الطبية، الوصفات، نتائج التحاليل، المعلومات النفسية — وهي أشد حساسية بموجب PDPL.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🧬</div>
+        <h4>البيانات البيومترية</h4>
+        <p>بصمة الوجه، بصمة الإصبع، التعرف على الصوت، قزحية العين.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📍</div>
+        <h4>البيانات الموقعية الدقيقة</h4>
+        <p>GPS مستمر، سجلات التنقل اليومي، بيانات الحضور والانصراف المرتبطة بأفراد.</p>
+      </div>
+    </div>
+    <div class="compliance-notice">
+      <p>
+        <strong>ملاحظة:</strong> إرسال هذه البيانات إلى أدوات AI عامة (مثل ChatGPT أو Gemini أو Claude) دون
+        اتفاقية معالجة بيانات (DPA) وضوابط تقنية يُعد مخاطرة تنظيمية حقيقية، وقد يُعرّض الجهة لعقوبات تصل إلى
+        الغرامات النظامية والتشهير وفق ما نص عليه PDPL.
+      </p>
+    </div>
+  </section>
+
+  <!-- Section 4: AI Firewall -->
+  <section>
+    <div class="section-tag">الطبقة الأولى</div>
+    <h2>دور AI Firewall في الحوكمة</h2>
+    <p>
+      الـ <a href="/solutions/ai-firewall/">AI Firewall</a> هو الخط الدفاعي الأول الذي يعمل كوسيط ذكي بين المستخدم
+      والنموذج. وظيفته ليست منع الاستخدام، بل تصفيته. يعمل من خلال ثلاث آليات:
+    </p>
+    <ul>
+      <li><strong>كشف PII تلقائيًا:</strong> يحجب أسماء، أرقام هوية، وأرقام بطاقات قبل أن تصل إلى النموذج.</li>
+      <li><strong>منع المواضيع المحظورة:</strong> يرفض Prompts تطلب استشارات قانونية/طبية خارج النطاق المعتمد.</li>
+      <li><strong>تطبيق السياسات حسب القسم:</strong> سياسة مختلفة لفريق التسويق عن فريق HR عن فريق التطوير.</li>
+    </ul>
+
+    <div class="code-block">
+<span class="comment">// مثال على استجابة AI Firewall عند محاولة إرسال رقم هوية</span><br>
+<span class="keyword">Input</span>: <span class="string">"حلّل هذا السجل للعميل 1098765432"</span><br>
+<span class="keyword">Firewall</span>: <span class="string">"🚫 تم حجب PII (National ID)"</span><br>
+<span class="keyword">Sanitized</span>: <span class="string">"حلّل هذا السجل للعميل [ID_REDACTED]"</span><br>
+<span class="keyword">Forwarded</span>: <span class="string">✓ إلى النموذج بأمان</span>
+    </div>
+  </section>
+
+  <!-- Section 5: Audit Trail -->
+  <section>
+    <div class="section-tag">الطبقة الثانية</div>
+    <h2>دور Audit Trail في إثبات الامتثال</h2>
+    <p>
+      عند المراجعة من قبل جهة تنظيمية، لا يكفي أن تقول الشركة "نحن متوافقون". يجب أن تثبت ذلك.
+      <a href="/solutions/ai-audit-trail/">AI Audit Trail</a> يوفّر سجلاً زمنيًا مشفّرًا لكل تفاعل:
+    </p>
+    <div class="cards-grid">
+      <div class="feature-card">
+        <div class="feature-icon">📜</div>
+        <h4>سجل غير قابل للتلاعب</h4>
+        <p>Hash لكل طلب/استجابة مع طابع زمني دقيق.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">👤</div>
+        <h4>هوية المستخدم</h4>
+        <p>من أدخل البيانات؟ من وافق على الاستثناء؟ من راجع المخرجات؟</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚖️</div>
+        <h4>الأساس القانوني</h4>
+        <p>ربط كل معالجة بالسند النظامي المحدد في سجل المعالجة (ROPA).</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔍</div>
+        <h4>قابلية الاسترجاع</h4>
+        <p>إمكانية إعادة بناء أي حدث بالكامل خلال دقائق للاستجابة لطلبات أصحاب البيانات.</p>
+      </div>
+    </div>
+    <p>
+      هذه القابلية للتدقيق هي ما يميز الشركة الجاهزة عن الشركة التي تعمل "بالبركة" في تعاملها مع AI، وهي
+      متطلّب ضمني في PDPL ومعايير ISO 27701 المرتبطة به.
+    </p>
+  </section>
+
+  <!-- Section 6: Human Approval -->
+  <section>
+    <div class="section-tag">الطبقة الثالثة</div>
+    <h2>دور الموافقة البشرية (Human-in-the-Loop)</h2>
+    <p>
+      لا يوجد نظام AI معصوم، وأحيانًا يتطلّب الأمر قرارات عالية المخاطرة (قرارات ائتمانية، قرارات HR، توصيات طبية).
+      هنا يأتي دور <a href="/solutions/human-approval-layer/">Human Approval Layer</a> كصمّام الأمان النهائي:
+    </p>
+    <ul>
+      <li><strong>عتبات تلقائية:</strong> إذا تجاوزت درجة الخطورة في الطلب حدًا معينًا، يُحوَّل تلقائيًا للمراجعة البشرية.</li>
+      <li><strong>تفويض ديناميكي:</strong> حسب نوع البيانات (PII/PHI) وحسب القسم المسؤول.</li>
+      <li><strong>توثيق القرار:</strong> كل موافقة تُسجَّل مع اسم المُراجِع وسبب الموافقة.</li>
+      <li><strong>حق النقض:</strong> يمكن لمراجع الامتثال رفض أي طلب حتى لو مرّ عبر AI Firewall.</li>
+    </ul>
+    <p>
+      هذه الطبقة هي ما يجعل AI مجرد "مساعد" وليس "صانع قرار"، وهو موقف متحفّظ يتبناه الكثير من المنظمين
+      حول العالم عند التعامل مع الذكاء الاصطناعي في المجالات الحساسة.
+    </p>
+  </section>
+
+  <!-- Section 7: Checklist -->
+  <section>
+    <div class="section-tag">الفصل العملي</div>
+    <h2>قائمة الجاهزية العملية (PDPL × AI Readiness)</h2>
+    <p>
+      قبل إطلاق أي مشروع AI في الشركة، تأكد من اكتمال النقاط التالية. هذه القائمة مستوحاة من ممارسات
+      الحوكمة المعتمدة، وليست بديلاً عن الاستشارة القانونية:
+    </p>
+
+    <div class="checklist">
+      <div class="checklist-item">
+        <div class="check-icon">✓</div>
+        <div><strong>سجل أنشطة المعالجة (ROPA) محدّث:</strong> يوثّق كل حالة يتم فيها تمرير بيانات شخصية إلى نموذج AI، مع الأساس القانوني.</div>
+      </div>
+      <div class="checklist-item">
+        <div class="check-icon">✓</div>
+        <div><strong>تقييم أثر حماية البيانات (DPIA):</strong> إلزامي للمشاريع ذات المخاطر العالية وفق PDPL، ويجب إجراؤه قبل بدء المعالجة.</div>
+      </div>
+      <div class="checklist-item">
+        <div class="check-icon">✓</div>
+        <div><strong>اتفاقية معالجة بيانات (DPA):</strong> موقّعة مع أي مزوّد AI خارجي، مع تحديد مكان تخزين البيانات ومدة الاحتفاظ.</div>
+      </div>
+      <div class="checklist-item">
+        <div class="check-icon">✓</div>
+        <div><strong>إشعار خصوصية محدّث:</strong> يُعلم المستخدمين بأن بياناتهم قد تُعالَج عبر أدوات AI، ويشرح حقوقهم.</div>
+      </div>
+      <div class="checklist-item">
+        <div class="check-icon">✓</div>
+        <div><strong>آلية تلقائية لإخفاء PII:</strong> AI Firewall مفعّل على جميع نقاط الوصول.</div>
+      </div>
+      <div class="checklist-item">
+        <div class="check-icon">✓</div>
+        <div><strong>سجل تدقيق مشغّل:</strong> Audit Trail يحفظ كل الأحداث لمدة لا تقل عن المدة النظامية المحددة.</div>
+      </div>
+      <div class="checklist-item">
+        <div class="check-icon">✓</div>
+        <div><strong>طبقة موافقة بشرية:</strong> مفروضة على القرارات المؤتمتة ذات الأثر الكبير.</div>
+      </div>
+      <div class="checklist-item">
+        <div class="check-icon">✓</div>
+        <div><strong>سياسة استخدام AI للموظفين:</strong> موثّقة وموقّعة، مع تدريب سنوي عليها.</div>
+      </div>
+      <div class="checklist-item">
+        <div class="check-icon">✓</div>
+        <div><strong>خطة استجابة للانتهاكات:</strong> جاهزة للتنفيذ خلال 72 ساعة من اكتشاف أي تسريب.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 8: How BrightAI helps -->
+  <section>
+    <div class="section-tag">كيف نساعد</div>
+    <h2>كيف تدعم BrightAI الشركات السعودية؟</h2>
+    <p>
+      <strong>نودّ أن نكون واضحين منذ البداية:</strong> BrightAI لا تقدم استشارة قانونية، ولا تضمن الامتثال الكامل
+      لنظام PDPL أو أي نظام آخر. الامتثال مسؤولية قانونية تقع على الجهة نفسها، ويجب أن يُبنى بالتعاون مع مستشار
+      قانوني مؤهّل ومختص بالشأن السعودي.
+    </p>
+    <p>
+      ما تفعله BrightAI هو توفير <strong>بنية تقنية</strong> تدعم الجاهزية التشغيلية، والضوابط، وقابلية التدقيق،
+      وسير عمل أكثر أمانًا بحسب نطاق المشروع. نقدم ذلك عبر ثلاث ركائز:
+    </p>
+
+    <div class="cards-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🛡️</div>
+        <h4>طبقة حماية</h4>
+        <p>AI Firewall يرشح PII ويطبّق السياسات تلقائيًا، قبل أن تصل البيانات إلى أي نموذج.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h4>طبقة رؤية</h4>
+        <p>Audit Trail يوفّر سجلات قابلة للتصدير والمراجعة، جاهزة لأي طلب من الجهة التنظيمية.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🧑‍⚖️</div>
+        <h4>طبقة حوكمة</h4>
+        <p>Human Approval Layer يضع القرار الحساس بيد الإنسان، لا الآلة.</p>
+      </div>
+    </div>
+
+    <p>
+      هذه الركائز الثلاث، مجتمعة، تمنح الشركة السعودية مساحة آمنة لاستخدام AI مع تقليل المخاطر التشغيلية،
+      وبناء ثقافة استخدام مسؤولة يمكن الدفاع عنها عند المراجعة.
+    </p>
+
+    <div class="links-grid">
+      <a href="/services/" class="link-card">جميع خدماتنا</a>
+      <a href="/solutions/ai-firewall/" class="link-card">AI Firewall</a>
+      <a href="/solutions/ai-audit-trail/" class="link-card">AI Audit Trail</a>
+      <a href="/solutions/human-approval-layer/" class="link-card">Human Approval Layer</a>
+      <a href="/contact/" class="link-card">تواصل معنا</a>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section>
+    <div class="section-tag">أسئلة شائعة</div>
+    <h2>أسئلة يكررها المسؤولون التقنيون والقانونيون</h2>
+
+    <div class="faq">
+      <div class="faq-item">
+        <button class="faq-question">هل يُعتبر استخدام أدوات الذكاء الاصطناعي العامة انتهاكًا لنظام PDPL السعودي؟</button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            ليس الاستخدام بحد ذاته انتهاكًا، لكن إدخال بيانات شخصية حقيقية دون ضوابط حماية أو موافقة المستخدم قد
+            يُعرّض الشركة للمساءلة القانونية. الحل يكمن في استخدام طبقات حماية مثل AI Firewall وتقنيات إخفاء الهوية.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">ما البيانات التي يمنع إرسالها مباشرة إلى نماذج الذكاء الاصطناعي؟</button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            يجب تجنّب إرسال بيانات التعريف الشخصية (PII) مثل الأسماء، أرقام الهوية، أرقام الجوال، البريد الإلكتروني،
+            والبيانات الصحية أو المالية دون معالجة مسبقة. البيانات المجمّعة وغير القابلة لإعادة التعريف (Aggregated)
+            عادة ما تكون آمنة.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">ما دور سجل التدقيق (Audit Trail) في امتثال PDPL؟</button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            يوفّر سجل التدقيق تتبعًا زمنيًا كاملًا لعمليات معالجة البيانات، مما يساعد الجهة على إثبات الامتثال
+            عند المراجعة من قبل الجهة التنظيمية، ويسهّل الاستجابة لطلبات أصحاب البيانات (كحق الوصول أو الحذف).
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">هل BrightAI تضمن امتثال الشركة لنظام PDPL؟</button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            لا، BrightAI لا تقدم استشارات قانونية ولا تضمن الامتثال القانوني الكامل. ما توفره هو أدوات تدعم
+            الجاهزية التشغيلية، والضوابط، وقابلية التدقيق، وسير عمل أكثر أمانًا بحسب نطاق المشروع. المسؤولية القانونية
+            النهائية تقع على الجهة ذاتها، ويجب أن تُدار بالشراكة مع مستشار قانوني مؤهّل.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">ما الفرق بين PDPL السعودي و GDPR الأوروبي في سياق الذكاء الاصطناعي؟</button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            يتشاركان في المبادئ الأساسية كحقوق المستخدم وشرعية المعالجة وتقليل البيانات، لكن PDPL يركّز على السياق
+            التنظيمي السعودي ومتطلبات SDAIA و NDMP، ويستلزم مراعاة خصوصية القطاع المحلي والحوكمة الوطنية.
+            الشركات التي تعمل عالميًا قد تحتاج إلى مواءمة النظامين معًا.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">هل يجب تعيين DPO (مسؤول حماية البيانات) لاستخدام AI في شركتي؟</button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            PDPL يُلزم جهات معينة بتعيين مسؤول لحماية البيانات، خاصة تلك التي تقوم بأنشطة أساسية تتضمن معالجة
+            واسعة النطاق أو معالجة البيانات الحساسة. معظم مشاريع AI المؤسسية تقع ضمن هذا النطاق، لذا ينصح بشدة
+            بتعيين DPO أو التعاقد مع جهة استشارية مختصة.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">ماذا لو طلب عميل حذف بياناته المستخدمة في تدريب نموذج AI؟</button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            يحق لصاحب البيانات طلب الحذف وفق PDPL. إذا كانت بياناته قد دخلت في تدريب نموذج AI، تصبح الاستجابة
+            معقدة وتتطلب ما يُعرف بـ "Machine Unlearning" أو حذف البيانات من مجموعة التدريب وإعادة التدريب،
+            وهذا يبرز أهمية تصميم الأنظمة منذ البداية لتكون قابلة للاستجابة لهذه الطلبات.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div class="cta-section">
+    <h2>جاهز لبناء بيئة AI خاضعة للحوكمة؟</h2>
+    <p>
+      دعنا نساعدك على تقييم جاهزية مشاريع الذكاء الاصطناعي في شركتك، وفهم نقاط القوة والثغرات
+      وفق أفضل الممارسات العملية.
+    </p>
+    <div class="cta-buttons">
+      <a href="/contact/" class="btn btn-primary">احجز جلسة تقييم</a>
+      <a href="/services/" class="btn btn-outline">استعرض خدماتنا</a>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <div class="container">
+    <p>
+      © 2026 <a href="https://brightai.site">web</a> — BrightAI. جميع الحقوق محفوظة.
+      · صُنع بعناية للشركات السعودية التي تبني المستقبل بمسؤولية.
+    </p>
+  </div>
+</footer>
+
+<script defer src="/frontend/js/sitewide-modernization.js"></script>
+<script src="/frontend/js/unified-header.js?v=20260529-nav-v1" defer></script>
+
+<script>
+  // FAQ Accordion
+  document.querySelectorAll('.faq-question').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.parentElement;
+      const wasActive = item.classList.contains('active');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+      if (!wasActive) item.classList.add('active');
+    });
+  });
+</script>
+
+</body>
+</html>

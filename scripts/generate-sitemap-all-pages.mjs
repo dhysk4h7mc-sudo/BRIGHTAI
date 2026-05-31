@@ -19,11 +19,6 @@ const ROOT = process.cwd();
 
 // Sitemap Outputs
 const SITEMAP_INDEX = path.join(ROOT, "sitemap.xml");
-const PAGES_OUTPUT = path.join(ROOT, "sitemap-pages.xml");
-const KERNEL_OUTPUT = path.join(ROOT, "sitemap-kernel.xml");
-const DEMO_OUTPUT = path.join(ROOT, "sitemap-demo.xml");
-const LEGAL_OUTPUT = path.join(ROOT, "sitemap-legal.xml");
-const SOLUTIONS_OUTPUT = path.join(ROOT, "sitemap-solutions.xml");
 const REPORT_OUTPUT = path.join(ROOT, "reports", "sitemap-quality-report.md");
 
 const IGNORED_SCAN_DIRS = new Set([
@@ -140,6 +135,7 @@ function groupRelPath(relPath) {
   // Pages
   if (
     normalized === "blog/index.html" ||
+    normalized === "report/index.html" ||
     normalized === "assessment/ai-governance-readiness/index.html" ||
     normalized === "index.html" ||
     normalized === "about/index.html" ||
@@ -148,8 +144,7 @@ function groupRelPath(relPath) {
     normalized === "services/index.html" ||
     normalized === "demo/index.html" ||
     normalized === "sitemap/index.html" ||
-    normalized === "blog/pdpl-ai-safety/index.html" ||
-    normalized === "blog/ai-governance/index.html" ||
+    (normalized.startsWith("blog/") && normalized.endsWith("/index.html")) ||
     normalized === "docs/docs.html" ||
     (normalized.startsWith("docs/") && normalized.endsWith("/index.html")) ||
     normalized === "blog/ai-governance.html"
@@ -303,23 +298,6 @@ function renderXml(entries) {
   return lines.join("\n");
 }
 
-function renderSitemapIndex(sitemaps) {
-  const lines = [];
-  lines.push('<?xml version="1.0" encoding="UTF-8"?>');
-  lines.push('<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">');
-  
-  for (const sitemap of sitemaps) {
-    lines.push("  <sitemap>");
-    lines.push(`    <loc>${xmlEscape(sitemap.loc)}</loc>`);
-    lines.push(`    <lastmod>${xmlEscape(sitemap.lastmod)}</lastmod>`);
-    lines.push("  </sitemap>");
-  }
-  
-  lines.push("</sitemapindex>");
-  lines.push("");
-  return lines.join("\n");
-}
-
 async function analyzePage(relPath) {
   const fullPath = path.join(ROOT, relPath);
   const expectedCanonical = relPathToCanonical(relPath, BASE_URL);
@@ -384,10 +362,6 @@ async function main() {
         loc: analysis.loc,
         relPath: analysis.relPath,
         lastmod: group === "kernel" ? "2026-05-29" : analysis.lastmod,
-        changefreq: group === "kernel" ? "weekly" : null,
-        priority: group === "kernel"
-          ? (analysis.relPath === "kernel/index.html" ? "0.9" : "0.8")
-          : null,
         alternates: [],
       };
       if (group === "pages") pagesList.push(entry);
@@ -414,19 +388,7 @@ async function main() {
   const finalLegal = processEntries(legalList);
   const finalSolutions = processEntries(solutionsList);
 
-  await fs.writeFile(PAGES_OUTPUT, renderXml(finalPages), "utf8");
-  await fs.writeFile(KERNEL_OUTPUT, renderXml(finalKernel), "utf8");
-  await fs.writeFile(DEMO_OUTPUT, renderXml(finalDemo), "utf8");
-  await fs.writeFile(LEGAL_OUTPUT, renderXml(finalLegal), "utf8");
-  await fs.writeFile(SOLUTIONS_OUTPUT, renderXml(finalSolutions), "utf8");
-
-  process.stdout.write(`Generated sitemap-pages.xml with ${finalPages.length} URLs\n`);
-  process.stdout.write(`Generated sitemap-kernel.xml with ${finalKernel.length} URLs\n`);
-  process.stdout.write(`Generated sitemap-demo.xml with ${finalDemo.length} URLs\n`);
-  process.stdout.write(`Generated sitemap-legal.xml with ${finalLegal.length} URLs\n`);
-  process.stdout.write(`Generated sitemap-solutions.xml with ${finalSolutions.length} URLs\n`);
-
-  // Kernel pages are public indexable marketing/product pages and are included in both sitemap.xml and sitemap-kernel.xml.
+  // A single canonical sitemap is easier to validate and prevents stale split sitemap references.
   const primarySitemapEntries = [
     ...finalPages,
     ...finalKernel,
@@ -448,7 +410,8 @@ async function main() {
     `- Demo Sitemap URLs: ${finalDemo.length}`,
     `- Legal Sitemap URLs: ${finalLegal.length}`,
     `- Solutions Sitemap URLs: ${finalSolutions.length}`,
-    "- Kernel URLs are generated in sitemap-kernel.xml and included in primary sitemap.xml as indexable BrightAI Kernel product pages.",
+    `- Total Sitemap URLs: ${primarySitemapEntries.length}`,
+    "- Public URLs are generated only in sitemap.xml. Split sitemap files are intentionally not produced.",
     "",
     "All URLs strictly verified for canonical alignment, code 200 health, and indexability.",
   ];

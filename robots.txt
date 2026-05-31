@@ -125,15 +125,9 @@ Allow: /kernel/evidence/
 
 # Sitemaps
 Sitemap: https://brightai.site/sitemap.xml
-Sitemap: https://brightai.site/sitemap-pages.xml
-Sitemap: https://brightai.site/sitemap-kernel.xml
-Sitemap: https://brightai.site/sitemap-legal.xml
-Sitemap: https://brightai.site/sitemap-demo.xml
-Sitemap: https://brightai.site/sitemap-solutions.xml
-Sitemap: https://brightai.site/sitemap-images.xml
 
 # Host
-Host: https://brightai.site
+Host: brightai.site
 
 # AI-readable content
 # See /llms.txt and /llms-full.txt for comprehensive AI-readable documentation
