@@ -76,8 +76,6 @@ const NON_INDEXABLE_REL_PATH_PATTERNS = [
   /^blog\/atou\.doc\.html$/i,
   /^blog\/generative-artificial-intelligence\.html$/i,
   /^demo\/mais-dashboard\//i,
-  /^demo\/ai-reject-dashboard\/frontend\/components\//i,
-  /^demo\/ai-reject-dashboard\/frontend\/pages\//i,
 ];
 
 const TRAILING_SLASH_ROUTE_PATTERNS = [
@@ -91,7 +89,6 @@ const TRAILING_SLASH_ROUTE_PATTERNS = [
   /^\/locations\/[^/]+\/?$/i,
   /^\/sectors\/[^/]+\/?$/i,
   /^\/tools\/[^/]+\/?$/i,
-  /^\/ai-reject-dashboard\/?$/i,
   /^\/tenders(?:\/.*)?\/?$/i,
   /^\/ai-bots\/[^/]+\/?$/i,
   /^\/(?:ai-workflows|ai-scolecs|smart-medical-archive|privacy-cookies|job\.MAISco|sitemap|terms|offline)\/?$/i,
@@ -225,12 +222,6 @@ export function relPathToSitePath(relPath) {
 
   if (normalized.startsWith("frontend/pages/sectors/") && normalized.endsWith(".html")) {
     return `/sectors/${path.basename(normalized, ".html")}/`;
-  }
-
-  if (normalized.startsWith("demo/ai-reject-dashboard/frontend/pages/") && normalized.endsWith(".html")) {
-    const slug = path.basename(normalized, ".html");
-    if (slug === "index-ar") return "/demo/ai-reject-dashboard/";
-    return `/demo/ai-reject-dashboard/${slug}/`;
   }
 
   if (normalized.startsWith("blog/") && normalized.endsWith(".html")) {

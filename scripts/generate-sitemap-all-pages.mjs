@@ -81,7 +81,6 @@ function groupRelPath(relPath) {
     normalized.includes("permission-denied") ||
     normalized.includes("profile") ||
     normalized.includes("admin") ||
-    normalized.startsWith("demo/ai-reject-dashboard/frontend/pages/") ||
     normalized.includes("backend") ||
     normalized.includes("/api/") ||
     normalized.includes("/ws/")

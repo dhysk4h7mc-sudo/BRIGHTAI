@@ -40,7 +40,6 @@ const OWNER_DECISION_PATTERNS = [
   /^tenders\/render-backend\//i,
   /^interview\/pages\//i,
   /^mais-OBM\//i,
-  /^demo\/ai-reject-dashboard\/frontend\/components\//i,
 ];
 
 const PILLAR_LINKS_AR = [
@@ -380,7 +379,6 @@ function relatedLinksForPage(page) {
     return dedupeLinks([
       { href: "/services/", text: "أدوات ذكاء اصطناعي مجانية من Bright AI" },
       { href: "/demo/", text: "جرّب نماذج AI للأعمال" },
-      { href: "/demo/ai-reject-dashboard/", text: "لوحة رفض تحليلات الذكاء الاصطناعي للمؤسسات" },
       { href: "/services/", text: "حوّل التجربة إلى حل ذكاء اصطناعي مؤسسي" },
       { href: "/contact/", text: "ناقش تطبيق الأداة داخل شركتك" },
     ], page.url);

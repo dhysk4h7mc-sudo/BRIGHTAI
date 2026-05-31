@@ -81,7 +81,7 @@ describe("RAG Search Service", () => {
         },
         {
           query: "الشات بوت",
-          expectedUrlPattern: /\/(services|kernel\/chat|demo\/ai-reject-dashboard)\//
+          expectedUrlPattern: /\/(services|kernel\/chat)\//
         },
         {
           query: "الرعاية الصحية",
