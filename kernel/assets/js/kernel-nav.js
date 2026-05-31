@@ -267,6 +267,7 @@
       const backdrop = document.createElement('div');
       backdrop.className = 'drawer-backdrop';
       backdrop.id = 'drawer-backdrop';
+      backdrop.setAttribute('aria-hidden', 'true');
       document.body.appendChild(backdrop);
 
       // Drawer
@@ -274,6 +275,7 @@
       drawer.className = 'mobile-drawer';
       drawer.id = 'mobile-drawer';
       drawer.setAttribute('aria-label', 'قائمة التنقل');
+      drawer.setAttribute('aria-hidden', 'true');
 
       drawer.innerHTML = `
         <div class="drawer-header">
@@ -336,6 +338,11 @@
         });
       }
 
+      // Close drawer after choosing a link, which keeps mobile navigation tight.
+      document.querySelectorAll('.drawer-link').forEach((link) => {
+        link.addEventListener('click', () => this.closeDrawer());
+      });
+
       // Close more menu on outside click
       document.addEventListener('click', (e) => {
         const moreMenu = document.getElementById('nav-more');
@@ -373,9 +380,12 @@
       if (drawer) drawer.classList.toggle('open', this.state.isDrawerOpen);
       if (backdrop) backdrop.classList.toggle('open', this.state.isDrawerOpen);
       if (hamburgerBtn) hamburgerBtn.setAttribute('aria-expanded', this.state.isDrawerOpen);
+      if (drawer) drawer.setAttribute('aria-hidden', String(!this.state.isDrawerOpen));
+      if (backdrop) backdrop.setAttribute('aria-hidden', String(!this.state.isDrawerOpen));
 
       // Prevent body scroll when drawer is open
       document.body.style.overflow = this.state.isDrawerOpen ? 'hidden' : '';
+      document.body.classList.toggle('drawer-open', this.state.isDrawerOpen);
     },
 
     /**
@@ -392,7 +402,10 @@
       if (drawer) drawer.classList.remove('open');
       if (backdrop) backdrop.classList.remove('open');
       if (hamburgerBtn) hamburgerBtn.setAttribute('aria-expanded', 'false');
+      if (drawer) drawer.setAttribute('aria-hidden', 'true');
+      if (backdrop) backdrop.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
+      document.body.classList.remove('drawer-open');
     },
 
     /**
