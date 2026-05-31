@@ -128,7 +128,7 @@
   .chip { background: rgba(0,212,255,.08); border:1px solid rgba(0,212,255,.25); color:#9be5ff; }
   .kernel-demo-showcase {
     display: grid;
-    gap: 1rem;
+    gap: 1.5rem;
     align-self: stretch;
   }
   .kernel-demo-panel,
@@ -136,7 +136,7 @@
     position: relative;
     overflow: hidden;
     border-radius: 1.25rem;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     background:
       linear-gradient(180deg, rgba(15, 23, 42, 0.84), rgba(5, 10, 23, 0.9)),
       linear-gradient(135deg, rgba(20, 184, 166, 0.14), rgba(245, 158, 11, 0.08));
@@ -183,7 +183,7 @@
     white-space: nowrap;
   }
   .kernel-demo-body {
-    padding: 1rem;
+    padding: 1.5rem;
   }
   .kernel-demo-badge {
     display: inline-flex;
@@ -198,7 +198,7 @@
     font-weight: 800;
   }
   .kernel-demo-title {
-    margin: 0.85rem 0 0;
+    margin: 1.2rem 0 0;
     color: #fff;
     font-size: 1.65rem;
     line-height: 1.35;
@@ -206,16 +206,16 @@
     letter-spacing: 0;
   }
   .kernel-demo-copy {
-    margin: 0.75rem 0 0;
-    color: rgba(226, 232, 240, 0.76);
+    margin: 1rem 0 0;
+    color: rgba(226, 232, 240, 0.85);
     line-height: 1.9;
     font-size: 0.94rem;
   }
   .kernel-demo-actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.65rem;
-    margin-block-start: 1rem;
+    gap: 0.85rem;
+    margin-block-start: 1.5rem;
   }
   .kernel-demo-action {
     display: inline-flex;
@@ -225,7 +225,7 @@
     min-block-size: 2.65rem;
     padding: 0.7rem 0.9rem;
     border-radius: 0.9rem;
-    font-size: 0.84rem;
+    font-size: 0.9rem;
     font-weight: 900;
     text-decoration: none;
     transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
@@ -236,8 +236,8 @@
     box-shadow: 0 18px 42px -22px rgba(56, 189, 248, 0.85);
   }
   .kernel-demo-action.secondary {
-    color: #dbeafe;
-    border: 1px solid rgba(148, 163, 184, 0.28);
+    color: #e0f2fe;
+    border: 1px solid rgba(148, 163, 184, 0.35);
     background: rgba(15, 23, 42, 0.62);
   }
   .kernel-demo-action:hover,
@@ -274,7 +274,7 @@
     font-weight: 950;
   }
   .kernel-feature-panel {
-    padding: 1rem;
+    padding: 1.5rem;
   }
   .kernel-feature-header {
     display: flex;
@@ -282,7 +282,7 @@
     justify-content: center;
     flex-direction: column;
     gap: 0.75rem;
-    margin-block-end: 0.85rem;
+    margin-block-end: 1.2rem;
     text-align: center;
   }
   .kernel-feature-header > div {
@@ -291,15 +291,15 @@
   .kernel-feature-header h2 {
     margin: 0;
     color: #fff;
-    font-size: 1rem;
+    font-size: 1.15rem;
     line-height: 1.6;
     font-weight: 950;
     text-shadow: 0 1px 10px rgba(0, 0, 0, 0.32);
   }
   .kernel-feature-header p {
-    margin: 0.15rem 0 0;
-    color: rgba(203, 213, 225, 0.68);
-    font-size: 0.78rem;
+    margin: 0.25rem 0 0;
+    color: rgba(203, 213, 225, 0.8);
+    font-size: 0.85rem;
     line-height: 1.7;
     text-shadow: 0 1px 8px rgba(0, 0, 0, 0.24);
   }
@@ -320,17 +320,17 @@
   .kernel-feature-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.65rem;
+    gap: 0.85rem;
   }
   .kernel-feature-link {
     display: grid;
-    grid-template-columns: 2.25rem minmax(0, 1fr);
-    gap: 0.65rem;
+    grid-template-columns: 2.5rem minmax(0, 1fr);
+    gap: 0.85rem;
     align-items: start;
-    min-block-size: 5.75rem;
-    padding: 0.72rem;
+    min-block-size: 6rem;
+    padding: 1rem;
     border-radius: 1rem;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
     background: rgba(2, 6, 23, 0.42);
     color: inherit;
     text-decoration: none;
@@ -338,45 +338,47 @@
   }
   .kernel-feature-link:hover {
     transform: translateY(-2px);
-    border-color: rgba(94, 234, 212, 0.35);
+    border-color: rgba(94, 234, 212, 0.4);
     background: rgba(15, 23, 42, 0.74);
   }
   .kernel-feature-icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    inline-size: 2.25rem;
-    block-size: 2.25rem;
+    inline-size: 2.5rem;
+    block-size: 2.5rem;
     border-radius: 0.8rem;
     color: #67e8f9;
-    background: rgba(0, 212, 255, 0.1);
-    border: 1px solid rgba(0, 212, 255, 0.16);
+    background: rgba(0, 212, 255, 0.12);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    font-size: 1.1rem;
   }
   .kernel-feature-title {
     display: block;
     color: #fff;
-    font-size: 0.82rem;
+    font-size: 0.9rem;
     font-weight: 950;
     line-height: 1.55;
   }
   .kernel-feature-copy {
     display: block;
-    margin-block-start: 0.18rem;
-    color: rgba(203, 213, 225, 0.68);
-    font-size: 0.72rem;
-    line-height: 1.6;
+    margin-block-start: 0.3rem;
+    color: rgba(203, 213, 225, 0.8);
+    font-size: 0.78rem;
+    line-height: 1.65;
   }
   .kernel-feature-footnote {
     display: flex;
     align-items: center;
     gap: 0.45rem;
-    margin: 0.9rem 0 0;
-    color: rgba(226, 232, 240, 0.62);
-    font-size: 0.78rem;
+    margin: 1.2rem 0 0;
+    color: rgba(226, 232, 240, 0.75);
+    font-size: 0.82rem;
     line-height: 1.8;
   }
   .kernel-feature-footnote i {
     color: #fbbf24;
+    font-size: 1rem;
   }
   @media (max-width: 640px) {
     .kernel-console-bar {
@@ -385,7 +387,7 @@
     }
     .kernel-demo-body,
     .kernel-feature-panel {
-      padding: 0.85rem;
+      padding: 1.25rem;
     }
     .kernel-demo-title {
       font-size: 1.35rem;
