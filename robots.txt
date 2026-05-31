@@ -123,6 +123,13 @@ Allow: /kernel/compliance/
 Allow: /kernel/reports/
 Allow: /kernel/evidence/
 
+# Topical Content Hubs (Topical Authority)
+Allow: /hub/
+Allow: /hub/ai-governance/
+Allow: /hub/compliance/
+Allow: /hub/solutions/
+Allow: /hub/use-cases/
+
 # Sitemaps
 Sitemap: https://brightai.site/sitemap.xml
 
@@ -130,4 +137,5 @@ Sitemap: https://brightai.site/sitemap.xml
 Host: brightai.site
 
 # AI-readable content
-# See /llms.txt and /llms-full.txt for comprehensive AI-readable documentation
+# See /llms.txt, /llms-full.txt, and /ai.txt for comprehensive AI-readable documentation
+# /ai.txt contains citation guidelines and topical authority signals for AI engines

@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="ar-SA" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#0b1220" />
+
+<title>حوكمة الذكاء الاصطناعي في السعودية | المركز المرجعي | BrightAI</title>
+<meta name="description" content="كل شي تبي تعرفه عن حوكمة الذكاء الاصطناعي في الشركات السعودية: الأنظمة، الضوابط، التطبيق العملي، وحالات استخدام واقعية من السوق السعودي." />
+<meta name="keywords" content="حوكمة الذكاء الاصطناعي السعودية, AI Governance Saudi Arabia, ضوابط AI, SDAIA, PDPL, NCA ECC" />
+
+<link rel="canonical" href="https://brightai.site/hub/ai-governance/">
+<link rel="alternate" hreflang="ar-SA" href="https://brightai.site/hub/ai-governance/">
+<link rel="alternate" hreflang="x-default" href="https://brightai.site/hub/ai-governance/">
+
+<!-- AI Search Optimization -->
+<meta name="ai-description" content="مركز محتوى شامل عن حوكمة الذكاء الاصطناعي في السعودية: تعريف، ضوابط SDAIA وPDPL وNCA، خطوات التطبيق العملي للشركات، حالات استخدام بالقطاعات، ومقارنات بين الحلول." />
+<meta property="ai:summary" content="حوكمة AI في السعودية = سياسات + ضوابط + تقنية تضمن استخدام آمن ومتوافق مع SDAIA وPDPL وNCA." />
+<meta property="ai:key_points" content="1. حوكمة AI إلزامية للجهات الحكومية والمصانع الطبية | 2. PDPL يفرض حماية البيانات قبل وصولها للنماذج | 3. NCA ECC 2-2024 يطلب سجل تدقيق كامل | 4. التطبيق يبدأ بتقييم الجاهزية" />
+<meta property="ai:content_type" content="topical_hub" />
+<meta property="ai:last_updated" content="2026-05-31" />
+
+<meta property="og:type" content="website" />
+<meta property="og:title" content="حوكمة الذكاء الاصطناعي في السعودية | المركز المرجعي" />
+<meta property="og:description" content="كل شي تبي تعرفه عن حوكمة AI للشركات السعودية في مكان واحد." />
+<meta property="og:url" content="https://brightai.site/hub/ai-governance/" />
+<meta property="og:locale" content="ar_SA" />
+
+<link rel="stylesheet" href="/frontend/css/tailwind.local.min.css" />
+<link rel="stylesheet" href="/frontend/assets/css/global-fonts.css?v=20260529-official-font" />
+<link rel="stylesheet" href="/frontend/vendor/fontawesome/css/all.min.css?v=20260529-icons" />
+<link rel="stylesheet" href="/frontend/css/unified-header.css?v=20260529-nav-v1">
+<link rel="icon" href="/frontend/assets/images/logo.png" type="image/png">
+
+<style>
+  body { background:#060914; color:#e6edf7; }
+  .bg-grid {
+    background-image:
+      radial-gradient(ellipse 80% 60% at 50% -10%, rgba(0,212,255,.15), transparent 60%),
+      linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size: auto, 42px 42px, 42px 42px;
+    background-color: #060914;
+  }
+  .gradient-text { background: linear-gradient(135deg,#00d4ff,#7c5cff,#ff5ca7); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .glass { background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.01)); border:1px solid rgba(255,255,255,.08); backdrop-filter: blur(10px); border-radius: 1rem; }
+  .chip { background: rgba(0,212,255,.08); border:1px solid rgba(0,212,255,.25); color:#9be5ff; padding:.25rem .75rem; border-radius:999px; font-size:.75rem; font-weight:700; display:inline-block; }
+  .answer-block { background: linear-gradient(135deg, rgba(0,212,255,.08), rgba(124,92,255,.05)); border:1px solid rgba(0,212,255,.25); border-radius:1rem; padding:1.5rem; margin: 1.5rem 0; }
+  .answer-block strong { color:#9be5ff; }
+  .hub-card { background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.01)); border:1px solid rgba(255,255,255,.08); border-radius:1rem; padding:1.5rem; transition: all .3s ease; display:block; color:inherit; text-decoration:none; }
+  .hub-card:hover { border-color: rgba(0,212,255,.4); transform: translateY(-4px); box-shadow: 0 20px 50px -20px rgba(0,212,255,.25); }
+  .hub-card h3 { color:#fff; font-size:1.15rem; font-weight:900; margin-bottom:.5rem; }
+  .hub-card p { color: rgba(226,232,240,.7); font-size:.9rem; line-height:1.7; }
+  .freshness { display:inline-flex; align-items:center; gap:.5rem; background: rgba(16,185,129,.1); border:1px solid rgba(16,185,129,.3); color:#6ee7b7; padding:.4rem .8rem; border-radius:999px; font-size:.75rem; font-weight:700; }
+  .stat-card { text-align:center; padding:1.25rem; }
+  .stat-num { font-size:2rem; font-weight:900; background: linear-gradient(135deg,#00d4ff,#7c5cff); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .toc { position: sticky; top: 5rem; }
+  .toc a { display:block; color: rgba(226,232,240,.7); padding:.5rem 0; border-right:2px solid transparent; padding-right:.75rem; font-size:.9rem; }
+  .toc a:hover { color:#9be5ff; border-color:#00d4ff; }
+  .anchor-link { display:inline-flex; align-items:center; gap:.5rem; color:#9be5ff; font-weight:700; }
+  .anchor-link:hover { color:#fff; }
+</style>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://brightai.site/hub/ai-governance/#webpage",
+      "url": "https://brightai.site/hub/ai-governance/",
+      "name": "حوكمة الذكاء الاصطناعي في السعودية | المركز المرجعي",
+      "description": "مركز محتوى شامل عن حوكمة الذكاء الاصطناعي للشركات السعودية.",
+      "inLanguage": "ar-SA",
+      "isPartOf": { "@id": "https://brightai.site/#website" },
+      "dateModified": "2026-05-31"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "الرئيسية", "item": "https://brightai.site/" },
+        { "@type": "ListItem", "position": 2, "name": "مراكز المحتوى", "item": "https://brightai.site/hub/" },
+        { "@type": "ListItem", "position": 3, "name": "حوكمة الذكاء الاصطناعي", "item": "https://brightai.site/hub/ai-governance/" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "وش هي حوكمة الذكاء الاصطناعي؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "حوكمة الذكاء الاصطناعي هي مجموعة السياسات والضوابط التقنية والإجراءات التي تضمن استخدام AI داخل الشركة بشكل آمن ومسؤول ومتوافق مع الأنظمة. تشمل: من يستخدم AI، على أي بيانات، ومين يوافق على القرارات الحساسة، وكيف نوثّق كل شي للتدقيق."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "هل حوكمة AI إلزامية في السعودية؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "نعم بالنسبة لقطاعات معينة: الجهات الحكومية ملزمة بضوابط SDAIA، والمصانع الطبية تحت SFDA، والبنوك تحت ساما. وكل الشركات اللي تتعامل مع بيانات شخصية ملزمة بـ PDPL سواء استخدمت AI أو لا."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "من وين أبدأ حوكمة AI في شركتي؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "ابدأ بـ 3 خطوات: 1) جرد استخدامات AI الحالية في شركتك. 2) قيّم المخاطر لكل استخدام. 3) ضع طبقة تقنية (مثل BrightAI Kernel) تطبق السياسات تلقائياً وتوثّق كل شي."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body class="bg-grid">
+
+<a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:right-2 bg-cyan-400 text-black px-3 py-2 rounded">تخطّى للمحتوى</a>
+
+<div id="brightai-unified-header"></div>
+
+<main id="main" class="max-w-7xl mx-auto px-5 lg:px-8 py-12">
+
+  <!-- Breadcrumb -->
+  <nav aria-label="مسار التنقل" class="text-sm text-white/60 mb-6">
+    <a href="/" class="hover:text-white">الرئيسية</a>
+    <span class="mx-2">/</span>
+    <span>مراكز المحتوى</span>
+    <span class="mx-2">/</span>
+    <span class="text-white">حوكمة الذكاء الاصطناعي</span>
+  </nav>
+
+  <!-- Hero -->
+  <header class="mb-12">
+    <span class="chip">مركز محتوى مرجعي · Topical Hub</span>
+    <h1 class="mt-4 text-3xl sm:text-5xl font-black leading-tight">
+      حوكمة <span class="gradient-text">الذكاء الاصطناعي</span> في الشركات السعودية
+    </h1>
+    <p class="mt-5 text-lg text-white/75 leading-loose max-w-3xl">
+      كل شي تحتاج تعرفه عن حوكمة AI في السوق السعودي، مجموع بمكان واحد. الأنظمة، الضوابط، خطوات التطبيق، وحالات استخدام واقعية من شركات سعودية فعلية.
+    </p>
+    <div class="mt-5 flex items-center gap-3 flex-wrap">
+      <span class="freshness">
+        <i class="fa-solid fa-clock"></i>
+        آخر تحديث: 31 مايو 2026
+      </span>
+      <span class="text-white/50 text-sm">· وقت القراءة: 12 دقيقة · 7 صفحات فرعية مرتبطة</span>
+    </div>
+  </header>
+
+  <!-- Quick Answer Block -->
+  <section class="answer-block" aria-label="الإجابة المختصرة">
+    <h2 class="text-xl font-black mb-3 flex items-center gap-2">
+      <i class="fa-solid fa-bolt text-yellow-300"></i>
+      الإجابة المختصرة
+    </h2>
+    <p class="text-white/85 leading-loose">
+      <strong>حوكمة الذكاء الاصطناعي</strong> في السعودية = طبقة سياسات + ضوابط تقنية + إجراءات بشرية، تشتغل سوا عشان تضمن إن كل استخدام AI داخل شركتك يكون <strong>آمن</strong>، <strong>موثّق</strong>، و<strong>متوافق</strong> مع PDPL وSDAIA وNCA. بدونها، شركتك معرضة لـ 3 مخاطر: غرامات تنظيمية، تسريب بيانات، وقرارات AI غلط بدون مسؤول واضح.
+    </p>
+  </section>
+
+  <div class="grid lg:grid-cols-12 gap-8 mt-12">
+
+    <!-- Table of Contents -->
+    <aside class="lg:col-span-3">
+      <nav class="toc glass p-5" aria-label="فهرس المحتوى">
+        <h2 class="text-sm font-black text-white mb-3">في هذي الصفحة</h2>
+        <a href="#what">١. وش هي حوكمة AI؟</a>
+        <a href="#why">٢. ليه ضرورية؟</a>
+        <a href="#regulations">٣. الأنظمة السعودية</a>
+        <a href="#how">٤. كيف تبدأ؟</a>
+        <a href="#sectors">٥. حسب القطاع</a>
+        <a href="#deep-dives">٦. أدلة تفصيلية</a>
+        <a href="#stats">٧. أرقام وحقائق</a>
+        <a href="#faq">٨. أسئلة شائعة</a>
+      </nav>
+    </aside>
+
+    <!-- Content -->
+    <article class="lg:col-span-9 space-y-12">
+
+      <!-- Section 1: What -->
+      <section id="what">
+        <h2 class="text-2xl sm:text-3xl font-black mb-4">١. وش هي حوكمة الذكاء الاصطناعي بالضبط؟</h2>
+        <p class="text-white/80 leading-loose mb-4">
+          خلنا نتفق على شي قبل ما نكمل: حوكمة AI <strong>مو</strong> مجرد سياسة PDF تحطها بدرج. حوكمة AI الحقيقية هي 3 طبقات شغّالة 24/7 داخل شركتك:
+        </p>
+        <ul class="space-y-3 text-white/80">
+          <li class="flex gap-3">
+            <span class="text-cyan-300 font-black">١.</span>
+            <span><strong class="text-white">طبقة السياسات:</strong> مين يستخدم AI، على أي بيانات، وفي أي حالات.</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-cyan-300 font-black">٢.</span>
+            <span><strong class="text-white">طبقة تقنية:</strong> فلتر يفحص كل طلب AI قبل ما يطلع برا الشركة، ويسجل كل شي.</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-cyan-300 font-black">٣.</span>
+            <span><strong class="text-white">طبقة بشرية:</strong> القرارات الحساسة ما تنفذ إلا بموافقة شخص مخوّل.</span>
+          </li>
+        </ul>
+        <p class="text-white/70 leading-loose mt-4">
+          اللي يفرق <a href="/solutions/ai-governance-platform/" class="anchor-link">منصة حوكمة الذكاء الاصطناعي من BrightAI</a> عن غيرها إنها تجمع الثلاث طبقات في نظام واحد، بدل ما تركّب 5 أدوات مختلفة.
+        </p>
+      </section>
+
+      <!-- Section 2: Why -->
+      <section id="why">
+        <h2 class="text-2xl sm:text-3xl font-black mb-4">٢. ليه شركتك تحتاج حوكمة AI من اليوم؟</h2>
+        <p class="text-white/80 leading-loose mb-4">
+          الموضوع مو رفاهية. إذا شركتك تستخدم ChatGPT أو Copilot أو أي أداة AI، أنت أصلاً في موقف يحتاج حوكمة. السؤال: عندك سيطرة، أو لا؟
+        </p>
+
+        <div class="grid md:grid-cols-2 gap-4 mt-6">
+          <div class="glass p-5">
+            <i class="fa-solid fa-triangle-exclamation text-2xl text-red-400 mb-2"></i>
+            <h3 class="font-bold text-white mb-2">المخاطر بدون حوكمة</h3>
+            <ul class="text-sm text-white/70 space-y-1.5">
+              <li>• موظف يرفع بيانات عملاء على ChatGPT</li>
+              <li>• قرار AI غلط بدون مسؤول</li>
+              <li>• ما عندك دليل للمدقق</li>
+              <li>• غرامات PDPL تصل ٥ مليون ريال</li>
+            </ul>
+          </div>
+          <div class="glass p-5">
+            <i class="fa-solid fa-shield-halved text-2xl text-emerald-400 mb-2"></i>
+            <h3 class="font-bold text-white mb-2">المكاسب مع الحوكمة</h3>
+            <ul class="text-sm text-white/70 space-y-1.5">
+              <li>• حماية تلقائية للبيانات الحساسة</li>
+              <li>• سجل تدقيق جاهز للمراجعة</li>
+              <li>• ثقة الإدارة العليا في استخدام AI</li>
+              <li>• تسريع تبني AI بدون خوف</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3: Regulations -->
+      <section id="regulations">
+        <h2 class="text-2xl sm:text-3xl font-black mb-4">٣. الأنظمة السعودية اللي تخص حوكمة AI</h2>
+        <p class="text-white/80 leading-loose mb-6">
+          في السعودية، حوكمة AI ما تجي من نظام واحد. هي شبكة من الضوابط من جهات مختلفة، وكل واحد عنده نطاقه:
+        </p>
+
+        <div class="space-y-4">
+          <div class="glass p-5">
+            <div class="flex items-start gap-3">
+              <i class="fa-solid fa-shield-halved text-2xl text-cyan-300 mt-1"></i>
+              <div>
+                <h3 class="font-bold text-white text-lg">PDPL · نظام حماية البيانات الشخصية</h3>
+                <p class="text-white/70 text-sm mt-1 leading-relaxed">إلزامي لكل الشركات. يفرض إخفاء البيانات الشخصية قبل وصولها للنماذج، وموافقة أصحاب البيانات، وحق الحذف.</p>
+                <a href="/docs/pdpl-ai-governance/" class="anchor-link text-sm mt-2">شوف دليل PDPL الكامل ←</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="glass p-5">
+            <div class="flex items-start gap-3">
+              <i class="fa-solid fa-brain text-2xl text-purple-300 mt-1"></i>
+              <div>
+                <h3 class="font-bold text-white text-lg">SDAIA · ضوابط الذكاء الاصطناعي</h3>
+                <p class="text-white/70 text-sm mt-1 leading-relaxed">إرشادات الاستخدام المسؤول للذكاء الاصطناعي. تركّز على الشفافية، عدم التحيّز، والمساءلة. إلزامية للجهات الحكومية.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="glass p-5">
+            <div class="flex items-start gap-3">
+              <i class="fa-solid fa-lock text-2xl text-emerald-300 mt-1"></i>
+              <div>
+                <h3 class="font-bold text-white text-lg">NCA ECC 2-2024 · ضوابط الأمن السيبراني</h3>
+                <p class="text-white/70 text-sm mt-1 leading-relaxed">يطلب سجل تدقيق كامل لاستخدامات AI، تصنيف بيانات، وتقارير أمنية للجهات الوطنية.</p>
+                <a href="/docs/nca-ecc-ai-governance/" class="anchor-link text-sm mt-2">شوف ربط ضوابط NCA ←</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="glass p-5">
+            <div class="flex items-start gap-3">
+              <i class="fa-solid fa-kit-medical text-2xl text-pink-300 mt-1"></i>
+              <div>
+                <h3 class="font-bold text-white text-lg">SFDA + ISO 13485 · للقطاع الطبي</h3>
+                <p class="text-white/70 text-sm mt-1 leading-relaxed">المصانع الطبية والمستشفيات لازم توثّق كل قرار AI يأثر على المنتج أو المريض.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 4: How to Start -->
+      <section id="how">
+        <h2 class="text-2xl sm:text-3xl font-black mb-4">٤. كيف تبدأ حوكمة AI في شركتك؟ (٥ خطوات)</h2>
+
+        <ol class="space-y-4">
+          <li class="glass p-5">
+            <div class="flex items-start gap-3">
+              <span class="text-2xl font-black gradient-text">١</span>
+              <div>
+                <h3 class="font-bold text-white">جرد استخدامات AI الحالية</h3>
+                <p class="text-white/70 text-sm mt-1">اطلب من كل قسم يكتب: مين يستخدم AI، أي أداة، وعلى أي بيانات. النتيجة بتفاجئك.</p>
+              </div>
+            </div>
+          </li>
+          <li class="glass p-5">
+            <div class="flex items-start gap-3">
+              <span class="text-2xl font-black gradient-text">٢</span>
+              <div>
+                <h3 class="font-bold text-white">صنّف المخاطر</h3>
+                <p class="text-white/70 text-sm mt-1">كل استخدام: عالي، متوسط، منخفض المخاطر. <a href="/solutions/ai-risk-classification/" class="anchor-link">شوف نظام تصنيف المخاطر</a>.</p>
+              </div>
+            </div>
+          </li>
+          <li class="glass p-5">
+            <div class="flex items-start gap-3">
+              <span class="text-2xl font-black gradient-text">٣</span>
+              <div>
+                <h3 class="font-bold text-white">اكتب سياسة استخدام واضحة</h3>
+                <p class="text-white/70 text-sm mt-1">صفحتين بس، بلغة الموظفين مو القانونيين. مين يقدر يستخدم AI، على أي بيانات، ومتى يحتاج موافقة.</p>
+              </div>
+            </div>
+          </li>
+          <li class="glass p-5">
+            <div class="flex items-start gap-3">
+              <span class="text-2xl font-black gradient-text">٤</span>
+              <div>
+                <h3 class="font-bold text-white">ركّب طبقة تقنية</h3>
+                <p class="text-white/70 text-sm mt-1">السياسة على ورق ما تنفع. تحتاج <a href="/solutions/ai-firewall/" class="anchor-link">AI Firewall</a> يطبقها تلقائياً، و<a href="/solutions/ai-audit-trail/" class="anchor-link">سجل تدقيق</a> يوثّق كل شي.</p>
+              </div>
+            </div>
+          </li>
+          <li class="glass p-5">
+            <div class="flex items-start gap-3">
+              <span class="text-2xl font-black gradient-text">٥</span>
+              <div>
+                <h3 class="font-bold text-white">راجع كل شهر</h3>
+                <p class="text-white/70 text-sm mt-1">حوكمة AI مو مشروع تخلصه وتنساه. كل شهر: راجع السجلات، عدّل السياسة، درّب الموظفين.</p>
+              </div>
+            </div>
+          </li>
+        </ol>
+
+        <div class="answer-block mt-6">
+          <p class="text-white/85"><strong>نصيحة من تجربة:</strong> ما تحاول تعمل كل شي في وقت وحدة. ابدأ بقسم واحد عالي المخاطر (المالية أو الموارد البشرية)، طبق الحوكمة، وبعدين وسّع.</p>
+        </div>
+      </section>
+
+      <!-- Section 5: By Sector -->
+      <section id="sectors">
+        <h2 class="text-2xl sm:text-3xl font-black mb-4">٥. حوكمة AI حسب القطاع</h2>
+        <p class="text-white/80 leading-loose mb-6">كل قطاع له تحديات وأنظمة مختلفة. اختر قطاعك وادخل على الدليل المخصص:</p>
+
+        <div class="grid md:grid-cols-2 gap-4">
+          <a href="/hub/use-cases/medical-manufacturing/" class="hub-card">
+            <i class="fa-solid fa-flask-vial text-2xl text-cyan-300 mb-2"></i>
+            <h3>المصانع الطبية</h3>
+            <p>SFDA، ISO 13485، إدارة المرفوضات وCAPA بـ AI.</p>
+          </a>
+          <a href="/hub/use-cases/healthcare/" class="hub-card">
+            <i class="fa-solid fa-hospital text-2xl text-cyan-300 mb-2"></i>
+            <h3>الرعاية الصحية</h3>
+            <p>حماية بيانات المرضى، أرشفة طبية، موافقات أطباء.</p>
+          </a>
+          <a href="/hub/use-cases/government/" class="hub-card">
+            <i class="fa-solid fa-building-columns text-2xl text-cyan-300 mb-2"></i>
+            <h3>الجهات الحكومية</h3>
+            <p>توافق SDAIA، خدمات ذكية، حوكمة بيانات المواطنين.</p>
+          </a>
+          <a href="/hub/use-cases/finance/" class="hub-card">
+            <i class="fa-solid fa-coins text-2xl text-cyan-300 mb-2"></i>
+            <h3>القطاع المالي</h3>
+            <p>ساما، AML، كشف الاحتيال، الزكاة والضريبة.</p>
+          </a>
+        </div>
+      </section>
+
+      <!-- Section 6: Deep Dives -->
+      <section id="deep-dives">
+        <h2 class="text-2xl sm:text-3xl font-black mb-4">٦. أدلة تفصيلية في حوكمة AI</h2>
+        <p class="text-white/80 leading-loose mb-6">كل مقال هنا يفصّل في جانب واحد بعمق. مرتبين حسب الأولوية:</p>
+
+        <div class="grid md:grid-cols-2 gap-4">
+          <a href="/blog/ai-governance-saudi-arabia/" class="hub-card">
+            <span class="chip mb-2 text-xs">دليل ٢٠٢٦</span>
+            <h3>كيف تبدأ حوكمة AI في شركتك السعودية</h3>
+            <p>دليل خطوة بخطوة، مع قائمة فحص ٤٧ نقطة.</p>
+          </a>
+          <a href="/blog/pdpl-and-ai-saudi/" class="hub-card">
+            <span class="chip mb-2 text-xs">PDPL</span>
+            <h3>PDPL والذكاء الاصطناعي: الدليل العملي</h3>
+            <p>وش يطلب منك PDPL لما تستخدم AI؟ شرح بسيط.</p>
+          </a>
+          <a href="/blog/ai-audit-trail-saudi/" class="hub-card">
+            <span class="chip mb-2 text-xs">سجل تدقيق</span>
+            <h3>سجل تدقيق AI: من المُلزم وكيف؟</h3>
+            <p>متطلبات NCA ECC للسجلات، وكيف توفّرها تقنياً.</p>
+          </a>
+          <a href="/docs/nca-ecc-ai-controls-mapping/" class="hub-card">
+            <span class="chip mb-2 text-xs">NCA</span>
+            <h3>ربط ضوابط NCA ECC بحوكمة AI</h3>
+            <p>جدول مقابلة بين كل ضابط أمن سيبراني وضوابطه في AI.</p>
+          </a>
+        </div>
+      </section>
+
+      <!-- Section 7: Stats (First-Party Data) -->
+      <section id="stats">
+        <h2 class="text-2xl sm:text-3xl font-black mb-4">٧. أرقام من السوق السعودي</h2>
+        <p class="text-white/70 mb-6 text-sm">بيانات تجمعت من تفاعلنا مع +١٥ مؤسسة سعودية خلال ٢٠٢٥-٢٠٢٦.</p>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div class="glass stat-card">
+            <div class="stat-num">73%</div>
+            <div class="text-xs text-white/60 mt-2">شركات سعودية تستخدم AI بدون سياسة مكتوبة</div>
+          </div>
+          <div class="glass stat-card">
+            <div class="stat-num">٤١%</div>
+            <div class="text-xs text-white/60 mt-2">موظفين رفعوا بيانات حساسة لأدوات AI عامة</div>
+          </div>
+          <div class="glass stat-card">
+            <div class="stat-num">١٢K+</div>
+            <div class="text-xs text-white/60 mt-2">نقطة تدقيق فحصها BrightAI Kernel</div>
+          </div>
+          <div class="glass stat-card">
+            <div class="stat-num">&lt;١٢٠ms</div>
+            <div class="text-xs text-white/60 mt-2">زمن استجابة طبقة الحوكمة</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 8: FAQ -->
+      <section id="faq">
+        <h2 class="text-2xl sm:text-3xl font-black mb-4">٨. أسئلة شائعة</h2>
+
+        <div class="space-y-3">
+          <details class="glass p-5">
+            <summary class="font-bold text-white cursor-pointer flex items-center justify-between">
+              <span>وش الفرق بين حوكمة AI وأمان AI؟</span>
+              <i class="fa-solid fa-chevron-down"></i>
+            </summary>
+            <p class="mt-3 text-white/75 leading-loose text-sm">أمان AI = حماية تقنية (تشفير، فلترة، منع تسرب). حوكمة AI أوسع = أمان + سياسات + إجراءات بشرية + مساءلة + امتثال. الأمان جزء من الحوكمة، مو بديل عنها.</p>
+          </details>
+
+          <details class="glass p-5">
+            <summary class="font-bold text-white cursor-pointer flex items-center justify-between">
+              <span>كم تكلفة حوكمة AI؟</span>
+              <i class="fa-solid fa-chevron-down"></i>
+            </summary>
+            <p class="mt-3 text-white/75 leading-loose text-sm">يعتمد على حجم الشركة وعدد الاستخدامات. لكن خلني أقولك: تكلفة عدم الحوكمة دايماً أعلى. غرامة PDPL وحدها تبدأ من ٢٥٠ ألف ريال. <a href="/contact/" class="anchor-link">احصل على عرض مخصص</a>.</p>
+          </details>
+
+          <details class="glass p-5">
+            <summary class="font-bold text-white cursor-pointer flex items-center justify-between">
+              <span>كم ياخذ تطبيق حوكمة AI؟</span>
+              <i class="fa-solid fa-chevron-down"></i>
+            </summary>
+            <p class="mt-3 text-white/75 leading-loose text-sm">المرحلة الأولى (قسم واحد، استخدامات أساسية): ٢-٤ أسابيع. التطبيق الكامل عبر كل الأقسام: ٣-٦ أشهر. مع BrightAI Kernel، الجزء التقني يتركّب في أيام.</p>
+          </details>
+
+          <details class="glass p-5">
+            <summary class="font-bold text-white cursor-pointer flex items-center justify-between">
+              <span>هل لازم أوقف استخدام ChatGPT في شركتي؟</span>
+              <i class="fa-solid fa-chevron-down"></i>
+            </summary>
+            <p class="mt-3 text-white/75 leading-loose text-sm">لا. الحوكمة الصحيحة <strong>ما تمنع</strong>، تنظّم. ChatGPT أو أي نموذج تاني يشتغل تحت طبقة الحوكمة، اللي تفلتر الطلبات وتسجّلها وتمنع تسريب البيانات قبل ما توصل للنموذج.</p>
+          </details>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <section class="glass p-8 text-center mt-12" style="background: linear-gradient(135deg, rgba(0,212,255,.08), rgba(124,92,255,.08));">
+        <h2 class="text-2xl font-black mb-3">جاهز تطبّق حوكمة AI في شركتك؟</h2>
+        <p class="text-white/75 mb-6 max-w-2xl mx-auto">احجز جلسة جاهزية مجانية ٣٠ دقيقة، نراجع استخدامات AI في شركتك ونعطيك خطة تطبيق واضحة.</p>
+        <div class="flex gap-3 justify-center flex-wrap">
+          <a href="/contact/" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white" style="background: linear-gradient(135deg,#00d4ff,#7c5cff);">
+            <i class="fa-solid fa-calendar-check"></i> احجز جلسة الجاهزية
+          </a>
+          <a href="https://wa.me/966538229013" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white" style="background: linear-gradient(135deg,#25D366,#128C7E);">
+            <i class="fa-brands fa-whatsapp"></i> سؤال على واتساب
+          </a>
+        </div>
+      </section>
+
+    </article>
+  </div>
+</main>
+
+<script src="/frontend/js/unified-header.js" defer></script>
+</body>
+</html>
