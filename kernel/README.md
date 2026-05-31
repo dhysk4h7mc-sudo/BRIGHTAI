@@ -56,6 +56,33 @@ curl -s http://127.0.0.1:3000/api/kernel/providers
 
 ملاحظة تشغيلية: `frontend/config/index.js` يعمل `trim()` لقيمة `NVIDIA_URL` حتى لا تسبب المسافات الزائدة في `.env` المحلي endpoint غير صالح.
 
+## تكامل NVIDIA عبر Backend Proxy
+
+تكامل NVIDIA الخاص بسطح Kernel يتم عبر backend proxy فقط، خارج مسار `kernel/` الثابت. الواجهة لا تقرأ مفاتيح NVIDIA ولا تحفظها ولا تمررها في أي HTML أو JavaScript.
+
+المسارات المخصصة:
+
+| Endpoint | Method | الاستخدام |
+| --- | --- | --- |
+| `/api/kernel/nvidia/status` | `GET` | يرجع حالة NVIDIA الآمنة للواجهة: `configured`, `model`, و`mode` فقط. |
+| `/api/kernel/nvidia/chat` | `POST` | يستقبل الرسالة من الواجهة، ثم يضيف مفتاح NVIDIA من بيئة الخادم حصراً قبل استدعاء NVIDIA. |
+
+قواعد الأمان والتشغيل:
+
+- المفتاح يبقى في بيئة الخادم فقط، ولا يظهر في `kernel/*.html` أو `kernel/assets/js/*.js`.
+- `status` لا يرجع أي secret أو raw provider payload؛ فقط `configured`, `model`, و`mode`.
+- `chat` يستخدم `config.nvidia.model` من الخادم، ولا يسمح للمتصفح بفرض موديل مختلف على البروكسي.
+- عند غياب مفتاح NVIDIA في بيئة الخادم يرجع endpoint رسالة واضحة للمستخدم مع `503` و`NVIDIA_NOT_CONFIGURED`.
+- عند انتهاء المهلة يرجع `504` و`NVIDIA_TIMEOUT`.
+- logging في الخادم يطبع الحدث، الموديل، الوضع، عدد الرسائل، الحالة، والمدة فقط؛ بدون مفاتيح وبدون نصوص المستخدم.
+- `.env.example` في جذر المشروع يوثق المتغيرات المطلوبة بقيم فارغة أو افتراضية غير سرية.
+
+تكامل الواجهة:
+
+- `kernel/assets/js/kernel-api.js` يحتوي `getNvidiaStatus()` لاستدعاء مسار الحالة.
+- `kernel/assets/js/kernel-api.js` يحتوي `nvidiaChat(message, options)` لاستدعاء مسار المحادثة عبر البروكسي.
+- `kernel/chat.html` يعرض بطاقة حالة NVIDIA داخل لوحة Kernel الجانبية، وتعرض فقط `configured`, `model`, و`mode` مع حالات loading/error ورسالة واضحة عند غياب المفتاح.
+
 ## هيكل الملفات
 
 ```text
@@ -260,9 +287,9 @@ kernel/
 
 | الملف | المسؤولية | أهم exports |
 | --- | --- | --- |
-| `kernel/assets/js/kernel-api.js` | API client، أخطاء API، وتطبيع بيانات الإحصائيات والسجلات. | `window.kernelAPI`, `window.KernelAPI`, `window.APIError`, `window.normalizeStats`, `window.KernelApiHelpers` |
-| `kernel/assets/js/kernel-demo-store.js` | حالة demo mode، تحميل mock database، hardcoded fallback، localStorage، live feed، وتحديثات `kernel-demo-update`. | `window.KernelDemoStore`, `window.kernelShouldUseDemoData`, `window.kernelDemoDataSelected` |
-| `kernel/assets/js/kernel-mock-handlers.js` | اعتراض `/api/kernel` عند تفعيل demo، ومحاكاة chat/approvals/evidence/policies/providers/health. | `window.KernelMockHandlers` |
+| `kernel/assets/js/kernel-api.js` | API client للإنتاج، config runtime، timeout/retry، أخطاء API، وتطبيع بيانات الإحصائيات والسجلات. | `window.kernelAPI`, `window.KernelAPI`, `window.APIError`, `window.KernelRuntimeConfig`, `window.normalizeStats`, `window.KernelApiHelpers` |
+| `kernel/assets/js/kernel-demo-store.js` | حالة demo mode، تحميل mock database عبر مسارات JSON نسبية، hardcoded fallback، localStorage، live feed، وتحديثات `kernel-demo-update`. | `window.KernelDemoStore`, `window.kernelShouldUseDemoData`, `window.kernelDemoDataSelected` |
+| `kernel/assets/js/kernel-mock-handlers.js` | اعتراض `/api/kernel` عند تفعيل demo فقط، ومحاكاة chat/approvals/evidence/policies/providers/health مع HTTP status مطابق للأخطاء. | `window.KernelMockHandlers` |
 | `kernel/assets/js/kernel-demo-banner.js` | واجهة banner وتبديل `بيانات تجريبية` وإعادة تعيين قاعدة demo. | `window.KernelDemoBanner` |
 | `kernel/assets/js/kernel-utils.js` | أدوات مشتركة: escape HTML، formatters، debounce/throttle، theme، clipboard، animations. | `window.KernelUtils` |
 | `kernel/assets/js/kernel-nav.js` | تعريف صفحات Kernel، بناء navigation، active route، عداد الموافقات، وشريط حالة المزود/قاعدة البيانات المشترك. | `window.KernelNav` |
@@ -283,6 +310,34 @@ kernel/
 - حالات status/risk للموافقات، الإحصائيات، وسجل التدقيق.
 
 الهوية البصرية الحالية داكنة ومؤسسية، مع cyan كـ brand color ودرجات success/warning/danger واضحة.
+
+## تحديث توحيد واجهات Kernel
+
+تمت إضافة طبقة `Kernel UI Unification Layer` في نهاية `kernel/assets/css/kernel.css` لتوحيد الشكل عبر صفحات Kernel بدون تغيير وظائف JavaScript أو مسارات API.
+
+التحديث يغطي:
+
+- توحيد radius البطاقات والأزرار والنماذج والجداول على نمط تشغيلي هادئ، مع حدود وتباين أوضح للحالات الداكنة والفاتحة.
+- ضبط typography بدون scaling حسب عرض الشاشة، وإلغاء أي `letter-spacing` غير ضروري في العناوين والعناصر التشغيلية.
+- إخفاء الـ legacy sidebar داخل صفحات Kernel لأن `kernel-nav.js` يرسم التنقل العلوي والـ mobile drawer حالياً، مع تصفير هامش `kernel-main`.
+- منع horizontal overflow عبر `kernel-layout`, `kernel-main`, و`main-content`، وتقليل عرض grid الافتراضي للبطاقات في `scenarios`, `reports`, و`compliance`.
+- توحيد أزرار `primary/secondary` في صفحات `scenarios`, `reports`, `evidence`, و`compliance` مع focus states واضحة.
+- توحيد حالات `empty`, `loading`, `error`, و`skeleton` بحيث تعرض مظهراً ثابتاً قبل وصول بيانات JavaScript.
+
+تحديثات الصفحات المرتبطة:
+
+- `scenarios.html`: إصلاح التلف في زر إنشاء السيناريو داخل header وإكمال إغلاق `header/main-content` بشكل صحيح.
+- `evidence.html`: استبدال الأدلة الثابتة وتفاصيل `EVD-001` بحالة skeleton أولية، ثم تعبئة القائمة والتفاصيل من `kernelAPI`.
+- `reports.html`: استبدال كروت التقارير والجدول المجدول الثابت بحالات skeleton، وتفعيل `KernelReports.init()` لتحميل البيانات من `/api/kernel/reports`.
+- `kernel-reports.js`: إضافة `renderScheduledReports()` لعرض التقارير المجدولة من البيانات القادمة أو إظهار empty state عند عدم وجودها، بدون تغيير endpoints.
+- `compliance.html`: استبدال بطاقات الامتثال الثابتة وسجلات النسب بحالات skeleton، ثم تعبئتها من `KernelCompliance`.
+
+قواعد مهمة لأي تعديل لاحق:
+
+- لا تعيد إدخال بيانات HTML ثابتة داخل `evidence.html`, `reports.html`, أو `compliance.html` إذا كانت البيانات لها مصدر JS قائم.
+- لا تضف sidebar جديد داخل HTML؛ التنقل الموحد مصدره `kernel-nav.js`.
+- أي styles محلية داخل صفحة يجب أن تبقى قابلة للتجاوز من `kernel.css`، لأن طبقة التوحيد في نهاية الملف هي مصدر الشكل المشترك.
+- لا تغيّر روابط الصفحات أو endpoints أثناء تعديل الواجهة؛ التعديل البصري يجب أن يبقى presentation-only.
 
 ## شريط حالة Kernel المشترك
 
@@ -310,6 +365,8 @@ kernel/
 | --- | --- |
 | `/api/kernel/providers` | حالة المزود النشط وقائمة المزودين. |
 | `/api/kernel/health` | صحة Kernel والمزود. |
+| `/api/kernel/nvidia/status` | حالة NVIDIA الآمنة: `configured`, `model`, و`mode` فقط. |
+| `/api/kernel/nvidia/chat` | محادثة NVIDIA عبر backend proxy فقط، مع حقن المفتاح من بيئة الخادم. |
 | `/api/kernel/stats` | مؤشرات الاستخدام، المخاطر، PII، وأحدث traces. |
 | `/api/kernel/audit` | سجل التدقيق مع فلاتر search/department/risk. |
 | `/api/kernel/chain` | سلسلة التدقيق. |
@@ -344,6 +401,32 @@ brightai_kernel_demo_mode
 - `true`: فعّل mock interception واستخدم بيانات محلية صناعية.
 - `file://`: يعتبر demo active تلقائياً مهما كانت قيمة localStorage، لأن fetch إلى API لا يكون متاحاً عادة.
 
+Config runtime الواضح موجود في `kernel-api.js` عبر `window.BrightAIKernelConfig` قبل تحميل السكربت، ثم يقرأه `window.KernelRuntimeConfig` بعد التحميل:
+
+```js
+window.BrightAIKernelConfig = {
+  baseURL: '/api/kernel',
+  mode: 'auto', // auto | demo | mock | live | production
+  demoStorageKey: 'brightai_kernel_demo_mode',
+  timeout: 30000,
+  retryAttempts: 3,
+  retryDelays: [500, 1000, 2000],
+  retryMethods: ['GET', 'HEAD', 'OPTIONS'],
+};
+```
+
+معنى `mode`:
+
+- `auto`: السلوك الافتراضي؛ يستخدم live في HTTP/HTTPS ما لم يفعّل المستخدم demo من localStorage، ويستخدم demo تلقائياً مع `file://`.
+- `demo` أو `mock`: فعّل mock interception صراحة.
+- `live` أو `production`: اجعل HTTP/HTTPS يستخدم production API ولا يفعل demo بسبب localStorage، مع بقاء `file://` fallback محمياً.
+
+الفصل بين live وmock:
+
+- `kernel-api.js` مسؤول عن production client فقط: timeout فعلي، retry فعلي للطلبات الآمنة، وتطبيع الاستجابات.
+- `kernel-demo-store.js` مسؤول عن حالة demo وبياناتها المحلية، ولا يقرر أخطاء HTTP.
+- `kernel-mock-handlers.js` مسؤول عن اعتراض fetch عندما تكون demo مفعلة فقط، ويرجع `Response` محلية بنفس شكل production قدر الإمكان.
+
 مفاتيح localStorage ذات علاقة:
 
 | المفتاح | الغرض |
@@ -356,6 +439,8 @@ brightai_kernel_demo_mode
 
 - لا تجعل demo هو الافتراضي في HTTP/HTTPS.
 - لا تضبط `brightai_kernel_demo_mode` إلى `true` عند فشل production API.
+- لا تضف fallback تلقائي من live إلى mock داخل `kernel-api.js`؛ أخطاء live يجب أن تظهر كـ loading/error واضحة في الواجهة.
+- حافظ على حالات loading/error متسقة: ابدأ بـ skeleton أو نص loading واضح، ثم اعرض empty/error بدون تغيير demo mode صامت.
 - عند إضافة صفحة جديدة تستخدم `/api/kernel`، تأكد أنها تحمل `kernel-api.js` قبل أي سكربت يعتمد على `kernelAPI`.
 - إذا احتجت fallback بصري، اربطه بـ `window.kernelShouldUseDemoData()` بدل fallback صامت دائماً.
 
@@ -384,6 +469,30 @@ brightai_kernel_demo_mode
 - `policies.json`
 
 إذا فشل تحميل هذه الملفات، يستخدم hardcoded fallback داخل `kernel-demo-store.js`.
+
+مهم لمسارات JSON:
+
+- التحميل يستخدم مسارات نسبية مشتقة من موقع `kernel-demo-store.js` نفسه، مثل `../../api/mock/stats.json`.
+- هذا ينتج `/kernel/api/mock/stats.json` على HTTP/HTTPS، وينتج مسار `file://.../kernel/api/mock/stats.json` عند فتح الصفحة محلياً.
+- لا ترجع لاستخدام مسارات مطلقة داخل demo store مثل `/kernel/api/mock/*.json` لأنها تكسر `file://` fallback.
+
+سلوك أخطاء mock:
+
+| الحالة | HTTP status | errorCode |
+| --- | --- | --- |
+| JSON body غير صالح | `400` | `INVALID_JSON` |
+| action غير مدعوم في approvals | `400` | `INVALID_ACTION` |
+| body مطلوب وغير موجود | `400` | `BAD_REQUEST` |
+| record أو policy غير موجود | `404` | `NOT_FOUND` |
+| endpoint mock غير موجود | `404` | `MOCK_NOT_FOUND` |
+| method غير مدعوم مثل `GET /chat` | `405` | `METHOD_NOT_ALLOWED` |
+
+`kernel-mock-handlers.js` يجب ألا يرجع `200` لأخطاء منطقية؛ هذا ضروري حتى حالات error في الواجهة تكون متطابقة بين live وdemo.
+
+ملاحظات عدادات demo:
+
+- `recalculateSummaryStats()` يعد كل request مرة واحدة حتى لو كان له audit row وpending approval في نفس الوقت.
+- `updateStatsDOMDirectly()` يتعامل مع `stat-pending` حسب الصفحة: dashboard يعرض `stats.pendingApproval`، وصفحة approvals تعرض `approvals.summary.totalPending`.
 
 ## Manifest
 
@@ -424,10 +533,21 @@ BrightAI Kernel - Enterprise AI Governance
 
 - `normalizeStats`
 - `KernelAPI` داخل `kernel-api.js`
+- `DEFAULT_RUNTIME_CONFIG` و`KernelRuntimeConfig` داخل `kernel-api.js`
 - `getHardcodedDefaults` و`ensureDBInitialized` داخل `kernel-demo-store.js`
+- مسارات mock JSON النسبية داخل `kernel-demo-store.js`
 - `handleMockRequest` وfetch wrapper حول `window.fetch` داخل `kernel-mock-handlers.js`
+- HTTP status في `jsonResponse()` داخل `kernel-mock-handlers.js`
 - `injectBannerUI` و`updateBannerUI` داخل `kernel-demo-banner.js`
 - exports في نهاية كل ملف مشترك
+
+قواعد القبول الأساسية لأي تعديل هنا:
+
+- production request timeout/retry يبقى داخل `kernel-api.js`.
+- mock لا يعمل إلا عندما `window.kernelShouldUseDemoData()` ترجع `true`.
+- `file://` يبقى demo fallback تلقائي.
+- أخطاء mock ترجع HTTP status صحيح ولا تتنكر كـ `200`.
+- لا تستخدم نفس DOM id مثل `stat-pending` لمعنيين في نفس الصفحة بدون guard واضح.
 
 بعد التعديل، شغّل:
 

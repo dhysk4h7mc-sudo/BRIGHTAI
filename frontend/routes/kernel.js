@@ -2,6 +2,9 @@
 
 const kernel = require('../kernel');
 const { generateEvidencePdfBuffer } = require('../kernel/evidence-pdf');
+const { config, isNvidiaConfigured } = require('../config');
+
+const NVIDIA_KERNEL_TIMEOUT_MS = Math.max(3000, parseInt(process.env.NVIDIA_KERNEL_TIMEOUT_MS, 10) || 30000);
 
 function parseQueryParams(req) {
   const url = req.url || req.originalUrl || '';
@@ -158,6 +161,132 @@ async function kernelHealthHandler(req, res) {
 async function kernelProvidersHandler(req, res) {
   const providers = await kernel.getProviders();
   res.status(200).json(providers);
+}
+
+function getNvidiaKernelStatus() {
+  return {
+    configured: isNvidiaConfigured(),
+    model: config.nvidia.model,
+    mode: isNvidiaConfigured() ? 'production' : 'not_configured'
+  };
+}
+
+function normalizeNvidiaMessages(body = {}) {
+  if (Array.isArray(body.messages) && body.messages.length > 0) {
+    return body.messages
+      .filter((message) => message && typeof message === 'object')
+      .map((message) => ({
+        role: String(message.role || 'user'),
+        content: String(message.content || '')
+      }))
+      .filter((message) => message.content.trim());
+  }
+
+  const content = body.message || body.query || body.prompt;
+  return content ? [{ role: 'user', content: String(content) }] : [];
+}
+
+function logNvidiaEvent(event, details = {}) {
+  console.info('[BrightAI Kernel NVIDIA]', {
+    event,
+    model: config.nvidia.model,
+    mode: getNvidiaKernelStatus().mode,
+    ...details
+  });
+}
+
+async function kernelNvidiaStatusHandler(req, res) {
+  res.status(200).json(getNvidiaKernelStatus());
+}
+
+async function kernelNvidiaChatHandler(req, res) {
+  const status = getNvidiaKernelStatus();
+  if (!status.configured) {
+    logNvidiaEvent('missing_key');
+    return res.status(503).json({
+      ...status,
+      error: 'مفتاح NVIDIA غير مُعد في بيئة الخادم. أضفه في إعدادات الخادم فقط ثم أعد المحاولة.',
+      errorCode: 'NVIDIA_NOT_CONFIGURED'
+    });
+  }
+
+  const body = req.body || {};
+  const messages = normalizeNvidiaMessages(body);
+  if (messages.length === 0) {
+    return res.status(400).json({
+      ...status,
+      error: 'message أو messages مطلوبة',
+      errorCode: 'MISSING_MESSAGE'
+    });
+  }
+
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), NVIDIA_KERNEL_TIMEOUT_MS);
+  const startedAt = Date.now();
+
+  try {
+    logNvidiaEvent('chat_request_started', { messageCount: messages.length });
+    const upstreamResponse = await fetch(config.nvidia.endpoint, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${config.nvidia.apiKey}`,
+        'Content-Type': 'application/json'
+      },
+      signal: controller.signal,
+      body: JSON.stringify({
+        model: config.nvidia.model,
+        messages,
+        max_tokens: Math.min(parseInt(body.max_tokens || body.maxTokens || 1024, 10) || 1024, 4096),
+        temperature: Number.isFinite(Number(body.temperature)) ? Number(body.temperature) : 0.3,
+        stream: false
+      })
+    });
+
+    const data = await upstreamResponse.json().catch(() => ({}));
+    const durationMs = Date.now() - startedAt;
+
+    if (!upstreamResponse.ok) {
+      logNvidiaEvent('upstream_error', { upstreamStatus: upstreamResponse.status, durationMs });
+      return res.status(upstreamResponse.status).json({
+        ...status,
+        error: 'تعذر إكمال طلب NVIDIA من الخادم.',
+        errorCode: 'NVIDIA_UPSTREAM_ERROR',
+        upstreamStatus: upstreamResponse.status
+      });
+    }
+
+    const choice = data.choices?.[0] || {};
+    const content = choice.message?.content || choice.text || '';
+    logNvidiaEvent('chat_request_completed', { upstreamStatus: upstreamResponse.status, durationMs });
+
+    return res.status(200).json({
+      ...status,
+      provider: 'nvidia',
+      response: content,
+      choices: data.choices || [],
+      usage: data.usage || {},
+      latencyMs: durationMs
+    });
+  } catch (err) {
+    const durationMs = Date.now() - startedAt;
+    if (err.name === 'AbortError') {
+      logNvidiaEvent('timeout', { durationMs });
+      return res.status(504).json({
+        ...status,
+        error: 'انتهت مهلة طلب NVIDIA. حاول مرة ثانية بعد قليل.',
+        errorCode: 'NVIDIA_TIMEOUT'
+      });
+    }
+
+    logNvidiaEvent('network_error', { durationMs });
+    return res.status(502).json({
+      ...status,
+      error: 'تعذر الاتصال بخدمة NVIDIA من الخادم.',
+      errorCode: 'NVIDIA_NETWORK_ERROR'
+    });
+  } finally {
+    clearTimeout(timeoutId);
+  }
 }
 
 async function kernelApprovalsActionHandler(req, res) {
@@ -440,6 +569,8 @@ async function kernelRouteHandler(req, res, method, url) {
     if (method === 'POST' && path === '/api/kernel/chat') return await kernelChatHandler(req, res);
     if (method === 'GET' && path === '/api/kernel/health') return await kernelHealthHandler(req, res);
     if (method === 'GET' && path === '/api/kernel/providers') return await kernelProvidersHandler(req, res);
+    if (method === 'GET' && path === '/api/kernel/nvidia/status') return await kernelNvidiaStatusHandler(req, res);
+    if (method === 'POST' && path === '/api/kernel/nvidia/chat') return await kernelNvidiaChatHandler(req, res);
     if (method === 'GET' && path.startsWith('/api/kernel/audit/')) return await kernelAuditDetailHandler(req, res, path);
     if (method === 'GET' && path === '/api/kernel/audit') return await kernelAuditListHandler(req, res);
     if (method === 'POST' && path.startsWith('/api/kernel/approve/')) return await kernelApproveHandler(req, res, path);

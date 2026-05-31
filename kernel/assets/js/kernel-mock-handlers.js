@@ -311,6 +311,31 @@
     return result;
   }
 
+  function jsonResponse(payload, status = 200) {
+    return new Response(JSON.stringify(payload), {
+      status,
+      headers: {
+        'Content-Type': 'application/json',
+        'Content-Language': 'ar-SA'
+      }
+    });
+  }
+
+  function parseJsonBody(options) {
+    try {
+      return {
+        ok: true,
+        body: JSON.parse(options?.body || '{}')
+      };
+    } catch (_error) {
+      return {
+        ok: false,
+        body: { error: 'Invalid JSON body', errorCode: 'INVALID_JSON' },
+        status: 400
+      };
+    }
+  }
+
   // Handle local mock request responses
   function handleMockRequest(url, options) {
     const parsedUrl = new URL(url, window.location.origin);
@@ -319,10 +344,28 @@
 
     const db = window.kernelDemoState;
     let payload = null;
+    let status = 200;
 
     const method = String(options?.method || 'GET').toUpperCase();
 
-    if (path.endsWith('/providers')) {
+    if (path.endsWith('/nvidia/status')) {
+      payload = {
+        configured: false,
+        model: 'nvidia/llama-3.1-nemotron-70b-instruct',
+        mode: 'demo',
+        provider: 'nvidia',
+        demoMode: true
+      };
+    } else if (path.endsWith('/nvidia/chat')) {
+      if (method !== 'POST') {
+        payload = { error: 'Method not allowed', errorCode: 'METHOD_NOT_ALLOWED' };
+        status = 405;
+      } else {
+        const parsedBody = parseJsonBody(options);
+        if (!parsedBody.ok) return jsonResponse(parsedBody.body, parsedBody.status);
+        payload = simulateChat(parsedBody.body.message, parsedBody.body.compliancePack || 'general');
+      }
+    } else if (path.endsWith('/providers')) {
       payload = {
         activeProvider: {
           name: 'local',
@@ -407,7 +450,9 @@
     } else if (path.endsWith('/approvals') || path.endsWith('/pending')) {
       if (method === 'POST') {
         // Approvals Action (Approve / Reject)
-        const body = JSON.parse(options.body || '{}');
+        const parsedBody = parseJsonBody(options);
+        if (!parsedBody.ok) return jsonResponse(parsedBody.body, parsedBody.status);
+        const body = parsedBody.body;
         const reqId = body.requestId || body.interactionId || body.id;
         const action = body.action;
         const approver = body.approver || 'مدير النظام';
@@ -485,6 +530,7 @@
             payload = completedAudit;
           } else {
             payload = { error: 'Request not found', errorCode: 'NOT_FOUND' };
+            status = 404;
           }
         } else if (action === 'reject') {
           const index = db.approvals.pending.findIndex(p => p.id === reqId || p.traceId === reqId);
@@ -560,14 +606,20 @@
             payload = rejectedAudit;
           } else {
             payload = { error: 'Request not found', errorCode: 'NOT_FOUND' };
+            status = 404;
           }
+        } else {
+          payload = { error: 'Unsupported approval action', errorCode: 'INVALID_ACTION' };
+          status = 400;
         }
       } else {
         payload = db.approvals;
       }
     } else if (path.endsWith('/policies')) {
       if (method === 'POST') {
-        const body = JSON.parse(options?.body || '{}');
+        const parsedBody = parseJsonBody(options);
+        if (!parsedBody.ok) return jsonResponse(parsedBody.body, parsedBody.status);
+        const body = parsedBody.body;
         const newPolicy = {
           id: `policy_${Date.now()}`,
           name: body.name || 'سياسة جديدة',
@@ -591,8 +643,11 @@
 
       if (index === -1) {
         payload = { error: 'Policy not found', errorCode: 'NOT_FOUND' };
+        status = 404;
       } else if (method === 'PATCH') {
-        const body = JSON.parse(options?.body || '{}');
+        const parsedBody = parseJsonBody(options);
+        if (!parsedBody.ok) return jsonResponse(parsedBody.body, parsedBody.status);
+        const body = parsedBody.body;
         db.policies[index] = {
           ...db.policies[index],
           ...body,
@@ -650,21 +705,24 @@
       payload = db.compliance;
     } else if (path.endsWith('/chat')) {
       // POST chat simulation
-      if (options && options.body) {
-        const body = JSON.parse(options.body);
+      if (method !== 'POST') {
+        payload = { error: 'Method not allowed', errorCode: 'METHOD_NOT_ALLOWED' };
+        status = 405;
+      } else if (options && options.body) {
+        const parsedBody = parseJsonBody(options);
+        if (!parsedBody.ok) return jsonResponse(parsedBody.body, parsedBody.status);
+        const body = parsedBody.body;
         payload = simulateChat(body.message, body.compliancePack);
+      } else {
+        payload = { error: 'Message body is required', errorCode: 'BAD_REQUEST' };
+        status = 400;
       }
     } else {
       payload = { error: 'Not found mock', errorCode: 'MOCK_NOT_FOUND' };
+      status = 404;
     }
 
-    return new Response(JSON.stringify(payload), {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json',
-        'Content-Language': 'ar-SA'
-      }
-    });
+    return jsonResponse(payload, status);
   }
 
   // Intercept globally using fetch wrapper

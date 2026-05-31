@@ -7,6 +7,8 @@
   'use strict';
 
   const { normalizeStats } = global.KernelApiHelpers || {};
+  const scriptUrl = document.currentScript?.src || global.location?.href || '';
+  const mockBaseUrl = new URL('../../api/mock/', scriptUrl);
 
   if (typeof normalizeStats !== 'function') {
     throw new Error('KernelApiHelpers must load before kernel-demo-store.js');
@@ -554,20 +556,30 @@
   }
 
   function isFileProtocol() {
+    if (typeof global.KernelRuntimeConfig?.isFileProtocol === 'function') {
+      return global.KernelRuntimeConfig.isFileProtocol();
+    }
     return window.location.protocol === 'file:';
   }
 
   function isDemoModeSelected() {
+    if (typeof global.KernelRuntimeConfig?.isDemoModeSelected === 'function') {
+      return global.KernelRuntimeConfig.isDemoModeSelected();
+    }
     return localStorage.getItem('brightai_kernel_demo_mode') === 'true';
   }
 
   function shouldUseDemoData() {
+    if (typeof global.KernelRuntimeConfig?.shouldUseDemoData === 'function') {
+      return global.KernelRuntimeConfig.shouldUseDemoData();
+    }
     return isDemoModeSelected() || isFileProtocol();
   }
 
   // Initialize Demo Mode LocalStorage flag to false if not set
-  if (localStorage.getItem('brightai_kernel_demo_mode') === null) {
-    localStorage.setItem('brightai_kernel_demo_mode', 'false');
+  const demoStorageKey = global.KernelRuntimeConfig?.get?.().demoStorageKey || 'brightai_kernel_demo_mode';
+  if (localStorage.getItem(demoStorageKey) === null) {
+    localStorage.setItem(demoStorageKey, 'false');
   }
 
   let dbInitPromise = null;
@@ -591,13 +603,14 @@
 
       try {
         // Parallel fetch for default configuration files
+        const mockUrl = (file) => new URL(file, mockBaseUrl).href;
         const [stats, audit, approvals, evidence, compliance, policies] = await Promise.all([
-          fetch('/kernel/api/mock/stats.json').then(r => r.json()),
-          fetch('/kernel/api/mock/audit.json').then(r => r.json()),
-          fetch('/kernel/api/mock/approvals.json').then(r => r.json()),
-          fetch('/kernel/api/mock/evidence.json').then(r => r.json()),
-          fetch('/kernel/api/mock/compliance.json').then(r => r.json()),
-          fetch('/kernel/api/mock/policies.json').then(r => r.json())
+          fetch(mockUrl('stats.json')).then(r => r.json()),
+          fetch(mockUrl('audit.json')).then(r => r.json()),
+          fetch(mockUrl('approvals.json')).then(r => r.json()),
+          fetch(mockUrl('evidence.json')).then(r => r.json()),
+          fetch(mockUrl('compliance.json')).then(r => r.json()),
+          fetch(mockUrl('policies.json')).then(r => r.json())
         ]);
         window.kernelDemoState = { stats, audit, approvals, evidence, compliance, policies };
       } catch (err) {
@@ -621,8 +634,17 @@
     hydrateMockDepartments(db.approvals?.pending);
     hydrateMockDepartments(db.approvals?.recent);
     
-    // total requests count
-    const total = (db.audit.rows || []).length + (db.approvals.pending || []).length;
+    const auditRows = db.audit.rows || [];
+    const pendingRows = db.approvals.pending || [];
+    const recentRows = db.approvals.recent || [];
+    const requestIds = new Set();
+    [...auditRows, ...pendingRows, ...recentRows].forEach((row) => {
+      const id = row.traceId || row.trace_id || row.interactionId || row.requestId || row.id;
+      if (id) requestIds.add(String(id));
+    });
+
+    // Count each request once even when a pending approval also has an audit record.
+    const total = requestIds.size || auditRows.length + pendingRows.length;
     const blocked = (db.audit.rows || []).filter(r => r.approvalStatus === 'blocked' || r.firewall_action === 'block').length;
     const pending = (db.approvals.pending || []).length;
     const approved = (db.approvals.recent || []).filter(r => r.status === 'completed' || r.status === 'approved').length;
@@ -853,12 +875,13 @@
     const fmt = (num) => new Intl.NumberFormat('ar-SA').format(num);
 
     if (totalEl) totalEl.textContent = fmt(stats.totalRequests);
-    if (pendingEl) pendingEl.textContent = fmt(stats.pendingApproval);
+    const isApprovalsPage = Boolean(document.getElementById('stat-critical') || document.getElementById('stat-high') || document.getElementById('stat-completed'));
+    if (pendingEl && !isApprovalsPage) pendingEl.textContent = fmt(stats.pendingApproval);
     if (riskEl) riskEl.textContent = `${Math.round(stats.avgRisk)}%`;
     if (piiEl) piiEl.textContent = `${Math.round(stats.piiDetectionRate)}%`;
 
     // Approvals page stats
-    const aprPending = document.getElementById('stat-pending');
+    const aprPending = isApprovalsPage ? document.getElementById('stat-pending') : null;
     const aprCritical = document.getElementById('stat-critical');
     const aprHigh = document.getElementById('stat-high');
     const aprCompleted = document.getElementById('stat-completed');

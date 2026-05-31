@@ -155,6 +155,7 @@
 
     .provider-dot.active { background: var(--success); animation: pulseGlow 2s ease-in-out infinite; }
     .provider-dot.demo { background: var(--warning); }
+    .provider-dot.error { background: var(--danger); }
 
     .provider-banner {
       margin: var(--space-3) var(--space-4) 0;
@@ -198,6 +199,44 @@
       color: var(--text-secondary);
       font-size: 0.75rem;
       white-space: nowrap;
+    }
+
+    .nvidia-status-card {
+      margin-top: var(--space-3);
+      padding: var(--space-3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .nvidia-status-card.error {
+      border-color: rgba(239, 68, 68, 0.35);
+      background: rgba(239, 68, 68, 0.08);
+    }
+
+    .nvidia-status-row {
+      display: grid;
+      grid-template-columns: 76px minmax(0, 1fr);
+      gap: var(--space-2);
+      margin-top: var(--space-2);
+      font-size: 0.75rem;
+      line-height: 1.5;
+    }
+
+    .nvidia-status-label {
+      color: var(--text-tertiary);
+    }
+
+    .nvidia-status-value {
+      color: var(--text-secondary);
+      overflow-wrap: anywhere;
+    }
+
+    .nvidia-status-message {
+      margin-top: var(--space-2);
+      color: var(--text-tertiary);
+      font-size: 0.75rem;
+      line-height: 1.6;
     }
 
     @media (max-width: 640px) {
@@ -1250,6 +1289,25 @@
           <span id="sidebar-provider-text" style="color:var(--text-secondary); font-size:0.8125rem;">جاري الفحص...</span>
         </div>
         <div id="sidebar-provider-model" style="font-size:0.6875rem; color:var(--text-tertiary); margin-top:var(--space-1); padding-inline-start:var(--space-4);"></div>
+        <div class="nvidia-status-card" id="nvidia-status-card" role="status" aria-live="polite">
+          <div class="provider-status-row">
+            <span class="provider-dot demo" id="nvidia-status-dot"></span>
+            <span id="nvidia-status-title" style="color:var(--text-secondary); font-size:0.8125rem;">NVIDIA: جاري الفحص...</span>
+          </div>
+          <div class="nvidia-status-row">
+            <span class="nvidia-status-label">configured</span>
+            <span class="nvidia-status-value" id="nvidia-status-configured">loading</span>
+          </div>
+          <div class="nvidia-status-row">
+            <span class="nvidia-status-label">model</span>
+            <span class="nvidia-status-value" id="nvidia-status-model">—</span>
+          </div>
+          <div class="nvidia-status-row">
+            <span class="nvidia-status-label">mode</span>
+            <span class="nvidia-status-value" id="nvidia-status-mode">loading</span>
+          </div>
+          <div class="nvidia-status-message" id="nvidia-status-message">لا يتم عرض أي مفاتيح في الواجهة.</div>
+        </div>
       </div>
     </aside>
 
@@ -1426,6 +1484,7 @@
     document.addEventListener('DOMContentLoaded', () => {
       loadSession();
       checkProviderStatus();
+      checkNvidiaStatus();
       checkPendingBanner();
       setInterval(checkPendingBanner, 30000);
       buildBottomSheetCompliance();
@@ -2119,6 +2178,46 @@
         if (bannerResidency) bannerResidency.textContent = `Data residency: ${residency}`;
         if (bannerMode) bannerMode.textContent = isProduction && !isDemoData ? 'Production' : 'Fallback / Local demo';
       } catch {}
+    }
+
+    async function checkNvidiaStatus() {
+      const card = document.getElementById('nvidia-status-card');
+      const dot = document.getElementById('nvidia-status-dot');
+      const title = document.getElementById('nvidia-status-title');
+      const configured = document.getElementById('nvidia-status-configured');
+      const model = document.getElementById('nvidia-status-model');
+      const mode = document.getElementById('nvidia-status-mode');
+      const message = document.getElementById('nvidia-status-message');
+      if (!card || !dot || !title || !configured || !model || !mode || !message) return;
+
+      card.classList.remove('error');
+      dot.className = 'provider-dot demo';
+      title.textContent = 'NVIDIA: جاري الفحص...';
+      configured.textContent = 'loading';
+      model.textContent = '—';
+      mode.textContent = 'loading';
+      message.textContent = 'لا يتم عرض أي مفاتيح في الواجهة.';
+
+      try {
+        const data = await kernelAPI.getNvidiaStatus();
+        const isConfigured = data.configured === true;
+        dot.className = `provider-dot ${isConfigured ? 'active' : 'demo'}`;
+        title.textContent = isConfigured ? 'NVIDIA: Connected' : 'NVIDIA: غير مُعد';
+        configured.textContent = String(Boolean(data.configured));
+        model.textContent = data.model || '—';
+        mode.textContent = data.mode || 'not_configured';
+        message.textContent = isConfigured
+          ? 'جاهز عبر backend proxy. المفتاح يبقى داخل بيئة الخادم فقط.'
+          : 'مفتاح NVIDIA غير مُعد في بيئة الخادم. أضفه في الخادم فقط، وليس داخل HTML أو JavaScript.';
+      } catch (error) {
+        card.classList.add('error');
+        dot.className = 'provider-dot error';
+        title.textContent = 'NVIDIA: تعذر الفحص';
+        configured.textContent = 'unknown';
+        model.textContent = '—';
+        mode.textContent = 'error';
+        message.textContent = error.message || 'تعذر الاتصال بمسار NVIDIA status.';
+      }
     }
 
     // ── Pending Banner ──

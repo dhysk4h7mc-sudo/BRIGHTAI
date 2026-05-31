@@ -8,6 +8,44 @@
 
   const STATUS_KEYS = ['blocked', 'pending', 'approved', 'executed', 'completed', 'rejected'];
   const RISK_KEYS = ['critical', 'high', 'medium', 'low', 'minimal'];
+  const DEFAULT_RUNTIME_CONFIG = {
+    baseURL: '/api/kernel',
+    mode: 'auto',
+    demoStorageKey: 'brightai_kernel_demo_mode',
+    timeout: 30000,
+    retryAttempts: 3,
+    retryDelays: [500, 1000, 2000],
+    retryMethods: ['GET', 'HEAD', 'OPTIONS'],
+  };
+
+  function readRuntimeConfig() {
+    return {
+      ...DEFAULT_RUNTIME_CONFIG,
+      ...(global.BrightAIKernelConfig || {}),
+    };
+  }
+
+  function isFileProtocol() {
+    return global.location?.protocol === 'file:';
+  }
+
+  function isDemoModeSelected() {
+    const config = readRuntimeConfig();
+    try {
+      return global.localStorage?.getItem(config.demoStorageKey) === 'true';
+    } catch (_error) {
+      return false;
+    }
+  }
+
+  function shouldUseDemoData() {
+    const config = readRuntimeConfig();
+    const mode = String(config.mode || 'auto').toLowerCase();
+    if (isFileProtocol()) return true;
+    if (['demo', 'mock'].includes(mode)) return true;
+    if (['live', 'production'].includes(mode)) return false;
+    return isDemoModeSelected();
+  }
 
   function toNumber(value, fallback = 0) {
     if (value === null || value === undefined || value === '') return fallback;
@@ -151,14 +189,42 @@
 
   class KernelAPI {
     constructor() {
-      this.baseURL = '/api/kernel';
-      this.timeout = 30000;
-      this.retryAttempts = 3;
-      this.retryDelays = [500, 1000, 2000];
+      const config = readRuntimeConfig();
+      this.baseURL = config.baseURL;
+      this.timeout = config.timeout;
+      this.retryAttempts = config.retryAttempts;
+      this.retryDelays = config.retryDelays;
     }
 
     async request(endpoint, options = {}) {
-      const url = `${this.baseURL}${endpoint}`;
+      const config = readRuntimeConfig();
+      const url = `${options.baseURL || config.baseURL || this.baseURL}${endpoint}`;
+      const timeout = options.timeout || this.timeout;
+      const method = String(options.method || 'GET').toUpperCase();
+      const attempts = Number.isFinite(Number(options.retryAttempts))
+        ? Number(options.retryAttempts)
+        : Number(config.retryAttempts ?? this.retryAttempts);
+      const retryMethods = Array.isArray(config.retryMethods) ? config.retryMethods.map((item) => String(item).toUpperCase()) : [];
+      const retryable = options.retry === true || (options.retry !== false && retryMethods.includes(method));
+      let lastError = null;
+
+      for (let attempt = 0; attempt <= (retryable ? attempts : 0); attempt += 1) {
+        try {
+          return await this.fetchOnce(url, { ...options, method, timeout });
+        } catch (error) {
+          lastError = error;
+          if (!retryable || attempt >= attempts || !this.shouldRetry(error)) break;
+          await this.delayForAttempt(attempt, config.retryDelays || this.retryDelays);
+        }
+      }
+
+      throw lastError;
+    }
+
+    async fetchOnce(url, options = {}) {
+      const timeout = options.timeout || this.timeout;
+      const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
+      const timeoutId = controller ? setTimeout(() => controller.abort(), timeout) : null;
       const headers = {
         'Content-Type': 'application/json',
         'x-kernel-user-id': KernelUtils?.getUserId() || 'anonymous',
@@ -167,17 +233,40 @@
       };
 
       // Always calls window.fetch which will be intercepted smoothly
-      const response = await fetch(url, {
-        method: options.method || 'GET',
-        headers,
-        body: options.body ? JSON.stringify(options.body) : undefined,
-      });
+      try {
+        const response = await fetch(url, {
+          method: options.method || 'GET',
+          headers,
+          body: options.body ? JSON.stringify(options.body) : undefined,
+          signal: controller ? controller.signal : undefined,
+        });
 
-      if (!response.ok) {
-        throw new APIError(`HTTP ${response.status}`, response.status);
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok) {
+          throw new APIError(data.error || `HTTP ${response.status}`, response.status, data);
+        }
+
+        return data;
+      } catch (error) {
+        if (error.name === 'AbortError') {
+          throw new APIError('انتهت مهلة الطلب', 408, { errorCode: 'REQUEST_TIMEOUT' });
+        }
+        throw error;
+      } finally {
+        if (timeoutId) clearTimeout(timeoutId);
       }
+    }
 
-      return await response.json();
+    shouldRetry(error) {
+      if (!error) return false;
+      if (error.status === 408 || error.status === 429) return true;
+      if (error.status >= 500) return true;
+      return error.name !== 'APIError';
+    }
+
+    delayForAttempt(attempt, delays = []) {
+      const delay = toNumber(delays[attempt], toNumber(delays[delays.length - 1], 0));
+      return new Promise((resolve) => setTimeout(resolve, delay));
     }
 
     async health() {
@@ -214,6 +303,23 @@
           providers: {},
         };
       }
+    }
+
+    async getNvidiaStatus() {
+      return this.request('/nvidia/status', { timeout: 10000 });
+    }
+
+    async nvidiaChat(message, options = {}) {
+      return this.request('/nvidia/chat', {
+        method: 'POST',
+        timeout: options.timeout || this.timeout,
+        body: {
+          message,
+          messages: options.messages,
+          temperature: options.temperature,
+          maxTokens: options.maxTokens,
+        },
+      });
     }
 
     async chat(query, context = '', compliancePackage = 'general') {
@@ -355,6 +461,13 @@
   global.KernelAPI = KernelAPI;
   global.kernelAPI = kernelAPI;
   global.APIError = APIError;
+  global.KernelRuntimeConfig = {
+    defaults: DEFAULT_RUNTIME_CONFIG,
+    get: readRuntimeConfig,
+    shouldUseDemoData,
+    isDemoModeSelected,
+    isFileProtocol,
+  };
   global.KernelApiHelpers = {
     STATUS_KEYS,
     RISK_KEYS,
@@ -365,6 +478,9 @@
     normalizeTrace,
     normalizeRiskByDepartment,
     normalizeStats,
+    shouldUseDemoData,
+    isDemoModeSelected,
+    isFileProtocol,
   };
   global.normalizeStats = normalizeStats;
 

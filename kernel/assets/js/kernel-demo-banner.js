@@ -162,7 +162,8 @@
     banner.id = 'brightai-demo-banner-ui';
     banner.className = 'brightai-demo-banner';
 
-    const isDemo = localStorage.getItem('brightai_kernel_demo_mode') === 'true';
+    const demoStorageKey = global.KernelRuntimeConfig?.get?.().demoStorageKey || 'brightai_kernel_demo_mode';
+    const isDemo = localStorage.getItem(demoStorageKey) === 'true';
 
     banner.innerHTML = `
       <div class="brightai-demo-brand">
@@ -192,7 +193,7 @@
     // Attach control listeners
     document.getElementById('brightai-demo-toggle-checkbox')?.addEventListener('change', (e) => {
       const active = e.target.checked;
-      localStorage.setItem('brightai_kernel_demo_mode', active ? 'true' : 'false');
+      localStorage.setItem(demoStorageKey, active ? 'true' : 'false');
       window.location.reload();
     });
 
