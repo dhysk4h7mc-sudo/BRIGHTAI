@@ -20,6 +20,15 @@ Content Pruning
 3. Query Fan-Out Optimization
 6. Answer Blocks
 7. Comparison Pages
+8. First-Party Data
+9. Retrieval Intent بدل Search Intent
+10. AI Crawler Access
+11. Google-Extended مو للترتيب
+14. Freshness Layer
+15. Semantic Density
+16. Structured Data بس بدون مبالغة
+17. AI Visibility Tracking
+18. Don’t Optimize for AI Slop
 
 
 # BrightAI — Saudi AI Safety OS
