@@ -5,155 +5,209 @@
     <loc>https://brightai.site/</loc>
     <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/" />
-    <lastmod>2026-05-30</lastmod>
+    <lastmod>2026-05-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://brightai.site/about/</loc>
     <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/about/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/about/" />
-    <lastmod>2026-05-30</lastmod>
-  </url>
-  <url>
-    <loc>https://brightai.site/assessment/ai-governance-readiness/</loc>
-    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/assessment/ai-governance-readiness/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/assessment/ai-governance-readiness/" />
-    <lastmod>2026-05-29</lastmod>
-  </url>
-  <url>
-    <loc>https://brightai.site/blog/</loc>
-    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/blog/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/blog/" />
-    <lastmod>2026-05-29</lastmod>
-  </url>
-  <url>
-    <loc>https://brightai.site/blog/ai-governance/</loc>
-    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/blog/ai-governance/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/blog/ai-governance/" />
-    <lastmod>2026-05-29</lastmod>
-  </url>
-  <url>
-    <loc>https://brightai.site/blog/pdpl-ai-safety/</loc>
-    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/blog/pdpl-ai-safety/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/blog/pdpl-ai-safety/" />
-    <lastmod>2026-05-29</lastmod>
-  </url>
-  <url>
-    <loc>https://brightai.site/contact/</loc>
-    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/contact/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/contact/" />
-    <lastmod>2026-05-30</lastmod>
-  </url>
-  <url>
-    <loc>https://brightai.site/docs/</loc>
-    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/docs/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/docs/" />
-    <lastmod>2026-05-30</lastmod>
-  </url>
-  <url>
-    <loc>https://brightai.site/docs/ai-audit-readiness/</loc>
-    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/docs/ai-audit-readiness/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/docs/ai-audit-readiness/" />
-    <lastmod>2026-05-30</lastmod>
-  </url>
-  <url>
-    <loc>https://brightai.site/docs/ai-audit-trail/</loc>
-    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/docs/ai-audit-trail/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/docs/ai-audit-trail/" />
-    <lastmod>2026-05-30</lastmod>
-  </url>
-  <url>
-    <loc>https://brightai.site/docs/ai-evidence-file/</loc>
-    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/docs/ai-evidence-file/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/docs/ai-evidence-file/" />
-    <lastmod>2026-05-30</lastmod>
-  </url>
-  <url>
-    <loc>https://brightai.site/docs/ai-firewall/</loc>
-    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/docs/ai-firewall/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/docs/ai-firewall/" />
-    <lastmod>2026-05-30</lastmod>
-  </url>
-  <url>
-    <loc>https://brightai.site/docs/ai-governance-platform/</loc>
-    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/docs/ai-governance-platform/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/docs/ai-governance-platform/" />
-    <lastmod>2026-05-30</lastmod>
-  </url>
-  <url>
-    <loc>https://brightai.site/docs/ai-governance-saudi-arabia/</loc>
-    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/docs/ai-governance-saudi-arabia/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/docs/ai-governance-saudi-arabia/" />
-    <lastmod>2026-05-30</lastmod>
-  </url>
-  <url>
-    <loc>https://brightai.site/docs/ai-risk-management/</loc>
-    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/docs/ai-risk-management/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/docs/ai-risk-management/" />
-    <lastmod>2026-05-30</lastmod>
-  </url>
-  <url>
-    <loc>https://brightai.site/docs/docs/</loc>
-    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/docs/docs/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/docs/docs/" />
-    <lastmod>2026-05-29</lastmod>
-  </url>
-  <url>
-    <loc>https://brightai.site/docs/Governance%D9%80application/</loc>
-    <lastmod>2026-05-29</lastmod>
-  </url>
-  <url>
-    <loc>https://brightai.site/docs/human-approval-layer/</loc>
-    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/docs/human-approval-layer/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/docs/human-approval-layer/" />
-    <lastmod>2026-05-30</lastmod>
-  </url>
-  <url>
-    <loc>https://brightai.site/docs/nca-ecc-ai-controls-mapping/</loc>
-    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/docs/nca-ecc-ai-controls-mapping/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/docs/nca-ecc-ai-controls-mapping/" />
-    <lastmod>2026-05-29</lastmod>
-  </url>
-  <url>
-    <loc>https://brightai.site/docs/nca-ecc-ai-controls/</loc>
-    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/docs/nca-ecc-ai-controls/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/docs/nca-ecc-ai-controls/" />
-    <lastmod>2026-05-29</lastmod>
-  </url>
-  <url>
-    <loc>https://brightai.site/docs/nca-ecc-ai-governance/</loc>
-    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/docs/nca-ecc-ai-governance/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/docs/nca-ecc-ai-governance/" />
-    <lastmod>2026-05-30</lastmod>
-  </url>
-  <url>
-    <loc>https://brightai.site/docs/pdpl-ai-governance/</loc>
-    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/docs/pdpl-ai-governance/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/docs/pdpl-ai-governance/" />
-    <lastmod>2026-05-30</lastmod>
-  </url>
-  <url>
-    <loc>https://brightai.site/docs/pdpl-chatgpt-data-protection/</loc>
-    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/docs/pdpl-chatgpt-data-protection/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/docs/pdpl-chatgpt-data-protection/" />
-    <lastmod>2026-05-29</lastmod>
-  </url>
-  <url>
-    <loc>https://brightai.site/pricing/</loc>
-    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/pricing/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/pricing/" />
-    <lastmod>2026-05-30</lastmod>
+    <lastmod>2026-05-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://brightai.site/services/</loc>
     <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/services/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/services/" />
-    <lastmod>2026-05-30</lastmod>
+    <lastmod>2026-05-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://brightai.site/pricing/</loc>
+    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/pricing/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/pricing/" />
+    <lastmod>2026-05-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://brightai.site/contact/</loc>
+    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/contact/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/contact/" />
+    <lastmod>2026-05-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://brightai.site/trust/</loc>
+    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/trust/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/trust/" />
+    <lastmod>2026-05-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://brightai.site/assessment/ai-governance-readiness/</loc>
+    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/assessment/ai-governance-readiness/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/assessment/ai-governance-readiness/" />
+    <lastmod>2026-05-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://brightai.site/blog/</loc>
+    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/blog/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/blog/" />
+    <lastmod>2026-05-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://brightai.site/blog/ai-governance/</loc>
+    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/blog/ai-governance/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/blog/ai-governance/" />
+    <lastmod>2026-05-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://brightai.site/blog/pdpl-ai-safety/</loc>
+    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/blog/pdpl-ai-safety/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/blog/pdpl-ai-safety/" />
+    <lastmod>2026-05-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://brightai.site/docs/</loc>
+    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/docs/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/docs/" />
+    <lastmod>2026-05-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://brightai.site/docs/ai-audit-readiness/</loc>
+    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/docs/ai-audit-readiness/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/docs/ai-audit-readiness/" />
+    <lastmod>2026-05-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://brightai.site/docs/ai-audit-trail/</loc>
+    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/docs/ai-audit-trail/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/docs/ai-audit-trail/" />
+    <lastmod>2026-05-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://brightai.site/docs/ai-evidence-file/</loc>
+    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/docs/ai-evidence-file/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/docs/ai-evidence-file/" />
+    <lastmod>2026-05-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://brightai.site/docs/ai-firewall/</loc>
+    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/docs/ai-firewall/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/docs/ai-firewall/" />
+    <lastmod>2026-05-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://brightai.site/docs/ai-governance-platform/</loc>
+    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/docs/ai-governance-platform/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/docs/ai-governance-platform/" />
+    <lastmod>2026-05-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://brightai.site/docs/ai-governance-saudi-arabia/</loc>
+    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/docs/ai-governance-saudi-arabia/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/docs/ai-governance-saudi-arabia/" />
+    <lastmod>2026-05-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://brightai.site/docs/ai-risk-management/</loc>
+    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/docs/ai-risk-management/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/docs/ai-risk-management/" />
+    <lastmod>2026-05-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://brightai.site/docs/governance-application/</loc>
+    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/docs/governance-application/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/docs/governance-application/" />
+    <lastmod>2026-05-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://brightai.site/docs/human-approval-layer/</loc>
+    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/docs/human-approval-layer/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/docs/human-approval-layer/" />
+    <lastmod>2026-05-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://brightai.site/docs/nca-ecc-ai-controls/</loc>
+    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/docs/nca-ecc-ai-controls/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/docs/nca-ecc-ai-controls/" />
+    <lastmod>2026-05-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://brightai.site/docs/nca-ecc-ai-controls-mapping/</loc>
+    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/docs/nca-ecc-ai-controls-mapping/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/docs/nca-ecc-ai-controls-mapping/" />
+    <lastmod>2026-05-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://brightai.site/docs/nca-ecc-ai-governance/</loc>
+    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/docs/nca-ecc-ai-governance/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/docs/nca-ecc-ai-governance/" />
+    <lastmod>2026-05-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://brightai.site/docs/pdpl-ai-governance/</loc>
+    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/docs/pdpl-ai-governance/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/docs/pdpl-ai-governance/" />
+    <lastmod>2026-05-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://brightai.site/docs/pdpl-chatgpt-data-protection/</loc>
+    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/docs/pdpl-chatgpt-data-protection/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/docs/pdpl-chatgpt-data-protection/" />
+    <lastmod>2026-05-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://brightai.site/sitemap/</loc>
     <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/sitemap/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/sitemap/" />
-    <lastmod>2026-05-30</lastmod>
+    <lastmod>2026-05-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
   </url>
 
 </urlset>

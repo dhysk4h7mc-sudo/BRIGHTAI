@@ -8,7 +8,6 @@ Allow: /
 # Google
 User-agent: Googlebot
 Allow: /
-Crawl-delay: 1
 
 User-agent: Googlebot-Image
 Allow: /
