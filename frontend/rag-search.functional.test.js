@@ -77,7 +77,7 @@ describe("RAG Search Service", () => {
       const cases = [
         {
           query: "وكلاء ذكاء اصطناعي",
-          expectedUrlPattern: /\/(services|demo\/ai-tenders-analysis)\//
+          expectedUrlPattern: /\/services\//
         },
         {
           query: "الشات بوت",
@@ -89,11 +89,11 @@ describe("RAG Search Service", () => {
         },
         {
           query: "تحليل البيانات",
-          expectedUrlPattern: /\/(services|demo\/ai-tenders-analysis)\//
+          expectedUrlPattern: /\/services\//
         },
         {
           query: "AI agents Saudi Arabia",
-          expectedUrlPattern: /\/(services|docs|demo\/ai-tenders-analysis)\//
+          expectedUrlPattern: /\/(services|docs)\//
         }
       ];
 

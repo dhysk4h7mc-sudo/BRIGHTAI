@@ -117,18 +117,6 @@ const REPLACEMENTS = [
     replacement: "/frontend/js/demo-stream.min.js",
     label: "demo-stream.js"
   },
-  // tenders-index-app.js → tenders-index-app.min.js
-  {
-    pattern: /\/frontend\/js\/tenders-index-app\.js/g,
-    replacement: "/frontend/js/tenders-index-app.min.js",
-    label: "tenders-index-app.js"
-  },
-  // en-tenders-templates-app.js → en-tenders-templates-app.min.js
-  {
-    pattern: /\/frontend\/js\/en-tenders-templates-app\.js/g,
-    replacement: "/frontend/js/en-tenders-templates-app.min.js",
-    label: "en-tenders-templates-app.js"
-  },
   // interview-inline.css → interview-inline.min.css
   {
     pattern: /\/frontend\/css\/interview-inline\.css/g,
@@ -153,18 +141,6 @@ const REPLACEMENTS = [
     replacement: "/frontend/css/ocr-demo-theme.min.css",
     label: "ocr-demo-theme.css"
   },
-  // tenders-index-inline.css → tenders-index-inline.min.css
-  {
-    pattern: /\/frontend\/css\/tenders-index-inline\.css/g,
-    replacement: "/frontend/css/tenders-index-inline.min.css",
-    label: "tenders-index-inline.css"
-  },
-  // en-tenders-templates-inline.css → en-tenders-templates-inline.min.css
-  {
-    pattern: /\/frontend\/css\/en-tenders-templates-inline\.css/g,
-    replacement: "/frontend/css/en-tenders-templates-inline.min.css",
-    label: "en-tenders-templates-inline.css"
-  }
   // ai-scolecs-app.min.js و ai-scolecs-inline.min.css مُصغّرتان مسبقاً — الأصول الأصلية محذوفة
 ];
 

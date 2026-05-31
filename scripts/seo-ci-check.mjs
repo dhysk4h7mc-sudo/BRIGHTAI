@@ -33,9 +33,6 @@ const OG_IMAGE_URL = `${BASE_URL}/frontend/assets/images/logo.png`;
 const HTML_IGNORE_DIRS = new Set([".git", "node_modules", "dist", "build", "coverage", ".next", ".nuxt", ".render-static"]);
 const INTERNAL_PAGE_PATTERN =
   /(^|\/)(404|500)\.html$|(^|\/)offline\/index\.html$|^aimais\/public\/|^frontend\/pages\/interview\/|^mais-OBM\/index\.html$|(^|\/)(admin|settings|analytics|reports|operations|scorecard|copilot|executive)(\/|\.|$)/i;
-const PUBLIC_TENDERS_DEMO_PATTERN = /^(?:en\/)?tenders\/(?:dashboard|reports|settings|compare|templates)\.html$/i;
-const PUBLIC_TENDERS_DEMO_URL_PATTERN = /^https:\/\/brightai\.site\/(?:en\/)?tenders\/(?:dashboard|reports|settings|compare|templates)\/$/i;
-
 function buildRequiredHreflangForFile(file, lowerPathMap) {
   const selfUrl = relPathToCanonical(file, BASE_URL);
   const counterpart = findCounterpartRelPath(file, lowerPathMap);
@@ -121,9 +118,6 @@ function isHtmlDocument(html) {
 }
 
 function isInternalPage(relPath) {
-  if (PUBLIC_TENDERS_DEMO_PATTERN.test(relPath)) {
-    return false;
-  }
   return INTERNAL_PAGE_PATTERN.test(relPath);
 }
 
@@ -516,7 +510,7 @@ async function checkSitemap() {
       continue;
     }
 
-    if (hasHtmlRedirectSignals(html) && !PUBLIC_TENDERS_DEMO_PATTERN.test(resolvedFile)) {
+    if (hasHtmlRedirectSignals(html)) {
       result.errors.push(`Redirect-like page is forbidden in sitemap: ${loc} -> ${resolvedFile}`);
     }
 
@@ -590,7 +584,7 @@ async function checkHtmlPolicy() {
       continue;
     }
 
-    if (hasHtmlRedirectSignals(html) && !PUBLIC_TENDERS_DEMO_PATTERN.test(relPath)) {
+    if (hasHtmlRedirectSignals(html)) {
       result.summary.redirectPages += 1;
       result.errors.push(`${relPath} contains HTML/JS redirect signals.`);
     }

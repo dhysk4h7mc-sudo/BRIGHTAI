@@ -127,7 +127,7 @@ function groupRelPath(relPath) {
   }
 
   // Demo
-  if (normalized.startsWith("demo/") || normalized.startsWith("tenders/")) {
+  if (normalized.startsWith("demo/")) {
     return "demo";
   }
 

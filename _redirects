@@ -173,63 +173,6 @@ https://www.brightai.site/*    https://brightai.site/:splat  301
 /kernel/evidence/             /kernel/evidence.html         200
 /kernel/evidence.html         /kernel/evidence/             301
 
-# ── Tenders AI Demo Module Redirections ───────────────────────────────────────
-/tenders                      /demo/ai-tenders-analysis/    301
-/tenders/                     /demo/ai-tenders-analysis/    301
-/tenders/index.html           /demo/ai-tenders-analysis/    301
-/en/tenders                   /demo/ai-tenders-analysis/    301
-/en/tenders/                  /demo/ai-tenders-analysis/    301
-/demo/ai-tenders-analysis     /demo/ai-tenders-analysis/    301
-/demo/ai-tenders-analysis/index.html /demo/ai-tenders-analysis/ 301
-
-# Tenders Landing
-/tenders/landing              /demo/ai-tenders-analysis/landing/ 301
-/tenders/landing.html         /demo/ai-tenders-analysis/landing/ 301
-/en/tenders/landing            /demo/ai-tenders-analysis/landing/ 301
-/en/tenders/landing.html       /demo/ai-tenders-analysis/landing/ 301
-/demo/ai-tenders-analysis/landing /demo/ai-tenders-analysis/landing/ 301
-/demo/ai-tenders-analysis/landing.html /demo/ai-tenders-analysis/landing/ 301
-
-# Tenders Compare
-/tenders/compare              /demo/ai-tenders-analysis/compare/ 301
-/tenders/compare.html         /demo/ai-tenders-analysis/compare/ 301
-/en/tenders/compare            /demo/ai-tenders-analysis/compare/ 301
-/en/tenders/compare.html       /demo/ai-tenders-analysis/compare/ 301
-/demo/ai-tenders-analysis/compare /demo/ai-tenders-analysis/compare/ 301
-/demo/ai-tenders-analysis/compare.html /demo/ai-tenders-analysis/compare/ 301
-
-# Tenders Dashboard
-/tenders/dashboard            /demo/ai-tenders-analysis/dashboard/ 301
-/tenders/dashboard.html       /demo/ai-tenders-analysis/dashboard/ 301
-/en/tenders/dashboard          /demo/ai-tenders-analysis/dashboard/ 301
-/en/tenders/dashboard.html      /demo/ai-tenders-analysis/dashboard/ 301
-/demo/ai-tenders-analysis/dashboard /demo/ai-tenders-analysis/dashboard/ 301
-/demo/ai-tenders-analysis/dashboard.html /demo/ai-tenders-analysis/dashboard/ 301
-
-# Tenders Reports
-/tenders/reports              /demo/ai-tenders-analysis/reports/ 301
-/tenders/reports.html         /demo/ai-tenders-analysis/reports/ 301
-/en/tenders/reports            /demo/ai-tenders-analysis/reports/ 301
-/en/tenders/reports.html       /demo/ai-tenders-analysis/reports/ 301
-/demo/ai-tenders-analysis/reports /demo/ai-tenders-analysis/reports/ 301
-/demo/ai-tenders-analysis/reports.html /demo/ai-tenders-analysis/reports/ 301
-
-# Tenders Settings
-/tenders/settings             /demo/ai-tenders-analysis/settings/ 301
-/tenders/settings.html        /demo/ai-tenders-analysis/settings/ 301
-/en/tenders/settings            /demo/ai-tenders-analysis/settings/ 301
-/en/tenders/settings.html       /demo/ai-tenders-analysis/settings/ 301
-/demo/ai-tenders-analysis/settings /demo/ai-tenders-analysis/settings/ 301
-/demo/ai-tenders-analysis/settings.html /demo/ai-tenders-analysis/settings/ 301
-
-# Tenders Templates
-/tenders/templates            /demo/ai-tenders-analysis/templates/ 301
-/tenders/templates.html       /demo/ai-tenders-analysis/templates/ 301
-/en/tenders/templates            /demo/ai-tenders-analysis/templates/ 301
-/en/tenders/templates.html       /demo/ai-tenders-analysis/templates/ 301
-/demo/ai-tenders-analysis/templates /demo/ai-tenders-analysis/templates/ 301
-/demo/ai-tenders-analysis/templates.html /demo/ai-tenders-analysis/templates/ 301
-
 # ── API and WebSocket Backend Connectivity ───────────────────────────────────
 /api/*                        https://brightai-api.onrender.com/api/:splat  200
 /ws/*                         https://brightai-api.onrender.com/ws/:splat   200

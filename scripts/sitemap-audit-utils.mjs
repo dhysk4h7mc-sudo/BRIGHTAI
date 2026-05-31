@@ -156,10 +156,6 @@ export function buildLocalFileCandidates(decodedPath) {
     add(path.posix.join(trimmed, "index.html"));
   }
 
-  if (/^tenders$/i.test(trimmed)) {
-    add("tenders/index.html");
-  }
-
   if (/^interview$/i.test(trimmed)) {
     add(path.posix.join(trimmed, "index.html"));
     add(path.posix.join("frontend/pages", trimmed, "index.html"));
@@ -185,10 +181,6 @@ export function buildLocalFileCandidates(decodedPath) {
   if (/^sectors\/[^/]+$/i.test(trimmed)) {
     add(`${trimmed}.html`);
     add(path.posix.join("frontend/pages", `${trimmed}.html`));
-  }
-
-  if (/^tenders\/[^/]+$/i.test(trimmed)) {
-    add(`${trimmed}.html`);
   }
 
   if (/^(ai-bots|try|demo)\/.+/i.test(trimmed)) {

@@ -48,20 +48,6 @@ const REL_PATH_ALIASES = new Map([
   ["blog/gov.html", "blog/government-ai-solutions-saudi/index.html"],
 ]);
 
-const TENDERS_DEMO_COUNTERPARTS = new Map([
-  ["demo/ai-tenders-analysis/compare.html", "en/tenders/compare.html"],
-  ["demo/ai-tenders-analysis/dashboard.html", "en/tenders/dashboard.html"],
-  ["demo/ai-tenders-analysis/landing.html", "en/tenders/landing.html"],
-  ["demo/ai-tenders-analysis/reports.html", "en/tenders/reports.html"],
-  ["demo/ai-tenders-analysis/settings.html", "en/tenders/settings.html"],
-  ["demo/ai-tenders-analysis/templates.html", "en/tenders/templates.html"],
-  ["en/tenders/compare.html", "demo/ai-tenders-analysis/compare.html"],
-  ["en/tenders/dashboard.html", "demo/ai-tenders-analysis/dashboard.html"],
-  ["en/tenders/landing.html", "demo/ai-tenders-analysis/landing.html"],
-  ["en/tenders/reports.html", "demo/ai-tenders-analysis/reports.html"],
-  ["en/tenders/settings.html", "demo/ai-tenders-analysis/settings.html"],
-  ["en/tenders/templates.html", "demo/ai-tenders-analysis/templates.html"],
-]);
 const NON_INDEXABLE_REL_PATH_PATTERNS = [
   /^(404|500)\.html$/i,
   /^error\.html$/i,
@@ -89,7 +75,6 @@ const TRAILING_SLASH_ROUTE_PATTERNS = [
   /^\/locations\/[^/]+\/?$/i,
   /^\/sectors\/[^/]+\/?$/i,
   /^\/tools\/[^/]+\/?$/i,
-  /^\/tenders(?:\/.*)?\/?$/i,
   /^\/ai-bots\/[^/]+\/?$/i,
   /^\/(?:ai-workflows|ai-scolecs|smart-medical-archive|privacy-cookies|job\.MAISco|sitemap|terms|offline)\/?$/i,
   /^\/bot\/?$/i,
@@ -183,8 +168,6 @@ export function relPathToSitePath(relPath) {
     if (dir === "frontend/pages/terms") return "/terms/";
     if (dir === "frontend/pages/sitemap") return "/sitemap/";
     if (dir === "frontend/pages/offline") return "/offline/";
-    if (dir === "tenders") return "/tenders/";
-
     if (
       dir.startsWith("frontend/pages/ai-bots/") ||
       dir.startsWith("frontend/pages/try/") ||
@@ -230,10 +213,6 @@ export function relPathToSitePath(relPath) {
 
   if (normalized.startsWith("sectors/") && normalized.endsWith(".html")) {
     return `/sectors/${path.basename(normalized, ".html")}/`;
-  }
-
-  if (normalized.startsWith("tenders/") && normalized.endsWith(".html")) {
-    return `/tenders/${path.basename(normalized, ".html")}/`;
   }
 
   if (normalized.startsWith("frontend/pages/") && normalized.endsWith(".html")) {
@@ -353,11 +332,6 @@ export function findCounterpartRelPath(relPath, lowerPathMap, options = DEFAULT_
 
   if (lower === "en/index.html") {
     return pickAllowedPath("index.html", lowerPathMap, allowedRelPaths);
-  }
-
-  const mappedCounterpart = TENDERS_DEMO_COUNTERPARTS.get(lower);
-  if (mappedCounterpart) {
-    return pickAllowedPath(mappedCounterpart, lowerPathMap, allowedRelPaths);
   }
 
   if (lower.startsWith("en/")) {

@@ -12,11 +12,6 @@ async function fileExists(path) {
 
 const targets = [
   {
-    entry: "demo/ai-tenders-analysis/api-config.js",
-    outfile: "demo/ai-tenders-analysis/api-config.min.js",
-    type: "js"
-  },
-  {
     entry: "frontend/js/performance-loader.js",
     outfile: "frontend/js/performance-loader.min.js",
     type: "js"

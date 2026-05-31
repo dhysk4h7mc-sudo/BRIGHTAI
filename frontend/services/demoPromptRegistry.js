@@ -568,7 +568,6 @@ const ALLOWED_DEMO_TYPES = Object.freeze([
 ]);
 
 const DEMO_TYPE_ALIASES = Object.freeze({
-  'ai-tenders-analysis': 'tenders-analysis',
   'data-analytics': 'data-analyzer'
 });
 

@@ -357,58 +357,6 @@
       "to": "/services/"
     },
     {
-      "from": "/tenders/index.html",
-      "to": "/tenders/"
-    },
-    {
-      "from": "/tenders/landing.html",
-      "to": "/tenders/landing/"
-    },
-    {
-      "from": "/tenders/dashboard.html",
-      "to": "/tenders/dashboard/"
-    },
-    {
-      "from": "/tenders/reports.html",
-      "to": "/tenders/reports/"
-    },
-    {
-      "from": "/tenders/settings.html",
-      "to": "/tenders/settings/"
-    },
-    {
-      "from": "/tenders/compare.html",
-      "to": "/tenders/compare/"
-    },
-    {
-      "from": "/tenders/templates.html",
-      "to": "/tenders/templates/"
-    },
-    {
-      "from": "/en/tenders/landing.html",
-      "to": "/en/tenders/landing/"
-    },
-    {
-      "from": "/en/tenders/dashboard.html",
-      "to": "/en/tenders/dashboard/"
-    },
-    {
-      "from": "/en/tenders/reports.html",
-      "to": "/en/tenders/reports/"
-    },
-    {
-      "from": "/en/tenders/settings.html",
-      "to": "/en/tenders/settings/"
-    },
-    {
-      "from": "/en/tenders/compare.html",
-      "to": "/en/tenders/compare/"
-    },
-    {
-      "from": "/en/tenders/templates.html",
-      "to": "/en/tenders/templates/"
-    },
-    {
       "from": "/demo/index.html",
       "to": "/demo/"
     },
@@ -846,10 +794,6 @@
     },
     {
       "from": "/services/ai-consulting.html",
-      "to": "/services/"
-    },
-    {
-      "from": "/services/ai-tenders-analysis.html",
       "to": "/services/"
     },
     {
