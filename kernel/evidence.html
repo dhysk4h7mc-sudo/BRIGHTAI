@@ -54,8 +54,16 @@
       border-radius: 999px;
     }
     .evidence-item {
+      display: block;
+      width: 100%;
       padding: 1rem 1.5rem;
       border-bottom: 1px solid var(--border-color);
+      border-inline: 0;
+      border-top: 0;
+      background: transparent;
+      color: inherit;
+      font: inherit;
+      text-align: inherit;
       cursor: pointer;
       transition: background 0.2s;
     }
@@ -354,7 +362,7 @@
   <div id="brightai-unified-header"></div>
   <div class="kernel-layout">
     <!-- Sidebar -->
-    <aside class="kernel-sidebar" id="sidebar">
+    <aside class="kernel-sidebar" id="sidebar" aria-label="تنقل Kernel الجانبي">
       <div class="sidebar-header">
         <div class="logo">
           <div class="logo-icon">
@@ -381,15 +389,16 @@
     </aside>
 
     <!-- Main Content -->
-    <main class="kernel-main">
+    <a href="#main-content" class="skip-link">تخطي إلى المحتوى الرئيسي</a>
+    <main class="kernel-main" id="main-content" aria-labelledby="evidence-page-title">
       <header class="main-header">
-        <button class="menu-toggle" id="menuToggle" aria-label="فتح القائمة الجانبية">
+        <button class="menu-toggle" id="menuToggle" aria-label="فتح القائمة الجانبية" aria-controls="sidebar" aria-expanded="false">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M3 12h18M3 6h18M3 18h18"/>
           </svg>
         </button>
         <div class="header-title">
-          <h1>الأدلة</h1>
+          <h1 id="evidence-page-title">الأدلة</h1>
           <p>سجل كامل للمحادثات والقرارات مع إمكانية البحث والتصدير</p>
         </div>
       </header>
@@ -403,16 +412,28 @@
       </nav>
 
       <div class="main-content">
+        <section class="kernel-context-links" aria-labelledby="kernel-context-links-evidence">
+          <div>
+            <h2 id="kernel-context-links-evidence">حوّل الدليل إلى مراجعة أو تقرير</h2>
+            <p>انتقل من سجل الدليل إلى trace التدقيق أو صدّر التفاصيل لتوثيق قرار الحوكمة.</p>
+          </div>
+          <div class="kernel-context-links__actions">
+            <a href="/kernel/audit/">افتح سجل التدقيق</a>
+            <a href="/kernel/reports/">أنشئ تقريراً</a>
+            <a href="/kernel/approvals/">راجع الموافقات</a>
+          </div>
+        </section>
+
         <!-- Filters -->
-        <div class="filters-bar">
-          <select class="filter-select" id="typeFilter">
+        <section class="filters-bar" aria-label="فلاتر الأدلة">
+          <select class="filter-select" id="typeFilter" aria-label="فلترة الأدلة حسب النوع">
             <option value="all">جميع الأنواع</option>
             <option value="pii">كشف PII</option>
             <option value="blocked">محظور</option>
             <option value="approved">موافق عليه</option>
             <option value="modified">معدل</option>
           </select>
-          <select class="filter-select" id="dateFilter">
+          <select class="filter-select" id="dateFilter" aria-label="فلترة الأدلة حسب الفترة">
             <option value="all">كل الفترات</option>
             <option value="today">اليوم</option>
             <option value="week">هذا الأسبوع</option>
@@ -422,17 +443,17 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
             </svg>
-            <input type="text" placeholder="بحث في الأدلة..." id="searchInput">
+            <input type="text" placeholder="بحث في الأدلة..." id="searchInput" aria-label="بحث في الأدلة">
           </div>
-        </div>
+        </section>
 
         <!-- Evidence Grid -->
         <div class="evidence-grid">
           <!-- Evidence List -->
-          <div class="evidence-list">
+          <section class="evidence-list" aria-labelledby="evidence-list-title">
             <div class="evidence-header">
-              <span class="evidence-title">سجل الأدلة</span>
-              <span class="evidence-count" id="evidenceCount">
+              <span class="evidence-title" id="evidence-list-title">سجل الأدلة</span>
+              <span class="evidence-count" id="evidenceCount" aria-label="عدد الأدلة">
                 <span class="skeleton skeleton-chip" aria-hidden="true"></span>
                 <span class="sr-only">جاري تحميل عدد الأدلة</span>
               </span>
@@ -466,12 +487,12 @@
                 </div>
               </div>
             </div>
-          </div>
+          </section>
 
           <!-- Evidence Detail Panel -->
-          <div class="evidence-detail" id="evidenceDetail">
+          <aside class="evidence-detail" id="evidenceDetail" aria-labelledby="evidence-detail-title">
             <div class="detail-header">
-              <h3 class="detail-title"><span class="skeleton skeleton-title"></span></h3>
+              <h3 class="detail-title" id="evidence-detail-title"><span class="skeleton skeleton-title"></span></h3>
               <p class="detail-subtitle"><span class="skeleton skeleton-line skeleton-line-sm"></span></p>
             </div>
             <div class="detail-body">
@@ -504,7 +525,7 @@
               <button class="detail-btn secondary" id="downloadEvidencePdfBtn" type="button">تحميل ملف الأدلة PDF</button>
               <button class="detail-btn primary" id="copyEvidenceBtn" type="button">نسخ التفاصيل</button>
             </div>
-          </div>
+          </aside>
         </div>
       </div>
     </main>
@@ -577,17 +598,17 @@
         const traceId = record.traceId || record.interactionId;
         const status = record.approvalStatus || record.status || 'completed';
         return `
-          <div class="evidence-item ${index === 0 ? 'selected' : ''}" data-id="${KernelUtils.escapeHtml(traceId)}" onclick="selectEvidence(this)">
+          <button class="evidence-item ${index === 0 ? 'selected' : ''}" type="button" data-id="${KernelUtils.escapeHtml(traceId)}" aria-pressed="${index === 0 ? 'true' : 'false'}" aria-label="عرض دليل ${KernelUtils.escapeHtml(traceId)}" onclick="selectEvidence(this)">
             <div class="evidence-item-header">
-              <span class="evidence-id">${KernelUtils.escapeHtml(traceId)}</span>
+              <span class="evidence-id" lang="en" dir="ltr">${KernelUtils.escapeHtml(traceId)}</span>
               <span class="evidence-time">${record.createdAt ? KernelUtils.formatRelativeTime(record.createdAt) : '—'}</span>
             </div>
             <p class="evidence-preview">${KernelUtils.escapeHtml(record.preview || 'سجل حوكمة Kernel')}</p>
             <div class="evidence-tags">
-              ${record.riskLevel ? `<span class="evidence-tag">${KernelUtils.escapeHtml(record.riskLevel)}</span>` : ''}
-              <span class="evidence-tag ${status === 'blocked' || status === 'rejected' ? 'blocked' : 'approved'}">${KernelUtils.escapeHtml(status)}</span>
+              ${record.riskLevel ? `<span class="evidence-tag" aria-label="مستوى المخاطر: ${KernelUtils.escapeHtml(record.riskLevel)}">${KernelUtils.escapeHtml(record.riskLevel)}</span>` : ''}
+              <span class="evidence-tag ${status === 'blocked' || status === 'rejected' ? 'blocked' : 'approved'}" aria-label="حالة الدليل: ${KernelUtils.escapeHtml(status)}">${KernelUtils.escapeHtml(status)}</span>
             </div>
-          </div>
+          </button>
         `;
       }).join('');
     }
@@ -595,8 +616,10 @@
     async function selectEvidence(element) {
       document.querySelectorAll('.evidence-item').forEach(item => {
         item.classList.remove('selected');
+        if (item.matches('button')) item.setAttribute('aria-pressed', 'false');
       });
       element.classList.add('selected');
+      element.setAttribute('aria-pressed', 'true');
       await selectEvidenceByIdentifier(element.dataset.id);
     }
 
@@ -617,14 +640,14 @@
       const traceId = record.traceId || record.interactionId;
       document.querySelector('.detail-title').textContent = traceId;
       document.querySelector('.detail-subtitle').innerHTML = record.createdAt
-        ? `${new Date(record.createdAt).toLocaleString('ar-SA')} · <a href="/kernel/audit/?trace_id=${encodeURIComponent(traceId)}">Audit</a>`
-        : `<a href="/kernel/audit/?trace_id=${encodeURIComponent(traceId)}">Audit</a>`;
+        ? `${new Date(record.createdAt).toLocaleString('ar-SA')} · <a href="/kernel/audit/?trace_id=${encodeURIComponent(traceId)}" lang="en" dir="ltr">Audit</a>`
+        : `<a href="/kernel/audit/?trace_id=${encodeURIComponent(traceId)}" lang="en" dir="ltr">Audit</a>`;
 
       const detailBody = document.querySelector('.detail-body');
       detailBody.innerHTML = `
         <div class="detail-section">
-          <h4 class="detail-section-title">Trace ID</h4>
-          <div class="detail-content"><a href="/kernel/evidence/?trace_id=${encodeURIComponent(traceId)}">${KernelUtils.escapeHtml(traceId)}</a></div>
+          <h4 class="detail-section-title" lang="en" dir="ltr">Trace ID</h4>
+          <div class="detail-content"><a href="/kernel/evidence/?trace_id=${encodeURIComponent(traceId)}" lang="en" dir="ltr">${KernelUtils.escapeHtml(traceId)}</a></div>
         </div>
         <div class="detail-section">
           <h4 class="detail-section-title">المدخلات</h4>
@@ -637,14 +660,14 @@
         <div class="detail-section">
           <h4 class="detail-section-title">سلسلة التدقيق</h4>
           <div class="detail-meta">
-            <div class="meta-item"><div class="meta-label">Interaction</div><div class="meta-value">${KernelUtils.escapeHtml(record.interactionId || '—')}</div></div>
-            <div class="meta-item"><div class="meta-label">Provider</div><div class="meta-value">${KernelUtils.escapeHtml(record.provider || '—')}</div></div>
-            <div class="meta-item"><div class="meta-label">Model</div><div class="meta-value">${KernelUtils.escapeHtml(record.model || '—')}</div></div>
-            <div class="meta-item"><div class="meta-label">Request Hash</div><div class="meta-value">${KernelUtils.escapeHtml(shortHash(record.requestHash))}</div></div>
-            <div class="meta-item"><div class="meta-label">Response Hash</div><div class="meta-value">${KernelUtils.escapeHtml(shortHash(record.responseHash))}</div></div>
-            <div class="meta-item"><div class="meta-label">Previous Hash</div><div class="meta-value">${KernelUtils.escapeHtml(shortHash(record.previousHash))}</div></div>
-            <div class="meta-item"><div class="meta-label">Record Hash</div><div class="meta-value">${KernelUtils.escapeHtml(shortHash(record.recordHash || record.hash))}</div></div>
-            <div class="meta-item"><div class="meta-label">Evidence Hash</div><div class="meta-value">${KernelUtils.escapeHtml(shortHash(record.evidenceHash))}</div></div>
+            <div class="meta-item"><div class="meta-label" lang="en" dir="ltr">Interaction</div><div class="meta-value" lang="en" dir="ltr">${KernelUtils.escapeHtml(record.interactionId || '—')}</div></div>
+            <div class="meta-item"><div class="meta-label" lang="en" dir="ltr">Provider</div><div class="meta-value" lang="en" dir="ltr">${KernelUtils.escapeHtml(record.provider || '—')}</div></div>
+            <div class="meta-item"><div class="meta-label" lang="en" dir="ltr">Model</div><div class="meta-value" lang="en" dir="ltr">${KernelUtils.escapeHtml(record.model || '—')}</div></div>
+            <div class="meta-item"><div class="meta-label" lang="en" dir="ltr">Request Hash</div><div class="meta-value" lang="en" dir="ltr">${KernelUtils.escapeHtml(shortHash(record.requestHash))}</div></div>
+            <div class="meta-item"><div class="meta-label" lang="en" dir="ltr">Response Hash</div><div class="meta-value" lang="en" dir="ltr">${KernelUtils.escapeHtml(shortHash(record.responseHash))}</div></div>
+            <div class="meta-item"><div class="meta-label" lang="en" dir="ltr">Previous Hash</div><div class="meta-value" lang="en" dir="ltr">${KernelUtils.escapeHtml(shortHash(record.previousHash))}</div></div>
+            <div class="meta-item"><div class="meta-label" lang="en" dir="ltr">Record Hash</div><div class="meta-value" lang="en" dir="ltr">${KernelUtils.escapeHtml(shortHash(record.recordHash || record.hash))}</div></div>
+            <div class="meta-item"><div class="meta-label" lang="en" dir="ltr">Evidence Hash</div><div class="meta-value" lang="en" dir="ltr">${KernelUtils.escapeHtml(shortHash(record.evidenceHash))}</div></div>
           </div>
         </div>
       `;
@@ -732,7 +755,7 @@
       text = text.replace(/\b(?:\d[ -]*?){13,19}\b/g, '[CARD_OR_ACCOUNT]');
       text = text.replace(/\bMRN[-_ ]?\d+\b/gi, '[PATIENT_ID]');
       text = text.replace(/\bdb_password\b\s*[:=]\s*\S+/gi, 'db_password=[CREDENTIAL]');
-      text = text.replace(/mock_secret_password_123/gi, '[CREDENTIAL]');
+      text = text.replace(/\[CREDENTIAL\]/gi, '[CREDENTIAL]');
       if (piiTypes.includes('credentials')) {
         text = text.replace(/\b(password|secret|token|api[_-]?key)\b\s*[:=]\s*\S+/gi, '$1=[CREDENTIAL]');
       }
@@ -894,7 +917,10 @@
 
     // Mobile menu toggle
     document.getElementById('menuToggle')?.addEventListener('click', () => {
-      document.getElementById('sidebar').classList.toggle('open');
+      const sidebar = document.getElementById('sidebar');
+      const toggle = document.getElementById('menuToggle');
+      const isOpen = sidebar.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', String(isOpen));
     });
 
     // Theme toggle

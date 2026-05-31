@@ -20,7 +20,7 @@
   <style>
     .reports-container {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
       gap: 1.5rem;
     }
     .report-card {
@@ -543,8 +543,8 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button class="report-btn secondary" onclick="hideGenerateModal()">إلغاء</button>
-        <button class="report-btn primary">إنشاء التقرير</button>
+        <button class="report-btn secondary" type="button" onclick="hideGenerateModal()">إلغاء</button>
+        <button class="report-btn primary" type="button" onclick="generateReportFromModal(this)">إنشاء التقرير</button>
       </div>
     </div>
   </div>
@@ -609,7 +609,30 @@
     }
 
     function showScheduleModal() {
-      alert('سيتم إضافة نافذة الجدولة قريباً');
+      if (window.KernelReports) {
+        KernelReports.showToast('اختر تقريراً من القائمة ثم استخدم زر تعديل الجدولة.', 'info');
+      }
+    }
+
+    async function generateReportFromModal(button) {
+      if (!window.KernelReports) return;
+      const modal = document.getElementById('generateModal');
+      const selects = modal ? modal.querySelectorAll('select') : [];
+      const options = {
+        type: selects[0]?.value || 'governance',
+        period: selects[1]?.value || 'last30',
+        format: selects[2]?.value || 'pdf',
+      };
+      const originalLabel = button.textContent;
+      button.disabled = true;
+      button.textContent = 'جاري الإنشاء...';
+      try {
+        await KernelReports.generateReport(options);
+        hideGenerateModal();
+      } finally {
+        button.disabled = false;
+        button.textContent = originalLabel;
+      }
     }
 
     // Mobile menu toggle

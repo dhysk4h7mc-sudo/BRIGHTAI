@@ -106,6 +106,8 @@
       cursor: pointer;
       transition: border-color var(--transition-fast);
       display: block;
+      width: 100%;
+      text-align: left;
     }
 
     .chain-hash-value:hover { border-color: var(--border-hover); }
@@ -310,6 +312,10 @@
       font-size: 0.6875rem;
       color: var(--text-tertiary);
       white-space: nowrap;
+      background: transparent;
+      border: 0;
+      padding: var(--space-2);
+      text-align: left;
       cursor: pointer;
       transition: color var(--transition-fast);
     }
@@ -664,10 +670,11 @@
   <div id="brightai-unified-header"></div>
   <div class="toast-container" id="toast-container" aria-live="polite"></div>
 
-  <main id="main-content">
+  <a href="#main-content" class="skip-link">تخطي إلى المحتوى الرئيسي</a>
+  <main id="main-content" aria-labelledby="audit-page-title">
     <div class="container">
       <div class="page-header">
-        <h1>سجل التدقيق</h1>
+        <h1 id="audit-page-title">سجل التدقيق</h1>
         <p>التحقق من سلامة السلسلة التشفيرية وتتبع جميع الأحداث</p>
       </div>
 
@@ -679,20 +686,32 @@
         </ol>
       </nav>
 
+      <section class="kernel-context-links" aria-labelledby="kernel-context-links-audit">
+        <div>
+          <h2 id="kernel-context-links-audit">من كل سجل إلى دليل أو موافقة قابلة للمراجعة</h2>
+          <p>ابدأ من trace محدد، ثم افتح الدليل المرتبط أو الطلبات التي تحتاج قراراً بشرياً.</p>
+        </div>
+        <div class="kernel-context-links__actions">
+          <a href="/kernel/evidence/">افتح مستودع الأدلة</a>
+          <a href="/kernel/approvals/">راجع الموافقات</a>
+          <a href="/kernel/reports/">أنشئ تقرير تدقيق</a>
+        </div>
+      </section>
+
       <!-- Chain Status -->
-      <div class="glass-card chain-status-card" id="chain-status-card">
+      <section class="glass-card chain-status-card" id="chain-status-card" aria-labelledby="chain-title">
         <div class="chain-status-header">
-          <div class="chain-pulse valid" id="chain-pulse"></div>
+          <div class="chain-pulse valid" id="chain-pulse" aria-hidden="true"></div>
           <div class="chain-title valid" id="chain-title">جاري التحقق من سلامة السلسلة...</div>
         </div>
         <div class="chain-hash-label">تجزئة السلسلة الحالية</div>
-        <div class="chain-hash-value" id="chain-hash" onclick="copyHash(this)" title="انقر للنسخ">
+        <button class="chain-hash-value" id="chain-hash" type="button" onclick="copyHash(this)" title="انقر للنسخ" aria-label="نسخ تجزئة السلسلة الحالية">
           جاري التحميل...
-        </div>
-      </div>
+        </button>
+      </section>
 
       <!-- Summary Stats -->
-      <div class="summary-row">
+      <section class="summary-row" aria-label="ملخص سجل التدقيق">
         <div class="glass-card-flat summary-stat">
           <div class="summary-stat-value" id="stat-total">—</div>
           <div class="summary-stat-label">إجمالي السجلات</div>
@@ -705,22 +724,22 @@
           <div class="summary-stat-value" id="stat-actors">—</div>
           <div class="summary-stat-label">الجهات الفاعلة</div>
         </div>
-      </div>
+      </section>
 
       <!-- Trace Timeline -->
-      <div class="glass-card trace-timeline-card" id="trace-timeline-card">
+      <section class="glass-card trace-timeline-card" id="trace-timeline-card" aria-labelledby="trace-timeline-title">
         <div class="trace-timeline-header">
           <div>
-            <div class="trace-timeline-eyebrow">Trace Timeline</div>
-            <div class="trace-timeline-title">مسار الطلب من الاستلام حتى الدليل</div>
-            <div class="trace-timeline-subtitle" id="trace-timeline-subtitle">يتم اختيار أحدث trace تلقائياً أو حسب trace_id في الرابط.</div>
+            <div class="trace-timeline-eyebrow" lang="en" dir="ltr">Trace Timeline</div>
+            <div class="trace-timeline-title" id="trace-timeline-title">مسار الطلب من الاستلام حتى الدليل</div>
+            <div class="trace-timeline-subtitle" id="trace-timeline-subtitle">يتم اختيار أحدث <span lang="en" dir="ltr">trace</span> تلقائياً أو حسب <span lang="en" dir="ltr">trace_id</span> في الرابط.</div>
           </div>
-          <button class="trace-id-chip" id="copy-trace-id" type="button" onclick="copySelectedTraceId()" title="نسخ trace id">
+          <button class="trace-id-chip" id="copy-trace-id" type="button" onclick="copySelectedTraceId()" title="نسخ trace id" aria-label="نسخ trace id المحدد">
             <i class="fa-regular fa-copy" aria-hidden="true"></i>
             <span id="selected-trace-id">—</span>
           </button>
         </div>
-        <div class="trace-timeline-list" id="trace-timeline-list" aria-label="Trace timeline">
+        <div class="trace-timeline-list" id="trace-timeline-list" aria-label="خط تتبع Trace">
           <div class="loading-entries">جاري بناء خط التتبع...</div>
         </div>
         <div class="hash-chain-visual" aria-label="التحقق البصري من hash chain">
@@ -730,34 +749,34 @@
             <span>جاري التحقق</span>
           </div>
         </div>
-      </div>
+      </section>
 
       <!-- Filters -->
-      <div class="filters-bar" role="group" aria-label="فلاتر السجل">
-        <button class="filter-btn active" data-action="all" onclick="setActionFilter(this,'all')">الكل</button>
-        <button class="filter-btn" data-action="chat" onclick="setActionFilter(this,'chat')">محادثة</button>
-        <button class="filter-btn" data-action="approve" onclick="setActionFilter(this,'approve')">موافقة</button>
-        <button class="filter-btn" data-action="reject" onclick="setActionFilter(this,'reject')">رفض</button>
-        <button class="filter-btn" data-action="execute" onclick="setActionFilter(this,'execute')">تنفيذ</button>
-        <button class="filter-btn" data-action="block" onclick="setActionFilter(this,'block')">حظر</button>
+      <section class="filters-bar" role="group" aria-label="فلاتر السجل">
+        <button class="filter-btn active" data-action="all" type="button" aria-pressed="true" onclick="setActionFilter(this,'all')">الكل</button>
+        <button class="filter-btn" data-action="chat" type="button" aria-pressed="false" onclick="setActionFilter(this,'chat')">محادثة</button>
+        <button class="filter-btn" data-action="approve" type="button" aria-pressed="false" onclick="setActionFilter(this,'approve')">موافقة</button>
+        <button class="filter-btn" data-action="reject" type="button" aria-pressed="false" onclick="setActionFilter(this,'reject')">رفض</button>
+        <button class="filter-btn" data-action="execute" type="button" aria-pressed="false" onclick="setActionFilter(this,'execute')">تنفيذ</button>
+        <button class="filter-btn" data-action="block" type="button" aria-pressed="false" onclick="setActionFilter(this,'block')">حظر</button>
         <div class="search-input-wrap">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
             <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
           </svg>
-          <input type="search" class="search-input" id="audit-search" placeholder="بحث في السجل..." oninput="filterEntries()">
+          <input type="search" class="search-input" id="audit-search" placeholder="بحث في السجل..." aria-label="بحث في سجل التدقيق" oninput="filterEntries()">
         </div>
-      </div>
+      </section>
 
       <!-- Audit Log -->
-      <div class="glass-card audit-log-card">
+      <section class="glass-card audit-log-card" aria-labelledby="audit-log-title">
         <div class="audit-log-header">
-          <span class="audit-log-title">سجل الأحداث</span>
+          <span class="audit-log-title" id="audit-log-title">سجل الأحداث</span>
           <span class="audit-log-count" id="entries-count">آخر 50 إدخالاً</span>
         </div>
-        <div class="audit-log-body" id="audit-log-body" aria-label="سجل التدقيق">
+        <div class="audit-log-body" id="audit-log-body" role="list" aria-label="سجل التدقيق">
           <div class="loading-entries">جاري تحميل سجل التدقيق...</div>
         </div>
-      </div>
+      </section>
 
     </div>
   </main>
@@ -911,8 +930,12 @@
 
     function setActionFilter(btn, filter) {
       currentActionFilter = filter;
-      document.querySelectorAll('.filter-btn[data-action]').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.filter-btn[data-action]').forEach(b => {
+        b.classList.remove('active');
+        b.setAttribute('aria-pressed', 'false');
+      });
       btn.classList.add('active');
+      btn.setAttribute('aria-pressed', 'true');
       renderEntries();
     }
 
@@ -981,13 +1004,13 @@
           : `<span title="سجل قديم بدون trace_id">${shortId}...</span>`;
 
         return `
-          <div class="audit-entry">
+          <div class="audit-entry" role="listitem">
             <span class="audit-time">${time}</span>
-            <span class="audit-action-badge ${info.cls}" aria-label="${info.label}">${info.label}</span>
+            <span class="audit-action-badge ${info.cls}" aria-label="نوع الحدث: ${KernelUtils.escapeHtml(info.label)}">${KernelUtils.escapeHtml(info.label)}</span>
             <span class="audit-details">
-              <span class="actor">${actor}</span> — ${KernelUtils.escapeHtml(department)} · ${KernelUtils.escapeHtml(getRiskLabel(riskLevel))} · Trace: ${traceLink}
+              <span class="actor">${actor}</span> — ${KernelUtils.escapeHtml(department)} · ${KernelUtils.escapeHtml(getRiskLabel(riskLevel))} · <span lang="en" dir="ltr">Trace</span>: ${traceLink}
             </span>
-            <span class="audit-hash" onclick="copyToClipboard('${getRecordHash(entry)}')" title="نسخ التجزئة">${shortHashValue}</span>
+            <button class="audit-hash" type="button" data-hash="${KernelUtils.escapeHtml(getRecordHash(entry))}" onclick="copyHash(this)" title="نسخ التجزئة" aria-label="نسخ تجزئة سجل التدقيق">${KernelUtils.escapeHtml(shortHashValue)}</button>
           </div>
         `;
       }).join('');
@@ -1034,7 +1057,7 @@
               <span class="trace-step-index">${index + 1}</span>
               <span class="trace-step-status">${state.label}</span>
             </div>
-            <div class="trace-step-code">${stage.key}</div>
+            <div class="trace-step-code" lang="en" dir="ltr">${stage.key}</div>
             <div class="trace-step-meta">${KernelUtils.escapeHtml(stage.label)}${time ? ` · ${KernelUtils.escapeHtml(time)}` : ''}</div>
             <div class="trace-step-meta">${KernelUtils.escapeHtml(stage.meta(source))}</div>
             <div class="trace-step-hash">${KernelUtils.escapeHtml(hash ? shortHash(hash) : 'hash: —')}</div>
@@ -1213,7 +1236,7 @@
     }
 
     function copyHash(el) {
-      const text = el.textContent.trim();
+      const text = (el.dataset.hash || el.textContent).trim();
       copyToClipboard(text);
     }
 

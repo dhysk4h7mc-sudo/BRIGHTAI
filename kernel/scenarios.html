@@ -20,7 +20,7 @@
   <style>
     .scenarios-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 350px), 1fr));
       gap: 1.5rem;
     }
     .scenario-card {
@@ -186,6 +186,26 @@
     .add-btn:hover {
       background: var(--primary-hover);
     }
+    .connector-result-panel {
+      display: none;
+      border: 1px solid rgba(16, 185, 129, .24);
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      background: rgba(5, 46, 22, .28);
+      color: #dcfce7;
+    }
+    .connector-result-panel.is-visible {
+      display: block;
+    }
+    .connector-result-title {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      margin-bottom: .5rem;
+      color: #86efac;
+      font-weight: 900;
+    }
   </style>
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://brightai.site/kernel/scenarios/">
@@ -344,6 +364,8 @@
           </div>
         </section>
 
+        <div class="connector-result-panel" id="scenarioResult" aria-live="polite"></div>
+
         <!-- Scenarios Grid -->
         <div class="scenarios-grid">
           <!-- Scenario 1: Finance -->
@@ -391,7 +413,7 @@
                 </div>
               </div>
               <div class="scenario-actions">
-                <button class="scenario-btn secondary">تعديل</button>
+                <button class="scenario-btn secondary" type="button" data-edit-scenario="القطاع المالي (عقد تمويل + آيبان)" data-policy="/kernel/policies/?scenario=finance">تعديل</button>
                 <button class="scenario-btn primary" onclick="runDemoScenario('finance', 'PDPL', 'أريد مراجعة عقد تمويل شخصي يحتوي على رقم الآيبان SA9930000000001234567890 وتوقيع العميل لضمان سرية البيانات.')">جرّب السيناريو الآن</button>
               </div>
             </div>
@@ -442,7 +464,7 @@
                 </div>
               </div>
               <div class="scenario-actions">
-                <button class="scenario-btn secondary">تعديل</button>
+                <button class="scenario-btn secondary" type="button" data-edit-scenario="الموارد البشرية (بيانات موظف + راتب)" data-policy="/kernel/policies/?scenario=hr">تعديل</button>
                 <button class="scenario-btn primary" onclick="runDemoScenario('hr', 'PDPL', 'يرجى تحليل ملف الموظف خالد الحربي والتقييم السنوي متضمناً الراتب والمكافآت لمراجعة شروط زيادة الرواتب.')">جرّب السيناريو الآن</button>
               </div>
             </div>
@@ -493,7 +515,7 @@
                 </div>
               </div>
               <div class="scenario-actions">
-                <button class="scenario-btn secondary">تعديل</button>
+                <button class="scenario-btn secondary" type="button" data-edit-scenario="الشؤون القانونية (عقد مورد + شرط جزائي)" data-policy="/kernel/policies/?scenario=legal">تعديل</button>
                 <button class="scenario-btn primary" onclick="runDemoScenario('legal', 'general', 'يرجى فحص عقد المورد لشركة المشتريات والتأكد من توافق الشرط الجزائي البالغ 50,000 ريال مع لوائح الشركة.')">جرّب السيناريو الآن</button>
               </div>
             </div>
@@ -544,7 +566,7 @@
                 </div>
               </div>
               <div class="scenario-actions">
-                <button class="scenario-btn secondary">تعديل</button>
+                <button class="scenario-btn secondary" type="button" data-edit-scenario="الرعاية الصحية (CAPA + ملف مريض)" data-policy="/kernel/policies/?scenario=healthcare">تعديل</button>
                 <button class="scenario-btn primary" onclick="runDemoScenario('healthcare', 'SFDA', 'مراجعة تقرير تصحيحي CAPA لمريض مصاب بالسكري ورقمه الطبي MRN-12345، مع تحديد الإجراءات الوقائية المطلوبة.')">جرّب السيناريو الآن</button>
               </div>
             </div>
@@ -595,8 +617,8 @@
                 </div>
               </div>
               <div class="scenario-actions">
-                <button class="scenario-btn secondary">تعديل</button>
-                <button class="scenario-btn primary" onclick="runDemoScenario('code', 'NCA_ECC', 'فحص الكود التالي للتأكد من عدم وجود ثغرات أمنية: const db_password = \'mock_secret_password_123\'; connect(db_password);')">جرّب السيناريو الآن</button>
+                <button class="scenario-btn secondary" type="button" data-edit-scenario="أمن الكود البرمجي (Secrets مكشوفة)" data-policy="/kernel/policies/?scenario=code">تعديل</button>
+                <button class="scenario-btn primary" onclick="runDemoScenario('code', 'NCA_ECC', 'فحص الكود التالي للتأكد من عدم وجود ثغرات أمنية: const db_password = \'[CREDENTIAL]\'; connect(db_password);')">جرّب السيناريو الآن</button>
               </div>
             </div>
           </div>
@@ -634,6 +656,40 @@
       url.searchParams.set('samplePrompt', samplePrompt);
       window.location.href = url.toString();
     }
+
+    function safeText(value) {
+      return window.KernelUtils?.escapeHtml ? KernelUtils.escapeHtml(value) : String(value || '').replace(/[&<>"']/g, (char) => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;',
+      }[char]));
+    }
+
+    function openScenarioEdit(button) {
+      const panel = document.getElementById('scenarioResult');
+      const scenarioName = button.getAttribute('data-edit-scenario') || 'السيناريو';
+      const policyUrl = button.getAttribute('data-policy') || '/kernel/policies/';
+      if (!panel) {
+        window.location.href = policyUrl;
+        return;
+      }
+      panel.classList.add('is-visible');
+      panel.innerHTML = `
+        <div class="connector-result-title">
+          <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i>
+          <span>مسار تعديل السيناريو جاهز</span>
+        </div>
+        <p>اخترنا <strong>${safeText(scenarioName)}</strong>. انتقل لمحرر السياسات لتعديل قواعده أو شغّله من زر التجربة.</p>
+        <p><a href="${safeText(policyUrl)}">فتح محرر السياسات لهذا السيناريو</a></p>
+      `;
+      panel.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'nearest' });
+    }
+
+    document.querySelectorAll('[data-edit-scenario]').forEach((button) => {
+      button.addEventListener('click', () => openScenarioEdit(button));
+    });
 
     document.getElementById('menuToggle')?.addEventListener('click', () => {
       document.getElementById('sidebar').classList.toggle('open');

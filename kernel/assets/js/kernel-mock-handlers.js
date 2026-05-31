@@ -76,7 +76,7 @@
       matchedPolicies = [{"name": "سياسة حماية البيانات الصحية للمرضى وحوكمة الهيئة العامة للغذاء والدواء SFDA"}];
       responseText = "عذراً، تم حظر طلبك نظراً لاحتوائه على معلومات شخصية صحية وحساسة (ملف طبي MRN-12345) بدون تصريح مسبق، وهو ما يخالف نظام الهيئة العامة للغذاء والدواء SFDA ولوائح حماية البيانات الصحية.";
       latencyMs = 890;
-    } else if (/db_password|mock_secret_password_123|COD44|Code/i.test(message)) {
+    } else if (/db_password|\[CREDENTIAL\]|COD44|Code/i.test(message)) {
       scenario = 'code';
       traceId = 'AI-2026-COD44';
       riskScore = 95;

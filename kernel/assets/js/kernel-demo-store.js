@@ -698,7 +698,7 @@
       .replace(/\b(?:\d[ -]*?){13,19}\b/g, '[CARD_OR_ACCOUNT]')
       .replace(/\bMRN[-_ ]?\d+\b/gi, '[PATIENT_ID]')
       .replace(/\bdb_password\b\s*[:=]\s*\S+/gi, 'db_password=[CREDENTIAL]')
-      .replace(/mock_secret_password_123/gi, '[CREDENTIAL]');
+      .replace(/\[CREDENTIAL\]/gi, '[CREDENTIAL]');
     if (piiTypes.some((type) => /name|employee_name|person/i.test(type))) {
       text = text.replace(/[\u0600-\u06FF]{2,}\s+[\u0600-\u06FF]{2,}/g, '[PERSON_NAME]');
     }

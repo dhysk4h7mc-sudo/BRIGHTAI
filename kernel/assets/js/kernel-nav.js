@@ -34,6 +34,8 @@
       isMoreMenuOpen: false,
       currentPage: null,
       statusIntervalId: null,
+      lastDrawerTrigger: null,
+      lastMoreTrigger: null,
     },
 
     // Icons SVG paths
@@ -123,7 +125,7 @@
             ${morePages.length > 0 ? this.renderMoreMenu(morePages) : ''}
           </nav>
 
-          <button class="hamburger-btn" id="hamburger-btn" aria-label="القائمة" aria-expanded="false">
+          <button class="hamburger-btn" id="hamburger-btn" aria-label="فتح قائمة Kernel" aria-expanded="false" aria-controls="mobile-drawer">
             ${this.createIcon('menu')}
           </button>
         </div>
@@ -191,8 +193,8 @@
            class="nav-link ${isActive ? 'active' : ''}"
            ${isActive ? 'aria-current="page"' : ''}>
           ${page.label}
-          ${page.isNew ? '<span class="badge badge-new">جديد</span>' : ''}
-          ${page.showPending ? `<span class="pending-badge" id="pending-badge-top" style="display: none;">0</span>` : ''}
+            ${page.isNew ? '<span class="badge badge-new" aria-label="صفحة جديدة">جديد</span>' : ''}
+            ${page.showPending ? `<span class="pending-badge" id="pending-badge-top" style="display: none;" aria-label="طلبات موافقة معلقة">0</span>` : ''}
         </a>
       `;
     },
@@ -216,7 +218,7 @@
               <a href="${page.href}" class="nav-dropdown-item" role="menuitem">
                 ${this.createIcon(page.icon)}
                 ${page.label}
-                ${page.isNew ? '<span class="badge badge-new">جديد</span>' : ''}
+                ${page.isNew ? '<span class="badge badge-new" aria-label="صفحة جديدة">جديد</span>' : ''}
               </a>
             `
               )
@@ -248,7 +250,7 @@
                  ${isActive ? 'aria-current="page"' : ''}>
                 ${this.createIcon(page.icon)}
                 <span>${page.label}</span>
-                ${page.showPending ? '<span class="pending-dot" id="pending-dot-bottom" style="display: none;"></span>' : ''}
+                ${page.showPending ? '<span class="pending-dot" id="pending-dot-bottom" style="display: none;" aria-label="طلبات موافقة معلقة"></span>' : ''}
               </a>
             `;
             })
@@ -274,6 +276,7 @@
       const drawer = document.createElement('aside');
       drawer.className = 'mobile-drawer';
       drawer.id = 'mobile-drawer';
+      drawer.setAttribute('role', 'dialog');
       drawer.setAttribute('aria-label', 'قائمة التنقل');
       drawer.setAttribute('aria-hidden', 'true');
 
@@ -296,7 +299,7 @@
                  class="drawer-link ${isActive ? 'active' : ''}">
                 ${this.createIcon(page.icon)}
                 ${page.label}
-                ${page.isNew ? '<span class="badge badge-new">جديد</span>' : ''}
+                ${page.isNew ? '<span class="badge badge-new" aria-label="صفحة جديدة">جديد</span>' : ''}
               </a>
             `;
             })
@@ -356,6 +359,15 @@
         if (e.key === 'Escape') {
           this.closeDrawer();
           this.closeMoreMenu();
+          return;
+        }
+
+        if (this.state.isDrawerOpen) {
+          this.trapFocus(e, document.getElementById('mobile-drawer'));
+        }
+
+        if (this.state.isMoreMenuOpen) {
+          this.trapFocus(e, document.getElementById('nav-more'));
         }
       });
 
@@ -377,15 +389,24 @@
       const backdrop = document.getElementById('drawer-backdrop');
       const hamburgerBtn = document.getElementById('hamburger-btn');
 
+      if (this.state.isDrawerOpen) {
+        this.state.lastDrawerTrigger = document.activeElement instanceof HTMLElement ? document.activeElement : hamburgerBtn;
+      }
       if (drawer) drawer.classList.toggle('open', this.state.isDrawerOpen);
       if (backdrop) backdrop.classList.toggle('open', this.state.isDrawerOpen);
-      if (hamburgerBtn) hamburgerBtn.setAttribute('aria-expanded', this.state.isDrawerOpen);
+      if (hamburgerBtn) hamburgerBtn.setAttribute('aria-expanded', String(this.state.isDrawerOpen));
       if (drawer) drawer.setAttribute('aria-hidden', String(!this.state.isDrawerOpen));
       if (backdrop) backdrop.setAttribute('aria-hidden', String(!this.state.isDrawerOpen));
 
       // Prevent body scroll when drawer is open
       document.body.style.overflow = this.state.isDrawerOpen ? 'hidden' : '';
       document.body.classList.toggle('drawer-open', this.state.isDrawerOpen);
+
+      if (this.state.isDrawerOpen) {
+        this.focusFirstIn(drawer);
+      } else {
+        this.restoreFocus(this.state.lastDrawerTrigger);
+      }
     },
 
     /**
@@ -406,6 +427,7 @@
       if (backdrop) backdrop.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
       document.body.classList.remove('drawer-open');
+      this.restoreFocus(this.state.lastDrawerTrigger);
     },
 
     /**
@@ -416,8 +438,16 @@
       const moreContainer = document.getElementById('nav-more');
       const moreBtn = document.getElementById('nav-more-btn');
 
+      if (this.state.isMoreMenuOpen) {
+        this.state.lastMoreTrigger = document.activeElement instanceof HTMLElement ? document.activeElement : moreBtn;
+      }
       if (moreContainer) moreContainer.classList.toggle('open', this.state.isMoreMenuOpen);
-      if (moreBtn) moreBtn.setAttribute('aria-expanded', this.state.isMoreMenuOpen);
+      if (moreBtn) moreBtn.setAttribute('aria-expanded', String(this.state.isMoreMenuOpen));
+      if (this.state.isMoreMenuOpen) {
+        this.focusFirstIn(document.getElementById('nav-dropdown'));
+      } else {
+        this.restoreFocus(this.state.lastMoreTrigger);
+      }
     },
 
     /**
@@ -432,6 +462,44 @@
 
       if (moreContainer) moreContainer.classList.remove('open');
       if (moreBtn) moreBtn.setAttribute('aria-expanded', 'false');
+      this.restoreFocus(this.state.lastMoreTrigger);
+    },
+
+    getFocusableElements(container) {
+      if (!container) return [];
+      return Array.from(container.querySelectorAll(
+        'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      )).filter((element) => element.offsetParent !== null || element === document.activeElement);
+    },
+
+    focusFirstIn(container) {
+      const first = this.getFocusableElements(container)[0];
+      if (first) first.focus({ preventScroll: true });
+    },
+
+    restoreFocus(element) {
+      if (element && document.contains(element) && typeof element.focus === 'function') {
+        element.focus({ preventScroll: true });
+      }
+    },
+
+    trapFocus(event, container) {
+      if (event.key !== 'Tab' || !container) return;
+      const focusable = this.getFocusableElements(container);
+      if (!focusable.length) {
+        event.preventDefault();
+        return;
+      }
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
     },
 
     /**

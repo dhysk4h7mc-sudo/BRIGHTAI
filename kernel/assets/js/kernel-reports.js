@@ -281,7 +281,7 @@
             <td>${this.escapeHtml(report.nextRun || '—')}</td>
             <td>${recipients} ${recipients === 1 ? 'مستلم' : 'مستلمين'}</td>
             <td><span class="schedule-status ${this.escapeHtml(status)}">${this.escapeHtml(statusLabels[status] || status)}</span></td>
-            <td><button class="report-btn secondary" type="button">تعديل</button></td>
+            <td><button class="report-btn secondary" type="button" onclick="KernelReports.editScheduledReport('${this.escapeHtml(report.id || '')}')">تعديل</button></td>
           </tr>
         `;
       }).join('');
@@ -479,6 +479,23 @@
         console.log('[v0] Schedule failed:', error);
         this.showToast('فشل في جدولة التقرير', 'error');
       }
+    },
+
+    /**
+     * Toggle a scheduled report status from the table.
+     * @param {string} scheduleId - Scheduled report ID
+     */
+    editScheduledReport(scheduleId) {
+      const report = this.state.scheduledReports.find((item) => item.id === scheduleId);
+      if (!report) {
+        this.showToast('لم يتم العثور على الجدولة', 'error');
+        return;
+      }
+
+      const nextStatus = report.status === 'paused' ? 'active' : 'paused';
+      report.status = nextStatus;
+      this.renderScheduledReports();
+      this.showToast(nextStatus === 'active' ? 'تم تفعيل الجدولة' : 'تم إيقاف الجدولة مؤقتاً', 'success');
     },
 
     /**

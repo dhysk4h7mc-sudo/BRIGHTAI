@@ -196,6 +196,27 @@ kernel/
 - لا تضف `width: 100vw` داخل عناصر nested؛ استخدم `width: 100%`, `max-width: 100%`, و`min-width: 0`.
 - عند إضافة صفحة Kernel جديدة، اختبرها على الأقل عند `320/375/720/1024px` وتأكد أن `document.documentElement.scrollWidth <= window.innerWidth` إلا إذا كان التمرير داخل جدول/حاوية مقصودة.
 
+## تحديث الوصولية في Audit وEvidence
+
+تم تحسين الوصولية داخل `kernel/audit.html`, `kernel/evidence.html`, `kernel/assets/js/kernel-nav.js`, `kernel/assets/js/kernel-mobile.js`, و`kernel/assets/css/kernel.css` بدون تغيير وظائف API أو تدفقات البيانات.
+
+نطاق التحسين:
+
+- إضافة semantic landmarks و`skip-link` و`aria-labelledby` للصفحات، مع إبقاء breadcrumb المرئية كجزء ثابت من تجربة التنقل.
+- تحويل العناصر التفاعلية في `audit.html` و`evidence.html` من `div/span` قابلة للنقر إلى `button` فعلي عند نسخ التجزئات أو اختيار سجل دليل.
+- توحيد حالة الفلاتر والأزرار عبر `aria-pressed`، وتوحيد قيم `aria-expanded` نصياً باستخدام `String(...)` داخل JavaScript.
+- إضافة focus trap مع إعادة التركيز للعناصر التي فتحت الـ mobile drawer والـ more dropdown في `kernel-nav.js`، وتطبيق نفس نمط focus trap للـ drawer في `kernel-mobile.js`.
+- إضافة `aria-label` للأزرار والـ toggles والـ badges التي تحتاج وصفاً أوضح لقارئ الشاشة.
+- ضبط النصوص اللاتينية مثل `Trace`, `Trace ID`, `Audit`, وحقول `Hash/Provider/Model` باستخدام `lang="en"` و`dir="ltr"` عند الحاجة.
+- تقوية focus states في `kernel.css` وتحسين تباين tags/badges لحالات الخطر والموافقة والحظر.
+
+قواعد مستقبلية:
+
+- لا تضف `div` أو `span` مع `onclick` لعناصر يمكن تفعيلها؛ استخدم `button` أو أضف `role`, `tabindex`, ومعالجة keyboard إذا كان العنصر غير قياسي.
+- أي drawer أو dropdown جديد يجب أن يدعم `Escape`, حصر التركيز أثناء الفتح، وإعادة التركيز للزر الذي فتحه عند الإغلاق.
+- أي toggle أو badge يحمل حالة مهمة يجب أن يملك `aria-label` أو نصاً واضحاً كافياً لقارئ الشاشة.
+- أي نص لاتيني داخل واجهة عربية، خصوصاً معرفات `trace_id` وحقول hash/model/provider، يجب عزله باتجاه `LTR` ولغة مناسبة.
+
 ## تحديث الروابط الداخلية والاكتشاف
 
 تم توحيد link graph داخل `kernel/` بحيث تغطي كل صفحة HTML الصفحات الإحدى عشرة الأساسية:
@@ -217,8 +238,31 @@ kernel/
 - كل قسم `BRIGHTAI_INTERNAL_LINKS` في صفحات `kernel/*.html` يحتوي نفس الصفحات الإحدى عشرة بنمط الدليل trailing slash.
 - كل صفحة تحتوي breadcrumb مرئية واحدة عبر `.kernel-breadcrumb`، وتطابق أسماء `BreadcrumbList` في JSON-LD.
 - الصفحات الأقل ارتباطاً سابقاً (`scenarios`, `connectors`, `compliance`, `reports`) تحتوي CTA وروابط سياقية داخل المحتوى تربطها بسجل التدقيق، الأدلة، السياسات، الموصلات، والتقارير حسب السياق.
+- الصفحات التشغيلية التي تحتاج قراراً أو مراجعة (`approvals`, `audit`, `evidence`, `policies`, `stats`) تحتوي الآن CTA سياقية داخل المحتوى حتى لا تكون صفحة نهائية بلا مسار عمل واضح.
 - لا توجد صفحة orphan داخل سطح Kernel؛ كل صفحة تستقبل روابط داخلية من بقية صفحات Kernel.
 - روابط `trace_id` هي الصيغة القياسية للانتقال بين `Audit`, `Evidence`, `Approvals`, و`Policies`. لا تضف روابط جديدة بصيغة `traceId` في query string.
+
+## تحديث الجاهزية الإنتاجية داخل Kernel
+
+تم تنفيذ إصلاحات محدودة داخل `kernel/` فقط لرفع جاهزية الصفحات بدون تغيير بنية API أو mock schema.
+
+نطاق الإصلاح:
+
+- إضافة CTAs سياقية إلى `approvals.html`, `audit.html`, `evidence.html`, `policies.html`, و`stats.html`.
+- تحويل أزرار كانت صامتة إلى أفعال واضحة: تعديل السيناريو يفتح مسار محرر السياسات، إنشاء التقرير يشغّل flow إنشاء التقرير، وتعديل الجدولة يبدّل حالة الجدولة بين نشط ومتوقف.
+- تقليل احتمال horizontal overflow على الجوال في grids الخاصة بـ `reports.html`, `scenarios.html`, و`connectors.html` باستخدام `minmax(min(100%, ...), 1fr)`.
+- إزالة مثال secret وهمي صريح من سيناريو فحص الكود، مع إبقاء المثال كـ `[CREDENTIAL]` حتى لا يلتقطه فحص الأسرار كقيمة حساسة.
+- تأكيد أن `.env.example` يستخدم مفاتيح فارغة للأسرار ولا يحتوي قيماً حقيقية.
+
+التحقق المنفذ:
+
+- static audit للـ breadcrumb والـ CTA مرّ على كل صفحات `kernel/*.html`.
+- static audit للروابط الداخلية داخل `kernel/` وأزرار HTML بلا marker وظيفي مرّ.
+- فحص `.env.example` أكد أن مفاتيح الأسرار فارغة.
+
+التحقق غير المكتمل:
+
+- فحص فتح كل صفحة في متصفح حقيقي، console errors، وmobile overflow لم يكتمل لأن المستخدم طلب إيقاف التحقق أثناء التنفيذ.
 
 ## تحديث واجهة المحادثة
 
@@ -647,12 +691,17 @@ npm run verify:all
 - لا تكسر `kernel-demo-update` لأنه ينعش الإحصائيات والموافقات عند demo.
 - لا تغيّر mock schema بدون تحديث normalize functions والصفحات المستهلكة.
 - حدّث README مع أي صفحة أو ملف mock أو endpoint جديد.
+
 ### التعديلات المنفذة
 
 - إزالة `user-scalable=no` و`maximum-scale=1.0` من صفحات Kernel التي كانت تمنع التكبير.
 - تحديث `kernel/assets/js/kernel-mobile.js` حتى لا يعيد فرض منع التكبير ديناميكياً.
 - إضافة `aria-label` للأزرار الأيقونية المستهدفة مثل تبديل المظهر، فتح القائمة، إغلاق المودال، إغلاق التنبيه، وقائمة المزيد.
 - تقوية focus states في CSS المشترك وتحسين ظهور focus في dropdown.
+- إضافة landmarks وbreadcrumb مرئية محسنة في `audit.html` و`evidence.html`.
+- تحويل عناصر `audit/evidence` التفاعلية إلى أزرار فعلية ودعم حالة `aria-pressed`.
+- إضافة focus trap وإعادة التركيز للـ drawer/dropdown في `kernel-nav.js` و`kernel-mobile.js`.
+- توحيد `aria-expanded` كنصوص، وإضافة `lang="en"` للنصوص اللاتينية داخل صفحات التدقيق والأدلة.
 - تحسين contrast لأزرار success/danger وأزرار primary المحلية في صفحات reports/scenarios/compliance.
 - احترام `prefers-reduced-motion` في عدادات JS، تأثير typewriter، وscroll smooth في connectors.
 - رفع touch targets للأزرار الأساسية إلى 44px أو أكثر.
