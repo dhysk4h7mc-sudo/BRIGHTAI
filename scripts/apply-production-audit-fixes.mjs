@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import fs from "node:fs/promises";
 import path from "node:path";
+import { relPathToCanonical } from "./seo-url-map.mjs";
 
 const ROOT = process.cwd();
 const BASE_URL = "https://brightai.site";
@@ -22,7 +23,7 @@ function routeFromRel(relPath) {
 }
 
 function canonicalFromRel(relPath) {
-  return `${BASE_URL}${routeFromRel(relPath)}`;
+  return relPathToCanonical(relPath, BASE_URL) || `${BASE_URL}${routeFromRel(relPath)}`;
 }
 
 function escapeHtml(value) {
@@ -118,7 +119,7 @@ function websiteGraph(brandName) {
 }
 
 function breadcrumbGraph(relPath, title, canonical, brandName) {
-  const parts = routeFromRel(relPath).split("/").filter(Boolean);
+  const parts = new URL(canonical).pathname.split("/").filter(Boolean);
   const items = [{ "@type": "ListItem", position: 1, name: brandName, item: `${BASE_URL}/` }];
   let current = BASE_URL;
   parts.forEach((part, index) => {

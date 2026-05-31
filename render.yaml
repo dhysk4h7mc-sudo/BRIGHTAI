@@ -645,10 +645,10 @@ services:
         destination: /docs/
       - type: redirect
         source: /docs/docs.html
-        destination: /docs/docs/
+        destination: /docs/
       - type: redirect
         source: /docs/docs
-        destination: /docs/docs/
+        destination: /docs/
       - type: redirect
         source: /en/docs
         destination: /docs/

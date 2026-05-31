@@ -169,6 +169,7 @@ export function relPathToSitePath(relPath) {
   if (normalized === "index.html") return "/";
   if (normalized === "docs/index.html") return "/docs/";
   if (normalized === "docs.html") return "/docs/";
+  if (normalized === "docs/docs.html") return "/docs/";
   if (normalized === "blog/ai-audit-trail-saudi/iindex.html") return "/blog/ai-audit-trail-saudi/";
 
   if (normalized.endsWith("/index.html")) {

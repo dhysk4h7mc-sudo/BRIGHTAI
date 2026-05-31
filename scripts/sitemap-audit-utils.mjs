@@ -178,6 +178,10 @@ export function buildLocalFileCandidates(decodedPath) {
     add(path.posix.join("frontend/pages", `${trimmed}.html`));
   }
 
+  if (/^blog\/ai-audit-trail-saudi$/i.test(trimmed)) {
+    add(path.posix.join(trimmed, "iindex.html"));
+  }
+
   if (/^sectors\/[^/]+$/i.test(trimmed)) {
     add(`${trimmed}.html`);
     add(path.posix.join("frontend/pages", `${trimmed}.html`));
