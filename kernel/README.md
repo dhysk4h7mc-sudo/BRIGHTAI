@@ -136,8 +136,32 @@ kernel/
 - الصفحة تستخدم نفس هوية BrightAI الداكنة مع تقليل الزخرفة والحفاظ على سطح تشغيلي واضح.
 - `Production API` يبقى الافتراضي، ولا يتم تفعيل demo بصمت عند فشل الاتصال.
 - القيم المختلطة مثل `Trace ID` معزولة بصرياً باتجاه `LTR` داخل الواجهة العربية.
-- روابط الأدلة في جدول traces تمرر `traceId` إلى `/kernel/evidence/`.
+- روابط الأدلة في جدول traces تمرر `trace_id` إلى `/kernel/evidence/`.
 - تم تحديث head للصفحة بإزالة منع التكبير من viewport، وإضافة Open Graph/Twitter tags، وتحويل JSON-LD إلى صيغة array صالحة للفحص المحلي.
+
+## تحديث الروابط الداخلية والاكتشاف
+
+تم توحيد link graph داخل `kernel/` بحيث تغطي كل صفحة HTML الصفحات الإحدى عشرة الأساسية:
+
+- `/kernel/`
+- `/kernel/chat/`
+- `/kernel/audit/`
+- `/kernel/evidence/`
+- `/kernel/approvals/`
+- `/kernel/stats/`
+- `/kernel/compliance/`
+- `/kernel/policies/`
+- `/kernel/connectors/`
+- `/kernel/scenarios/`
+- `/kernel/reports/`
+
+قواعد الربط الحالية:
+
+- كل قسم `BRIGHTAI_INTERNAL_LINKS` في صفحات `kernel/*.html` يحتوي نفس الصفحات الإحدى عشرة بنمط الدليل trailing slash.
+- كل صفحة تحتوي breadcrumb مرئية واحدة عبر `.kernel-breadcrumb`، وتطابق أسماء `BreadcrumbList` في JSON-LD.
+- الصفحات الأقل ارتباطاً سابقاً (`scenarios`, `connectors`, `compliance`, `reports`) تحتوي CTA وروابط سياقية داخل المحتوى تربطها بسجل التدقيق، الأدلة، السياسات، الموصلات، والتقارير حسب السياق.
+- لا توجد صفحة orphan داخل سطح Kernel؛ كل صفحة تستقبل روابط داخلية من بقية صفحات Kernel.
+- روابط `trace_id` هي الصيغة القياسية للانتقال بين `Audit`, `Evidence`, `Approvals`, و`Policies`. لا تضف روابط جديدة بصيغة `traceId` في query string.
 
 ## تحديث واجهة المحادثة
 
@@ -371,11 +395,13 @@ BrightAI Kernel - Enterprise AI Governance
 
 ويحتوي على:
 
-- `start_url: /`
-- `scope: /`
+- `start_url: /kernel/`
+- `scope: /kernel/`
 - display standalone
 - أيقونات inline SVG
-- shortcuts إلى `chat.html` و`stats.html`
+- shortcuts إلى `/kernel/chat/` و`/kernel/stats/`
+
+قاعدة manifest الحالية: استخدم نمط الدليل public route، وليس مسارات `.html` المباشرة، حتى يبقى متسقاً مع الروابط الداخلية وcanonical URLs داخل صفحات Kernel.
 
 ## إضافة صفحة جديدة
 
@@ -387,8 +413,10 @@ BrightAI Kernel - Enterprise AI Governance
 4. حمّل `kernel-utils.js`, ثم `kernel-api.js`, ثم `kernel-demo-store.js`, ثم `kernel-mock-handlers.js`, ثم `kernel-demo-banner.js`, ثم `kernel-nav.js`.
 5. استدع `KernelNav.init('sidebarNav')` واضبط الصفحة النشطة عبر `KernelNav.setActive('<page-id>')`.
 6. أضف الصفحة إلى `KernelNav.config.pages` داخل `kernel-nav.js`.
-7. إذا استخدمت `/api/kernel` لا تضف fallback demo صامت؛ اعتمد على `window.kernelShouldUseDemoData()`.
-8. حدّث هذا README إذا تغيرت البنية أو ظهرت واجهة جديدة.
+7. أضف الصفحة إلى قسم `BRIGHTAI_INTERNAL_LINKS` الموحد في كل صفحات `kernel/*.html`، وتأكد أن كل الروابط تستخدم نمط `/kernel/<page>/`.
+8. أضف breadcrumb مرئية تطابق `BreadcrumbList` في JSON-LD.
+9. إذا استخدمت `/api/kernel` لا تضف fallback demo صامت؛ اعتمد على `window.kernelShouldUseDemoData()`.
+10. حدّث هذا README إذا تغيرت البنية أو ظهرت واجهة جديدة.
 
 ## تعديل API أو demo mode
 
