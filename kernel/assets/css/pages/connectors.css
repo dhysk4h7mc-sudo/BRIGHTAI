@@ -1,0 +1,342 @@
+/* Extracted page styles from /kernel/connectors.html. */
+    .connectors-command {
+      display: grid;
+      gap: 1.25rem;
+    }
+    .connectors-hero {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(0, 212, 255, 0.18);
+      border-radius: 8px;
+      padding: clamp(1.25rem, 3vw, 2rem);
+      background:
+        linear-gradient(135deg, rgba(0, 212, 255, 0.16), transparent 34%),
+        linear-gradient(225deg, rgba(245, 158, 11, 0.12), transparent 30%),
+        rgba(11, 22, 40, 0.92);
+      box-shadow: var(--shadow-lg);
+    }
+    .connectors-hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
+      pointer-events: none;
+    }
+    .connectors-hero-content {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(280px, .75fr);
+      gap: 1.5rem;
+      align-items: end;
+    }
+    .connectors-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      width: fit-content;
+      margin-bottom: .75rem;
+      padding: .35rem .65rem;
+      border-radius: 999px;
+      background: rgba(16, 185, 129, 0.14);
+      color: #86efac;
+      font-size: .78rem;
+      font-weight: 700;
+    }
+    .connectors-hero h2 {
+      margin: 0;
+      max-width: 780px;
+      font-size: clamp(1.65rem, 4vw, 3rem);
+      letter-spacing: 0;
+    }
+    .connectors-hero p {
+      max-width: 760px;
+      margin-top: .85rem;
+      color: #cbd5e1;
+      font-size: 1rem;
+    }
+    .demo-warning {
+      display: flex;
+      align-items: flex-start;
+      gap: .75rem;
+      padding: 1rem;
+      border: 1px solid rgba(245, 158, 11, .32);
+      border-radius: 8px;
+      background: rgba(245, 158, 11, .12);
+      color: #fde68a;
+      line-height: 1.65;
+    }
+    .demo-warning i {
+      margin-top: .2rem;
+      color: #fbbf24;
+    }
+    .connector-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: .75rem;
+      margin-top: 1rem;
+    }
+    .connector-metric {
+      border: 1px solid rgba(148, 163, 184, .16);
+      border-radius: 8px;
+      padding: .9rem;
+      background: rgba(3, 10, 24, .5);
+    }
+    .connector-metric strong {
+      display: block;
+      color: #f8fafc;
+      font-size: 1.25rem;
+    }
+    .connector-metric span {
+      color: #94a3b8;
+      font-size: .76rem;
+    }
+    .connectors-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+      gap: 1rem;
+    }
+    .connector-card {
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+      border: 1px solid rgba(148, 163, 184, 0.16);
+      border-radius: 8px;
+      overflow: hidden;
+      background: rgba(11, 22, 40, 0.86);
+      box-shadow: 0 16px 34px rgba(0,0,0,.22);
+      transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+    }
+    .connector-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(0, 212, 255, .42);
+      box-shadow: 0 22px 46px rgba(0,0,0,.32);
+    }
+    .connector-card[data-status="connected"] {
+      border-color: rgba(16, 185, 129, .38);
+    }
+    .connector-card[data-status="demo"] {
+      border-color: rgba(245, 158, 11, .36);
+    }
+    .connector-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1.1rem 1.15rem;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.14);
+    }
+    .connector-info {
+      display: flex;
+      gap: .75rem;
+      align-items: center;
+      min-width: 0;
+    }
+    .connector-logo {
+      width: 46px;
+      height: 46px;
+      flex: 0 0 46px;
+      display: grid;
+      place-items: center;
+      border-radius: 8px;
+      color: #fff;
+      font-size: .82rem;
+      font-weight: 800;
+      letter-spacing: 0;
+      box-shadow: inset 0 0 18px rgba(255,255,255,.08);
+    }
+    .connector-logo.sap { background: linear-gradient(135deg, #0ea5e9, #1d4ed8); }
+    .connector-logo.oracle { background: linear-gradient(135deg, #ef4444, #7f1d1d); }
+    .connector-logo.sharepoint { background: linear-gradient(135deg, #14b8a6, #115e59); }
+    .connector-logo.excel { background: linear-gradient(135deg, #22c55e, #166534); }
+    .connector-logo.his { background: linear-gradient(135deg, #ec4899, #9d174d); }
+    .connector-logo.crm { background: linear-gradient(135deg, #8b5cf6, #4338ca); }
+    .connector-name {
+      color: var(--text-primary);
+      font-size: 1.02rem;
+      font-weight: 800;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .connector-provider {
+      color: var(--text-secondary);
+      font-size: .78rem;
+    }
+    .connector-status {
+      display: inline-flex;
+      align-items: center;
+      align-self: flex-start;
+      gap: .4rem;
+      padding: .34rem .62rem;
+      border-radius: 999px;
+      font-size: .72rem;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+    .connector-status.connected {
+      background: rgba(16, 185, 129, .15);
+      color: #34d399;
+    }
+    .connector-status.demo {
+      background: rgba(245, 158, 11, .15);
+      color: #fbbf24;
+    }
+    .connector-status.not-configured {
+      background: rgba(148, 163, 184, .12);
+      color: #cbd5e1;
+    }
+    .connector-status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: currentColor;
+      box-shadow: 0 0 14px currentColor;
+    }
+    .connector-body {
+      display: grid;
+      gap: .95rem;
+      padding: 1.1rem 1.15rem;
+      flex: 1;
+    }
+    .connector-desc {
+      margin: 0;
+      color: #cbd5e1;
+      font-size: .9rem;
+      line-height: 1.75;
+    }
+    .connector-fields {
+      display: grid;
+      gap: .7rem;
+    }
+    .connector-field {
+      display: grid;
+      grid-template-columns: 112px minmax(0, 1fr);
+      gap: .75rem;
+      align-items: start;
+      color: #e2e8f0;
+      font-size: .83rem;
+    }
+    .connector-field span:first-child {
+      color: #94a3b8;
+    }
+    .connector-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .4rem;
+    }
+    .connector-chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 26px;
+      padding: .24rem .5rem;
+      border: 1px solid rgba(148, 163, 184, .18);
+      border-radius: 999px;
+      background: rgba(3, 10, 24, .42);
+      color: #dbeafe;
+      font-size: .72rem;
+      font-weight: 700;
+    }
+    .scenario-strip {
+      display: flex;
+      align-items: center;
+      gap: .65rem;
+      margin-top: .2rem;
+      padding: .75rem;
+      border-radius: 8px;
+      border: 1px solid rgba(0, 212, 255, .14);
+      background: rgba(0, 212, 255, .07);
+      color: #e0f2fe;
+      font-size: .82rem;
+      font-weight: 700;
+    }
+    .scenario-strip i {
+      color: var(--brand);
+    }
+    .connector-footer {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: .55rem;
+      padding: 1rem 1.15rem 1.15rem;
+      border-top: 1px solid rgba(148, 163, 184, 0.14);
+    }
+    .connector-btn {
+      min-height: 44px;
+      border: 0;
+      border-radius: 8px;
+      padding: .55rem .7rem;
+      cursor: pointer;
+      font: inherit;
+      font-size: .84rem;
+      font-weight: 800;
+      transition: transform .18s ease, background .18s ease, border-color .18s ease;
+    }
+    .connector-btn:hover {
+      transform: translateY(-1px);
+    }
+    .connector-btn.primary {
+      background: linear-gradient(135deg, var(--brand), #3b82f6);
+      color: #03111f;
+    }
+    .connector-btn.secondary {
+      border: 1px solid rgba(148, 163, 184, .22);
+      background: rgba(15, 23, 42, .74);
+      color: #f8fafc;
+    }
+    .connector-btn:focus-visible {
+      outline: 2px solid var(--brand);
+      outline-offset: 2px;
+    }
+    .connector-result-panel {
+      display: none;
+      border: 1px solid rgba(16, 185, 129, .24);
+      border-radius: 8px;
+      padding: 1rem;
+      background: rgba(5, 46, 22, .28);
+      color: #dcfce7;
+    }
+    .connector-result-panel.is-visible {
+      display: block;
+    }
+    .connector-result-title {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      margin-bottom: .5rem;
+      color: #86efac;
+      font-weight: 900;
+    }
+    .connector-result-panel code {
+      display: inline-block;
+      direction: ltr;
+      padding: .16rem .38rem;
+      border-radius: 6px;
+      background: rgba(3, 10, 24, .62);
+      color: #bfdbfe;
+      font-size: .83rem;
+    }
+    @media (max-width: 900px) {
+      .connectors-hero-content {
+        grid-template-columns: 1fr;
+      }
+      .connector-metrics {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (max-width: 560px) {
+      .connectors-grid {
+        grid-template-columns: 1fr;
+      }
+      .connector-header,
+      .connector-footer {
+        grid-template-columns: 1fr;
+      }
+      .connector-header {
+        flex-direction: column;
+      }
+      .connector-field {
+        grid-template-columns: 1fr;
+        gap: .25rem;
+      }
+    }

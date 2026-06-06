@@ -530,6 +530,19 @@
           }
         }
       },
+      connectors: [
+        { id: 'conn-openai', name: 'OpenAI Service', provider: 'GPT-4 & GPT-3.5', status: 'connected', avgLatencyMs: 145, uptime: '99.8%' },
+        { id: 'conn-anthropic', name: 'Anthropic Claude', provider: 'Claude 3 & 3.5', status: 'connected', avgLatencyMs: 198, uptime: '99.5%' },
+        { id: 'conn-azure', name: 'Azure OpenAI Service', provider: 'Microsoft Azure', status: 'connected', avgLatencyMs: 165, uptime: '99.9%' },
+        { id: 'conn-google', name: 'Google AI Studio', provider: 'Gemini 2.5 Pro & Flash', status: 'disconnected', avgLatencyMs: 0, uptime: '99.2%' },
+        { id: 'conn-nvidia', name: 'NVIDIA NIM', provider: 'NVIDIA MiniMax & NIM', status: 'connected', avgLatencyMs: 110, uptime: '99.9%' }
+      ],
+      scenarios: [
+        { id: 'scenario-1', name: 'كشف تسريب الهوية الوطنية (PDPL)', description: 'محاكاة إدخال رقم هوية وطنية سعودية في استعلام غير مشفر والتحقق من كشفه وحجبه تلقائياً للامتثال لنظام حماية البيانات الشخصية.', riskLevel: 'critical', compliancePack: 'pdpl' },
+        { id: 'scenario-2', name: 'مراجعة عقود المشتريات الحكومية', description: 'تحليل مسودة عقد توريد للتحقق من شروط الضمان والمطابقة لقواعد المشتريات والمنافسات الحكومية السعودية.', riskLevel: 'minimal', compliancePack: 'procurement' },
+        { id: 'scenario-3', name: 'تصدير السجلات الطبية الحساسة (SFDA)', description: 'محاولة طلب استخراج تفاصيل تشخيص ورم سرطاني مقترن ببيانات المريض، والتحقق من حظره وطلبه للاعتماد البشري.', riskLevel: 'critical', compliancePack: 'sfda' },
+        { id: 'scenario-4', name: 'التكامل الآمن مع الهيئة الوطنية للأمن السيبراني (NCA)', description: 'فحص الاستعلامات لمنع هجمات Prompt Injection وتفادي تسريب أكواد الاستيقاظ أو مفاتيح API الخاصة بالمؤسسة.', riskLevel: 'high', compliancePack: 'nca_ecc' }
+      ],
       policies: [
         {
           id: "pr_saudi_id_pdpl",
@@ -604,15 +617,17 @@
       try {
         // Parallel fetch for default configuration files
         const mockUrl = (file) => new URL(file, mockBaseUrl).href;
-        const [stats, audit, approvals, evidence, compliance, policies] = await Promise.all([
+        const [stats, audit, approvals, evidence, compliance, policies, connectors, scenarios] = await Promise.all([
           fetch(mockUrl('stats.json')).then(r => r.json()),
           fetch(mockUrl('audit.json')).then(r => r.json()),
           fetch(mockUrl('approvals.json')).then(r => r.json()),
           fetch(mockUrl('evidence.json')).then(r => r.json()),
           fetch(mockUrl('compliance.json')).then(r => r.json()),
-          fetch(mockUrl('policies.json')).then(r => r.json())
+          fetch(mockUrl('policies.json')).then(r => r.json()),
+          fetch(mockUrl('connectors.json')).then(r => r.json()),
+          fetch(mockUrl('scenarios.json')).then(r => r.json())
         ]);
-        window.kernelDemoState = { stats, audit, approvals, evidence, compliance, policies };
+        window.kernelDemoState = { stats, audit, approvals, evidence, compliance, policies, connectors, scenarios };
       } catch (err) {
         console.warn("[BrightAI Kernel] Failed to fetch local JSON mock files. Using hardcoded fallback.", err);
         window.kernelDemoState = getHardcodedDefaults();
@@ -674,20 +689,45 @@
       completedToday: approved
     };
 
-    db.stats.riskByDepartment = db.stats.riskByDepartment || getHardcodedDefaults().stats.riskByDepartment;
-    db.policies = Array.isArray(db.policies) ? db.policies : getHardcodedDefaults().policies;
+    const defaults = getHardcodedDefaults();
+    db.stats.riskByDepartment = db.stats.riskByDepartment || defaults.stats.riskByDepartment;
+    db.policies = Array.isArray(db.policies) ? db.policies : defaults.policies;
+    db.connectors = Array.isArray(db.connectors) ? db.connectors : defaults.connectors;
+    db.scenarios = Array.isArray(db.scenarios) ? db.scenarios : defaults.scenarios;
 
     localStorage.setItem('brightai_kernel_mock_db', JSON.stringify(db));
   }
 
-  // Generate SHA-256 hash dummy for audit chain
-  function generateHash() {
-    const chars = '0123456789abcdef';
-    let result = '';
-    for (let i = 0; i < 64; i++) {
-      result += chars[Math.floor(Math.random() * chars.length)];
+  async function generateHash(content = '') {
+    const input = content || `${Date.now()}-${Math.random().toString(36).slice(2)}-${global.performance?.now?.() || 0}`;
+    const encoder = new TextEncoder();
+    const data = encoder.encode(input);
+
+    try {
+      if (!global.crypto?.subtle?.digest) throw new Error('crypto.subtle unavailable');
+      const hashBuffer = await global.crypto.subtle.digest('SHA-256', data);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map((byte) => byte.toString(16).padStart(2, '0')).join('');
+    } catch (_error) {
+      console.warn('[BrightAI Kernel] crypto.subtle unavailable, using simple hash fallback');
+      let hash = 0;
+      for (let i = 0; i < input.length; i += 1) {
+        hash = ((hash << 5) - hash) + input.charCodeAt(i);
+        hash |= 0;
+      }
+      return Math.abs(hash).toString(16).padStart(64, '0').slice(0, 64);
     }
-    return result;
+  }
+
+  async function generateRecordHash(record = {}) {
+    const content = JSON.stringify({
+      id: record.id || record.traceId || record.trace_id || record.interactionId || record.requestId,
+      action: record.action || record.firewall_action,
+      risk: record.riskLevel || record.risk_level,
+      timestamp: record.createdAt || record.created_at || record.timestamp,
+      previousHash: record.previousHash || record.previous_hash || '',
+    });
+    return generateHash(content);
   }
 
   function maskSensitiveText(value, piiTypes = []) {
@@ -764,14 +804,14 @@
     ) || null;
   }
 
-  function buildMockEvidenceFile(record = {}, db, id) {
+  async function buildMockEvidenceFile(record = {}, db, id) {
     const auditRecord = findMockAuditRecord(db, id) || {};
     const source = { ...auditRecord, ...record };
     const traceId = source.traceId || source.trace_id || id;
     const interactionId = source.interactionId || source.id || source.requestId || id;
     const piiTypes = normalizeMockList(source.piiTypes || source.piiDetected || source.pii_types);
     const maskedRequest = maskSensitiveText(source.maskedText || source.masked_message || source.request || source.query || source.request_message || '', piiTypes);
-    const recordHash = source.recordHash || source.record_hash || source.hash || generateHash();
+    const recordHash = source.recordHash || source.record_hash || source.hash || await generateRecordHash(source);
     const evidenceHash = source.evidenceHash || source.evidence_hash || recordHash;
     const riskReasons = normalizeMockList(source.riskReasons || source.risk_reasons || source.matchedPolicies?.map?.((policy) => policy.name));
     const compliancePack = source.compliancePack || source.compliance_pack || 'general';
@@ -990,9 +1030,9 @@
           actor: 'system',
           gemini_response: randomTemplate.response,
           response: randomTemplate.response,
-          previousHash: db.audit.rows[0]?.recordHash || generateHash(),
-          recordHash: generateHash(),
-          hash: generateHash()
+          previousHash: db.audit.rows[0]?.recordHash || await generateHash(JSON.stringify(db.audit.rows[0] || {})),
+          recordHash: await generateRecordHash(newRecord),
+          hash: await generateRecordHash({ ...newRecord, type: 'blocked' })
         };
         db.audit.rows.unshift(auditEntry);
       } else if (randomTemplate.status === 'pending') {
@@ -1008,9 +1048,9 @@
           actor: newRecord.userName,
           gemini_response: randomTemplate.response,
           response: randomTemplate.response,
-          previousHash: db.audit.rows[0]?.recordHash || generateHash(),
-          recordHash: generateHash(),
-          hash: generateHash()
+          previousHash: db.audit.rows[0]?.recordHash || await generateHash(JSON.stringify(db.audit.rows[0] || {})),
+          recordHash: await generateRecordHash(newRecord),
+          hash: await generateRecordHash({ ...newRecord, type: 'completed' })
         };
         db.audit.rows.unshift(completedAudit);
       }
@@ -1043,9 +1083,9 @@
         riskScore: randomTemplate.riskScore,
         riskLevel: randomTemplate.riskLevel,
         approvalStatus: randomTemplate.status,
-        requestHash: generateHash(),
-        previousHash: db.audit.rows[1]?.recordHash || generateHash(),
-        recordHash: generateHash()
+        requestHash: await generateHash(randomTemplate.query),
+        previousHash: db.audit.rows[1]?.recordHash || await generateHash(JSON.stringify(db.audit.rows[1] || {})),
+        recordHash: await generateRecordHash(newRecord)
       };
       db.evidence.details[interactionId] = db.evidence.details[traceId];
 
@@ -1094,6 +1134,7 @@
     ensureDBInitialized,
     recalculateSummaryStats,
     generateHash,
+    generateRecordHash,
     maskSensitiveText,
     normalizeMockList,
     inferMockDepartment,

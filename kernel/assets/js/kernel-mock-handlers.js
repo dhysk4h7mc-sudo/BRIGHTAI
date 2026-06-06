@@ -12,6 +12,7 @@
     ensureDBInitialized,
     recalculateSummaryStats,
     generateHash,
+    generateRecordHash,
     maskSensitiveText,
     normalizeMockList,
     buildMockEvidenceFile,
@@ -22,7 +23,7 @@
     throw new Error('Kernel demo dependencies must load before kernel-mock-handlers.js');
   }
 
-  function simulateChat(message, compliancePack) {
+  async function simulateChat(message, compliancePack) {
     const db = window.kernelDemoState;
     
     // Determine Scenario
@@ -125,9 +126,9 @@
         actor: 'system',
         gemini_response: responseText,
         response: responseText,
-        previousHash: db.audit.rows[0]?.recordHash || generateHash(),
-        recordHash: generateHash(),
-        hash: generateHash()
+        previousHash: db.audit.rows[0]?.recordHash || await generateHash(JSON.stringify(db.audit.rows[0] || {})),
+        recordHash: await generateRecordHash(newRequest),
+        hash: await generateRecordHash({ ...newRequest, action: 'BLOCKED' })
       };
       db.audit.rows.unshift(auditEntry);
       db.audit.entries = db.audit.rows;
@@ -169,8 +170,8 @@
         riskLevel,
         piiDetected: pii,
         matchedPolicies,
-        auditHash: generateHash(),
-        hash: generateHash(),
+        auditHash: await generateRecordHash(newRequest),
+        hash: await generateRecordHash({ ...newRequest, action: 'APPROVAL_REQUESTED' }),
         reason: responseText,
         kernel: {
           firewall: { piiDetected: true, piiTypes: pii, action: 'allow' },
@@ -222,9 +223,9 @@
         compliance_pack: newRequest.compliancePackage,
         compliancePack: newRequest.compliancePackage,
         compliance_flags: "[]",
-        previousHash: db.audit.rows[0]?.recordHash || generateHash(),
-        recordHash: generateHash(),
-        hash: generateHash()
+        previousHash: db.audit.rows[0]?.recordHash || await generateHash(JSON.stringify(db.audit.rows[0] || {})),
+        recordHash: await generateRecordHash(newRequest),
+        hash: await generateRecordHash({ ...newRequest, action: 'CHAT_REQUEST' })
       };
       
       db.audit.rows.unshift(auditEntry);
@@ -291,11 +292,11 @@
       riskScore: riskScore,
       riskLevel: riskLevel,
       approvalStatus: status,
-      requestHash: result.hash || generateHash(),
-      responseHash: result.hash || generateHash(),
-      previousHash: db.audit.rows[1]?.recordHash || generateHash(),
-      recordHash: result.hash || generateHash(),
-      evidenceHash: result.hash || generateHash(),
+      requestHash: result.hash || await generateHash(message),
+      responseHash: result.hash || await generateHash(responseText),
+      previousHash: db.audit.rows[1]?.recordHash || await generateHash(JSON.stringify(db.audit.rows[1] || {})),
+      recordHash: result.hash || await generateRecordHash(newRequest),
+      evidenceHash: result.hash || await generateRecordHash({ ...newRequest, evidence: true }),
       response_model: result.model || 'Demo Mode',
       provider: result.provider || 'local',
       response_time_ms: latencyMs,
@@ -336,8 +337,150 @@
     }
   }
 
+  function findApprovalIndex(db, requestId) {
+    const id = decodeURIComponent(String(requestId || ''));
+    return db.approvals.pending.findIndex((request) => {
+      return [request.id, request.requestId, request.interactionId, request.traceId, request.trace_id]
+        .filter(Boolean)
+        .map(String)
+        .includes(id);
+    });
+  }
+
+  function updateEvidenceForApproval(db, request, status, response) {
+    const traceId = request.traceId || request.trace_id;
+    const evIndex = db.evidence.evidence.findIndex((item) => {
+      return item.id === request.id || item.traceId === traceId || item.trace_id === traceId;
+    });
+
+    if (evIndex !== -1) {
+      db.evidence.evidence[evIndex].status = status;
+      db.evidence.evidence[evIndex].approvalStatus = status;
+    }
+
+    if (traceId) {
+      db.evidence.details[traceId] = {
+        ...db.evidence.details[traceId],
+        response,
+        approvalStatus: status
+      };
+      if (request.id) db.evidence.details[request.id] = db.evidence.details[traceId];
+    }
+  }
+
+  async function buildApprovalAudit(request, action, approver, reason = '') {
+    const now = new Date().toISOString();
+    const approved = action === 'approve' || action === 'execute';
+    const response = approved
+      ? 'لقد تم التصريح بهذا الاستعلام بعد المراجعة اليدوية للمشرف والموافقة الطارئة. كافة الحماية مطبقة.'
+      : `تم رفض الطلب بواسطة المشرف. السبب: ${reason || 'تم الرفض لدواعي حماية البيانات'}`;
+
+    const previousHash = window.kernelDemoState?.audit?.rows?.[0]?.recordHash || await generateHash(JSON.stringify(window.kernelDemoState?.audit?.rows?.[0] || {}));
+    const recordHash = await generateRecordHash({
+      ...request,
+      action: approved ? 'EXECUTED' : 'REJECTED',
+      previousHash
+    });
+
+    return {
+      id: request.id,
+      interactionId: request.interactionId || request.id,
+      requestId: request.requestId || request.id,
+      trace_id: request.trace_id || request.traceId,
+      traceId: request.traceId || request.trace_id,
+      created_at: now,
+      timestamp: now,
+      createdAt: now,
+      user_id: request.userId,
+      userId: request.userId,
+      user_name: request.userName,
+      userName: request.userName,
+      ip_address: '127.0.0.1',
+      user_agent: navigator.userAgent,
+      request_message: request.query,
+      query: request.query,
+      originalText: request.query,
+      pii_detected: request.piiDetected?.length > 0 ? 1 : 0,
+      pii_types: JSON.stringify(request.piiDetected || []),
+      piiTypes: request.piiDetected || [],
+      piiDetected: request.piiDetected || [],
+      firewall_action: 'allow',
+      masked_message: request.maskedText,
+      maskedText: request.maskedText,
+      risk_score: request.riskScore,
+      riskScore: request.riskScore,
+      risk_level: request.riskLevel,
+      riskLevel: request.riskLevel,
+      approval_status: approved ? 'approved_completed' : 'rejected',
+      approvalStatus: approved ? 'approved_completed' : 'rejected',
+      action: approved ? 'EXECUTED' : 'REJECTED',
+      actor: approver,
+      approval_comment: approved ? undefined : reason,
+      gemini_response: response,
+      response,
+      response_model: approved ? 'brightai-kernel-demo' : null,
+      response_time_ms: approved ? 350 : 0,
+      compliance_pack: request.compliancePackage,
+      compliancePack: request.compliancePackage,
+      previousHash,
+      recordHash,
+      hash: recordHash
+    };
+  }
+
+  async function applyApprovalAction(db, requestId, action, body = {}) {
+    const normalizedAction = String(action || '').toLowerCase();
+    const approver = body.approver || 'مدير النظام';
+    const index = findApprovalIndex(db, requestId);
+
+    if (index === -1) {
+      return {
+        status: 404,
+        payload: { error: 'Request not found', errorCode: 'NOT_FOUND' }
+      };
+    }
+
+    const request = db.approvals.pending.splice(index, 1)[0];
+    const approved = normalizedAction === 'approve' || normalizedAction === 'execute';
+    const status = approved ? 'completed' : 'rejected';
+    const reason = body.reason || 'تم الرفض لدواعي حماية البيانات';
+    const auditEntry = await buildApprovalAudit(request, normalizedAction, approver, reason);
+
+    request.status = status;
+    request.approver = approver;
+    if (!approved) request.rejectionReason = reason;
+    db.approvals.recent.unshift(request);
+    db.audit.rows.unshift(auditEntry);
+    db.audit.entries = db.audit.rows;
+
+    updateEvidenceForApproval(db, request, status, auditEntry.response);
+    recalculateSummaryStats();
+    notifyUIUpdated();
+
+    return { status: 200, payload: auditEntry };
+  }
+
+  async function handleBulkAction(db, body = {}) {
+    const requestIds = Array.isArray(body.requestIds) ? body.requestIds : Array.isArray(body.ids) ? body.ids : [];
+    const action = body.action || 'approve';
+    const results = await Promise.all(requestIds.map(async (requestId) => ({
+      requestId,
+      ...await applyApprovalAction(db, requestId, action, body)
+    })));
+    const failed = results.filter((result) => result.status >= 400);
+
+    return {
+      status: failed.length ? 207 : 200,
+      payload: {
+        success: failed.length === 0,
+        action,
+        results: results.map(({ requestId, status, payload }) => ({ requestId, status, payload }))
+      }
+    };
+  }
+
   // Handle local mock request responses
-  function handleMockRequest(url, options) {
+  async function handleMockRequest(url, options) {
     const parsedUrl = new URL(url, window.location.origin);
     const path = parsedUrl.pathname;
     const searchParams = parsedUrl.searchParams;
@@ -363,7 +506,7 @@
       } else {
         const parsedBody = parseJsonBody(options);
         if (!parsedBody.ok) return jsonResponse(parsedBody.body, parsedBody.status);
-        payload = simulateChat(parsedBody.body.message, parsedBody.body.compliancePack || 'general');
+        payload = await simulateChat(parsedBody.body.message, parsedBody.body.compliancePack || 'general');
       }
     } else if (path.endsWith('/providers')) {
       payload = {
@@ -439,7 +582,7 @@
         brokenAt: null,
         totalRecords: db.audit.rows.length,
         chainStatus: 'VALID',
-        chainHash: db.audit.rows[0]?.recordHash || generateHash(),
+        chainHash: db.audit.rows[0]?.recordHash || await generateHash(JSON.stringify(db.audit.rows[0] || {})),
         totalEntries: db.audit.rows.length,
         entries: db.audit.rows,
         summary: {
@@ -447,167 +590,40 @@
           actorCount: 2
         }
       };
+    } else if (path.endsWith('/approvals/bulk')) {
+      if (method !== 'POST') {
+        payload = { error: 'Method not allowed', errorCode: 'METHOD_NOT_ALLOWED' };
+        status = 405;
+      } else {
+        const parsedBody = parseJsonBody(options);
+        if (!parsedBody.ok) return jsonResponse(parsedBody.body, parsedBody.status);
+        const result = await handleBulkAction(db, parsedBody.body);
+        payload = result.payload;
+        status = result.status;
+      }
+    } else if (/\/approvals\/[^/]+\/(approve|reject|execute)$/.test(path)) {
+      if (method !== 'POST') {
+        payload = { error: 'Method not allowed', errorCode: 'METHOD_NOT_ALLOWED' };
+        status = 405;
+      } else {
+        const match = path.match(/\/approvals\/([^/]+)\/(approve|reject|execute)$/);
+        const parsedBody = parseJsonBody(options);
+        if (!parsedBody.ok) return jsonResponse(parsedBody.body, parsedBody.status);
+        const result = await applyApprovalAction(db, match?.[1], match?.[2], parsedBody.body);
+        payload = result.payload;
+        status = result.status;
+      }
     } else if (path.endsWith('/approvals') || path.endsWith('/pending')) {
       if (method === 'POST') {
-        // Approvals Action (Approve / Reject)
         const parsedBody = parseJsonBody(options);
         if (!parsedBody.ok) return jsonResponse(parsedBody.body, parsedBody.status);
         const body = parsedBody.body;
         const reqId = body.requestId || body.interactionId || body.id;
         const action = body.action;
-        const approver = body.approver || 'مدير النظام';
-
-        if (action === 'approve') {
-          const index = db.approvals.pending.findIndex(p => p.id === reqId || p.traceId === reqId);
-          if (index !== -1) {
-            const req = db.approvals.pending.splice(index, 1)[0];
-            req.status = 'completed';
-            req.approver = approver;
-            db.approvals.recent.unshift(req);
-
-            // Add completed chat audit record
-            const completedAudit = {
-              id: req.id,
-              interactionId: req.id,
-              requestId: req.id,
-              trace_id: req.traceId,
-              traceId: req.traceId,
-              created_at: new Date().toISOString(),
-              timestamp: new Date().toISOString(),
-              createdAt: new Date().toISOString(),
-              user_id: req.userId,
-              userId: req.userId,
-              user_name: req.userName,
-              userName: req.userName,
-              ip_address: "127.0.0.1",
-              user_agent: navigator.userAgent,
-              request_message: req.query,
-              query: req.query,
-              originalText: req.query,
-              pii_detected: req.piiDetected.length > 0 ? 1 : 0,
-              pii_types: JSON.stringify(req.piiDetected),
-              piiTypes: req.piiDetected,
-              piiDetected: req.piiDetected,
-              firewall_action: "allow",
-              masked_message: req.maskedText,
-              maskedText: req.maskedText,
-              risk_score: req.riskScore,
-              riskScore: req.riskScore,
-              risk_level: req.riskLevel,
-              riskLevel: req.riskLevel,
-              approval_status: "approved_completed",
-              approvalStatus: "approved_completed",
-              action: "EXECUTED",
-              actor: approver,
-              gemini_response: "لقد تم التصريح بهذا الاستعلام بعد المراجعة اليدوية للمشرف والموافقة الطارئة. كافة الحماية مطبقة.",
-              response: "لقد تم التصريح بهذا الاستعلام بعد المراجعة اليدوية للمشرف والموافقة الطارئة. كافة الحماية مطبقة.",
-              response_model: "Gemini 2.5 Flash",
-              response_time_ms: 350,
-              compliance_pack: req.compliancePackage,
-              compliancePack: req.compliancePackage,
-              previousHash: db.audit.rows[0]?.recordHash || generateHash(),
-              recordHash: generateHash(),
-              hash: generateHash()
-            };
-            db.audit.rows.unshift(completedAudit);
-            db.audit.entries = db.audit.rows;
-
-            // Update evidence
-            const evIndex = db.evidence.evidence.findIndex(e => e.id === req.id || e.traceId === req.traceId);
-            if (evIndex !== -1) {
-              db.evidence.evidence[evIndex].status = 'completed';
-              db.evidence.evidence[evIndex].approvalStatus = 'completed';
-            }
-            db.evidence.details[req.traceId] = {
-              ...db.evidence.details[req.traceId],
-              response: completedAudit.response,
-              approvalStatus: 'completed'
-            };
-            if (req.id) db.evidence.details[req.id] = db.evidence.details[req.traceId];
-
-            recalculateSummaryStats();
-            notifyUIUpdated();
-            payload = completedAudit;
-          } else {
-            payload = { error: 'Request not found', errorCode: 'NOT_FOUND' };
-            status = 404;
-          }
-        } else if (action === 'reject') {
-          const index = db.approvals.pending.findIndex(p => p.id === reqId || p.traceId === reqId);
-          if (index !== -1) {
-            const req = db.approvals.pending.splice(index, 1)[0];
-            req.status = 'rejected';
-            req.approver = approver;
-            req.rejectionReason = body.reason || 'تم الرفض لدواعي حماية البيانات';
-            db.approvals.recent.unshift(req);
-
-            const rejectedAudit = {
-              id: req.id,
-              interactionId: req.id,
-              requestId: req.id,
-              trace_id: req.traceId,
-              traceId: req.traceId,
-              created_at: new Date().toISOString(),
-              timestamp: new Date().toISOString(),
-              createdAt: new Date().toISOString(),
-              user_id: req.userId,
-              userId: req.userId,
-              user_name: req.userName,
-              userName: req.userName,
-              ip_address: "127.0.0.1",
-              user_agent: navigator.userAgent,
-              request_message: req.query,
-              query: req.query,
-              originalText: req.query,
-              pii_detected: req.piiDetected.length > 0 ? 1 : 0,
-              pii_types: JSON.stringify(req.piiDetected),
-              piiTypes: req.piiDetected,
-              piiDetected: req.piiDetected,
-              firewall_action: "allow",
-              masked_message: req.maskedText,
-              maskedText: req.maskedText,
-              risk_score: req.riskScore,
-              riskScore: req.riskScore,
-              risk_level: req.riskLevel,
-              riskLevel: req.riskLevel,
-              approval_status: "rejected",
-              approvalStatus: "rejected",
-              action: "REJECTED",
-              actor: approver,
-              approval_comment: req.rejectionReason,
-              gemini_response: `تم رفض الطلب بواسطة المشرف. السبب: ${req.rejectionReason}`,
-              response: `تم رفض الطلب بواسطة المشرف. السبب: ${req.rejectionReason}`,
-              response_model: null,
-              response_time_ms: 0,
-              compliance_pack: req.compliancePackage,
-              compliancePack: req.compliancePackage,
-              previousHash: db.audit.rows[0]?.recordHash || generateHash(),
-              recordHash: generateHash(),
-              hash: generateHash()
-            };
-            db.audit.rows.unshift(rejectedAudit);
-            db.audit.entries = db.audit.rows;
-
-            // Update evidence
-            const evIndex = db.evidence.evidence.findIndex(e => e.id === req.id || e.traceId === req.traceId);
-            if (evIndex !== -1) {
-              db.evidence.evidence[evIndex].status = 'rejected';
-              db.evidence.evidence[evIndex].approvalStatus = 'rejected';
-            }
-            db.evidence.details[req.traceId] = {
-              ...db.evidence.details[req.traceId],
-              response: rejectedAudit.response,
-              approvalStatus: 'rejected'
-            };
-            if (req.id) db.evidence.details[req.id] = db.evidence.details[req.traceId];
-
-            recalculateSummaryStats();
-            notifyUIUpdated();
-            payload = rejectedAudit;
-          } else {
-            payload = { error: 'Request not found', errorCode: 'NOT_FOUND' };
-            status = 404;
-          }
+        if (['approve', 'reject', 'execute'].includes(action)) {
+          const result = await applyApprovalAction(db, reqId, action, body);
+          payload = result.payload;
+          status = result.status;
         } else {
           payload = { error: 'Unsupported approval action', errorCode: 'INVALID_ACTION' };
           status = 400;
@@ -668,10 +684,10 @@
         const id = decodeURIComponent(match[1]);
         const record = db.evidence.details[id] || db.evidence.details[id.replace(/\/export$/, '')];
         if (record) {
-          payload = buildMockEvidenceFile(record, db, id);
+          payload = await buildMockEvidenceFile(record, db, id);
         } else {
           // fallback single lookup
-          payload = buildMockEvidenceFile({
+          payload = await buildMockEvidenceFile({
             id,
             interactionId: id,
             traceId: id,
@@ -681,9 +697,9 @@
             riskScore: 10,
             riskLevel: "low",
             approvalStatus: "completed",
-            requestHash: generateHash(),
-            previousHash: generateHash(),
-            recordHash: generateHash()
+            requestHash: await generateHash(id),
+            previousHash: await generateHash(`previous-${id}`),
+            recordHash: await generateHash(`record-${id}`)
           }, db, id);
         }
       } else {
@@ -712,7 +728,7 @@
         const parsedBody = parseJsonBody(options);
         if (!parsedBody.ok) return jsonResponse(parsedBody.body, parsedBody.status);
         const body = parsedBody.body;
-        payload = simulateChat(body.message, body.compliancePack);
+        payload = await simulateChat(body.message, body.compliancePack);
       } else {
         payload = { error: 'Message body is required', errorCode: 'BAD_REQUEST' };
         status = 400;
@@ -733,7 +749,7 @@
     if (urlStr.includes('/api/kernel')) {
       if (shouldUseDemoData()) {
         await ensureDBInitialized();
-        return handleMockRequest(urlStr, options);
+        return await handleMockRequest(urlStr, options);
       }
 
       return originalFetch(url, options);

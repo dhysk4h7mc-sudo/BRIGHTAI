@@ -348,7 +348,7 @@
       for (var i = event.resultIndex; i < event.results.length; i++) {
         transcript += event.results[i][0].transcript;
       }
-      var input = document.getElementById('chat-input');
+      var input = document.getElementById('query-input') || document.getElementById('chat-input');
       if (input) input.value = transcript;
       if (typeof updateCharCounter === 'function') updateCharCounter(transcript);
       if (typeof resizeTextarea === 'function') resizeTextarea(input);
@@ -447,7 +447,7 @@
         var prevUser = allMsgs[targetIdx - 1];
         var userBubble = prevUser.querySelector('.user-bubble');
         if (userBubble) {
-          var input = document.getElementById('chat-input');
+          var input = document.getElementById('query-input') || document.getElementById('chat-input');
           if (input) { input.value = userBubble.textContent; }
           if (typeof sendMessage === 'function') sendMessage();
         }

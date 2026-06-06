@@ -216,6 +216,20 @@
           this.renderReports();
         }));
       }
+
+      if (!this.state.delegatedEventsBound) {
+        document.addEventListener('click', (event) => {
+          const button = event.target.closest('[data-report-action]');
+          if (!button) return;
+
+          const reportId = button.dataset.reportId || '';
+          const action = button.dataset.reportAction;
+          if (action === 'preview') this.previewReport(reportId);
+          if (action === 'download') this.downloadReport(reportId);
+          if (action === 'edit-schedule') this.editScheduledReport(reportId);
+        });
+        this.state.delegatedEventsBound = true;
+      }
     },
 
     /**
@@ -228,18 +242,18 @@
       const filtered = this.filterReports(this.state.reports);
       
       if (filtered.length === 0) {
-        grid.innerHTML = `
+        grid.innerHTML = KernelUtils.sanitizeHtml(`
           <div class="empty-state" style="grid-column: 1 / -1; text-align: center; padding: 3rem;">
             <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color: var(--text-muted); margin: 0 auto 1rem;">
               <path d="M9 17H5a2 2 0 01-2-2V5a2 2 0 012-2h4m6 14h4a2 2 0 002-2V5a2 2 0 00-2-2h-4m-6 14v4m6-4v4m-6-4h6"/>
             </svg>
             <p style="color: var(--text-secondary);">لا توجد تقارير مطابقة للفلاتر المحددة</p>
           </div>
-        `;
+        `);
         return;
       }
 
-      grid.innerHTML = filtered.map(report => this.renderReportCard(report)).join('');
+      grid.innerHTML = KernelUtils.sanitizeHtml(filtered.map(report => this.renderReportCard(report)).join(''));
     },
 
     /**
@@ -252,13 +266,13 @@
       tbody.setAttribute('aria-busy', 'false');
 
       if (!this.state.scheduledReports.length) {
-        tbody.innerHTML = `
+        tbody.innerHTML = KernelUtils.sanitizeHtml(`
           <tr>
             <td colspan="6">
               <div class="empty-state empty-state-inline">لا توجد تقارير مجدولة حالياً.</div>
             </td>
           </tr>
-        `;
+        `);
         return;
       }
 
@@ -271,7 +285,7 @@
         paused: 'متوقف',
       };
 
-      tbody.innerHTML = this.state.scheduledReports.map((report) => {
+      tbody.innerHTML = KernelUtils.sanitizeHtml(this.state.scheduledReports.map((report) => {
         const status = report.status || 'active';
         const recipients = Number(report.recipients || 0);
         return `
@@ -281,10 +295,10 @@
             <td>${this.escapeHtml(report.nextRun || '—')}</td>
             <td>${recipients} ${recipients === 1 ? 'مستلم' : 'مستلمين'}</td>
             <td><span class="schedule-status ${this.escapeHtml(status)}">${this.escapeHtml(statusLabels[status] || status)}</span></td>
-            <td><button class="report-btn secondary" type="button" onclick="KernelReports.editScheduledReport('${this.escapeHtml(report.id || '')}')">تعديل</button></td>
+            <td><button class="report-btn secondary" type="button" data-report-action="edit-schedule" data-report-id="${this.escapeHtml(report.id || '')}">تعديل</button></td>
           </tr>
         `;
-      }).join('');
+      }).join(''));
     },
 
     /**
@@ -325,9 +339,11 @@
       const typeConfig = this.config.reportTypes.find(t => t.id === report.type) || {};
       const colorClass = this.getColorClass(report.type);
       const relativeTime = KernelUtils?.formatRelativeTime?.(report.createdAt) || 'منذ وقت';
+      const reportId = this.escapeHtml(report.id || '');
+      const reportType = this.escapeHtml(report.type || '');
 
       return `
-        <div class="report-card" data-type="${report.type}" data-id="${report.id}">
+        <div class="report-card" data-type="${reportType}" data-id="${reportId}">
           <div class="report-icon ${colorClass}">
             ${this.getReportIcon(report.type)}
           </div>
@@ -336,8 +352,8 @@
           <div class="report-meta">
             <span class="report-date">آخر تحديث: ${relativeTime}</span>
             <div class="report-actions">
-              <button class="report-btn secondary" onclick="KernelReports.previewReport('${report.id}')">معاينة</button>
-              <button class="report-btn primary" onclick="KernelReports.downloadReport('${report.id}')">تحميل</button>
+              <button class="report-btn secondary" type="button" data-report-action="preview" data-report-id="${reportId}">معاينة</button>
+              <button class="report-btn primary" type="button" data-report-action="download" data-report-id="${reportId}">تحميل</button>
             </div>
           </div>
         </div>

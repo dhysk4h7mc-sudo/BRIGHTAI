@@ -379,30 +379,71 @@
     }
 
     async approveRequest(requestId, approver) {
-      return this.request('/approvals', {
+      return this.request(`/approvals/${encodeURIComponent(requestId)}/approve`, {
         method: 'POST',
-        body: {
-          requestId,
-          interactionId: requestId,
-          traceId: this.extractTraceId({ traceId: requestId }) || undefined,
-          action: 'approve',
-          approver,
-        },
+        body: { approver },
       }).then((data) => this.normalizeKernelRecord(data));
     }
 
     async rejectRequest(requestId, approver, reason = '') {
-      return this.request('/approvals', {
+      return this.request(`/approvals/${encodeURIComponent(requestId)}/reject`, {
+        method: 'POST',
+        body: { approver, reason },
+      }).then((data) => this.normalizeKernelRecord(data));
+    }
+
+    async bulkAction(requestIds, action, approver = '') {
+      return this.request('/approvals/bulk', {
+        method: 'POST',
+        body: { requestIds, action, approver },
+      });
+    }
+
+    async executeApproved(requestId) {
+      return this.request(`/approvals/${encodeURIComponent(requestId)}/execute`, {
+        method: 'POST',
+      }).then((data) => this.normalizeKernelRecord(data));
+    }
+
+    async sendChat(message, options = {}) {
+      return this.request('/chat', {
         method: 'POST',
         body: {
-          requestId,
-          interactionId: requestId,
-          traceId: this.extractTraceId({ traceId: requestId }) || undefined,
-          action: 'reject',
-          approver,
-          reason,
+          ...options,
+          message,
+          compliancePack: options.compliancePack || undefined,
+          scenario: options.scenario || undefined,
         },
-      }).then((data) => this.normalizeKernelRecord(data));
+      });
+    }
+
+    async getCompliance() {
+      return this.request('/compliance');
+    }
+
+    async getPolicies(params = {}) {
+      const queryString = new URLSearchParams(params).toString();
+      return this.request(`/policies${queryString ? '?' + queryString : ''}`);
+    }
+
+    async createPolicy(policyData) {
+      return this.request('/policies', {
+        method: 'POST',
+        body: policyData,
+      });
+    }
+
+    async updatePolicy(policyId, updates) {
+      return this.request(`/policies/${encodeURIComponent(policyId)}`, {
+        method: 'PATCH',
+        body: updates,
+      });
+    }
+
+    async deletePolicy(policyId) {
+      return this.request(`/policies/${encodeURIComponent(policyId)}`, {
+        method: 'DELETE',
+      });
     }
 
     async getEvidence(params = {}) {

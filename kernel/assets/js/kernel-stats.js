@@ -741,7 +741,7 @@
     renderChartFallback() {
       document.querySelectorAll('.chart-canvas-wrap').forEach((wrap) => {
         if (wrap.querySelector('.chart-empty-state')) return;
-        wrap.innerHTML = '<div class="chart-empty-state">تعذر تحميل Chart.js حالياً. ستظهر الرسوم عند توفر الاتصال.</div>';
+        wrap.innerHTML = KernelUtils.sanitizeHtml('<div class="chart-empty-state">تعذر تحميل Chart.js حالياً. ستظهر الرسوم عند توفر الاتصال.</div>');
       });
     },
 
@@ -750,11 +750,11 @@
       if (!tbody) return;
 
       if (!rows.length) {
-        tbody.innerHTML = '<tr><td colspan="5">لا توجد طلبات مخاطرة داخل النطاق المحدد.</td></tr>';
+        tbody.innerHTML = KernelUtils.sanitizeHtml('<tr><td colspan="5">لا توجد طلبات مخاطرة داخل النطاق المحدد.</td></tr>');
         return;
       }
 
-      tbody.innerHTML = rows.slice(0, 10).map((row) => {
+      tbody.innerHTML = KernelUtils.sanitizeHtml(rows.slice(0, 10).map((row) => {
         const traceId = row.traceId || row.interactionId || row.requestId || '';
         const riskLevel = row.riskLevel || this.getRiskLevelFromScore(row.riskScore);
         const href = traceId
@@ -770,7 +770,7 @@
             <td><a href="${href}" style="direction:ltr;display:inline-block;">${this.escapeHtml(traceId || 'audit')}</a></td>
           </tr>
         `;
-      }).join('');
+      }).join(''));
     },
 
     renderLatestTraces(traces) {
@@ -778,16 +778,16 @@
       if (!container) return;
 
       if (!traces.length) {
-        container.innerHTML = `
+        container.innerHTML = KernelUtils.sanitizeHtml(`
           <div class="glass-card-flat status-card">
             <div class="status-card-value" style="font-size:1rem;">لا توجد</div>
             <div class="status-card-label">لا توجد Trace IDs بعد</div>
           </div>
-        `;
+        `);
         return;
       }
 
-      container.innerHTML = traces.slice(0, 5).map((trace) => {
+      container.innerHTML = KernelUtils.sanitizeHtml(traces.slice(0, 5).map((trace) => {
         const traceId = trace.traceId || trace.interactionId || trace.requestId;
         const href = trace.traceId
           ? `/kernel/evidence/?trace_id=${encodeURIComponent(traceId)}`
@@ -798,7 +798,7 @@
             <div class="status-card-label">${this.escapeHtml(trace.status || trace.riskLevel || 'kernel')}</div>
           </a>
         `;
-      }).join('');
+      }).join(''));
     },
 
     async exportDashboardPDF() {

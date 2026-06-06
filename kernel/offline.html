@@ -12,69 +12,14 @@
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#030A18">
+  <meta name="robots" content="noindex, follow">
   <title>BrightAI Kernel غير متصل | BrightAI</title>
   <meta name="description" content="صفحة offline لنواة BrightAI Kernel عند انقطاع الاتصال، مع روابط للرجوع إلى لوحة التحكم والموافقات بعد عودة الشبكة.">
   <link rel="canonical" href="https://brightai.site/kernel/offline/">
   <link rel="manifest" href="/kernel/manifest.json">
   <link rel="icon" href="/frontend/assets/images/logo.png" type="image/png">
   <link rel="stylesheet" href="/kernel/assets/css/kernel.css">
-  <style>
-    body {
-      min-block-size: 100vh;
-      display: grid;
-      place-items: center;
-      padding: var(--space-6);
-      background:
-        radial-gradient(circle at 80% 20%, rgba(0, 212, 255, 0.13), transparent 28rem),
-        var(--bg-primary);
-    }
-
-    .offline-shell {
-      width: min(100%, 680px);
-      display: grid;
-      gap: var(--space-5);
-      padding: var(--space-7);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      background: rgba(11, 22, 40, 0.88);
-      box-shadow: var(--shadow-lg);
-    }
-
-    .offline-kicker {
-      color: var(--brand);
-      font-size: 0.875rem;
-      font-weight: 700;
-    }
-
-    .offline-title {
-      margin: 0;
-      color: var(--text-primary);
-      font-size: clamp(1.8rem, 4vw, 2.75rem);
-      line-height: 1.2;
-    }
-
-    .offline-copy {
-      margin: 0;
-      color: var(--text-secondary);
-      line-height: 1.9;
-    }
-
-    .offline-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--space-3);
-    }
-
-    @media (max-width: 520px) {
-      .offline-shell {
-        padding: var(--space-5);
-      }
-
-      .offline-actions .btn {
-        width: 100%;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="/kernel/assets/css/pages/offline.css">
 </head>
 <body>
   <main class="offline-shell" aria-labelledby="offline-title">

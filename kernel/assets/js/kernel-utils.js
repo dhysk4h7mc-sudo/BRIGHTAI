@@ -25,6 +25,69 @@
     },
 
     /**
+     * Sanitize controlled HTML templates before inserting them into the DOM.
+     * Falls back to escaping text if DOMPurify is unavailable.
+     * @param {string} html - HTML string to sanitize
+     * @returns {string} Sanitized HTML
+     */
+    sanitizeHtml(html) {
+      const source = String(html || '');
+      const allowedTags = [
+        'a', 'article', 'b', 'br', 'button', 'circle', 'div', 'em', 'g',
+        'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'header', 'i', 'li', 'line',
+        'nav', 'ol', 'p', 'path', 'polygon', 'polyline', 'rect', 'section',
+        'small', 'span', 'strong', 'svg', 'table', 'tbody', 'td', 'th',
+        'thead', 'tr', 'ul'
+      ];
+      const allowedAttrs = [
+        'aria-controls', 'aria-current', 'aria-expanded', 'aria-haspopup',
+        'aria-hidden', 'aria-label', 'aria-live', 'class', 'clip-rule', 'colspan',
+        'cx', 'cy', 'd', 'data-action', 'data-command-palette-trigger', 'data-id',
+        'data-kernel-nav-id', 'data-package-id', 'data-report-action',
+        'data-report-id', 'data-type', 'dir', 'fill', 'fill-rule', 'height',
+        'hidden', 'href', 'id', 'lang', 'opacity', 'points', 'r', 'rel', 'role',
+        'rx', 'ry', 'stroke', 'stroke-linecap', 'stroke-linejoin', 'stroke-width',
+        'style', 'tabindex', 'title', 'type', 'viewBox', 'width', 'x', 'x1',
+        'x2', 'y', 'y1', 'y2'
+      ];
+
+      if (typeof global.DOMPurify !== 'undefined' && global.DOMPurify?.sanitize) {
+        return global.DOMPurify.sanitize(source, {
+          ALLOWED_TAGS: allowedTags,
+          ALLOWED_ATTR: allowedAttrs,
+        });
+      }
+
+      if (typeof global.DOMParser === 'function') {
+        const doc = new global.DOMParser().parseFromString(`<div>${source}</div>`, 'text/html');
+        const root = doc.body.firstElementChild;
+        const tagSet = new Set(allowedTags);
+        const attrSet = new Set(allowedAttrs.map((attr) => attr.toLowerCase()));
+
+        root.querySelectorAll('*').forEach((node) => {
+          if (!tagSet.has(node.tagName.toLowerCase())) {
+            node.replaceWith(...Array.from(node.childNodes));
+            return;
+          }
+
+          Array.from(node.attributes).forEach((attr) => {
+            const name = attr.name.toLowerCase();
+            const value = attr.value || '';
+            const unsafeUrl = ['href', 'src'].includes(name) && /^\s*javascript:/i.test(value);
+            const unsafeStyle = name === 'style' && /(javascript:|expression\s*\(|url\s*\()/i.test(value);
+            if (!attrSet.has(name) || name.startsWith('on') || unsafeUrl || unsafeStyle) {
+              node.removeAttribute(attr.name);
+            }
+          });
+        });
+
+        return root.innerHTML;
+      }
+
+      return KernelUtils.escapeHtml(source);
+    },
+
+    /**
      * Format relative time in Arabic
      * @param {string|Date} date - Date to format
      * @returns {string} Relative time string

@@ -335,7 +335,7 @@ const KernelCompliance = (function() {
         </div>
         <div class="framework-footer">
           <span class="framework-date">آخر تقييم: ${formatDate(state.lastAudit)}</span>
-          <button class="framework-btn" onclick="KernelCompliance.showDetails('${packageId}')">عرض التفاصيل</button>
+          <button class="framework-btn" type="button" data-action="show-details" data-package-id="${packageId}">عرض التفاصيل</button>
         </div>
       </div>
     `;
@@ -414,6 +414,11 @@ ${pkg.requirements.map(req => {
     renderDisclaimer,
   };
 })();
+
+// Export to browser global scope
+if (typeof window !== 'undefined') {
+  window.KernelCompliance = KernelCompliance;
+}
 
 // Export for module systems
 if (typeof module !== 'undefined' && module.exports) {

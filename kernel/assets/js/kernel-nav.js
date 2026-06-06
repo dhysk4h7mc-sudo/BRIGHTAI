@@ -170,7 +170,7 @@
       const mainPages = this.config.pages.slice(0, this.config.moreMenuThreshold);
       const morePages = this.config.pages.slice(this.config.moreMenuThreshold);
 
-      topNav.innerHTML = `
+      topNav.innerHTML = KernelUtils.sanitizeHtml(`
         <div class="container">
           <a href="/kernel/" class="logo" aria-label="الرئيسية">
             ${this.createIcon('shield', 'logo-icon')}
@@ -214,7 +214,7 @@
             </button>
           </div>
         </div>
-      `;
+      `);
 
       const unifiedHeader = document.getElementById('brightai-unified-header');
       if (unifiedHeader && unifiedHeader.parentNode === document.body) {
@@ -237,7 +237,7 @@
       statusBar.setAttribute('role', 'status');
       statusBar.setAttribute('aria-live', 'polite');
 
-      statusBar.innerHTML = `
+      statusBar.innerHTML = KernelUtils.sanitizeHtml(`
         <div class="container kernel-status-bar-inner">
           <div class="kernel-status-provider">
             <span class="kernel-status-dot" id="kernel-status-dot" aria-hidden="true"></span>
@@ -255,7 +255,7 @@
             </span>
           </div>
         </div>
-      `;
+      `);
 
       const topNav = document.getElementById('top-nav');
       if (topNav && topNav.parentNode) {
@@ -325,7 +325,7 @@
       bottomNav.id = 'bottom-nav';
       bottomNav.setAttribute('aria-label', 'التنقل السفلي');
 
-      bottomNav.innerHTML = `
+      bottomNav.innerHTML = KernelUtils.sanitizeHtml(`
         <div class="bottom-nav-inner">
           ${bottomNavPages
             .map((page) => {
@@ -343,7 +343,7 @@
             })
             .join('')}
         </div>
-      `;
+      `);
 
       document.body.appendChild(bottomNav);
     },
@@ -367,7 +367,7 @@
       drawer.setAttribute('aria-label', 'قائمة التنقل');
       drawer.setAttribute('aria-hidden', 'true');
 
-      drawer.innerHTML = `
+      drawer.innerHTML = KernelUtils.sanitizeHtml(`
         <div class="drawer-header">
           <a href="/kernel/" class="logo">
             ${this.createIcon('shield', 'logo-icon')}
@@ -393,7 +393,7 @@
             })
             .join('')}
         </nav>
-      `;
+      `);
 
       document.body.appendChild(drawer);
     },

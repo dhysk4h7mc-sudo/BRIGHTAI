@@ -43,16 +43,18 @@
     // Setup event listeners
     setupEventListeners() {
       const sendBtn = document.getElementById('send-btn');
-      const inputField = document.getElementById('query-input');
+      const inputField = this.getInputField();
       const clearBtn = document.getElementById('clear-btn');
       const approveBtn = document.getElementById('approve-btn');
       const rejectBtn = document.getElementById('reject-btn');
+      const sendHandler = this.getPageHandler('sendMessage', () => this.sendMessage());
+      const clearHandler = this.getPageHandler('clearChat', () => this.clearHistory());
 
       if (sendBtn) {
-        sendBtn.addEventListener('click', () => this.sendMessage());
+        sendBtn.addEventListener('click', sendHandler);
         sendBtn.addEventListener('touchend', (e) => {
           e.preventDefault();
-          this.sendMessage();
+          sendHandler();
         });
       }
 
@@ -60,7 +62,7 @@
         inputField.addEventListener('keydown', (e) => {
           if (e.key === 'Enter' && !e.shiftKey && !e.ctrlKey && !e.metaKey) {
             e.preventDefault();
-            this.sendMessage();
+            sendHandler();
           }
         });
 
@@ -69,7 +71,7 @@
       }
 
       if (clearBtn) {
-        clearBtn.addEventListener('click', () => this.clearHistory());
+        clearBtn.addEventListener('click', clearHandler);
       }
 
       if (approveBtn) {
@@ -83,7 +85,7 @@
 
     // Send message
     async sendMessage() {
-      const inputField = document.getElementById('query-input');
+      const inputField = this.getInputField();
       const message = inputField?.value?.trim();
 
       if (!message) return;
@@ -333,7 +335,7 @@
     // Update loading UI
     updateLoadingUI(isLoading) {
       const sendBtn = document.getElementById('send-btn');
-      const inputField = document.getElementById('query-input');
+      const inputField = this.getInputField();
 
       if (sendBtn) {
         sendBtn.disabled = isLoading;
@@ -352,6 +354,17 @@
         approvalPanel.style.display = 'none';
       }
       this.state.pendingApproval = null;
+    },
+
+    getInputField() {
+      return document.getElementById('query-input') || document.getElementById('chat-input');
+    },
+
+    getPageHandler(name, fallback) {
+      return (...args) => {
+        if (typeof global[name] === 'function') return global[name](...args);
+        return fallback(...args);
+      };
     },
 
     // Clear history

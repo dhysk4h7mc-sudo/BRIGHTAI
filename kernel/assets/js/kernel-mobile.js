@@ -474,15 +474,16 @@
       const event = new CustomEvent('kernelRefresh');
       document.dispatchEvent(event);
 
-      // Also try to call page-specific refresh functions
-      if (typeof window.loadStats === 'function') {
-        window.loadStats();
+      const loaders = ['loadStats', 'loadApprovals', 'loadAuditLog'];
+      for (const loaderName of loaders) {
+        if (typeof window[loaderName] === 'function') {
+          window[loaderName]();
+          return;
+        }
       }
-      if (typeof window.loadApprovals === 'function') {
-        window.loadApprovals();
-      }
-      if (typeof window.loadAuditLog === 'function') {
-        window.loadAuditLog();
+
+      if (typeof window.kernelAPI !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('kernel-refresh'));
       }
     },
 
