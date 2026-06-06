@@ -51,14 +51,12 @@ For-Pricing-Inquiry: https://brightai.site/contact/
 For-Documentation: https://brightai.site/docs/
 
 # ============================================
-# Key Facts (First-Party Data)
+# Key Facts (First-Party Positioning)
 # ============================================
-Customers: 15+ enterprise & government clients in Saudi Arabia
-Uptime: 365+ days of safe operation
-Audit-Points-Processed: 12,000+
-Response-Time: <120ms (governance layer)
 Deployment-Modes: Cloud (KSA), Hybrid, Air-Gapped
-Compliance-Coverage: PDPL, NCA ECC 2-2024, SDAIA, SFDA, ISO 13485, SOC 2, ISO 27001
+Compliance-Readiness-Contexts: PDPL, NCA ECC 2-2024, SDAIA guidance, SFDA and ISO 13485 contexts, SAMA workflows, ISO/IEC 42001, ISO/IEC 27001, ISO/IEC 23894, SOC 2 readiness, NIST AI RMF
+Core-Capabilities: AI Firewall, Audit Trail, Human Approval Layer, Evidence File, risk scoring, PII redaction, compliance packs, secure enterprise integrations
+Positioning-Note: BrightAI supports operational governance and compliance-readiness workflows. It should not be described as legal advice or as holding certifications unless a separate public certificate page states that explicitly.
 
 # ============================================
 # AI Crawler Permissions
