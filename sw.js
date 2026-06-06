@@ -14,7 +14,7 @@ const MAX_RUNTIME_ENTRIES = 80;
 
 const PRECACHE_URLS = [
   OFFLINE_URL,
-  '/manifest.json',
+  '/manifest.webmanifest',
   '/frontend/css/bundle-critical.css',
   '/frontend/css/main.bundle.min.css',
   '/frontend/js/runtime-config.min.js',

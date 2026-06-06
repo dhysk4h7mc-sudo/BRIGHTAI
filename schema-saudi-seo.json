@@ -4,22 +4,16 @@
         {
             "@type": "Organization",
             "@id": "https://brightai.site/#organization",
-            "name": "مُشرقة AI",
-            "alternateName": [
-                "Bright AI",
-                "شركة مُشرقة للذكاء الاصطناعي",
-                "مُشرقة الذكاء الاصطناعي",
-                "شركة مُشرقة AI السعودية"
-            ],
+            "name": "BrightAI",
             "url": "https://brightai.site/",
             "logo": {
                 "@type": "ImageObject",
                 "url": "https://brightai.site/frontend/assets/images/logo.png",
                 "width": 200,
                 "height": 55,
-                "caption": "شعار شركة مُشرقة AI السعودية الرائدة في الذكاء الاصطناعي"
+                "caption": "شعار BrightAI"
             },
-            "description": "مُشرقة AI الشركة السعودية الرائدة في الذكاء الاصطناعي بالرياض. نقدم حلول التعلم العميق، أتمتة العمليات، روبوتات المحادثة العربية، وتحليل البيانات للشركات السعودية.",
+            "description": "BrightAI شركة سعودية متخصصة في حوكمة وأمان وتشغيل الذكاء الاصطناعي للمؤسسات في السعودية.",
             "foundingDate": "2023",
             "foundingLocation": {
                 "@type": "Place",
@@ -147,8 +141,8 @@
             "@type": "WebSite",
             "@id": "https://brightai.site/#website",
             "url": "https://brightai.site/",
-            "name": "مُشرقة AI - حلول الذكاء الاصطناعي المتكاملة لدعم رؤية السعودية 2030",
-            "description": "مُشرقة AI تقدم حلولاً رائدة في الذكاء الاصطناعي، التعلم العميق، تطوير تطبيقات الذكاء الاصطناعي المخصصة، وخدمات الأتمتة لدعم مسيرة التحول الرقمي للشركات والمؤسسات في جميع أنحاء المملكة العربية السعودية.",
+            "name": "BrightAI",
+            "description": "BrightAI تقدم حلول حوكمة وأمان وتشغيل الذكاء الاصطناعي لدعم مسيرة التحول الرقمي للشركات والمؤسسات في السعودية.",
             "publisher": {
                 "@id": "https://brightai.site/#organization"
             },
@@ -165,7 +159,7 @@
         {
             "@type": "LocalBusiness",
             "@id": "https://brightai.site/#localbusiness",
-            "name": "مُشرقة AI",
+            "name": "BrightAI",
             "image": "https://brightai.site/frontend/assets/images/logo.png",
             "address": {
                 "@type": "PostalAddress",
@@ -195,8 +189,8 @@
         {
             "@type": "TechArticle",
             "@id": "https://brightai.site/#article",
-            "headline": "شركة مُشرقة AI | أول مؤسسة سعودية متخصصة في الذكاء الاصطناعي والروبوتات",
-            "description": "مُشرقة AI الشركة السعودية الرائدة في الذكاء الاصطناعي بالرياض. نقدم حلول التعلم العميق، أتمتة العمليات، روبوتات المحادثة العربية، وتحليل البيانات للشركات السعودية.",
+            "headline": "BrightAI | حوكمة وأمان الذكاء الاصطناعي للشركات السعودية",
+            "description": "BrightAI شركة سعودية متخصصة في حوكمة وأمان وتشغيل الذكاء الاصطناعي للمؤسسات في السعودية.",
             "author": {
                 "@id": "https://brightai.site/#organization"
             },
@@ -215,7 +209,7 @@
                 "height": 55
             },
             "keywords": [
-                "شركة مُشرقة AI السعودية",
+                "BrightAI السعودية",
                 "الذكاء الاصطناعي الرياض",
                 "Saudi AI Safety OS السعودية",
                 "AI السعودية",

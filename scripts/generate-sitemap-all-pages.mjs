@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 import { promises as fs } from "fs";
+import { execFile } from "child_process";
 import path from "path";
+import { promisify } from "util";
 import {
   buildPublicUrlRegistry,
   findCounterpartRelPath,
@@ -16,6 +18,8 @@ import {
 
 const BASE_URL = "https://brightai.site";
 const ROOT = process.cwd();
+const execFileAsync = promisify(execFile);
+const gitLastmodCache = new Map();
 
 // Sitemap Outputs
 const SITEMAP_INDEX = path.join(ROOT, "sitemap.xml");
@@ -38,6 +42,31 @@ const IGNORED_SCAN_DIRS = new Set([
 
 function toIsoDate(date) {
   return new Date(date).toISOString().slice(0, 10);
+}
+
+async function getGitLastModifiedDate(relPath) {
+  const normalizedRelPath = normalizeRelPath(relPath);
+  if (gitLastmodCache.has(normalizedRelPath)) {
+    return gitLastmodCache.get(normalizedRelPath);
+  }
+
+  let lastmod = "";
+  try {
+    const { stdout } = await execFileAsync(
+      "git",
+      ["log", "-1", "--format=%cs", "--", normalizedRelPath],
+      { cwd: ROOT }
+    );
+    const gitDate = stdout.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(gitDate)) {
+      lastmod = gitDate;
+    }
+  } catch {
+    lastmod = "";
+  }
+
+  gitLastmodCache.set(normalizedRelPath, lastmod);
+  return lastmod;
 }
 
 function xmlEscape(value) {
@@ -317,11 +346,12 @@ async function analyzePage(relPath) {
     }
 
     const stat = await fs.stat(fullPath);
+    const gitLastmod = await getGitLastModifiedDate(relPath);
     return {
       relPath,
       loc: expectedCanonical,
       wordCount,
-      lastmod: toIsoDate(stat.mtime),
+      lastmod: gitLastmod || toIsoDate(stat.mtime),
       reasons,
       include: reasons.length === 0,
     };
@@ -359,7 +389,7 @@ async function main() {
       const entry = {
         loc: analysis.loc,
         relPath: analysis.relPath,
-        lastmod: group === "kernel" ? "2026-05-29" : analysis.lastmod,
+        lastmod: analysis.lastmod,
         alternates: [],
       };
       if (group === "pages") pagesList.push(entry);
