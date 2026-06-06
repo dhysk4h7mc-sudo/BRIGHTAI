@@ -12,6 +12,8 @@
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#030A18">
+  <link rel="manifest" href="/kernel/manifest.json">
+  <link rel="icon" href="/frontend/assets/images/logo.png" type="image/png">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <title>تدقيق BrightAI Kernel لاستخدامات الذكاء الاصطناعي</title>
 <meta name="description" content="راجع أحداث وقرارات الذكاء الاصطناعي داخل BrightAI Kernel من سجل واحد، لتسهيل التحقيق الداخلي وإثبات الامتثال عند المراجعة. بما يناسب بيئة العمل السعودية." />
@@ -581,6 +583,564 @@
       background: var(--danger-bg);
       color: var(--danger);
     }
+
+    /* Advanced Audit Controls */
+    .audit-workbench {
+      display: grid;
+      grid-template-columns: minmax(260px, 320px) minmax(0, 1fr);
+      gap: var(--space-5);
+      align-items: start;
+      margin-bottom: var(--space-6);
+    }
+
+    @media (max-width: 980px) {
+      .audit-workbench {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .advanced-filters-card {
+      padding: var(--space-5);
+      position: sticky;
+      top: var(--space-5);
+    }
+
+    @media (max-width: 980px) {
+      .advanced-filters-card {
+        position: static;
+      }
+    }
+
+    .panel-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-3);
+      margin-bottom: var(--space-4);
+    }
+
+    .panel-title {
+      font-size: 0.9375rem;
+      font-weight: 700;
+    }
+
+    .panel-subtitle {
+      color: var(--text-tertiary);
+      font-size: 0.75rem;
+      margin-top: var(--space-1);
+    }
+
+    .live-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      min-height: 32px;
+      padding: var(--space-1) var(--space-3);
+      background: rgba(16, 185, 129, 0.08);
+      border: 1px solid rgba(16, 185, 129, 0.22);
+      border-radius: var(--radius-full);
+      color: var(--success);
+      font-size: 0.75rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .live-indicator.polling {
+      background: rgba(245, 158, 11, 0.08);
+      border-color: rgba(245, 158, 11, 0.22);
+      color: var(--warning);
+    }
+
+    .live-indicator.offline {
+      background: rgba(239, 68, 68, 0.08);
+      border-color: rgba(239, 68, 68, 0.22);
+      color: var(--danger);
+    }
+
+    .live-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: var(--radius-full);
+      background: currentColor;
+      box-shadow: 0 0 0 4px currentColor;
+      opacity: 0.85;
+      animation: pulseGlow 2.2s ease-in-out infinite;
+    }
+
+    .advanced-filters-grid {
+      display: grid;
+      gap: var(--space-4);
+    }
+
+    .filter-field {
+      display: grid;
+      gap: var(--space-2);
+    }
+
+    .filter-label {
+      color: var(--text-secondary);
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    .date-range-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-3);
+    }
+
+    @media (max-width: 420px) {
+      .date-range-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .filter-control {
+      width: 100%;
+      min-height: 42px;
+      padding: var(--space-2) var(--space-3);
+      background: var(--ink-800);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-primary);
+      font: inherit;
+      font-size: 0.875rem;
+      transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+    }
+
+    .filter-control:focus {
+      outline: none;
+      border-color: var(--brand);
+      box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
+    }
+
+    .filter-control[type="date"] {
+      direction: ltr;
+      text-align: left;
+      color-scheme: dark;
+    }
+
+    .risk-slider-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: var(--space-3);
+      align-items: center;
+    }
+
+    .risk-slider {
+      accent-color: var(--brand);
+      width: 100%;
+    }
+
+    .risk-threshold {
+      min-width: 54px;
+      text-align: center;
+      font-family: 'IBM Plex Mono', monospace;
+      color: var(--brand-light);
+      background: rgba(0, 212, 255, 0.08);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: var(--space-1) var(--space-2);
+    }
+
+    .filter-actions-row,
+    .audit-toolbar {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      flex-wrap: wrap;
+    }
+
+    .filter-actions-row {
+      padding-top: var(--space-2);
+    }
+
+    .audit-toolbar {
+      justify-content: space-between;
+      margin-bottom: var(--space-4);
+    }
+
+    .view-toggle {
+      display: inline-flex;
+      padding: 3px;
+      background: rgba(17, 30, 56, 0.82);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-full);
+    }
+
+    .view-toggle-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      min-height: 36px;
+      padding: var(--space-1) var(--space-3);
+      border: 0;
+      border-radius: var(--radius-full);
+      background: transparent;
+      color: var(--text-secondary);
+      font: inherit;
+      font-size: 0.8125rem;
+      cursor: pointer;
+      transition: background var(--transition-fast), color var(--transition-fast);
+    }
+
+    .view-toggle-btn.active {
+      background: rgba(0, 212, 255, 0.14);
+      color: var(--brand-light);
+    }
+
+    .export-actions {
+      display: inline-flex;
+      gap: var(--space-2);
+      flex-wrap: wrap;
+    }
+
+    .tool-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      min-height: 38px;
+      padding: var(--space-2) var(--space-3);
+      background: var(--ink-800);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-secondary);
+      font: inherit;
+      font-size: 0.8125rem;
+      cursor: pointer;
+      transition: border-color var(--transition-fast), color var(--transition-fast), background var(--transition-fast);
+    }
+
+    .tool-btn:hover {
+      background: rgba(0, 212, 255, 0.08);
+      border-color: var(--brand);
+      color: var(--brand-light);
+    }
+
+    .tool-btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    .tool-btn.primary {
+      background: rgba(0, 212, 255, 0.12);
+      border-color: var(--border-active);
+      color: var(--brand-light);
+    }
+
+    .audit-results-shell {
+      min-width: 0;
+    }
+
+    .audit-entry {
+      cursor: pointer;
+    }
+
+    .audit-entry.selected {
+      background: rgba(0, 212, 255, 0.08);
+      box-shadow: inset 3px 0 0 var(--brand);
+    }
+
+    .audit-hash-wrap {
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: var(--space-2);
+      min-width: 132px;
+    }
+
+    .audit-copy-btn {
+      width: 34px;
+      height: 34px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: rgba(0, 212, 255, 0.06);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: color var(--transition-fast), border-color var(--transition-fast), background var(--transition-fast);
+    }
+
+    .audit-copy-btn:hover {
+      color: var(--brand-light);
+      border-color: var(--brand);
+      background: rgba(0, 212, 255, 0.12);
+    }
+
+    .audit-timeline-view {
+      display: grid;
+      gap: var(--space-3);
+      padding: var(--space-5);
+    }
+
+    .audit-timeline-item {
+      display: grid;
+      grid-template-columns: 120px 28px minmax(0, 1fr);
+      gap: var(--space-3);
+      align-items: start;
+      cursor: pointer;
+    }
+
+    .audit-timeline-rail {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      min-height: 82px;
+    }
+
+    .audit-timeline-rail::before {
+      content: '';
+      position: absolute;
+      top: 22px;
+      bottom: -18px;
+      width: 1px;
+      background: rgba(148, 163, 184, 0.24);
+    }
+
+    .audit-timeline-item:last-child .audit-timeline-rail::before {
+      display: none;
+    }
+
+    .audit-timeline-dot {
+      width: 18px;
+      height: 18px;
+      border-radius: var(--radius-full);
+      background: var(--brand);
+      box-shadow: 0 0 0 5px rgba(0, 212, 255, 0.12);
+      margin-top: var(--space-2);
+      z-index: 1;
+    }
+
+    .audit-timeline-card {
+      padding: var(--space-4);
+      background: rgba(17, 30, 56, 0.68);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      transition: border-color var(--transition-fast), background var(--transition-fast);
+    }
+
+    .audit-timeline-item:hover .audit-timeline-card {
+      background: rgba(0, 212, 255, 0.05);
+      border-color: var(--border-hover);
+    }
+
+    .timeline-card-head {
+      display: flex;
+      justify-content: space-between;
+      gap: var(--space-3);
+      align-items: center;
+      margin-bottom: var(--space-2);
+    }
+
+    .timeline-query {
+      color: var(--text-secondary);
+      font-size: 0.8125rem;
+      line-height: 1.7;
+      overflow-wrap: anywhere;
+    }
+
+    @media (max-width: 640px) {
+      .audit-timeline-view {
+        padding: var(--space-4);
+      }
+
+      .audit-timeline-item {
+        grid-template-columns: 1fr;
+      }
+
+      .audit-timeline-rail {
+        display: none;
+      }
+    }
+
+    .pagination-bar {
+      display: flex;
+      justify-content: space-between;
+      gap: var(--space-3);
+      align-items: center;
+      padding: var(--space-4) var(--space-5);
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    .pagination-info {
+      color: var(--text-tertiary);
+      font-size: 0.8125rem;
+    }
+
+    .pagination-controls {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    .pagination-controls .filter-control {
+      width: auto;
+      min-width: 82px;
+    }
+
+    .audit-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: var(--z-modal-backdrop);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-5);
+      background: rgba(3, 10, 24, 0.76);
+      backdrop-filter: blur(14px);
+    }
+
+    .audit-modal-backdrop.open {
+      display: flex;
+    }
+
+    .audit-modal {
+      width: min(980px, 100%);
+      max-height: min(820px, calc(100dvh - 40px));
+      overflow: hidden;
+      background: var(--gradient-surface);
+      border: 1px solid var(--border-active);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-xl);
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+    }
+
+    .audit-modal-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: var(--space-4);
+      padding: var(--space-5);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .audit-modal-title {
+      font-size: 1.125rem;
+      font-weight: 700;
+      margin-bottom: var(--space-1);
+    }
+
+    .audit-modal-meta {
+      color: var(--text-tertiary);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.75rem;
+      direction: ltr;
+      text-align: right;
+    }
+
+    .modal-close-btn {
+      width: 40px;
+      height: 40px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--ink-800);
+      color: var(--text-secondary);
+      cursor: pointer;
+    }
+
+    .modal-close-btn:hover {
+      color: var(--brand-light);
+      border-color: var(--brand);
+    }
+
+    .audit-modal-body {
+      overflow-y: auto;
+      padding: var(--space-5);
+      display: grid;
+      gap: var(--space-4);
+    }
+
+    .modal-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-4);
+    }
+
+    @media (max-width: 760px) {
+      .modal-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .detail-panel {
+      padding: var(--space-4);
+      background: rgba(3, 10, 24, 0.36);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      min-width: 0;
+    }
+
+    .detail-panel.wide {
+      grid-column: 1 / -1;
+    }
+
+    .detail-panel-title {
+      color: var(--brand-light);
+      font-size: 0.8125rem;
+      font-weight: 700;
+      margin-bottom: var(--space-3);
+    }
+
+    .detail-pre {
+      direction: rtl;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      color: var(--text-secondary);
+      font: inherit;
+      font-size: 0.8125rem;
+      line-height: 1.75;
+      margin: 0;
+    }
+
+    .detail-code {
+      direction: ltr;
+      text-align: left;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.75rem;
+    }
+
+    .risk-meter {
+      height: 10px;
+      overflow: hidden;
+      border-radius: var(--radius-full);
+      background: rgba(148, 163, 184, 0.14);
+      margin: var(--space-2) 0 var(--space-3);
+    }
+
+    .risk-meter-fill {
+      height: 100%;
+      width: 0;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--success), var(--warning), var(--danger));
+    }
+
+    .pill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+    }
+
+    .detail-pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: var(--space-1) var(--space-2);
+      border-radius: var(--radius-full);
+      background: rgba(0, 212, 255, 0.08);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      font-size: 0.75rem;
+    }
   </style>
   <meta name="robots" content="index, follow">
 <!-- AI Search / GEO / LLMO -->
@@ -840,35 +1400,165 @@
         </div>
       </section>
 
-      <!-- Filters -->
-      <section class="filters-bar" role="group" aria-label="فلاتر السجل">
-        <button class="filter-btn active" data-action="all" type="button" aria-pressed="true" onclick="setActionFilter(this,'all')">الكل</button>
-        <button class="filter-btn" data-action="chat" type="button" aria-pressed="false" onclick="setActionFilter(this,'chat')">محادثة</button>
-        <button class="filter-btn" data-action="approve" type="button" aria-pressed="false" onclick="setActionFilter(this,'approve')">موافقة</button>
-        <button class="filter-btn" data-action="reject" type="button" aria-pressed="false" onclick="setActionFilter(this,'reject')">رفض</button>
-        <button class="filter-btn" data-action="execute" type="button" aria-pressed="false" onclick="setActionFilter(this,'execute')">تنفيذ</button>
-        <button class="filter-btn" data-action="block" type="button" aria-pressed="false" onclick="setActionFilter(this,'block')">حظر</button>
-        <div class="search-input-wrap">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
-          </svg>
-          <input type="search" class="search-input" id="audit-search" placeholder="بحث في السجل..." aria-label="بحث في سجل التدقيق" oninput="filterEntries()">
-        </div>
-      </section>
+      <section class="audit-workbench" aria-label="منضدة سجل التدقيق">
+        <!-- Advanced Filters -->
+        <aside class="glass-card advanced-filters-card" aria-labelledby="advanced-filters-title">
+          <div class="panel-title-row">
+            <div>
+              <h2 class="panel-title" id="advanced-filters-title">الفلاتر المتقدمة</h2>
+              <p class="panel-subtitle">تضييق النتائج حسب الزمن، المخاطر، القرار، المزود، ونص الطلب.</p>
+            </div>
+            <div class="live-indicator polling" id="live-indicator" aria-live="polite">
+              <span class="live-dot" aria-hidden="true"></span>
+              <span id="live-indicator-text">Polling</span>
+            </div>
+          </div>
 
-      <!-- Audit Log -->
-      <section class="glass-card audit-log-card" aria-labelledby="audit-log-title">
-        <div class="audit-log-header">
-          <span class="audit-log-title" id="audit-log-title">سجل الأحداث</span>
-          <span class="audit-log-count" id="entries-count">آخر 50 إدخالاً</span>
-        </div>
-        <div class="audit-log-body" id="audit-log-body" role="list" aria-label="سجل التدقيق">
-          <div class="loading-entries">جاري تحميل سجل التدقيق...</div>
+          <div class="advanced-filters-grid">
+            <div class="filter-field">
+              <label class="filter-label" for="audit-search">بحث داخل نص الطلب</label>
+              <div class="search-input-wrap">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+                </svg>
+                <input type="search" class="search-input" id="audit-search" placeholder="اكتب جزءاً من query..." aria-label="بحث في نص طلب سجل التدقيق" oninput="filterEntries()">
+              </div>
+            </div>
+
+            <div class="filter-field">
+              <span class="filter-label">نطاق التاريخ</span>
+              <div class="date-range-grid">
+                <input type="date" class="filter-control" id="filter-date-from" aria-label="من تاريخ" onchange="filterEntries()">
+                <input type="date" class="filter-control" id="filter-date-to" aria-label="إلى تاريخ" onchange="filterEntries()">
+              </div>
+            </div>
+
+            <div class="filter-field">
+              <label class="filter-label" for="filter-risk-slider">أقل درجة مخاطر</label>
+              <div class="risk-slider-row">
+                <input class="risk-slider" id="filter-risk-slider" type="range" min="0" max="100" step="5" value="0" oninput="updateRiskThreshold(this.value); filterEntries();" aria-label="أقل درجة مخاطر">
+                <span class="risk-threshold" id="risk-threshold-label">0+</span>
+              </div>
+            </div>
+
+            <div class="filter-field">
+              <label class="filter-label" for="filter-decision">القرار</label>
+              <select class="filter-control" id="filter-decision" onchange="filterEntries()">
+                <option value="all">كل القرارات</option>
+                <option value="blocked">محظور</option>
+                <option value="pending">بانتظار الموافقة</option>
+                <option value="approved">موافق عليه</option>
+                <option value="rejected">مرفوض</option>
+                <option value="auto_approved">موافقة تلقائية</option>
+              </select>
+            </div>
+
+            <div class="filter-field">
+              <label class="filter-label" for="filter-provider">مزود النموذج</label>
+              <select class="filter-control" id="filter-provider" onchange="filterEntries()">
+                <option value="all">كل المزودين</option>
+              </select>
+            </div>
+
+            <div class="filter-field">
+              <span class="filter-label">نوع الحدث</span>
+              <div class="filters-bar" role="group" aria-label="فلاتر نوع الحدث">
+                <button class="filter-btn active" data-action="all" type="button" aria-pressed="true" onclick="setActionFilter(this,'all')">الكل</button>
+                <button class="filter-btn" data-action="chat" type="button" aria-pressed="false" onclick="setActionFilter(this,'chat')">محادثة</button>
+                <button class="filter-btn" data-action="approve" type="button" aria-pressed="false" onclick="setActionFilter(this,'approve')">موافقة</button>
+                <button class="filter-btn" data-action="reject" type="button" aria-pressed="false" onclick="setActionFilter(this,'reject')">رفض</button>
+                <button class="filter-btn" data-action="execute" type="button" aria-pressed="false" onclick="setActionFilter(this,'execute')">تنفيذ</button>
+                <button class="filter-btn" data-action="block" type="button" aria-pressed="false" onclick="setActionFilter(this,'block')">حظر</button>
+              </div>
+            </div>
+
+            <div class="filter-actions-row">
+              <button class="tool-btn primary" type="button" onclick="resetAdvancedFilters()">
+                <i class="fa-solid fa-rotate-left" aria-hidden="true"></i>
+                إعادة ضبط
+              </button>
+              <button class="tool-btn" type="button" onclick="loadAuditChain()">
+                <i class="fa-solid fa-arrows-rotate" aria-hidden="true"></i>
+                تحديث
+              </button>
+            </div>
+          </div>
+        </aside>
+
+        <div class="audit-results-shell">
+          <div class="audit-toolbar" aria-label="أدوات عرض وتصدير السجل">
+            <div class="view-toggle" role="group" aria-label="تبديل طريقة عرض السجل">
+              <button class="view-toggle-btn active" id="table-view-btn" type="button" aria-pressed="true" onclick="setAuditView('table')">
+                <i class="fa-solid fa-table-list" aria-hidden="true"></i>
+                جدول
+              </button>
+              <button class="view-toggle-btn" id="timeline-view-btn" type="button" aria-pressed="false" onclick="setAuditView('timeline')">
+                <i class="fa-solid fa-timeline" aria-hidden="true"></i>
+                Timeline
+              </button>
+            </div>
+            <div class="export-actions" aria-label="تصدير سجل التدقيق">
+              <button class="tool-btn" type="button" onclick="exportAudit('csv')">
+                <i class="fa-solid fa-file-csv" aria-hidden="true"></i>
+                CSV
+              </button>
+              <button class="tool-btn" type="button" onclick="exportAudit('json')">
+                <i class="fa-solid fa-code" aria-hidden="true"></i>
+                JSON
+              </button>
+              <button class="tool-btn" type="button" onclick="exportAudit('pdf')">
+                <i class="fa-solid fa-file-pdf" aria-hidden="true"></i>
+                PDF
+              </button>
+            </div>
+          </div>
+
+          <!-- Audit Log -->
+          <section class="glass-card audit-log-card" aria-labelledby="audit-log-title">
+            <div class="audit-log-header">
+              <span class="audit-log-title" id="audit-log-title">سجل الأحداث</span>
+              <span class="audit-log-count" id="entries-count">آخر 50 إدخالاً</span>
+            </div>
+            <div class="audit-log-body" id="audit-log-body" role="list" aria-label="سجل التدقيق">
+              <div class="loading-entries">جاري تحميل سجل التدقيق...</div>
+            </div>
+            <div class="pagination-bar" id="pagination-bar" aria-label="صفحات سجل التدقيق">
+              <span class="pagination-info" id="pagination-info">—</span>
+              <div class="pagination-controls">
+                <select class="filter-control" id="page-size" onchange="setPageSize(this.value)" aria-label="عدد السجلات في الصفحة">
+                  <option value="10">10</option>
+                  <option value="25" selected>25</option>
+                  <option value="50">50</option>
+                </select>
+                <button class="tool-btn" type="button" id="prev-page" onclick="changePage(-1)" aria-label="الصفحة السابقة">
+                  <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+                </button>
+                <button class="tool-btn" type="button" id="next-page" onclick="changePage(1)" aria-label="الصفحة التالية">
+                  <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+          </section>
         </div>
       </section>
 
     </div>
   </main>
+
+  <div class="audit-modal-backdrop" id="audit-detail-modal" role="dialog" aria-modal="true" aria-labelledby="audit-detail-title" aria-hidden="true">
+    <section class="audit-modal">
+      <header class="audit-modal-header">
+        <div>
+          <h2 class="audit-modal-title" id="audit-detail-title">تفاصيل trace</h2>
+          <div class="audit-modal-meta" id="audit-detail-meta">—</div>
+        </div>
+        <button class="modal-close-btn" type="button" onclick="closeAuditModal()" aria-label="إغلاق التفاصيل">
+          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
+      </header>
+      <div class="audit-modal-body" id="audit-detail-body"></div>
+    </section>
+  </div>
   <script src="/frontend/js/unified-header.js?v=20260529-nav-v1" defer></script>
 
   <script src="/kernel/assets/js/kernel-utils.js" defer></script>
@@ -878,11 +1568,17 @@
   <script src="/kernel/assets/js/kernel-demo-banner.js" defer></script>
   <script src="/kernel/assets/js/kernel-nav.js" defer></script>
   <script src="/kernel/assets/js/kernel-aurora.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
 
   <script>
     let allEntries = [];
+    let filteredEntries = [];
     let activeTraceId = '';
     let currentActionFilter = 'all';
+    let currentAuditView = 'table';
+    let currentPage = 1;
+    let pageSize = 25;
+    let auditSocket = null;
     const auditSearchParams = new URLSearchParams(window.location.search);
     const selectedTraceId = auditSearchParams.get('trace_id') || '';
     const selectedDepartment = auditSearchParams.get('department') || '';
@@ -941,6 +1637,7 @@
 
     document.addEventListener('DOMContentLoaded', () => {
       loadAuditChain();
+      initializeRealtimeIndicator();
       setInterval(loadAuditChain, 30000);
     });
 
@@ -964,6 +1661,7 @@
         if (selectedRiskLevel) params.riskLevel = selectedRiskLevel;
         const data = await kernelAPI.getAuditLog(params);
         allEntries = data.rows || data.entries || [];
+        populateProviderOptions();
         activeTraceId = resolveActiveTraceId(allEntries);
         renderTraceTimeline();
         renderHashChainVisual(data);
@@ -998,6 +1696,7 @@
 
       // Entries
       allEntries = data.entries || [];
+      populateProviderOptions();
       activeTraceId = resolveActiveTraceId(allEntries);
       renderTraceTimeline();
       renderHashChainVisual(data);
@@ -1026,42 +1725,17 @@
       });
       btn.classList.add('active');
       btn.setAttribute('aria-pressed', 'true');
+      currentPage = 1;
       renderEntries();
     }
 
     function filterEntries() {
+      currentPage = 1;
       renderEntries();
     }
 
     function renderEntries() {
-      const search = document.getElementById('audit-search').value.toLowerCase();
-      let items = allEntries;
-
-      if (currentActionFilter !== 'all') {
-        items = items.filter(e => {
-          const actionKey = (e.action || '').toLowerCase();
-          return actionKey.includes(currentActionFilter);
-        });
-      }
-
-      if (search) {
-        items = items.filter(e =>
-          (e.action || '').toLowerCase().includes(search) ||
-          (e.actor || '').toLowerCase().includes(search) ||
-          (e.requestId || '').toLowerCase().includes(search) ||
-          (e.traceId || '').toLowerCase().includes(search) ||
-          getDepartment(e).toLowerCase().includes(search)
-        );
-      }
-      if (selectedTraceId) {
-        items = items.filter(e => getTraceId(e).toLowerCase() === selectedTraceId.toLowerCase());
-      }
-      if (selectedDepartment) {
-        items = items.filter(e => getDepartment(e).toLowerCase() === selectedDepartment.toLowerCase());
-      }
-      if (selectedRiskLevel) {
-        items = items.filter(e => riskMatches(getRiskLevel(e), selectedRiskLevel));
-      }
+      const items = getFilteredEntries();
 
       const body = document.getElementById('audit-log-body');
       const activeFilterText = [
@@ -1074,10 +1748,93 @@
 
       if (items.length === 0) {
         body.innerHTML = '<div class="loading-entries">لا توجد نتائج لهذا الفلتر.</div>';
+        updatePagination(0);
         return;
       }
 
-      body.innerHTML = items.slice(0, 100).map(entry => {
+      const totalPages = Math.max(1, Math.ceil(items.length / pageSize));
+      if (currentPage > totalPages) currentPage = totalPages;
+      const pageItems = items.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+
+      body.innerHTML = currentAuditView === 'timeline'
+        ? renderTimelineEntries(pageItems)
+        : renderTableEntries(pageItems);
+      updatePagination(items.length);
+    }
+
+    function getFilteredEntries() {
+      const search = (document.getElementById('audit-search')?.value || '').toLowerCase().trim();
+      const dateFrom = document.getElementById('filter-date-from')?.value || '';
+      const dateTo = document.getElementById('filter-date-to')?.value || '';
+      const minRisk = Number(document.getElementById('filter-risk-slider')?.value || 0);
+      const decision = document.getElementById('filter-decision')?.value || 'all';
+      const provider = document.getElementById('filter-provider')?.value || 'all';
+      let items = allEntries.slice();
+
+      if (currentActionFilter !== 'all') {
+        items = items.filter((entry) => String(entry.action || '').toLowerCase().includes(currentActionFilter));
+      }
+
+      if (search) {
+        items = items.filter((entry) => {
+          const searchableQuery = [
+            entry.query,
+            entry.request_message,
+            entry.originalText,
+            entry.maskedText,
+            entry.masked_message,
+            entry.response,
+            entry.gemini_response,
+            entry.actor,
+            entry.action,
+            entry.requestId,
+            entry.traceId,
+            getDepartment(entry)
+          ].filter(Boolean).join(' ').toLowerCase();
+          return searchableQuery.includes(search);
+        });
+      }
+
+      if (dateFrom || dateTo) {
+        const fromTime = dateFrom ? new Date(`${dateFrom}T00:00:00`).getTime() : null;
+        const toTime = dateTo ? new Date(`${dateTo}T23:59:59`).getTime() : null;
+        items = items.filter((entry) => {
+          const time = getEntryTimeValue(entry);
+          if (!Number.isFinite(time)) return false;
+          if (fromTime && time < fromTime) return false;
+          if (toTime && time > toTime) return false;
+          return true;
+        });
+      }
+
+      if (minRisk > 0) {
+        items = items.filter((entry) => getRiskScore(entry) >= minRisk);
+      }
+
+      if (decision !== 'all') {
+        items = items.filter((entry) => decisionMatches(entry, decision));
+      }
+
+      if (provider !== 'all') {
+        items = items.filter((entry) => getProvider(entry) === provider);
+      }
+
+      if (selectedTraceId) {
+        items = items.filter((entry) => getTraceId(entry).toLowerCase() === selectedTraceId.toLowerCase());
+      }
+      if (selectedDepartment) {
+        items = items.filter((entry) => getDepartment(entry).toLowerCase() === selectedDepartment.toLowerCase());
+      }
+      if (selectedRiskLevel) {
+        items = items.filter((entry) => riskMatches(getRiskLevel(entry), selectedRiskLevel));
+      }
+
+      filteredEntries = items;
+      return items;
+    }
+
+    function renderTableEntries(items) {
+      return items.map(entry => {
         const action = entry.action || entry.eventType || entry.event_type || 'UNKNOWN';
         const info = ACTION_LABELS[action] || { label: action, cls: 'system' };
         const time = entry.timestamp
@@ -1089,21 +1846,124 @@
         const actor = KernelUtils.escapeHtml(entry.actor || 'نظام');
         const department = getDepartment(entry);
         const riskLevel = getRiskLevel(entry);
+        const recordKey = getRecordKey(entry);
         const traceLink = traceId
-          ? `<a href="/kernel/evidence/?trace_id=${encodeURIComponent(traceId)}" class="audit-trace-link">${KernelUtils.escapeHtml(traceId)}</a>`
+          ? `<a href="/kernel/evidence/?trace_id=${encodeURIComponent(traceId)}" class="audit-trace-link" onclick="event.stopPropagation()">${KernelUtils.escapeHtml(traceId)}</a>`
           : `<span title="سجل قديم بدون trace_id">${shortId}...</span>`;
 
         return `
-          <div class="audit-entry" role="listitem">
+          <div class="audit-entry" role="listitem" tabindex="0" data-record-key="${KernelUtils.escapeHtml(recordKey)}" onclick="openAuditModalByKey('${escapeJs(recordKey)}')" onkeydown="handleEntryKeydown(event, '${escapeJs(recordKey)}')">
             <span class="audit-time">${time}</span>
             <span class="audit-action-badge ${info.cls}" aria-label="نوع الحدث: ${KernelUtils.escapeHtml(info.label)}">${KernelUtils.escapeHtml(info.label)}</span>
             <span class="audit-details">
               <span class="actor">${actor}</span> — ${KernelUtils.escapeHtml(department)} · ${KernelUtils.escapeHtml(getRiskLabel(riskLevel))} · <span lang="en" dir="ltr">Trace</span>: ${traceLink}
             </span>
-            <button class="audit-hash" type="button" data-hash="${KernelUtils.escapeHtml(getRecordHash(entry))}" onclick="copyHash(this)" title="نسخ التجزئة" aria-label="نسخ تجزئة سجل التدقيق">${KernelUtils.escapeHtml(shortHashValue)}</button>
+            <span class="audit-hash-wrap">
+              <span class="audit-hash">${KernelUtils.escapeHtml(shortHashValue)}</span>
+              <button class="audit-copy-btn" type="button" data-hash="${KernelUtils.escapeHtml(getRecordHash(entry))}" onclick="event.stopPropagation(); copyHash(this)" title="نسخ التجزئة" aria-label="نسخ تجزئة سجل التدقيق">
+                <i class="fa-regular fa-copy" aria-hidden="true"></i>
+              </button>
+            </span>
           </div>
         `;
       }).join('');
+    }
+
+    function renderTimelineEntries(items) {
+      return `
+        <div class="audit-timeline-view">
+          ${items.map((entry) => {
+            const action = entry.action || entry.eventType || entry.event_type || 'UNKNOWN';
+            const info = ACTION_LABELS[action] || { label: action, cls: 'system' };
+            const recordKey = getRecordKey(entry);
+            const time = getStageTime(entry) || '—';
+            const date = getEntryDate(entry);
+            const query = getRequestText(entry);
+            return `
+              <article class="audit-timeline-item" role="listitem" tabindex="0" onclick="openAuditModalByKey('${escapeJs(recordKey)}')" onkeydown="handleEntryKeydown(event, '${escapeJs(recordKey)}')">
+                <time class="audit-time" datetime="${KernelUtils.escapeHtml(entry.timestamp || entry.createdAt || entry.created_at || '')}">${KernelUtils.escapeHtml(date)}<br>${KernelUtils.escapeHtml(time)}</time>
+                <div class="audit-timeline-rail"><span class="audit-timeline-dot" aria-hidden="true"></span></div>
+                <div class="audit-timeline-card">
+                  <div class="timeline-card-head">
+                    <span class="audit-action-badge ${info.cls}">${KernelUtils.escapeHtml(info.label)}</span>
+                    <button class="audit-copy-btn" type="button" data-hash="${KernelUtils.escapeHtml(getRecordHash(entry))}" onclick="event.stopPropagation(); copyHash(this)" title="نسخ التجزئة" aria-label="نسخ تجزئة سجل التدقيق">
+                      <i class="fa-regular fa-copy" aria-hidden="true"></i>
+                    </button>
+                  </div>
+                  <div class="audit-details"><span class="actor">${KernelUtils.escapeHtml(entry.actor || 'نظام')}</span> · ${KernelUtils.escapeHtml(getProvider(entry))} · ${KernelUtils.escapeHtml(getRiskLabel(getRiskLevel(entry)))}</div>
+                  <p class="timeline-query">${KernelUtils.escapeHtml(query || 'لا يوجد نص طلب محفوظ لهذا السجل.')}</p>
+                  <div class="trace-step-hash">${KernelUtils.escapeHtml(shortHash(getRecordHash(entry)))}</div>
+                </div>
+              </article>
+            `;
+          }).join('')}
+        </div>
+      `;
+    }
+
+    function updatePagination(totalItems) {
+      const totalPages = Math.max(1, Math.ceil(totalItems / pageSize));
+      const start = totalItems ? ((currentPage - 1) * pageSize) + 1 : 0;
+      const end = Math.min(currentPage * pageSize, totalItems);
+      document.getElementById('pagination-info').textContent = totalItems
+        ? `عرض ${start}-${end} من ${totalItems} · صفحة ${currentPage} من ${totalPages}`
+        : 'لا توجد نتائج';
+      document.getElementById('prev-page').disabled = currentPage <= 1;
+      document.getElementById('next-page').disabled = currentPage >= totalPages || totalItems === 0;
+    }
+
+    function setPageSize(value) {
+      pageSize = Number(value) || 25;
+      currentPage = 1;
+      renderEntries();
+    }
+
+    function changePage(delta) {
+      const totalPages = Math.max(1, Math.ceil(getFilteredEntries().length / pageSize));
+      currentPage = Math.min(Math.max(1, currentPage + delta), totalPages);
+      renderEntries();
+    }
+
+    function setAuditView(view) {
+      currentAuditView = view === 'timeline' ? 'timeline' : 'table';
+      document.getElementById('table-view-btn').classList.toggle('active', currentAuditView === 'table');
+      document.getElementById('timeline-view-btn').classList.toggle('active', currentAuditView === 'timeline');
+      document.getElementById('table-view-btn').setAttribute('aria-pressed', String(currentAuditView === 'table'));
+      document.getElementById('timeline-view-btn').setAttribute('aria-pressed', String(currentAuditView === 'timeline'));
+      renderEntries();
+    }
+
+    function updateRiskThreshold(value) {
+      document.getElementById('risk-threshold-label').textContent = `${Number(value) || 0}+`;
+    }
+
+    function resetAdvancedFilters() {
+      document.getElementById('audit-search').value = '';
+      document.getElementById('filter-date-from').value = '';
+      document.getElementById('filter-date-to').value = '';
+      document.getElementById('filter-risk-slider').value = '0';
+      document.getElementById('filter-decision').value = 'all';
+      document.getElementById('filter-provider').value = 'all';
+      updateRiskThreshold(0);
+      currentActionFilter = 'all';
+      document.querySelectorAll('.filter-btn[data-action]').forEach((button) => {
+        const isAll = button.dataset.action === 'all';
+        button.classList.toggle('active', isAll);
+        button.setAttribute('aria-pressed', String(isAll));
+      });
+      currentPage = 1;
+      renderEntries();
+    }
+
+    function populateProviderOptions() {
+      const select = document.getElementById('filter-provider');
+      if (!select) return;
+      const currentValue = select.value || 'all';
+      const providers = [...new Set(allEntries.map(getProvider).filter(Boolean))].sort();
+      select.innerHTML = '<option value="all">كل المزودين</option>' + providers.map((provider) =>
+        `<option value="${KernelUtils.escapeHtml(provider)}">${KernelUtils.escapeHtml(provider)}</option>`
+      ).join('');
+      select.value = providers.includes(currentValue) ? currentValue : 'all';
     }
 
     function getTraceId(record = {}) {
@@ -1300,6 +2160,306 @@
       return String(record.previousHash || record.previous_hash || '');
     }
 
+    function getRecordKey(record = {}) {
+      return String(record.id || record.requestId || record.interactionId || getTraceId(record) || getRecordHash(record) || Math.random());
+    }
+
+    function getRequestText(record = {}) {
+      return String(record.request_message || record.query || record.originalText || record.message || '');
+    }
+
+    function getResponseText(record = {}) {
+      return String(record.response || record.gemini_response || record.answer || '');
+    }
+
+    function getProvider(record = {}) {
+      return String(record.responseProvider || record.provider || record.response_model || record.responseModel || record.model || 'غير محدد');
+    }
+
+    function getPolicyMatches(record = {}) {
+      const values = [
+        ...parseMaybeArray(record.compliance_flags || record.complianceFlags),
+        ...parseMaybeArray(record.policyMatches || record.policy_matches),
+        ...parseMaybeArray(record.risk_reasons || record.riskReasons),
+      ];
+      if (record.compliancePack || record.compliance_pack) values.unshift(`PACK: ${record.compliancePack || record.compliance_pack}`);
+      return [...new Set(values.filter(Boolean).map(String))];
+    }
+
+    function parseMaybeArray(value) {
+      if (Array.isArray(value)) return value;
+      if (typeof value === 'string') {
+        try {
+          const parsed = JSON.parse(value);
+          return Array.isArray(parsed) ? parsed : [value];
+        } catch (_error) {
+          return value ? [value] : [];
+        }
+      }
+      return [];
+    }
+
+    function getEntryTimeValue(record = {}) {
+      const value = record.timestamp || record.createdAt || record.created_at || record.time;
+      const time = new Date(value).getTime();
+      return Number.isFinite(time) ? time : NaN;
+    }
+
+    function getEntryDate(record = {}) {
+      const value = record.timestamp || record.createdAt || record.created_at;
+      return value ? new Date(value).toLocaleDateString('ar-SA') : '—';
+    }
+
+    function decisionMatches(record = {}, decision) {
+      const status = String(record.approvalStatus || record.approval_status || record.status || '').toLowerCase();
+      const action = String(record.action || '').toLowerCase();
+      if (decision === 'blocked') return status === 'blocked' || action.includes('block');
+      if (decision === 'pending') return status === 'pending' || action.includes('approval_requested');
+      if (decision === 'approved') return status === 'approved' || status === 'approved_completed' || action.includes('approved') || action.includes('executed');
+      if (decision === 'rejected') return status === 'rejected' || action.includes('reject');
+      if (decision === 'auto_approved') return status === 'auto_approved';
+      return true;
+    }
+
+    function handleEntryKeydown(event, recordKey) {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        openAuditModalByKey(recordKey);
+      }
+    }
+
+    function openAuditModalByKey(recordKey) {
+      const record = allEntries.find((entry) => getRecordKey(entry) === recordKey);
+      if (record) openAuditModal(record);
+    }
+
+    function openAuditModal(record) {
+      activeTraceId = getTraceId(record) || activeTraceId;
+      renderTraceTimeline();
+      document.querySelectorAll('.audit-entry.selected').forEach((entry) => entry.classList.remove('selected'));
+      document.querySelector(`[data-record-key="${cssEscape(getRecordKey(record))}"]`)?.classList.add('selected');
+
+      const modal = document.getElementById('audit-detail-modal');
+      const title = document.getElementById('audit-detail-title');
+      const meta = document.getElementById('audit-detail-meta');
+      const body = document.getElementById('audit-detail-body');
+      const traceId = getTraceId(record) || record.requestId || 'trace غير محدد';
+      const riskScore = getRiskScore(record);
+      const piiTypes = getPiiTypes(record);
+      const policyMatches = getPolicyMatches(record);
+      const previousHash = getPreviousHash(record) || '0';
+      const currentHash = getRecordHash(record);
+      const nextRecord = sortChainEntries(allEntries).find((entry) => getPreviousHash(entry) === currentHash);
+      const proofLines = [
+        `trace_id: ${traceId}`,
+        `previous_hash: ${previousHash}`,
+        `record_hash: ${currentHash || '—'}`,
+        `next_previous_hash: ${nextRecord ? getPreviousHash(nextRecord) : '—'}`,
+        `chain_link: ${nextRecord ? 'verified by next record' : 'latest or terminal record'}`
+      ];
+
+      title.textContent = `تفاصيل ${traceId}`;
+      meta.textContent = `${getProvider(record)} · ${getEntryDate(record)} · ${getStageTime(record) || '—'}`;
+      body.innerHTML = `
+        <div class="modal-grid">
+          <section class="detail-panel wide">
+            <div class="detail-panel-title">Full request</div>
+            <pre class="detail-pre">${KernelUtils.escapeHtml(getRequestText(record) || '—')}</pre>
+          </section>
+
+          <section class="detail-panel wide">
+            <div class="detail-panel-title">Full response</div>
+            <pre class="detail-pre">${KernelUtils.escapeHtml(getResponseText(record) || 'لا يوجد رد محفوظ لهذا الحدث.')}</pre>
+          </section>
+
+          <section class="detail-panel">
+            <div class="detail-panel-title">Risk breakdown</div>
+            <div class="risk-meter" aria-hidden="true"><div class="risk-meter-fill" style="width:${Math.min(Math.max(riskScore, 0), 100)}%"></div></div>
+            <pre class="detail-pre">${KernelUtils.escapeHtml([
+              `score: ${riskScore}`,
+              `level: ${getRiskLabel(getRiskLevel(record))}`,
+              `decision: ${getApprovalLabel(record.approvalStatus || record.approval_status || record.status)}`,
+              `firewall: ${record.firewall_action || record.firewallAction || '—'}`,
+              `response_time_ms: ${record.response_time_ms ?? record.responseTimeMs ?? '—'}`
+            ].join('\n'))}</pre>
+          </section>
+
+          <section class="detail-panel">
+            <div class="detail-panel-title">PII details</div>
+            <div class="pill-list">
+              ${(piiTypes.length ? piiTypes : ['لا توجد PII مرصودة']).map((item) => `<span class="detail-pill">${KernelUtils.escapeHtml(item)}</span>`).join('')}
+            </div>
+            <pre class="detail-pre" style="margin-top: var(--space-3);">${KernelUtils.escapeHtml(record.maskedText || record.masked_message || 'لا يوجد نص مقنّع محفوظ.')}</pre>
+          </section>
+
+          <section class="detail-panel">
+            <div class="detail-panel-title">Policy matches</div>
+            <div class="pill-list">
+              ${(policyMatches.length ? policyMatches : ['لا توجد مطابقات سياسة مسجلة']).map((item) => `<span class="detail-pill">${KernelUtils.escapeHtml(item)}</span>`).join('')}
+            </div>
+          </section>
+
+          <section class="detail-panel">
+            <div class="detail-panel-title">Hash chain proof</div>
+            <pre class="detail-pre detail-code">${KernelUtils.escapeHtml(proofLines.join('\n'))}</pre>
+          </section>
+        </div>
+      `;
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeAuditModal() {
+      const modal = document.getElementById('audit-detail-modal');
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') closeAuditModal();
+    });
+
+    document.getElementById('audit-detail-modal')?.addEventListener('click', (event) => {
+      if (event.target.id === 'audit-detail-modal') closeAuditModal();
+    });
+
+    function exportAudit(format) {
+      const rows = getFilteredEntries();
+      if (!rows.length) {
+        KernelUtils?.showToast?.('لا توجد نتائج للتصدير.', 'warning');
+        return;
+      }
+
+      if (format === 'csv') {
+        const columns = ['traceId', 'timestamp', 'actor', 'decision', 'riskScore', 'riskLevel', 'provider', 'query', 'response', 'hash'];
+        const csv = [
+          columns.join(','),
+          ...rows.map((row) => columns.map((column) => csvCell(getExportValue(row, column))).join(','))
+        ].join('\n');
+        downloadBlob(`\uFEFF${csv}`, 'brightai-audit.csv', 'text/csv;charset=utf-8');
+        return;
+      }
+
+      if (format === 'json') {
+        downloadBlob(JSON.stringify(rows, null, 2), 'brightai-audit.json', 'application/json;charset=utf-8');
+        return;
+      }
+
+      if (format === 'pdf') {
+        exportAuditPdf(rows);
+      }
+    }
+
+    function getExportValue(row, column) {
+      const values = {
+        traceId: getTraceId(row),
+        timestamp: row.timestamp || row.createdAt || row.created_at || '',
+        actor: row.actor || row.userName || row.user_name || '',
+        decision: row.approvalStatus || row.approval_status || row.action || '',
+        riskScore: getRiskScore(row),
+        riskLevel: getRiskLevel(row),
+        provider: getProvider(row),
+        query: getRequestText(row),
+        response: getResponseText(row),
+        hash: getRecordHash(row)
+      };
+      return values[column] ?? '';
+    }
+
+    function csvCell(value) {
+      return `"${String(value ?? '').replace(/"/g, '""')}"`;
+    }
+
+    function downloadBlob(content, filename, type) {
+      const blob = new Blob([content], { type });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+      KernelUtils?.showToast?.('تم تجهيز ملف التصدير.', 'success');
+    }
+
+    function exportAuditPdf(rows) {
+      const jsPDF = window.jspdf?.jsPDF;
+      if (!jsPDF) {
+        KernelUtils?.showToast?.('تعذر تحميل jsPDF CDN.', 'danger');
+        return;
+      }
+
+      const doc = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
+      let y = 16;
+      doc.setFontSize(14);
+      doc.text('BrightAI Kernel Audit Export', 14, y);
+      y += 8;
+      doc.setFontSize(9);
+      doc.text(`Generated: ${new Date().toISOString()} | Records: ${rows.length}`, 14, y);
+      y += 8;
+
+      rows.slice(0, 60).forEach((row, index) => {
+        if (y > 278) {
+          doc.addPage();
+          y = 16;
+        }
+        const lines = doc.splitTextToSize([
+          `${index + 1}. ${getTraceId(row) || row.requestId || 'trace'} | ${getRiskLevel(row)} | ${getProvider(row)}`,
+          `Request: ${getRequestText(row)}`,
+          `Hash: ${getRecordHash(row)}`
+        ].join('\n'), 180);
+        doc.text(lines, 14, y);
+        y += Math.max(16, lines.length * 4 + 5);
+      });
+
+      if (rows.length > 60) {
+        if (y > 270) {
+          doc.addPage();
+          y = 16;
+        }
+        doc.text(`PDF preview limited to first 60 records. Full filtered count: ${rows.length}`, 14, y);
+      }
+      doc.save('brightai-audit.pdf');
+      KernelUtils?.showToast?.('تم تجهيز PDF.', 'success');
+    }
+
+    function initializeRealtimeIndicator() {
+      const wsUrl = window.BrightAIKernelConfig?.auditWebSocketUrl || window.BrightAIKernelConfig?.webSocketUrl || '';
+      if (!wsUrl || typeof WebSocket === 'undefined') {
+        setRealtimeState('polling', 'Polling');
+        return;
+      }
+
+      try {
+        auditSocket = new WebSocket(wsUrl);
+        auditSocket.addEventListener('open', () => setRealtimeState('live', 'Live'));
+        auditSocket.addEventListener('message', () => loadAuditChain());
+        auditSocket.addEventListener('close', () => setRealtimeState('polling', 'Polling'));
+        auditSocket.addEventListener('error', () => setRealtimeState('offline', 'WS offline'));
+      } catch (_error) {
+        setRealtimeState('polling', 'Polling');
+      }
+    }
+
+    function setRealtimeState(state, label) {
+      const indicator = document.getElementById('live-indicator');
+      const text = document.getElementById('live-indicator-text');
+      indicator.className = `live-indicator ${state === 'live' ? '' : state}`;
+      text.textContent = label;
+    }
+
+    function cssEscape(value) {
+      if (window.CSS?.escape) return CSS.escape(value);
+      return String(value).replace(/"/g, '\\"');
+    }
+
+    function escapeJs(value) {
+      return String(value).replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+    }
+
     function shortHash(hash = '') {
       return hash ? `${String(hash).substring(0, 12)}...` : '—';
     }
@@ -1343,6 +2503,7 @@
       });
     }
   </script>
+  <script src="/kernel/assets/js/kernel-pwa.js" defer></script>
   <script src="/frontend/js/production-runtime.v20260427.js" defer></script>
 </body>
 </html>

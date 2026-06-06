@@ -1040,6 +1040,15 @@ services:
       - type: redirect
         source: /kernel/evidence.html
         destination: /kernel/evidence/
+      - type: rewrite
+        source: /kernel/offline
+        destination: /kernel/offline.html
+      - type: rewrite
+        source: /kernel/offline/
+        destination: /kernel/offline.html
+      - type: redirect
+        source: /kernel/offline.html
+        destination: /kernel/offline/
 
       # ── Blog Module Redirects ────────────────────────────────────────────────
       - type: redirect

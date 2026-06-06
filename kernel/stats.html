@@ -12,6 +12,8 @@
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#030A18">
+  <link rel="manifest" href="/kernel/manifest.json">
+  <link rel="icon" href="/frontend/assets/images/logo.png" type="image/png">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <title>إحصائيات BrightAI Kernel لاستخدامات AI | BrightAI</title>
 <meta name="description" content="تابع مؤشرات استخدام الذكاء الاصطناعي والموافقات والمخاطر داخل BrightAI Kernel، لتكوين صورة تنفيذية تساعد على تحسين الحوكمة. بما يناسب بيئة العمل السعودية." />
@@ -44,6 +46,75 @@
       font-size: 0.8125rem;
       color: var(--text-tertiary);
       margin-top: var(--space-3);
+    }
+
+    .stats-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-4);
+      margin: var(--space-5) 0 var(--space-6);
+      flex-wrap: wrap;
+    }
+
+    .date-range-selector,
+    .custom-date-range {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      flex-wrap: wrap;
+    }
+
+    .range-btn,
+    .dashboard-action-btn {
+      min-height: 38px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: rgba(15, 23, 42, 0.72);
+      color: var(--text-secondary);
+      padding: 0 var(--space-3);
+      font-family: inherit;
+      font-size: 0.8125rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: border-color var(--transition-fast), color var(--transition-fast), background var(--transition-fast), transform var(--transition-fast);
+    }
+
+    .range-btn:hover,
+    .range-btn.active,
+    .dashboard-action-btn:hover {
+      border-color: rgba(0, 212, 255, 0.54);
+      background: rgba(0, 212, 255, 0.1);
+      color: var(--text-primary);
+      transform: translateY(-1px);
+    }
+
+    .dashboard-action-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      color: var(--brand);
+    }
+
+    .dashboard-action-btn svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .custom-date-range input {
+      min-height: 38px;
+      color-scheme: dark;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: rgba(15, 23, 42, 0.72);
+      color: var(--text-primary);
+      padding: 0 var(--space-2);
+      font-family: inherit;
+      font-size: 0.8125rem;
+    }
+
+    .custom-date-range[hidden] {
+      display: none;
     }
 
     .refresh-dot {
@@ -136,6 +207,20 @@
       color: var(--text-tertiary);
     }
 
+    .trend-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: var(--space-1);
+      font-size: 0.75rem;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .trend-indicator.up { color: var(--success); }
+    .trend-indicator.down { color: var(--danger); }
+    .trend-indicator.neutral { color: var(--text-tertiary); }
+
     /* Charts Grid */
     .charts-row {
       display: grid;
@@ -176,166 +261,50 @@
       height: 240px;
     }
 
-    /* Risk Distribution Bars */
-    .risk-bars {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-3);
+    .chart-canvas-wrap.tall {
+      height: 310px;
     }
 
-    .risk-bar-item {
-      display: grid;
-      grid-template-columns: 80px 1fr 40px;
-      align-items: center;
-      gap: var(--space-3);
+    .chart-canvas-wrap.gauge {
+      height: 210px;
+      max-width: 360px;
+      margin-inline: auto;
     }
 
-    .risk-bar-label {
-      font-size: 0.8125rem;
-      color: var(--text-secondary);
-      text-align: end;
-    }
-
-    .risk-bar-track {
-      height: 28px;
-      background: rgba(0, 212, 255, 0.05);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      overflow: hidden;
-    }
-
-    .risk-bar-fill {
-      height: 100%;
-      border-radius: var(--radius-sm);
+    .chart-empty-state {
+      min-height: 180px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.6875rem;
-      font-weight: 700;
-      color: rgba(255,255,255,0.9);
-      transition: width 600ms cubic-bezier(0.4, 0, 0.2, 1);
-      min-width: 0;
-    }
-
-    .risk-bar-fill[data-level="critical"] { background: var(--danger); }
-    .risk-bar-fill[data-level="high"] { background: #F97316; }
-    .risk-bar-fill[data-level="medium"] { background: var(--warning); }
-    .risk-bar-fill[data-level="low"] { background: #22C55E; }
-    .risk-bar-fill[data-level="minimal"] { background: var(--success); }
-
-    .risk-bar-count {
-      font-size: 0.875rem;
-      font-weight: 600;
-      color: var(--text-secondary);
-      font-variant-numeric: tabular-nums;
-    }
-
-    /* Department Risk Heatmap */
-    .risk-heatmap-section {
-      margin-bottom: var(--space-6);
-    }
-
-    .risk-heatmap-card {
-      padding: var(--space-5);
-      overflow: hidden;
-    }
-
-    .risk-heatmap-scroll {
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      padding-bottom: var(--space-1);
-    }
-
-    .risk-heatmap {
-      display: grid;
-      grid-template-columns: minmax(132px, 1.15fr) repeat(4, minmax(112px, 1fr));
-      gap: var(--space-2);
-      min-width: 640px;
-      direction: rtl;
-    }
-
-    .risk-heatmap-head,
-    .risk-heatmap-row-label {
-      min-height: 44px;
-      display: flex;
-      align-items: center;
-      padding: var(--space-3);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      background: rgba(15, 23, 42, 0.72);
-      color: var(--text-secondary);
-      font-size: 0.8125rem;
-      font-weight: 700;
-    }
-
-    .risk-heatmap-head {
-      justify-content: center;
-      color: var(--text-primary);
-    }
-
-    .risk-heatmap-row-label {
-      justify-content: flex-start;
-      color: var(--text-primary);
-    }
-
-    .risk-heatmap-cell {
-      min-height: 78px;
-      border: 1px solid rgba(148, 163, 184, 0.2);
-      border-radius: var(--radius-sm);
-      padding: var(--space-3);
-      color: #F8FAFC;
-      text-decoration: none;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 4px;
-      cursor: pointer;
-      position: relative;
-      transition: transform var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
-    }
-
-    .risk-heatmap-cell:hover,
-    .risk-heatmap-cell:focus-visible {
-      transform: translateY(-1px);
-      border-color: rgba(248, 250, 252, 0.62);
-      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
-      outline: none;
-    }
-
-    .risk-heatmap-count {
-      font-size: 1.35rem;
-      font-weight: 800;
-      line-height: 1;
-      font-variant-numeric: tabular-nums;
-    }
-
-    .risk-heatmap-percent {
-      font-size: 0.75rem;
-      color: rgba(248, 250, 252, 0.84);
-      font-variant-numeric: tabular-nums;
-    }
-
-    .risk-heatmap-pii {
-      font-size: 0.6875rem;
-      color: rgba(248, 250, 252, 0.72);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .risk-heatmap-empty {
-      padding: var(--space-5);
       border: 1px dashed var(--border);
       border-radius: var(--radius-sm);
       color: var(--text-tertiary);
       text-align: center;
+      padding: var(--space-4);
     }
 
-    @media (max-width: 640px) {
-      .risk-heatmap-card { padding: var(--space-4); }
-      .risk-heatmap { min-width: 560px; grid-template-columns: 120px repeat(4, 104px); }
-      .risk-heatmap-cell { min-height: 72px; }
-      .risk-heatmap-count { font-size: 1.15rem; }
+    .compliance-gauge-value {
+      position: absolute;
+      inset-inline: 0;
+      bottom: 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      pointer-events: none;
+    }
+
+    .compliance-gauge-value strong {
+      color: var(--success);
+      font-size: 2rem;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .compliance-gauge-value span {
+      margin-top: var(--space-1);
+      color: var(--text-tertiary);
+      font-size: 0.75rem;
+      font-weight: 700;
     }
 
     /* Status Grid */
@@ -400,6 +369,86 @@
     /* Loading Skeleton */
     .loading-state { display: none; }
     .loading-state.visible { display: block; }
+
+    .risk-table-card {
+      padding: var(--space-5);
+      margin-bottom: var(--space-6);
+    }
+
+    .risk-table-scroll {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .top-risk-table {
+      width: 100%;
+      min-width: 760px;
+      border-collapse: collapse;
+    }
+
+    .top-risk-table th,
+    .top-risk-table td {
+      padding: var(--space-3);
+      border-bottom: 1px solid var(--border);
+      text-align: start;
+      vertical-align: top;
+      font-size: 0.8125rem;
+    }
+
+    .top-risk-table th {
+      color: var(--text-tertiary);
+      font-weight: 800;
+      background: rgba(15, 23, 42, 0.56);
+    }
+
+    .top-risk-table td {
+      color: var(--text-secondary);
+    }
+
+    .top-risk-query {
+      color: var(--text-primary);
+      max-width: 380px;
+      line-height: 1.65;
+    }
+
+    .risk-score-pill {
+      display: inline-flex;
+      justify-content: center;
+      min-width: 54px;
+      border-radius: var(--radius-full);
+      padding: 4px 8px;
+      color: #fff;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .risk-score-pill.critical { background: var(--danger); }
+    .risk-score-pill.high { background: #F97316; }
+    .risk-score-pill.medium { background: var(--warning); }
+    .risk-score-pill.low { background: #22C55E; }
+    .risk-score-pill.minimal { background: var(--success); }
+
+    @media (max-width: 640px) {
+      .stats-toolbar {
+        align-items: stretch;
+      }
+
+      .date-range-selector,
+      .custom-date-range,
+      .dashboard-action-btn {
+        width: 100%;
+      }
+
+      .range-btn,
+      .dashboard-action-btn,
+      .custom-date-range input {
+        flex: 1 1 calc(50% - var(--space-2));
+      }
+
+      .chart-canvas-wrap.tall {
+        height: 280px;
+      }
+    }
   </style>
   <meta name="robots" content="index, follow">
 <!-- AI Search / GEO / LLMO -->
@@ -585,8 +634,30 @@
         <p>نظرة شاملة على أداء نواة الحوكمة واتجاهات المخاطر</p>
         <div class="refresh-indicator">
           <div class="refresh-dot"></div>
-          <span>تحديث تلقائي كل 30 ثانية — آخر تحديث: <span id="last-update">لم يحدث بعد</span></span>
+          <span><span id="refresh-status">التحديث التلقائي نشط</span> — آخر تحديث: <span id="last-update">لم يحدث بعد</span></span>
         </div>
+      </div>
+
+      <div class="stats-toolbar" aria-label="أدوات لوحة الإحصائيات">
+        <div class="date-range-selector" role="group" aria-label="اختر نطاق التاريخ">
+          <button class="range-btn active" type="button" data-range="7">آخر 7 أيام</button>
+          <button class="range-btn" type="button" data-range="30">30 يوم</button>
+          <button class="range-btn" type="button" data-range="90">90 يوم</button>
+          <button class="range-btn" type="button" data-range="custom">مخصص</button>
+        </div>
+        <div class="custom-date-range" id="custom-date-range" hidden>
+          <input type="date" id="date-from" aria-label="من تاريخ">
+          <input type="date" id="date-to" aria-label="إلى تاريخ">
+          <button class="range-btn" type="button" id="apply-custom-range">تطبيق</button>
+        </div>
+        <button class="dashboard-action-btn" type="button" id="export-dashboard-pdf">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <path d="M7 10l5 5 5-5"/>
+            <path d="M12 15V3"/>
+          </svg>
+          تصدير PDF
+        </button>
       </div>
 
       <nav class="kernel-breadcrumb" aria-label="مسار التنقل">
@@ -622,6 +693,7 @@
             <span class="skeleton" style="width:60px;height:36px;display:inline-block;border-radius:8px;"></span>
           </div>
           <div class="kpi-sub">إجمالي الطلبات المعالجة</div>
+          <div class="trend-indicator neutral" id="trend-total">-- عن الأسبوع الماضي</div>
         </div>
 
         <div class="glass-card kpi-card warning">
@@ -635,6 +707,7 @@
             <span class="skeleton" style="width:40px;height:36px;display:inline-block;border-radius:8px;"></span>
           </div>
           <div class="kpi-sub">طلب يحتاج مراجعة</div>
+          <div class="trend-indicator neutral" id="trend-pending">-- عن الأسبوع الماضي</div>
         </div>
 
         <div class="glass-card kpi-card danger">
@@ -648,6 +721,7 @@
             <span class="skeleton" style="width:50px;height:36px;display:inline-block;border-radius:8px;"></span>
           </div>
           <div class="kpi-sub">درجة تعقيد الطلبات</div>
+          <div class="trend-indicator neutral" id="trend-risk">-- عن الأسبوع الماضي</div>
         </div>
 
         <div class="glass-card kpi-card success">
@@ -661,67 +735,92 @@
             <span class="skeleton" style="width:50px;height:36px;display:inline-block;border-radius:8px;"></span>
           </div>
           <div class="kpi-sub">نسبة الطلبات التي تحتوي PII</div>
+          <div class="trend-indicator neutral" id="trend-pii">-- عن الأسبوع الماضي</div>
         </div>
       </div>
 
       <!-- Charts Row -->
       <div class="charts-row">
-        <!-- Donut Chart -->
         <div class="glass-card chart-card">
           <div class="chart-header">
             <div>
-              <div class="chart-title">توزيع حالات الطلبات</div>
-              <div class="chart-subtitle">توزيع الطلبات حسب الحالة الحالية</div>
+              <div class="chart-title">اتجاهات التشغيل</div>
+              <div class="chart-subtitle">طلبات، مخاطر، وامتثال خلال النطاق المحدد</div>
             </div>
           </div>
-          <div class="chart-canvas-wrap">
-            <div id="status-donut-chart" class="svg-donut-container"></div>
+          <div class="chart-canvas-wrap tall">
+            <canvas id="trends-line-chart" aria-label="رسم خطي لاتجاهات التشغيل" role="img"></canvas>
           </div>
         </div>
 
-        <!-- Risk Distribution Bars -->
         <div class="glass-card chart-card">
           <div class="chart-header">
             <div>
               <div class="chart-title">توزيع مستويات المخاطر</div>
-              <div class="chart-subtitle">عدد الطلبات لكل مستوى خطر</div>
+              <div class="chart-subtitle">Chart.js Doughnut مع تفاصيل تفاعلية</div>
             </div>
           </div>
-          <div class="risk-bars" id="risk-bars">
-            <!-- Skeleton -->
-            <div class="risk-bar-item">
-              <div class="skeleton" style="height:20px; border-radius:4px;"></div>
-              <div class="risk-bar-track"><div class="skeleton" style="height:100%;"></div></div>
-              <div class="skeleton" style="height:20px; border-radius:4px;"></div>
+          <div class="chart-canvas-wrap">
+            <canvas id="risk-doughnut-chart" aria-label="رسم دائري لتوزيع المخاطر" role="img"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="charts-row">
+        <div class="glass-card chart-card">
+          <div class="chart-header">
+            <div>
+              <div class="chart-title">تفصيل الأقسام</div>
+              <div class="chart-subtitle">Bar chart للمخاطر المجمعة حسب القسم</div>
             </div>
-            <div class="risk-bar-item">
-              <div class="skeleton" style="height:20px; border-radius:4px;"></div>
-              <div class="risk-bar-track"><div class="skeleton" style="height:100%;"></div></div>
-              <div class="skeleton" style="height:20px; border-radius:4px;"></div>
+          </div>
+          <div class="chart-canvas-wrap tall">
+            <canvas id="department-bar-chart" aria-label="رسم أعمدة للمخاطر حسب القسم" role="img"></canvas>
+          </div>
+        </div>
+
+        <div class="glass-card chart-card">
+          <div class="chart-header">
+            <div>
+              <div class="chart-title">معدل الامتثال</div>
+              <div class="chart-subtitle">Gauge نصف دائري لمؤشر الالتزام</div>
             </div>
-            <div class="risk-bar-item">
-              <div class="skeleton" style="height:20px; border-radius:4px;"></div>
-              <div class="risk-bar-track"><div class="skeleton" style="height:100%;"></div></div>
-              <div class="skeleton" style="height:20px; border-radius:4px;"></div>
+          </div>
+          <div class="chart-canvas-wrap gauge">
+            <canvas id="compliance-gauge-chart" aria-label="مؤشر نصف دائري لمعدل الامتثال" role="img"></canvas>
+            <div class="compliance-gauge-value">
+              <strong id="compliance-gauge-value">0%</strong>
+              <span>Compliance Rate</span>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Department Risk Heatmap -->
-      <div class="risk-heatmap-section">
-        <div class="glass-card risk-heatmap-card">
-          <div class="chart-header">
-            <div>
-              <div class="chart-title">خريطة المخاطر حسب القسم</div>
-              <div class="chart-subtitle">أرقام مجمعة فقط، بدون عرض أي بيانات شخصية</div>
-            </div>
+      <!-- Top Risk Queries -->
+      <div class="glass-card risk-table-card">
+        <div class="chart-header">
+          <div>
+            <div class="chart-title">أعلى طلبات مخاطرة</div>
+            <div class="chart-subtitle">أكثر 10 طلبات حسب درجة المخاطر داخل النطاق المحدد</div>
           </div>
-          <div class="risk-heatmap-scroll" aria-label="خريطة حرارية للمخاطر حسب القسم">
-            <div class="risk-heatmap" id="risk-heatmap">
-              <div class="risk-heatmap-empty">جاري تحميل خريطة المخاطر...</div>
-            </div>
-          </div>
+        </div>
+        <div class="risk-table-scroll">
+          <table class="top-risk-table">
+            <thead>
+              <tr>
+                <th>الطلب</th>
+                <th>المخاطر</th>
+                <th>القسم</th>
+                <th>حزمة الامتثال</th>
+                <th>Trace</th>
+              </tr>
+            </thead>
+            <tbody id="top-risk-queries">
+              <tr>
+                <td colspan="5">جاري تحميل أعلى الطلبات مخاطرة...</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
 
@@ -784,353 +883,26 @@
   <script src="/kernel/assets/js/kernel-demo-banner.js" defer></script>
   <script src="/kernel/assets/js/kernel-nav.js" defer></script>
   <script src="/kernel/assets/js/kernel-aurora.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.9/dist/chart.umd.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js" defer></script>
   <script src="/kernel/assets/js/kernel-stats.js" defer></script>
   <script src="/kernel/assets/js/kernel-mobile.js" defer></script>
 
   <script>
-    let refreshTimer = null;
-
-    const RISK_LEVELS = [
-      { key: 'critical', label: 'حرج' },
-      { key: 'high', label: 'مرتفع' },
-      { key: 'medium', label: 'متوسط' },
-      { key: 'low', label: 'منخفض' },
-      { key: 'minimal', label: 'ضئيل' },
-    ];
-
-    const RISK_HEATMAP_LEVELS = [
-      { key: 'low', label: 'منخفض', color: [34, 197, 94] },
-      { key: 'medium', label: 'متوسط', color: [245, 158, 11] },
-      { key: 'high', label: 'مرتفع', color: [249, 115, 22] },
-      { key: 'critical', label: 'حرج', color: [239, 68, 68] },
-    ];
-
-    const STATUS_COLORS = {
-      blocked: 'rgba(239, 68, 68, 0.92)',
-      pending: 'rgba(245, 158, 11, 0.85)',
-      approved: 'rgba(0, 212, 255, 0.85)',
-      executed: 'rgba(167, 139, 250, 0.85)',
-      completed: 'rgba(16, 185, 129, 0.85)',
-      rejected: 'rgba(239, 68, 68, 0.85)',
-    };
-
-    const STATUS_LABELS = {
-      blocked: 'محجوبة',
-      pending: 'بانتظار المراجعة',
-      approved: 'تمت الموافقة',
-      executed: 'قيد التنفيذ',
-      completed: 'مكتملة',
-      rejected: 'مرفوضة',
-    };
-
     document.addEventListener('DOMContentLoaded', () => {
-      loadStats();
-      refreshTimer = setInterval(loadStats, 30000);
+      if (window.KernelStats) {
+        window.KernelStats.init({ renderDashboard: true });
+      }
     });
 
-    async function loadStats() {
-      try {
-        const data = await kernelAPI.getStats();
-        renderStats(data);
-      } catch (err) {
-        console.log('[v0] Failed to load stats:', err);
-        if (typeof window.kernelShouldUseDemoData === 'function' && window.kernelShouldUseDemoData()) {
-          renderStats(buildDemoData());
-        } else {
-          renderStats({});
-        }
+    window.loadStats = function loadKernelStatsDashboard() {
+      if (window.KernelStats) {
+        return window.KernelStats.loadStats();
       }
-    }
-
-    function buildDemoData() {
-      return {
-        requests: {
-          total: 247,
-          pending: 12,
-          approved: 8,
-          executed: 5,
-          completed: 198,
-          rejected: 24,
-        },
-        provider: {
-          averageLatency: 850,
-        },
-        piiDetectionRate: 24,
-        riskDistribution: {
-          critical: 7,
-          high: 19,
-          medium: 63,
-          low: 112,
-          minimal: 46,
-        },
-        riskByDepartment: {
-          departments: [
-            { name: 'المشتريات', low: 120, medium: 44, high: 12, critical: 3, piiTypes: ['saudi_iban', 'commercial_registration', 'contract_value'] },
-            { name: 'الموارد البشرية', low: 68, medium: 39, high: 16, critical: 4, piiTypes: ['employee_name', 'salary', 'performance_review'] },
-            { name: 'الرعاية الصحية', low: 34, medium: 26, high: 18, critical: 9, piiTypes: ['patient_id', 'saudi_id', 'diagnosis'] },
-            { name: 'المالية', low: 52, medium: 31, high: 21, critical: 6, piiTypes: ['saudi_iban', 'card_or_account', 'invoice_number'] },
-          ],
-        },
-        latestTraces: [],
-      };
-    }
-
-    function renderStats(data) {
-      const stats = typeof normalizeStats === 'function' ? normalizeStats(data) : data;
-      const statusDist = stats.statusDistribution || {};
-      const riskDist = stats.riskLevels || {};
-
-      // KPIs
-      document.getElementById('kpi-total').textContent = KernelUtils.formatNumber(stats.totalRequests || 0);
-      document.getElementById('kpi-pending').textContent = KernelUtils.formatNumber(stats.pendingApproval || 0);
-      document.getElementById('kpi-risk').textContent = Math.round(stats.avgRisk || 0) + '%';
-      document.getElementById('kpi-pii').textContent = Math.round(stats.piiDetectionRate || 0) + '%';
-
-      // Status Cards
-      document.getElementById('sc-pending').textContent = KernelUtils.formatNumber(statusDist.pending || 0);
-      document.getElementById('sc-approved').textContent = KernelUtils.formatNumber(statusDist.approved || 0);
-      document.getElementById('sc-executed').textContent = KernelUtils.formatNumber(statusDist.executed || 0);
-      document.getElementById('sc-completed').textContent = KernelUtils.formatNumber(statusDist.completed || 0);
-      document.getElementById('sc-rejected').textContent = KernelUtils.formatNumber(statusDist.rejected || 0);
-
-      // SVG Donut Chart
-      renderSVGDonut(statusDist);
-
-      // Risk Bars
-      renderRiskBars(riskDist);
-
-      renderRiskHeatmap(stats.riskByDepartment);
-
-      renderLatestTraces(stats.latestTraces || []);
-
-      // Last Update
-      document.getElementById('last-update').textContent = new Date().toLocaleTimeString('ar-SA');
-    }
-
-    function renderLatestTraces(traces) {
-      const container = document.getElementById('latest-traces');
-      if (!container) return;
-
-      if (!traces.length) {
-        container.innerHTML = `
-          <div class="glass-card-flat status-card">
-            <div class="status-card-value" style="font-size:1rem;">لا توجد</div>
-            <div class="status-card-label">لا توجد Trace IDs بعد</div>
-          </div>
-        `;
-        return;
-      }
-
-      container.innerHTML = traces.map((trace) => {
-        const traceId = getTraceId(trace) || trace.interactionId || trace.requestId;
-        const href = getTraceId(trace)
-          ? `/kernel/evidence/?trace_id=${encodeURIComponent(traceId)}`
-          : `/kernel/evidence/?id=${encodeURIComponent(traceId)}`;
-        return `
-          <a class="glass-card-flat status-card" href="${href}" style="text-decoration:none;">
-            <div class="status-card-value" style="font-size:1rem; direction:ltr;">${KernelUtils.escapeHtml(traceId)}</div>
-            <div class="status-card-label">${KernelUtils.escapeHtml(trace.status || trace.riskLevel || 'kernel')}</div>
-          </a>
-        `;
-      }).join('');
-    }
-
-    function getTraceId(record = {}) {
-      const value = record.traceId || record.trace_id || record.kernel?.traceId || record.metadata?.traceId || record.summary?.traceId;
-      return /^AI-\d{4}-\d{5,}$/.test(String(value || '')) ? String(value) : '';
-    }
-
-    function calculateAverageRisk(dist) {
-      const weights = { critical: 100, high: 75, medium: 50, low: 25 };
-      let total = 0, weighted = 0;
-      for (const [k, v] of Object.entries(dist)) {
-        total += v || 0;
-        weighted += (v || 0) * (weights[k] || 0);
-      }
-      return total > 0 ? Math.round(weighted / total) : 0;
-    }
-
-    function renderSVGDonut(breakdown) {
-      const container = document.getElementById('status-donut-chart');
-      if (!container) return;
-
-      const data = [
-        { key: 'blocked', value: breakdown.blocked || 0 },
-        { key: 'pending', value: breakdown.pending || 0 },
-        { key: 'approved', value: breakdown.approved || 0 },
-        { key: 'executed', value: breakdown.executed || 0 },
-        { key: 'completed', value: breakdown.completed || 0 },
-        { key: 'rejected', value: breakdown.rejected || 0 },
-      ].filter(d => d.value > 0);
-
-      const total = data.reduce((s, d) => s + d.value, 0) || 1;
-      const size = 200;
-      const cx = size / 2;
-      const cy = size / 2;
-      const outerR = 85;
-      const innerR = 58;
-
-      let cumulativeAngle = -90; // Start from top
-      const paths = data.map(d => {
-        const angle = (d.value / total) * 360;
-        const startAngle = cumulativeAngle;
-        const endAngle = cumulativeAngle + angle;
-        cumulativeAngle = endAngle;
-
-        const startOuter = polarToCartesian(cx, cy, outerR, startAngle);
-        const endOuter = polarToCartesian(cx, cy, outerR, endAngle);
-        const startInner = polarToCartesian(cx, cy, innerR, endAngle);
-        const endInner = polarToCartesian(cx, cy, innerR, startAngle);
-
-        const largeArc = angle > 180 ? 1 : 0;
-        const pathD = [
-          `M ${startOuter.x} ${startOuter.y}`,
-          `A ${outerR} ${outerR} 0 ${largeArc} 1 ${endOuter.x} ${endOuter.y}`,
-          `L ${startInner.x} ${startInner.y}`,
-          `A ${innerR} ${innerR} 0 ${largeArc} 0 ${endInner.x} ${endInner.y}`,
-          'Z'
-        ].join(' ');
-
-        return `<path d="${pathD}" fill="${STATUS_COLORS[d.key]}" stroke="#0B1628" stroke-width="2">
-          <title>${STATUS_LABELS[d.key]}: ${d.value}</title>
-        </path>`;
-      }).join('');
-
-      // Center text
-      const centerText = `
-        <text x="${cx}" y="${cy - 8}" text-anchor="middle" fill="#F8FAFC" font-size="24" font-weight="700" font-family="'IBM Plex Sans Arabic', sans-serif">${KernelUtils.formatNumber(total)}</text>
-        <text x="${cx}" y="${cy + 14}" text-anchor="middle" fill="#64748B" font-size="11" font-family="'IBM Plex Sans Arabic', sans-serif">إجمالي</text>
-      `;
-
-      // Legend
-      const legendItems = data.map((d, i) => `
-        <div style="display:flex;align-items:center;gap:6px;">
-          <span style="width:10px;height:10px;border-radius:50%;background:${STATUS_COLORS[d.key]}"></span>
-          <span style="color:#94A3B8;font-size:11px;">${STATUS_LABELS[d.key]} (${d.value})</span>
-        </div>
-      `).join('');
-
-      container.innerHTML = `
-        <svg viewBox="0 0 ${size} ${size}" width="100%" height="200" style="display:block;margin:0 auto;">
-          ${paths}
-          ${centerText}
-        </svg>
-        <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:16px;">
-          ${legendItems}
-        </div>
-      `;
-    }
-
-    function polarToCartesian(cx, cy, r, angleDeg) {
-      const angleRad = (angleDeg * Math.PI) / 180;
-      return {
-        x: cx + r * Math.cos(angleRad),
-        y: cy + r * Math.sin(angleRad),
-      };
-    }
-
-    function renderRiskBars(dist) {
-      const container = document.getElementById('risk-bars');
-      const max = Math.max(...Object.values(dist).map(Number), 1);
-
-      container.innerHTML = RISK_LEVELS.map(({ key, label }) => {
-        const count = dist[key] || 0;
-        const pct = Math.round((count / max) * 100);
-        return `
-          <div class="risk-bar-item">
-            <span class="risk-bar-label">${label}</span>
-            <div class="risk-bar-track">
-              <div class="risk-bar-fill" data-level="${key}" style="width:${pct}%">
-                ${pct > 15 ? count : ''}
-              </div>
-            </div>
-            <span class="risk-bar-count">${KernelUtils.formatNumber(count)}</span>
-          </div>
-        `;
-      }).join('');
-    }
-
-    function normalizeHeatmapDepartments(riskByDepartment) {
-      const departments = riskByDepartment?.departments || riskByDepartment || [];
-      return Array.isArray(departments) ? departments : [];
-    }
-
-    function getDepartmentTotal(department) {
-      return RISK_HEATMAP_LEVELS.reduce((sum, level) => sum + Number(department[level.key] || 0), 0);
-    }
-
-    function getPiiTypesForCell(department, levelKey) {
-      const byRisk = department.piiTypesByRisk || department.pii_types_by_risk || {};
-      const cellTypes = byRisk[levelKey] || [];
-      const fallbackTypes = department.piiTypes || department.pii_types || department.topPiiTypes || [];
-      const types = Array.isArray(cellTypes) && cellTypes.length ? cellTypes : fallbackTypes;
-      return Array.isArray(types) ? types.slice(0, 3) : [];
-    }
-
-    function getHeatmapCellColor(level, count, maxCount) {
-      const intensity = maxCount > 0 ? count / maxCount : 0;
-      const alpha = count === 0 ? 0.08 : 0.18 + (intensity * 0.64);
-      return `rgba(${level.color[0]}, ${level.color[1]}, ${level.color[2]}, ${alpha.toFixed(2)})`;
-    }
-
-    function renderRiskHeatmap(riskByDepartment) {
-      const container = document.getElementById('risk-heatmap');
-      if (!container) return;
-
-      const departments = normalizeHeatmapDepartments(riskByDepartment)
-        .map((department) => ({
-          ...department,
-          name: String(department.name || department.department || 'غير محدد'),
-        }))
-        .filter((department) => getDepartmentTotal(department) > 0);
-
-      if (!departments.length) {
-        container.innerHTML = '<div class="risk-heatmap-empty">لا توجد بيانات مخاطر مجمعة حسب الأقسام حالياً.</div>';
-        return;
-      }
-
-      const maxCount = Math.max(
-        ...departments.flatMap((department) => RISK_HEATMAP_LEVELS.map((level) => Number(department[level.key] || 0))),
-        1
-      );
-
-      const header = [
-        '<div class="risk-heatmap-head">القسم</div>',
-        ...RISK_HEATMAP_LEVELS.map((level) => `<div class="risk-heatmap-head">${level.label}</div>`),
-      ].join('');
-
-      const rows = departments.map((department) => {
-        const total = getDepartmentTotal(department) || 1;
-        const cells = RISK_HEATMAP_LEVELS.map((level) => {
-          const count = Number(department[level.key] || 0);
-          const percent = Math.round((count / total) * 100);
-          const piiTypes = getPiiTypesForCell(department, level.key);
-          const piiLabel = piiTypes.length ? piiTypes.join('، ') : 'لا توجد PII شائعة';
-          const href = `/kernel/audit/?department=${encodeURIComponent(department.name)}&riskLevel=${encodeURIComponent(level.key)}`;
-          const title = `${department.name} - ${level.label}: ${count} (${percent}%). أكثر PII شيوعاً: ${piiLabel}`;
-
-          return `
-            <a class="risk-heatmap-cell"
-               href="${href}"
-               style="background:${getHeatmapCellColor(level, count, maxCount)};"
-               title="${KernelUtils.escapeHtml(title)}"
-               aria-label="${KernelUtils.escapeHtml(title)}">
-              <span class="risk-heatmap-count">${KernelUtils.formatNumber(count)}</span>
-              <span class="risk-heatmap-percent">${percent}% من القسم</span>
-              <span class="risk-heatmap-pii">${KernelUtils.escapeHtml(piiLabel)}</span>
-            </a>
-          `;
-        }).join('');
-
-        return `
-          <div class="risk-heatmap-row-label">${KernelUtils.escapeHtml(department.name)}</div>
-          ${cells}
-        `;
-      }).join('');
-
-      container.innerHTML = header + rows;
-    }
+      return null;
+    };
   </script>
+  <script src="/kernel/assets/js/kernel-pwa.js" defer></script>
   <script src="/frontend/js/production-runtime.v20260427.js" defer></script>
 </body>
 </html>

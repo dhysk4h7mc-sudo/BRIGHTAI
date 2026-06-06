@@ -402,34 +402,6 @@
     .tl-meta .trace-link { font-size: 0.75rem; }
     .tl-time { font-size: 0.6875rem; color: var(--text-tertiary); }
 
-    /* ── Notification Bell ── */
-    .notif-bell {
-      position: relative; display: inline-flex; align-items: center; justify-content: center;
-      width: 40px; height: 40px; border-radius: var(--radius-md);
-      background: transparent; border: 1px solid var(--border); color: var(--text-secondary); cursor: pointer; transition: all 0.15s;
-    }
-    .notif-bell:hover { background: rgba(0,212,255,0.08); color: var(--brand); border-color: var(--border-hover); }
-    .notif-bell svg { width: 18px; height: 18px; }
-    .notif-badge-count {
-      position: absolute; top: -4px; right: -4px; min-width: 18px; height: 18px;
-      background: var(--danger); color: white; font-size: 0.625rem; font-weight: 700;
-      border-radius: 9px; display: flex; align-items: center; justify-content: center; padding: 0 4px;
-    }
-    .notif-badge-count.hidden { display: none; }
-    .notif-dropdown {
-      position: absolute; top: calc(100% + 8px); right: 0; width: 320px;
-      background: var(--ink-800); border: 1px solid var(--border); border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-xl); display: none; z-index: 100; overflow: hidden;
-    }
-    .notif-dropdown.open { display: block; animation: fadeSlideDown 200ms ease-out; }
-    .notif-header { padding: var(--space-3) var(--space-4); border-bottom: 1px solid var(--border); font-weight: 600; font-size: 0.875rem; }
-    .notif-list { max-height: 280px; overflow-y: auto; }
-    .notif-item { padding: var(--space-3) var(--space-4); border-bottom: 1px solid var(--border); font-size: 0.8125rem; color: var(--text-secondary); }
-    .notif-item:last-child { border-bottom: none; }
-    .notif-item strong { color: var(--text-primary); }
-    .notif-item .notif-time { font-size: 0.6875rem; color: var(--text-tertiary); margin-top: 2px; }
-    .notif-empty { padding: var(--space-6); text-align: center; color: var(--text-tertiary); font-size: 0.8125rem; }
-
     /* ── Shortcut Overlay ── */
     .shortcut-overlay {
       display: none; position: fixed; inset: 0; z-index: 999;
@@ -452,7 +424,6 @@
       .heatmap-grid { grid-template-columns: repeat(3, 1fr); }
       .heatmap-labels { grid-template-columns: repeat(3, 1fr); }
       .health-card { grid-template-columns: 1fr 1fr; }
-      .notif-dropdown { right: -60px; width: 300px; }
     }
 
     @media (max-width: 1024px) {
@@ -715,17 +686,6 @@
           <div>
             <p class="status-kicker">BrightAI Kernel Dashboard</p>
             <h1 class="status-title" id="kernel-dashboard-title">سطح تشغيل الحوكمة والأمان</h1>
-          </div>
-          <div style="margin-inline-start:auto; display:flex; gap:var(--space-2); align-items:center;">
-            <button class="notif-bell" id="notif-bell" onclick="toggleNotifDropdown()" aria-label="الإشعارات">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
-              <span class="notif-badge-count hidden" id="notif-count">0</span>
-              <div class="notif-dropdown" id="notif-dropdown">
-                <div class="notif-header">الإشعارات</div>
-                <div class="notif-list" id="notif-list"><div class="notif-empty">لا توجد إشعارات</div></div>
-              </div>
-            </button>
-          </div>
           </div>
         </div>
         <div class="status-item">
@@ -1108,7 +1068,6 @@
           renderRecentTraces(auditRows);
           renderHeatMap(auditRows);
         }
-        updateNotifications(data);
       } catch (error) {
         metricIds.forEach((id) => {
           const element = document.getElementById(id);
@@ -1172,32 +1131,6 @@
       if (txt) txt.textContent = text;
     }
 
-    // ── Notifications ──
-    let notifications = [];
-    function updateNotifications(data) {
-      const pending = data.pendingApproval || 0;
-      const list = document.getElementById('notif-list');
-      const badge = document.getElementById('notif-count');
-      if (!list || !badge) return;
-      const newNotifs = [];
-      if (pending > 0) newNotifs.push({ text: `<strong>${pending}</strong> طلب بانتظار الموافقة`, time: new Date().toLocaleTimeString('ar-SA') });
-      if ((data.piiDetectionRate || 0) > 30) newNotifs.push({ text: 'نسبة كشف <strong>PII</strong> مرتفعة', time: new Date().toLocaleTimeString('ar-SA') });
-      notifications = [...newNotifs, ...notifications].slice(0, 10);
-      badge.classList.toggle('hidden', notifications.length === 0);
-      badge.textContent = notifications.length;
-      list.innerHTML = notifications.length
-        ? notifications.map(n => `<div class="notif-item"><div>${n.text}</div><div class="notif-time">${n.time}</div></div>`).join('')
-        : '<div class="notif-empty">لا توجد إشعارات</div>';
-    }
-
-    function toggleNotifDropdown() {
-      document.getElementById('notif-dropdown').classList.toggle('open');
-    }
-    document.addEventListener('click', e => {
-      const dd = document.getElementById('notif-dropdown');
-      if (dd && dd.classList.contains('open') && !e.target.closest('#notif-bell')) dd.classList.remove('open');
-    });
-
     // ── Keyboard Shortcuts ──
     document.addEventListener('keydown', e => {
       if (e.key === '?' && !e.ctrlKey && !e.metaKey && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
@@ -1221,6 +1154,7 @@
       setInterval(checkProviderStatus, 45000);
     });
   </script>
+  <script src="/kernel/assets/js/kernel-pwa.js" defer></script>
   <script src="/frontend/js/production-runtime.v20260427.js" defer></script>
 </body>
 </html>

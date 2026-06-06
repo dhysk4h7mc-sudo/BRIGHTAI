@@ -26,6 +26,8 @@
       pendingCheckInterval: 30000, // Check pending approvals every 30s
       statusCheckInterval: 45000, // Refresh provider and DB status every 45s
       commandPaletteSrc: '/kernel/assets/js/kernel-command-palette.js',
+      onboardingSrc: '/kernel/assets/js/kernel-onboarding.js',
+      notificationsSrc: '/kernel/assets/js/kernel-notifications.js',
     },
 
     // State
@@ -61,6 +63,7 @@
       search: '<circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>',
       command: '<path d="M18 9a3 3 0 10-3-3v12a3 3 0 103-3H6a3 3 0 103 3V6a3 3 0 10-3 3h12z"/>',
       settings: '<path d="M12 15.5a3.5 3.5 0 100-7 3.5 3.5 0 000 7z"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06A1.65 1.65 0 0015 19.4a1.65 1.65 0 00-1 .6 1.65 1.65 0 00-.4 1.05V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.6 15a1.65 1.65 0 00-.6-1 1.65 1.65 0 00-1.05-.4H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.6a1.65 1.65 0 001-.6 1.65 1.65 0 00.4-1.05V3a2 2 0 014 0v.09A1.65 1.65 0 0015 4.6a1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9c.2.34.51.6.88.72.16.05.33.08.5.08H21a2 2 0 010 4h-.09A1.65 1.65 0 0019.4 15z"/>',
+      bell: '<path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/>',
       trash: '<path d="M3 6h18"/><path d="M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/>',
       download: '<path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/>',
       switchHorizontal: '<path d="M16 3h5v5"/><path d="M4 20L21 3"/><path d="M21 16v5h-5"/><path d="M15 15l6 6"/><path d="M4 4l5 5"/>',
@@ -82,6 +85,8 @@
       if (this.state.initialized) {
         this.updateActiveNavigation();
         this.loadCommandPalette();
+        this.loadNotifications();
+        this.checkOnboarding();
         return;
       }
 
@@ -89,6 +94,8 @@
       this.bindEvents();
       this.startPendingCheck();
       this.loadCommandPalette();
+      this.loadNotifications();
+      this.checkOnboarding();
       this.state.initialized = true;
     },
 
@@ -176,6 +183,29 @@
           </nav>
 
           <div class="nav-actions">
+            <div class="kernel-notification-center" id="kernel-notification-center">
+              <button class="kernel-notification-button" id="kernel-notification-button" type="button" aria-label="فتح مركز الإشعارات" aria-expanded="false" aria-controls="kernel-notification-dropdown" title="الإشعارات">
+                ${this.createIcon('bell')}
+                <span class="kernel-notification-badge" id="kernel-notification-badge" hidden>0</span>
+              </button>
+              <div class="kernel-notification-dropdown" id="kernel-notification-dropdown" role="dialog" aria-label="مركز الإشعارات" aria-hidden="true">
+                <div class="kernel-notification-header">
+                  <div>
+                    <strong>الإشعارات</strong>
+                    <span id="kernel-notification-summary">لا توجد إشعارات جديدة</span>
+                  </div>
+                  <div class="kernel-notification-header-actions">
+                    <button type="button" class="kernel-notification-icon-button" id="kernel-notification-sound" aria-label="تفعيل صوت الإشعارات" title="صوت الإشعارات">
+                      ${this.createIcon('bell')}
+                    </button>
+                    <button type="button" class="kernel-notification-link-button" id="kernel-notification-mark-all">قراءة الكل</button>
+                  </div>
+                </div>
+                <div class="kernel-notification-list" id="kernel-notification-list">
+                  <div class="kernel-notification-empty">لا توجد إشعارات حالياً</div>
+                </div>
+              </div>
+            </div>
             <button class="command-palette-trigger" id="command-palette-trigger" type="button" data-command-palette-trigger aria-label="فتح لوحة الأوامر" title="لوحة الأوامر">
               ${this.createIcon('search')}
             </button>
@@ -610,6 +640,65 @@
       script.defer = true;
       script.dataset.kernelCommandPalette = 'true';
       script.addEventListener('load', initPalette, { once: true });
+      document.head.appendChild(script);
+    },
+
+    loadNotifications(callback) {
+      const initNotifications = () => {
+        if (global.KernelNotifications && typeof global.KernelNotifications.init === 'function') {
+          global.KernelNotifications.init({
+            createIcon: (name, className = '') => this.createIcon(name, className),
+          });
+        }
+        if (typeof callback === 'function') callback();
+      };
+
+      if (global.KernelNotifications) {
+        initNotifications();
+        return;
+      }
+
+      const existingScript = document.querySelector(`script[src="${this.config.notificationsSrc}"]`);
+      if (existingScript) {
+        existingScript.addEventListener('load', initNotifications, { once: true });
+        return;
+      }
+
+      const script = document.createElement('script');
+      script.src = this.config.notificationsSrc;
+      script.defer = true;
+      script.dataset.kernelNotifications = 'true';
+      script.addEventListener('load', initNotifications, { once: true });
+      document.head.appendChild(script);
+    },
+
+    /**
+     * Load and run first-time onboarding on every Kernel page load.
+     * The onboarding module owns localStorage gating and forced re-open events.
+     */
+    checkOnboarding() {
+      const initOnboarding = () => {
+        if (global.KernelOnboarding && typeof global.KernelOnboarding.init === 'function') {
+          global.KernelOnboarding.init();
+        }
+      };
+
+      if (global.KernelOnboarding) {
+        initOnboarding();
+        return;
+      }
+
+      const existingScript = document.querySelector(`script[src="${this.config.onboardingSrc}"]`);
+      if (existingScript) {
+        existingScript.addEventListener('load', initOnboarding, { once: true });
+        return;
+      }
+
+      const script = document.createElement('script');
+      script.src = this.config.onboardingSrc;
+      script.defer = true;
+      script.dataset.kernelOnboarding = 'true';
+      script.addEventListener('load', initOnboarding, { once: true });
       document.head.appendChild(script);
     },
 
