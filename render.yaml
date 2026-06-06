@@ -159,9 +159,9 @@ services:
       // Convert real .html application pages to clean canonical /path/ URLs.
       // Components such as frontend/components/nav.html are intentionally left unchanged because the app fetches them directly.
       for (const dir of [
+        "blog",
         "docs",
         "dashboard",
-        "kernel",
         "solutions",
         "assessment",
         "trust"
@@ -188,6 +188,9 @@ services:
       - path: /*
         name: Permissions-Policy
         value: camera=(), microphone=(), geolocation=()
+      - path: /*
+        name: X-Robots-Tag
+        value: index, follow
       - path: /*
         name: Content-Security-Policy
         value: "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; form-action 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://js.sentry-cdn.com https://www.clarity.ms https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://cdn.tailwindcss.com https://tovik.app; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; connect-src 'self' https://brightai-api.onrender.com wss://brightai-api.onrender.com https://o4510966719840256.ingest.us.sentry.io https://*.sentry.io https://www.google-analytics.com https://region1.google-analytics.com https://www.clarity.ms https://api.contractai.sa https://tovik.app; frame-src 'self' https://tovik.app; worker-src 'self' blob:; manifest-src 'self'"
@@ -470,14 +473,6 @@ services:
         destination: /report/
 
       # ── Solutions Module Redirects ──────────────────────────────────────────
-      # Solutions root redirect to services
-      - type: redirect
-        source: /solutions
-        destination: /services/
-      - type: redirect
-        source: /solutions/
-        destination: /services/
-
       # 1. ai-governance-platform
       - type: redirect
         source: /solutions/ai-governance-platform
@@ -935,70 +930,103 @@ services:
         destination: /docs/kernel-scenarios/
 
       # ── Kernel Module Redirects ─────────────────────────────────────────────
-      # BrightAI Kernel dashboard pages that exist and are normalized to /path/
-      - type: redirect
+      # BrightAI Kernel dashboard rewrites mirrored from _redirects 200 rules.
+      - type: rewrite
         source: /kernel
-        destination: /kernel/
+        destination: /kernel/index.html
+      - type: rewrite
+        source: /kernel/
+        destination: /kernel/index.html
       - type: redirect
         source: /kernel/index.html
         destination: /kernel/
-      - type: redirect
+      - type: rewrite
         source: /kernel/chat
-        destination: /kernel/chat/
+        destination: /kernel/chat.html
+      - type: rewrite
+        source: /kernel/chat/
+        destination: /kernel/chat.html
       - type: redirect
         source: /kernel/chat.html
         destination: /kernel/chat/
-      - type: redirect
+      - type: rewrite
         source: /kernel/audit
-        destination: /kernel/audit/
+        destination: /kernel/audit.html
+      - type: rewrite
+        source: /kernel/audit/
+        destination: /kernel/audit.html
       - type: redirect
         source: /kernel/audit.html
         destination: /kernel/audit/
-      - type: redirect
+      - type: rewrite
         source: /kernel/approvals
-        destination: /kernel/approvals/
+        destination: /kernel/approvals.html
+      - type: rewrite
+        source: /kernel/approvals/
+        destination: /kernel/approvals.html
       - type: redirect
         source: /kernel/approvals.html
         destination: /kernel/approvals/
-      - type: redirect
+      - type: rewrite
         source: /kernel/stats
-        destination: /kernel/stats/
+        destination: /kernel/stats.html
+      - type: rewrite
+        source: /kernel/stats/
+        destination: /kernel/stats.html
       - type: redirect
         source: /kernel/stats.html
         destination: /kernel/stats/
-      - type: redirect
+      - type: rewrite
         source: /kernel/compliance
-        destination: /kernel/compliance/
+        destination: /kernel/compliance.html
+      - type: rewrite
+        source: /kernel/compliance/
+        destination: /kernel/compliance.html
       - type: redirect
         source: /kernel/compliance.html
         destination: /kernel/compliance/
-      - type: redirect
+      - type: rewrite
         source: /kernel/policies
-        destination: /kernel/policies/
+        destination: /kernel/policies.html
+      - type: rewrite
+        source: /kernel/policies/
+        destination: /kernel/policies.html
       - type: redirect
         source: /kernel/policies.html
         destination: /kernel/policies/
-      - type: redirect
+      - type: rewrite
         source: /kernel/connectors
-        destination: /kernel/connectors/
+        destination: /kernel/connectors.html
+      - type: rewrite
+        source: /kernel/connectors/
+        destination: /kernel/connectors.html
       - type: redirect
         source: /kernel/connectors.html
         destination: /kernel/connectors/
-      - type: redirect
+      - type: rewrite
         source: /kernel/scenarios
-        destination: /kernel/scenarios/
+        destination: /kernel/scenarios.html
+      - type: rewrite
+        source: /kernel/scenarios/
+        destination: /kernel/scenarios.html
       - type: redirect
         source: /kernel/scenarios.html
         destination: /kernel/scenarios/
-      - type: redirect
+      - type: rewrite
         source: /kernel/reports
-        destination: /kernel/reports/
+        destination: /kernel/reports.html
+      - type: rewrite
+        source: /kernel/reports/
+        destination: /kernel/reports.html
       - type: redirect
         source: /kernel/reports.html
         destination: /kernel/reports/
-      - type: redirect
+      - type: rewrite
         source: /kernel/evidence
-        destination: /kernel/evidence/
+        destination: /kernel/evidence.html
+      - type: rewrite
+        source: /kernel/evidence/
+        destination: /kernel/evidence.html
       - type: redirect
         source: /kernel/evidence.html
         destination: /kernel/evidence/
