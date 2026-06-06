@@ -20,6 +20,7 @@ const ROOT_INDEX_DIRS = new Set([
   "pricing",
   "report",
   "services",
+  "solutions",
   "sectors",
   "smart-automation",
   "tools",

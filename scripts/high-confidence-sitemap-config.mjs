@@ -5,6 +5,7 @@ export const HIGH_CONFIDENCE_SECTOR_FILES = [];
 export const HIGH_CONFIDENCE_BLOG_FILES = [];
 
 export const RECOVERY_SITEMAP_REQUIRED_FILES = [
+  "solutions/index.html",
   "solutions/ai-governance-platform/index.html",
   "solutions/ai-firewall/index.html",
   "solutions/ai-audit-trail/index.html",

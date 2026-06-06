@@ -17,6 +17,7 @@ const urlList = [
   `https://${host}/services/`,
   `https://${host}/pricing/`,
   `https://${host}/pdpl-statement/`,
+  `https://${host}/solutions/`,
   `https://${host}/solutions/ai-governance-platform/`,
   `https://${host}/solutions/ai-firewall/`,
   `https://${host}/solutions/ai-audit-trail/`,

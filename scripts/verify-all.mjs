@@ -2,6 +2,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { normalizeRelPath, relPathToCanonical } from './seo-url-map.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -15,6 +16,7 @@ if (!fs.existsSync(reportsDir)) {
 const errors = [];
 let passedChecks = 0;
 let totalChecks = 0;
+const reportPath = path.join(reportsDir, 'verify-report.json');
 
 function logStatus(status, message) {
   totalChecks++;
@@ -105,15 +107,14 @@ function checkCanonicals(dirPath, urlPrefix) {
     
     const filePath = path.join(dirPath, file);
     const content = fs.readFileSync(filePath, 'utf8');
-    const slug = file.replace('.html', '');
-    const expectedCanonical = slug === 'index'
-      ? `https://brightai.site/${urlPrefix}/`
-      : `https://brightai.site/${urlPrefix}/${slug}/`;
+    const relPath = normalizeRelPath(path.relative(rootDir, filePath));
+    const expectedCanonical = relPathToCanonical(relPath, 'https://brightai.site');
+    if (!expectedCanonical) continue;
     const canonicalRegex = new RegExp(`<link[^>]+rel=["']canonical["'][^>]*href=["']${expectedCanonical.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}["'][^>]*>`, 'i');
 
     if (!canonicalRegex.test(content)) {
       allValid = false;
-      errors.push({ type: 'Canonical', file: filePath, issue: `Missing or incorrect canonical for ${slug}. Expected: ${expectedCanonical}` });
+      errors.push({ type: 'Canonical', file: filePath, issue: `Missing or incorrect canonical for ${relPath}. Expected: ${expectedCanonical}` });
     }
   }
   return allValid;
@@ -212,11 +213,13 @@ console.log(`${passedChecks}/${totalChecks} فحص ناجح.`);
 console.log(`=====================================\n`);
 
 if (errors.length > 0) {
-  const reportPath = path.join(reportsDir, 'verify-report.json');
   fs.writeFileSync(reportPath, JSON.stringify(errors, null, 2), 'utf8');
   console.log(`⚠️ تم العثور على أخطاء! تمت كتابتها في ${reportPath}`);
   process.exit(1);
 } else {
+  if (fs.existsSync(reportPath)) {
+    fs.unlinkSync(reportPath);
+  }
   console.log(`✅ كل شيء يبدو مثالياً، لا توجد أخطاء!`);
   process.exit(0);
 }

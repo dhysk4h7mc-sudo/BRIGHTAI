@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="ar-SA" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8LLESL207Q"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-8LLESL207Q');
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#0b1220" />
+
+<title>حلول حوكمة وأمان الذكاء الاصطناعي | المركز التقني | BrightAI</title>
+<meta name="description" content="مرجع شامل لكل حلول BrightAI التقنية: AI Firewall، سجل التدقيق، الموافقات البشرية، ملف الأدلة، وأنظمة الحوكمة. شرح كل حل، متى تستخدمه، وكيف يشتغل." />
+<meta name="keywords" content="AI Firewall, AI Audit Trail, Human Approval Layer, AI Evidence File, BrightAI Kernel" />
+<!-- AI Search / GEO / LLMO -->
+<meta property="ai:capabilities" content="AI Firewall, Audit Trail, Human Approval Layer, Evidence File, PII Redaction, Risk Scoring, Compliance Packs, Saudi AI Governance, PDPL readiness, NCA ECC readiness" />
+<meta property="ai:target_audience" content="الشركات السعودية، الجهات الحكومية، المستشفيات، البنوك، فرق المشتريات، فرق الامتثال، المخاطر، الأمن السيبراني، والتدقيق الداخلي" />
+
+<link rel="canonical" href="https://brightai.site/solutions/">
+<link rel="alternate" hreflang="ar-SA" href="https://brightai.site/solutions/">
+<link rel="alternate" hreflang="x-default" href="https://brightai.site/solutions/">
+
+<meta name="ai-description" content="مركز محتوى لكل حلول BrightAI التقنية: AI Firewall لحماية البيانات قبل النماذج، AI Audit Trail لسجل تدقيق غير قابل للتعديل، Human Approval Layer للموافقات البشرية، AI Evidence File لملفات أدلة موقّعة، ومنصة حوكمة شاملة." />
+<meta property="ai:summary" content="٧ حلول تقنية مترابطة لحوكمة AI، كل واحد يحل مشكلة محددة، وكلها تشتغل سوا في BrightAI Kernel." />
+<meta property="ai:key_points" content="AI Firewall = الحماية | Audit Trail = التوثيق | Human Approval = السيطرة | Evidence File = الإثبات | Governance Platform = الإدارة" />
+<meta property="ai:last_updated" content="2026-05-31" />
+
+<meta property="og:type" content="website" />
+<meta property="og:title" content="حلول حوكمة وأمان الذكاء الاصطناعي | BrightAI" />
+<meta property="og:locale" content="ar_SA" />
+
+<link rel="stylesheet" href="/frontend/css/tailwind.local.min.css" />
+<link rel="stylesheet" href="/frontend/assets/css/global-fonts.css?v=20260529-official-font" />
+<link rel="stylesheet" href="/frontend/vendor/fontawesome/css/all.min.css?v=20260529-icons" />
+<link rel="stylesheet" href="/frontend/css/unified-header.css?v=20260529-nav-v1">
+<link rel="icon" href="/frontend/assets/images/logo.png" type="image/png">
+
+<style>
+  body { background:#060914; color:#e6edf7; }
+  .bg-grid {
+    background-image:
+      radial-gradient(ellipse 80% 60% at 50% -10%, rgba(0,212,255,.15), transparent 60%),
+      linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size: auto, 42px 42px, 42px 42px;
+    background-color: #060914;
+  }
+  .gradient-text { background: linear-gradient(135deg,#00d4ff,#7c5cff,#ff5ca7); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .glass { background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.01)); border:1px solid rgba(255,255,255,.08); backdrop-filter: blur(10px); border-radius: 1rem; }
+  .chip { background: rgba(0,212,255,.08); border:1px solid rgba(0,212,255,.25); color:#9be5ff; padding:.25rem .75rem; border-radius:999px; font-size:.75rem; font-weight:700; display:inline-block; }
+  .answer-block { background: linear-gradient(135deg, rgba(0,212,255,.08), rgba(124,92,255,.05)); border:1px solid rgba(0,212,255,.25); border-radius:1rem; padding:1.5rem; margin: 1.5rem 0; }
+  .solution-card { background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.01)); border:1px solid rgba(255,255,255,.08); border-radius:1rem; padding:2rem; transition: all .3s ease; display:block; color:inherit; text-decoration:none; height:100%; }
+  .solution-card:hover { border-color: rgba(0,212,255,.4); transform: translateY(-6px); box-shadow: 0 20px 50px -20px rgba(0,212,255,.3); }
+  .solution-icon { width:56px; height:56px; border-radius:1rem; background: linear-gradient(135deg, rgba(0,212,255,.15), rgba(124,92,255,.15)); display:flex; align-items:center; justify-content:center; font-size:1.5rem; color:#9be5ff; margin-bottom:1rem; }
+  .anchor-link { color:#9be5ff; font-weight:700; }
+  .freshness { display:inline-flex; align-items:center; gap:.5rem; background: rgba(16,185,129,.1); border:1px solid rgba(16,185,129,.3); color:#6ee7b7; padding:.4rem .8rem; border-radius:999px; font-size:.75rem; font-weight:700; }
+  .flow-step { background: rgba(255,255,255,.02); border:1px solid rgba(255,255,255,.06); border-radius:.75rem; padding:1rem; }
+  .flow-step-num { background: linear-gradient(135deg,#00d4ff,#7c5cff); color:#fff; width:32px; height:32px; border-radius:999px; display:inline-flex; align-items:center; justify-content:center; font-weight:900; font-size:.85rem; }
+</style>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://brightai.site/solutions/#webpage",
+      "url": "https://brightai.site/solutions/",
+      "name": "حلول حوكمة وأمان الذكاء الاصطناعي | BrightAI",
+      "description": "مرجع شامل لكل حلول BrightAI التقنية.",
+      "inLanguage": "ar-SA",
+      "dateModified": "2026-05-31"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "الرئيسية", "item": "https://brightai.site/" },
+        { "@type": "ListItem", "position": 2, "name": "مراكز المحتوى", "item": "https://brightai.site/hub/" },
+        { "@type": "ListItem", "position": 3, "name": "الحلول التقنية", "item": "https://brightai.site/solutions/" }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body class="bg-grid">
+
+<a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:right-2 bg-cyan-400 text-black px-3 py-2 rounded">تخطّى للمحتوى</a>
+<!-- BRIGHTAI_NOSCRIPT_NAV_START -->
+<div id="brightai-unified-header">
+  <noscript>
+    <header class="brightai-noscript-header" role="banner" aria-label="BrightAI HTML navigation fallback">
+      <nav aria-label="التنقل الرئيسي في BrightAI">
+        <a href="https://brightai.site/" aria-label="BrightAI الرئيسية">BrightAI</a>
+        <ul>
+          <li>
+            <span>الرئيسية</span>
+            <ul>
+              <li><a href="https://brightai.site/">BrightAI</a></li>
+              <li><a href="https://brightai.site/about/">عن BrightAI</a></li>
+              <li><a href="https://brightai.site/services/">الخدمات</a></li>
+              <li><a href="https://brightai.site/pricing/">الأسعار</a></li>
+              <li><a href="https://brightai.site/contact/">تواصل معنا</a></li>
+            </ul>
+          </li>
+          <li>
+            <span>الحلول</span>
+            <ul>
+              <li><a href="https://brightai.site/solutions/">مركز الحلول</a></li>
+              <li><a href="https://brightai.site/solutions/ai-governance-platform/">AI Governance Platform</a></li>
+              <li><a href="https://brightai.site/solutions/ai-firewall/">AI Firewall</a></li>
+              <li><a href="https://brightai.site/solutions/ai-audit-trail/">AI Audit Trail</a></li>
+              <li><a href="https://brightai.site/solutions/human-approval-layer/">Human Approval Layer</a></li>
+              <li><a href="https://brightai.site/solutions/ai-evidence-file/">AI Evidence File</a></li>
+              <li><a href="https://brightai.site/solutions/continuous-ai-governance/">Continuous AI Governance</a></li>
+              <li><a href="https://brightai.site/solutions/ai-risk-classification/">AI Risk Classification</a></li>
+            </ul>
+          </li>
+          <li>
+            <span>الموارد والثقة</span>
+            <ul>
+              <li><a href="https://brightai.site/blog/">المدونة</a></li>
+              <li><a href="https://brightai.site/docs/">الوثائق</a></li>
+              <li><a href="https://brightai.site/hub/">Hub</a></li>
+              <li><a href="https://brightai.site/trust/">مركز الثقة</a></li>
+              <li><a href="https://brightai.site/demo/">الديمو</a></li>
+              <li><a href="https://brightai.site/assessment/ai-governance-readiness/">تقييم جاهزية حوكمة AI</a></li>
+            </ul>
+          </li>
+          <li>
+            <span>نواة BrightAI</span>
+            <ul>
+              <li><a href="https://brightai.site/kernel/">Kernel</a></li>
+              <li><a href="https://brightai.site/kernel/chat/">Kernel Chat</a></li>
+              <li><a href="https://brightai.site/kernel/audit/">Kernel Audit</a></li>
+              <li><a href="https://brightai.site/kernel/approvals/">Kernel Approvals</a></li>
+              <li><a href="https://brightai.site/kernel/compliance/">Kernel Compliance</a></li>
+              <li><a href="https://brightai.site/kernel/policies/">Kernel Policies</a></li>
+              <li><a href="https://brightai.site/kernel/connectors/">Kernel Connectors</a></li>
+              <li><a href="https://brightai.site/kernel/reports/">Kernel Reports</a></li>
+              <li><a href="https://brightai.site/kernel/stats/">Kernel Stats</a></li>
+              <li><a href="https://brightai.site/kernel/scenarios/">Kernel Scenarios</a></li>
+              <li><a href="https://brightai.site/kernel/evidence/">Kernel Evidence</a></li>
+            </ul>
+          </li>
+          <li>
+            <span>السياسات والقنوات</span>
+            <ul>
+              <li><a href="https://brightai.site/privacy-policy/">سياسة الخصوصية</a></li>
+              <li><a href="https://brightai.site/terms/">الشروط والأحكام</a></li>
+              <li><a href="https://brightai.site/data-processing-agreement/">اتفاقية معالجة البيانات</a></li>
+              <li><a href="https://brightai.site/cookie-policy/">سياسة الكوكيز</a></li>
+              <li><a href="https://www.linkedin.com/company/brightai">LinkedIn</a></li>
+              <li><a href="https://x.com/BrightAISite">Twitter / X</a></li>
+              <li><a href="https://wa.me/966538229013">WhatsApp</a></li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+    </header>
+  </noscript>
+</div>
+<!-- BRIGHTAI_NOSCRIPT_NAV_END -->
+<!-- BRIGHTAI_RAW_INTERNAL_LINKS_START -->
+<section class="brightai-raw-internal-links" data-brightai-raw-internal-links="true" aria-labelledby="brightai-raw-internal-links-title" dir="rtl" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;">
+  <h2 id="brightai-raw-internal-links-title">روابط BrightAI الداخلية الرئيسية</h2>
+  <ul>
+    <li><a href="https://brightai.site/about/">عن BrightAI</a></li>
+    <li><a href="https://brightai.site/services/">الخدمات</a></li>
+    <li><a href="https://brightai.site/blog/">المدونة</a></li>
+    <li><a href="https://brightai.site/contact/">التواصل</a></li>
+    <li><a href="https://brightai.site/pricing/">الأسعار</a></li>
+    <li><a href="https://brightai.site/docs/">الوثائق</a></li>
+    <li><a href="https://brightai.site/solutions/">الحلول</a></li>
+    <li><a href="https://brightai.site/hub/">Hub</a></li>
+    <li><a href="https://brightai.site/kernel/">Kernel</a></li>
+    <li><a href="https://brightai.site/demo/">Demo</a></li>
+    <li><a href="https://brightai.site/trust/">Trust</a></li>
+  </ul>
+</section>
+<!-- BRIGHTAI_RAW_INTERNAL_LINKS_END -->
+<main id="main" class="max-w-7xl mx-auto px-5 lg:px-8 py-12">
+
+  <nav class="text-sm text-white/60 mb-6">
+    <a href="/" class="hover:text-white">الرئيسية</a>
+    <span class="mx-2">/</span>
+    <span class="text-white">الحلول التقنية</span>
+  </nav>
+
+  <header class="mb-12">
+    <span class="chip">مركز محتوى تقني · Solutions Hub</span>
+    <h1 class="mt-4 text-3xl sm:text-5xl font-black leading-tight">
+      حلول <span class="gradient-text">حوكمة وأمان</span> الذكاء الاصطناعي
+    </h1>
+    <p class="mt-5 text-lg text-white/75 leading-loose max-w-3xl">
+      كل حلول BrightAI التقنية في صفحة واحدة. اشرحنا كل حل، متى تستخدمه، كيف يشتغل، ومين يستفيد منه أكثر. مرجعك السريع لاختيار الحل المناسب لشركتك.
+    </p>
+    <div class="mt-5">
+      <span class="freshness"><i class="fa-solid fa-clock"></i> آخر تحديث: 31 مايو 2026</span>
+    </div>
+  </header>
+
+  <section class="answer-block">
+    <h2 class="text-xl font-black mb-3 flex items-center gap-2">
+      <i class="fa-solid fa-bolt text-yellow-300"></i>
+      الإجابة المختصرة
+    </h2>
+    <p class="text-white/85 leading-loose">
+      BrightAI تقدم <strong>٧ حلول</strong> تقنية مترابطة، كل واحد يحل مشكلة محددة في رحلة استخدام AI. الفكرة بسيطة: <strong>AI Firewall</strong> يحمي البيانات قبل ما توصل للنموذج، <strong>Audit Trail</strong> يوثّق كل شي، <strong>Human Approval</strong> يوقف القرارات الخطرة، و<strong>Evidence File</strong> يعطيك ملف جاهز للمدقق. كلهم يشتغلون سوا تحت <strong>BrightAI Kernel</strong>.
+    </p>
+  </section>
+
+  <!-- How They Work Together -->
+  <section class="mt-12">
+    <h2 class="text-2xl sm:text-3xl font-black mb-4">كيف يشتغلون مع بعض؟</h2>
+    <p class="text-white/75 leading-loose mb-6">رحلة طلب AI واحد داخل شركتك مع BrightAI:</p>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-3">
+      <div class="flow-step">
+        <span class="flow-step-num">١</span>
+        <h3 class="font-bold text-white mt-2 mb-1 text-sm">الموظف يكتب طلب</h3>
+        <p class="text-xs text-white/65">طلب AI عادي من شات أو نظام داخلي.</p>
+      </div>
+      <div class="flow-step">
+        <span class="flow-step-num">٢</span>
+        <h3 class="font-bold text-white mt-2 mb-1 text-sm">AI Firewall يفحص</h3>
+        <p class="text-xs text-white/65">يخفي البيانات الحساسة قبل ما تطلع برا.</p>
+      </div>
+      <div class="flow-step">
+        <span class="flow-step-num">٣</span>
+        <h3 class="font-bold text-white mt-2 mb-1 text-sm">Audit Trail يسجل</h3>
+        <p class="text-xs text-white/65">كل حركة محفوظة بهاش غير قابل للتعديل.</p>
+      </div>
+      <div class="flow-step">
+        <span class="flow-step-num">٤</span>
+        <h3 class="font-bold text-white mt-2 mb-1 text-sm">Evidence File يصدر</h3>
+        <p class="text-xs text-white/65">PDF موقّع جاهز للمدقق.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- All Solutions Grid -->
+  <section class="mt-12">
+    <h2 class="text-2xl sm:text-3xl font-black mb-4">الحلول كلها</h2>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+
+      <a href="/solutions/ai-governance-platform/" class="solution-card">
+        <div class="solution-icon"><i class="fa-solid fa-scale-balanced"></i></div>
+        <span class="chip mb-2 text-xs">المنصة الأم</span>
+        <h3 class="text-lg font-black text-white mb-2">منصة حوكمة الذكاء الاصطناعي</h3>
+        <p class="text-sm text-white/65 mb-3">المنصة الشاملة اللي تجمع كل الحلول. رؤية مركزية لكل استخدامات AI، السياسات، والمخاطر.</p>
+        <p class="text-xs text-cyan-300">متى تحتاجه؟ لو عندك أكثر من ٢ حالة استخدام AI.</p>
+      </a>
+
+      <a href="/solutions/ai-firewall/" class="solution-card">
+        <div class="solution-icon"><i class="fa-solid fa-shield-halved"></i></div>
+        <span class="chip mb-2 text-xs">حماية البيانات</span>
+        <h3 class="text-lg font-black text-white mb-2">AI Firewall</h3>
+        <p class="text-sm text-white/65 mb-3">يفحص كل طلب AI ويخفي البيانات الشخصية والحساسة قبل وصولها للنموذج. حماية في الزمن الفعلي.</p>
+        <p class="text-xs text-cyan-300">متى تحتاجه؟ من اليوم الأول لاستخدام AI.</p>
+      </a>
+
+      <a href="/solutions/ai-audit-trail/" class="solution-card">
+        <div class="solution-icon"><i class="fa-solid fa-file-signature"></i></div>
+        <span class="chip mb-2 text-xs">التوثيق</span>
+        <h3 class="text-lg font-black text-white mb-2">AI Audit Trail</h3>
+        <p class="text-sm text-white/65 mb-3">سجل تدقيق غير قابل للتعديل (Append-only) محمي بـ SHA-256. كل طلب وقرار محفوظ مدى الحياة.</p>
+        <p class="text-xs text-cyan-300">متى تحتاجه؟ لو شركتك تحت NCA أو SFDA.</p>
+      </a>
+
+      <a href="/solutions/human-approval-layer/" class="solution-card">
+        <div class="solution-icon"><i class="fa-solid fa-user-check"></i></div>
+        <span class="chip mb-2 text-xs">السيطرة</span>
+        <h3 class="text-lg font-black text-white mb-2">طبقة الموافقة البشرية</h3>
+        <p class="text-sm text-white/65 mb-3">القرارات الحساسة تتوقف لين يراجعها شخص مخوّل. إشعارات فورية، توقيع رقمي، تفويض ذكي.</p>
+        <p class="text-xs text-cyan-300">متى تحتاجها؟ لما AI يأثر على قرارات مالية أو طبية.</p>
+      </a>
+
+      <a href="/solutions/ai-evidence-file/" class="solution-card">
+        <div class="solution-icon"><i class="fa-solid fa-folder-open"></i></div>
+        <span class="chip mb-2 text-xs">الإثبات</span>
+        <h3 class="text-lg font-black text-white mb-2">AI Evidence File</h3>
+        <p class="text-sm text-white/65 mb-3">ملف PDF موقّع رقمياً يجمع كل البيانات والقرارات والموافقات. جاهز للمدقق أو الجهة التنظيمية.</p>
+        <p class="text-xs text-cyan-300">متى تحتاجه؟ قبل أي تدقيق خارجي.</p>
+      </a>
+
+      <a href="/solutions/ai-risk-classification/" class="solution-card">
+        <div class="solution-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+        <span class="chip mb-2 text-xs">تصنيف المخاطر</span>
+        <h3 class="text-lg font-black text-white mb-2">تصنيف مخاطر AI</h3>
+        <p class="text-sm text-white/65 mb-3">يصنّف كل استخدام AI: عالي، متوسط، منخفض. ويحدد متى يحتاج موافقة بشرية ومتى يمر تلقائياً.</p>
+        <p class="text-xs text-cyan-300">متى تحتاجه؟ لما يكثر عدد استخدامات AI.</p>
+      </a>
+
+      <a href="/solutions/ai-use-case-discovery/" class="solution-card">
+        <div class="solution-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+        <span class="chip mb-2 text-xs">الاكتشاف</span>
+        <h3 class="text-lg font-black text-white mb-2">اكتشاف استخدامات AI</h3>
+        <p class="text-sm text-white/65 mb-3">يكتشف الاستخدامات الخفية للذكاء الاصطناعي داخل شركتك (Shadow AI) ويعطيك خريطة كاملة.</p>
+        <p class="text-xs text-cyan-300">متى تحتاجه؟ لو ما عندك علم بكل استخدامات AI.</p>
+      </a>
+
+      <a href="/solutions/continuous-ai-governance/" class="solution-card">
+        <div class="solution-icon"><i class="fa-solid fa-rotate"></i></div>
+        <span class="chip mb-2 text-xs">الاستمرارية</span>
+        <h3 class="text-lg font-black text-white mb-2">الحوكمة المستمرة</h3>
+        <p class="text-sm text-white/65 mb-3">حوكمة AI مو مشروع لمرة. هذا الحل يراقب ويحدّث ويعدّل السياسات تلقائياً مع تغير الأنظمة.</p>
+        <p class="text-xs text-cyan-300">متى تحتاجه؟ بعد ما تطبق الحوكمة الأساسية.</p>
+      </a>
+
+      <a href="/solutions/policy-to-control-mapping/" class="solution-card">
+        <div class="solution-icon"><i class="fa-solid fa-diagram-project"></i></div>
+        <span class="chip mb-2 text-xs">الربط الذكي</span>
+        <h3 class="text-lg font-black text-white mb-2">ربط السياسات بالضوابط</h3>
+        <p class="text-sm text-white/65 mb-3">يحوّل سياسات الورق إلى ضوابط تقنية تطبق نفسها. من السياسة إلى التنفيذ بكبسة واحدة.</p>
+        <p class="text-xs text-cyan-300">متى تحتاجه؟ لو عندك سياسات ما تتنفذ.</p>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- Comparison Quick Guide -->
+  <section class="mt-12 glass p-8">
+    <h2 class="text-2xl font-black mb-4">أي حل يناسبني؟ دليل سريع</h2>
+
+    <div class="space-y-4">
+      <div class="flex items-start gap-3">
+        <i class="fa-solid fa-circle-check text-emerald-400 mt-1"></i>
+        <p class="text-white/80"><strong class="text-white">شركة صغيرة، AI أساسي:</strong> ابدأ بـ <a href="/solutions/ai-firewall/" class="anchor-link">AI Firewall</a> + <a href="/solutions/ai-audit-trail/" class="anchor-link">Audit Trail</a>.</p>
+      </div>
+      <div class="flex items-start gap-3">
+        <i class="fa-solid fa-circle-check text-emerald-400 mt-1"></i>
+        <p class="text-white/80"><strong class="text-white">شركة متوسطة، استخدامات متعددة:</strong> <a href="/solutions/ai-governance-platform/" class="anchor-link">منصة الحوكمة الكاملة</a> + <a href="/solutions/human-approval-layer/" class="anchor-link">الموافقات البشرية</a>.</p>
+      </div>
+      <div class="flex items-start gap-3">
+        <i class="fa-solid fa-circle-check text-emerald-400 mt-1"></i>
+        <p class="text-white/80"><strong class="text-white">جهة حكومية أو طبية:</strong> الحزمة الكاملة + <a href="/solutions/ai-evidence-file/" class="anchor-link">Evidence File</a> + ربط مع <a href="/hub/compliance/" class="anchor-link">حزم الامتثال</a>.</p>
+      </div>
+      <div class="flex items-start gap-3">
+        <i class="fa-solid fa-circle-check text-emerald-400 mt-1"></i>
+        <p class="text-white/80"><strong class="text-white">مو متأكد؟</strong> ابدأ بـ <a href="/solutions/ai-use-case-discovery/" class="anchor-link">اكتشاف الاستخدامات</a> ومنه نبني الباقي.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="glass p-8 text-center mt-12" style="background: linear-gradient(135deg, rgba(0,212,255,.08), rgba(124,92,255,.08));">
+    <h2 class="text-2xl font-black mb-3">جرّب BrightAI Kernel مجاناً</h2>
+    <p class="text-white/75 mb-6 max-w-2xl mx-auto">تجربة تفاعلية كاملة لكل الحلول، بدون التزام. شوف كيف يشتغلون مع بعض على بيانات تجريبية.</p>
+    <div class="flex gap-3 justify-center flex-wrap">
+      <a href="/kernel/" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white" style="background: linear-gradient(135deg,#00d4ff,#7c5cff);">
+        <i class="fa-solid fa-gauge-high"></i> ابدأ التجربة المجانية
+      </a>
+      <a href="/contact/" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold border border-white/20 text-white">
+        <i class="fa-solid fa-calendar-check"></i> احجز ديمو مخصص
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<script src="/frontend/js/unified-header.js" defer></script>
+</body>
+</html>

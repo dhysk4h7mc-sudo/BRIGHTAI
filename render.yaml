@@ -473,6 +473,16 @@ services:
         destination: /report/
 
       # ── Solutions Module Redirects ──────────────────────────────────────────
+      - type: redirect
+        source: /solutions
+        destination: /solutions/
+      - type: redirect
+        source: /solutions.html
+        destination: /solutions/
+      - type: redirect
+        source: /solutions/index.html
+        destination: /solutions/
+
       # 1. ai-governance-platform
       - type: redirect
         source: /solutions/ai-governance-platform

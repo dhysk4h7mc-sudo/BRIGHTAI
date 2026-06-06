@@ -30,6 +30,9 @@ https://www.brightai.site/*    https://brightai.site/:splat  301
 /services                     /services/                    301
 /services/index.html          /services/                    301
 /services.html                /services/                    301
+/solutions                   /solutions/                   301
+/solutions/index.html        /solutions/                   301
+/solutions.html              /solutions/                   301
 /demo                         /demo/                        301
 /demo/index.html              /demo/                        301
 /demo.html                    /demo/                        301
