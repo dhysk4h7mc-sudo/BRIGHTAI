@@ -347,6 +347,114 @@
       100% { background-position: -100% 0; }
     }
 
+    /* ── System Health Card ── */
+    .health-card {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: var(--space-3); padding: var(--space-4);
+      background: rgba(11, 22, 40, 0.74); border: 1px solid var(--border); border-radius: var(--radius-md);
+    }
+    .health-item { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-2); border-radius: var(--radius-sm); background: rgba(0,0,0,0.15); }
+    .health-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; background: var(--text-tertiary); }
+    .health-dot.ok { background: var(--success); box-shadow: 0 0 6px rgba(16,185,129,0.4); }
+    .health-dot.warn { background: var(--warning); }
+    .health-dot.err { background: var(--danger); }
+    .health-label { font-size: 0.75rem; color: var(--text-tertiary); }
+    .health-value { font-size: 0.8125rem; font-weight: 700; color: var(--text-primary); }
+
+    /* ── Risk Heat Map ── */
+    .heatmap-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; }
+    .heatmap-cell {
+      aspect-ratio: 1.6; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center;
+      font-size: 0.6875rem; font-weight: 600; color: var(--text-primary); transition: transform 0.15s; cursor: default; position: relative;
+    }
+    .heatmap-cell:hover { transform: scale(1.08); z-index: 1; }
+    .heatmap-cell .heatmap-tip {
+      display: none; position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%);
+      background: var(--ink-800); border: 1px solid var(--border); border-radius: var(--radius-sm);
+      padding: 4px 8px; font-size: 0.625rem; color: var(--text-secondary); white-space: nowrap; z-index: 2;
+    }
+    .heatmap-cell:hover .heatmap-tip { display: block; }
+    .heatmap-labels { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; margin-top: var(--space-2); }
+    .heatmap-label { text-align: center; font-size: 0.625rem; color: var(--text-tertiary); }
+
+    /* ── Timeline ── */
+    .timeline { position: relative; padding-inline-start: var(--space-8); }
+    .timeline::before { content: ''; position: absolute; top: 0; bottom: 0; width: 2px; background: var(--border); }
+    html[dir="rtl"] .timeline::before { right: 14px; left: auto; }
+    :not(html[dir="rtl"]) .timeline::before { left: 14px; right: auto; }
+    .tl-node { position: relative; padding-bottom: var(--space-5); animation: fadeSlideUp 400ms cubic-bezier(0.16,1,0.3,1) both; }
+    .tl-node:last-child { padding-bottom: 0; }
+    .tl-dot {
+      position: absolute; top: 4px; width: 12px; height: 12px; border-radius: 50%;
+      border: 2px solid var(--brand); background: var(--bg); z-index: 1;
+    }
+    html[dir="rtl"] .tl-dot { right: -28px; left: auto; }
+    :not(html[dir="rtl"]) .tl-dot { left: -28px; right: auto; }
+    .tl-dot.critical, .tl-dot.high { border-color: var(--danger); background: rgba(239,68,68,0.2); }
+    .tl-dot.medium { border-color: var(--warning); background: rgba(245,158,11,0.2); }
+    .tl-dot.low, .tl-dot.minimal { border-color: var(--success); background: rgba(16,185,129,0.15); }
+    .tl-body { background: rgba(11,22,40,0.6); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--space-3) var(--space-4); transition: border-color 0.15s; }
+    .tl-body:hover { border-color: var(--border-hover); }
+    .tl-id { font-family: 'IBM Plex Mono', monospace; font-size: 0.8125rem; font-weight: 700; color: var(--text-primary); }
+    .tl-query { font-size: 0.8125rem; color: var(--text-secondary); margin-top: var(--space-1); overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+    .tl-meta { display: flex; align-items: center; gap: var(--space-3); margin-top: var(--space-2); flex-wrap: wrap; }
+    .tl-meta .badge { font-size: 0.625rem; }
+    .tl-meta .trace-link { font-size: 0.75rem; }
+    .tl-time { font-size: 0.6875rem; color: var(--text-tertiary); }
+
+    /* ── Notification Bell ── */
+    .notif-bell {
+      position: relative; display: inline-flex; align-items: center; justify-content: center;
+      width: 40px; height: 40px; border-radius: var(--radius-md);
+      background: transparent; border: 1px solid var(--border); color: var(--text-secondary); cursor: pointer; transition: all 0.15s;
+    }
+    .notif-bell:hover { background: rgba(0,212,255,0.08); color: var(--brand); border-color: var(--border-hover); }
+    .notif-bell svg { width: 18px; height: 18px; }
+    .notif-badge-count {
+      position: absolute; top: -4px; right: -4px; min-width: 18px; height: 18px;
+      background: var(--danger); color: white; font-size: 0.625rem; font-weight: 700;
+      border-radius: 9px; display: flex; align-items: center; justify-content: center; padding: 0 4px;
+    }
+    .notif-badge-count.hidden { display: none; }
+    .notif-dropdown {
+      position: absolute; top: calc(100% + 8px); right: 0; width: 320px;
+      background: var(--ink-800); border: 1px solid var(--border); border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-xl); display: none; z-index: 100; overflow: hidden;
+    }
+    .notif-dropdown.open { display: block; animation: fadeSlideDown 200ms ease-out; }
+    .notif-header { padding: var(--space-3) var(--space-4); border-bottom: 1px solid var(--border); font-weight: 600; font-size: 0.875rem; }
+    .notif-list { max-height: 280px; overflow-y: auto; }
+    .notif-item { padding: var(--space-3) var(--space-4); border-bottom: 1px solid var(--border); font-size: 0.8125rem; color: var(--text-secondary); }
+    .notif-item:last-child { border-bottom: none; }
+    .notif-item strong { color: var(--text-primary); }
+    .notif-item .notif-time { font-size: 0.6875rem; color: var(--text-tertiary); margin-top: 2px; }
+    .notif-empty { padding: var(--space-6); text-align: center; color: var(--text-tertiary); font-size: 0.8125rem; }
+
+    /* ── Shortcut Overlay ── */
+    .shortcut-overlay {
+      display: none; position: fixed; inset: 0; z-index: 999;
+      background: rgba(0,0,0,0.6); backdrop-filter: blur(8px);
+      align-items: center; justify-content: center;
+    }
+    .shortcut-overlay.open { display: flex; }
+    .shortcut-card { background: var(--ink-800); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--space-8); max-width: 480px; width: 90%; box-shadow: var(--shadow-xl); }
+    .shortcut-card h3 { margin-bottom: var(--space-4); font-size: 1.125rem; }
+    .shortcut-row { display: flex; justify-content: space-between; padding: var(--space-2) 0; font-size: 0.875rem; color: var(--text-secondary); }
+    .shortcut-key { background: var(--ink-700); border: 1px solid var(--border); border-radius: var(--radius-xs); padding: 2px 8px; font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: var(--text-primary); }
+
+    /* ── Empty State ── */
+    .empty-illustrated { display: flex; flex-direction: column; align-items: center; gap: var(--space-4); padding: var(--space-8) var(--space-4); text-align: center; }
+    .empty-illustrated svg { width: 80px; height: 80px; color: var(--text-tertiary); opacity: 0.4; }
+    .empty-illustrated h3 { font-size: 1rem; color: var(--text-primary); }
+    .empty-illustrated p { font-size: 0.875rem; color: var(--text-tertiary); max-width: 360px; }
+
+    @media (max-width: 720px) {
+      .heatmap-grid { grid-template-columns: repeat(3, 1fr); }
+      .heatmap-labels { grid-template-columns: repeat(3, 1fr); }
+      .health-card { grid-template-columns: 1fr 1fr; }
+      .notif-dropdown { right: -60px; width: 300px; }
+    }
+
     @media (max-width: 1024px) {
       .dashboard-status-strip,
       .actions-grid,
@@ -581,6 +689,18 @@
 <!-- BRIGHTAI_RAW_INTERNAL_LINKS_END -->
 <a href="#main-content" class="skip-link">تخطي إلى المحتوى الرئيسي</a>
 
+  <!-- Keyboard Shortcut Overlay -->
+<div class="shortcut-overlay" id="shortcut-overlay" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="shortcut-card">
+    <h3>اختصارات لوحة المفاتيح</h3>
+    <div class="shortcut-row"><span>فتح المحادثة</span><span class="shortcut-key">C</span></div>
+    <div class="shortcut-row"><span>الموافقات</span><span class="shortcut-key">A</span></div>
+    <div class="shortcut-row"><span>التدقيق</span><span class="shortcut-key">T</span></div>
+    <div class="shortcut-row"><span>الإحصائيات</span><span class="shortcut-key">S</span></div>
+    <div class="shortcut-row"><span>تحديث البيانات</span><span class="shortcut-key">R</span></div>
+    <div class="shortcut-row"><span>إغلاق</span><span class="shortcut-key">Esc</span></div>
+  </div>
+</div>
   <main id="main-content">
     <div class="container dashboard-shell" aria-label="لوحة تشغيل BrightAI Kernel">
       <nav class="kernel-breadcrumb" aria-label="مسار التنقل">
@@ -596,6 +716,17 @@
             <p class="status-kicker">BrightAI Kernel Dashboard</p>
             <h1 class="status-title" id="kernel-dashboard-title">سطح تشغيل الحوكمة والأمان</h1>
           </div>
+          <div style="margin-inline-start:auto; display:flex; gap:var(--space-2); align-items:center;">
+            <button class="notif-bell" id="notif-bell" onclick="toggleNotifDropdown()" aria-label="الإشعارات">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+              <span class="notif-badge-count hidden" id="notif-count">0</span>
+              <div class="notif-dropdown" id="notif-dropdown">
+                <div class="notif-header">الإشعارات</div>
+                <div class="notif-list" id="notif-list"><div class="notif-empty">لا توجد إشعارات</div></div>
+              </div>
+            </button>
+          </div>
+          </div>
         </div>
         <div class="status-item">
           <span class="status-kicker">المزود</span>
@@ -610,6 +741,13 @@
           <strong id="status-updated">--</strong>
         </div>
       </section>
+
+      <div class="health-card" id="health-card" aria-label="صحة النظام">
+        <div class="health-item"><span class="health-dot ok" id="h-api"></span><div><div class="health-label">API</div><div class="health-value" id="h-api-text">جاري الفحص</div></div></div>
+        <div class="health-item"><span class="health-dot" id="h-db"></span><div><div class="health-label">Database</div><div class="health-value" id="h-db-text">جاري الفحص</div></div></div>
+        <div class="health-item"><span class="health-dot" id="h-provider"></span><div><div class="health-label">AI Provider</div><div class="health-value" id="h-provider-text">جاري الفحص</div></div></div>
+        <div class="health-item"><span class="health-dot ok" id="h-firewall"></span><div><div class="health-label">Firewall</div><div class="health-value" id="h-firewall-text">نشط</div></div></div>
+      </div>
 
       <section class="dashboard-section" aria-labelledby="primary-actions-title">
         <div class="section-header">
@@ -670,6 +808,36 @@
               </svg>
             </span>
           </a>
+          <a href="/kernel/reports/" class="action-card">
+            <span class="action-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            </span>
+            <span>
+              <span class="action-title">إنشاء تقرير</span>
+              <span class="action-copy">تقارير امتثال وتدقيق تنفيذية.</span>
+            </span>
+            <span class="action-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></span>
+          </a>
+          <a href="/kernel/scenarios/" class="action-card">
+            <span class="action-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            </span>
+            <span>
+              <span class="action-title">اختبار سيناريو</span>
+              <span class="action-copy">اختبر استجابة الحوكمة.</span>
+            </span>
+            <span class="action-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></span>
+          </a>
+          <a href="/kernel/compliance/" class="action-card">
+            <span class="action-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            </span>
+            <span>
+              <span class="action-title">مراجعة الامتثال</span>
+              <span class="action-copy">حالة حزم الامتثال والفجوات.</span>
+            </span>
+            <span class="action-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></span>
+          </a>
         </div>
       </section>
 
@@ -706,6 +874,17 @@
         </div>
       </section>
 
+      <section class="dashboard-section" aria-labelledby="heatmap-title">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title" id="heatmap-title">خريطة المخاطر</h2>
+            <p class="section-note">توزيع المخاطر حسب النوع والحساسية.</p>
+          </div>
+        </div>
+        <div class="heatmap-grid" id="heatmap-grid"></div>
+        <div class="heatmap-labels" id="heatmap-labels"></div>
+      </section>
+
       <section class="dashboard-section" aria-labelledby="recent-traces-title">
         <div class="section-header">
           <div>
@@ -715,11 +894,7 @@
           <a href="/kernel/audit/" class="trace-link">فتح السجل الكامل</a>
         </div>
 
-        <div class="trace-panel">
-          <div class="trace-list" id="recent-traces">
-            <div class="empty-traces">جاري تحميل آخر السجلات...</div>
-          </div>
-        </div>
+        <div class="timeline" id="recent-traces"></div>
       </section>
     </div>
 
@@ -801,11 +976,23 @@
     function setMetric(id, value, suffix = '') {
       const element = document.getElementById(id);
       if (!element) return;
-      if (typeof KernelUtils !== 'undefined' && KernelUtils.animateCount) {
-        KernelUtils.animateCount(element, 0, Math.round(value || 0), 700, suffix);
-        return;
+      animateCountExpo(element, Math.round(value || 0), 1200, suffix);
+    }
+
+    // Eased counter: ease-out-expo
+    function animateCountExpo(el, target, duration, suffix) {
+      const start = parseInt(el.dataset.current || '0', 10);
+      const startTime = performance.now();
+      el.dataset.current = target;
+      function tick(now) {
+        const elapsed = now - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+        const current = Math.round(start + (target - start) * eased);
+        el.textContent = formatNumber(current) + suffix;
+        if (progress < 1) requestAnimationFrame(tick);
       }
-      element.textContent = `${formatNumber(Math.round(value || 0))}${suffix}`;
+      requestAnimationFrame(tick);
     }
 
     async function getKernelStats() {
@@ -843,34 +1030,67 @@
     function renderRecentTraces(traces) {
       const container = document.getElementById('recent-traces');
       if (!container) return;
-
       const rows = (traces || []).slice(0, 5).map(normalizeTrace);
       if (!rows.length) {
-        container.innerHTML = '<div class="empty-traces">ما فيه traces حديثة للعرض حالياً.</div>';
+        container.innerHTML = `<div class="empty-illustrated">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+          <h3>لا توجد سجلات حديثة</h3>
+          <p>ابدأ محادثة آمنة لإنشاء أول trace في سجل الحوكمة.</p>
+          <a href="/kernel/chat/" class="btn btn-primary btn-sm" style="margin-top:var(--space-2);">تشغيل محادثة آمنة</a>
+        </div>`;
         return;
       }
-
-      container.innerHTML = rows.map((trace) => {
-        const riskLevel = String(trace.riskLevel || 'minimal').toLowerCase();
-        const score = Math.max(0, Math.min(100, trace.riskScore || 0));
-        const evidenceHref = `/kernel/evidence/?trace_id=${encodeURIComponent(trace.traceId)}`;
-        const evidenceLink = '<a class="trace-link" hr' + `ef="${evidenceHref}">الأدلة</a>`;
-        return `
-          <article class="trace-row">
-            <div>
-              <div class="trace-id">${escapeHtml(trace.traceId)}</div>
-              <div class="trace-meta time">${escapeHtml(formatTime(trace.createdAt))}</div>
+      container.innerHTML = rows.map((t, i) => {
+        const rl = String(t.riskLevel || 'minimal').toLowerCase();
+        const score = Math.max(0, Math.min(100, t.riskScore || 0));
+        const href = `/kernel/evidence/?trace_id=${encodeURIComponent(t.traceId)}`;
+        return `<div class="tl-node" style="animation-delay:${i * 80}ms">
+          <span class="tl-dot ${escapeHtml(rl)}"></span>
+          <div class="tl-body">
+            <div class="tl-id">${escapeHtml(t.traceId)}</div>
+            <div class="tl-query">${escapeHtml(t.query)}</div>
+            <div class="tl-meta">
+              <span class="badge ${rl==='critical'||rl==='high'?'badge-danger':rl==='medium'?'badge-warning':'badge-success'}">${escapeHtml(getRiskLabel(rl))} · ${score}%</span>
+              <span class="tl-time">${escapeHtml(formatTime(t.createdAt))}</span>
+              <span>${escapeHtml(getStatusLabel(t.status))}</span>
+              <a class="trace-link" href="${href}">الأدلة</a>
             </div>
-            <div class="trace-query">${escapeHtml(trace.query)}</div>
-            <div class="trace-risk">
-              <span class="badge ${riskLevel === 'critical' || riskLevel === 'high' ? 'badge-danger' : riskLevel === 'medium' ? 'badge-warning' : 'badge-success'}">${escapeHtml(getRiskLabel(riskLevel))} · ${score}%</span>
-              <span class="trace-risk-bar" aria-hidden="true"><span class="trace-risk-fill ${escapeHtml(riskLevel)}" style="width: ${score}%"></span></span>
-            </div>
-            <div class="trace-meta">${escapeHtml(getStatusLabel(trace.status))}</div>
-            ${evidenceLink}
-          </article>
-        `;
+          </div>
+        </div>`;
       }).join('');
+    }
+
+    // ── Risk Heat Map ──
+    function renderHeatMap(traces) {
+      const grid = document.getElementById('heatmap-grid');
+      const labels = document.getElementById('heatmap-labels');
+      if (!grid || !labels) return;
+      const categories = ['PII', 'Finance', 'Healthcare', 'Legal', 'Cyber'];
+      const levels = ['Low', 'Medium', 'High', 'Critical'];
+      const counts = {};
+      (traces || []).forEach(t => {
+        const rl = String(t.riskLevel || 'low').toLowerCase();
+        const q = String(t.query || '').toLowerCase();
+        let cat = 'PII';
+        if (/iban|تمويل|مال|بنك|عقد/.test(q)) cat = 'Finance';
+        else if (/مريض|طبي|sfda|capa|mrn/.test(q)) cat = 'Healthcare';
+        else if (/عقد|شرط|قانون|مورد/.test(q)) cat = 'Legal';
+        else if (/key|secret|nca|أمن|كود/.test(q)) cat = 'Cyber';
+        const key = cat + '_' + rl;
+        counts[key] = (counts[key] || 0) + 1;
+      });
+      const maxCount = Math.max(1, ...Object.values(counts));
+      grid.innerHTML = categories.map(cat => levels.map(lvl => {
+        const rl = lvl.toLowerCase();
+        const key = cat + '_' + rl;
+        const count = counts[key] || 0;
+        const intensity = count / maxCount;
+        const colors = { low: [16,185,129], medium: [245,158,11], high: [249,115,22], critical: [239,68,68] };
+        const c = colors[rl] || colors.low;
+        const bg = `rgba(${c[0]},${c[1]},${c[2]},${0.08 + intensity * 0.6})`;
+        return `<div class="heatmap-cell" style="background:${bg}">${count || ''}<span class="heatmap-tip">${cat} · ${lvl}: ${count}</span></div>`;
+      }).join('')).join('');
+      labels.innerHTML = categories.map(c => `<span class="heatmap-label">${c}</span>`).join('');
     }
 
     async function loadStats() {
@@ -880,18 +1100,22 @@
         setMetric('stat-pending', data.pendingApproval || 0);
         setMetric('stat-risk', data.avgRisk || 0, '%');
         setMetric('stat-pii', data.piiDetectionRate || 0, '%');
-        renderRecentTraces(data.latestTraces || []);
-
-        if (!data.latestTraces || !data.latestTraces.length) {
+        const allTraces = data.latestTraces || [];
+        renderRecentTraces(allTraces);
+        renderHeatMap(allTraces);
+        if (!allTraces.length) {
           const auditRows = await getRecentTracesFromAudit();
           renderRecentTraces(auditRows);
+          renderHeatMap(auditRows);
         }
+        updateNotifications(data);
       } catch (error) {
         metricIds.forEach((id) => {
           const element = document.getElementById(id);
           if (element) element.textContent = id.includes('risk') || id.includes('pii') ? '0%' : '0';
         });
         renderRecentTraces([]);
+        renderHeatMap([]);
       }
     }
 
@@ -924,14 +1148,71 @@
         if (statusDot) statusDot.className = `status-dot ${isProduction ? 'active' : 'degraded'}`;
         if (providerEl) providerEl.textContent = `${providerName} · ${isProduction ? 'Production' : 'Demo/Fallback'}`;
         if (databaseEl) databaseEl.textContent = dbReady ? 'متصلة' : 'غير مؤكدة';
+
+        // Update Health Card
+        updateHealthDot('h-api', true, 'h-api-text', 'متصل');
+        updateHealthDot('h-db', dbReady, 'h-db-text', dbReady ? 'متصل' : 'غير متصل');
+        updateHealthDot('h-provider', isProduction, 'h-provider-text', providerName);
       } catch (error) {
         if (statusDot) statusDot.className = 'status-dot degraded';
         if (providerEl) providerEl.textContent = 'Production API غير متاح';
         if (databaseEl) databaseEl.textContent = 'غير مؤكدة';
+        updateHealthDot('h-api', false, 'h-api-text', 'خطأ');
+        updateHealthDot('h-db', false, 'h-db-text', 'خطأ');
+        updateHealthDot('h-provider', false, 'h-provider-text', 'خطأ');
       } finally {
         if (updatedEl) updatedEl.textContent = formatTime(new Date());
       }
     }
+
+    function updateHealthDot(dotId, ok, textId, text) {
+      const dot = document.getElementById(dotId);
+      const txt = document.getElementById(textId);
+      if (dot) dot.className = 'health-dot ' + (ok ? 'ok' : 'err');
+      if (txt) txt.textContent = text;
+    }
+
+    // ── Notifications ──
+    let notifications = [];
+    function updateNotifications(data) {
+      const pending = data.pendingApproval || 0;
+      const list = document.getElementById('notif-list');
+      const badge = document.getElementById('notif-count');
+      if (!list || !badge) return;
+      const newNotifs = [];
+      if (pending > 0) newNotifs.push({ text: `<strong>${pending}</strong> طلب بانتظار الموافقة`, time: new Date().toLocaleTimeString('ar-SA') });
+      if ((data.piiDetectionRate || 0) > 30) newNotifs.push({ text: 'نسبة كشف <strong>PII</strong> مرتفعة', time: new Date().toLocaleTimeString('ar-SA') });
+      notifications = [...newNotifs, ...notifications].slice(0, 10);
+      badge.classList.toggle('hidden', notifications.length === 0);
+      badge.textContent = notifications.length;
+      list.innerHTML = notifications.length
+        ? notifications.map(n => `<div class="notif-item"><div>${n.text}</div><div class="notif-time">${n.time}</div></div>`).join('')
+        : '<div class="notif-empty">لا توجد إشعارات</div>';
+    }
+
+    function toggleNotifDropdown() {
+      document.getElementById('notif-dropdown').classList.toggle('open');
+    }
+    document.addEventListener('click', e => {
+      const dd = document.getElementById('notif-dropdown');
+      if (dd && dd.classList.contains('open') && !e.target.closest('#notif-bell')) dd.classList.remove('open');
+    });
+
+    // ── Keyboard Shortcuts ──
+    document.addEventListener('keydown', e => {
+      if (e.key === '?' && !e.ctrlKey && !e.metaKey && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+        const overlay = document.getElementById('shortcut-overlay');
+        if (overlay) overlay.classList.toggle('open');
+      }
+      if (e.key === 'Escape') {
+        const overlay = document.getElementById('shortcut-overlay');
+        if (overlay) overlay.classList.remove('open');
+      }
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
+      if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') return;
+      const routes = { c: '/kernel/chat/', a: '/kernel/approvals/', t: '/kernel/audit/', s: '/kernel/stats/', r: null };
+      if (routes[e.key]) { if (e.key === 'r') { loadStats(); checkProviderStatus(); } else { window.location.href = routes[e.key]; } }
+    });
 
     document.addEventListener('DOMContentLoaded', () => {
       loadStats();

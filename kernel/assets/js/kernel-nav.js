@@ -25,6 +25,7 @@
       moreMenuThreshold: 5, // Show 'More' menu after this many items
       pendingCheckInterval: 30000, // Check pending approvals every 30s
       statusCheckInterval: 45000, // Refresh provider and DB status every 45s
+      commandPaletteSrc: '/kernel/assets/js/kernel-command-palette.js',
     },
 
     // State
@@ -33,6 +34,8 @@
       isDrawerOpen: false,
       isMoreMenuOpen: false,
       currentPage: null,
+      initialized: false,
+      pendingIntervalId: null,
       statusIntervalId: null,
       lastDrawerTrigger: null,
       lastMoreTrigger: null,
@@ -55,16 +58,38 @@
       close: '<path d="M6 18L18 6M6 6l12 12"/>',
       chevronDown: '<path d="M19 9l-7 7-7-7"/>',
       shield: '<path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>',
+      search: '<circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>',
+      command: '<path d="M18 9a3 3 0 10-3-3v12a3 3 0 103-3H6a3 3 0 103 3V6a3 3 0 10-3 3h12z"/>',
+      settings: '<path d="M12 15.5a3.5 3.5 0 100-7 3.5 3.5 0 000 7z"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06A1.65 1.65 0 0015 19.4a1.65 1.65 0 00-1 .6 1.65 1.65 0 00-.4 1.05V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.6 15a1.65 1.65 0 00-.6-1 1.65 1.65 0 00-1.05-.4H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.6a1.65 1.65 0 001-.6 1.65 1.65 0 00.4-1.05V3a2 2 0 014 0v.09A1.65 1.65 0 0015 4.6a1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9c.2.34.51.6.88.72.16.05.33.08.5.08H21a2 2 0 010 4h-.09A1.65 1.65 0 0019.4 15z"/>',
+      trash: '<path d="M3 6h18"/><path d="M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/>',
+      download: '<path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/>',
+      switchHorizontal: '<path d="M16 3h5v5"/><path d="M4 20L21 3"/><path d="M21 16v5h-5"/><path d="M15 15l6 6"/><path d="M4 4l5 5"/>',
+      moon: '<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>',
     },
 
     /**
      * Initialize navigation
      */
-    init() {
-      this.detectCurrentPage();
+    init(activePageId) {
+      this.installThemeHelpers();
+
+      if (this.isKnownPage(activePageId)) {
+        this.state.currentPage = activePageId;
+      } else {
+        this.detectCurrentPage();
+      }
+
+      if (this.state.initialized) {
+        this.updateActiveNavigation();
+        this.loadCommandPalette();
+        return;
+      }
+
       this.render();
       this.bindEvents();
       this.startPendingCheck();
+      this.loadCommandPalette();
+      this.state.initialized = true;
     },
 
     /**
@@ -79,6 +104,31 @@
         return path === p.href || path === p.href.replace(/\/$/, '') || path === `${p.href.replace(/\/$/, '')}.html`;
       });
       this.state.currentPage = page ? page.id : 'home';
+    },
+
+    isKnownPage(pageId) {
+      return Boolean(pageId && this.config.pages.some((page) => page.id === pageId));
+    },
+
+    setActive(pageId) {
+      if (!this.isKnownPage(pageId)) return;
+      this.state.currentPage = pageId;
+      this.updateActiveNavigation();
+    },
+
+    updateActiveNavigation() {
+      const activePage = this.config.pages.find((page) => page.id === this.state.currentPage);
+      if (!activePage) return;
+
+      document.querySelectorAll('[data-kernel-nav-id]').forEach((element) => {
+        const isActive = element.getAttribute('data-kernel-nav-id') === activePage.id;
+        element.classList.toggle('active', isActive);
+        if (isActive) {
+          element.setAttribute('aria-current', 'page');
+        } else {
+          element.removeAttribute('aria-current');
+        }
+      });
     },
 
     /**
@@ -125,9 +175,14 @@
             ${morePages.length > 0 ? this.renderMoreMenu(morePages) : ''}
           </nav>
 
-          <button class="hamburger-btn" id="hamburger-btn" aria-label="فتح قائمة Kernel" aria-expanded="false" aria-controls="mobile-drawer">
-            ${this.createIcon('menu')}
-          </button>
+          <div class="nav-actions">
+            <button class="command-palette-trigger" id="command-palette-trigger" type="button" data-command-palette-trigger aria-label="فتح لوحة الأوامر" title="لوحة الأوامر">
+              ${this.createIcon('search')}
+            </button>
+            <button class="hamburger-btn" id="hamburger-btn" aria-label="فتح قائمة Kernel" aria-expanded="false" aria-controls="mobile-drawer">
+              ${this.createIcon('menu')}
+            </button>
+          </div>
         </div>
       `;
 
@@ -191,6 +246,7 @@
       return `
         <a href="${page.href}" 
            class="nav-link ${isActive ? 'active' : ''}"
+           data-kernel-nav-id="${page.id}"
            ${isActive ? 'aria-current="page"' : ''}>
           ${page.label}
             ${page.isNew ? '<span class="badge badge-new" aria-label="صفحة جديدة">جديد</span>' : ''}
@@ -215,7 +271,7 @@
             ${pages
               .map(
                 (page) => `
-              <a href="${page.href}" class="nav-dropdown-item" role="menuitem">
+              <a href="${page.href}" class="nav-dropdown-item" role="menuitem" data-kernel-nav-id="${page.id}">
                 ${this.createIcon(page.icon)}
                 ${page.label}
                 ${page.isNew ? '<span class="badge badge-new" aria-label="صفحة جديدة">جديد</span>' : ''}
@@ -247,6 +303,7 @@
               return `
               <a href="${page.href}" 
                  class="bottom-nav-item ${isActive ? 'active' : ''}"
+                 data-kernel-nav-id="${page.id}"
                  ${isActive ? 'aria-current="page"' : ''}>
                 ${this.createIcon(page.icon)}
                 <span>${page.label}</span>
@@ -296,7 +353,8 @@
               const isActive = this.state.currentPage === page.id;
               return `
               <a href="${page.href}" 
-                 class="drawer-link ${isActive ? 'active' : ''}">
+                 class="drawer-link ${isActive ? 'active' : ''}"
+                 data-kernel-nav-id="${page.id}">
                 ${this.createIcon(page.icon)}
                 ${page.label}
                 ${page.isNew ? '<span class="badge badge-new" aria-label="صفحة جديدة">جديد</span>' : ''}
@@ -340,6 +398,13 @@
           this.toggleMoreMenu();
         });
       }
+
+      document.querySelectorAll('[data-command-palette-trigger]').forEach((button) => {
+        button.addEventListener('click', (event) => {
+          event.preventDefault();
+          this.openCommandPalette(button);
+        });
+      });
 
       // Close drawer after choosing a link, which keeps mobile navigation tight.
       document.querySelectorAll('.drawer-link').forEach((link) => {
@@ -502,12 +567,123 @@
       }
     },
 
+    openCommandPalette(trigger) {
+      this.closeDrawer();
+      this.closeMoreMenu();
+
+      if (global.KernelCommandPalette && typeof global.KernelCommandPalette.open === 'function') {
+        global.KernelCommandPalette.open(trigger);
+        return;
+      }
+
+      this.loadCommandPalette(() => {
+        if (global.KernelCommandPalette && typeof global.KernelCommandPalette.open === 'function') {
+          global.KernelCommandPalette.open(trigger);
+        }
+      });
+    },
+
+    loadCommandPalette(callback) {
+      const initPalette = () => {
+        if (global.KernelCommandPalette && typeof global.KernelCommandPalette.init === 'function') {
+          global.KernelCommandPalette.init({
+            pages: this.config.pages,
+            createIcon: (name, className = '') => this.createIcon(name, className),
+          });
+        }
+        if (typeof callback === 'function') callback();
+      };
+
+      if (global.KernelCommandPalette) {
+        initPalette();
+        return;
+      }
+
+      const existingScript = document.querySelector(`script[src="${this.config.commandPaletteSrc}"]`);
+      if (existingScript) {
+        existingScript.addEventListener('load', initPalette, { once: true });
+        return;
+      }
+
+      const script = document.createElement('script');
+      script.src = this.config.commandPaletteSrc;
+      script.defer = true;
+      script.dataset.kernelCommandPalette = 'true';
+      script.addEventListener('load', initPalette, { once: true });
+      document.head.appendChild(script);
+    },
+
+    installThemeHelpers() {
+      const utils = global.KernelUtils;
+      if (!utils) return;
+
+      const themeKey = 'brightai_kernel_theme';
+      const applyTheme = (theme) => {
+        const nextTheme = theme === 'light' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', nextTheme);
+        try {
+          localStorage.setItem(themeKey, nextTheme);
+        } catch (error) {
+          // Storage is optional; the visual state is still applied.
+        }
+        return nextTheme;
+      };
+
+      if (typeof utils.initTheme !== 'function') {
+        utils.initTheme = () => {
+          let storedTheme = 'dark';
+          try {
+            storedTheme = localStorage.getItem(themeKey) || 'dark';
+          } catch (error) {
+            storedTheme = 'dark';
+          }
+          return applyTheme(storedTheme);
+        };
+      }
+
+      if (typeof utils.toggleTheme !== 'function') {
+        utils.toggleTheme = () => {
+          const currentTheme = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+          return applyTheme(currentTheme === 'light' ? 'dark' : 'light');
+        };
+      }
+
+      if (typeof utils.showToast !== 'function') {
+        utils.showToast = (message, type = 'info') => this.showToast(message, type);
+      }
+
+      utils.initTheme();
+    },
+
+    showToast(message, type = 'info') {
+      let container = document.getElementById('toast-container');
+      if (!container) {
+        container = document.createElement('div');
+        container.id = 'toast-container';
+        container.className = 'toast-container';
+        container.setAttribute('aria-live', 'polite');
+        document.body.appendChild(container);
+      }
+
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.textContent = String(message || '');
+      container.appendChild(toast);
+      requestAnimationFrame(() => toast.classList.add('show'));
+      setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 250);
+      }, 3200);
+    },
+
     /**
      * Start checking for pending approvals
      */
     startPendingCheck() {
       this.checkPendingCount();
-      setInterval(() => this.checkPendingCount(), this.config.pendingCheckInterval);
+      if (!this.state.pendingIntervalId) {
+        this.state.pendingIntervalId = setInterval(() => this.checkPendingCount(), this.config.pendingCheckInterval);
+      }
       this.startStatusCheck();
     },
 

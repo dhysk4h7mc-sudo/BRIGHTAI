@@ -147,6 +147,74 @@
       font: inherit;
     }
 
+    .advanced-filters {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(160px, 1fr));
+      gap: var(--space-3);
+      margin-bottom: var(--space-6);
+      padding: var(--space-4);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: rgba(15, 23, 42, 0.48);
+    }
+
+    @media (max-width: 920px) {
+      .advanced-filters { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 560px) {
+      .advanced-filters { grid-template-columns: 1fr; }
+    }
+
+    .advanced-filter-field {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+      min-width: 0;
+    }
+
+    .advanced-filter-field label,
+    .risk-range-head {
+      color: var(--text-tertiary);
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .advanced-filter-field input,
+    .advanced-filter-field select {
+      width: 100%;
+      min-height: 44px;
+      padding: 0 var(--space-3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      background: var(--ink-800);
+      color: var(--text-primary);
+      font: inherit;
+    }
+
+    .risk-range-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-2);
+    }
+
+    .risk-range-value {
+      color: var(--brand);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .advanced-filter-field input[type="range"] {
+      padding: 0;
+      accent-color: var(--brand);
+      cursor: pointer;
+    }
+
+    .filter-reset-btn {
+      align-self: end;
+      min-height: 44px;
+    }
+
     .bulk-toolbar {
       display: none;
       align-items: center;
@@ -243,6 +311,53 @@
     .request-link-badge:hover {
       border-color: var(--brand);
       text-decoration: none;
+    }
+
+    .risk-summary-card {
+      display: grid;
+      gap: var(--space-3);
+      margin-bottom: var(--space-4);
+      padding: var(--space-4);
+      border: 1px solid rgba(148, 163, 184, 0.16);
+      border-radius: var(--radius-md);
+      background: rgba(15, 23, 42, 0.44);
+    }
+
+    .risk-summary-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-3);
+      flex-wrap: wrap;
+    }
+
+    .risk-summary-title {
+      color: var(--text-primary);
+      font-size: 0.875rem;
+      font-weight: 700;
+    }
+
+    .pii-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 28px;
+      padding: 0 var(--space-3);
+      border-radius: var(--radius-full);
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    .pii-status.detected {
+      border: 1px solid rgba(239, 68, 68, 0.26);
+      background: rgba(239, 68, 68, 0.1);
+      color: var(--danger);
+    }
+
+    .pii-status.clear {
+      border: 1px solid rgba(16, 185, 129, 0.24);
+      background: rgba(16, 185, 129, 0.08);
+      color: var(--success);
     }
 
     .escalation-box {
@@ -483,6 +598,33 @@
       white-space: nowrap;
     }
 
+    .sla-timer-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 30px;
+      padding: 0 var(--space-3);
+      border: 1px solid rgba(16, 185, 129, 0.24);
+      border-radius: var(--radius-full);
+      background: rgba(16, 185, 129, 0.08);
+      color: var(--success);
+      font-size: 0.75rem;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .sla-timer-pill.warning {
+      border-color: rgba(245, 158, 11, 0.32);
+      background: rgba(245, 158, 11, 0.1);
+      color: var(--warning);
+    }
+
+    .sla-timer-pill.danger {
+      border-color: rgba(239, 68, 68, 0.32);
+      background: rgba(239, 68, 68, 0.1);
+      color: var(--danger);
+    }
+
     /* Actions */
     .request-actions {
       display: flex;
@@ -635,6 +777,93 @@
 
     .btn-loading .action-spinner { display: inline-block; }
     .btn-loading .btn-label { display: none; }
+
+    .approval-modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: var(--z-modal);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-4);
+      background: rgba(2, 6, 23, 0.78);
+      backdrop-filter: blur(10px);
+    }
+
+    .approval-modal-overlay.active { display: flex; }
+
+    .approval-modal {
+      width: min(100%, 560px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: var(--bg-elevated);
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.38);
+      overflow: hidden;
+    }
+
+    .approval-modal-header,
+    .approval-modal-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-3);
+      padding: var(--space-4) var(--space-5);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .approval-modal-footer {
+      justify-content: flex-start;
+      border-top: 1px solid var(--border);
+      border-bottom: 0;
+      flex-wrap: wrap;
+    }
+
+    .approval-modal-title {
+      color: var(--text-primary);
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .approval-modal-body {
+      display: grid;
+      gap: var(--space-4);
+      padding: var(--space-5);
+    }
+
+    .approval-modal-hint,
+    .modal-error {
+      color: var(--text-secondary);
+      font-size: 0.8125rem;
+      line-height: 1.7;
+    }
+
+    .modal-error {
+      display: none;
+      color: var(--danger);
+    }
+
+    .modal-error.active { display: block; }
+
+    .approval-modal textarea,
+    .approval-modal select {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      background: var(--ink-800);
+      color: var(--text-primary);
+      font: inherit;
+    }
+
+    .approval-modal textarea {
+      min-height: 130px;
+      padding: var(--space-3);
+      resize: vertical;
+    }
+
+    .approval-modal select {
+      min-height: 44px;
+      padding: 0 var(--space-3);
+    }
 
     @keyframes spin { to { transform: rotate(360deg); } }
   </style>
@@ -884,14 +1113,39 @@
         </label>
       </div>
 
+      <div class="advanced-filters" aria-label="الفلاتر المتقدمة">
+        <div class="advanced-filter-field">
+          <label for="filter-date-from">من تاريخ</label>
+          <input id="filter-date-from" type="date" onchange="setAdvancedFilter('dateFrom', this.value)">
+        </div>
+        <div class="advanced-filter-field">
+          <label for="filter-date-to">إلى تاريخ</label>
+          <input id="filter-date-to" type="date" onchange="setAdvancedFilter('dateTo', this.value)">
+        </div>
+        <div class="advanced-filter-field">
+          <div class="risk-range-head">
+            <label for="filter-risk-min">الحد الأدنى للمخاطر</label>
+            <span class="risk-range-value" id="risk-min-value">0%</span>
+          </div>
+          <input id="filter-risk-min" type="range" min="0" max="100" value="0" oninput="setAdvancedFilter('riskMin', this.value)">
+        </div>
+        <div class="advanced-filter-field">
+          <label for="filter-package">الحزمة</label>
+          <select id="filter-package" onchange="setAdvancedFilter('packageName', this.value)">
+            <option value="">كل الحزم</option>
+          </select>
+        </div>
+        <button class="btn btn-ghost filter-reset-btn" type="button" onclick="resetAdvancedFilters()">تصفير الفلاتر</button>
+      </div>
+
       <div class="bulk-toolbar" id="bulk-toolbar" aria-live="polite">
         <div class="bulk-summary">
           <span class="bulk-count" id="bulk-count">0 طلب محدد</span>
-          <span class="bulk-note">الموافقة الجماعية لا تختار الطلبات الحرجة افتراضياً، والحرجة تتطلب مراجعة فردية.</span>
+          <span class="bulk-note">الموافقة الجماعية لا تختار الطلبات الحرجة افتراضياً. الاختصارات: A قبول، R رفض.</span>
         </div>
         <div class="bulk-actions">
-          <button class="btn btn-success" type="button" onclick="handleBulkAction('approve')">موافقة جماعية</button>
-          <button class="btn btn-danger" type="button" onclick="handleBulkAction('reject')">رفض جماعي</button>
+          <button class="btn btn-success" type="button" onclick="handleBulkAction('approve')">Approve all</button>
+          <button class="btn btn-danger" type="button" onclick="handleBulkAction('reject')">Reject all</button>
           <button class="btn btn-ghost" type="button" onclick="clearSelection()">إلغاء التحديد</button>
         </div>
       </div>
@@ -908,6 +1162,47 @@
 
     </div>
   </main>
+
+  <div class="approval-modal-overlay" id="approval-comment-modal" role="dialog" aria-modal="true" aria-labelledby="approval-comment-title">
+    <div class="approval-modal">
+      <div class="approval-modal-header">
+        <h2 class="approval-modal-title" id="approval-comment-title">تعليق القرار</h2>
+        <button class="modal-close" type="button" onclick="closeApprovalModal()" aria-label="إغلاق">×</button>
+      </div>
+      <div class="approval-modal-body">
+        <p class="approval-modal-hint" id="approval-comment-hint"></p>
+        <textarea id="approval-comment-input" placeholder="اكتب تعليق المراجع لسجل التدقيق"></textarea>
+        <div class="modal-error" id="approval-comment-error">تعليق الرفض إلزامي قبل تنفيذ القرار.</div>
+      </div>
+      <div class="approval-modal-footer">
+        <button class="btn btn-primary" type="button" id="approval-comment-submit">تأكيد القرار</button>
+        <button class="btn btn-ghost" type="button" onclick="closeApprovalModal()">إلغاء</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="approval-modal-overlay" id="delegation-modal" role="dialog" aria-modal="true" aria-labelledby="delegation-title">
+    <div class="approval-modal">
+      <div class="approval-modal-header">
+        <h2 class="approval-modal-title" id="delegation-title">تحويل الطلب لمراجع آخر</h2>
+        <button class="modal-close" type="button" onclick="closeDelegationModal()" aria-label="إغلاق">×</button>
+      </div>
+      <div class="approval-modal-body">
+        <p class="approval-modal-hint" id="delegation-hint">اختر المراجع الذي يستلم الطلب داخل واجهة الموافقات.</p>
+        <select id="delegation-reviewer">
+          <option value="مدير الامتثال">مدير الامتثال</option>
+          <option value="مسؤول حماية البيانات">مسؤول حماية البيانات</option>
+          <option value="مراجع الأمن السيبراني">مراجع الأمن السيبراني</option>
+          <option value="قائد الفريق القانوني">قائد الفريق القانوني</option>
+        </select>
+        <textarea id="delegation-note" placeholder="ملاحظة التحويل (اختياري)"></textarea>
+      </div>
+      <div class="approval-modal-footer">
+        <button class="btn btn-primary" type="button" id="delegation-submit">تحويل الطلب</button>
+        <button class="btn btn-ghost" type="button" onclick="closeDelegationModal()">إلغاء</button>
+      </div>
+    </div>
+  </div>
   <script src="/frontend/js/unified-header.js?v=20260529-nav-v1" defer></script>
 
   <script src="/kernel/assets/js/kernel-utils.js" defer></script>
@@ -922,9 +1217,23 @@
     let allRequests = [];
     let currentFilter = 'pending';
     let riskSortOrder = 'desc';
+    const advancedFilters = {
+      dateFrom: '',
+      dateTo: '',
+      riskMin: 0,
+      packageName: '',
+    };
     const selectedRequestIds = new Set();
     const selectedTraceId = new URLSearchParams(window.location.search).get('trace_id') || '';
+    const delegationAssignments = loadDelegationAssignments();
+    const decisionComments = loadDecisionComments();
+    let previousPendingIds = new Set();
+    let hasLoadedApprovalsOnce = false;
+    let notificationAudioReady = false;
     let refreshTimer;
+    let slaTicker;
+    let pendingApprovalModalResolve = null;
+    let pendingDelegationRequestId = '';
     const statusTabs = [
       { key: 'pending', label: 'قيد الانتظار' },
       { key: 'critical', label: 'حرجة' },
@@ -940,6 +1249,10 @@
       renderStatusTabs();
       loadApprovals();
       refreshTimer = setInterval(loadApprovals, 15000);
+      slaTicker = setInterval(updateSlaTimers, 1000);
+      document.addEventListener('keydown', handleKeyboardShortcut);
+      document.addEventListener('pointerdown', enableNotificationAudio, { once: true });
+      document.addEventListener('keydown', enableNotificationAudio, { once: true });
     });
 
     // ── Load Data ──
@@ -950,12 +1263,15 @@
           ...(data.pending || []),
           ...(data.recent || []),
         ];
+        notifyOnNewRequests(allRequests);
         pruneSelection();
         updateSummary(data.summary || {});
         renderStatusTabs();
+        renderPackageOptions();
         renderList();
       } catch (err) {
-        document.getElementById('loading-state').style.display = 'none';
+        const loading = document.getElementById('loading-state');
+        if (loading) loading.style.display = 'none';
         const list = document.getElementById('requests-list');
         list.innerHTML = `
           <div class="glass-card empty-state">
@@ -993,7 +1309,7 @@
 
     function getStatusCounts() {
       return statusTabs.reduce((acc, tab) => {
-        acc[tab.key] = allRequests.filter((request) => matchesFilter(request, tab.key)).length;
+        acc[tab.key] = allRequests.filter((request) => matchesFilter(request, tab.key) && matchesAdvancedFilters(request)).length;
         return acc;
       }, {});
     }
@@ -1008,6 +1324,48 @@
     function setRiskSort(order) {
       riskSortOrder = order === 'asc' ? 'asc' : 'desc';
       renderList();
+    }
+
+    function setAdvancedFilter(key, value) {
+      if (!(key in advancedFilters)) return;
+      advancedFilters[key] = key === 'riskMin' ? Math.max(0, Math.min(100, Number(value) || 0)) : value;
+      const riskValue = document.getElementById('risk-min-value');
+      if (riskValue) riskValue.textContent = `${advancedFilters.riskMin}%`;
+      clearSelection(false);
+      renderStatusTabs();
+      renderList();
+    }
+
+    function resetAdvancedFilters() {
+      advancedFilters.dateFrom = '';
+      advancedFilters.dateTo = '';
+      advancedFilters.riskMin = 0;
+      advancedFilters.packageName = '';
+      const dateFrom = document.getElementById('filter-date-from');
+      const dateTo = document.getElementById('filter-date-to');
+      const riskMin = document.getElementById('filter-risk-min');
+      const packageName = document.getElementById('filter-package');
+      const riskValue = document.getElementById('risk-min-value');
+      if (dateFrom) dateFrom.value = '';
+      if (dateTo) dateTo.value = '';
+      if (riskMin) riskMin.value = '0';
+      if (packageName) packageName.value = '';
+      if (riskValue) riskValue.textContent = '0%';
+      clearSelection(false);
+      renderStatusTabs();
+      renderList();
+    }
+
+    function renderPackageOptions() {
+      const select = document.getElementById('filter-package');
+      if (!select) return;
+      const selected = select.value;
+      const packages = [...new Set(allRequests.map((request) => getCompliancePackage(request)).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'ar'));
+      select.innerHTML = '<option value="">كل الحزم</option>' + packages.map((pack) => `
+        <option value="${KernelUtils.escapeHtml(pack)}">${KernelUtils.escapeHtml(pack)}</option>
+      `).join('');
+      select.value = packages.includes(selected) ? selected : '';
+      advancedFilters.packageName = select.value;
     }
 
     function matchesFilter(request, filter) {
@@ -1026,14 +1384,32 @@
       if (selectedTraceId) {
         items = items.filter(r => (r.traceId || r.trace_id || '').toLowerCase() === selectedTraceId.toLowerCase());
       }
+      items = items.filter(matchesAdvancedFilters);
       return items.sort((a, b) => {
         const diff = toRiskScore(a) - toRiskScore(b);
         return riskSortOrder === 'asc' ? diff : -diff;
       });
     }
 
+    function matchesAdvancedFilters(request) {
+      if (toRiskScore(request) < advancedFilters.riskMin) return false;
+      if (advancedFilters.packageName && getCompliancePackage(request) !== advancedFilters.packageName) return false;
+
+      const createdMs = getCreatedTime(request);
+      if (advancedFilters.dateFrom) {
+        const fromMs = new Date(`${advancedFilters.dateFrom}T00:00:00`).getTime();
+        if (Number.isFinite(createdMs) && createdMs < fromMs) return false;
+      }
+      if (advancedFilters.dateTo) {
+        const toMs = new Date(`${advancedFilters.dateTo}T23:59:59`).getTime();
+        if (Number.isFinite(createdMs) && createdMs > toMs) return false;
+      }
+      return true;
+    }
+
     function renderList() {
-      document.getElementById('loading-state').style.display = 'none';
+      const loading = document.getElementById('loading-state');
+      if (loading) loading.style.display = 'none';
       const list = document.getElementById('requests-list');
       const items = getVisibleRequests();
       updateBulkToolbar();
@@ -1084,29 +1460,27 @@
         ? `/kernel/audit/?trace_id=${encodeURIComponent(traceId)}`
         : `/kernel/audit/?id=${encodeURIComponent(recordId)}`;
 
-      const piiItems = req.piiDetected || req.piiTypes || [];
-      const policies = req.matchedPolicies || req.matchedRules || [];
+      const piiItems = getPiiItems(req);
+      const policies = getPolicyItems(req);
+      const delegation = delegationAssignments[requestId];
+      const decisionComment = decisionComments[requestId];
 
       const createdAt = req.createdAt ? KernelUtils.formatRelativeTime(req.createdAt) : '—';
-      const slaHours = 24;
-      const createdMs = req.createdAt ? new Date(req.createdAt).getTime() : Date.now();
-      const elapsedHours = (Date.now() - createdMs) / 3600000;
-      const slaPercent = Math.min((elapsedHours / slaHours) * 100, 100);
-      const slaColor = slaPercent < 50 ? 'var(--success)' : slaPercent < 80 ? 'var(--warning)' : 'var(--danger)';
-      const slaRemaining = Math.max(0, slaHours - elapsedHours);
-      const slaText = slaRemaining < 1 ? `منتهي` : `${Math.ceil(slaRemaining)} ساعة متبقية`;
-      const isExpired = req.status === 'expired' || slaRemaining <= 0;
+      const sla = getSlaState(req);
+      const status = String(req.status || 'pending').toLowerCase();
+      const isExpired = status === 'expired';
+      const isSlaBreached = sla.isExpired;
 
-      const isPending = ['pending', 'escalated'].includes(req.status);
-      const isCompleted = ['completed', 'executed_after_approval'].includes(req.status);
-      const isRejected = req.status === 'rejected';
+      const isPending = ['pending', 'escalated'].includes(status);
+      const isCompleted = ['completed', 'executed_after_approval'].includes(status);
+      const isRejected = status === 'rejected';
       const selectable = canSelectRequest(req) && !isExpired;
       const isSelected = selectedRequestIds.has(requestId);
       const escalationReasons = buildEscalationReasons(req, {
         riskScore,
         piiItems,
         policies,
-        isExpired,
+        isExpired: isExpired || isSlaBreached,
       });
 
       return `
@@ -1117,7 +1491,9 @@
                 <code class="request-id-code">${KernelUtils.escapeHtml((requestId || '').substring(0, 16))}...</code>
                 <span class="badge ${statusClass}">${statusLabel}</span>
                 ${traceId ? `<span class="badge badge-info">${KernelUtils.escapeHtml(traceId)}</span>` : ''}
-                ${isExpired && isPending ? '<span class="badge badge-danger">منتهي SLA</span>' : ''}
+                ${isPending ? `<span class="sla-timer-pill ${sla.level}" data-sla-created="${KernelUtils.escapeHtml(String(getCreatedTime(req)))}" data-sla-status="${KernelUtils.escapeHtml(req.status || 'pending')}">${KernelUtils.escapeHtml(sla.text)}</span>` : ''}
+                ${delegation ? `<span class="badge badge-warning">محول إلى ${KernelUtils.escapeHtml(delegation.reviewer)}</span>` : ''}
+                ${isSlaBreached && isPending ? '<span class="badge badge-danger">منتهي SLA</span>' : ''}
               </div>
               <div class="request-query-text">"${KernelUtils.escapeHtml((req.query || req.originalText || '').substring(0, 200))}${(req.query || '').length > 200 ? '...' : ''}"</div>
               ${req.maskedText && req.maskedText !== req.query ? `
@@ -1137,7 +1513,7 @@
           <div class="request-info-grid">
             <div class="info-item">
               <span class="info-label">حزمة الامتثال</span>
-              <span class="info-value">${KernelUtils.escapeHtml(req.compliancePackage || 'عام')}</span>
+              <span class="info-value">${KernelUtils.escapeHtml(getCompliancePackage(req) || 'عام')}</span>
             </div>
             <div class="info-item">
               <span class="info-label">المستخدم</span>
@@ -1152,6 +1528,16 @@
               <span class="info-label">المُراجع</span>
               <span class="info-value">${KernelUtils.escapeHtml(req.approver)}</span>
             </div>` : ''}
+            ${delegation ? `
+            <div class="info-item">
+              <span class="info-label">محول إلى</span>
+              <span class="info-value">${KernelUtils.escapeHtml(delegation.reviewer)}</span>
+            </div>` : ''}
+            ${decisionComment ? `
+            <div class="info-item">
+              <span class="info-label">تعليق القرار</span>
+              <span class="info-value">${KernelUtils.escapeHtml(decisionComment.comment)}</span>
+            </div>` : ''}
           </div>
 
           <div class="request-links" aria-label="روابط السجل والأدلة">
@@ -1159,13 +1545,33 @@
             <a class="request-link-badge" href="${evidenceHref}">Evidence</a>
           </div>
 
-          <!-- Risk Bar -->
-          <div class="risk-bar-row">
-            <span class="risk-bar-label">${riskLabel}</span>
-            <div class="risk-bar-track">
-              <div class="risk-bar-fill" style="width:${riskScore}%; background:${riskColor};"></div>
+          <div class="risk-summary-card">
+            <div class="risk-summary-head">
+              <span class="risk-summary-title">ملخص المخاطر</span>
+              <span class="pii-status ${piiItems.length ? 'detected' : 'clear'}">
+                PII detected: ${piiItems.length ? 'Yes' : 'No'}
+              </span>
             </div>
-            <span class="risk-bar-value" style="color:${riskColor};">${riskScore}%</span>
+            <div class="risk-bar-row" style="margin-bottom:0;">
+              <span class="risk-bar-label">${riskLabel}</span>
+              <div class="risk-bar-track" aria-label="Risk score ${riskScore}%">
+                <div class="risk-bar-fill" style="width:${riskScore}%; background:${riskColor};"></div>
+              </div>
+              <span class="risk-bar-value" style="color:${riskColor};">${riskScore}%</span>
+            </div>
+            <div class="chips-section" style="margin-bottom:0;">
+              <div class="chips-label">Matched policies</div>
+              <div class="chips-row">
+                ${policies.length > 0
+                  ? policies.map(p => `<span class="chip-policy">${KernelUtils.escapeHtml(typeof p === 'string' ? p : p.name || p.id || p)}</span>`).join('')
+                  : '<span class="chip-policy">لا توجد سياسات مطابقة</span>'}
+              </div>
+            </div>
+            ${piiItems.length > 0 ? `
+            <div class="chips-section" style="margin-bottom:0;">
+              <div class="chips-label">PII types</div>
+              <div class="chips-row">${piiItems.map(p => `<span class="chip-pii">${KernelUtils.escapeHtml(typeof p === 'string' ? p : p.type || p.name || p)}</span>`).join('')}</div>
+            </div>` : ''}
           </div>
 
           ${escalationReasons.length > 0 ? `
@@ -1181,23 +1587,9 @@
           <div class="sla-bar-row">
             <span class="sla-label">SLA</span>
             <div class="sla-track">
-              <div class="sla-fill" style="width:${slaPercent}%; background:${slaColor};"></div>
+              <div class="sla-fill" data-sla-fill="${KernelUtils.escapeHtml(requestId)}" style="width:${sla.percent}%; background:${sla.color};"></div>
             </div>
-            <span class="sla-value" style="color:${slaColor};">${slaText}</span>
-          </div>` : ''}
-
-          <!-- PII -->
-          ${piiItems.length > 0 ? `
-          <div class="chips-section">
-            <div class="chips-label">بيانات حساسة</div>
-            <div class="chips-row">${piiItems.map(p => `<span class="chip-pii">${KernelUtils.escapeHtml(typeof p === 'string' ? p : p.type || p)}</span>`).join('')}</div>
-          </div>` : ''}
-
-          <!-- Policies -->
-          ${policies.length > 0 ? `
-          <div class="chips-section">
-            <div class="chips-label">السياسات المطلوبة</div>
-            <div class="chips-row">${policies.map(p => `<span class="chip-policy">${KernelUtils.escapeHtml(typeof p === 'string' ? p : p.name || p)}</span>`).join('')}</div>
+            <span class="sla-value" data-sla-value="${KernelUtils.escapeHtml(requestId)}" style="color:${sla.color};">${KernelUtils.escapeHtml(sla.text)}</span>
           </div>` : ''}
 
           <!-- Status Overlays -->
@@ -1217,7 +1609,7 @@
             تم رفض الطلب.${req.rejectionReason ? ' السبب: ' + KernelUtils.escapeHtml(req.rejectionReason) : ''}
           </div>` : ''}
 
-          ${req.status === 'expired' ? `
+          ${status === 'expired' ? `
           <div class="status-overlay expired">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
@@ -1232,29 +1624,37 @@
               class="btn btn-success"
               id="approve-btn-${KernelUtils.escapeHtml(requestId)}"
               onclick="handleAction('${jsString(requestId)}','approve',this)"
-              aria-label="الموافقة على الطلب"
+              aria-label="الموافقة على الطلب، الاختصار A"
             >
               <span class="action-spinner" aria-hidden="true"></span>
               <span class="btn-label">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;vertical-align:-2px;">
                   <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
-                موافقة وتنفيذ
+                موافقة وتنفيذ (A)
               </span>
             </button>
             <button
               class="btn btn-danger"
               id="reject-btn-${KernelUtils.escapeHtml(requestId)}"
               onclick="handleAction('${jsString(requestId)}','reject',this)"
-              aria-label="رفض الطلب"
+              aria-label="رفض الطلب، الاختصار R"
             >
               <span class="action-spinner" aria-hidden="true"></span>
               <span class="btn-label">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;vertical-align:-2px;">
                   <path d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
-                رفض
+                رفض (R)
               </span>
+            </button>
+            <button
+              class="btn btn-ghost"
+              type="button"
+              onclick="openDelegationModal('${jsString(requestId)}')"
+              aria-label="تحويل الطلب لمراجع آخر"
+            >
+              تحويل لمراجع
             </button>
             <a href="${evidenceHref}" class="btn btn-ghost">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;vertical-align:-2px;">
@@ -1295,6 +1695,129 @@
 
     function jsString(value) {
       return String(value).replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+    }
+
+    function getCompliancePackage(request = {}) {
+      return String(request.compliancePackage || request.compliance_pack || request.compliancePack || 'عام');
+    }
+
+    function getCreatedTime(request = {}) {
+      const raw = request.createdAt || request.created_at || request.timestamp || request.created || '';
+      const time = raw ? new Date(raw).getTime() : Date.now();
+      return Number.isFinite(time) ? time : Date.now();
+    }
+
+    function getPiiItems(request = {}) {
+      const raw = request.piiDetected || request.piiTypes || request.pii_types || [];
+      if (Array.isArray(raw)) return raw.filter(Boolean);
+      if (typeof raw === 'string') {
+        try {
+          const parsed = JSON.parse(raw);
+          return Array.isArray(parsed) ? parsed.filter(Boolean) : raw.split(',').map((item) => item.trim()).filter(Boolean);
+        } catch (error) {
+          return raw.split(',').map((item) => item.trim()).filter(Boolean);
+        }
+      }
+      return raw ? [raw] : [];
+    }
+
+    function getPolicyItems(request = {}) {
+      const raw = request.matchedPolicies || request.matchedRules || request.policies || request.policyMatches || [];
+      if (Array.isArray(raw)) return raw.filter(Boolean);
+      if (typeof raw === 'string') {
+        try {
+          const parsed = JSON.parse(raw);
+          return Array.isArray(parsed) ? parsed.filter(Boolean) : raw.split(',').map((item) => item.trim()).filter(Boolean);
+        } catch (error) {
+          return raw.split(',').map((item) => item.trim()).filter(Boolean);
+        }
+      }
+      return raw ? [raw] : [];
+    }
+
+    function getSlaState(request = {}) {
+      const slaMs = Number(request.slaMs || request.sla_ms || request.slaHours || request.sla_hours)
+        ? Number(request.slaMs || request.sla_ms || request.slaHours || request.sla_hours) * (request.slaMs || request.sla_ms ? 1 : 3600000)
+        : 24 * 3600000;
+      const createdMs = getCreatedTime(request);
+      const elapsedMs = Math.max(0, Date.now() - createdMs);
+      const remainingMs = Math.max(0, slaMs - elapsedMs);
+      const percent = Math.min((elapsedMs / slaMs) * 100, 100);
+      const level = percent >= 80 ? 'danger' : percent >= 50 ? 'warning' : 'success';
+      const color = level === 'danger' ? 'var(--danger)' : level === 'warning' ? 'var(--warning)' : 'var(--success)';
+      return {
+        color,
+        level,
+        percent: Math.round(percent),
+        text: remainingMs <= 0 ? 'منتهي' : formatRemainingTime(remainingMs),
+        isExpired: remainingMs <= 0,
+      };
+    }
+
+    function formatRemainingTime(ms) {
+      const totalSeconds = Math.ceil(ms / 1000);
+      const hours = Math.floor(totalSeconds / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
+      if (hours > 0) return `${hours}س ${String(minutes).padStart(2, '0')}د`;
+      return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    }
+
+    function updateSlaTimers() {
+      document.querySelectorAll('.sla-timer-pill[data-sla-created]').forEach((pill) => {
+        const created = Number(pill.dataset.slaCreated);
+        const state = getSlaState({ createdAt: Number.isFinite(created) ? new Date(created).toISOString() : undefined });
+        pill.textContent = state.text;
+        pill.classList.toggle('warning', state.level === 'warning');
+        pill.classList.toggle('danger', state.level === 'danger');
+      });
+
+      allRequests.forEach((request) => {
+        const requestId = getRequestId(request);
+        if (!canSelectRequest(request)) return;
+        const state = getSlaState(request);
+        const fill = document.querySelector(`[data-sla-fill="${CSS.escape(requestId)}"]`);
+        const value = document.querySelector(`[data-sla-value="${CSS.escape(requestId)}"]`);
+        if (fill) {
+          fill.style.width = `${state.percent}%`;
+          fill.style.background = state.color;
+        }
+        if (value) {
+          value.textContent = state.text;
+          value.style.color = state.color;
+        }
+      });
+    }
+
+    function loadDelegationAssignments() {
+      try {
+        return JSON.parse(localStorage.getItem('brightai_approval_delegations') || '{}') || {};
+      } catch (error) {
+        return {};
+      }
+    }
+
+    function saveDelegationAssignments() {
+      localStorage.setItem('brightai_approval_delegations', JSON.stringify(delegationAssignments));
+    }
+
+    function loadDecisionComments() {
+      try {
+        return JSON.parse(localStorage.getItem('brightai_approval_decision_comments') || '{}') || {};
+      } catch (error) {
+        return {};
+      }
+    }
+
+    function saveDecisionComment(requestId, action, comment) {
+      if (!comment) return;
+      decisionComments[requestId] = {
+        action,
+        comment,
+        createdAt: new Date().toISOString(),
+        reviewer: KernelUtils.getUserName() || 'مدير النظام',
+      };
+      localStorage.setItem('brightai_approval_decision_comments', JSON.stringify(decisionComments));
     }
 
     function buildEscalationReasons(request, context) {
@@ -1383,17 +1906,20 @@
         return;
       }
 
-      const actionLabel = action === 'approve' ? 'الموافقة وتنفيذ' : 'رفض';
-      const reason = action === 'reject' ? (prompt('سبب الرفض الجماعي (مطلوب لسجل التدقيق):') || '').trim() : '';
-      if (action === 'reject' && !reason) {
+      const modalResult = await requestApprovalComment({
+        action,
+        count: selected.length,
+        required: action === 'reject',
+        bulk: true,
+      });
+      if (!modalResult) return;
+
+      if (action === 'reject' && !modalResult.comment.trim()) {
         showToast('سبب الرفض مطلوب', 'أدخل سبباً واضحاً قبل الرفض الجماعي.', 'error');
         return;
       }
 
-      const confirmed = confirm(`تأكيد ${actionLabel} ${selected.length} طلب؟\nسيتم ربط القرار بسجل Audit و Evidence لكل Request.`);
-      if (!confirmed) return;
-
-      await executeBulkAction(selected, action, reason);
+      await executeBulkAction(selected, action, modalResult.comment);
     }
 
     async function executeBulkAction(requests, action, reason = '') {
@@ -1411,6 +1937,7 @@
           } else {
             await kernelAPI.rejectRequest(requestId, approver, reason);
           }
+          saveDecisionComment(requestId, action, reason);
           selectedRequestIds.delete(requestId);
           successCount += 1;
         } catch (error) {
@@ -1435,9 +1962,181 @@
       });
     }
 
+    function requestApprovalComment({ action, count, required, bulk }) {
+      return new Promise((resolve) => {
+        const modal = document.getElementById('approval-comment-modal');
+        const title = document.getElementById('approval-comment-title');
+        const hint = document.getElementById('approval-comment-hint');
+        const input = document.getElementById('approval-comment-input');
+        const error = document.getElementById('approval-comment-error');
+        const submit = document.getElementById('approval-comment-submit');
+        if (!modal || !title || !hint || !input || !submit) {
+          resolve({ comment: '' });
+          return;
+        }
+
+        pendingApprovalModalResolve = resolve;
+        const isApprove = action === 'approve';
+        title.textContent = isApprove ? 'تعليق الموافقة' : 'سبب الرفض';
+        hint.textContent = isApprove
+          ? `${bulk ? 'سيتم قبول الطلبات المحددة' : 'سيتم قبول الطلب'} (${KernelUtils.formatNumber(count)}). التعليق اختياري لكنه مفيد لسجل المراجعة.`
+          : `${bulk ? 'سيتم رفض الطلبات المحددة' : 'سيتم رفض الطلب'} (${KernelUtils.formatNumber(count)}). تعليق الرفض إلزامي لسجل التدقيق.`;
+        input.value = '';
+        input.placeholder = isApprove ? 'تعليق اختياري للموافقة' : 'اكتب سبب الرفض الإلزامي';
+        input.setAttribute('aria-required', required ? 'true' : 'false');
+        error.classList.remove('active');
+        submit.textContent = isApprove ? 'تأكيد الموافقة' : 'تأكيد الرفض';
+        submit.className = `btn ${isApprove ? 'btn-success' : 'btn-danger'}`;
+        submit.onclick = () => {
+          const comment = input.value.trim();
+          if (required && !comment) {
+            error.classList.add('active');
+            input.focus();
+            return;
+          }
+          closeApprovalModal({ comment });
+        };
+        modal.classList.add('active');
+        setTimeout(() => input.focus(), 0);
+      });
+    }
+
+    function closeApprovalModal(result = null) {
+      const modal = document.getElementById('approval-comment-modal');
+      if (modal) modal.classList.remove('active');
+      if (pendingApprovalModalResolve) {
+        pendingApprovalModalResolve(result);
+        pendingApprovalModalResolve = null;
+      }
+    }
+
+    function openDelegationModal(requestId) {
+      pendingDelegationRequestId = requestId;
+      const modal = document.getElementById('delegation-modal');
+      const hint = document.getElementById('delegation-hint');
+      const reviewer = document.getElementById('delegation-reviewer');
+      const note = document.getElementById('delegation-note');
+      if (!modal || !reviewer || !note) return;
+      const request = allRequests.find((item) => getRequestId(item) === requestId);
+      if (hint) hint.textContent = request
+        ? `تحويل ${requestId.substring(0, 16)} إلى مراجع آخر مع بقاء الطلب ضمن نفس واجهة الموافقات.`
+        : 'اختر المراجع الذي يستلم الطلب داخل واجهة الموافقات.';
+      if (delegationAssignments[requestId]?.reviewer) reviewer.value = delegationAssignments[requestId].reviewer;
+      note.value = delegationAssignments[requestId]?.note || '';
+      document.getElementById('delegation-submit').onclick = submitDelegation;
+      modal.classList.add('active');
+      setTimeout(() => reviewer.focus(), 0);
+    }
+
+    function submitDelegation() {
+      if (!pendingDelegationRequestId) return;
+      const reviewer = document.getElementById('delegation-reviewer')?.value || 'مدير الامتثال';
+      const note = document.getElementById('delegation-note')?.value.trim() || '';
+      delegationAssignments[pendingDelegationRequestId] = {
+        reviewer,
+        note,
+        assignedBy: KernelUtils.getUserName() || 'مدير النظام',
+        assignedAt: new Date().toISOString(),
+      };
+      saveDelegationAssignments();
+      showToast('تم تحويل الطلب', `تم تحويل الطلب إلى ${reviewer}.`, 'success');
+      closeDelegationModal();
+      renderList();
+    }
+
+    function closeDelegationModal() {
+      const modal = document.getElementById('delegation-modal');
+      if (modal) modal.classList.remove('active');
+      pendingDelegationRequestId = '';
+    }
+
+    async function handleKeyboardShortcut(event) {
+      if (event.defaultPrevented) return;
+      const target = event.target;
+      const isTyping = target && ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName);
+      const hasModal = document.querySelector('.approval-modal-overlay.active');
+      if (isTyping || hasModal) return;
+
+      const key = event.key.toLowerCase();
+      if (key !== 'a' && key !== 'r') return;
+      event.preventDefault();
+
+      const action = key === 'a' ? 'approve' : 'reject';
+      const selected = getSelectedRequests();
+      if (selected.length > 1) {
+        await handleBulkAction(action);
+        return;
+      }
+
+      const targetRequest = selected[0] || getVisibleRequests().find((request) => canSelectRequest(request) && String(request.status || 'pending').toLowerCase() !== 'expired');
+      if (!targetRequest) {
+        showToast('لا يوجد طلب جاهز', 'ما فيه طلب معلّق قابل للإجراء في القائمة الحالية.', 'info');
+        return;
+      }
+      const requestId = getRequestId(targetRequest);
+      const btn = document.getElementById(`${action === 'approve' ? 'approve' : 'reject'}-btn-${requestId}`);
+      if (btn) await handleAction(requestId, action, btn);
+    }
+
+    function notifyOnNewRequests(requests) {
+      const pendingIds = new Set(
+        requests
+          .filter(canSelectRequest)
+          .map(getRequestId)
+          .filter(Boolean)
+      );
+      const newIds = [...pendingIds].filter((id) => !previousPendingIds.has(id));
+      if (hasLoadedApprovalsOnce && newIds.length > 0) {
+        playNewRequestSound();
+        showToast('طلب موافقة جديد', `وصل ${KernelUtils.formatNumber(newIds.length)} طلب جديد للمراجعة.`, 'warning');
+      }
+      previousPendingIds = pendingIds;
+      hasLoadedApprovalsOnce = true;
+    }
+
+    function enableNotificationAudio() {
+      notificationAudioReady = true;
+    }
+
+    function playNewRequestSound() {
+      if (!notificationAudioReady) return;
+      try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContext) return;
+        const context = new AudioContext();
+        const oscillator = context.createOscillator();
+        const gain = context.createGain();
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(880, context.currentTime);
+        oscillator.frequency.setValueAtTime(660, context.currentTime + 0.12);
+        gain.gain.setValueAtTime(0.001, context.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.12, context.currentTime + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.001, context.currentTime + 0.3);
+        oscillator.connect(gain);
+        gain.connect(context.destination);
+        oscillator.start();
+        oscillator.stop(context.currentTime + 0.32);
+        oscillator.onended = () => context.close();
+      } catch (error) {
+        // Browser audio policies may block sound until the user interacts with the page.
+      }
+    }
+
     // ── Approve / Reject ──
     async function handleAction(requestId, action, btn) {
       const approver = KernelUtils.getUserName() || 'مدير النظام';
+      const modalResult = await requestApprovalComment({
+        action,
+        count: 1,
+        required: action === 'reject',
+        bulk: false,
+      });
+      if (!modalResult) return;
+      const comment = modalResult.comment.trim();
+      if (action === 'reject' && !comment) {
+        showToast('سبب الرفض مطلوب', 'تعليق الرفض إلزامي قبل تنفيذ القرار.', 'error');
+        return;
+      }
 
       // Set loading state on button
       btn.classList.add('btn-loading');
@@ -1453,14 +2152,14 @@
         if (action === 'approve') {
           result = await kernelAPI.approveRequest(requestId, approver);
         } else {
-          const reason = prompt('سبب الرفض (اختياري):') || '';
-          result = await kernelAPI.rejectRequest(requestId, approver, reason);
+          result = await kernelAPI.rejectRequest(requestId, approver, comment);
         }
+        saveDecisionComment(requestId, action, comment);
 
         if (action === 'approve') {
           showApprovalResult(requestId, result);
           selectedRequestIds.delete(requestId);
-          showToast('تمت الموافقة', 'جاري تنفيذ الذكاء الاصطناعي...', 'success');
+          showToast('تمت الموافقة', comment ? 'تم حفظ التعليق وجاري تنفيذ الذكاء الاصطناعي.' : 'جاري تنفيذ الذكاء الاصطناعي...', 'success');
         } else {
           selectedRequestIds.delete(requestId);
           showToast('تم الرفض', 'تم رفض الطلب بنجاح.', 'info');
