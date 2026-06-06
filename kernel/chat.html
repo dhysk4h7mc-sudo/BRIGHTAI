@@ -22,6 +22,10 @@
   <link rel="stylesheet" href="/kernel/assets/css/kernel.css">
   <link rel="stylesheet" href="/frontend/vendor/fontawesome/css/all.min.css">
   <link rel="stylesheet" href="/frontend/css/unified-header.css?v=20260529-nav-v1">
+  <!-- Markdown rendering + syntax highlighting -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11/styles/github-dark-dimmed.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/highlight.js@11/highlight.min.js" defer></script>
   <style>
     /* ── Chat Layout ── */
     .chat-layout {
@@ -1109,6 +1113,98 @@
       color: var(--ink-900) !important;
       box-shadow: 0 0 16px rgba(0, 212, 255, 0.5);
     }
+
+    /* ── Markdown Rendering ── */
+    .md-content { font-size: 0.9375rem; line-height: 1.75; color: var(--text-primary); word-break: break-word; }
+    .md-content p { margin: 0 0 0.75em; }
+    .md-content p:last-child { margin-bottom: 0; }
+    .md-content strong { color: var(--text-primary); font-weight: 700; }
+    .md-content em { font-style: italic; }
+    .md-content a { color: var(--brand); text-decoration: underline; text-underline-offset: 2px; }
+    .md-content a:hover { color: var(--brand-light); }
+    .md-content ul, .md-content ol { margin: 0.5em 0; padding-inline-start: 1.5em; }
+    .md-content li { margin: 0.25em 0; }
+    .md-content h1, .md-content h2, .md-content h3, .md-content h4 { margin: 0.75em 0 0.35em; font-weight: 700; color: var(--text-primary); }
+    .md-content h1 { font-size: 1.375rem; } .md-content h2 { font-size: 1.2rem; } .md-content h3 { font-size: 1.1rem; }
+    .md-content blockquote { margin: 0.75em 0; padding: 0.5em 1em; border-inline-start: 3px solid var(--brand); background: rgba(0, 212, 255, 0.05); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; color: var(--text-secondary); }
+    .md-content hr { border: none; height: 1px; background: var(--border); margin: 1em 0; }
+    .md-content code { font-family: 'IBM Plex Mono', monospace; font-size: 0.85em; background: rgba(0, 0, 0, 0.3); padding: 2px 6px; border-radius: var(--radius-xs); color: var(--brand-light); }
+    .md-content pre { margin: 0.75em 0; border-radius: var(--radius-md); overflow: hidden; background: rgba(0, 0, 0, 0.4); border: 1px solid var(--border); }
+    .md-content pre code { display: block; padding: 1em; background: transparent; color: var(--text-primary); font-size: 0.8125rem; line-height: 1.6; overflow-x: auto; border-radius: 0; }
+    .md-content table { width: 100%; border-collapse: collapse; margin: 0.75em 0; font-size: 0.875rem; }
+    .md-content th, .md-content td { border: 1px solid var(--border); padding: 0.5em 0.75em; text-align: start; }
+    .md-content th { background: var(--ink-800); font-weight: 600; color: var(--text-primary); }
+    .md-content td { color: var(--text-secondary); }
+    .code-header { display: flex; align-items: center; justify-content: space-between; padding: 0.35em 0.75em; background: rgba(0, 0, 0, 0.25); border-bottom: 1px solid var(--border); font-size: 0.7rem; color: var(--text-tertiary); }
+    .code-copy-btn { padding: 2px 8px; background: transparent; border: 1px solid var(--border); border-radius: var(--radius-xs); color: var(--text-tertiary); font-size: 0.65rem; cursor: pointer; transition: all 0.15s; }
+    .code-copy-btn:hover { color: var(--brand); border-color: var(--brand); }
+
+    /* ── Message Actions (Copy, Regenerate, Share) ── */
+    .msg-actions { display: flex; gap: var(--space-1); margin-top: var(--space-2); opacity: 0; transition: opacity 0.2s; }
+    .message:hover .msg-actions { opacity: 1; }
+    .msg-action-btn { display: inline-flex; align-items: center; gap: 4px; padding: 4px 8px; background: transparent; border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text-tertiary); font-size: 0.6875rem; cursor: pointer; transition: all 0.15s; min-height: 28px; }
+    .msg-action-btn:hover { color: var(--brand); border-color: var(--border-hover); background: rgba(0, 212, 255, 0.06); }
+    .msg-action-btn svg { width: 12px; height: 12px; }
+    .msg-action-btn.copied { color: var(--success); border-color: var(--success); }
+
+    /* ── Thinking Process Steps ── */
+    .thinking-process { margin-bottom: var(--space-3); padding: var(--space-3) var(--space-4); background: rgba(0, 0, 0, 0.2); border: 1px solid var(--border); border-radius: var(--radius-md); }
+    .thinking-steps { display: flex; flex-direction: column; gap: var(--space-2); }
+    .thinking-step { display: flex; align-items: center; gap: var(--space-2); font-size: 0.75rem; color: var(--text-tertiary); transition: all 0.3s; }
+    .thinking-step.active { color: var(--brand); }
+    .thinking-step.done { color: var(--success); }
+    .thinking-step-icon { width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; border: 1.5px solid var(--border); transition: all 0.3s; }
+    .thinking-step.active .thinking-step-icon { border-color: var(--brand); background: rgba(0, 212, 255, 0.15); animation: pulseGlow 1.5s infinite; }
+    .thinking-step.done .thinking-step-icon { border-color: var(--success); background: rgba(16, 185, 129, 0.15); }
+    .thinking-step svg { width: 10px; height: 10px; }
+    .thinking-step-label { flex: 1; }
+    .thinking-step-time { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--text-tertiary); }
+
+    /* ── Chat Sessions ── */
+    .session-list { display: flex; flex-direction: column; gap: 2px; margin: 0 var(--space-2); overflow-y: auto; flex: 1; }
+    .session-item { display: flex; align-items: center; gap: var(--space-2); padding: var(--space-2) var(--space-3); border-radius: var(--radius-md); cursor: pointer; transition: background 0.15s; min-height: 40px; }
+    .session-item:hover { background: rgba(0, 212, 255, 0.06); }
+    .session-item.active { background: rgba(0, 212, 255, 0.1); border-inline-start: 2px solid var(--brand); }
+    .session-item-text { flex: 1; min-width: 0; font-size: 0.8125rem; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .session-item.active .session-item-text { color: var(--text-primary); font-weight: 600; }
+    .session-item-del { opacity: 0; width: 20px; height: 20px; background: transparent; border: none; color: var(--text-tertiary); cursor: pointer; border-radius: var(--radius-xs); display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+    .session-item:hover .session-item-del { opacity: 1; }
+    .session-item-del:hover { color: var(--danger); background: rgba(239, 68, 68, 0.1); }
+    .session-new-btn { display: flex; align-items: center; justify-content: center; gap: var(--space-2); margin: var(--space-2); padding: var(--space-2); border: 1px dashed var(--border); border-radius: var(--radius-md); background: transparent; color: var(--text-tertiary); font-size: 0.8125rem; cursor: pointer; transition: all 0.15s; min-height: 40px; width: calc(100% - var(--space-4)); }
+    .session-new-btn:hover { border-color: var(--brand); color: var(--brand); background: rgba(0, 212, 255, 0.05); }
+
+    /* ── File Upload ── */
+    .input-attachments { display: none; gap: var(--space-2); padding: var(--space-2) 0 0; flex-wrap: wrap; }
+    .input-attachments.has-files { display: flex; }
+    .file-chip { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; background: var(--ink-700); border: 1px solid var(--border); border-radius: var(--radius-full); font-size: 0.7rem; color: var(--text-secondary); max-width: 180px; }
+    .file-chip span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .file-chip-remove { background: transparent; border: none; color: var(--text-tertiary); cursor: pointer; padding: 0; font-size: 0.75rem; }
+    .file-chip-remove:hover { color: var(--danger); }
+    .file-chip.pii-warning { border-color: rgba(245, 158, 11, 0.4); background: rgba(245, 158, 11, 0.1); }
+
+    /* ── Input Bar Extra Buttons ── */
+    .input-extra-btns { display: flex; gap: var(--space-1); }
+    .input-extra-btn { width: 36px; height: 36px; border-radius: var(--radius-md); background: transparent; border: none; color: var(--text-tertiary); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+    .input-extra-btn:hover { color: var(--brand); background: rgba(0, 212, 255, 0.08); }
+    .input-extra-btn.recording { color: var(--danger); background: rgba(239, 68, 68, 0.1); animation: pulseGlow 1.5s infinite; }
+    .input-extra-btn svg { width: 18px; height: 18px; }
+    .voice-indicator { display: none; align-items: center; gap: var(--space-2); padding: var(--space-1) var(--space-3); background: rgba(239, 68, 68, 0.08); border: 1px solid rgba(239, 68, 68, 0.25); border-radius: var(--radius-full); font-size: 0.75rem; color: var(--danger); }
+    .voice-indicator.active { display: inline-flex; }
+    .voice-wave { display: flex; align-items: center; gap: 2px; height: 14px; }
+    .voice-wave span { width: 3px; background: var(--danger); border-radius: 2px; animation: voiceWave 0.6s ease-in-out infinite; }
+    .voice-wave span:nth-child(2) { animation-delay: 0.1s; height: 10px; }
+    .voice-wave span:nth-child(3) { animation-delay: 0.2s; height: 6px; }
+    @keyframes voiceWave { 0%, 100% { height: 4px; } 50% { height: 12px; } }
+
+    /* ── Streaming cursor ── */
+    .stream-cursor { display: inline-block; width: 2px; height: 1em; background: var(--brand); margin-inline-start: 2px; animation: blink 0.8s infinite; vertical-align: text-bottom; }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+    /* ── Mobile improvements ── */
+    @media (max-width: 768px) {
+      .msg-actions { opacity: 1; }
+      .thinking-step-time { display: none; }
+    }
   </style>
   <meta name="robots" content="index, follow">
 <!-- AI Search / GEO / LLMO -->
@@ -1295,12 +1391,20 @@
 
     <!-- ── Sidebar ── -->
     <aside class="chat-sidebar" aria-label="إعدادات المحادثة">
-      <div class="sidebar-header">
-        <div style="font-size:0.875rem; color:var(--text-secondary); margin-bottom:var(--space-2);">حزمة الامتثال</div>
-        <div id="selected-compliance-name" style="font-weight:600; font-size:1rem; color:var(--text-primary);">عام</div>
+      <!-- Sessions Section -->
+      <div class="sidebar-header" style="display:flex; align-items:center; justify-content:space-between;">
+        <div>
+          <div style="font-size:0.875rem; color:var(--text-secondary); margin-bottom:var(--space-1);">المحادثات</div>
+          <div id="active-session-title" style="font-weight:600; font-size:0.9375rem; color:var(--text-primary);">محادثة جديدة</div>
+        </div>
       </div>
+      <button class="session-new-btn" onclick="createNewSession()" aria-label="محادثة جديدة">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14m-7-7h14"/></svg>
+        محادثة جديدة
+      </button>
+      <div class="session-list" id="session-list"></div>
 
-      <div class="sidebar-section">حزم الامتثال</div>
+      <div class="sidebar-section" style="margin-top:var(--space-3);">حزمة الامتثال</div>
 
       <div class="compliance-list" id="compliance-list">
         <div class="compliance-item active" data-pkg="general" onclick="selectCompliance(this,'general')">
@@ -1459,19 +1563,28 @@
           <h3>ابدأ محادثة آمنة</h3>
           <p>طلبك سيُحلَّل بحثاً عن البيانات الحساسة، ويُقيَّم للمخاطر، ويُعالَج عبر خط حوكمة البيانات.</p>
           <div class="quick-examples" id="quick-examples">
-            <button class="quick-example" onclick="useExample(this)">حلّل تقرير المريض رقم MRN-12345 وأعطني ملخصاً</button>
-            <button class="quick-example" onclick="useExample(this)">ما هي شروط عقد المورد بقيمة 500,000 ريال؟</button>
-            <button class="quick-example" onclick="useExample(this)">اكتب خطاباً رسمياً لطلب اجتماع مع إدارة الموارد البشرية</button>
-            <button class="quick-example" onclick="useExample(this)">كيف أحسّن كفاءة عمليات المشتريات في مؤسستي؟</button>
-            <button class="quick-example" onclick="useExample(this)">هل رقم الهوية الوطنية 1234567890 مسجّل في النظام؟</button>
-            <button class="quick-example" onclick="useExample(this)">فسّر نتيجة فحص HbA1c 8.5% لمريض سكّري</button>
-          </div>
+	            <!-- Populated dynamically by renderQuickExamples() -->
+	          </div>
         </div>
       </div>
 
       <!-- Input Bar -->
       <div class="input-bar">
+        <div class="input-attachments" id="file-attachments"></div>
+        <div class="voice-indicator" id="voice-indicator">
+          <div class="voice-wave"><span></span><span></span><span></span></div>
+          <span>جاري الاستماع...</span>
+        </div>
         <div class="input-wrapper">
+          <div class="input-extra-btns">
+            <label class="input-extra-btn" title="إرفاق ملف" aria-label="إرفاق ملف">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48"/></svg>
+              <input type="file" id="file-input" multiple accept=".txt,.pdf,.doc,.docx,.csv,.json,.md" style="display:none" onchange="handleFileUpload(this.files)">
+            </label>
+            <button class="input-extra-btn" id="voice-btn" title="إدخال صوتي" aria-label="إدخال صوتي" onclick="toggleVoiceInput()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+            </button>
+          </div>
           <textarea
             id="chat-input"
             placeholder="اكتب رسالتك... (Ctrl+Enter للإرسال)"
@@ -1487,7 +1600,7 @@
         </div>
         <div class="input-footer">
           <span class="char-counter" id="char-counter">0 / 4000</span>
-          <span class="input-hint">Enter للسطر الجديد • Ctrl+Enter للإرسال</span>
+          <span class="input-hint">Enter للسطر الجديد · Ctrl+Enter للإرسال</span>
         </div>
       </div>
     </main>
@@ -1561,6 +1674,7 @@
   <script src="/kernel/assets/js/kernel-nav.js" defer></script>
   <script src="/kernel/assets/js/kernel-aurora.js" defer></script>
   <script src="/kernel/assets/js/kernel-chat-client.js" defer></script>
+  <script src="/kernel/assets/js/kernel-chat-enhanced.js" defer></script>
 
   <script>
     // ── State ──
@@ -1578,6 +1692,11 @@
       checkPendingBanner();
       setInterval(checkPendingBanner, 30000);
       buildBottomSheetCompliance();
+
+      // Render quick examples after enhanced module loads
+      setTimeout(() => {
+        if (window.kernelChatEnhanced) kernelChatEnhanced.renderQuickExamples(selectedCompliance);
+      }, 300);
 
       // Check scenario params for Demo
       const params = new URLSearchParams(window.location.search);
@@ -1622,6 +1741,7 @@
       selectedCompliance = pkg;
       document.getElementById('selected-compliance-name').textContent = el.querySelector('.compliance-item-name').textContent;
       KernelUtils.storage.set('compliance', pkg);
+      if (window.kernelChatEnhanced) kernelChatEnhanced.renderQuickExamples(pkg);
     }
 
     function loadSession() {
@@ -1640,12 +1760,19 @@
     // ── Send Message ──
     async function sendMessage() {
       const input = document.getElementById('chat-input');
-      const query = input.value.trim();
+      let query = input.value.trim();
       if (!query || isLoading) return;
+
+      // Append file context if files are attached
+      const fileCtx = window.kernelChatEnhanced ? kernelChatEnhanced.getFileContext() : '';
+      if (fileCtx) query += fileCtx;
 
       input.value = '';
       resizeTextarea(input);
       updateCharCounter('');
+
+      // Clear pending files after sending
+      if (window.kernelChatEnhanced) kernelChatEnhanced.clearPendingFiles();
 
       hideEmptyState();
       appendUserBubble(query);
@@ -1707,6 +1834,12 @@
         <div class="msg-avatar user-av" aria-hidden="true">أ</div>
         <div class="msg-body">
           <div class="user-bubble">${KernelUtils.escapeHtml(text)}</div>
+          <div class="msg-actions">
+            <button class="msg-action-btn" onclick="kernelChatEnhanced && kernelChatEnhanced.copyMessage('${id}', this)" title="نسخ">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+              نسخ
+            </button>
+          </div>
           <div class="msg-time">${KernelUtils.formatRelativeTime(new Date())}</div>
         </div>
       `;
@@ -1768,6 +1901,8 @@
 
       const riskColor = riskScore < 30 ? 'var(--success)' : riskScore < 60 ? 'var(--warning)' : 'var(--danger)';
 
+      const msgActions = window.kernelChatEnhanced ? kernelChatEnhanced.createMessageActions(id, text, data) : '';
+
       el.innerHTML = `
         <div class="msg-avatar ai-av" aria-hidden="true">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1789,7 +1924,7 @@
                 <button class="copy-btn" onclick="copyMsg(this, '${id}')" aria-label="نسخ الرد">نسخ</button>
               </div>
             </div>
-            <div class="ai-card-content" id="content-${id}"></div>
+            <div class="ai-card-content md-content" id="content-${id}"></div>
             ${renderGovernanceCard(data)}
             ${(piiItems.length > 0 || policies.length > 0 || hash) ? `
             <div class="kernel-analysis">
@@ -1820,6 +1955,7 @@
               </div>
             </div>` : ''}
           </div>
+          ${msgActions}
           <div class="msg-time">${KernelUtils.formatRelativeTime(new Date())}</div>
         </div>
       `;
@@ -1828,17 +1964,37 @@
 
       const msgBody = el.querySelector('.msg-body');
       const msgTime = msgBody.querySelector('.msg-time');
+
+      // Show thinking process before content
+      if (window.kernelChatEnhanced) {
+        kernelChatEnhanced.showThinkingProcess(msgBody, data, msgTime);
+      }
+
       appendGovernanceJourneyTrackerIfScenario(msgBody, data, msgTime);
 
       scrollBottom();
 
-      // Typewriter effect
+      // Use streaming with markdown rendering
       const contentEl = document.getElementById(`content-${id}`);
       if (contentEl) {
-        if (text.length > 500) {
-          contentEl.textContent = text;
+        if (window.kernelChatEnhanced && text.length > 80) {
+          kernelChatEnhanced.streamText(contentEl, text);
+        } else if (window.kernelChatEnhanced) {
+          contentEl.innerHTML = kernelChatEnhanced.renderMarkdown(text);
         } else {
-          typeText(contentEl, text);
+          contentEl.textContent = text;
+        }
+      }
+
+      // Update session title with first message
+      if (window.kernelChatEnhanced) {
+        const sessions = kernelChatEnhanced.getSessions();
+        const activeId = kernelChatEnhanced.getActiveSessionId();
+        const active = sessions.find(s => s.id === activeId);
+        if (active && active.title === 'محادثة جديدة') {
+          const newTitle = text.substring(0, 50) + (text.length > 50 ? '...' : '');
+          kernelChatEnhanced.updateSessionTitle(activeId, newTitle);
+          kernelChatEnhanced.renderSessions();
         }
       }
     }
@@ -2370,6 +2526,26 @@
     function scrollBottom() {
       const msgs = document.getElementById('messages');
       requestAnimationFrame(() => { msgs.scrollTop = msgs.scrollHeight; });
+    }
+
+    // ── Session Management ──
+    function createNewSession() {
+      if (window.kernelChatEnhanced) {
+        const id = kernelChatEnhanced.createSession('محادثة جديدة');
+        kernelChatEnhanced.switchSession(id);
+      } else {
+        clearChat();
+      }
+    }
+
+    // ── File Upload Handler ──
+    function handleFileUpload(files) {
+      if (window.kernelChatEnhanced) kernelChatEnhanced.handleFileUpload(files);
+    }
+
+    // ── Voice Input Toggle ──
+    function toggleVoiceInput() {
+      if (window.kernelChatEnhanced) kernelChatEnhanced.toggleVoiceInput();
     }
 
     // ── Toast ──
