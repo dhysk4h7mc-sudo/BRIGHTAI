@@ -119,8 +119,7 @@ https://www.brightai.site/*    https://brightai.site/:splat  301
 /blog/ai-audit-trail-saudi    /blog/ai-audit-trail-saudi/   301
 /blog/ai-audit-trail-saudi.html /blog/ai-audit-trail-saudi/ 301
 /blog/ai-audit-trail-saudi/index.html /blog/ai-audit-trail-saudi/ 301
-/blog/ai-audit-trail-saudi/iindex.html /blog/ai-audit-trail-saudi/ 301
-/blog/ai-audit-trail-saudi/   /blog/ai-audit-trail-saudi/iindex.html 200
+/blog/ai-audit-trail-saudi/   /blog/ai-audit-trail-saudi/index.html 200
 /blog/ai-governance           /blog/ai-governance/          301
 /blog/ai-governance.html      /blog/ai-governance/          301
 /blog/ai-governance/index.html /blog/ai-governance/         301

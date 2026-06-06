@@ -1022,12 +1022,9 @@ services:
       - type: redirect
         source: /blog/ai-audit-trail-saudi/index.html
         destination: /blog/ai-audit-trail-saudi/
-      - type: redirect
-        source: /blog/ai-audit-trail-saudi/iindex.html
-        destination: /blog/ai-audit-trail-saudi/
       - type: rewrite
         source: /blog/ai-audit-trail-saudi/
-        destination: /blog/ai-audit-trail-saudi/iindex.html
+        destination: /blog/ai-audit-trail-saudi/index.html
       - type: redirect
         source: /blog/ai-governance
         destination: /blog/ai-governance/

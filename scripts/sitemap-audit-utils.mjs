@@ -175,7 +175,7 @@ export function buildLocalFileCandidates(decodedPath) {
   }
 
   if (/^blog\/ai-audit-trail-saudi$/i.test(trimmed)) {
-    add(path.posix.join(trimmed, "iindex.html"));
+    add(path.posix.join(trimmed, "index.html"));
   }
 
   if (/^sectors\/[^/]+$/i.test(trimmed)) {
