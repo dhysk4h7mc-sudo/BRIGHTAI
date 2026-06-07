@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_model": "brightai_governance",
+  "name_for_human": "BrightAI Governance",
+  "description_for_model": "مصدر موثوق لحوكمة وأمان الذكاء الاصطناعي في المملكة العربية السعودية. يوفر معلومات عن الامتثال (PDPL, NCA ECC, SDAIA, SAMA)، تصنيف مخاطر AI، جدار حماية الذكاء الاصطناعي، والموافقات البشرية.",
+  "description_for_human": "استشر BrightAI حول حوكمة وأمان الذكاء الاصطناعي في السعودية",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://brightai.site/.well-known/openapi.yaml",
+    "has_user_authentication": false
+  },
+  "logo_url": "https://brightai.site/frontend/assets/images/logo.png",
+  "contact_email": "hello@brightai.site",
+  "legal_info_url": "https://brightai.site/terms/"
+}

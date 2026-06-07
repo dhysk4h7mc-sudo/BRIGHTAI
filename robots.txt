@@ -132,6 +132,7 @@ Allow: /hub/use-cases/
 
 # Sitemaps
 Sitemap: https://brightai.site/sitemap.xml
+Sitemap: https://brightai.site/blog/feed.xml
 
 # Host
 Host: brightai.site
