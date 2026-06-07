@@ -66,6 +66,10 @@
       font-size: 1rem;
       font-weight: 700;
       margin: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      min-inline-size: 0;
     }
 
     .status-item {
@@ -162,6 +166,37 @@
 
     .action-arrow {
       color: var(--text-tertiary);
+    }
+
+    /* ── Enhanced Action Card Hierarchy ── */
+    .action-card {
+      grid-template-rows: auto;
+      align-content: center;
+    }
+
+    .action-icon {
+      grid-row: 1 / 3;
+      align-self: center;
+    }
+
+    .action-title {
+      grid-column: 2;
+      align-self: end;
+    }
+
+    .action-copy {
+      grid-column: 2;
+      align-self: start;
+    }
+
+    .action-arrow {
+      grid-row: 1 / 3;
+      align-self: center;
+    }
+
+    /* ── Status Strip Wrap ── */
+    .dashboard-status-strip {
+      flex-wrap: wrap;
     }
 
     .metrics-grid {
@@ -293,11 +328,16 @@
       border-top: 1px solid var(--border);
       padding: var(--space-8) 0;
       text-align: center;
+      background: linear-gradient(to top, rgba(3, 10, 24, 0.8), transparent);
+      max-inline-size: 100%;
+      overflow: hidden;
     }
 
     .footer-text {
       font-size: 0.875rem;
       color: var(--text-tertiary);
+      max-inline-size: 100%;
+      overflow-wrap: break-word;
     }
 
     @keyframes skeletonPulse {
@@ -410,9 +450,16 @@
       }
 
       .dashboard-status-strip,
-      .actions-grid,
-      .metrics-grid {
+      .actions-grid {
         grid-template-columns: 1fr;
+      }
+
+      .dashboard-status-strip {
+        flex-wrap: wrap;
+      }
+
+      .metrics-grid {
+        grid-template-columns: repeat(2, 1fr);
       }
 
       .status-item {
@@ -422,14 +469,23 @@
         border-block-start: 1px solid var(--border);
       }
 
+      .status-title {
+        white-space: normal;
+        overflow-wrap: break-word;
+        font-size: 0.9375rem;
+      }
+
       .section-header {
         align-items: start;
         flex-direction: column;
       }
 
       .action-card {
-        grid-template-columns: 40px minmax(0, 1fr);
+        grid-template-columns: 44px minmax(0, 1fr);
+        grid-template-rows: auto auto;
         min-block-size: auto;
+        min-height: 44px;
+        touch-action: manipulation;
       }
 
       .action-arrow {
@@ -443,5 +499,32 @@
 
       .trace-risk {
         max-inline-size: 180px;
+      }
+
+      .footer {
+        padding-block: var(--space-4);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .metrics-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .metric-card {
+        min-block-size: auto;
+        padding: var(--space-4);
+      }
+
+      .metric-value {
+        font-size: clamp(1.5rem, 6vw, 2rem);
+      }
+
+      .footer {
+        padding-inline: var(--space-4);
+      }
+
+      .footer-text {
+        font-size: 0.75rem;
       }
     }

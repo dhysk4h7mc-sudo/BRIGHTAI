@@ -36,8 +36,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
 <link rel="stylesheet" href="/kernel/assets/css/kernel.css">
-  <link rel="stylesheet" href="/frontend/vendor/fontawesome/css/all.min.css">
-  <link rel="stylesheet" href="/frontend/css/unified-header.css?v=20260529-nav-v1">
+<link rel="stylesheet" href="/frontend/css/unified-header.css?v=20260529-nav-v1">
   <link rel="stylesheet" href="/kernel/assets/css/pages/evidence.css">
   <meta name="robots" content="index, follow">
 <!-- AI Search / GEO / LLMO -->
@@ -117,8 +116,9 @@
   ]
 }
   </script>
-  <link rel="preload" href="/frontend/assets/fonts/TheYearofTheCamel-Medium.otf" as="font" type="font/otf" crossorigin />
+  <link rel="preload" href="/frontend/assets/fonts/TheYearofTheCamel-Medium.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css">
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
 </head>
 <body>
   <a href="#main-content" class="skip-link">تخطي إلى المحتوى الرئيسي</a>
@@ -383,6 +383,28 @@
           </aside>
         </div>
       </div>
+
+      <!-- SEO Content Section -->
+      <section class="kernel-seo-content" aria-labelledby="seo-evidence-guide">
+        <h2 id="seo-evidence-guide">ملفات الأدلة لحوكمة الذكاء الاصطناعي</h2>
+        <p>توفر صفحة الأدلة في <a href="/kernel/">BrightAI Kernel</a> مستودعاً مركزياً لجمع وتنظيم جميع الأدلة المتعلقة بقرارات الذكاء الاصطناعي داخل المؤسسة. كل ملف دليل مرتبط بعملية محددة سواء كانت محادثة عبر <a href="/kernel/chat/">واجهة المحادثة الآمنة</a> أو طلب موافقة من <a href="/kernel/approvals/">صفحة الموافقات</a> أو حدث مسجّل في <a href="/kernel/audit/">سجل التدقيق</a>. هذا الربط يضمن أن كل قرار قابل للتتبع من السبب إلى النتيجة.</p>
+
+        <h3>أنواع الأدلة المدعومة</h3>
+        <p>يدعم النظام عدة أنواع من ملفات الأدلة لتغطية مختلف جوانب حوكمة الذكاء الاصطناعي. أدلة الامتثال توثّق مدى التزام كل عملية بالسياسات والأطر التنظيمية المفعّلة مثل PDPL وNCA ECC. أدلة التدقيق تحتفظ بسجل كامل لكل حدث في سلسلة التتبع، بما في ذلك الطوابع الزمنية ومعرّفات التتبع وقيم التجزئة. أدلة الموافقات تسجّل قرارات المراجعين البشريين مع التعليقات والأسباب. وأدلة المخاطر توثّق تقييم المخاطر المرتبط بكل عملية مع تصنيف مستوى الخطورة.</p>
+
+        <h3>كيف تُنشأ ملفات الأدلة تلقائياً</h3>
+        <p>كل عملية تتم عبر BrightAI Kernel تُنشئ تلقائياً ملف دليل مرتبط بها. عندما يُرسل مستخدم طلباً عبر <a href="/kernel/chat/">المحادثة الآمنة</a>، يُنشأ ملف دليل يتضمن نص الطلب الأصلي مع البيانات الحساسة المقنّعة ونتيجة فحص الجدار الأمني ودرجة المخاطر والقرار المتخذ. عندما تُراجع <a href="/kernel/approvals/">الموافقات</a>، يُضاف قرار المراجع إلى ملف الدليل. هذا التسلسل التلقائي يضمن عدم وجود فجوات في التوثيق.</p>
+
+        <h3>البحث والتصفية</h3>
+        <p>توفر صفحة الأدلة أدوات بحث وتصفية متقدمة لتسهيل الوصول إلى أي دليل محدد. يمكنك التصفية حسب النوع أو تاريخ الإنشاء أو البحث في محتوى الأدلة. هذا مفيد بشكل خاص أثناء مراجعات الامتثال الدورية عندما تحتاج لتقديم أدلة محددة لجهة تنظيمية أو مدقق خارجي.</p>
+
+        <h3>تصدير الأدلة</h3>
+        <p>يمكن تصدير أي ملف دليل بصيغة PDF لاستخدامه كوثيقة رسمية. ملف PDF يتضمن جميع البيانات الوصفية ومعرّف التتبع والطابع الزمني والمحتوى الكامل. هذا يسهّل تقديم الأدلة للجهات التنظيمية مثل هيئة البيانات والذكاء الاصطناعي SDAIA أو المدققين الداخليين. يمكنك أيضاً ربط الأدلة مباشرة بـ <a href="/kernel/reports/">التقارير</a> لتضمينها في تقارير الجاهزية والحوكمة.</p>
+
+        <h3>الخطوات التالية</h3>
+        <p>بعد مراجعة ملفات الأدلة، ننصح بالمسارات التالية. إذا وجدت دليلاً مرتبطاً بحدث يحتاج تحقيقاً، افتحه في <a href="/kernel/audit/">سجل التدقيق</a> لمتابعة السلسلة الكاملة. وإذا لاحظت أن بعض الأدلة تشير إلى فجوات في السياسات، انتقل إلى <a href="/kernel/policies/">محرر السياسات</a> لمعالجتها. وللحصول على صورة شاملة، راجع <a href="/kernel/compliance/">صفحة الامتثال</a> أو أنشئ <a href="/kernel/reports/">تقريراً</a> يجمع الأدلة في وثيقة واحدة.</p>
+      </section>
+
     </main>
   </div>
   <a href="/kernel/offline.html" style="display:none">الوضع بدون اتصال</a>

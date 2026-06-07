@@ -77,11 +77,10 @@
 <link rel="manifest" href="/manifest.webmanifest" />
 
 <!-- ================= PERFORMANCE ================= -->
-  <link rel="preload" href="/frontend/assets/fonts/TheYearofTheCamel-Medium.otf" as="font" type="font/otf" crossorigin />
+  <link rel="preload" href="/frontend/assets/fonts/TheYearofTheCamel-Medium.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="/frontend/css/tailwind.local.min.css" />
   <link rel="stylesheet" href="/frontend/assets/css/global-fonts.css?v=20260529-official-font" />
-  <link rel="stylesheet" href="/frontend/vendor/fontawesome/css/all.min.css?v=20260529-icons" />
-  <link rel="stylesheet" href="/frontend/css/sitewide-modernization.css" />
+<link rel="stylesheet" href="/frontend/css/sitewide-modernization.css" />
   <link rel="stylesheet" href="/frontend/css/unified-header.css?v=20260529-nav-v1" />
   <link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css" />
 
@@ -314,6 +313,7 @@
   ]
 }
   </script>
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
 </head>
 <body class="bg-grid">
 
@@ -442,36 +442,36 @@
       <!-- WhatsApp -->
       <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="feature-card glass rounded-2xl p-8 text-center group cursor-pointer block">
         <div class="w-16 h-16 rounded-2xl mx-auto flex items-center justify-center mb-5" style="background:linear-gradient(135deg,#25D366,#128C7E)">
-          <i class="fa-brands fa-whatsapp text-white text-3xl"></i>
+          <iconify-icon class="text-white text-3xl icon-whatsapp" icon="mdi:whatsapp"></iconify-icon>
         </div>
         <h3 class="text-xl font-bold mb-2">واتساب</h3>
         <p class="text-white/60 text-sm mb-4">أسرع طريقة للتواصل. رد سريع خلال ساعات العمل.</p>
         <span class="wa-btn inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold text-white">
-          <i class="fa-brands fa-whatsapp"></i> 053-822-9013
+          <iconify-icon class="icon-whatsapp" icon="mdi:whatsapp"></iconify-icon> 053-822-9013
         </span>
       </a>
 
       <!-- Email -->
       <a href="mailto:yazeed1job@gmail.com" class="feature-card glass rounded-2xl p-8 text-center group cursor-pointer block">
         <div class="w-16 h-16 rounded-2xl mx-auto flex items-center justify-center mb-5 glow-btn">
-          <i class="fa-solid fa-envelope text-white text-2xl"></i>
+          <iconify-icon class="text-white text-2xl icon-envelope" icon="mdi:email"></iconify-icon>
         </div>
         <h3 class="text-xl font-bold mb-2">البريد الإلكتروني</h3>
         <p class="text-white/60 text-sm mb-4">للاستفسارات التفصيلية والمرفقات.</p>
         <span class="inline-flex items-center gap-2 text-brand-300 font-bold text-sm group-hover:text-white transition-colors">
-          <i class="fa-solid fa-arrow-left"></i> yazeed1job@gmail.com
+          <iconify-icon class="icon-arrow-left" icon="mdi:arrow-left"></iconify-icon> yazeed1job@gmail.com
         </span>
       </a>
 
       <!-- Location -->
       <div class="feature-card glass rounded-2xl p-8 text-center">
         <div class="w-16 h-16 rounded-2xl mx-auto flex items-center justify-center mb-5" style="background:linear-gradient(135deg, rgba(0,212,255,.3), rgba(124,92,255,.3)); border:1px solid rgba(0,212,255,.3)">
-          <i class="fa-solid fa-location-dot text-brand-300 text-2xl"></i>
+          <iconify-icon class="text-brand-300 text-2xl icon-location-dot" icon="mdi:map-marker"></iconify-icon>
         </div>
         <h3 class="text-xl font-bold mb-2">المقر</h3>
         <p class="text-white/60 text-sm mb-4">شركة سعودية 100%، مقرنا في الرياض.</p>
         <span class="inline-flex items-center gap-2 text-brand-300 font-bold text-sm">
-          <i class="fa-solid fa-map-pin"></i> الرياض، المملكة العربية السعودية
+          <iconify-icon class="icon-map-pin" icon="mdi:pin"></iconify-icon> الرياض، المملكة العربية السعودية
         </span>
       </div>
 
@@ -546,18 +546,18 @@
           </div>
 
           <button type="submit" class="w-full glow-btn rounded-xl py-4 font-bold text-white inline-flex items-center justify-center gap-2 text-lg">
-            <i class="fa-solid fa-paper-plane"></i> أرسل الرسالة
+            <iconify-icon class="icon-paper-plane" icon="mdi:send"></iconify-icon> أرسل الرسالة
           </button>
 
           <p id="formMsg" class="text-sm text-emerald-300 hidden text-center py-2">
-            <i class="fa-solid fa-circle-check"></i> تم استلام رسالتك بنجاح! نتواصل معك خلال 24 ساعة.
+            <iconify-icon class="icon-circle-check" icon="mdi:check-circle"></iconify-icon> تم استلام رسالتك بنجاح! نتواصل معك خلال 24 ساعة.
           </p>
         </form>
 
         <div class="mt-6 flex flex-wrap gap-4 text-xs text-white/50">
-          <span><i class="fa-solid fa-lock"></i> بياناتك مشفّرة AES-256</span>
-          <span><i class="fa-solid fa-shield"></i> ما نشاركها مع أي طرف</span>
-          <span><i class="fa-solid fa-flag"></i> فريق سعودي 100%</span>
+          <span><iconify-icon class="icon-lock" icon="mdi:lock"></iconify-icon> بياناتك مشفّرة AES-256</span>
+          <span><iconify-icon class="icon-shield" icon="mdi:shield"></iconify-icon> ما نشاركها مع أي طرف</span>
+          <span><iconify-icon class="icon-flag" icon="mdi:flag"></iconify-icon> فريق سعودي 100%</span>
         </div>
       </div>
 
@@ -568,13 +568,13 @@
         <div class="glass rounded-3xl overflow-hidden relative" style="min-height: 380px;">
           <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-8" style="background: linear-gradient(135deg, rgba(0,212,255,.06), rgba(124,92,255,.06));">
             <div class="w-20 h-20 rounded-full flex items-center justify-center mb-4" style="background:linear-gradient(135deg, rgba(0,212,255,.2), rgba(124,92,255,.2)); border:1px solid rgba(0,212,255,.3)">
-              <i class="fa-solid fa-map-location-dot text-brand-300 text-3xl"></i>
+              <iconify-icon class="text-brand-300 text-3xl icon-map-location-dot" icon="mdi:map-marker-radius"></iconify-icon>
             </div>
             <h2 class="text-xl font-bold mb-2">موقعنا في الرياض</h2>
             <p class="text-white/50 text-sm max-w-sm">مقر BrightAI في الرياض. نخدم الشركات في كل المملكة.</p>
             <div class="mt-6 flex items-center gap-3">
               <span class="chip px-3 py-1.5 rounded-full text-xs font-bold">
-                <i class="fa-solid fa-location-crosshairs ml-1"></i> 24.7136° N, 46.6753° E
+                <iconify-icon class="ml-1 icon-location-crosshairs" icon="mdi:crosshairs-gps"></iconify-icon> 24.7136° N, 46.6753° E
               </span>
             </div>
             <!-- Decorative grid lines for map effect -->
@@ -594,7 +594,7 @@
           <ul class="space-y-4">
             <li class="flex items-start gap-3">
               <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style="background:rgba(37,211,102,.15)">
-                <i class="fa-brands fa-whatsapp text-whatsapp"></i>
+                <iconify-icon class="text-whatsapp icon-whatsapp" icon="mdi:whatsapp"></iconify-icon>
               </div>
               <div>
                 <div class="font-bold text-sm">واتساب (أسرع)</div>
@@ -603,7 +603,7 @@
             </li>
             <li class="flex items-start gap-3">
               <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 glow-btn">
-                <i class="fa-solid fa-envelope text-white text-sm"></i>
+                <iconify-icon class="text-white text-sm icon-envelope" icon="mdi:email"></iconify-icon>
               </div>
               <div>
                 <div class="font-bold text-sm">البريد الإلكتروني</div>
@@ -612,7 +612,7 @@
             </li>
             <li class="flex items-start gap-3">
               <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style="background:rgba(0,212,255,.12); border:1px solid rgba(0,212,255,.25)">
-                <i class="fa-solid fa-clock text-brand-300 text-sm"></i>
+                <iconify-icon class="text-brand-300 text-sm icon-clock" icon="mdi:clock-outline"></iconify-icon>
               </div>
               <div>
                 <div class="font-bold text-sm">ساعات العمل</div>
@@ -621,7 +621,7 @@
             </li>
             <li class="flex items-start gap-3">
               <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style="background:rgba(0,212,255,.12); border:1px solid rgba(0,212,255,.25)">
-                <i class="fa-solid fa-language text-brand-300 text-sm"></i>
+                <iconify-icon class="text-brand-300 text-sm icon-language" icon="mdi:translate"></iconify-icon>
               </div>
               <div>
                 <div class="font-bold text-sm">اللغات المتاحة</div>
@@ -636,14 +636,14 @@
           <div class="flex items-center justify-between">
             <div class="flex items-center gap-4">
               <div class="w-12 h-12 rounded-xl flex items-center justify-center" style="background:linear-gradient(135deg,#25D366,#128C7E)">
-                <i class="fa-brands fa-whatsapp text-white text-2xl"></i>
+                <iconify-icon class="text-white text-2xl icon-whatsapp" icon="mdi:whatsapp"></iconify-icon>
               </div>
               <div>
                 <div class="font-bold">تبي تكلمنا الحين؟</div>
                 <div class="text-white/60 text-sm">تواصل عبر واتساب ونجيك خلال دقائق</div>
               </div>
             </div>
-            <i class="fa-solid fa-arrow-left text-white/40 group-hover:text-green-400 group-hover:-translate-x-1 transition-all"></i>
+            <iconify-icon class="text-white/40 group-hover:text-green-400 group-hover:-translate-x-1 transition-all icon-arrow-left" icon="mdi:arrow-left"></iconify-icon>
           </div>
         </a>
 
@@ -668,7 +668,7 @@
 
 <!-- ================= FLOATING WHATSAPP BUTTON ================= -->
 <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="fixed bottom-6 left-6 z-50 wa-btn w-16 h-16 rounded-full flex items-center justify-center float-wa" aria-label="تواصل معنا عبر واتساب">
-  <i class="fa-brands fa-whatsapp text-white text-3xl"></i>
+  <iconify-icon class="text-white text-3xl icon-whatsapp" icon="mdi:whatsapp"></iconify-icon>
 </a>
 
 <!-- ================= FOOTER ================= -->
@@ -677,7 +677,7 @@
     <div>
       <a href="/" class="flex items-center gap-3" aria-label="BrightAI">
         <span class="inline-flex w-10 h-10 rounded-xl items-center justify-center" style="background:linear-gradient(135deg,#00d4ff,#7c5cff)">
-          <i class="fa-solid fa-shield-halved text-white"></i>
+          <iconify-icon class="text-white icon-shield-halved" icon="mdi:shield-half-full"></iconify-icon>
         </span>
         <span class="font-extrabold text-xl">Bright<span class="gradient-text">AI</span></span>
       </a>
@@ -710,18 +710,18 @@
       <ul class="space-y-2 text-sm text-white/60">
         <li>
           <a itemprop="url" href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="hover:text-green-400 flex items-center gap-2">
-            <i class="fa-brands fa-whatsapp text-green-400 text-sm"></i>
+            <iconify-icon class="text-green-400 text-sm icon-whatsapp" icon="mdi:whatsapp"></iconify-icon>
             <span>واتساب: <span itemprop="telephone" dir="ltr">+966 53 822 9013</span></span>
           </a>
         </li>
         <li>
           <a itemprop="email" href="mailto:yazeed1job@gmail.com" class="hover:text-brand-300 flex items-center gap-2">
-            <i class="fa-solid fa-envelope text-brand-500 text-sm"></i>
+            <iconify-icon class="text-brand-500 text-sm icon-envelope" icon="mdi:email"></iconify-icon>
             <span>yazeed1job@gmail.com</span>
           </a>
         </li>
         <li itemprop="address" itemscope itemtype="https://schema.org/PostalAddress" class="flex items-start gap-2">
-          <i class="fa-solid fa-location-dot text-brand-500 mt-1"></i>
+          <iconify-icon class="text-brand-500 mt-1 icon-location-dot" icon="mdi:map-marker"></iconify-icon>
           <span>
             <span itemprop="streetAddress">طريق الملك فهد، العليا</span>،
             <span itemprop="addressLocality">الرياض</span>
@@ -730,9 +730,9 @@
           </span>
         </li>
         <li class="flex gap-3 mt-4">
-          <a href="#" aria-label="X" class="w-9 h-9 glass rounded-lg inline-flex items-center justify-center hover:text-brand-500"><i class="fa-brands fa-x-twitter"></i></a>
-          <a href="#" aria-label="LinkedIn" class="w-9 h-9 glass rounded-lg inline-flex items-center justify-center hover:text-brand-500"><i class="fa-brands fa-linkedin-in"></i></a>
-          <a href="#" aria-label="YouTube" class="w-9 h-9 glass rounded-lg inline-flex items-center justify-center hover:text-brand-500"><i class="fa-brands fa-youtube"></i></a>
+          <a href="#" aria-label="X" class="w-9 h-9 glass rounded-lg inline-flex items-center justify-center hover:text-brand-500"><iconify-icon class="icon-x-twitter" icon="mdi:twitter"></iconify-icon></a>
+          <a href="#" aria-label="LinkedIn" class="w-9 h-9 glass rounded-lg inline-flex items-center justify-center hover:text-brand-500"><iconify-icon class="icon-linkedin-in" icon="mdi:linkedin"></iconify-icon></a>
+          <a href="#" aria-label="YouTube" class="w-9 h-9 glass rounded-lg inline-flex items-center justify-center hover:text-brand-500"><iconify-icon class="icon-youtube" icon="mdi:youtube"></iconify-icon></a>
         </li>
       </ul>
     </div>

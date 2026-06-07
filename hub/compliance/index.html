@@ -35,7 +35,6 @@
 
 <link rel="stylesheet" href="/frontend/css/tailwind.local.min.css" />
 <link rel="stylesheet" href="/frontend/assets/css/global-fonts.css?v=20260529-official-font" />
-<link rel="stylesheet" href="/frontend/vendor/fontawesome/css/all.min.css?v=20260529-icons" />
 <link rel="stylesheet" href="/frontend/css/unified-header.css?v=20260529-nav-v1">
 <link rel="icon" href="/frontend/assets/images/logo.png" type="image/png">
 
@@ -112,6 +111,7 @@
   ]
 }
 </script>
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
 </head>
 <body class="bg-grid">
 
@@ -228,13 +228,13 @@
       مرجع موحّد لكل الأنظمة السعودية اللي تخص استخدام AI في الشركات. PDPL، NCA، SDAIA، SFDA، ساما، والزكاة—كل واحد بشرح مبسّط، عقوباته، ومتى ينطبق على شركتك.
     </p>
     <div class="mt-5">
-      <span class="freshness"><i class="fa-solid fa-clock"></i> آخر تحديث: 31 مايو 2026</span>
+      <span class="freshness"><iconify-icon class="icon-clock" icon="mdi:clock-outline"></iconify-icon> آخر تحديث: 31 مايو 2026</span>
     </div>
   </header>
 
   <section class="answer-block">
     <h2 class="text-xl font-black mb-3 flex items-center gap-2">
-      <i class="fa-solid fa-bolt text-yellow-300"></i>
+      <iconify-icon class="text-yellow-300 icon-bolt" icon="mdi:lightning-bolt"></iconify-icon>
       الإجابة المختصرة
     </h2>
     <p class="text-white/85 leading-loose">
@@ -312,7 +312,7 @@
 
     <article class="reg-card">
       <div class="flex items-start gap-3 mb-3">
-        <i class="fa-solid fa-shield-halved text-2xl text-cyan-300"></i>
+        <iconify-icon class="text-2xl text-cyan-300 icon-shield-halved" icon="mdi:shield-half-full"></iconify-icon>
         <div>
           <h3 class="text-xl font-black text-white">PDPL · نظام حماية البيانات الشخصية</h3>
           <span class="chip mt-1">صدر ٢٠٢٣ · إلزامي ٢٠٢٤</span>
@@ -337,13 +337,13 @@
 
       <a href="/docs/pdpl-ai-governance/" class="anchor-link inline-flex items-center gap-2">
         <span>الدليل الكامل لـ PDPL والذكاء الاصطناعي</span>
-        <i class="fa-solid fa-arrow-left text-xs"></i>
+        <iconify-icon class="text-xs icon-arrow-left" icon="mdi:arrow-left"></iconify-icon>
       </a>
     </article>
 
     <article class="reg-card">
       <div class="flex items-start gap-3 mb-3">
-        <i class="fa-solid fa-lock text-2xl text-emerald-300"></i>
+        <iconify-icon class="text-2xl text-emerald-300 icon-lock" icon="mdi:lock"></iconify-icon>
         <div>
           <h3 class="text-xl font-black text-white">NCA ECC 2-2024 · ضوابط الأمن السيبراني</h3>
           <span class="chip mt-1">تحديث ٢٠٢٤</span>
@@ -363,13 +363,13 @@
 
       <a href="/docs/nca-ecc-ai-controls-mapping/" class="anchor-link inline-flex items-center gap-2">
         <span>ربط ضوابط NCA بـ AI Governance</span>
-        <i class="fa-solid fa-arrow-left text-xs"></i>
+        <iconify-icon class="text-xs icon-arrow-left" icon="mdi:arrow-left"></iconify-icon>
       </a>
     </article>
 
     <article class="reg-card">
       <div class="flex items-start gap-3 mb-3">
-        <i class="fa-solid fa-brain text-2xl text-purple-300"></i>
+        <iconify-icon class="text-2xl text-purple-300 icon-brain" icon="mdi:brain"></iconify-icon>
         <div>
           <h3 class="text-xl font-black text-white">SDAIA · إرشادات الذكاء الاصطناعي المسؤول</h3>
           <span class="chip mt-1">محدّث دوريّاً</span>
@@ -396,17 +396,17 @@
 
     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
       <a href="/solutions/ai-governance-platform/" class="reg-card block">
-        <i class="fa-solid fa-shield text-2xl text-cyan-300 mb-2"></i>
+        <iconify-icon class="text-2xl text-cyan-300 mb-2 icon-shield" icon="mdi:shield"></iconify-icon>
         <h3 class="font-bold text-white mb-1">PDPL Pack</h3>
         <p class="text-sm text-white/65">حماية البيانات، PII Redaction، سجل موافقات، إشعارات.</p>
       </a>
       <a href="/solutions/ai-audit-trail/" class="reg-card block">
-        <i class="fa-solid fa-lock text-2xl text-emerald-300 mb-2"></i>
+        <iconify-icon class="text-2xl text-emerald-300 mb-2 icon-lock" icon="mdi:lock"></iconify-icon>
         <h3 class="font-bold text-white mb-1">NCA ECC Pack</h3>
         <p class="text-sm text-white/65">ضوابط أمنية، تصنيف بيانات، سجل وصول، تقارير.</p>
       </a>
       <a href="/solutions/ai-evidence-file/" class="reg-card block">
-        <i class="fa-solid fa-kit-medical text-2xl text-pink-300 mb-2"></i>
+        <iconify-icon class="text-2xl text-pink-300 mb-2 icon-kit-medical" icon="mdi:medical-bag"></iconify-icon>
         <h3 class="font-bold text-white mb-1">SFDA / ISO 13485</h3>
         <p class="text-sm text-white/65">للمصانع الطبية: CAPA، الجودة، الشكاوى، المرفوضات.</p>
       </a>
@@ -419,10 +419,10 @@
     <p class="text-white/75 mb-6 max-w-2xl mx-auto">احجز جلسة جاهزية امتثال مع فريقنا، نراجع وضع شركتك ونحدد لك الأنظمة المنطبقة والفجوات.</p>
     <div class="flex gap-3 justify-center flex-wrap">
       <a href="/contact/" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white" style="background: linear-gradient(135deg,#7c5cff,#00d4ff);">
-        <i class="fa-solid fa-clipboard-check"></i> احجز جلسة جاهزية الامتثال
+        <iconify-icon class="icon-clipboard-check" icon="mdi:clipboard-check"></iconify-icon> احجز جلسة جاهزية الامتثال
       </a>
       <a href="https://wa.me/966538229013" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white" style="background: linear-gradient(135deg,#25D366,#128C7E);">
-        <i class="fa-brands fa-whatsapp"></i> واتساب فريق الامتثال
+        <iconify-icon class="icon-whatsapp" icon="mdi:whatsapp"></iconify-icon> واتساب فريق الامتثال
       </a>
     </div>
   </section>

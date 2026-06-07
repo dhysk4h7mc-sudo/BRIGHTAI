@@ -11,49 +11,49 @@ const ROOT = path.resolve(__dirname, '..');
 // Mapping between solutions and docs
 const solutionDocsMap = {
   'ai-governance-platform': [
-    { path: '/docs/ai-governance-platform/', title: 'دليل منصة حوكمة الذكاء الاصطناعي', icon: 'book' },
-    { path: '/docs/ai-governance-saudi-arabia/', title: 'حوكمة الذكاء الاصطناعي في السعودية', icon: 'flag' },
-    { path: '/docs/ai-risk-management/', title: 'إدارة مخاطر الذكاء الاصطناعي', icon: 'triangle-exclamation' }
+    { path: '/docs/ai-governance-platform/', title: 'دليل منصة حوكمة الذكاء الاصطناعي', icon: 'mdi:book' },
+    { path: '/docs/ai-governance-saudi-arabia/', title: 'حوكمة الذكاء الاصطناعي في السعودية', icon: 'mdi:flag' },
+    { path: '/docs/ai-risk-management/', title: 'إدارة مخاطر الذكاء الاصطناعي', icon: 'mdi:alert-triangle' }
   ],
   'ai-firewall': [
-    { path: '/docs/ai-firewall/', title: 'دليل جدار حماية الذكاء الاصطناعي', icon: 'shield-halved' },
-    { path: '/docs/pdpl-ai-governance/', title: 'PDPL والذكاء الاصطناعي', icon: 'lock' },
-    { path: '/docs/ai-governance-saudi-arabia/', title: 'حوكمة الذكاء الاصطناعي في السعودية', icon: 'flag' }
+    { path: '/docs/ai-firewall/', title: 'دليل جدار حماية الذكاء الاصطناعي', icon: 'mdi:shield-half-full' },
+    { path: '/docs/pdpl-ai-governance/', title: 'PDPL والذكاء الاصطناعي', icon: 'mdi:lock' },
+    { path: '/docs/ai-governance-saudi-arabia/', title: 'حوكمة الذكاء الاصطناعي في السعودية', icon: 'mdi:flag' }
   ],
   'ai-audit-trail': [
-    { path: '/docs/ai-audit-trail/', title: 'دليل سجل تدقيق الذكاء الاصطناعي', icon: 'clipboard-list' },
-    { path: '/docs/ai-audit-readiness/', title: 'جاهزية التدقيق للذكاء الاصطناعي', icon: 'clipboard-check' },
-    { path: '/docs/nca-ecc-ai-governance/', title: 'ضوابط NCA ECC للذكاء الاصطناعي', icon: 'shield' }
+    { path: '/docs/ai-audit-trail/', title: 'دليل سجل تدقيق الذكاء الاصطناعي', icon: 'mdi:clipboard-list' },
+    { path: '/docs/ai-audit-readiness/', title: 'جاهزية التدقيق للذكاء الاصطناعي', icon: 'mdi:clipboard-check' },
+    { path: '/docs/nca-ecc-ai-governance/', title: 'ضوابط NCA ECC للذكاء الاصطناعي', icon: 'mdi:shield' }
   ],
   'human-approval-layer': [
-    { path: '/docs/human-approval-layer/', title: 'دليل طبقة الموافقة البشرية', icon: 'user-check' },
-    { path: '/docs/ai-governance-platform/', title: 'دليل منصة حوكمة الذكاء الاصطناعي', icon: 'book' },
-    { path: '/docs/ai-risk-management/', title: 'إدارة مخاطر الذكاء الاصطناعي', icon: 'triangle-exclamation' }
+    { path: '/docs/human-approval-layer/', title: 'دليل طبقة الموافقة البشرية', icon: 'mdi:account-check' },
+    { path: '/docs/ai-governance-platform/', title: 'دليل منصة حوكمة الذكاء الاصطناعي', icon: 'mdi:book' },
+    { path: '/docs/ai-risk-management/', title: 'إدارة مخاطر الذكاء الاصطناعي', icon: 'mdi:alert-triangle' }
   ],
   'ai-evidence-file': [
-    { path: '/docs/ai-evidence-file/', title: 'دليل ملف أدلة الذكاء الاصطناعي', icon: 'folder-open' },
-    { path: '/docs/ai-audit-readiness/', title: 'جاهزية التدقيق للذكاء الاصطناعي', icon: 'clipboard-check' },
-    { path: '/docs/ai-audit-trail/', title: 'دليل سجل تدقيق الذكاء الاصطناعي', icon: 'clipboard-list' }
+    { path: '/docs/ai-evidence-file/', title: 'دليل ملف أدلة الذكاء الاصطناعي', icon: 'mdi:folder-open' },
+    { path: '/docs/ai-audit-readiness/', title: 'جاهزية التدقيق للذكاء الاصطناعي', icon: 'mdi:clipboard-check' },
+    { path: '/docs/ai-audit-trail/', title: 'دليل سجل تدقيق الذكاء الاصطناعي', icon: 'mdi:clipboard-list' }
   ],
   'continuous-ai-governance': [
-    { path: '/docs/ai-governance-platform/', title: 'دليل منصة حوكمة الذكاء الاصطناعي', icon: 'book' },
-    { path: '/docs/ai-governance-saudi-arabia/', title: 'حوكمة الذكاء الاصطناعي في السعودية', icon: 'flag' },
-    { path: '/docs/ai-risk-management/', title: 'إدارة مخاطر الذكاء الاصطناعي', icon: 'triangle-exclamation' }
+    { path: '/docs/ai-governance-platform/', title: 'دليل منصة حوكمة الذكاء الاصطناعي', icon: 'mdi:book' },
+    { path: '/docs/ai-governance-saudi-arabia/', title: 'حوكمة الذكاء الاصطناعي في السعودية', icon: 'mdi:flag' },
+    { path: '/docs/ai-risk-management/', title: 'إدارة مخاطر الذكاء الاصطناعي', icon: 'mdi:alert-triangle' }
   ],
   'ai-risk-classification': [
-    { path: '/docs/ai-risk-management/', title: 'إدارة مخاطر الذكاء الاصطناعي', icon: 'triangle-exclamation' },
-    { path: '/docs/ai-governance-platform/', title: 'دليل منصة حوكمة الذكاء الاصطناعي', icon: 'book' },
-    { path: '/docs/ai-audit-readiness/', title: 'جاهزية التدقيق للذكاء الاصطناعي', icon: 'clipboard-check' }
+    { path: '/docs/ai-risk-management/', title: 'إدارة مخاطر الذكاء الاصطناعي', icon: 'mdi:alert-triangle' },
+    { path: '/docs/ai-governance-platform/', title: 'دليل منصة حوكمة الذكاء الاصطناعي', icon: 'mdi:book' },
+    { path: '/docs/ai-audit-readiness/', title: 'جاهزية التدقيق للذكاء الاصطناعي', icon: 'mdi:clipboard-check' }
   ],
   'ai-use-case-discovery': [
-    { path: '/docs/ai-governance-platform/', title: 'دليل منصة حوكمة الذكاء الاصطناعي', icon: 'book' },
-    { path: '/docs/ai-governance-saudi-arabia/', title: 'حوكمة الذكاء الاصطناعي في السعودية', icon: 'flag' },
-    { path: '/docs/ai-risk-management/', title: 'إدارة مخاطر الذكاء الاصطناعي', icon: 'triangle-exclamation' }
+    { path: '/docs/ai-governance-platform/', title: 'دليل منصة حوكمة الذكاء الاصطناعي', icon: 'mdi:book' },
+    { path: '/docs/ai-governance-saudi-arabia/', title: 'حوكمة الذكاء الاصطناعي في السعودية', icon: 'mdi:flag' },
+    { path: '/docs/ai-risk-management/', title: 'إدارة مخاطر الذكاء الاصطناعي', icon: 'mdi:alert-triangle' }
   ],
   'policy-to-control-mapping': [
-    { path: '/docs/ai-governance-platform/', title: 'دليل منصة حوكمة الذكاء الاصطناعي', icon: 'book' },
-    { path: '/docs/nca-ecc-ai-governance/', title: 'ضوابط NCA ECC للذكاء الاصطناعي', icon: 'shield' },
-    { path: '/docs/pdpl-ai-governance/', title: 'PDPL والذكاء الاصطناعي', icon: 'lock' }
+    { path: '/docs/ai-governance-platform/', title: 'دليل منصة حوكمة الذكاء الاصطناعي', icon: 'mdi:book' },
+    { path: '/docs/nca-ecc-ai-governance/', title: 'ضوابط NCA ECC للذكاء الاصطناعي', icon: 'mdi:shield' },
+    { path: '/docs/pdpl-ai-governance/', title: 'PDPL والذكاء الاصطناعي', icon: 'mdi:lock' }
   ]
 };
 
@@ -107,14 +107,14 @@ function generateRelatedDocsSection(docs) {
       <article class="glass rounded-2xl p-6 hover:border-brand-500/40 transition-all">
         <div class="flex items-center gap-3 mb-3">
           <span class="w-10 h-10 rounded-xl bg-brand-500/10 border border-brand-500/30 flex items-center justify-center shrink-0">
-            <i class="fa-solid fa-${doc.icon} text-brand-300"></i>
+            <iconify-icon icon="${doc.icon}" class="text-brand-300"></iconify-icon>
           </span>
           <h3 class="text-lg font-bold">${doc.title}</h3>
         </div>
         <p class="text-white/60 text-sm leading-relaxed mb-4">دليل تفصيلي يساعدك على فهم وتطبيق هذا الحل.</p>
         <a href="${doc.path}" class="text-brand-300 hover:text-white text-sm inline-flex items-center gap-2">
           <span>اقرأ الدليل</span>
-          <i class="fa-solid fa-arrow-left text-xs"></i>
+          <iconify-icon class="text-xs icon-arrow-left" icon="mdi:arrow-left"></iconify-icon>
         </a>
       </article>`).join('\n');
 

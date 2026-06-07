@@ -134,11 +134,10 @@
 
 <link rel="icon" href="/frontend/assets/images/logo.png" type="image/png" />
 <link rel="apple-touch-icon" href="/frontend/assets/images/logo.png" />
-<link rel="preload" href="/frontend/assets/fonts/TheYearofTheCamel-Medium.otf" as="font" type="font/otf" crossorigin />
+<link rel="preload" href="/frontend/assets/fonts/TheYearofTheCamel-Medium.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="preload" as="image" href="/frontend/assets/images/logo.png" fetchpriority="high" />
 <link rel="stylesheet" href="/frontend/css/tailwind.local.min.css" />
 <link rel="stylesheet" href="/frontend/assets/css/global-fonts.css?v=20260529-official-font">
-<link rel="stylesheet" href="/frontend/vendor/fontawesome/css/all.min.css?v=20260529-icons">
 <link rel="stylesheet" href="/frontend/css/sitewide-modernization.css" />
 <link rel="stylesheet" href="/frontend/css/unified-header.css?v=20260529-nav-v1">
 <link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css" />
@@ -298,6 +297,7 @@
   ]
 }
   </script>
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
 </head>
 <body class="bg-grid">
 
@@ -403,7 +403,7 @@
 <nav aria-label="مسار التنقل" class="max-w-7xl mx-auto px-5 lg:px-8 pt-6">
   <ol class="flex flex-wrap items-center gap-2 text-sm text-white/50">
     <li><a href="/" class="hover:text-white transition-colors">الرئيسية</a></li>
-    <li><i class="fa-solid fa-chevron-left text-xs opacity-40"></i></li>
+    <li><iconify-icon class="text-xs opacity-40 icon-chevron-left" icon="mdi:chevron-left"></iconify-icon></li>
     <li class="text-white/80 font-medium">مركز الثقة والأمان</li>
   </ol>
 </nav>
@@ -431,20 +431,20 @@
       <div class="flex flex-col sm:flex-row gap-4 justify-center">
         <a href="/contact/"
           class="glow-btn inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl text-white font-bold text-lg transition-all">
-          <i class="fa-solid fa-shield-halved"></i>
+          <iconify-icon class="icon-shield-halved" icon="mdi:shield-half-full"></iconify-icon>
           اطلب ملف الأمان المؤسسي
         </a>
         <a href="/contact/"
           class="glass inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl text-white font-bold text-lg hover:border-brand-500/40 transition-all">
-          <i class="fa-solid fa-envelope"></i>
+          <iconify-icon class="icon-envelope" icon="mdi:email"></iconify-icon>
           تواصل مع BrightAI
         </a>
       </div>
 
       <div class="mt-10 flex flex-wrap justify-center gap-3">
-        <span class="chip px-3 py-1.5 rounded-full text-xs font-bold"><i class="fa-solid fa-shield-halved ml-1"></i> حماية البيانات الشخصية</span>
-        <span class="chip px-3 py-1.5 rounded-full text-xs font-bold"><i class="fa-solid fa-lock ml-1"></i> استضافة سيادية داخلية</span>
-        <span class="chip px-3 py-1.5 rounded-full text-xs font-bold"><i class="fa-solid fa-circle-check ml-1"></i> إدارة مخاطر فورية</span>
+        <span class="chip px-3 py-1.5 rounded-full text-xs font-bold"><iconify-icon class="ml-1 icon-shield-halved" icon="mdi:shield-half-full"></iconify-icon> حماية البيانات الشخصية</span>
+        <span class="chip px-3 py-1.5 rounded-full text-xs font-bold"><iconify-icon class="ml-1 icon-lock" icon="mdi:lock"></iconify-icon> استضافة سيادية داخلية</span>
+        <span class="chip px-3 py-1.5 rounded-full text-xs font-bold"><iconify-icon class="ml-1 icon-circle-check" icon="mdi:check-circle"></iconify-icon> إدارة مخاطر فورية</span>
       </div>
     </div>
   </div>
@@ -462,19 +462,19 @@
         </p>
         <ul class="space-y-4">
           <li class="flex items-start gap-3">
-            <span class="w-6 h-6 rounded-full bg-brand-500/20 text-brand-300 flex items-center justify-center mt-1 shrink-0"><i class="fa-solid fa-check text-xs"></i></span>
+            <span class="w-6 h-6 rounded-full bg-brand-500/20 text-brand-300 flex items-center justify-center mt-1 shrink-0"><iconify-icon class="text-xs icon-check" icon="mdi:check"></iconify-icon></span>
             <div>
               <strong class="text-white">تجهيل البيانات الفوري (Anonymization):</strong> تصفية المعرفات الشخصية (PII) وسجلات الموظفين في الوقت الحقيقي.
             </div>
           </li>
           <li class="flex items-start gap-3">
-            <span class="w-6 h-6 rounded-full bg-brand-500/20 text-brand-300 flex items-center justify-center mt-1 shrink-0"><i class="fa-solid fa-check text-xs"></i></span>
+            <span class="w-6 h-6 rounded-full bg-brand-500/20 text-brand-300 flex items-center justify-center mt-1 shrink-0"><iconify-icon class="text-xs icon-check" icon="mdi:check"></iconify-icon></span>
             <div>
               <strong class="text-white">تشفير متطور (Encryption):</strong> تشفير البيانات في حالة السكون (At-Rest) باستخدام AES-256 وفي حالة الانتقال (In-Transit) عبر TLS 1.3.
             </div>
           </li>
           <li class="flex items-start gap-3">
-            <span class="w-6 h-6 rounded-full bg-brand-500/20 text-brand-300 flex items-center justify-center mt-1 shrink-0"><i class="fa-solid fa-check text-xs"></i></span>
+            <span class="w-6 h-6 rounded-full bg-brand-500/20 text-brand-300 flex items-center justify-center mt-1 shrink-0"><iconify-icon class="text-xs icon-check" icon="mdi:check"></iconify-icon></span>
             <div>
               <strong class="text-white">عزل تام للبيانات:</strong> هندسة معمارية متعددة المستأجرين (Multi-tenant) تضمن عزل بيانات كل مؤسسة في مستودع منفصل ومحمي.
             </div>
@@ -484,24 +484,24 @@
       <div class="lg:col-span-6">
         <div class="glass rounded-3xl p-8 border border-white/10 relative overflow-hidden">
           <div class="absolute -top-12 -left-12 w-48 h-48 bg-brand-500/10 rounded-full blur-3xl"></div>
-          <h3 class="font-bold text-xl mb-6 text-brand-300"><i class="fa-solid fa-shield-halved ml-2"></i> طبقات درع أمان البيانات</h3>
+          <h3 class="font-bold text-xl mb-6 text-brand-300"><iconify-icon class="ml-2 icon-shield-halved" icon="mdi:shield-half-full"></iconify-icon> طبقات درع أمان البيانات</h3>
           <div class="space-y-4 relative z-10">
             <div class="glass p-4 rounded-xl border border-white/5 flex gap-4 items-center">
-              <div class="w-10 h-10 rounded-lg bg-red-500/10 border border-red-500/20 flex items-center justify-center text-red-400 shrink-0"><i class="fa-solid fa-user-shield"></i></div>
+              <div class="w-10 h-10 rounded-lg bg-red-500/10 border border-red-500/20 flex items-center justify-center text-red-400 shrink-0"><iconify-icon class="icon-user-shield" icon="mdi:account-shield"></iconify-icon></div>
               <div>
                 <h4 class="font-bold text-sm text-white">المدخلات (Prompts)</h4>
                 <p class="text-xs text-white/50">تصفية العبارات، كشف Shadow AI، حجب الهجمات اللفظية والبرمجية.</p>
               </div>
             </div>
             <div class="glass p-4 rounded-xl border border-white/5 flex gap-4 items-center">
-              <div class="w-10 h-10 rounded-lg bg-yellow-500/10 border border-yellow-500/20 flex items-center justify-center text-yellow-400 shrink-0"><i class="fa-solid fa-filter"></i></div>
+              <div class="w-10 h-10 rounded-lg bg-yellow-500/10 border border-yellow-500/20 flex items-center justify-center text-yellow-400 shrink-0"><iconify-icon class="icon-filter" icon="mdi:filter"></iconify-icon></div>
               <div>
                 <h4 class="font-bold text-sm text-white">جدار الحماية الفوري (AI Firewall)</h4>
                 <p class="text-xs text-white/50">تصنيف فوري للمخاطر، تصفية المعرفات الفردية، تطبيق سياسات الامتثال.</p>
               </div>
             </div>
             <div class="glass p-4 rounded-xl border border-white/5 flex gap-4 items-center">
-              <div class="w-10 h-10 rounded-lg bg-green-500/10 border border-green-500/20 flex items-center justify-center text-green-400 shrink-0"><i class="fa-solid fa-lock"></i></div>
+              <div class="w-10 h-10 rounded-lg bg-green-500/10 border border-green-500/20 flex items-center justify-center text-green-400 shrink-0"><iconify-icon class="icon-lock" icon="mdi:lock"></iconify-icon></div>
               <div>
                 <h4 class="font-bold text-sm text-white">المخرجات (Responses)</h4>
                 <p class="text-xs text-white/50">منع الهلوسة وتسريب معلومات الكود المصدري، والتأكد من مطابقة السياسات.</p>
@@ -530,56 +530,56 @@
       <div class="feature-card glass rounded-2xl p-6 flex flex-col justify-between">
         <div>
           <div class="w-12 h-12 rounded-xl bg-brand-500/10 border border-brand-500/20 flex items-center justify-center text-brand-300 mb-6">
-            <i class="fa-solid fa-shield-halved text-xl"></i>
+            <iconify-icon class="text-xl icon-shield-halved" icon="mdi:shield-half-full"></iconify-icon>
           </div>
           <h3 class="font-bold text-lg mb-3">AI Firewall</h3>
           <p class="text-white/60 text-sm leading-relaxed mb-6">
             جدار حماية ذكي يراقب تدفق البيانات من وإلى النماذج اللغوية بشكل لحظي، مانعاً تسرب أي معلومات سرية أو معرفات وطنية.
           </p>
         </div>
-        <a href="/solutions/ai-firewall/" class="text-brand-300 hover:text-white text-sm font-bold flex items-center gap-1">استكشف جدار حماية الذكاء الاصطناعي لمنع التسريب <i class="fa-solid fa-arrow-left text-xs"></i></a>
+        <a href="/solutions/ai-firewall/" class="text-brand-300 hover:text-white text-sm font-bold flex items-center gap-1">استكشف جدار حماية الذكاء الاصطناعي لمنع التسريب <iconify-icon class="text-xs icon-arrow-left" icon="mdi:arrow-left"></iconify-icon></a>
       </div>
 
       <!-- Feature 2 -->
       <div class="feature-card glass rounded-2xl p-6 flex flex-col justify-between">
         <div>
           <div class="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-300 mb-6">
-            <i class="fa-solid fa-file-signature text-xl"></i>
+            <iconify-icon class="text-xl icon-file-signature" icon="mdi:file-sign"></iconify-icon>
           </div>
           <h3 class="font-bold text-lg mb-3">Audit Trail</h3>
           <p class="text-white/60 text-sm leading-relaxed mb-6">
             سجل تدقيق تشغيلي متكامل غير قابل للتلاعب (Immutable) يسجل كل قرار وإدخال ومخرجات للمطابقة والامتثال مع متطلبات التفتيش.
           </p>
         </div>
-        <a href="/solutions/ai-audit-trail/" class="text-brand-300 hover:text-white text-sm font-bold flex items-center gap-1">استعرض سجل تدقيق الذكاء الاصطناعي بالكامل <i class="fa-solid fa-arrow-left text-xs"></i></a>
+        <a href="/solutions/ai-audit-trail/" class="text-brand-300 hover:text-white text-sm font-bold flex items-center gap-1">استعرض سجل تدقيق الذكاء الاصطناعي بالكامل <iconify-icon class="text-xs icon-arrow-left" icon="mdi:arrow-left"></iconify-icon></a>
       </div>
 
       <!-- Feature 3 -->
       <div class="feature-card glass rounded-2xl p-6 flex flex-col justify-between">
         <div>
           <div class="w-12 h-12 rounded-xl bg-yellow-500/10 border border-yellow-500/20 flex items-center justify-center text-yellow-300 mb-6">
-            <i class="fa-solid fa-user-check text-xl"></i>
+            <iconify-icon class="text-xl icon-user-check" icon="mdi:account-check"></iconify-icon>
           </div>
           <h3 class="font-bold text-lg mb-3">Human Approval</h3>
           <p class="text-white/60 text-sm leading-relaxed mb-6">
             طبقة مراجعة بشرية للقرارات والمدخلات ذات المخاطر العالية، تضمن أن الإنسان يظل مسيطراً ومحاسباً على المخرجات.
           </p>
         </div>
-        <a href="/solutions/human-approval-layer/" class="text-brand-300 hover:text-white text-sm font-bold flex items-center gap-1">تعرف على طبقة الموافقات البشرية الحساسة <i class="fa-solid fa-arrow-left text-xs"></i></a>
+        <a href="/solutions/human-approval-layer/" class="text-brand-300 hover:text-white text-sm font-bold flex items-center gap-1">تعرف على طبقة الموافقات البشرية الحساسة <iconify-icon class="text-xs icon-arrow-left" icon="mdi:arrow-left"></iconify-icon></a>
       </div>
 
       <!-- Feature 4 -->
       <div class="feature-card glass rounded-2xl p-6 flex flex-col justify-between">
         <div>
           <div class="w-12 h-12 rounded-xl bg-green-500/10 border border-green-500/20 flex items-center justify-center text-green-300 mb-6">
-            <i class="fa-solid fa-file-invoice text-xl"></i>
+            <iconify-icon class="text-xl icon-file-invoice" icon="mdi:file-document-outline"></iconify-icon>
           </div>
           <h3 class="font-bold text-lg mb-3">Evidence File</h3>
           <p class="text-white/60 text-sm leading-relaxed mb-6">
             ملف الأدلة التنظيمية الجاهز للتصدير لدعم جهود الامتثال، وتوضيح تطبيق سياسات الحوكمة الفعالة أمام المفتشين والمنظمين.
           </p>
         </div>
-        <a href="/solutions/ai-evidence-file/" class="text-brand-300 hover:text-white text-sm font-bold flex items-center gap-1">استكشف نظام حفظ أدلة التدقيق للأعمال <i class="fa-solid fa-arrow-left text-xs"></i></a>
+        <a href="/solutions/ai-evidence-file/" class="text-brand-300 hover:text-white text-sm font-bold flex items-center gap-1">استكشف نظام حفظ أدلة التدقيق للأعمال <iconify-icon class="text-xs icon-arrow-left" icon="mdi:arrow-left"></iconify-icon></a>
       </div>
     </div>
   </div>
@@ -604,9 +604,9 @@
           استضافة كاملة على خوادم سحابية سيادية وموطنة بالكامل داخل أراضي المملكة العربية السعودية، مع عزل كامل لكل مستخدم.
         </p>
         <ul class="text-xs text-white/50 space-y-2">
-          <li><i class="fa-solid fa-check text-brand-300 ml-1"></i> استضافة محلية 100%</li>
-          <li><i class="fa-solid fa-check text-brand-300 ml-1"></i> تحديثات تلقائية وتوافرية عالية</li>
-          <li><i class="fa-solid fa-check text-brand-300 ml-1"></i> إعداد وتشغيل فوري في دقائق</li>
+          <li><iconify-icon class="text-brand-300 ml-1 icon-check" icon="mdi:check"></iconify-icon> استضافة محلية 100%</li>
+          <li><iconify-icon class="text-brand-300 ml-1 icon-check" icon="mdi:check"></iconify-icon> تحديثات تلقائية وتوافرية عالية</li>
+          <li><iconify-icon class="text-brand-300 ml-1 icon-check" icon="mdi:check"></iconify-icon> إعداد وتشغيل فوري في دقائق</li>
         </ul>
       </div>
 
@@ -617,9 +617,9 @@
           إبقاء البيانات الحساسة وجدار الحماية داخل بنيتك التحتية الخاصة، مع الاستفادة من التحديثات والتحليلات عبر السحابة الآمنة.
         </p>
         <ul class="text-xs text-white/50 space-y-2">
-          <li><i class="fa-solid fa-check text-brand-300 ml-1"></i> بقاء البيانات الحساسة داخلياً</li>
-          <li><i class="fa-solid fa-check text-brand-300 ml-1"></i> إدارة سهلة ومراقبة مركزية</li>
-          <li><i class="fa-solid fa-check text-brand-300 ml-1"></i> توافق تام مع الأنظمة السيادية</li>
+          <li><iconify-icon class="text-brand-300 ml-1 icon-check" icon="mdi:check"></iconify-icon> بقاء البيانات الحساسة داخلياً</li>
+          <li><iconify-icon class="text-brand-300 ml-1 icon-check" icon="mdi:check"></iconify-icon> إدارة سهلة ومراقبة مركزية</li>
+          <li><iconify-icon class="text-brand-300 ml-1 icon-check" icon="mdi:check"></iconify-icon> توافق تام مع الأنظمة السيادية</li>
         </ul>
       </div>
 
@@ -630,9 +630,9 @@
           تثبيت النظام بالكامل داخل مراكز بيانات مؤسستك المعزولة عن الإنترنت، الخيار الأمثل للجهات العسكرية والأمنية الحساسة.
         </p>
         <ul class="text-xs text-white/50 space-y-2">
-          <li><i class="fa-solid fa-check text-brand-300 ml-1"></i> لا يوجد أي تواصل مع الإنترنت</li>
-          <li><i class="fa-solid fa-check text-brand-300 ml-1"></i> سيطرة فنية وسيادية مطلقة</li>
-          <li><i class="fa-solid fa-check text-brand-300 ml-1"></i> ملائم للمستويات الأكثر حساسية</li>
+          <li><iconify-icon class="text-brand-300 ml-1 icon-check" icon="mdi:check"></iconify-icon> لا يوجد أي تواصل مع الإنترنت</li>
+          <li><iconify-icon class="text-brand-300 ml-1 icon-check" icon="mdi:check"></iconify-icon> سيطرة فنية وسيادية مطلقة</li>
+          <li><iconify-icon class="text-brand-300 ml-1 icon-check" icon="mdi:check"></iconify-icon> ملائم للمستويات الأكثر حساسية</li>
         </ul>
       </div>
     </div>
@@ -727,7 +727,7 @@
       <div class="lg:col-span-6 order-last lg:order-first">
         <div class="glass rounded-3xl p-8 border border-white/10 relative overflow-hidden">
           <div class="absolute -bottom-12 -right-12 w-48 h-48 bg-purple-500/10 rounded-full blur-3xl"></div>
-          <h3 class="font-bold text-xl mb-6 text-purple-300"><i class="fa-solid fa-code-branch ml-2"></i> معايير أمان التطبيقات والشبكة</h3>
+          <h3 class="font-bold text-xl mb-6 text-purple-300"><iconify-icon class="ml-2 icon-code-branch" icon="mdi:source-branch"></iconify-icon> معايير أمان التطبيقات والشبكة</h3>
           <div class="space-y-3 font-mono text-xs text-white/70 relative z-10">
             <div class="bg-black/30 p-3 rounded-lg border border-white/5">
               <span class="text-brand-300 font-bold">Content-Security-Policy:</span> default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com;
@@ -755,16 +755,16 @@
         </p>
         <div class="grid grid-cols-2 gap-4 text-sm">
           <div class="flex items-center gap-2 text-white/80">
-            <i class="fa-solid fa-circle-check text-brand-300"></i> منع هجمات XSS و Clickjacking
+            <iconify-icon class="text-brand-300 icon-circle-check" icon="mdi:check-circle"></iconify-icon> منع هجمات XSS و Clickjacking
           </div>
           <div class="flex items-center gap-2 text-white/80">
-            <i class="fa-solid fa-circle-check text-brand-300"></i> بروتوكول SSL/TLS صارم ومحدث
+            <iconify-icon class="text-brand-300 icon-circle-check" icon="mdi:check-circle"></iconify-icon> بروتوكول SSL/TLS صارم ومحدث
           </div>
           <div class="flex items-center gap-2 text-white/80">
-            <i class="fa-solid fa-circle-check text-brand-300"></i> مراقبة مستمرة للمنافذ والثغرات
+            <iconify-icon class="text-brand-300 icon-circle-check" icon="mdi:check-circle"></iconify-icon> مراقبة مستمرة للمنافذ والثغرات
           </div>
           <div class="flex items-center gap-2 text-white/80">
-            <i class="fa-solid fa-circle-check text-brand-300"></i> مصادقة ثنائية وإدارة صلاحيات دقيقة
+            <iconify-icon class="text-brand-300 icon-circle-check" icon="mdi:check-circle"></iconify-icon> مصادقة ثنائية وإدارة صلاحيات دقيقة
           </div>
         </div>
       </div>
@@ -787,7 +787,7 @@
       <!-- Doc 1 -->
       <div class="glass p-6 rounded-2xl border border-white/5 relative flex flex-col justify-between">
         <div>
-          <div class="text-white/40 text-4xl mb-4"><i class="fa-solid fa-file-shield"></i></div>
+          <div class="text-white/40 text-4xl mb-4"><iconify-icon class="icon-file-shield" icon="mdi:file-lock"></iconify-icon></div>
           <h3 class="font-bold text-lg text-white mb-2">Security Overview</h3>
           <p class="text-white/60 text-xs leading-relaxed mb-6">
             كتيب تقني يستعرض بالتفصيل هندستنا الأمنية، آليات التشفير، وحماية تدفق البيانات.
@@ -799,7 +799,7 @@
       <!-- Doc 2 -->
       <div class="glass p-6 rounded-2xl border border-white/5 relative flex flex-col justify-between">
         <div>
-          <div class="text-white/40 text-4xl mb-4"><i class="fa-solid fa-file-contract"></i></div>
+          <div class="text-white/40 text-4xl mb-4"><iconify-icon class="icon-file-contract" icon="mdi:file-document-edit"></iconify-icon></div>
           <h3 class="font-bold text-lg text-white mb-2">Data Processing Agreement</h3>
           <p class="text-white/60 text-xs leading-relaxed mb-6">
             نموذج اتفاقية معالجة البيانات (DPA) المحدث بما يتوافق بالكامل مع نظام حماية البيانات الشخصية السعودي.
@@ -811,7 +811,7 @@
       <!-- Doc 3 -->
       <div class="glass p-6 rounded-2xl border border-white/5 relative flex flex-col justify-between">
         <div>
-          <div class="text-white/40 text-4xl mb-4"><i class="fa-solid fa-file-invoice"></i></div>
+          <div class="text-white/40 text-4xl mb-4"><iconify-icon class="icon-file-invoice" icon="mdi:file-document-outline"></iconify-icon></div>
           <h3 class="font-bold text-lg text-white mb-2">AI Governance Controls</h3>
           <p class="text-white/60 text-xs leading-relaxed mb-6">
             ملخص كامل للضوابط والمعايير المطبقة لحوكمة نماذج الذكاء الاصطناعي والتحكم بمخاطر الهلوسة.
@@ -823,7 +823,7 @@
       <!-- Doc 4 -->
       <div class="glass p-6 rounded-2xl border border-white/5 relative flex flex-col justify-between">
         <div>
-          <div class="text-white/40 text-4xl mb-4"><i class="fa-solid fa-network-wired"></i></div>
+          <div class="text-white/40 text-4xl mb-4"><iconify-icon class="icon-network-wired" icon="mdi:lan"></iconify-icon></div>
           <h3 class="font-bold text-lg text-white mb-2">Deployment Architecture</h3>
           <p class="text-white/60 text-xs leading-relaxed mb-6">
             مخططات تفصيلية لهيكل وخيارات النشر والربط بالأنظمة الحالية لمؤسستك (ERP / Cloud).
@@ -847,7 +847,7 @@
       <details class="glass rounded-2xl overflow-hidden group">
         <summary class="flex items-center justify-between p-5 font-bold text-base cursor-pointer hover:text-brand-300 transition-colors">
           <span>هل تملك BrightAI شهادات امتثال رسمية حالياً؟</span>
-          <i class="fa-solid fa-plus faq-icon text-brand-300 shrink-0 mr-3"></i>
+          <iconify-icon class="faq-icon text-brand-300 shrink-0 mr-3 icon-plus" icon="mdi:plus"></iconify-icon>
         </summary>
         <div class="px-5 pb-5 text-white/70 text-sm leading-relaxed border-t border-white/5 pt-4">
           نحن نوفر حلولاً مبنية وفق ممارسات ومعايير الأطر التنظيمية الوطنية والدولية مثل PDPL و NCA ECC و ISO 42001 لدعم جاهزية مؤسستك الفنية والتشغيلية، ولا ندعي الحصول على شهادات رسمية مالم تُنشر وثائق أو براهين تحقق رسمية ومثبتة.
@@ -857,7 +857,7 @@
       <details class="glass rounded-2xl overflow-hidden group">
         <summary class="flex items-center justify-between p-5 font-bold text-base cursor-pointer hover:text-brand-300 transition-colors">
           <span>أين يتم تخزين ومعالجة بياناتنا؟</span>
-          <i class="fa-solid fa-plus faq-icon text-brand-300 shrink-0 mr-3"></i>
+          <iconify-icon class="faq-icon text-brand-300 shrink-0 mr-3 icon-plus" icon="mdi:plus"></iconify-icon>
         </summary>
         <div class="px-5 pb-5 text-white/70 text-sm leading-relaxed border-t border-white/5 pt-4">
           يتم تخزين ومعالجة البيانات بالكامل داخل مراكز بيانات موطنة في المملكة العربية السعودية لنسخة النشر السحابي السيادي (SaaS)، أو داخل البنية التحتية الخاصة بمؤسستك بالكامل لنسخ النشر الهجين والمعزول (On-Prem).
@@ -867,7 +867,7 @@
       <details class="glass rounded-2xl overflow-hidden group">
         <summary class="flex items-center justify-between p-5 font-bold text-base cursor-pointer hover:text-brand-300 transition-colors">
           <span>كيف يدعم نظام BrightAI الامتثال لنظام PDPL؟</span>
-          <i class="fa-solid fa-plus faq-icon text-brand-300 shrink-0 mr-3"></i>
+          <iconify-icon class="faq-icon text-brand-300 shrink-0 mr-3 icon-plus" icon="mdi:plus"></iconify-icon>
         </summary>
         <div class="px-5 pb-5 text-white/70 text-sm leading-relaxed border-t border-white/5 pt-4">
           يقوم جدار حماية الذكاء الاصطناعي (AI Firewall) برصد وتجهيل البيانات الشخصية (PII) لحظياً قبل عبورها للنماذج الخارجية، بالإضافة إلى الاحتفاظ بسجل تدقيق كامل متوافق فريباً مع اللوائح، مما يمنع حدوث أي تسريبات غير مصرح بها.
@@ -891,20 +891,20 @@
     <div class="flex flex-col sm:flex-row gap-4 justify-center mb-10">
       <a href="/contact/"
         class="glow-btn inline-flex items-center justify-center gap-3 px-10 py-5 rounded-2xl text-white font-bold text-xl">
-        <i class="fa-solid fa-file-shield text-2xl"></i>
+        <iconify-icon class="text-2xl icon-file-shield" icon="mdi:file-lock"></iconify-icon>
         اطلب ملف الأمان المؤسسي
       </a>
       <a href="/contact/"
         class="glass inline-flex items-center justify-center gap-3 px-10 py-5 rounded-2xl text-white font-bold text-xl hover:border-brand-500/40 transition-all">
-        <i class="fa-solid fa-envelope"></i>
+        <iconify-icon class="icon-envelope" icon="mdi:email"></iconify-icon>
         تواصل مع مهندسينا
       </a>
     </div>
 
     <div class="flex flex-wrap justify-center gap-6 text-sm text-white/50">
-      <span><i class="fa-solid fa-check text-brand-300 ml-1"></i> استضافة موطنة وسحابية سيادية</span>
-      <span><i class="fa-solid fa-check text-brand-300 ml-1"></i> متوافق مع متطلبات PDPL & NCA</span>
-      <span><i class="fa-solid fa-check text-brand-300 ml-1"></i> فريق هندسي مقيم بالكامل في الرياض</span>
+      <span><iconify-icon class="text-brand-300 ml-1 icon-check" icon="mdi:check"></iconify-icon> استضافة موطنة وسحابية سيادية</span>
+      <span><iconify-icon class="text-brand-300 ml-1 icon-check" icon="mdi:check"></iconify-icon> متوافق مع متطلبات PDPL & NCA</span>
+      <span><iconify-icon class="text-brand-300 ml-1 icon-check" icon="mdi:check"></iconify-icon> فريق هندسي مقيم بالكامل في الرياض</span>
     </div>
 
     <!-- الروابط الداخلية الإضافية المطلوبة -->
@@ -927,7 +927,7 @@
 
 <!-- ================= FLOATING WHATSAPP BUTTON ================= -->
 <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="fixed bottom-6 left-6 z-50 wa-btn w-16 h-16 rounded-full flex items-center justify-center float-wa" aria-label="تواصل معنا عبر واتساب">
-  <i class="fa-brands fa-whatsapp text-white text-3xl"></i>
+  <iconify-icon class="text-white text-3xl icon-whatsapp" icon="mdi:whatsapp"></iconify-icon>
 </a>
 
 <!-- ================= FOOTER ================= -->
@@ -936,7 +936,7 @@
     <div>
       <a href="/" class="flex items-center gap-3" aria-label="BrightAI">
         <span class="inline-flex w-10 h-10 rounded-xl items-center justify-center" style="background:linear-gradient(135deg,#00d4ff,#7c5cff)">
-          <i class="fa-solid fa-shield-halved text-white"></i>
+          <iconify-icon class="text-white icon-shield-halved" icon="mdi:shield-half-full"></iconify-icon>
         </span>
         <span class="font-extrabold text-xl">Bright<span class="gradient-text">Trust</span></span>
       </a>
@@ -967,9 +967,9 @@
     <div>
       <h3 class="font-bold mb-3">تواصل</h3>
       <ul class="space-y-2 text-sm text-white/60">
-        <li><a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="hover:text-green-400"><i class="fa-brands fa-whatsapp text-green-400"></i> واتساب: 053-822-9013</a></li>
-        <li><a href="mailto:yazeed1job@gmail.com" class="hover:text-brand-300"><i class="fa-solid fa-envelope text-brand-500"></i> yazeed1job@gmail.com</a></li>
-        <li><i class="fa-solid fa-location-dot text-brand-500"></i> الرياض، المملكة العربية السعودية</li>
+        <li><a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="hover:text-green-400"><iconify-icon class="text-green-400 icon-whatsapp" icon="mdi:whatsapp"></iconify-icon> واتساب: 053-822-9013</a></li>
+        <li><a href="mailto:yazeed1job@gmail.com" class="hover:text-brand-300"><iconify-icon class="text-brand-500 icon-envelope" icon="mdi:email"></iconify-icon> yazeed1job@gmail.com</a></li>
+        <li><iconify-icon class="text-brand-500 icon-location-dot" icon="mdi:map-marker"></iconify-icon> الرياض، المملكة العربية السعودية</li>
       </ul>
     </div>
   </div>

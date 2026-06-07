@@ -45,8 +45,7 @@
   <!-- CSS Bundles and Fonts -->
   <link rel="stylesheet" href="/frontend/css/tailwind.local.min.css" />
   <link rel="stylesheet" href="/frontend/assets/css/global-fonts.css?v=20260529-official-font" />
-  <link rel="stylesheet" href="/frontend/vendor/fontawesome/css/all.min.css?v=20260529-icons" />
-  <link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css">
+<link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css">
   <link rel="stylesheet" href="/frontend/css/sitewide-modernization.css">
   <link rel="stylesheet" href="/frontend/css/unified-header.css?v=20260529-nav-v1">
 
@@ -210,8 +209,8 @@
     }
 
     .highlight-list li::before {
-      content: '\f058';
-      font-family: 'Font Awesome 5 Free';
+      content: '✓';
+      font-family: inherit;
       font-weight: 900;
       position: absolute;
       right: 0;
@@ -235,8 +234,8 @@
     }
 
     .normal-list li::before {
-      content: '\f105';
-      font-family: 'Font Awesome 5 Free';
+      content: '›';
+      font-family: inherit;
       font-weight: 900;
       position: absolute;
       right: 4px;
@@ -574,7 +573,8 @@
   ]
 }
   </script>
-<link rel="preload" href="/frontend/assets/fonts/TheYearofTheCamel-Medium.otf" as="font" type="font/otf" crossorigin />
+<link rel="preload" href="/frontend/assets/fonts/TheYearofTheCamel-Medium.woff2" as="font" type="font/woff2" crossorigin />
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
 </head>
 <body class="bg-grid">
 
@@ -677,7 +677,7 @@
 
   <section class="hero-section">
     <span class="pill-badge">
-      <i class="fas fa-balance-scale"></i> الذكاء الاصطناعي المسؤول والامتثال والجاهزية التنظيمية
+      <iconify-icon class="icon-balance-scale" icon="mdi:scale-balance"></iconify-icon> الذكاء الاصطناعي المسؤول والامتثال والجاهزية التنظيمية
     </span>
     <h1>الدليل التنفيذي الشامل لتطبيق حوكمة الذكاء الاصطناعي السعودية في المؤسسات</h1>
     <p class="muted text-lg mt-4">
@@ -1112,7 +1112,7 @@
     <div class="faq-item">
       <div class="faq-header">
         <h3>لماذا تعد حوكمة الذكاء الاصطناعي ضرورة ملحة في بيئة الأعمال السعودية حالياً؟</h3>
-        <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+        <span class="faq-icon"><iconify-icon class="icon-chevron-down" icon="mdi:chevron-down"></iconify-icon></span>
       </div>
       <div class="faq-content">
         <div class="faq-content-inner">
@@ -1124,7 +1124,7 @@
     <div class="faq-item">
       <div class="faq-header">
         <h3>كيف نعرّف الذكاء الاصطناعي المسؤول وكيف نضمن تطبيقه في مؤسستنا؟</h3>
-        <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+        <span class="faq-icon"><iconify-icon class="icon-chevron-down" icon="mdi:chevron-down"></iconify-icon></span>
       </div>
       <div class="faq-content">
         <div class="faq-content-inner">
@@ -1136,7 +1136,7 @@
     <div class="faq-item">
       <div class="faq-header">
         <h3>ما هو الدور الذي تلعبه BrightAI كطبقة تنفيذية عملية في رحلة الحوكمة؟</h3>
-        <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+        <span class="faq-icon"><iconify-icon class="icon-chevron-down" icon="mdi:chevron-down"></iconify-icon></span>
       </div>
       <div class="faq-content">
         <div class="faq-content-inner">
@@ -1148,7 +1148,7 @@
     <div class="faq-item">
       <div class="faq-header">
         <h3>كيف نقوم بتصنيف مخاطر الذكاء الاصطناعي لضمان حماية المؤسسة؟</h3>
-        <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+        <span class="faq-icon"><iconify-icon class="icon-chevron-down" icon="mdi:chevron-down"></iconify-icon></span>
       </div>
       <div class="faq-content">
         <div class="faq-content-inner">
@@ -1160,7 +1160,7 @@
     <div class="faq-item">
       <div class="faq-header">
         <h3>كيف يتم تحويل السياسات التنظيمية المعقدة إلى ضوابط تقنية ملموسة؟</h3>
-        <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+        <span class="faq-icon"><iconify-icon class="icon-chevron-down" icon="mdi:chevron-down"></iconify-icon></span>
       </div>
       <div class="faq-content">
         <div class="faq-content-inner">
@@ -1172,7 +1172,7 @@
     <div class="faq-item">
       <div class="faq-header">
         <h3>ما هي الخطوات التي نتخذها لإثبات الجاهزية للامتثال أمام الجهات الرقابية؟</h3>
-        <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+        <span class="faq-icon"><iconify-icon class="icon-chevron-down" icon="mdi:chevron-down"></iconify-icon></span>
       </div>
       <div class="faq-content">
         <div class="faq-content-inner">

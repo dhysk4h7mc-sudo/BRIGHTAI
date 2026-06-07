@@ -142,11 +142,10 @@
 
 <link rel="icon" href="/frontend/assets/images/logo.png" type="image/png" />
 <link rel="apple-touch-icon" href="/frontend/assets/images/logo.png" />
-<link rel="preload" href="/frontend/assets/fonts/TheYearofTheCamel-Medium.otf" as="font" type="font/otf" crossorigin />
+<link rel="preload" href="/frontend/assets/fonts/TheYearofTheCamel-Medium.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="preload" as="image" href="/frontend/assets/images/logo.png" fetchpriority="high" />
 <link rel="stylesheet" href="/frontend/css/tailwind.local.min.css" />
 <link rel="stylesheet" href="/frontend/assets/css/global-fonts.css?v=20260529-official-font">
-<link rel="stylesheet" href="/frontend/vendor/fontawesome/css/all.min.css?v=20260529-icons">
 <link rel="stylesheet" href="/frontend/css/sitewide-modernization.css" />
 <link rel="stylesheet" href="/frontend/css/unified-header.css?v=20260529-nav-v1">
 <link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css" />
@@ -333,6 +332,7 @@
   ]
 }
   </script>
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
 </head>
 <body class="bg-grid">
 
@@ -438,9 +438,9 @@
 <nav aria-label="مسار التنقل" class="max-w-7xl mx-auto px-5 lg:px-8 pt-6">
   <ol class="flex flex-wrap items-center gap-2 text-sm text-white/50">
     <li><a href="/" class="hover:text-white transition-colors">الرئيسية</a></li>
-    <li><i class="fa-solid fa-chevron-left text-xs opacity-40"></i></li>
+    <li><iconify-icon class="text-xs opacity-40 icon-chevron-left" icon="mdi:chevron-left"></iconify-icon></li>
     <li><a href="/services/" class="hover:text-white transition-colors">الحلول</a></li>
-    <li><i class="fa-solid fa-chevron-left text-xs opacity-40"></i></li>
+    <li><iconify-icon class="text-xs opacity-40 icon-chevron-left" icon="mdi:chevron-left"></iconify-icon></li>
     <li class="text-white/80 font-medium">اكتشاف استخدامات الذكاء الاصطناعي</li>
   </ol>
 </nav>
@@ -455,7 +455,7 @@
           نتائج خلال 48 ساعة من التفعيل
         </span>
         <span class="shadow-ai-badge">
-          <i class="fa-solid fa-ghost text-xs"></i>
+          <iconify-icon class="text-xs icon-ghost" icon="mdi:ghost"></iconify-icon>
           Shadow AI Detector
         </span>
       </div>
@@ -474,12 +474,12 @@
       <div class="flex flex-col sm:flex-row gap-4 justify-center">
         <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer"
           class="glow-btn inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl text-white font-bold text-lg transition-all">
-          <i class="fa-solid fa-radar"></i>
+          <iconify-icon class="icon-radar" icon="mdi:radar"></iconify-icon>
           اكتشف Shadow AI في مؤسستك
         </a>
         <a href="/contact/"
           class="glass inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl text-white font-bold text-lg hover:border-brand-500/40 transition-all">
-          <i class="fa-solid fa-calendar-check"></i>
+          <iconify-icon class="icon-calendar-check" icon="mdi:calendar-check"></iconify-icon>
           اطلب جلسة تقييم
         </a>
       </div>
@@ -564,7 +564,7 @@
     <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
       <div class="glass rounded-2xl p-5 text-center feature-card">
         <div class="w-12 h-12 rounded-xl glow-btn flex items-center justify-center mx-auto mb-3">
-          <i class="fa-solid fa-network-wired text-white"></i>
+          <iconify-icon class="text-white icon-network-wired" icon="mdi:lan"></iconify-icon>
         </div>
         <h3 class="font-bold mb-2">مديرو تقنية المعلومات</h3>
         <p class="text-white/60 text-xs leading-relaxed">يريدون رؤية كاملة لكل حركة بيانات AI في الشبكة</p>
@@ -572,7 +572,7 @@
 
       <div class="glass rounded-2xl p-5 text-center feature-card">
         <div class="w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-3" style="background:linear-gradient(135deg,#7c5cff,#ff5ca7)">
-          <i class="fa-solid fa-clipboard-check text-white"></i>
+          <iconify-icon class="text-white icon-clipboard-check" icon="mdi:clipboard-check"></iconify-icon>
         </div>
         <h3 class="font-bold mb-2">مسؤولو الامتثال</h3>
         <p class="text-white/60 text-xs leading-relaxed">يحتاجون سجلاً موثّقاً لكل استخدام AI لأغراض التدقيق</p>
@@ -580,7 +580,7 @@
 
       <div class="glass rounded-2xl p-5 text-center feature-card">
         <div class="w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-3" style="background:linear-gradient(135deg,#00d4ff,#25D366)">
-          <i class="fa-solid fa-shield-halved text-white"></i>
+          <iconify-icon class="text-white icon-shield-halved" icon="mdi:shield-half-full"></iconify-icon>
         </div>
         <h3 class="font-bold mb-2">CISOs</h3>
         <p class="text-white/60 text-xs leading-relaxed">يريدون خريطة تهديدات AI حقيقية قبل أن تتحول لحوادث</p>
@@ -588,7 +588,7 @@
 
       <div class="glass rounded-2xl p-5 text-center feature-card">
         <div class="w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-3" style="background:linear-gradient(135deg,#ff5ca7,#ff8c42)">
-          <i class="fa-solid fa-chart-bar text-white"></i>
+          <iconify-icon class="text-white icon-chart-bar" icon="mdi:chart-bar"></iconify-icon>
         </div>
         <h3 class="font-bold mb-2">مسؤولو المخاطر</h3>
         <p class="text-white/60 text-xs leading-relaxed">يحتاجون تقييماً كمياً لمخاطر AI الفعلية في مؤسستهم</p>
@@ -683,7 +683,7 @@
   <div class="max-w-4xl mx-auto px-5 lg:px-8">
     <div class="glass rounded-3xl p-8 lg:p-12 text-center" style="background: linear-gradient(135deg, rgba(255,92,92,.06), rgba(124,92,255,.08)); border-color: rgba(255,92,92,.2)">
       <div class="shadow-ai-badge mx-auto mb-4" style="display:inline-flex">
-        <i class="fa-solid fa-triangle-exclamation"></i>
+        <iconify-icon class="icon-triangle-exclamation" icon="mdi:alert-triangle"></iconify-icon>
         هل تعرف كم أداة AI غير معتمدة تعمل الآن في شبكتك؟
       </div>
       <h2 class="text-2xl sm:text-3xl font-black mb-4 mt-4">اكتشف الحقيقة خلال 48 ساعة</h2>
@@ -691,12 +691,12 @@
       <div class="flex flex-col sm:flex-row gap-4 justify-center">
         <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer"
           class="wa-btn inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl text-white font-bold text-lg">
-          <i class="fa-brands fa-whatsapp text-xl"></i>
+          <iconify-icon class="text-xl icon-whatsapp" icon="mdi:whatsapp"></iconify-icon>
           ابدأ تقييم Shadow AI
         </a>
         <a href="/contact/"
           class="glass inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl text-white font-bold text-lg hover:border-brand-500/40 transition-all">
-          <i class="fa-solid fa-envelope"></i>
+          <iconify-icon class="icon-envelope" icon="mdi:email"></iconify-icon>
           راسلنا للتفاصيل
         </a>
       </div>
@@ -718,25 +718,25 @@
       <div class="grid grid-cols-1 md:grid-cols-4 table-head">
         <div class="p-5 text-center border-b md:border-b-0 md:border-l border-white/10">
           <div class="w-10 h-10 rounded-xl glow-btn flex items-center justify-center mx-auto mb-3">
-            <i class="fa-solid fa-magnifying-glass text-white"></i>
+            <iconify-icon class="text-white icon-magnifying-glass" icon="mdi:magnify"></iconify-icon>
           </div>
           <h3 class="font-black text-brand-300 text-sm">ما الذي يكشفه BrightAI</h3>
         </div>
         <div class="p-5 text-center border-b md:border-b-0 md:border-l border-white/10">
           <div class="w-10 h-10 rounded-xl flex items-center justify-center mx-auto mb-3" style="background:linear-gradient(135deg,#7c5cff,#ff5ca7)">
-            <i class="fa-solid fa-toggle-on text-white"></i>
+            <iconify-icon class="text-white icon-toggle-on" icon="mdi:toggle-switch"></iconify-icon>
           </div>
           <h3 class="font-black text-purple-300 text-sm">ما الذي يتحكم فيه BrightAI</h3>
         </div>
         <div class="p-5 text-center border-b md:border-b-0 md:border-l border-white/10">
           <div class="w-10 h-10 rounded-xl flex items-center justify-center mx-auto mb-3" style="background:linear-gradient(135deg,#00d4ff,#25D366)">
-            <i class="fa-solid fa-database text-white"></i>
+            <iconify-icon class="text-white icon-database" icon="mdi:database"></iconify-icon>
           </div>
           <h3 class="font-black text-green-300 text-sm">ما الذي يسجله BrightAI</h3>
         </div>
         <div class="p-5 text-center">
           <div class="w-10 h-10 rounded-xl flex items-center justify-center mx-auto mb-3" style="background:linear-gradient(135deg,#ff5ca7,#ff8c42)">
-            <i class="fa-solid fa-file-lines text-white"></i>
+            <iconify-icon class="text-white icon-file-lines" icon="mdi:file-document-outline"></iconify-icon>
           </div>
           <h3 class="font-black text-pink-300 text-sm">ما الأدلة التي ينتجها BrightAI</h3>
         </div>
@@ -746,92 +746,92 @@
       <div class="grid grid-cols-1 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-white/5">
         <div class="p-5 space-y-3">
           <div class="flex items-start gap-2 text-sm text-white/75">
-            <i class="fa-solid fa-circle-check text-brand-300 mt-0.5 shrink-0 text-xs"></i>
+            <iconify-icon class="text-brand-300 mt-0.5 shrink-0 text-xs icon-circle-check" icon="mdi:check-circle"></iconify-icon>
             <span>Shadow AI tools — ChatGPT, Copilot, Claude, Gemini وغيرها</span>
           </div>
           <div class="flex items-start gap-2 text-sm text-white/75">
-            <i class="fa-solid fa-circle-check text-brand-300 mt-0.5 shrink-0 text-xs"></i>
+            <iconify-icon class="text-brand-300 mt-0.5 shrink-0 text-xs icon-circle-check" icon="mdi:check-circle"></iconify-icon>
             <span>جميع API calls لخدمات AI الخارجية</span>
           </div>
           <div class="flex items-start gap-2 text-sm text-white/75">
-            <i class="fa-solid fa-circle-check text-brand-300 mt-0.5 shrink-0 text-xs"></i>
+            <iconify-icon class="text-brand-300 mt-0.5 shrink-0 text-xs icon-circle-check" icon="mdi:check-circle"></iconify-icon>
             <span>تدفقات البيانات (Data Flows) من وإلى نماذج AI</span>
           </div>
           <div class="flex items-start gap-2 text-sm text-white/75">
-            <i class="fa-solid fa-circle-check text-brand-300 mt-0.5 shrink-0 text-xs"></i>
+            <iconify-icon class="text-brand-300 mt-0.5 shrink-0 text-xs icon-circle-check" icon="mdi:check-circle"></iconify-icon>
             <span>نوع البيانات المُرسَلة: PII, PHI, مالية, سرية</span>
           </div>
           <div class="flex items-start gap-2 text-sm text-white/75">
-            <i class="fa-solid fa-circle-check text-brand-300 mt-0.5 shrink-0 text-xs"></i>
+            <iconify-icon class="text-brand-300 mt-0.5 shrink-0 text-xs icon-circle-check" icon="mdi:check-circle"></iconify-icon>
             <span>حجم وتكرار الاستخدام لكل قسم ومستخدم</span>
           </div>
         </div>
 
         <div class="p-5 space-y-3">
           <div class="flex items-start gap-2 text-sm text-white/75">
-            <i class="fa-solid fa-circle-check text-purple-300 mt-0.5 shrink-0 text-xs"></i>
+            <iconify-icon class="text-purple-300 mt-0.5 shrink-0 text-xs icon-circle-check" icon="mdi:check-circle"></iconify-icon>
             <span>Whitelisting: قائمة الأدوات AI المعتمدة فقط</span>
           </div>
           <div class="flex items-start gap-2 text-sm text-white/75">
-            <i class="fa-solid fa-circle-check text-purple-300 mt-0.5 shrink-0 text-xs"></i>
+            <iconify-icon class="text-purple-300 mt-0.5 shrink-0 text-xs icon-circle-check" icon="mdi:check-circle"></iconify-icon>
             <span>Blocking: منع الأدوات غير المعتمدة تلقائياً</span>
           </div>
           <div class="flex items-start gap-2 text-sm text-white/75">
-            <i class="fa-solid fa-circle-check text-purple-300 mt-0.5 shrink-0 text-xs"></i>
+            <iconify-icon class="text-purple-300 mt-0.5 shrink-0 text-xs icon-circle-check" icon="mdi:check-circle"></iconify-icon>
             <span>Rate Limiting: تحديد حجم البيانات المُرسَلة</span>
           </div>
           <div class="flex items-start gap-2 text-sm text-white/75">
-            <i class="fa-solid fa-circle-check text-purple-300 mt-0.5 shrink-0 text-xs"></i>
+            <iconify-icon class="text-purple-300 mt-0.5 shrink-0 text-xs icon-circle-check" icon="mdi:check-circle"></iconify-icon>
             <span>تطبيق سياسات مختلفة حسب القسم والمستوى الوظيفي</span>
           </div>
           <div class="flex items-start gap-2 text-sm text-white/75">
-            <i class="fa-solid fa-circle-check text-purple-300 mt-0.5 shrink-0 text-xs"></i>
+            <iconify-icon class="text-purple-300 mt-0.5 shrink-0 text-xs icon-circle-check" icon="mdi:check-circle"></iconify-icon>
             <span>تنبيه المستخدم عند محاولة إرسال بيانات محظورة</span>
           </div>
         </div>
 
         <div class="p-5 space-y-3">
           <div class="flex items-start gap-2 text-sm text-white/75">
-            <i class="fa-solid fa-circle-check text-green-300 mt-0.5 shrink-0 text-xs"></i>
+            <iconify-icon class="text-green-300 mt-0.5 shrink-0 text-xs icon-circle-check" icon="mdi:check-circle"></iconify-icon>
             <span>المستخدم: الاسم, القسم, الدور الوظيفي</span>
           </div>
           <div class="flex items-start gap-2 text-sm text-white/75">
-            <i class="fa-solid fa-circle-check text-green-300 mt-0.5 shrink-0 text-xs"></i>
+            <iconify-icon class="text-green-300 mt-0.5 shrink-0 text-xs icon-circle-check" icon="mdi:check-circle"></iconify-icon>
             <span>الأداة AI المستخدمة والـ endpoint</span>
           </div>
           <div class="flex items-start gap-2 text-sm text-white/75">
-            <i class="fa-solid fa-circle-check text-green-300 mt-0.5 shrink-0 text-xs"></i>
+            <iconify-icon class="text-green-300 mt-0.5 shrink-0 text-xs icon-circle-check" icon="mdi:check-circle"></iconify-icon>
             <span>Timestamp دقيق: تاريخ وساعة كل طلب</span>
           </div>
           <div class="flex items-start gap-2 text-sm text-white/75">
-            <i class="fa-solid fa-circle-check text-green-300 mt-0.5 shrink-0 text-xs"></i>
+            <iconify-icon class="text-green-300 mt-0.5 shrink-0 text-xs icon-circle-check" icon="mdi:check-circle"></iconify-icon>
             <span>نوع البيانات المُرسَلة ودرجة حساسيتها</span>
           </div>
           <div class="flex items-start gap-2 text-sm text-white/75">
-            <i class="fa-solid fa-circle-check text-green-300 mt-0.5 shrink-0 text-xs"></i>
+            <iconify-icon class="text-green-300 mt-0.5 shrink-0 text-xs icon-circle-check" icon="mdi:check-circle"></iconify-icon>
             <span>حالة الطلب: مسموح / محجوب / قيد المراجعة</span>
           </div>
         </div>
 
         <div class="p-5 space-y-3">
           <div class="flex items-start gap-2 text-sm text-white/75">
-            <i class="fa-solid fa-circle-check text-pink-300 mt-0.5 shrink-0 text-xs"></i>
+            <iconify-icon class="text-pink-300 mt-0.5 shrink-0 text-xs icon-circle-check" icon="mdi:check-circle"></iconify-icon>
             <span>AI Use Case Registry Report — سجل كامل لجميع استخدامات AI</span>
           </div>
           <div class="flex items-start gap-2 text-sm text-white/75">
-            <i class="fa-solid fa-circle-check text-pink-300 mt-0.5 shrink-0 text-xs"></i>
+            <iconify-icon class="text-pink-300 mt-0.5 shrink-0 text-xs icon-circle-check" icon="mdi:check-circle"></iconify-icon>
             <span>Shadow AI Exposure Report — خريطة المخاطر غير الرسمية</span>
           </div>
           <div class="flex items-start gap-2 text-sm text-white/75">
-            <i class="fa-solid fa-circle-check text-pink-300 mt-0.5 shrink-0 text-xs"></i>
+            <iconify-icon class="text-pink-300 mt-0.5 shrink-0 text-xs icon-circle-check" icon="mdi:check-circle"></iconify-icon>
             <span>Data Flow Map — مسار كل بيانة من وإلى أدوات AI</span>
           </div>
           <div class="flex items-start gap-2 text-sm text-white/75">
-            <i class="fa-solid fa-circle-check text-pink-300 mt-0.5 shrink-0 text-xs"></i>
+            <iconify-icon class="text-pink-300 mt-0.5 shrink-0 text-xs icon-circle-check" icon="mdi:check-circle"></iconify-icon>
             <span>Compliance Evidence Package لـ PDPL وNCA ECC</span>
           </div>
           <div class="flex items-start gap-2 text-sm text-white/75">
-            <i class="fa-solid fa-circle-check text-pink-300 mt-0.5 shrink-0 text-xs"></i>
+            <iconify-icon class="text-pink-300 mt-0.5 shrink-0 text-xs icon-circle-check" icon="mdi:check-circle"></iconify-icon>
             <span>تقارير دورية أوتوماتيكية أسبوعية وشهرية</span>
           </div>
         </div>
@@ -853,7 +853,7 @@
       <div class="feature-card glass rounded-2xl p-6">
         <div class="flex items-center gap-3 mb-4">
           <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:rgba(0,212,255,.15)">
-            <i class="fa-solid fa-building-columns text-brand-300"></i>
+            <iconify-icon class="text-brand-300 icon-building-columns" icon="mdi:bank"></iconify-icon>
           </div>
           <h3 class="font-bold">البنوك والمالية</h3>
         </div>
@@ -864,7 +864,7 @@
       <div class="feature-card glass rounded-2xl p-6">
         <div class="flex items-center gap-3 mb-4">
           <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:rgba(255,92,92,.15)">
-            <i class="fa-solid fa-hospital text-red-400"></i>
+            <iconify-icon class="text-red-400 icon-hospital" icon="mdi:hospital-building"></iconify-icon>
           </div>
           <h3 class="font-bold">الرعاية الصحية</h3>
         </div>
@@ -875,7 +875,7 @@
       <div class="feature-card glass rounded-2xl p-6">
         <div class="flex items-center gap-3 mb-4">
           <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:rgba(124,92,255,.15)">
-            <i class="fa-solid fa-landmark text-purple-400"></i>
+            <iconify-icon class="text-purple-400 icon-landmark" icon="mdi:bank"></iconify-icon>
           </div>
           <h3 class="font-bold">الجهات الحكومية</h3>
         </div>
@@ -886,7 +886,7 @@
       <div class="feature-card glass rounded-2xl p-6">
         <div class="flex items-center gap-3 mb-4">
           <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:rgba(255,165,0,.15)">
-            <i class="fa-solid fa-gavel text-orange-400"></i>
+            <iconify-icon class="text-orange-400 icon-gavel" icon="mdi:gavel"></iconify-icon>
           </div>
           <h3 class="font-bold">الخدمات القانونية</h3>
         </div>
@@ -897,7 +897,7 @@
       <div class="feature-card glass rounded-2xl p-6">
         <div class="flex items-center gap-3 mb-4">
           <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:rgba(0,212,255,.15)">
-            <i class="fa-solid fa-code text-brand-300"></i>
+            <iconify-icon class="text-brand-300 icon-code" icon="mdi:code-tags"></iconify-icon>
           </div>
           <h3 class="font-bold">شركات التقنية</h3>
         </div>
@@ -908,7 +908,7 @@
       <div class="feature-card glass rounded-2xl p-6">
         <div class="flex items-center gap-3 mb-4">
           <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:rgba(37,211,102,.15)">
-            <i class="fa-solid fa-industry text-green-400"></i>
+            <iconify-icon class="text-green-400 icon-industry" icon="mdi:factory"></iconify-icon>
           </div>
           <h3 class="font-bold">الطاقة والصناعة</h3>
         </div>
@@ -931,7 +931,7 @@
       <details class="glass rounded-2xl overflow-hidden">
         <summary class="flex items-center justify-between p-5 font-bold text-base cursor-pointer hover:text-brand-300 transition-colors">
           <span>ما Shadow AI ولماذا هو خطير على مؤسستي؟</span>
-          <i class="fa-solid fa-plus faq-icon text-brand-300 shrink-0 mr-3"></i>
+          <iconify-icon class="faq-icon text-brand-300 shrink-0 mr-3 icon-plus" icon="mdi:plus"></iconify-icon>
         </summary>
         <div class="px-5 pb-5 text-white/70 text-sm leading-relaxed border-t border-white/5 pt-4">
           Shadow AI هو استخدام أدوات الذكاء الاصطناعي من قِبل الموظفين <strong class="text-white">بدون موافقة رسمية</strong> من تقنية المعلومات أو الامتثال. المشكلة الكبرى: هذه الأدوات تتلقى بيانات شركتك الحساسة وقد تستخدمها لتدريب نماذجها. هذا يضع مؤسستك في مخالفة مباشرة لـ PDPL وNCA ECC وقد يُعرّضها للغرامات والمسؤولية القانونية.
@@ -941,7 +941,7 @@
       <details class="glass rounded-2xl overflow-hidden">
         <summary class="flex items-center justify-between p-5 font-bold text-base cursor-pointer hover:text-brand-300 transition-colors">
           <span>هل يمكن اكتشاف استخدام ChatGPT وClaude من قِبل الموظفين؟</span>
-          <i class="fa-solid fa-plus faq-icon text-brand-300 shrink-0 mr-3"></i>
+          <iconify-icon class="faq-icon text-brand-300 shrink-0 mr-3 icon-plus" icon="mdi:plus"></iconify-icon>
         </summary>
         <div class="px-5 pb-5 text-white/70 text-sm leading-relaxed border-t border-white/5 pt-4">
           نعم، BrightAI يرصد <strong class="text-white">الـ API calls ونقاط الإرسال</strong> على مستوى الشبكة والـ API Gateway. يكتشف الاستخدام حتى لو كان عبر متصفح الويب أو تطبيقات مكتبية أو تطبيقات جوال متصلة بالشبكة المؤسسية. ChatGPT، Claude، Gemini، Copilot، Midjourney وغيرها كلها مكشوفة للرصد.
@@ -951,7 +951,7 @@
       <details class="glass rounded-2xl overflow-hidden">
         <summary class="flex items-center justify-between p-5 font-bold text-base cursor-pointer hover:text-brand-300 transition-colors">
           <span>ما الفرق بين الاكتشاف والحجب؟ هل أحتاج كليهما؟</span>
-          <i class="fa-solid fa-plus faq-icon text-brand-300 shrink-0 mr-3"></i>
+          <iconify-icon class="faq-icon text-brand-300 shrink-0 mr-3 icon-plus" icon="mdi:plus"></iconify-icon>
         </summary>
         <div class="px-5 pb-5 text-white/70 text-sm leading-relaxed border-t border-white/5 pt-4">
           الاكتشاف يسبق القرار دائماً. قبل أن تقرر ما تحجب، يجب أن تعرف ما الذي يُستخدم وما قيمته للمؤسسة. BrightAI يعطيك أولاً الصورة الكاملة، ثم <strong class="text-white">تقرر بوعي</strong>: تحجب، تسمح، أو تسمح بشروط. الحجب العشوائي يعطّل الإنتاجية، الحجب المدروس بعد الاكتشاف يحمي بدون تأثير سلبي.
@@ -961,7 +961,7 @@
       <details class="glass rounded-2xl overflow-hidden">
         <summary class="flex items-center justify-between p-5 font-bold text-base cursor-pointer hover:text-brand-300 transition-colors">
           <span>هل يحتاج الحل تثبيت وكيل (agent) على كل جهاز موظف؟</span>
-          <i class="fa-solid fa-plus faq-icon text-brand-300 shrink-0 mr-3"></i>
+          <iconify-icon class="faq-icon text-brand-300 shrink-0 mr-3 icon-plus" icon="mdi:plus"></iconify-icon>
         </summary>
         <div class="px-5 pb-5 text-white/70 text-sm leading-relaxed border-t border-white/5 pt-4">
           لا، BrightAI يعمل على مستوى <strong class="text-white">الشبكة والـ API Gateway</strong> مما يعني أنه لا يحتاج تثبيت أي agent أو برنامج على أجهزة الموظفين. يعطي رؤية شاملة بتكاملات أبسط بكثير، ودون المساس بخصوصية الموظفين أو بطء الأجهزة.
@@ -971,7 +971,7 @@
       <details class="glass rounded-2xl overflow-hidden">
         <summary class="flex items-center justify-between p-5 font-bold text-base cursor-pointer hover:text-brand-300 transition-colors">
           <span>كم من الوقت حتى أرى أول نتائج حقيقية؟</span>
-          <i class="fa-solid fa-plus faq-icon text-brand-300 shrink-0 mr-3"></i>
+          <iconify-icon class="faq-icon text-brand-300 shrink-0 mr-3 icon-plus" icon="mdi:plus"></iconify-icon>
         </summary>
         <div class="px-5 pb-5 text-white/70 text-sm leading-relaxed border-t border-white/5 pt-4">
           <strong class="text-white">خلال 48 ساعة من التفعيل</strong>، ستحصل على أول تقرير يكشف جميع استخدامات AI في شبكتك، بما فيها Shadow AI غير المعتمد. معظم عملائنا يتفاجأون بعدد الأدوات غير المعتمدة التي اكتشفها التقرير الأول.
@@ -995,21 +995,21 @@
     <div class="flex flex-col sm:flex-row gap-4 justify-center mb-10">
       <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer"
         class="wa-btn inline-flex items-center justify-center gap-3 px-10 py-5 rounded-2xl text-white font-bold text-xl">
-        <i class="fa-brands fa-whatsapp text-2xl"></i>
+        <iconify-icon class="text-2xl icon-whatsapp" icon="mdi:whatsapp"></iconify-icon>
         ابدأ تقييم Shadow AI
       </a>
       <a href="/contact/"
         class="glass inline-flex items-center justify-center gap-3 px-10 py-5 rounded-2xl text-white font-bold text-xl hover:border-brand-500/40 transition-all">
-        <i class="fa-solid fa-calendar"></i>
+        <iconify-icon class="icon-calendar" icon="mdi:calendar"></iconify-icon>
         احجز استشارة مجانية
       </a>
     </div>
 
     <div class="flex flex-wrap justify-center gap-6 text-sm text-white/50">
-      <span><i class="fa-solid fa-check text-brand-300 ml-1"></i>نتائج خلال 48 ساعة</span>
-      <span><i class="fa-solid fa-check text-brand-300 ml-1"></i>بدون agent على الأجهزة</span>
-      <span><i class="fa-solid fa-check text-brand-300 ml-1"></i>فريق سعودي 100%</span>
-      <span><i class="fa-solid fa-check text-brand-300 ml-1"></i>متوافق مع PDPL وNCA ECC</span>
+      <span><iconify-icon class="text-brand-300 ml-1 icon-check" icon="mdi:check"></iconify-icon>نتائج خلال 48 ساعة</span>
+      <span><iconify-icon class="text-brand-300 ml-1 icon-check" icon="mdi:check"></iconify-icon>بدون agent على الأجهزة</span>
+      <span><iconify-icon class="text-brand-300 ml-1 icon-check" icon="mdi:check"></iconify-icon>فريق سعودي 100%</span>
+      <span><iconify-icon class="text-brand-300 ml-1 icon-check" icon="mdi:check"></iconify-icon>متوافق مع PDPL وNCA ECC</span>
     </div>
 
     <div class="mt-12 pt-8 border-t border-white/5 flex flex-wrap justify-center gap-4 text-sm text-white/40">
@@ -1039,42 +1039,42 @@
       <article class="glass rounded-2xl p-6 hover:border-brand-500/40 transition-all">
         <div class="flex items-center gap-3 mb-3">
           <span class="w-10 h-10 rounded-xl bg-brand-500/10 border border-brand-500/30 flex items-center justify-center shrink-0">
-            <i class="fa-solid fa-book text-brand-300"></i>
+            <iconify-icon class="text-brand-300 icon-book" icon="mdi:book"></iconify-icon>
           </span>
           <h3 class="text-lg font-bold">دليل منصة حوكمة الذكاء الاصطناعي</h3>
         </div>
         <p class="text-white/60 text-sm leading-relaxed mb-4">دليل تفصيلي يساعدك على فهم وتطبيق هذا الحل.</p>
         <a href="/docs/ai-governance-platform/" class="text-brand-300 hover:text-white text-sm inline-flex items-center gap-2">
           <span>اقرأ الدليل</span>
-          <i class="fa-solid fa-arrow-left text-xs"></i>
+          <iconify-icon class="text-xs icon-arrow-left" icon="mdi:arrow-left"></iconify-icon>
         </a>
       </article>
 
       <article class="glass rounded-2xl p-6 hover:border-brand-500/40 transition-all">
         <div class="flex items-center gap-3 mb-3">
           <span class="w-10 h-10 rounded-xl bg-brand-500/10 border border-brand-500/30 flex items-center justify-center shrink-0">
-            <i class="fa-solid fa-flag text-brand-300"></i>
+            <iconify-icon class="text-brand-300 icon-flag" icon="mdi:flag"></iconify-icon>
           </span>
           <h3 class="text-lg font-bold">حوكمة الذكاء الاصطناعي في السعودية</h3>
         </div>
         <p class="text-white/60 text-sm leading-relaxed mb-4">دليل تفصيلي يساعدك على فهم وتطبيق هذا الحل.</p>
         <a href="/docs/ai-governance-saudi-arabia/" class="text-brand-300 hover:text-white text-sm inline-flex items-center gap-2">
           <span>اقرأ الدليل</span>
-          <i class="fa-solid fa-arrow-left text-xs"></i>
+          <iconify-icon class="text-xs icon-arrow-left" icon="mdi:arrow-left"></iconify-icon>
         </a>
       </article>
 
       <article class="glass rounded-2xl p-6 hover:border-brand-500/40 transition-all">
         <div class="flex items-center gap-3 mb-3">
           <span class="w-10 h-10 rounded-xl bg-brand-500/10 border border-brand-500/30 flex items-center justify-center shrink-0">
-            <i class="fa-solid fa-triangle-exclamation text-brand-300"></i>
+            <iconify-icon class="text-brand-300 icon-triangle-exclamation" icon="mdi:alert-triangle"></iconify-icon>
           </span>
           <h3 class="text-lg font-bold">إدارة مخاطر الذكاء الاصطناعي</h3>
         </div>
         <p class="text-white/60 text-sm leading-relaxed mb-4">دليل تفصيلي يساعدك على فهم وتطبيق هذا الحل.</p>
         <a href="/docs/ai-risk-management/" class="text-brand-300 hover:text-white text-sm inline-flex items-center gap-2">
           <span>اقرأ الدليل</span>
-          <i class="fa-solid fa-arrow-left text-xs"></i>
+          <iconify-icon class="text-xs icon-arrow-left" icon="mdi:arrow-left"></iconify-icon>
         </a>
       </article>
     </div>
@@ -1083,7 +1083,7 @@
 
 <!-- ================= FLOATING WHATSAPP BUTTON ================= -->
 <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="fixed bottom-6 left-6 z-50 wa-btn w-16 h-16 rounded-full flex items-center justify-center float-wa" aria-label="تواصل معنا عبر واتساب">
-  <i class="fa-brands fa-whatsapp text-white text-3xl"></i>
+  <iconify-icon class="text-white text-3xl icon-whatsapp" icon="mdi:whatsapp"></iconify-icon>
 </a>
 
 <!-- ================= FOOTER ================= -->
@@ -1092,7 +1092,7 @@
     <div>
       <a href="/" class="flex items-center gap-3" aria-label="BrightAI">
         <span class="inline-flex w-10 h-10 rounded-xl items-center justify-center" style="background:linear-gradient(135deg,#00d4ff,#7c5cff)">
-          <i class="fa-solid fa-shield-halved text-white"></i>
+          <iconify-icon class="text-white icon-shield-halved" icon="mdi:shield-half-full"></iconify-icon>
         </span>
         <span class="font-extrabold text-xl">Bright<span class="gradient-text">Trust</span></span>
       </a>
@@ -1122,13 +1122,13 @@
     <div>
       <h3 class="font-bold mb-3">تواصل</h3>
       <ul class="space-y-2 text-sm text-white/60">
-        <li><a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="hover:text-green-400"><i class="fa-brands fa-whatsapp text-green-400"></i> واتساب: 053-822-9013</a></li>
-        <li><a href="mailto:yazeed1job@gmail.com" class="hover:text-brand-300"><i class="fa-solid fa-envelope text-brand-500"></i> yazeed1job@gmail.com</a></li>
-        <li><i class="fa-solid fa-location-dot text-brand-500"></i> الرياض، المملكة العربية السعودية</li>
+        <li><a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="hover:text-green-400"><iconify-icon class="text-green-400 icon-whatsapp" icon="mdi:whatsapp"></iconify-icon> واتساب: 053-822-9013</a></li>
+        <li><a href="mailto:yazeed1job@gmail.com" class="hover:text-brand-300"><iconify-icon class="text-brand-500 icon-envelope" icon="mdi:email"></iconify-icon> yazeed1job@gmail.com</a></li>
+        <li><iconify-icon class="text-brand-500 icon-location-dot" icon="mdi:map-marker"></iconify-icon> الرياض، المملكة العربية السعودية</li>
         <li class="flex gap-3 mt-4">
-          <a href="#" aria-label="X" class="w-9 h-9 glass rounded-lg inline-flex items-center justify-center hover:text-brand-500"><i class="fa-brands fa-x-twitter"></i></a>
-          <a href="#" aria-label="LinkedIn" class="w-9 h-9 glass rounded-lg inline-flex items-center justify-center hover:text-brand-500"><i class="fa-brands fa-linkedin-in"></i></a>
-          <a href="#" aria-label="YouTube" class="w-9 h-9 glass rounded-lg inline-flex items-center justify-center hover:text-brand-500"><i class="fa-brands fa-youtube"></i></a>
+          <a href="#" aria-label="X" class="w-9 h-9 glass rounded-lg inline-flex items-center justify-center hover:text-brand-500"><iconify-icon class="icon-x-twitter" icon="mdi:twitter"></iconify-icon></a>
+          <a href="#" aria-label="LinkedIn" class="w-9 h-9 glass rounded-lg inline-flex items-center justify-center hover:text-brand-500"><iconify-icon class="icon-linkedin-in" icon="mdi:linkedin"></iconify-icon></a>
+          <a href="#" aria-label="YouTube" class="w-9 h-9 glass rounded-lg inline-flex items-center justify-center hover:text-brand-500"><iconify-icon class="icon-youtube" icon="mdi:youtube"></iconify-icon></a>
         </li>
       </ul>
     </div>

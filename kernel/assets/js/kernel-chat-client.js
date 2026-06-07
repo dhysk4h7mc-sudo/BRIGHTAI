@@ -566,9 +566,9 @@
       const actions = document.createElement('div');
       actions.className = 'kernel-governance-actions';
       actions.setAttribute('aria-label', 'إجراءات الحوكمة');
-      actions.appendChild(this.createGovernanceButton('Audit', 'fa-list-check', this.governanceHref('audit', normalized.traceId)));
-      actions.appendChild(this.createGovernanceButton('Evidence', 'fa-file-shield', this.governanceHref('evidence', normalized.traceId)));
-      actions.appendChild(this.createGovernanceButton('Create Policy', 'fa-shield-halved', this.governanceHref('policies', normalized.traceId)));
+      actions.appendChild(this.createGovernanceButton('Audit', 'mdi:format-list-checks', this.governanceHref('audit', normalized.traceId)));
+      actions.appendChild(this.createGovernanceButton('Evidence', 'mdi:file-lock', this.governanceHref('evidence', normalized.traceId)));
+      actions.appendChild(this.createGovernanceButton('Create Policy', 'mdi:shield-half-full', this.governanceHref('policies', normalized.traceId)));
       card.appendChild(actions);
 
       return card;
@@ -596,8 +596,9 @@
       link.className = 'kernel-governance-btn';
       link.href = href;
 
-      const iconEl = document.createElement('i');
-      iconEl.className = `fa-solid ${icon}`;
+      const iconEl = document.createElement('iconify-icon');
+      iconEl.className = 'kernel-governance-icon';
+      iconEl.setAttribute('icon', icon);
       iconEl.setAttribute('aria-hidden', 'true');
 
       const labelEl = document.createElement('span');

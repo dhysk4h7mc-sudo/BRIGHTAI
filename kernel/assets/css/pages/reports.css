@@ -10,6 +10,8 @@
       border-radius: 12px;
       padding: 1.5rem;
       transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
     }
     .report-card:hover {
       border-color: var(--primary-color);
@@ -40,6 +42,7 @@
       color: var(--text-secondary);
       margin-bottom: 1rem;
       line-height: 1.6;
+      flex: 1;
     }
     .report-meta {
       display: flex;
@@ -47,6 +50,8 @@
       justify-content: space-between;
       padding-top: 1rem;
       border-top: 1px solid var(--border-color);
+      flex-wrap: wrap;
+      gap: 0.5rem;
     }
     .report-date {
       font-size: 0.75rem;
@@ -65,6 +70,7 @@
       cursor: pointer;
       transition: all 0.2s;
       border: none;
+      touch-action: manipulation;
     }
     .report-btn.primary {
       background: var(--primary-color);
@@ -200,4 +206,122 @@
     .schedule-status.paused {
       background: rgba(245, 158, 11, 0.15);
       color: #f59e0b;
+    }
+
+    /* ── Schedule Table Scroll Wrapper ── */
+    .schedule-table-wrap {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      background: var(--card-bg);
+    }
+
+    .schedule-table-wrap .schedule-table {
+      min-width: 640px;
+    }
+
+    /* ── Dialog / Modal Styling ── */
+    [role="dialog"] {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6);
+      max-width: 560px;
+      width: 90%;
+      padding: var(--space-6, 1.5rem);
+      position: fixed;
+      inset-inline: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      z-index: var(--z-modal, 500);
+      backdrop-filter: blur(16px);
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    [role="dialog"] h2,
+    [role="dialog"] h3 {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 1rem;
+    }
+
+    /* ── Reports Mobile Responsive ── */
+    @media (max-width: 768px) {
+      .filters-bar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .filter-group {
+        flex-wrap: wrap;
+      }
+
+      .filter-select {
+        min-height: 44px;
+        touch-action: manipulation;
+      }
+
+      .search-box {
+        min-width: 0;
+      }
+
+      .search-box input {
+        min-height: 44px;
+      }
+
+      .generate-btn {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .reports-container {
+        grid-template-columns: 1fr;
+      }
+
+      .report-card {
+        padding: 1rem;
+      }
+
+      .report-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+      }
+
+      .scheduled-section {
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .report-title {
+        font-size: 1rem;
+      }
+
+      .report-desc {
+        font-size: 0.8125rem;
+      }
+
+      .report-meta {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .report-actions {
+        width: 100%;
+      }
+
+      .report-btn {
+        flex: 1;
+        text-align: center;
+      }
+
+      [role="dialog"] {
+        width: 95%;
+        padding: 1rem;
+      }
     }

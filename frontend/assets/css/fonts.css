@@ -4,7 +4,8 @@
 
 @font-face {
     font-family: 'BrightAI Official';
-    src: url('/frontend/assets/fonts/TheYearofTheCamel-Medium.otf') format('opentype');
+    src: url('/frontend/assets/fonts/TheYearofTheCamel-Medium.woff2') format('woff2'),
+    url('/frontend/assets/fonts/TheYearofTheCamel-Medium.otf') format('opentype');
     font-weight: 100;
     font-style: normal;
     font-display: swap;
@@ -12,7 +13,8 @@
 
 @font-face {
     font-family: 'BrightAI Official';
-    src: url('/frontend/assets/fonts/TheYearofTheCamel-Medium.otf') format('opentype');
+    src: url('/frontend/assets/fonts/TheYearofTheCamel-Medium.woff2') format('woff2'),
+    url('/frontend/assets/fonts/TheYearofTheCamel-Medium.otf') format('opentype');
     font-weight: 700;
     font-style: normal;
     font-display: swap;

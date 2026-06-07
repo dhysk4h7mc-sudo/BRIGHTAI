@@ -6,24 +6,12 @@
   ========================================================================
 */
 
-/* حماية أيقونات Font Awesome من تداخل خطوط الموقع */
-.fa, .fa-solid, .fas {
-  font-family: "Font Awesome 6 Free" !important;
-  font-weight: 900 !important;
+/* Iconify icons should not inherit the site display font. */
+iconify-icon {
   display: inline-block;
-  font-style: normal;
-  font-variant: normal;
-  text-rendering: auto;
-  -webkit-font-smoothing: antialiased;
-}
-.fa-brands, .fab {
-  font-family: "Font Awesome 6 Brands" !important;
-  font-weight: 400 !important;
-  display: inline-block;
-  font-style: normal;
-  font-variant: normal;
-  text-rendering: auto;
-  -webkit-font-smoothing: antialiased;
+  flex-shrink: 0;
+  line-height: 1;
+  vertical-align: -0.125em;
 }
 
 /* المتغيرات الأساسية لنظام التصميم الفخم */
@@ -169,14 +157,14 @@
   color: #00d4ff;
 }
 
-.brightai-menu-link .fa-chevron-down {
+.brightai-menu-link .icon-chevron-down {
   font-size: 0.65rem;
   opacity: 0.6;
   transition: transform 0.25s ease;
 }
-.brightai-menu-item:hover .brightai-menu-link .fa-chevron-down,
-.brightai-menu-item:focus-within .brightai-menu-link .fa-chevron-down,
-.brightai-menu-item.is-open .brightai-menu-link .fa-chevron-down {
+.brightai-menu-item:hover .brightai-menu-link .icon-chevron-down,
+.brightai-menu-item:focus-within .brightai-menu-link .icon-chevron-down,
+.brightai-menu-item.is-open .brightai-menu-link .icon-chevron-down {
   transform: rotate(180deg);
 }
 
@@ -697,12 +685,12 @@
   color: #00d4ff;
 }
 
-.brightai-drawer-accordion-btn i.fa-chevron-down {
+.brightai-drawer-accordion-btn .icon-chevron-down {
   font-size: 0.7rem;
   opacity: 0.6;
   transition: transform 0.3s ease;
 }
-.brightai-drawer-accordion-btn.is-open i.fa-chevron-down {
+.brightai-drawer-accordion-btn.is-open .icon-chevron-down {
   transform: rotate(180deg);
 }
 

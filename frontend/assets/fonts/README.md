@@ -117,7 +117,8 @@ h1, h2, h3, h4, h5, h6, strong, b, button, label,
 ```css
 @font-face {
     font-family: 'BrightAI Official';
-    src: url('/frontend/assets/fonts/TheYearofTheCamel-Medium.otf') format('opentype');
+    src: url('/frontend/assets/fonts/TheYearofTheCamel-Medium.woff2') format('woff2'),
+    url('/frontend/assets/fonts/TheYearofTheCamel-Medium.otf') format('opentype');
     font-weight: 100;
     font-style: normal;
     font-display: swap;
@@ -125,7 +126,8 @@ h1, h2, h3, h4, h5, h6, strong, b, button, label,
 
 @font-face {
     font-family: 'BrightAI Official';
-    src: url('/frontend/assets/fonts/TheYearofTheCamel-Medium.otf') format('opentype');
+    src: url('/frontend/assets/fonts/TheYearofTheCamel-Medium.woff2') format('woff2'),
+    url('/frontend/assets/fonts/TheYearofTheCamel-Medium.otf') format('opentype');
     font-weight: 700;
     font-style: normal;
     font-display: swap;

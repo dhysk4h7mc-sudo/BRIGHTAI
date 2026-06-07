@@ -47,8 +47,7 @@
   <!-- CSS Bundles and Fonts -->
   <link rel="stylesheet" href="/frontend/css/tailwind.local.min.css" />
   <link rel="stylesheet" href="/frontend/assets/css/global-fonts.css?v=20260529-official-font" />
-  <link rel="stylesheet" href="/frontend/vendor/fontawesome/css/all.min.css?v=20260529-icons" />
-  <link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css">
+<link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css">
   <link rel="stylesheet" href="/frontend/css/sitewide-modernization.css">
   <link rel="stylesheet" href="/frontend/css/unified-header.css?v=20260529-nav-v1">
 
@@ -1198,7 +1197,8 @@
   ]
 }
   </script>
-  <link rel="preload" href="/frontend/assets/fonts/TheYearofTheCamel-Medium.otf" as="font" type="font/otf" crossorigin />
+  <link rel="preload" href="/frontend/assets/fonts/TheYearofTheCamel-Medium.woff2" as="font" type="font/woff2" crossorigin />
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
 </head>
 <body>
 <!-- BRIGHTAI_NOSCRIPT_NAV_START -->
@@ -1315,9 +1315,9 @@
     <!-- Breadcrumb -->
     <nav class="crumb-nav" aria-label="مسار التنقل">
       <a href="/">الرئيسية</a>
-      <i class="fas fa-chevron-left" aria-hidden="true"></i>
+      <iconify-icon class="icon-chevron-left" aria-hidden="true" icon="mdi:chevron-left"></iconify-icon>
       <a href="/docs/">الوثائق</a>
-      <i class="fas fa-chevron-left" aria-hidden="true"></i>
+      <iconify-icon class="icon-chevron-left" aria-hidden="true" icon="mdi:chevron-left"></iconify-icon>
       <span aria-current="page">دليل تطبيق الحوكمة</span>
     </nav>
 
@@ -1328,7 +1328,7 @@
       <section class="hero-container" aria-label="العرض الرئيسي">
         <div>
           <span class="pill-badge">
-            <i class="fas fa-shield-halved" aria-hidden="true"></i>
+            <iconify-icon class="icon-shield-halved" aria-hidden="true" icon="mdi:shield-half-full"></iconify-icon>
             خارطة طريق 30 يوماً للمؤسسات السعودية
           </span>
           <h1>
@@ -1341,26 +1341,26 @@
           
           <div class="hero-actions">
             <a href="#booking" class="btn btn-primary">
-              <i class="fas fa-calendar-check" aria-hidden="true"></i>
+              <iconify-icon class="icon-calendar-check" aria-hidden="true" icon="mdi:calendar-check"></iconify-icon>
               حجز تقييم جاهزية مجاني
             </a>
             <a href="#checklist" class="btn btn-secondary">
-              <i class="fas fa-list-check" aria-hidden="true"></i>
+              <iconify-icon class="icon-list-check" aria-hidden="true" icon="mdi:format-list-checks"></iconify-icon>
               تفعيل القائمة التفاعلية
             </a>
           </div>
 
           <div class="hero-bullets">
             <div class="bullet-item">
-              <i class="fas fa-circle-check" aria-hidden="true"></i>
+              <iconify-icon class="icon-circle-check" aria-hidden="true" icon="mdi:check-circle"></iconify-icon>
               متوافق مع معايير SDAIA
             </div>
             <div class="bullet-item">
-              <i class="fas fa-circle-check" aria-hidden="true"></i>
+              <iconify-icon class="icon-circle-check" aria-hidden="true" icon="mdi:check-circle"></iconify-icon>
               إثبات الامتثال خلال دقائق
             </div>
             <div class="bullet-item">
-              <i class="fas fa-circle-check" aria-hidden="true"></i>
+              <iconify-icon class="icon-circle-check" aria-hidden="true" icon="mdi:check-circle"></iconify-icon>
               قابل للتطبيق الذاتي
             </div>
           </div>
@@ -1412,21 +1412,21 @@
         <div class="premium-grid-3">
           <div class="glass-card">
             <div class="card-icon-box">
-              <i class="fas fa-triangle-exclamation" aria-hidden="true"></i>
+              <iconify-icon class="icon-triangle-exclamation" aria-hidden="true" icon="mdi:alert-triangle"></iconify-icon>
             </div>
             <h3>الحد من مخاطر البيانات</h3>
             <p>منع الموظفين من مشاركة البيانات السرية أو الملكية الفكرية مع خوارزميات الذكاء الاصطناعي العامة والمفتوحة.</p>
           </div>
           <div class="glass-card">
             <div class="card-icon-box">
-              <i class="fas fa-file-shield" aria-hidden="true"></i>
+              <iconify-icon class="icon-file-shield" aria-hidden="true" icon="mdi:file-lock"></iconify-icon>
             </div>
             <h3>الالتزام بالمتطلبات التشريعية</h3>
             <p>المواءمة التامة مع متطلبات الهيئة السعودية للبيانات والذكاء الاصطناعي (SDAIA) وضوابط NCA للأمن السيبراني.</p>
           </div>
           <div class="glass-card">
             <div class="card-icon-box">
-              <i class="fas fa-user-check" aria-hidden="true"></i>
+              <iconify-icon class="icon-user-check" aria-hidden="true" icon="mdi:account-check"></iconify-icon>
             </div>
             <h3>توطيد ثقة العملاء والشركاء</h3>
             <p>إثبات أن قرارات الذكاء الاصطناعي تتم بمراجعة وتدخل بشري كافٍ لضمان النزاهة والعدالة البصرية والرقمية.</p>
@@ -1576,7 +1576,7 @@
           <div class="checklist-grid">
             <div class="check-item" data-id="1">
               <div class="check-checkbox" role="checkbox" aria-checked="false" tabindex="0">
-                <i class="fas fa-check" aria-hidden="true"></i>
+                <iconify-icon class="icon-check" aria-hidden="true" icon="mdi:check"></iconify-icon>
               </div>
               <div class="check-content">
                 <strong>حصر وتدوين الأدوات (الأسبوع 1)</strong>
@@ -1586,7 +1586,7 @@
 
             <div class="check-item" data-id="2">
               <div class="check-checkbox" role="checkbox" aria-checked="false" tabindex="0">
-                <i class="fas fa-check" aria-hidden="true"></i>
+                <iconify-icon class="icon-check" aria-hidden="true" icon="mdi:check"></iconify-icon>
               </div>
               <div class="check-content">
                 <strong>تقييم المخاطر وتصنيف البيانات (الأسبوع 2)</strong>
@@ -1596,7 +1596,7 @@
 
             <div class="check-item" data-id="3">
               <div class="check-checkbox" role="checkbox" aria-checked="false" tabindex="0">
-                <i class="fas fa-check" aria-hidden="true"></i>
+                <iconify-icon class="icon-check" aria-hidden="true" icon="mdi:check"></iconify-icon>
               </div>
               <div class="check-content">
                 <strong>إعداد سياسة استخدام ChatGPT (الأسبوع 3)</strong>
@@ -1606,7 +1606,7 @@
 
             <div class="check-item" data-id="4">
               <div class="check-checkbox" role="checkbox" aria-checked="false" tabindex="0">
-                <i class="fas fa-check" aria-hidden="true"></i>
+                <iconify-icon class="icon-check" aria-hidden="true" icon="mdi:check"></iconify-icon>
               </div>
               <div class="check-content">
                 <strong>بناء ملف أدلة التدقيق (الأسبوع 4)</strong>
@@ -1626,22 +1626,22 @@
 
         <div class="grid-4-outcomes">
           <div class="outcome-card">
-            <div class="outcome-icon"><i class="fas fa-eye" aria-hidden="true"></i></div>
+            <div class="outcome-icon"><iconify-icon class="icon-eye" aria-hidden="true" icon="mdi:eye"></iconify-icon></div>
             <h3>رؤية شاملة</h3>
             <p>معرفة تفصيلية ودقيقة بكافة استخدامات الذكاء الاصطناعي بمختلف الإدارات والوظائف.</p>
           </div>
           <div class="outcome-card">
-            <div class="outcome-icon"><i class="fas fa-vault" aria-hidden="true"></i></div>
+            <div class="outcome-icon"><iconify-icon class="icon-vault" aria-hidden="true" icon="mdi:safe"></iconify-icon></div>
             <h3>أمان مطلق</h3>
             <p>منع تسريب ووصول البيانات الحساسة أو الشخصية للعملاء إلى الخوارزميات المفتوحة.</p>
           </div>
           <div class="outcome-card">
-            <div class="outcome-icon"><i class="fas fa-award" aria-hidden="true"></i></div>
+            <div class="outcome-icon"><iconify-icon class="icon-award" aria-hidden="true" icon="mdi:medal"></iconify-icon></div>
             <h3>الامتثال الموثق</h3>
             <p>الاستعداد التام لمواجهة أي مراجعة رقابية من الجهات التنظيمية والتشريعية بالمملكة.</p>
           </div>
           <div class="outcome-card">
-            <div class="outcome-icon"><i class="fas fa-cubes" aria-hidden="true"></i></div>
+            <div class="outcome-icon"><iconify-icon class="icon-cubes" aria-hidden="true" icon="mdi:cube-outline"></iconify-icon></div>
             <h3>تعزيز الابتكار الآمن</h3>
             <p>إتاحة تبني التقنيات الحديثة في بيئة عمل مسؤولة تحفز الثقة وتمنع الحوادث الرقمية.</p>
           </div>
@@ -1663,7 +1663,7 @@
               <p class="resource-desc">دليل مفصل يقع في 32 صفحة يشرح الهيكل القانوني والتنظيمي والمخاطر.</p>
             </div>
             <a href="/resources/ai-governance-guide.pdf" download class="resource-btn">
-              <i class="fas fa-download" aria-hidden="true"></i>
+              <iconify-icon class="icon-download" aria-hidden="true" icon="mdi:download"></iconify-icon>
               تحميل الدليل
             </a>
           </div>
@@ -1675,7 +1675,7 @@
               <p class="resource-desc">نسخة ورقية قابلة للطباعة لـ 4 أسابيع ومؤشرات الأداء.</p>
             </div>
             <a href="/resources/ai-governance-checklist.pdf" download class="resource-btn">
-              <i class="fas fa-download" aria-hidden="true"></i>
+              <iconify-icon class="icon-download" aria-hidden="true" icon="mdi:download"></iconify-icon>
               تحميل القائمة
             </a>
           </div>
@@ -1687,7 +1687,7 @@
               <p class="resource-desc">قالب جاهز للصياغة والنشر الداخلي لتقنين استخدام الموظفين.</p>
             </div>
             <a href="/resources/chatgpt-usage-policy-template.docx" download class="resource-btn">
-              <i class="fas fa-download" aria-hidden="true"></i>
+              <iconify-icon class="icon-download" aria-hidden="true" icon="mdi:download"></iconify-icon>
               تحميل القالب
             </a>
           </div>
@@ -1699,7 +1699,7 @@
               <p class="resource-desc">جدول بيانات معد لحصر الأصول والتصنيف ومستويات الموافقات.</p>
             </div>
             <a href="/resources/ai-tools-register.xlsx" download class="resource-btn">
-              <i class="fas fa-download" aria-hidden="true"></i>
+              <iconify-icon class="icon-download" aria-hidden="true" icon="mdi:download"></iconify-icon>
               تحميل النموذج
             </a>
           </div>
@@ -1716,15 +1716,15 @@
           </p>
           <ul class="booking-list">
             <li>
-              <i class="fas fa-circle-check" aria-hidden="true"></i>
+              <iconify-icon class="icon-circle-check" aria-hidden="true" icon="mdi:check-circle"></iconify-icon>
               جلسة استشارية مغلقة لمدة 45 دقيقة مع مهندس حلول معتمد.
             </li>
             <li>
-              <i class="fas fa-circle-check" aria-hidden="true"></i>
+              <iconify-icon class="icon-circle-check" aria-hidden="true" icon="mdi:check-circle"></iconify-icon>
               استلام تقرير تشخيص الفجوات المبدئي مجاناً.
             </li>
             <li>
-              <i class="fas fa-circle-check" aria-hidden="true"></i>
+              <iconify-icon class="icon-circle-check" aria-hidden="true" icon="mdi:check-circle"></iconify-icon>
               توصيات مخصصة للبدء في خطة الـ 30 يوماً بثقة وأمان.
             </li>
           </ul>
@@ -1794,7 +1794,7 @@
         <div class="faq-item">
           <div class="faq-header" tabindex="0" role="button" aria-expanded="false">
             <h3>ما هي الجهة التنظيمية الأساسية لحوكمة الذكاء الاصطناعي بالسعودية؟</h3>
-            <span class="faq-icon-toggle" aria-hidden="true"><i class="fas fa-chevron-down"></i></span>
+            <span class="faq-icon-toggle" aria-hidden="true"><iconify-icon class="icon-chevron-down" icon="mdi:chevron-down"></iconify-icon></span>
           </div>
           <div class="faq-content">
             <div class="faq-content-inner">
@@ -1806,7 +1806,7 @@
         <div class="faq-item">
           <div class="faq-header" tabindex="0" role="button" aria-expanded="false">
             <h3>كيف يساهم جدار حماية الذكاء الاصطناعي (AI Firewall) في تأمين شركتنا؟</h3>
-            <span class="faq-icon-toggle" aria-hidden="true"><i class="fas fa-chevron-down"></i></span>
+            <span class="faq-icon-toggle" aria-hidden="true"><iconify-icon class="icon-chevron-down" icon="mdi:chevron-down"></iconify-icon></span>
           </div>
           <div class="faq-content">
             <div class="faq-content-inner">
@@ -1818,7 +1818,7 @@
         <div class="faq-item">
           <div class="faq-header" tabindex="0" role="button" aria-expanded="false">
             <h3>هل دليل الـ 30 يوماً يتطلب وجود فريق تقني متخصص للتنفيذ؟</h3>
-            <span class="faq-icon-toggle" aria-hidden="true"><i class="fas fa-chevron-down"></i></span>
+            <span class="faq-icon-toggle" aria-hidden="true"><iconify-icon class="icon-chevron-down" icon="mdi:chevron-down"></iconify-icon></span>
           </div>
           <div class="faq-content">
             <div class="faq-content-inner">
@@ -1840,7 +1840,7 @@
     <div class="glass rounded-2xl p-6 border border-brand-500/20 bg-brand-500/[.02]">
       <div class="flex items-start gap-4">
         <span class="w-10 h-10 rounded-xl bg-brand-500/10 border border-brand-500/30 flex items-center justify-center shrink-0">
-          <i class="fa-solid fa-arrow-up-right-from-square text-brand-300"></i>
+          <iconify-icon class="text-brand-300 icon-arrow-up-right-from-square" icon="mdi:open-in-new"></iconify-icon>
         </span>
         <div>
           <p class="text-white/70 text-sm leading-relaxed">

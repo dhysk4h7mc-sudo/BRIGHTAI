@@ -1,6 +1,7 @@
 @font-face {
   font-family: "BrightAI Official";
-  src: url("/frontend/assets/fonts/TheYearofTheCamel-Medium.otf") format("opentype");
+  src: url("/frontend/assets/fonts/TheYearofTheCamel-Medium.woff2") format("woff2"),
+    url("/frontend/assets/fonts/TheYearofTheCamel-Medium.otf") format("opentype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -8,7 +9,8 @@
 
 @font-face {
   font-family: "BrightAI Official";
-  src: url("/frontend/assets/fonts/TheYearofTheCamel-Medium.otf") format("opentype");
+  src: url("/frontend/assets/fonts/TheYearofTheCamel-Medium.woff2") format("woff2"),
+    url("/frontend/assets/fonts/TheYearofTheCamel-Medium.otf") format("opentype");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -55,29 +57,11 @@ html[lang^="ar"] *,
   font-family: "BrightAI Official", "BrightAI Official", "BrightAI Official", system-ui, -apple-system, "Segoe UI", sans-serif !important;
 }
 
-/* Fix Font Awesome icons after global Arabic font override */
-html[dir="rtl"] :where(.fa, .fa-solid, .fas),
-html[lang^="ar"] :where(.fa, .fa-solid, .fas),
-[dir="rtl"] :where(.fa, .fa-solid, .fas) {
-  font-family: "Font Awesome 6 Free" !important;
-  font-weight: 900 !important;
-  font-style: normal !important;
-}
-
-html[dir="rtl"] :where(.fa-regular, .far),
-html[lang^="ar"] :where(.fa-regular, .far),
-[dir="rtl"] :where(.fa-regular, .far) {
-  font-family: "Font Awesome 6 Free" !important;
-  font-weight: 400 !important;
-  font-style: normal !important;
-}
-
-html[dir="rtl"] :where(.fa-brands, .fab),
-html[lang^="ar"] :where(.fa-brands, .fab),
-[dir="rtl"] :where(.fa-brands, .fab) {
-  font-family: "Font Awesome 6 Brands" !important;
-  font-weight: 400 !important;
-  font-style: normal !important;
+iconify-icon {
+  display: inline-block;
+  flex-shrink: 0;
+  line-height: 1;
+  vertical-align: -0.125em;
 }
 
 *,
@@ -575,12 +559,12 @@ body.bright-page--dashboard :where(.chart-card, .card, .dashboard-panel) {
 }
 
 /* Chevron animations */
-.dropdown-container button i.fa-chevron-down {
+.dropdown-container button .icon-chevron-down {
   transition: transform 0.25s ease !important;
 }
 
-.dropdown-container:hover button i.fa-chevron-down,
-.dropdown-container:focus-within button i.fa-chevron-down {
+.dropdown-container:hover button .icon-chevron-down,
+.dropdown-container:focus-within button .icon-chevron-down {
   transform: rotate(180deg) !important;
 }
 
@@ -742,4 +726,3 @@ header[role="banner"] {
 ) {
   text-align: start !important;
 }
-

@@ -45,20 +45,20 @@
   <meta name="twitter:image" content="https://brightai.site/frontend/assets/images/logo.png" />
 
   <!-- Preloads -->
-  <link rel="preload" href="/frontend/assets/fonts/TheYearofTheCamel-Medium.otf" as="font" type="font/otf" crossorigin />
+  <link rel="preload" href="/frontend/assets/fonts/TheYearofTheCamel-Medium.woff2" as="font" type="font/woff2" crossorigin />
 
   <!-- Stylesheets -->
   <link rel="stylesheet" href="/frontend/css/tailwind.local.min.css" />
   <link rel="stylesheet" href="/frontend/assets/css/global-fonts.css?v=20260529-official-font">
-  <link rel="stylesheet" href="/frontend/vendor/fontawesome/css/all.min.css?v=20260529-icons">
-  <link rel="stylesheet" href="/frontend/css/sitewide-modernization.css" />
+<link rel="stylesheet" href="/frontend/css/sitewide-modernization.css" />
   <link rel="stylesheet" href="/frontend/css/unified-header.css?v=20260529-nav-v1">
   <link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css">
 
   <style>
     @font-face {
       font-family: 'BrightAI Official';
-      src: url('/frontend/assets/fonts/TheYearofTheCamel-Medium.otf') format('opentype');
+      src: url('/frontend/assets/fonts/TheYearofTheCamel-Medium.woff2') format('woff2'),
+    url('/frontend/assets/fonts/TheYearofTheCamel-Medium.otf') format('opentype');
       font-weight: 200;
       font-style: normal;
       font-display: swap;
@@ -161,6 +161,7 @@
   ]
 }
   </script>
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
 </head>
 <body class="bg-grid">
 <!-- BRIGHTAI_NOSCRIPT_NAV_START -->
@@ -330,7 +331,7 @@
     <div class="glass rounded-2xl p-6 border border-brand-500/20 bg-brand-500/[.02]">
       <div class="flex items-start gap-4">
         <span class="w-10 h-10 rounded-xl bg-brand-500/10 border border-brand-500/30 flex items-center justify-center shrink-0">
-          <i class="fa-solid fa-arrow-up-right-from-square text-brand-300"></i>
+          <iconify-icon class="text-brand-300 icon-arrow-up-right-from-square" icon="mdi:open-in-new"></iconify-icon>
         </span>
         <div>
           <p class="text-white/70 text-sm leading-relaxed">
@@ -346,7 +347,7 @@
     <div>
       <a href="/" class="flex items-center gap-3" aria-label="BrightAI">
         <span class="inline-flex w-10 h-10 rounded-xl items-center justify-center bg-gradient-to-br from-indigo-600 via-purple-600 to-emerald-500">
-          <i class="fa-solid fa-shield-halved text-white"></i>
+          <iconify-icon class="text-white icon-shield-halved" icon="mdi:shield-half-full"></iconify-icon>
         </span>
         <span class="font-extrabold text-xl">Bright<span class="gradient-text">Trust</span></span>
       </a>
@@ -377,9 +378,9 @@
     <div>
       <h3 class="font-bold mb-3">تواصل</h3>
       <ul class="space-y-2 text-sm text-white/60">
-        <li><a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="hover:text-green-400"><i class="fa-brands fa-whatsapp text-green-400"></i> واتساب: 053-822-9013</a></li>
-        <li><a href="mailto:yazeed1job@gmail.com" class="hover:text-brand-300"><i class="fa-solid fa-envelope text-brand-500"></i> yazeed1job@gmail.com</a></li>
-        <li><i class="fa-solid fa-location-dot text-brand-500"></i> الرياض، المملكة العربية السعودية</li>
+        <li><a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="hover:text-green-400"><iconify-icon class="text-green-400 icon-whatsapp" icon="mdi:whatsapp"></iconify-icon> واتساب: 053-822-9013</a></li>
+        <li><a href="mailto:yazeed1job@gmail.com" class="hover:text-brand-300"><iconify-icon class="text-brand-500 icon-envelope" icon="mdi:email"></iconify-icon> yazeed1job@gmail.com</a></li>
+        <li><iconify-icon class="text-brand-500 icon-location-dot" icon="mdi:map-marker"></iconify-icon> الرياض، المملكة العربية السعودية</li>
       </ul>
     </div>
   </div>

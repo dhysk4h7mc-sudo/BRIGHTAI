@@ -164,12 +164,15 @@
     }
 
     .kpi-value {
-      font-size: 2.25rem;
+      font-size: clamp(1.75rem, 5vw, 2.25rem);
       font-weight: 700;
       font-variant-numeric: tabular-nums;
-      line-height: 1;
+      line-height: 1.1;
       margin-bottom: var(--space-2);
       transition: color var(--transition-base);
+      min-inline-size: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .kpi-card.brand .kpi-value { color: var(--brand); }
@@ -210,6 +213,8 @@
 
     .chart-card {
       padding: var(--space-5);
+      overflow: hidden;
+      max-inline-size: 100%;
     }
 
     .chart-header {
@@ -234,6 +239,12 @@
     .chart-canvas-wrap {
       position: relative;
       height: 240px;
+      overflow: hidden;
+      max-inline-size: 100%;
+    }
+
+    .chart-canvas-wrap canvas {
+      max-inline-size: 100%;
     }
 
     .chart-canvas-wrap.tall {
@@ -418,9 +429,61 @@
       .dashboard-action-btn,
       .custom-date-range input {
         flex: 1 1 calc(50% - var(--space-2));
+        min-height: 44px;
+        touch-action: manipulation;
       }
 
       .chart-canvas-wrap.tall {
         height: 280px;
+      }
+
+      .risk-table-card {
+        padding: var(--space-3);
+      }
+
+      .risk-table-scroll {
+        margin-inline: calc(-1 * var(--space-3));
+        padding-inline: var(--space-3);
+      }
+
+      .top-risk-table {
+        min-width: 640px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .kpi-card {
+        padding: var(--space-4);
+      }
+
+      .kpi-value {
+        font-size: 1.75rem;
+      }
+
+      .kpi-label {
+        font-size: 0.6875rem;
+      }
+
+      .kpi-icon {
+        width: 32px;
+        height: 32px;
+      }
+
+      .kpi-icon svg {
+        width: 16px;
+        height: 16px;
+      }
+
+      .chart-canvas-wrap {
+        height: 200px;
+      }
+
+      .chart-canvas-wrap.tall {
+        height: 240px;
+      }
+
+      .chart-header {
+        flex-wrap: wrap;
+        gap: var(--space-2);
       }
     }

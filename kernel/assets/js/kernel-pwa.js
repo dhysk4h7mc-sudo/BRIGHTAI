@@ -77,7 +77,7 @@
     banner.setAttribute('role', 'alert');
     banner.innerHTML = window.DOMPurify?.sanitize?.(`
       <div class="kernel-update-banner__content">
-        <i class="fa-solid fa-rotate" aria-hidden="true"></i>
+        <iconify-icon class="icon-rotate" aria-hidden="true" icon="mdi:refresh"></iconify-icon>
         <div>
           <strong>تحديث جديد متوفر</strong>
           <span>يتوفر إصدار أحدث من BrightAI Kernel. حدّث الآن للحصول على أحدث التحسينات.</span>
@@ -89,7 +89,7 @@
       </div>
     `) || `
       <div class="kernel-update-banner__content">
-        <i class="fa-solid fa-rotate" aria-hidden="true"></i>
+        <iconify-icon class="icon-rotate" aria-hidden="true" icon="mdi:refresh"></iconify-icon>
         <div>
           <strong>تحديث جديد متوفر</strong>
           <span>يتوفر إصدار أحدث من BrightAI Kernel. حدّث الآن للحصول على أحدث التحسينات.</span>

@@ -6,7 +6,8 @@
 /* تعريف الخطوط */
 @font-face {
     font-family: 'BrightAI Official';
-    src: url('/frontend/assets/fonts/TheYearofTheCamel-Medium.otf') format('opentype');
+    src: url('/frontend/assets/fonts/TheYearofTheCamel-Medium.woff2') format('woff2'),
+    url('/frontend/assets/fonts/TheYearofTheCamel-Medium.otf') format('opentype');
     font-weight: 400 900;
     font-style: normal;
     font-display: swap;
@@ -16,7 +17,7 @@
    تطبيق الخطوط - المحتوى العام
    =================================== */
 
-*:not(.fa):not(.fa-solid):not(.fa-regular):not(.fa-brands):not(.fas):not(.far):not(.fab) {
+* {
     font-family: 'BrightAI Official', 'Arial', sans-serif !important;
 }
 
@@ -201,32 +202,38 @@ footer h6 {
     font-weight: 700 !important;
 }
 
-.fa,
-.fa-solid,
-.fa-regular,
-.fa-brands,
-.fas,
-.far,
-.fab {
-    font-family: var(--fa-style-family, "Font Awesome 6 Free") !important;
+iconify-icon {
+    display: inline-block;
+    flex-shrink: 0;
+    line-height: 1;
+    vertical-align: -0.125em;
 }
 
-.fa-solid,
-.fas {
-    font-family: "Font Awesome 6 Free" !important;
-    font-weight: 900 !important;
+.iconify-spin {
+    animation: iconify-spin 1s linear infinite;
 }
 
-.fa-regular,
-.far {
-    font-family: "Font Awesome 6 Free" !important;
-    font-weight: 400 !important;
+.iconify-pulse {
+    animation: iconify-pulse 1.2s ease-in-out infinite;
 }
 
-.fa-brands,
-.fab {
-    font-family: "Font Awesome 6 Brands" !important;
-    font-weight: 400 !important;
+@keyframes iconify-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes iconify-pulse {
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.65;
+        transform: scale(0.92);
+    }
 }
 
 /* ===================================
@@ -337,12 +344,13 @@ html[lang="ar-SA"] {
    =================================== */
 
 /* تحميل الخطوط بشكل أسرع */
-@supports (font-display: optional) {
+@supports (font-display: swap) {
     @font-face {
         font-family: 'BrightAI Official';
-        src: url('/frontend/assets/fonts/TheYearofTheCamel-Medium.otf') format('opentype');
+        src: url('/frontend/assets/fonts/TheYearofTheCamel-Medium.woff2') format('woff2'),
+    url('/frontend/assets/fonts/TheYearofTheCamel-Medium.otf') format('opentype');
         font-weight: 400 900;
         font-style: normal;
-        font-display: optional;
+        font-display: swap;
     }
 }

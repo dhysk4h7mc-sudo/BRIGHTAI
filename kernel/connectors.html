@@ -36,8 +36,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
 <link rel="stylesheet" href="/kernel/assets/css/kernel.css">
-  <link rel="stylesheet" href="/frontend/vendor/fontawesome/css/all.min.css">
-  <link rel="stylesheet" href="/frontend/css/unified-header.css?v=20260529-nav-v1">
+<link rel="stylesheet" href="/frontend/css/unified-header.css?v=20260529-nav-v1">
   <link rel="stylesheet" href="/kernel/assets/css/pages/connectors.css">
   <meta name="robots" content="index, follow">
 <!-- AI Search / GEO / LLMO -->
@@ -117,8 +116,9 @@
   ]
 }
   </script>
-  <link rel="preload" href="/frontend/assets/fonts/TheYearofTheCamel-Medium.otf" as="font" type="font/otf" crossorigin />
+  <link rel="preload" href="/frontend/assets/fonts/TheYearofTheCamel-Medium.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css">
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
 </head>
 <body>
   <a href="#main-content" class="skip-link">تخطي إلى المحتوى الرئيسي</a>
@@ -257,7 +257,7 @@
           <p>موصلات مؤسسية read-only للحوكمة، المخاطر، وسيناريوهات التدقيق التجريبية</p>
         </div>
         <div class="header-actions">
-          <span class="connectors-eyebrow"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i> Demo Mode</span>
+          <span class="connectors-eyebrow"><iconify-icon class="icon-shield-halved" aria-hidden="true" icon="mdi:shield-half-full"></iconify-icon> Demo Mode</span>
         </div>
       </header>
 
@@ -286,13 +286,13 @@
           <div class="connectors-hero">
             <div class="connectors-hero-content">
               <div>
-                <span class="connectors-eyebrow"><i class="fa-solid fa-lock" aria-hidden="true"></i> Read-only governance layer</span>
+                <span class="connectors-eyebrow"><iconify-icon class="icon-lock" aria-hidden="true" icon="mdi:lock"></iconify-icon> Read-only governance layer</span>
                 <h2 id="connectors-title">اعرض كيف يقرأ BrightAI من أنظمة المؤسسة بدون ما يلمس بيانات حقيقية.</h2>
                 <p>كل موصل هنا مصمم لعرض المبيعات والحوكمة: صلاحيات read-only، تغطية PDPL/NCA/SFDA، وسيناريو جاهز ينتج trace_id قابل للتتبع.</p>
               </div>
               <div>
                 <div class="demo-warning" role="note">
-                  <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+                  <iconify-icon class="icon-triangle-exclamation" aria-hidden="true" icon="mdi:alert-triangle"></iconify-icon>
                   <div>
                     <strong>Demo connector — no real data is accessed</strong><br>
                     لا توجد حقول credentials، ولا يتم حفظ مفاتيح أو كلمات مرور في Frontend. نتائج الاختبار والسيناريوهات وهمية للتجربة فقط.
@@ -329,7 +329,7 @@
                   <div class="connector-field"><span>Data classes</span><div class="connector-chips"><span class="connector-chip">invoices</span><span class="connector-chip">contracts</span></div></div>
                   <div class="connector-field"><span>Governance</span><div class="connector-chips"><span class="connector-chip">PDPL</span><span class="connector-chip">NCA</span><span class="connector-chip">SFDA</span></div></div>
                 </div>
-                <div class="scenario-strip"><i class="fa-solid fa-route" aria-hidden="true"></i> SAP invoice risk review</div>
+                <div class="scenario-strip"><iconify-icon class="icon-route" aria-hidden="true" icon="mdi:routes"></iconify-icon> SAP invoice risk review</div>
               </div>
               <div class="connector-footer">
                 <button class="connector-btn secondary" data-test-connector="SAP" aria-label="اختبار اتصال موصل SAP">اختبار الاتصال</button>
@@ -356,7 +356,7 @@
                   <div class="connector-field"><span>Data classes</span><div class="connector-chips"><span class="connector-chip">invoices</span><span class="connector-chip">HR files</span></div></div>
                   <div class="connector-field"><span>Governance</span><div class="connector-chips"><span class="connector-chip">PDPL</span><span class="connector-chip">NCA</span><span class="connector-chip">SFDA</span></div></div>
                 </div>
-                <div class="scenario-strip"><i class="fa-solid fa-route" aria-hidden="true"></i> Oracle ERP vendor invoice review</div>
+                <div class="scenario-strip"><iconify-icon class="icon-route" aria-hidden="true" icon="mdi:routes"></iconify-icon> Oracle ERP vendor invoice review</div>
               </div>
               <div class="connector-footer">
                 <button class="connector-btn secondary" data-test-connector="Oracle ERP" aria-label="اختبار اتصال موصل Oracle ERP">اختبار الاتصال</button>
@@ -383,7 +383,7 @@
                   <div class="connector-field"><span>Data classes</span><div class="connector-chips"><span class="connector-chip">contracts</span><span class="connector-chip">HR files</span></div></div>
                   <div class="connector-field"><span>Governance</span><div class="connector-chips"><span class="connector-chip">PDPL</span><span class="connector-chip">NCA</span><span class="connector-chip">SFDA</span></div></div>
                 </div>
-                <div class="scenario-strip"><i class="fa-solid fa-route" aria-hidden="true"></i> SharePoint contract review</div>
+                <div class="scenario-strip"><iconify-icon class="icon-route" aria-hidden="true" icon="mdi:routes"></iconify-icon> SharePoint contract review</div>
               </div>
               <div class="connector-footer">
                 <button class="connector-btn secondary" data-test-connector="Microsoft SharePoint" aria-label="اختبار اتصال موصل Microsoft SharePoint">اختبار الاتصال</button>
@@ -410,7 +410,7 @@
                   <div class="connector-field"><span>Data classes</span><div class="connector-chips"><span class="connector-chip">invoices</span><span class="connector-chip">HR files</span><span class="connector-chip">contracts</span></div></div>
                   <div class="connector-field"><span>Governance</span><div class="connector-chips"><span class="connector-chip">PDPL</span><span class="connector-chip">NCA</span><span class="connector-chip">SFDA</span></div></div>
                 </div>
-                <div class="scenario-strip"><i class="fa-solid fa-route" aria-hidden="true"></i> Excel HR file privacy review</div>
+                <div class="scenario-strip"><iconify-icon class="icon-route" aria-hidden="true" icon="mdi:routes"></iconify-icon> Excel HR file privacy review</div>
               </div>
               <div class="connector-footer">
                 <button class="connector-btn secondary" data-test-connector="Excel/CSV" aria-label="اختبار اتصال موصل Excel/CSV">اختبار الاتصال</button>
@@ -437,7 +437,7 @@
                   <div class="connector-field"><span>Data classes</span><div class="connector-chips"><span class="connector-chip">patient records</span><span class="connector-chip">HR files</span></div></div>
                   <div class="connector-field"><span>Governance</span><div class="connector-chips"><span class="connector-chip">PDPL</span><span class="connector-chip">NCA</span><span class="connector-chip">SFDA</span></div></div>
                 </div>
-                <div class="scenario-strip"><i class="fa-solid fa-route" aria-hidden="true"></i> HIS CAPA review</div>
+                <div class="scenario-strip"><iconify-icon class="icon-route" aria-hidden="true" icon="mdi:routes"></iconify-icon> HIS CAPA review</div>
               </div>
               <div class="connector-footer">
                 <button class="connector-btn secondary" data-test-connector="HIS Healthcare" aria-label="اختبار اتصال موصل HIS Healthcare">اختبار الاتصال</button>
@@ -464,7 +464,7 @@
                   <div class="connector-field"><span>Data classes</span><div class="connector-chips"><span class="connector-chip">contracts</span><span class="connector-chip">invoices</span></div></div>
                   <div class="connector-field"><span>Governance</span><div class="connector-chips"><span class="connector-chip">PDPL</span><span class="connector-chip">NCA</span><span class="connector-chip">SFDA</span></div></div>
                 </div>
-                <div class="scenario-strip"><i class="fa-solid fa-route" aria-hidden="true"></i> CRM contract obligation review</div>
+                <div class="scenario-strip"><iconify-icon class="icon-route" aria-hidden="true" icon="mdi:routes"></iconify-icon> CRM contract obligation review</div>
               </div>
               <div class="connector-footer">
                 <button class="connector-btn secondary" data-test-connector="CRM" aria-label="اختبار اتصال موصل CRM">اختبار الاتصال</button>
@@ -473,6 +473,28 @@
             </article>
           </div>
         </section>
+
+        <!-- SEO Content Section -->
+        <section class="kernel-seo-content" aria-labelledby="seo-connectors-guide">
+          <h2 id="seo-connectors-guide">موصلات BrightAI Kernel للأنظمة والبيانات</h2>
+          <p>توفر صفحة الموصلات في <a href="/kernel/">BrightAI Kernel</a> واجهة مركزية لربط منصة الحوكمة بأنظمة العمل ومصادر البيانات المهمة داخل المؤسسة. تعمل الموصلات كجسور آمنة تنقل البيانات بين الأنظمة الخارجية ونواة الحوكمة، مع تطبيق ضوابط الوصول والفحص تلقائياً. هذا الربط يضمن أن حوكمة الذكاء الاصطناعي لا تعمل بمعزل بل تتكامل مع بيئة المؤسسة التقنية الكاملة.</p>
+
+          <h3>الموصلات المدعومة</h3>
+          <p>يدعم النظام عدة أنواع من الموصلات لتغطية مختلف احتياجات المؤسسة. موصلات قواعد البيانات تربط Kernel بمخازن البيانات الداخلية لتطبيق سياسات الحوكمة على الاستعلامات. موصلات الأنظمة الإدارية مثل ERP وCRM تسمح بفحص البيانات المتدفقة من هذه الأنظمة. موصلات خدمات الذكاء الاصطناعي تربط مختلف مزودي النماذج بمرحلة الفحص المركزية في Kernel. كل موصل يعرض حالته ونوع البيانات التي يعالجها وتصنيف الحوكمة المطبّق.</p>
+
+          <h3>الأمان والتحكم في الوصول</h3>
+          <p>كل موصل يخضع لضوابط أمان صارمة تحدد نوع البيانات المسموح بنقلها ومستوى الوصول الممنوح. يتم تطبيق سياسات من <a href="/kernel/policies/">محرر السياسات</a> مباشرة على كل موصل، مما يضمن أن البيانات الحساسة تُفحص قبل نقلها بين الأنظمة. كل عملية نقل تُسجّل في <a href="/kernel/audit/">سجل التدقيق</a> مع معرّف تتبع فريد.</p>
+
+          <h3>اختبار الموصلات والسيناريوهات</h3>
+          <p>يمكن اختبار كل موصل للتأكد من اتصاله السليم قبل استخدامه في الإنتاج. يوفر النظام أيضاً إمكانية تشغيل سيناريوهات اختبار محددة من كل موصل عبر <a href="/kernel/scenarios/">صفحة السيناريوهات</a>، مما يسمح بالتحقق من أن الضوابط تعمل بشكل صحيح في سياق البيانات الحقيقية لكل نظام.</p>
+
+          <h3>مقاييس الأداء</h3>
+          <p>تعرض لوحة المقاييس في أعلى صفحة الموصلات إحصائيات سريعة تشمل عدد الموصلات النشطة وعدد العمليات المعالجة ومعدل النجاح. هذه المقاييس تتكامل مع <a href="/kernel/stats/">لوحة الإحصائيات</a> العامة وتظهر في <a href="/kernel/reports/">التقارير</a> التنفيذية.</p>
+
+          <h3>الخطوات التالية</h3>
+          <p>ابدأ بتفعيل الموصلات المطلوبة واختبار اتصالها. شغّل سيناريو اختبار من كل موصل للتأكد من فعالية الضوابط. راجع <a href="/kernel/compliance/">حالة الامتثال</a> لمعرفة ما إذا كانت حزم الامتثال تتطلب موصلات إضافية. وابدأ بـ <a href="/kernel/chat/">المحادثة الآمنة</a> لتجربة العمليات عبر الموصلات المفعّلة.</p>
+        </section>
+
       </div>
     </main>
   </div>
@@ -525,7 +547,7 @@
       panel.classList.add('is-visible');
       panel.innerHTML = KernelUtils.sanitizeHtml(`
         <div class="connector-result-title">
-          <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
+          <iconify-icon class="icon-circle-check" aria-hidden="true" icon="mdi:check-circle"></iconify-icon>
           <span>${escapeHtml(title)}</span>
         </div>
         <p>${escapeHtml(message)}</p>

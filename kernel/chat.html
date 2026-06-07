@@ -35,8 +35,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="/kernel/assets/css/kernel.css">
-  <link rel="stylesheet" href="/frontend/vendor/fontawesome/css/all.min.css">
-  <link rel="stylesheet" href="/frontend/css/unified-header.css?v=20260529-nav-v1">
+<link rel="stylesheet" href="/frontend/css/unified-header.css?v=20260529-nav-v1">
   <!-- Markdown rendering + syntax highlighting -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11/styles/github-dark-dimmed.min.css">
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
@@ -120,8 +119,9 @@
   ]
 }
   </script>
-  <link rel="preload" href="/frontend/assets/fonts/TheYearofTheCamel-Medium.otf" as="font" type="font/otf" crossorigin />
+  <link rel="preload" href="/frontend/assets/fonts/TheYearofTheCamel-Medium.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css">
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
 </head>
 <body>
   <a href="#main-content" class="skip-link">تخطي إلى المحتوى الرئيسي</a>
@@ -450,9 +450,29 @@
           <span class="input-hint">Enter للسطر الجديد · Ctrl+Enter للإرسال</span>
         </div>
       </div>
-    </main>
 
-    <!-- ── Right Kernel Panel ── -->
+      <!-- SEO Content Section -->
+      <section class="kernel-seo-content" aria-labelledby="seo-chat-guide">
+        <h2 id="seo-chat-guide">المحادثة الآمنة لحوكمة الذكاء الاصطناعي</h2>
+        <p>توفر واجهة المحادثة في <a href="/kernel/">BrightAI Kernel</a> بيئة آمنة ومُحكمة لتفاعل فرق العمل مع نماذج الذكاء الاصطناعي. تعمل هذه الواجهة كطبقة وسيطة تفحص كل رسالة واردة وصادرة عبر جدار الحماية الخاص بالذكاء الاصطناعي، مما يضمن حماية البيانات الحساسة والالتزام بالسياسات التنظيمية المفعّلة. هذه الواجهة مصممة خصيصاً لتلبية احتياجات المؤسسات السعودية التي تتطلب توازناً بين الاستفادة من الذكاء الاصطناعي والحفاظ على أعلى مستويات الأمان والامتثال.</p>
+
+        <h3>آلية الفحص والحماية</h3>
+        <p>عند إرسال أي رسالة عبر واجهة المحادثة، تمر بعدة مراحل فحص آلية قبل وصولها إلى نموذج الذكاء الاصطناعي. أولاً، يفحص النظام وجود بيانات شخصية أو حساسة في النص باستخدام كاشف البيانات الحساسة PII Detector. ثانياً، يحسب درجة المخاطر بناءً على محتوى الرسالة والسياق وسياسات المؤسسة من <a href="/kernel/policies/">محرر السياسات</a>. ثالثاً، يحدد ما إذا كانت الرسالة تحتاج موافقة بشرية من <a href="/kernel/approvals/">صفحة الموافقات</a> بناءً على مستوى المخاطر. وأخيراً، يسمح بالرسالة الآمنة أو يعترضها مع توثيق كامل في <a href="/kernel/audit/">سجل التدقيق</a>.</p>
+
+        <h3>تحليل النواة الحي</h3>
+        <p>تعرض لوحة التحليل الجانبية تحليلاً فورياً لكل رسالة تشمل درجة المخاطر وإجراءات الجدار الأمني وبيانات كشف PII ومعرّف التتبع. هذا التحليل يعطي المستخدم شفافية كاملة حول ما يحدث لرسالته ويساعد على فهم كيفية عمل ضوابط الحوكمة في الممارسة العملية. معرّف التتبع يمكن استخدامه لمتابعة العملية في <a href="/kernel/audit/">سجل التدقيق</a> أو <a href="/kernel/evidence/">ملفات الأدلة</a>.</p>
+
+        <h3>حالات الاستخدام الشائعة</h3>
+        <p>تستخدم المؤسسات واجهة المحادثة الآمنة في عدة سيناريوهات عملية. فرق الموارد البشرية تستخدمها للاستعلام عن بيانات الموظفين مع ضمان حماية المعلومات الشخصية وفقاً لنظام PDPL. فرق المالية تستخدمها لتحليل العقود والفواتير مع كشف البيانات المصرفية تلقائياً. فرق الدعم الفني تستخدمها لتوليد ردود ذكية مع ضمان عدم تسرب بيانات العملاء. كل هذه السيناريوهات يمكن اختبارها مسبقاً عبر <a href="/kernel/scenarios/">صفحة السيناريوهات</a>.</p>
+
+        <h3>الخصوصية والأمان</h3>
+        <p>تحافظ واجهة المحادثة على خصوصية البيانات من خلال عدة آليات. البيانات الحساسة المكتشفة تُقنّع تلقائياً قبل الإرسال للنموذج. سجل المحادثات مشفّر ومرتبط بمعرّف التتبع بدلاً من بيانات المستخدم الشخصية. كل المحادثات تُخزّن محلياً داخل بيئة المؤسسة ولا تُرسل لجهات خارجية بدون موافقة صريحة.</p>
+
+        <h3>الخطوات التالية</h3>
+        <p>بعد استخدام واجهة المحادثة، ننصح بمتابعة النتائج عبر <a href="/kernel/stats/">صفحة الإحصائيات</a> لمتابعة مؤشرات الأداء. إذا رغبت في ضبط سلوك الفحص، عدّل <a href="/kernel/policies/">السياسات</a> المناسبة. وإذا احتجت لتوثيق نتائج محادثة معينة، أنشئ <a href="/kernel/reports/">تقريراً</a> يتضمن <a href="/kernel/evidence/">الأدلة</a> ذات الصلة.</p>
+      </section>
+
+    </main>
     <aside class="kernel-panel" aria-label="لوحة تحليل النواة" role="complementary">
       <div class="panel-section">
         <div class="panel-section-title">تحليل النواة الحي</div>
@@ -1067,9 +1087,9 @@
             </div>
           </div>
           <div class="kernel-governance-actions" aria-label="إجراءات الحوكمة">
-            <a class="kernel-governance-btn" href="${getGovernanceActionHref('audit', meta.traceId)}"><i class="fa-solid fa-list-check" aria-hidden="true"></i><span>Audit</span></a>
-            <a class="kernel-governance-btn" href="${getGovernanceActionHref('evidence', meta.traceId)}"><i class="fa-solid fa-file-shield" aria-hidden="true"></i><span>Evidence</span></a>
-            <a class="kernel-governance-btn" href="${getGovernanceActionHref('policies', meta.traceId)}"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i><span>Create Policy</span></a>
+            <a class="kernel-governance-btn" href="${getGovernanceActionHref('audit', meta.traceId)}"><iconify-icon class="icon-list-check" aria-hidden="true" icon="mdi:format-list-checks"></iconify-icon><span>Audit</span></a>
+            <a class="kernel-governance-btn" href="${getGovernanceActionHref('evidence', meta.traceId)}"><iconify-icon class="icon-file-shield" aria-hidden="true" icon="mdi:file-lock"></iconify-icon><span>Evidence</span></a>
+            <a class="kernel-governance-btn" href="${getGovernanceActionHref('policies', meta.traceId)}"><iconify-icon class="icon-shield-halved" aria-hidden="true" icon="mdi:shield-half-full"></iconify-icon><span>Create Policy</span></a>
           </div>
         </div>
       `;

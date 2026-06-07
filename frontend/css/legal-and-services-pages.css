@@ -461,8 +461,8 @@ body.legal-services-page :focus-visible {
 }
 
 .lp-faq summary::after {
-  content: "\f078";
-  font-family: "Font Awesome 6 Free";
+  content: "⌄";
+  font-family: inherit;
   font-weight: 900;
   color: var(--lp-cyan);
   font-size: 0.9rem;

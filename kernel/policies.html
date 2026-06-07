@@ -36,8 +36,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
 <link rel="stylesheet" href="/kernel/assets/css/kernel.css">
-  <link rel="stylesheet" href="/frontend/vendor/fontawesome/css/all.min.css">
-  <link rel="stylesheet" href="/frontend/css/unified-header.css?v=20260529-nav-v1">
+<link rel="stylesheet" href="/frontend/css/unified-header.css?v=20260529-nav-v1">
   <link rel="stylesheet" href="/kernel/assets/css/pages/policies.css">
   <meta name="robots" content="index, follow">
 <!-- AI Search / GEO / LLMO -->
@@ -117,8 +116,9 @@
   ]
 }
   </script>
-<link rel="preload" href="/frontend/assets/fonts/TheYearofTheCamel-Medium.otf" as="font" type="font/otf" crossorigin />
+<link rel="preload" href="/frontend/assets/fonts/TheYearofTheCamel-Medium.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css">
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
 </head>
 <body>
   <a href="#main-content" class="skip-link">تخطي إلى المحتوى الرئيسي</a>
@@ -282,7 +282,7 @@
         <!-- Demo Data Status Bar -->
         <div class="mode-bar">
           <div>
-            <h4 class="u-mb-1 u-font-semibold"><i class="fas fa-magic u-ml-1 u-color-brand"></i>بيانات تجريبية</h4>
+            <h4 class="u-mb-1 u-font-semibold"><iconify-icon class="u-ml-1 u-color-brand icon-magic" icon="mdi:magic-staff"></iconify-icon>بيانات تجريبية</h4>
             <p id="demoModeHelp" class="u-text-sm u-color-text-secondary">الوضع الافتراضي يتصل بواجهة الإنتاج /api/kernel. فعّل هذا الخيار فقط لاستخدام المحاكاة المحلية.</p>
           </div>
           <div>
@@ -299,7 +299,7 @@
             <!-- Add Policy Form -->
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title"><i class="fas fa-plus-circle"></i>إضافة قاعدة أمنية جديدة</h3>
+                <h3 class="card-title"><iconify-icon class="icon-plus-circle" icon="mdi:plus-circle"></iconify-icon>إضافة قاعدة أمنية جديدة</h3>
               </div>
               <form id="addPolicyForm" onsubmit="savePolicy(event)">
                 <div class="form-row">
@@ -357,8 +357,8 @@
                 </div>
 
                 <div class="u-flex-between u-mt-4 u-gap-2">
-                  <button type="reset" class="btn btn-secondary" aria-label="إعادة تعيين نموذج السياسة"><i class="fas fa-undo"></i>إعادة تعيين</button>
-                  <button type="submit" class="btn btn-primary" aria-label="إضافة وحفظ سياسة جديدة"><i class="fas fa-save"></i>إضافة وحفظ السياسة</button>
+                  <button type="reset" class="btn btn-secondary" aria-label="إعادة تعيين نموذج السياسة"><iconify-icon class="icon-undo" icon="mdi:undo"></iconify-icon>إعادة تعيين</button>
+                  <button type="submit" class="btn btn-primary" aria-label="إضافة وحفظ سياسة جديدة"><iconify-icon class="icon-save" icon="mdi:content-save"></iconify-icon>إضافة وحفظ السياسة</button>
                 </div>
               </form>
             </div>
@@ -366,7 +366,7 @@
             <!-- Policy List Table -->
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title"><i class="fas fa-shield-alt"></i>قواعد وسياسات الحماية الحالية</h3>
+                <h3 class="card-title"><iconify-icon class="icon-shield-alt" icon="mdi:shield-check"></iconify-icon>قواعد وسياسات الحماية الحالية</h3>
                 <span class="badge badge-primary" id="policyCount">جاري التحميل...</span>
               </div>
               <div class="table-container">
@@ -396,7 +396,7 @@
           <div>
             <div class="card u-sticky-top">
               <div class="card-header">
-                <h3 class="card-title"><i class="fas fa-terminal"></i>شاشة المحاكاة المباشرة (Preview)</h3>
+                <h3 class="card-title"><iconify-icon class="icon-terminal" icon="mdi:console"></iconify-icon>شاشة المحاكاة المباشرة (Preview)</h3>
               </div>
               <div class="form-group" style="margin-bottom: 1rem;">
                 <label for="previewText">اكتب نصاً تجريبياً للفحص الفوري</label>
@@ -452,6 +452,28 @@
             </div>
           </div>
         </div>
+
+        <!-- SEO Content Section -->
+        <section class="kernel-seo-content" aria-labelledby="seo-policies-guide">
+          <h2 id="seo-policies-guide">محرر السياسات البصري لحوكمة الذكاء الاصطناعي</h2>
+          <p>يوفر محرر السياسات في <a href="/kernel/">BrightAI Kernel</a> واجهة بصرية واضحة لإنشاء ومراجعة وتعديل سياسات حوكمة الذكاء الاصطناعي داخل المؤسسة. تعمل السياسات كطبقة تحكم مركزية تحدد قواعد التعامل مع البيانات ومستويات المخاطر المقبولة وإجراءات الموافقة المطلوبة. كل سياسة تُربط تلقائياً بحزمة امتثال تنظيمية من <a href="/kernel/compliance/">صفحة الامتثال</a> وتُطبّق مباشرة على العمليات عبر <a href="/kernel/chat/">المحادثة الآمنة</a>.</p>
+
+          <h3>إنشاء سياسة جديدة</h3>
+          <p>عند إنشاء سياسة جديدة، يطلب النظام عدة معلومات أساسية: اسم السياسة ووصفها والتصنيف المناسب وحزمة الامتثال المرتبطة. يمكنك كتابة محتوى السياسة بحرية في المحرر النصي، مع معاينة مباشرة لشكل السياسة النهائي في لوحة العرض الجانبية. كل سياسة تحصل على معرّف فريد يُستخدم لتتبع تطبيقها في <a href="/kernel/audit/">سجل التدقيق</a>.</p>
+
+          <h3>المعاينة التفاعلية الحية</h3>
+          <p>الميزة الفريدة في محرر السياسات هي المعاينة التفاعلية الحية. عند كتابة نص في لوحة الاختبار، يُطبّق النظام السياسة المحددة فوراً على النص ويعرض النتائج بشكل مباشر. هذا يشمل تحديد البيانات الحساسة المكتشفة وتصنيف المخاطر والإجراء المتخذ وقناع البيانات المقنّعة. هذه الميزة تسمح لمسؤولي الحوكمة باختبار فعالية السياسة قبل تفعيلها فعلياً، مما يقلل من الأخطاء ويحسّن دقة الضوابط.</p>
+
+          <h3>ربط السياسات بحزم الامتثال</h3>
+          <p>كل سياسة يمكن ربطها بواحدة أو أكثر من حزم الامتثال المتاحة مثل PDPL وNCA ECC وGDPR وISO 27001. هذا الربط يضمن أن كل سياسة تساهم في سد متطلبات تنظيمية محددة، وأن حالة الامتثال الكلية تتحدث تلقائياً عند إضافة أو تعديل سياسة. يمكنك متابعة أثر السياسات على نسبة الامتثال من خلال <a href="/kernel/compliance/">لوحة الامتثال</a>.</p>
+
+          <h3>إدارة قائمة السياسات</h3>
+          <p>تعرض قائمة السياسات جميع السياسات المعرفة مع حالتها وتاريخ آخر تعديل وحزمة الامتثال المرتبطة. يمكنك تفعيل أو تعطيل أي سياسة بضغطة واحدة، مما يسهّل اختبار تأثير السياسات على عمليات <a href="/kernel/chat/">المحادثة</a> و<a href="/kernel/approvals/">الموافقات</a>. تعطيل سياسة لا يحذفها بل يوقف تطبيقها مؤقتاً مع إمكانية إعادة التفعيل.</p>
+
+          <h3>الخطوات التالية</h3>
+          <p>ابدأ بمراجعة السياسات الحالية وتأكد من تغطيتها لمتطلبات <a href="/kernel/compliance/">الامتثال</a> المطلوبة. اختبر كل سياسة باستخدام المعاينة التفاعلية. ثم راجع أثرها في <a href="/kernel/audit/">سجل التدقيق</a> و<a href="/kernel/stats/">الإحصائيات</a>. وإذا احتجت لاختبار سيناريو شامل، استخدم <a href="/kernel/scenarios/">صفحة السيناريوهات</a> أو <a href="/kernel/reports/">أنشئ تقريراً</a> يوثّق حالة السياسات الحالية.</p>
+        </section>
+
       </div>
     </main>
   </div>
@@ -540,10 +562,10 @@
 
         tableBody.innerHTML = KernelUtils.sanitizeHtml(policiesList.map(rule => {
           const actionLabels = {
-            mask: '<span class="badge badge-primary"><i class="fas fa-eye-slash u-ml-1"</i>تعمية (mask)</span>',
-            block: '<span class="badge badge-danger"><i class="fas fa-ban u-ml-1"</i>حظر (block)</span>',
-            escalate: '<span class="badge badge-warning"><i class="fas fa-arrow-up u-ml-1"</i>تصعيد (escalate)</span>',
-            allow: '<span class="badge badge-success"><i class="fas fa-check u-ml-1"</i>تمرير (allow)</span>'
+            mask: '<span class="badge badge-primary"><iconify-icon class="u-ml-1 icon-eye-slash" icon="mdi:eye-off" aria-hidden="true"></iconify-icon>تعمية (mask)</span>',
+            block: '<span class="badge badge-danger"><iconify-icon class="u-ml-1 icon-ban" icon="mdi:cancel" aria-hidden="true"></iconify-icon>حظر (block)</span>',
+            escalate: '<span class="badge badge-warning"><iconify-icon class="u-ml-1 icon-arrow-up" icon="mdi:arrow-up" aria-hidden="true"></iconify-icon>تصعيد (escalate)</span>',
+            allow: '<span class="badge badge-success"><iconify-icon class="u-ml-1 icon-check" icon="mdi:check" aria-hidden="true"></iconify-icon>تمرير (allow)</span>'
           };
 
           const piiLabels = {
@@ -583,7 +605,7 @@
                 </label>
               </td>
               <td>
-                <button class="btn btn-danger" data-kernel-click="deletePolicy" data-kernel-arg-0="${escapeHtml(rule.id)}" aria-label="حذف السياسة المحددة"><i class="fas fa-trash-alt"></i>حذف</button>
+                <button class="btn btn-danger" data-kernel-click="deletePolicy" data-kernel-arg-0="${escapeHtml(rule.id)}" aria-label="حذف السياسة المحددة"><iconify-icon class="icon-trash-alt" icon="mdi:trash-can"></iconify-icon>حذف</button>
               </td>
             </tr>
           `;
@@ -591,7 +613,7 @@
 
         runLivePreview();
       } catch (err) {
-        tableBody.innerHTML = KernelUtils.sanitizeHtml(`<tr><td colspan="7" class="u-text-center u-color-danger"><i class="fas fa-exclamation-triangle u-ml-1"></i>حدث خطأ أثناء الاتصال بالنواة: ${escapeHtml(err.message)}</td></tr>`);
+        tableBody.innerHTML = KernelUtils.sanitizeHtml(`<tr><td colspan="7" class="u-text-center u-color-danger"><iconify-icon class="u-ml-1 icon-exclamation-triangle" icon="mdi:alert-triangle"></iconify-icon>حدث خطأ أثناء الاتصال بالنواة: ${escapeHtml(err.message)}</td></tr>`);
       }
     }
 
@@ -783,7 +805,7 @@
       resAction.textContent = maxAction.toUpperCase();
       if (maxAction === 'block') {
         resAction.style.color = 'var(--danger)';
-        document.getElementById('resMaskedOutput').innerHTML = KernelUtils.sanitizeHtml(`<span class="u-color-danger u-font-bold"><i class="fas fa-ban"></i> [تم حظر المحتوى بالكامل بموجب السياسات النشطة]</span>`);
+        document.getElementById('resMaskedOutput').innerHTML = KernelUtils.sanitizeHtml(`<span class="u-color-danger u-font-bold"><iconify-icon class="icon-ban" icon="mdi:cancel"></iconify-icon> [تم حظر المحتوى بالكامل بموجب السياسات النشطة]</span>`);
       } else if (maxAction === 'escalate') {
         resAction.style.color = 'var(--warning)';
         document.getElementById('resMaskedOutput').textContent = maskedText;

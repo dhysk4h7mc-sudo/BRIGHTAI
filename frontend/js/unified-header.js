@@ -61,37 +61,37 @@
     {
       title: isEnglish ? 'AI Governance Platform' : 'منصة حوكمة الذكاء الاصطناعي',
       url: isEnglish ? '/solutions/ai-governance-platform/' : '/solutions/ai-governance-platform/',
-      icon: 'fa-scale-balanced',
+      icon: 'mdi:scale-balance',
       desc: isEnglish ? 'Operational layer to manage AI usage and risks within the enterprise.' : 'طبقة تشغيلية لإدارة استخدامات ومخاطر AI داخل المؤسسة.'
     },
     {
       title: 'AI Firewall',
       url: isEnglish ? '/solutions/ai-firewall/' : '/solutions/ai-firewall/',
-      icon: 'fa-shield-halved',
+      icon: 'mdi:shield-half-full',
       desc: isEnglish ? 'Inspect and protect sensitive data before it reaches models.' : 'فحص وحماية البيانات الحساسة قبل وصولها للنماذج.'
     },
     {
       title: 'AI Audit Trail',
       url: isEnglish ? '/solutions/ai-audit-trail/' : '/solutions/ai-audit-trail/',
-      icon: 'fa-file-signature',
+      icon: 'mdi:file-sign',
       desc: isEnglish ? 'Auditable log for every request, decision, and approval.' : 'سجل قابل للمراجعة لكل طلب وقرار وموافقة.'
     },
     {
       title: isEnglish ? 'Human Approval Layer' : 'Human Approval Layer',
       url: isEnglish ? '/solutions/human-approval-layer/' : '/solutions/human-approval-layer/',
-      icon: 'fa-user-check',
+      icon: 'mdi:account-check',
       desc: isEnglish ? 'Human review for high-risk requests and decisions.' : 'مراجعة بشرية للطلبات والقرارات عالية المخاطر.'
     },
     {
       title: 'AI Evidence File',
       url: isEnglish ? '/solutions/ai-evidence-file/' : '/solutions/ai-evidence-file/',
-      icon: 'fa-folder-open',
+      icon: 'mdi:folder-open',
       desc: isEnglish ? 'Evidence file supporting audit and compliance readiness.' : 'ملف أدلة يدعم التدقيق وجاهزية الامتثال.'
     },
     {
       title: isEnglish ? 'Continuous AI Governance' : 'Continuous AI Governance',
       url: isEnglish ? '/solutions/continuous-ai-governance/' : '/solutions/continuous-ai-governance/',
-      icon: 'fa-arrows-rotate',
+      icon: 'mdi:refresh',
       desc: isEnglish ? 'Ongoing monitoring for governance and compliance.' : 'متابعة مستمرة للحوكمة والامتثال.'
     }
   ];
@@ -101,57 +101,57 @@
     {
       title: isEnglish ? 'BrightAI Kernel' : 'نواة BrightAI',
       url: isEnglish ? '/kernel/' : '/kernel/',
-      icon: 'fa-gauge-high'
+      icon: 'mdi:gauge'
     },
     {
       title: isEnglish ? 'Request Inspector' : 'فاحص الطلبات',
       url: isEnglish ? '/kernel/chat/' : '/kernel/chat/',
-      icon: 'fa-comments'
+      icon: 'mdi:message-text'
     },
     {
       title: isEnglish ? 'Audit Log' : 'سجل التدقيق',
       url: isEnglish ? '/kernel/audit/' : '/kernel/audit/',
-      icon: 'fa-file-lines'
+      icon: 'mdi:file-document-outline'
     },
     {
       title: isEnglish ? 'Human Approvals' : 'الموافقات',
       url: isEnglish ? '/kernel/approvals/' : '/kernel/approvals/',
-      icon: 'fa-user-check'
+      icon: 'mdi:account-check'
     },
     {
       title: isEnglish ? 'Statistics' : 'الإحصائيات',
       url: isEnglish ? '/kernel/stats/' : '/kernel/stats/',
-      icon: 'fa-chart-line'
+      icon: 'mdi:chart-line'
     },
     {
       title: isEnglish ? 'Compliance' : 'الامتثال',
       url: isEnglish ? '/kernel/compliance/' : '/kernel/compliance/',
-      icon: 'fa-shield-halved'
+      icon: 'mdi:shield-half-full'
     },
     {
       title: isEnglish ? 'Policies' : 'السياسات',
       url: isEnglish ? '/kernel/policies/' : '/kernel/policies/',
-      icon: 'fa-book'
+      icon: 'mdi:book'
     },
     {
       title: isEnglish ? 'Connectors' : 'الموصلات',
       url: isEnglish ? '/kernel/connectors/' : '/kernel/connectors/',
-      icon: 'fa-plug'
+      icon: 'mdi:power-plug'
     },
     {
       title: isEnglish ? 'Reports' : 'التقارير',
       url: isEnglish ? '/kernel/reports/' : '/kernel/reports/',
-      icon: 'fa-file-shield'
+      icon: 'mdi:file-lock'
     },
     {
       title: isEnglish ? 'Scenarios' : 'السيناريوهات',
       url: isEnglish ? '/kernel/scenarios/' : '/kernel/scenarios/',
-      icon: 'fa-flask-vial'
+      icon: 'mdi:flask'
     },
     {
       title: isEnglish ? 'Evidence' : 'الأدلة',
       url: isEnglish ? '/kernel/evidence/' : '/kernel/evidence/',
-      icon: 'fa-folder-open'
+      icon: 'mdi:folder-open'
     }
   ];
 
@@ -181,13 +181,13 @@
           <li class="brightai-menu-item">
             <button class="brightai-menu-link ${pathname.includes('/solutions/ai-governance-platform/') ? 'is-active' : ''}" aria-haspopup="true" aria-expanded="false" id="b-solBtn" aria-controls="b-solMenu">
               <span>${t.solutions}</span>
-              <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+              <iconify-icon class="icon-chevron-down" aria-hidden="true" icon="mdi:chevron-down"></iconify-icon>
             </button>
             <div class="brightai-dropdown brightai-dropdown-solutions" id="b-solMenu" role="menu" aria-labelledby="b-solBtn">
               ${solutionsList.map(item => `
                 <a href="${item.url}" class="brightai-dropdown-item" role="menuitem">
                   <div class="brightai-dropdown-icon">
-                    <i class="fa-solid ${item.icon}"></i>
+                    <iconify-icon icon="${item.icon}"></iconify-icon>
                   </div>
                   <div class="brightai-dropdown-content">
                     <span class="brightai-dropdown-title">${item.title}</span>
@@ -197,7 +197,7 @@
               `).join('')}
               <a href="/services/" class="brightai-dropdown-cta" role="menuitem">
                 <span>${t.solutionsCta}</span>
-                <i class="fa-solid fa-arrow-left-long" aria-hidden="true"></i>
+                <iconify-icon class="icon-arrow-left-long" aria-hidden="true" icon="mdi:arrow-left"></iconify-icon>
               </a>
             </div>
           </li>
@@ -206,30 +206,30 @@
           <li class="brightai-menu-item">
             <button class="brightai-menu-link ${pathname.includes('/blog/') || pathname.includes('/docs/') ? 'is-active' : ''}" aria-haspopup="true" aria-expanded="false" id="b-resBtn" aria-controls="b-resMenu">
               <span>${t.resources}</span>
-              <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+              <iconify-icon class="icon-chevron-down" aria-hidden="true" icon="mdi:chevron-down"></iconify-icon>
             </button>
             <div class="brightai-dropdown brightai-dropdown-resources" id="b-resMenu" role="menu" aria-labelledby="b-resBtn">
               <!-- العمود الأول: الموارد -->
               <div class="brightai-resource-column">
                 <span class="brightai-column-title">${t.resourcesCol1}</span>
                 <a href="/blog/" class="brightai-resource-link" role="menuitem">
-                  <i class="fa-solid fa-rss"></i>
+                  <iconify-icon class="icon-rss" icon="mdi:rss"></iconify-icon>
                   <span>${isEnglish ? 'Blog' : 'المدونة'}</span>
                 </a>
                 <a href="/docs/" class="brightai-resource-link" role="menuitem">
-                  <i class="fa-solid fa-book-open"></i>
+                  <iconify-icon class="icon-book-open" icon="mdi:book-open"></iconify-icon>
                   <span>${isEnglish ? 'Documentation' : 'الوثائق'}</span>
                 </a>
                 <a href="/docs/pdpl-chatgpt-data-protection/" class="brightai-resource-link" role="menuitem">
-                  <i class="fa-solid fa-shield-halved"></i>
+                  <iconify-icon class="icon-shield-halved" icon="mdi:shield-half-full"></iconify-icon>
                   <span>${isEnglish ? 'ChatGPT Data Protection' : 'ChatGPT والبيانات الشخصية'}</span>
                 </a>
                 <a href="${prefix}/privacy-policy/" class="brightai-resource-link" role="menuitem">
-                  <i class="fa-solid fa-user-shield"></i>
+                  <iconify-icon class="icon-user-shield" icon="mdi:account-shield"></iconify-icon>
                   <span>${isEnglish ? 'Privacy Policy' : 'سياسة الخصوصية'}</span>
                 </a>
                 <a href="${prefix}/terms/" class="brightai-resource-link" role="menuitem">
-                  <i class="fa-solid fa-gavel"></i>
+                  <iconify-icon class="icon-gavel" icon="mdi:gavel"></iconify-icon>
                   <span>${isEnglish ? 'Terms & Conditions' : 'الشروط والأحكام'}</span>
                 </a>
               </div>
@@ -238,27 +238,27 @@
               <div class="brightai-resource-column">
                 <span class="brightai-column-title">${t.resourcesCol2}</span>
                 <a href="${prefix}/about/" class="brightai-resource-link" role="menuitem">
-                  <i class="fa-solid fa-building-shield"></i>
+                  <iconify-icon class="icon-building-shield" icon="mdi:shield-home"></iconify-icon>
                   <span>${isEnglish ? 'About BrightAI' : 'عن BrightAI'}</span>
                 </a>
                 <a href="${prefix}/contact/" class="brightai-resource-link" role="menuitem">
-                  <i class="fa-solid fa-envelope"></i>
+                  <iconify-icon class="icon-envelope" icon="mdi:email"></iconify-icon>
                   <span>${t.contact}</span>
                 </a>
                 <a href="/services/" class="brightai-resource-link" role="menuitem">
-                  <i class="fa-solid fa-handshake-angle"></i>
+                  <iconify-icon class="icon-handshake-angle" icon="mdi:handshake"></iconify-icon>
                   <span>${isEnglish ? 'Services' : 'الخدمات'}</span>
                 </a>
                 <a href="${prefix}/data-processing-agreement/" class="brightai-resource-link" role="menuitem">
-                  <i class="fa-solid fa-file-contract"></i>
+                  <iconify-icon class="icon-file-contract" icon="mdi:file-document-edit"></iconify-icon>
                   <span>${isEnglish ? 'Data Processing Agreement' : 'اتفاقية معالجة البيانات'}</span>
                 </a>
                 <a href="${prefix}/cookie-policy/" class="brightai-resource-link" role="menuitem">
-                  <i class="fa-solid fa-cookie-bite"></i>
+                  <iconify-icon class="icon-cookie-bite" icon="mdi:cookie"></iconify-icon>
                   <span>${isEnglish ? 'Cookie Policy' : 'سياسة الكوكيز'}</span>
                 </a>
                 <a href="${prefix}/trust/" class="brightai-resource-link" role="menuitem">
-                  <i class="fa-solid fa-shield-halved"></i>
+                  <iconify-icon class="icon-shield-halved" icon="mdi:shield-half-full"></iconify-icon>
                   <span>${isEnglish ? 'Trust Center' : 'مركز الثقة والأمان'}</span>
                 </a>
               </div>
@@ -267,15 +267,15 @@
               <div class="brightai-resource-column">
                 <span class="brightai-column-title">${t.resourcesCol3}</span>
                 <a href="https://www.linkedin.com/company/brightai" target="_blank" rel="noopener noreferrer" class="brightai-resource-link" role="menuitem">
-                  <i class="fa-brands fa-linkedin"></i>
+                  <iconify-icon class="icon-linkedin" icon="mdi:linkedin"></iconify-icon>
                   <span>LinkedIn</span>
                 </a>
                 <a href="https://x.com/BrightAISite" target="_blank" rel="noopener noreferrer" class="brightai-resource-link" role="menuitem">
-                  <i class="fa-brands fa-x-twitter"></i>
+                  <iconify-icon class="icon-x-twitter" icon="mdi:twitter"></iconify-icon>
                   <span>Twitter / X</span>
                 </a>
                 <a href="${t.whatsappUrl}" target="_blank" rel="noopener noreferrer" class="brightai-resource-link" role="menuitem">
-                  <i class="fa-brands fa-whatsapp text-emerald-400"></i>
+                  <iconify-icon class="text-emerald-400 icon-whatsapp" icon="mdi:whatsapp"></iconify-icon>
                   <span>WhatsApp Chat</span>
                 </a>
               </div>
@@ -286,13 +286,13 @@
           <li class="brightai-menu-item">
             <button class="brightai-menu-link ${pathname === '/kernel' || pathname.includes('/kernel/') ? 'is-active' : ''}" aria-haspopup="true" aria-expanded="false" id="b-kerBtn" aria-controls="b-kerMenu">
               <span>${t.kernel}</span>
-              <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+              <iconify-icon class="icon-chevron-down" aria-hidden="true" icon="mdi:chevron-down"></iconify-icon>
             </button>
             <div class="brightai-dropdown brightai-dropdown-kernel" id="b-kerMenu" role="menu" aria-labelledby="b-kerBtn">
               ${kernelList.map(item => `
                 <a href="${item.url}" class="brightai-dropdown-item" role="menuitem">
                   <div class="brightai-dropdown-icon">
-                    <i class="fa-solid ${item.icon}"></i>
+                    <iconify-icon icon="${item.icon}"></iconify-icon>
                   </div>
                   <div class="brightai-dropdown-content">
                     <span class="brightai-dropdown-title">${item.title}</span>
@@ -316,15 +316,15 @@
         <!-- أزرار الإجراءات والهمبرغر للجوال -->
         <div class="brightai-actions">
           <a href="${t.whatsappUrl}" target="_blank" rel="noopener noreferrer" class="brightai-btn brightai-btn-wa" aria-label="${t.waBtn}">
-            <i class="fa-brands fa-whatsapp"></i>
+            <iconify-icon class="icon-whatsapp" icon="mdi:whatsapp"></iconify-icon>
             <span>${t.waBtn}</span>
           </a>
           <a href="${prefix}/#demo" class="brightai-btn brightai-btn-demo">
-            <i class="fa-solid fa-rocket"></i>
+            <iconify-icon class="icon-rocket" icon="mdi:rocket-launch"></iconify-icon>
             <span>${t.demoBtn}</span>
           </a>
           <button id="brightai-hamburger" class="brightai-hamburger-btn" aria-label="${t.openMenu}" aria-expanded="false" aria-controls="brightai-mobile-drawer">
-            <i class="fa-solid fa-bars"></i>
+            <iconify-icon class="icon-bars" icon="mdi:menu"></iconify-icon>
           </button>
         </div>
       </nav>
@@ -338,7 +338,7 @@
           <span class="brightai-logo-text">Bright<span class="brightai-logo-text-gradient">AI</span></span>
         </a>
         <button id="brightai-drawer-close" class="brightai-drawer-close" aria-label="${t.closeMenu}">
-          <i class="fa-solid fa-xmark"></i>
+          <iconify-icon class="icon-xmark" icon="mdi:close"></iconify-icon>
         </button>
       </div>
 
@@ -347,7 +347,7 @@
           <ul class="brightai-drawer-menu">
             <li>
               <a href="${prefix}/" class="brightai-drawer-link ${pathname === '/' || pathname === '/index.html' || pathname === '/en/' || pathname === '/en/index.html' ? 'is-active' : ''}">
-                <i class="fa-solid fa-house"></i>
+                <iconify-icon class="icon-house" icon="mdi:home"></iconify-icon>
                 <span>${t.home}</span>
               </a>
             </li>
@@ -356,12 +356,12 @@
             <li>
               <button class="brightai-drawer-accordion-btn ${pathname.includes('/solutions/ai-governance-platform/') ? 'is-active' : ''}" aria-expanded="false" aria-controls="acc-solutions">
                 <span>${t.solutions}</span>
-                <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                <iconify-icon class="icon-chevron-down" aria-hidden="true" icon="mdi:chevron-down"></iconify-icon>
               </button>
               <div id="acc-solutions" class="brightai-drawer-accordion-content">
                 ${solutionsList.map(item => `
                   <a href="${item.url}" class="brightai-drawer-sublink">
-                    <i class="fa-solid ${item.icon}"></i>
+                    <iconify-icon icon="${item.icon}"></iconify-icon>
                     <div>
                       <span class="brightai-drawer-subtitle">${item.title}</span>
                       <span class="brightai-drawer-subdesc">${item.desc}</span>
@@ -375,47 +375,47 @@
             <li>
               <button class="brightai-drawer-accordion-btn ${pathname.includes('/blog/') || pathname.includes('/docs/') ? 'is-active' : ''}" aria-expanded="false" aria-controls="acc-resources">
                 <span>${t.resources}</span>
-                <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                <iconify-icon class="icon-chevron-down" aria-hidden="true" icon="mdi:chevron-down"></iconify-icon>
               </button>
               <div id="acc-resources" class="brightai-drawer-accordion-content">
                 <a href="/blog/" class="brightai-drawer-sublink">
-                  <i class="fa-solid fa-rss"></i>
+                  <iconify-icon class="icon-rss" icon="mdi:rss"></iconify-icon>
                   <div><span class="brightai-drawer-subtitle">${isEnglish ? 'Blog' : 'المدونة'}</span></div>
                 </a>
                 <a href="/docs/" class="brightai-drawer-sublink">
-                  <i class="fa-solid fa-book-open"></i>
+                  <iconify-icon class="icon-book-open" icon="mdi:book-open"></iconify-icon>
                   <div><span class="brightai-drawer-subtitle">${isEnglish ? 'Documentation' : 'الوثائق'}</span></div>
                 </a>
                 <a href="${prefix}/privacy-policy/" class="brightai-drawer-sublink">
-                  <i class="fa-solid fa-user-shield"></i>
+                  <iconify-icon class="icon-user-shield" icon="mdi:account-shield"></iconify-icon>
                   <div><span class="brightai-drawer-subtitle">${isEnglish ? 'Privacy Policy' : 'سياسة الخصوصية'}</span></div>
                 </a>
                 <a href="${prefix}/terms/" class="brightai-drawer-sublink">
-                  <i class="fa-solid fa-gavel"></i>
+                  <iconify-icon class="icon-gavel" icon="mdi:gavel"></iconify-icon>
                   <div><span class="brightai-drawer-subtitle">${isEnglish ? 'Terms & Conditions' : 'الشروط والأحكام'}</span></div>
                 </a>
                 <a href="${prefix}/contact/" class="brightai-drawer-sublink">
-                  <i class="fa-solid fa-envelope"></i>
+                  <iconify-icon class="icon-envelope" icon="mdi:email"></iconify-icon>
                   <div><span class="brightai-drawer-subtitle">${t.contact}</span></div>
                 </a>
                 <a href="${prefix}/about/" class="brightai-drawer-sublink">
-                  <i class="fa-solid fa-building-shield"></i>
+                  <iconify-icon class="icon-building-shield" icon="mdi:shield-home"></iconify-icon>
                   <div><span class="brightai-drawer-subtitle">${isEnglish ? 'About BrightAI' : 'عن BrightAI'}</span></div>
                 </a>
                 <a href="/services/" class="brightai-drawer-sublink">
-                  <i class="fa-solid fa-handshake-angle"></i>
+                  <iconify-icon class="icon-handshake-angle" icon="mdi:handshake"></iconify-icon>
                   <div><span class="brightai-drawer-subtitle">${isEnglish ? 'Services' : 'الخدمات'}</span></div>
                 </a>
                 <a href="${prefix}/data-processing-agreement/" class="brightai-drawer-sublink">
-                  <i class="fa-solid fa-file-contract"></i>
+                  <iconify-icon class="icon-file-contract" icon="mdi:file-document-edit"></iconify-icon>
                   <div><span class="brightai-drawer-subtitle">${isEnglish ? 'Data Processing Agreement' : 'اتفاقية معالجة البيانات'}</span></div>
                 </a>
                 <a href="${prefix}/cookie-policy/" class="brightai-drawer-sublink">
-                  <i class="fa-solid fa-cookie-bite"></i>
+                  <iconify-icon class="icon-cookie-bite" icon="mdi:cookie"></iconify-icon>
                   <div><span class="brightai-drawer-subtitle">${isEnglish ? 'Cookie Policy' : 'سياسة الكوكيز'}</span></div>
                 </a>
                 <a href="${prefix}/trust/" class="brightai-drawer-sublink">
-                  <i class="fa-solid fa-shield-halved"></i>
+                  <iconify-icon class="icon-shield-halved" icon="mdi:shield-half-full"></iconify-icon>
                   <div><span class="brightai-drawer-subtitle">${isEnglish ? 'Trust Center' : 'مركز الثقة والأمان'}</span></div>
                 </a>
               </div>
@@ -425,12 +425,12 @@
             <li>
               <button class="brightai-drawer-accordion-btn ${pathname === '/kernel' || pathname.includes('/kernel/') ? 'is-active' : ''}" aria-expanded="false" aria-controls="acc-kernel">
                 <span>${t.kernel}</span>
-                <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                <iconify-icon class="icon-chevron-down" aria-hidden="true" icon="mdi:chevron-down"></iconify-icon>
               </button>
               <div id="acc-kernel" class="brightai-drawer-accordion-content">
                 ${kernelList.map(item => `
                   <a href="${item.url}" class="brightai-drawer-sublink">
-                    <i class="fa-solid ${item.icon}"></i>
+                    <iconify-icon icon="${item.icon}"></iconify-icon>
                     <div><span class="brightai-drawer-subtitle">${item.title}</span></div>
                   </a>
                 `).join('')}
@@ -440,7 +440,7 @@
             <!-- رابط الأسعار للجوال -->
             <li>
               <a href="/pricing/" class="brightai-drawer-link ${pathname.includes('/pricing/') ? 'is-active' : ''}">
-                <i class="fa-solid fa-tags"></i>
+                <iconify-icon class="icon-tags" icon="mdi:tag-multiple"></iconify-icon>
                 <span>${t.pricing}</span>
               </a>
             </li>
@@ -448,7 +448,7 @@
             <!-- رابط تواصل معنا للجوال -->
             <li>
               <a href="${prefix}/contact/" class="brightai-drawer-link ${pathname.includes('/contact/') ? 'is-active' : ''}">
-                <i class="fa-solid fa-envelope"></i>
+                <iconify-icon class="icon-envelope" icon="mdi:email"></iconify-icon>
                 <span>${t.contact}</span>
               </a>
             </li>
@@ -458,11 +458,11 @@
 
       <div class="brightai-drawer-footer">
         <a href="${t.whatsappUrl}" target="_blank" rel="noopener noreferrer" class="brightai-btn brightai-btn-wa" aria-label="${t.waBtn}">
-          <i class="fa-brands fa-whatsapp"></i>
+          <iconify-icon class="icon-whatsapp" icon="mdi:whatsapp"></iconify-icon>
           <span>${t.waBtn}</span>
         </a>
         <a href="${prefix}/#demo" class="brightai-btn brightai-btn-demo">
-          <i class="fa-solid fa-rocket"></i>
+          <iconify-icon class="icon-rocket" icon="mdi:rocket-launch"></iconify-icon>
           <span>${t.demoBtn}</span>
         </a>
       </div>

@@ -133,12 +133,11 @@
   <link rel="manifest" href="/manifest.webmanifest" />
 
   <!-- ================= PERFORMANCE ================= -->
-  <link rel="preload" href="/frontend/assets/fonts/TheYearofTheCamel-Medium.otf" as="font" type="font/otf" crossorigin />
+  <link rel="preload" href="/frontend/assets/fonts/TheYearofTheCamel-Medium.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" as="image" href="/frontend/assets/images/logo.png" fetchpriority="high" />
   <link rel="stylesheet" href="/frontend/css/tailwind.local.min.css" />
   <link rel="stylesheet" href="/frontend/assets/css/global-fonts.css?v=20260529-official-font">
-  <link rel="stylesheet" href="/frontend/vendor/fontawesome/css/all.min.css?v=20260529-icons">
-  <link rel="stylesheet" href="/frontend/css/sitewide-modernization.css" />
+<link rel="stylesheet" href="/frontend/css/sitewide-modernization.css" />
   <link rel="stylesheet" href="/frontend/css/unified-header.css?v=20260529-nav-v1">
   <link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css" />
 
@@ -327,6 +326,7 @@
   ]
 }
   </script>
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
 </head>
 <body class="bg-grid">
 
@@ -434,9 +434,9 @@
 <nav aria-label="مسار التنقل" class="max-w-7xl mx-auto px-5 lg:px-8 pt-6">
   <ol class="flex items-center gap-2 text-sm text-white/50 flex-wrap">
     <li><a href="/" class="hover:text-cyan-400 transition-colors">الرئيسية</a></li>
-    <li><i class="fa-solid fa-chevron-left text-xs"></i></li>
+    <li><iconify-icon class="text-xs icon-chevron-left" icon="mdi:chevron-left"></iconify-icon></li>
     <li><a href="/services/" class="hover:text-cyan-400 transition-colors">الخدمات</a></li>
-    <li><i class="fa-solid fa-chevron-left text-xs"></i></li>
+    <li><iconify-icon class="text-xs icon-chevron-left" icon="mdi:chevron-left"></iconify-icon></li>
     <li class="text-white/80 font-medium">AI Evidence File</li>
   </ol>
 </nav>
@@ -460,23 +460,23 @@
 
     <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
       <a href="/contact/" class="glow-btn inline-flex items-center gap-3 px-8 py-4 rounded-2xl font-bold text-white text-lg transition-all">
-        <i class="fa-solid fa-file-shield"></i>
+        <iconify-icon class="icon-file-shield" icon="mdi:file-lock"></iconify-icon>
         اطلب Evidence File تجريبي
       </a>
       <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="wa-btn inline-flex items-center gap-3 px-8 py-4 rounded-2xl font-bold text-white text-lg transition-all">
-        <i class="fa-brands fa-whatsapp text-xl"></i>
+        <iconify-icon class="text-xl icon-whatsapp" icon="mdi:whatsapp"></iconify-icon>
         053-822-9013
       </a>
     </div>
 
     <!-- Compliance Badges -->
     <div class="mt-10 flex flex-wrap items-center justify-center gap-3">
-      <span class="compliance-badge"><i class="fa-solid fa-check"></i> NCA ECC</span>
-      <span class="compliance-badge"><i class="fa-solid fa-check"></i> PDPL</span>
-      <span class="compliance-badge"><i class="fa-solid fa-check"></i> ISO 42001</span>
-      <span class="compliance-badge"><i class="fa-solid fa-check"></i> SAMA</span>
-      <span class="compliance-badge"><i class="fa-solid fa-check"></i> SFDA</span>
-      <span class="compliance-badge"><i class="fa-solid fa-check"></i> ISO 13485</span>
+      <span class="compliance-badge"><iconify-icon class="icon-check" icon="mdi:check"></iconify-icon> NCA ECC</span>
+      <span class="compliance-badge"><iconify-icon class="icon-check" icon="mdi:check"></iconify-icon> PDPL</span>
+      <span class="compliance-badge"><iconify-icon class="icon-check" icon="mdi:check"></iconify-icon> ISO 42001</span>
+      <span class="compliance-badge"><iconify-icon class="icon-check" icon="mdi:check"></iconify-icon> SAMA</span>
+      <span class="compliance-badge"><iconify-icon class="icon-check" icon="mdi:check"></iconify-icon> SFDA</span>
+      <span class="compliance-badge"><iconify-icon class="icon-check" icon="mdi:check"></iconify-icon> ISO 13485</span>
     </div>
   </div>
 </section>
@@ -489,34 +489,34 @@
       <div class="glass rounded-3xl p-8 lg:p-10" style="border-color:rgba(239,68,68,.2); background:linear-gradient(135deg,rgba(239,68,68,.04),rgba(255,255,255,.01))">
         <div class="flex items-center gap-3 mb-6">
           <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:rgba(239,68,68,.12); border:1px solid rgba(239,68,68,.25)">
-            <i class="fa-solid fa-triangle-exclamation text-red-400"></i>
+            <iconify-icon class="text-red-400 icon-triangle-exclamation" icon="mdi:alert-triangle"></iconify-icon>
           </div>
           <h2 id="problem-title" class="font-black text-xl">الواقع المؤلم عند التدقيق</h2>
         </div>
         <div class="space-y-4">
           <div class="flex items-start gap-3 p-4 rounded-xl" style="background:rgba(239,68,68,.06)">
-            <i class="fa-solid fa-xmark text-red-400 mt-0.5"></i>
+            <iconify-icon class="text-red-400 mt-0.5 icon-xmark" icon="mdi:close"></iconify-icon>
             <div>
               <div class="font-bold text-sm mb-1">أسبوعان من جمع البيانات</div>
               <div class="text-white/60 text-xs">الفريق يبحث في 7 أنظمة مختلفة لتجميع أدلة متشتتة قبل وصول المدقق</div>
             </div>
           </div>
           <div class="flex items-start gap-3 p-4 rounded-xl" style="background:rgba(239,68,68,.06)">
-            <i class="fa-solid fa-xmark text-red-400 mt-0.5"></i>
+            <iconify-icon class="text-red-400 mt-0.5 icon-xmark" icon="mdi:close"></iconify-icon>
             <div>
               <div class="font-bold text-sm mb-1">ملاحظات تدقيق بسبب الشكل لا المضمون</div>
               <div class="text-white/60 text-xs">المدقق يُسجّل ملاحظة "غياب توثيق" وليس لأن المؤسسة فعلاً غير ممتثلة</div>
             </div>
           </div>
           <div class="flex items-start gap-3 p-4 rounded-xl" style="background:rgba(239,68,68,.06)">
-            <i class="fa-solid fa-xmark text-red-400 mt-0.5"></i>
+            <iconify-icon class="text-red-400 mt-0.5 icon-xmark" icon="mdi:close"></iconify-icon>
             <div>
               <div class="font-bold text-sm mb-1">تقارير ناقصة وغير موحّدة</div>
               <div class="text-white/60 text-xs">كل قسم يقدم تقريره بصيغة مختلفة مما يصعّب عملية التدقيق الشامل</div>
             </div>
           </div>
           <div class="flex items-start gap-3 p-4 rounded-xl" style="background:rgba(239,68,68,.06)">
-            <i class="fa-solid fa-xmark text-red-400 mt-0.5"></i>
+            <iconify-icon class="text-red-400 mt-0.5 icon-xmark" icon="mdi:close"></iconify-icon>
             <div>
               <div class="font-bold text-sm mb-1">تدقيق مطوّل ومكلف</div>
               <div class="text-white/60 text-xs">المدقق يتوقف كثيراً يطلب معلومات إضافية مما يطيل مدة التدقيق وتكلفته</div>
@@ -528,34 +528,34 @@
       <div class="glass rounded-3xl p-8 lg:p-10" style="border-color:rgba(34,197,94,.2); background:linear-gradient(135deg,rgba(34,197,94,.04),rgba(255,255,255,.01))">
         <div class="flex items-center gap-3 mb-6">
           <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:rgba(34,197,94,.12); border:1px solid rgba(34,197,94,.25)">
-            <i class="fa-solid fa-circle-check text-green-400"></i>
+            <iconify-icon class="text-green-400 icon-circle-check" icon="mdi:check-circle"></iconify-icon>
           </div>
           <h2 class="font-black text-xl">مع BrightAI Evidence File</h2>
         </div>
         <div class="space-y-4">
           <div class="flex items-start gap-3 p-4 rounded-xl" style="background:rgba(34,197,94,.06)">
-            <i class="fa-solid fa-check text-green-400 mt-0.5"></i>
+            <iconify-icon class="text-green-400 mt-0.5 icon-check" icon="mdi:check"></iconify-icon>
             <div>
               <div class="font-bold text-sm mb-1">ملف جاهز في دقائق</div>
               <div class="text-white/60 text-xs">توليد تلقائي فوري عند الطلب أو بجدولة مسبقة. لا جمع يدوي لأي بيانات</div>
             </div>
           </div>
           <div class="flex items-start gap-3 p-4 rounded-xl" style="background:rgba(34,197,94,.06)">
-            <i class="fa-solid fa-check text-green-400 mt-0.5"></i>
+            <iconify-icon class="text-green-400 mt-0.5 icon-check" icon="mdi:check"></iconify-icon>
             <div>
               <div class="font-bold text-sm mb-1">مصمم لما يريده المدقق</div>
               <div class="text-white/60 text-xs">بنية الملف مُبنية حول أسئلة التدقيق الجوهرية لكل جهة تنظيمية</div>
             </div>
           </div>
           <div class="flex items-start gap-3 p-4 rounded-xl" style="background:rgba(34,197,94,.06)">
-            <i class="fa-solid fa-check text-green-400 mt-0.5"></i>
+            <iconify-icon class="text-green-400 mt-0.5 icon-check" icon="mdi:check"></iconify-icon>
             <div>
               <div class="font-bold text-sm mb-1">تقرير موحّد ومنظم</div>
               <div class="text-white/60 text-xs">PDF احترافي يغطي كل جوانب الامتثال في مكان واحد مع ملحقات تقنية</div>
             </div>
           </div>
           <div class="flex items-start gap-3 p-4 rounded-xl" style="background:rgba(34,197,94,.06)">
-            <i class="fa-solid fa-check text-green-400 mt-0.5"></i>
+            <iconify-icon class="text-green-400 mt-0.5 icon-check" icon="mdi:check"></iconify-icon>
             <div>
               <div class="font-bold text-sm mb-1">تدقيق أسرع وأقل تكلفة</div>
               <div class="text-white/60 text-xs">المدقق يجد كل ما يحتاجه في الملف الأول. لا طلبات إضافية لا أسئلة معلّقة</div>
@@ -572,7 +572,7 @@
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
     <div class="text-center mb-12">
       <span class="chip inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold mb-4">
-        <i class="fa-solid fa-bell"></i> متى تحتاج Evidence File؟
+        <iconify-icon class="icon-bell" icon="mdi:bell"></iconify-icon> متى تحتاج Evidence File؟
       </span>
       <h2 id="triggers-title" class="text-2xl sm:text-3xl lg:text-4xl font-black">
         ست مواقف تكشف أن مؤسستك <span class="gradient-text">تحتاج هذا الحل الآن</span>
@@ -581,42 +581,42 @@
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
       <div class="feature-card glass rounded-2xl p-6">
         <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-4" style="background:rgba(239,68,68,.12); border:1px solid rgba(239,68,68,.25)">
-          <i class="fa-solid fa-magnifying-glass text-red-400 text-xl"></i>
+          <iconify-icon class="text-red-400 text-xl icon-magnifying-glass" icon="mdi:magnify"></iconify-icon>
         </div>
         <h3 class="font-bold text-lg mb-2">تدقيق NCA أو SAMA قادم</h3>
         <p class="text-white/60 text-sm leading-relaxed">إشعار التدقيق وصل وفريقك يبدأ تجميع الملفات من كل مكان. BrightAI يحوّل هذا من أزمة إلى إجراء عادي.</p>
       </div>
       <div class="feature-card glass rounded-2xl p-6">
         <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-4" style="background:rgba(124,92,255,.12); border:1px solid rgba(124,92,255,.25)">
-          <i class="fa-solid fa-certificate text-purple-400 text-xl"></i>
+          <iconify-icon class="text-purple-400 text-xl icon-certificate" icon="mdi:certificate"></iconify-icon>
         </div>
         <h3 class="font-bold text-lg mb-2">طلب شهادة ISO 42001</h3>
         <p class="text-white/60 text-sm leading-relaxed">هيئة الاعتماد تطلب إثبات موثّق لكل متطلبات ISO 42001. Evidence File يجمع هذا الإثبات تلقائياً.</p>
       </div>
       <div class="feature-card glass rounded-2xl p-6">
         <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-4" style="background:rgba(0,212,255,.12); border:1px solid rgba(0,212,255,.25)">
-          <i class="fa-solid fa-file-contract text-cyan-400 text-xl"></i>
+          <iconify-icon class="text-cyan-400 text-xl icon-file-contract" icon="mdi:file-document-edit"></iconify-icon>
         </div>
         <h3 class="font-bold text-lg mb-2">متطلبات العقود الحكومية</h3>
         <p class="text-white/60 text-sm leading-relaxed">بعض المناقصات الحكومية تشترط إثبات امتثال الذكاء الاصطناعي. الملف يكون جاهزاً مع كل عرض.</p>
       </div>
       <div class="feature-card glass rounded-2xl p-6">
         <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-4" style="background:rgba(234,179,8,.12); border:1px solid rgba(234,179,8,.25)">
-          <i class="fa-solid fa-scale-unbalanced text-yellow-400 text-xl"></i>
+          <iconify-icon class="text-yellow-400 text-xl icon-scale-unbalanced" icon="mdi:scale-balance"></iconify-icon>
         </div>
         <h3 class="font-bold text-lg mb-2">نزاع قانوني مرتبط بقرار AI</h3>
         <p class="text-white/60 text-sm leading-relaxed">المحكمة أو التحكيم يطلبان إثبات كيفية عمل النظام. Evidence File هو الدليل القانوني الموثّق.</p>
       </div>
       <div class="feature-card glass rounded-2xl p-6">
         <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-4" style="background:rgba(34,197,94,.12); border:1px solid rgba(34,197,94,.25)">
-          <i class="fa-solid fa-handshake text-green-400 text-xl"></i>
+          <iconify-icon class="text-green-400 text-xl icon-handshake" icon="mdi:handshake"></iconify-icon>
         </div>
         <h3 class="font-bold text-lg mb-2">شراكة استراتيجية أو استحواذ</h3>
         <p class="text-white/60 text-sm leading-relaxed">الشريك أو المستثمر يريد Due Diligence على منظومة AI. الملف يُثبت النضج المؤسسي ويُسرّع الصفقة.</p>
       </div>
       <div class="feature-card glass rounded-2xl p-6">
         <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-4" style="background:rgba(255,92,167,.12); border:1px solid rgba(255,92,167,.25)">
-          <i class="fa-solid fa-shield-halved text-pink-400 text-xl"></i>
+          <iconify-icon class="text-pink-400 text-xl icon-shield-halved" icon="mdi:shield-half-full"></iconify-icon>
         </div>
         <h3 class="font-bold text-lg mb-2">تقرير مجلس الإدارة الربعي</h3>
         <p class="text-white/60 text-sm leading-relaxed">مجلس الإدارة يريد تقريراً واضحاً عن وضع AI Governance. Evidence File يوفر هذا تلقائياً كل ربع.</p>
@@ -631,35 +631,35 @@
     <div class="glass rounded-3xl p-8 lg:p-12" style="background: linear-gradient(135deg, rgba(0,212,255,.04), rgba(124,92,255,.04));">
       <div class="text-center mb-10">
         <span class="chip inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold mb-4">
-          <i class="fa-solid fa-bullseye"></i> من يستفيد مباشرة؟
+          <iconify-icon class="icon-bullseye" icon="mdi:bullseye"></iconify-icon> من يستفيد مباشرة؟
         </span>
         <h2 id="icp-title" class="text-2xl sm:text-3xl font-black">الفئات التي تحوّل AI Evidence File حياتهم المهنية</h2>
       </div>
       <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <div class="text-center p-5 rounded-2xl" style="background:rgba(255,255,255,.03)">
           <div class="w-14 h-14 rounded-2xl mx-auto flex items-center justify-center mb-4 glow-btn">
-            <i class="fa-solid fa-user-gear text-white text-xl"></i>
+            <iconify-icon class="text-white text-xl icon-user-gear" icon="mdi:account-cog"></iconify-icon>
           </div>
           <h3 class="font-bold mb-2">مسؤول الامتثال</h3>
           <p class="text-white/60 text-xs leading-relaxed">ينتهي الكابوس السنوي لجمع أدلة التدقيق. الملف جاهز دائماً</p>
         </div>
         <div class="text-center p-5 rounded-2xl" style="background:rgba(255,255,255,.03)">
           <div class="w-14 h-14 rounded-2xl mx-auto flex items-center justify-center mb-4 glow-btn">
-            <i class="fa-solid fa-magnifying-glass-chart text-white text-xl"></i>
+            <iconify-icon class="text-white text-xl icon-magnifying-glass-chart" icon="mdi:chart-line"></iconify-icon>
           </div>
           <h3 class="font-bold mb-2">المدقق الداخلي</h3>
           <p class="text-white/60 text-xs leading-relaxed">يحصل على بيانات منظمة وموثوقة لتقاريره دون جهد تجميع</p>
         </div>
         <div class="text-center p-5 rounded-2xl" style="background:rgba(255,255,255,.03)">
           <div class="w-14 h-14 rounded-2xl mx-auto flex items-center justify-center mb-4 glow-btn">
-            <i class="fa-solid fa-shield text-white text-xl"></i>
+            <iconify-icon class="text-white text-xl icon-shield" icon="mdi:shield"></iconify-icon>
           </div>
           <h3 class="font-bold mb-2">CISO / Chief Risk Officer</h3>
           <p class="text-white/60 text-xs leading-relaxed">دليل موثّق لمجلس الإدارة والجهات الرقابية على نضج الحوكمة</p>
         </div>
         <div class="text-center p-5 rounded-2xl" style="background:rgba(255,255,255,.03)">
           <div class="w-14 h-14 rounded-2xl mx-auto flex items-center justify-center mb-4 glow-btn">
-            <i class="fa-solid fa-briefcase text-white text-xl"></i>
+            <iconify-icon class="text-white text-xl icon-briefcase" icon="mdi:briefcase"></iconify-icon>
           </div>
           <h3 class="font-bold mb-2">المدير التنفيذي</h3>
           <p class="text-white/60 text-xs leading-relaxed">جاهز لأي سؤال من مجلس الإدارة أو المستثمر أو الجهة التنظيمية</p>
@@ -674,7 +674,7 @@
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
     <div class="text-center mb-12">
       <span class="chip inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold mb-4">
-        <i class="fa-solid fa-folder-open"></i> محتوى الملف
+        <iconify-icon class="icon-folder-open" icon="mdi:folder-open"></iconify-icon> محتوى الملف
       </span>
       <h2 id="content-title" class="text-2xl sm:text-3xl lg:text-4xl font-black">
         ماذا يحتوي <span class="gradient-text">AI Evidence File</span>؟
@@ -693,9 +693,9 @@
             </div>
             <p class="text-white/60 mb-4 leading-relaxed">جرد شامل لكل أنظمة AI المستخدمة في المؤسسة: اسم النظام، الغرض، البيانات التي يعالجها، مستوى المخاطر، وحالة الامتثال لكل نظام.</p>
             <div class="grid sm:grid-cols-3 gap-3">
-              <div class="p-3 rounded-lg text-xs text-white/60" style="background:rgba(255,255,255,.03)"><i class="fa-solid fa-robot text-cyan-400 ml-2"></i>قائمة كل أنظمة AI</div>
-              <div class="p-3 rounded-lg text-xs text-white/60" style="background:rgba(255,255,255,.03)"><i class="fa-solid fa-database text-cyan-400 ml-2"></i>البيانات التي تعالجها</div>
-              <div class="p-3 rounded-lg text-xs text-white/60" style="background:rgba(255,255,255,.03)"><i class="fa-solid fa-gauge text-cyan-400 ml-2"></i>مستوى مخاطر كل نظام</div>
+              <div class="p-3 rounded-lg text-xs text-white/60" style="background:rgba(255,255,255,.03)"><iconify-icon class="text-cyan-400 ml-2 icon-robot" icon="mdi:robot"></iconify-icon>قائمة كل أنظمة AI</div>
+              <div class="p-3 rounded-lg text-xs text-white/60" style="background:rgba(255,255,255,.03)"><iconify-icon class="text-cyan-400 ml-2 icon-database" icon="mdi:database"></iconify-icon>البيانات التي تعالجها</div>
+              <div class="p-3 rounded-lg text-xs text-white/60" style="background:rgba(255,255,255,.03)"><iconify-icon class="text-cyan-400 ml-2 icon-gauge" icon="mdi:gauge"></iconify-icon>مستوى مخاطر كل نظام</div>
             </div>
           </div>
         </div>
@@ -711,9 +711,9 @@
             </div>
             <p class="text-white/60 mb-4 leading-relaxed">سجل مرتّب لكل القرارات التي اتخذها AI مع تفاصيل الموافقة البشرية: من وافق، متى، وما هي التعديلات التي أدخلها. يُثبت وجود رقابة بشرية فعلية.</p>
             <div class="grid sm:grid-cols-3 gap-3">
-              <div class="p-3 rounded-lg text-xs text-white/60" style="background:rgba(255,255,255,.03)"><i class="fa-solid fa-list-check text-purple-400 ml-2"></i>كل القرارات الحساسة</div>
-              <div class="p-3 rounded-lg text-xs text-white/60" style="background:rgba(255,255,255,.03)"><i class="fa-solid fa-user-check text-purple-400 ml-2"></i>هوية الموافق والتوقيت</div>
-              <div class="p-3 rounded-lg text-xs text-white/60" style="background:rgba(255,255,255,.03)"><i class="fa-solid fa-pen-to-square text-purple-400 ml-2"></i>التعديلات البشرية المُدخلة</div>
+              <div class="p-3 rounded-lg text-xs text-white/60" style="background:rgba(255,255,255,.03)"><iconify-icon class="text-purple-400 ml-2 icon-list-check" icon="mdi:format-list-checks"></iconify-icon>كل القرارات الحساسة</div>
+              <div class="p-3 rounded-lg text-xs text-white/60" style="background:rgba(255,255,255,.03)"><iconify-icon class="text-purple-400 ml-2 icon-user-check" icon="mdi:account-check"></iconify-icon>هوية الموافق والتوقيت</div>
+              <div class="p-3 rounded-lg text-xs text-white/60" style="background:rgba(255,255,255,.03)"><iconify-icon class="text-purple-400 ml-2 icon-pen-to-square" icon="mdi:pencil-box"></iconify-icon>التعديلات البشرية المُدخلة</div>
             </div>
           </div>
         </div>
@@ -729,9 +729,9 @@
             </div>
             <p class="text-white/60 mb-4 leading-relaxed">سجل كامل للمخاطر المرصودة، الحوادث الحاصلة، وخطوات المعالجة. يُثبت أن المؤسسة تكتشف المشاكل وتعالجها بشكل منهجي.</p>
             <div class="grid sm:grid-cols-3 gap-3">
-              <div class="p-3 rounded-lg text-xs text-white/60" style="background:rgba(255,255,255,.03)"><i class="fa-solid fa-triangle-exclamation text-yellow-400 ml-2"></i>المخاطر المُكتشفة</div>
-              <div class="p-3 rounded-lg text-xs text-white/60" style="background:rgba(255,255,255,.03)"><i class="fa-solid fa-bolt text-yellow-400 ml-2"></i>الحوادث وسياقها</div>
-              <div class="p-3 rounded-lg text-xs text-white/60" style="background:rgba(255,255,255,.03)"><i class="fa-solid fa-wrench text-yellow-400 ml-2"></i>خطوات المعالجة والمتابعة</div>
+              <div class="p-3 rounded-lg text-xs text-white/60" style="background:rgba(255,255,255,.03)"><iconify-icon class="text-yellow-400 ml-2 icon-triangle-exclamation" icon="mdi:alert-triangle"></iconify-icon>المخاطر المُكتشفة</div>
+              <div class="p-3 rounded-lg text-xs text-white/60" style="background:rgba(255,255,255,.03)"><iconify-icon class="text-yellow-400 ml-2 icon-bolt" icon="mdi:lightning-bolt"></iconify-icon>الحوادث وسياقها</div>
+              <div class="p-3 rounded-lg text-xs text-white/60" style="background:rgba(255,255,255,.03)"><iconify-icon class="text-yellow-400 ml-2 icon-wrench" icon="mdi:wrench"></iconify-icon>خطوات المعالجة والمتابعة</div>
             </div>
           </div>
         </div>
@@ -747,9 +747,9 @@
             </div>
             <p class="text-white/60 mb-4 leading-relaxed">ليس فقط وثائق السياسات، بل أدلة تطبيقها الفعلي. الفرق الجوهري بين قول "لدينا سياسة" وإثبات "طبّقنا السياسة في هذه الحالات بعينها".</p>
             <div class="grid sm:grid-cols-3 gap-3">
-              <div class="p-3 rounded-lg text-xs text-white/60" style="background:rgba(255,255,255,.03)"><i class="fa-solid fa-file-lines text-pink-400 ml-2"></i>وثائق السياسات المعتمدة</div>
-              <div class="p-3 rounded-lg text-xs text-white/60" style="background:rgba(255,255,255,.03)"><i class="fa-solid fa-circle-check text-pink-400 ml-2"></i>أدلة التطبيق الفعلي</div>
-              <div class="p-3 rounded-lg text-xs text-white/60" style="background:rgba(255,255,255,.03)"><i class="fa-solid fa-calendar text-pink-400 ml-2"></i>تاريخ المراجعة والتحديث</div>
+              <div class="p-3 rounded-lg text-xs text-white/60" style="background:rgba(255,255,255,.03)"><iconify-icon class="text-pink-400 ml-2 icon-file-lines" icon="mdi:file-document-outline"></iconify-icon>وثائق السياسات المعتمدة</div>
+              <div class="p-3 rounded-lg text-xs text-white/60" style="background:rgba(255,255,255,.03)"><iconify-icon class="text-pink-400 ml-2 icon-circle-check" icon="mdi:check-circle"></iconify-icon>أدلة التطبيق الفعلي</div>
+              <div class="p-3 rounded-lg text-xs text-white/60" style="background:rgba(255,255,255,.03)"><iconify-icon class="text-pink-400 ml-2 icon-calendar" icon="mdi:calendar"></iconify-icon>تاريخ المراجعة والتحديث</div>
             </div>
           </div>
         </div>
@@ -765,9 +765,9 @@
             </div>
             <p class="text-white/60 mb-4 leading-relaxed">دليل على أن المؤسسة تتعامل مع حوادث AI بمنهجية: الاكتشاف، الاحتواء، التحقيق، الإصلاح، والتحسين. يُثبت النضج المؤسسي الفعلي.</p>
             <div class="grid sm:grid-cols-3 gap-3">
-              <div class="p-3 rounded-lg text-xs text-white/60" style="background:rgba(255,255,255,.03)"><i class="fa-solid fa-siren text-green-400 ml-2"></i>الاكتشاف والاستجابة</div>
-              <div class="p-3 rounded-lg text-xs text-white/60" style="background:rgba(255,255,255,.03)"><i class="fa-solid fa-microscope text-green-400 ml-2"></i>التحقيق وتحديد السبب</div>
-              <div class="p-3 rounded-lg text-xs text-white/60" style="background:rgba(255,255,255,.03)"><i class="fa-solid fa-arrow-trend-up text-green-400 ml-2"></i>التحسين ومنع التكرار</div>
+              <div class="p-3 rounded-lg text-xs text-white/60" style="background:rgba(255,255,255,.03)"><iconify-icon class="text-green-400 ml-2 icon-siren" icon="mdi:alarm-light"></iconify-icon>الاكتشاف والاستجابة</div>
+              <div class="p-3 rounded-lg text-xs text-white/60" style="background:rgba(255,255,255,.03)"><iconify-icon class="text-green-400 ml-2 icon-microscope" icon="mdi:microscope"></iconify-icon>التحقيق وتحديد السبب</div>
+              <div class="p-3 rounded-lg text-xs text-white/60" style="background:rgba(255,255,255,.03)"><iconify-icon class="text-green-400 ml-2 icon-arrow-trend-up" icon="mdi:trending-up"></iconify-icon>التحسين ومنع التكرار</div>
             </div>
           </div>
         </div>
@@ -781,17 +781,17 @@
   <div class="max-w-4xl mx-auto px-5 lg:px-8">
     <div class="glass rounded-3xl p-8 lg:p-12 text-center" style="background: linear-gradient(135deg, rgba(0,212,255,.06), rgba(124,92,255,.06)); border-color: rgba(0,212,255,.2);">
       <div class="w-16 h-16 rounded-2xl mx-auto flex items-center justify-center mb-6 glow-btn">
-        <i class="fa-solid fa-file-shield text-white text-2xl"></i>
+        <iconify-icon class="text-white text-2xl icon-file-shield" icon="mdi:file-lock"></iconify-icon>
       </div>
       <h2 class="text-2xl sm:text-3xl font-black mb-4">هل مؤسستك جاهزة للتدقيق القادم؟</h2>
       <p class="text-white/60 mb-8 max-w-xl mx-auto leading-relaxed">لا تنتظر إشعار التدقيق. BrightAI يجعل Evidence File جاهزاً دائماً. اطلب نموذجاً تجريبياً مجانياً لترى كيف سيبدو ملفك.</p>
       <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
         <a href="/contact/" class="glow-btn inline-flex items-center gap-3 px-8 py-4 rounded-2xl font-bold text-white text-lg transition-all">
-          <i class="fa-solid fa-file-pdf"></i>
+          <iconify-icon class="icon-file-pdf" icon="mdi:file-pdf-box"></iconify-icon>
           اطلب نموذج Evidence File
         </a>
         <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="wa-btn inline-flex items-center gap-3 px-8 py-4 rounded-2xl font-bold text-white transition-all">
-          <i class="fa-brands fa-whatsapp text-xl"></i>
+          <iconify-icon class="text-xl icon-whatsapp" icon="mdi:whatsapp"></iconify-icon>
           راسلنا الآن
         </a>
       </div>
@@ -804,7 +804,7 @@
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
     <div class="text-center mb-12">
       <span class="chip inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold mb-4">
-        <i class="fa-solid fa-table-columns"></i> قدرات النظام
+        <iconify-icon class="icon-table-columns" icon="mdi:view-dashboard"></iconify-icon> قدرات النظام
       </span>
       <h2 id="capabilities-title" class="text-2xl sm:text-3xl lg:text-4xl font-black">ماذا يفعل <span class="gradient-text">BrightAI</span> لإنتاج Evidence File؟</h2>
     </div>
@@ -812,57 +812,57 @@
       <div class="grid grid-cols-2 lg:grid-cols-4 table-header">
         <div class="p-5 border-l border-white/8">
           <div class="w-8 h-8 rounded-lg flex items-center justify-center mb-3" style="background:rgba(0,212,255,.15)">
-            <i class="fa-solid fa-eye text-cyan-400 text-sm"></i>
+            <iconify-icon class="text-cyan-400 text-sm icon-eye" icon="mdi:eye"></iconify-icon>
           </div>
           <h3 class="font-bold text-sm text-cyan-400">ما الذي يكشفه</h3>
         </div>
         <div class="p-5 border-l border-white/8">
           <div class="w-8 h-8 rounded-lg flex items-center justify-center mb-3" style="background:rgba(124,92,255,.15)">
-            <i class="fa-solid fa-sliders text-purple-400 text-sm"></i>
+            <iconify-icon class="text-purple-400 text-sm icon-sliders" icon="mdi:tune"></iconify-icon>
           </div>
           <h3 class="font-bold text-sm text-purple-400">ما الذي يتحكم فيه</h3>
         </div>
         <div class="p-5 border-l border-white/8">
           <div class="w-8 h-8 rounded-lg flex items-center justify-center mb-3" style="background:rgba(255,92,167,.15)">
-            <i class="fa-solid fa-database text-pink-400 text-sm"></i>
+            <iconify-icon class="text-pink-400 text-sm icon-database" icon="mdi:database"></iconify-icon>
           </div>
           <h3 class="font-bold text-sm text-pink-400">ما الذي يسجله</h3>
         </div>
         <div class="p-5">
           <div class="w-8 h-8 rounded-lg flex items-center justify-center mb-3" style="background:rgba(34,197,94,.15)">
-            <i class="fa-solid fa-certificate text-green-400 text-sm"></i>
+            <iconify-icon class="text-green-400 text-sm icon-certificate" icon="mdi:certificate"></iconify-icon>
           </div>
           <h3 class="font-bold text-sm text-green-400">ما الأدلة التي ينتجها</h3>
         </div>
       </div>
       <div class="grid grid-cols-2 lg:grid-cols-4 divide-x divide-white/5">
         <div class="p-5 space-y-3 border-l border-white/5">
-          <div class="flex items-start gap-2"><i class="fa-solid fa-circle text-cyan-400 text-xs mt-1.5"></i><span class="text-sm text-white/80">ثغرات التوثيق قبل التدقيق</span></div>
-          <div class="flex items-start gap-2"><i class="fa-solid fa-circle text-cyan-400 text-xs mt-1.5"></i><span class="text-sm text-white/80">مستوى اكتمال الأدلة لكل متطلب</span></div>
-          <div class="flex items-start gap-2"><i class="fa-solid fa-circle text-cyan-400 text-xs mt-1.5"></i><span class="text-sm text-white/80">السياسات المنتهية صلاحيتها</span></div>
-          <div class="flex items-start gap-2"><i class="fa-solid fa-circle text-cyan-400 text-xs mt-1.5"></i><span class="text-sm text-white/80">البيانات غير الموثّقة</span></div>
-          <div class="flex items-start gap-2"><i class="fa-solid fa-circle text-cyan-400 text-xs mt-1.5"></i><span class="text-sm text-white/80">مؤشر جاهزية التدقيق الكلي</span></div>
+          <div class="flex items-start gap-2"><iconify-icon class="text-cyan-400 text-xs mt-1.5 icon-circle" icon="mdi:circle"></iconify-icon><span class="text-sm text-white/80">ثغرات التوثيق قبل التدقيق</span></div>
+          <div class="flex items-start gap-2"><iconify-icon class="text-cyan-400 text-xs mt-1.5 icon-circle" icon="mdi:circle"></iconify-icon><span class="text-sm text-white/80">مستوى اكتمال الأدلة لكل متطلب</span></div>
+          <div class="flex items-start gap-2"><iconify-icon class="text-cyan-400 text-xs mt-1.5 icon-circle" icon="mdi:circle"></iconify-icon><span class="text-sm text-white/80">السياسات المنتهية صلاحيتها</span></div>
+          <div class="flex items-start gap-2"><iconify-icon class="text-cyan-400 text-xs mt-1.5 icon-circle" icon="mdi:circle"></iconify-icon><span class="text-sm text-white/80">البيانات غير الموثّقة</span></div>
+          <div class="flex items-start gap-2"><iconify-icon class="text-cyan-400 text-xs mt-1.5 icon-circle" icon="mdi:circle"></iconify-icon><span class="text-sm text-white/80">مؤشر جاهزية التدقيق الكلي</span></div>
         </div>
         <div class="p-5 space-y-3 border-l border-white/5">
-          <div class="flex items-start gap-2"><i class="fa-solid fa-circle text-purple-400 text-xs mt-1.5"></i><span class="text-sm text-white/80">جدولة التوليد التلقائي للملف</span></div>
-          <div class="flex items-start gap-2"><i class="fa-solid fa-circle text-purple-400 text-xs mt-1.5"></i><span class="text-sm text-white/80">قالب الملف لكل جهة تنظيمية</span></div>
-          <div class="flex items-start gap-2"><i class="fa-solid fa-circle text-purple-400 text-xs mt-1.5"></i><span class="text-sm text-white/80">مستوى تفصيل البيانات المُضمَّنة</span></div>
-          <div class="flex items-start gap-2"><i class="fa-solid fa-circle text-purple-400 text-xs mt-1.5"></i><span class="text-sm text-white/80">الفترة الزمنية للبيانات المُجمَّعة</span></div>
-          <div class="flex items-start gap-2"><i class="fa-solid fa-circle text-purple-400 text-xs mt-1.5"></i><span class="text-sm text-white/80">مستلمو نسخة الملف تلقائياً</span></div>
+          <div class="flex items-start gap-2"><iconify-icon class="text-purple-400 text-xs mt-1.5 icon-circle" icon="mdi:circle"></iconify-icon><span class="text-sm text-white/80">جدولة التوليد التلقائي للملف</span></div>
+          <div class="flex items-start gap-2"><iconify-icon class="text-purple-400 text-xs mt-1.5 icon-circle" icon="mdi:circle"></iconify-icon><span class="text-sm text-white/80">قالب الملف لكل جهة تنظيمية</span></div>
+          <div class="flex items-start gap-2"><iconify-icon class="text-purple-400 text-xs mt-1.5 icon-circle" icon="mdi:circle"></iconify-icon><span class="text-sm text-white/80">مستوى تفصيل البيانات المُضمَّنة</span></div>
+          <div class="flex items-start gap-2"><iconify-icon class="text-purple-400 text-xs mt-1.5 icon-circle" icon="mdi:circle"></iconify-icon><span class="text-sm text-white/80">الفترة الزمنية للبيانات المُجمَّعة</span></div>
+          <div class="flex items-start gap-2"><iconify-icon class="text-purple-400 text-xs mt-1.5 icon-circle" icon="mdi:circle"></iconify-icon><span class="text-sm text-white/80">مستلمو نسخة الملف تلقائياً</span></div>
         </div>
         <div class="p-5 space-y-3 border-l border-white/5">
-          <div class="flex items-start gap-2"><i class="fa-solid fa-circle text-pink-400 text-xs mt-1.5"></i><span class="text-sm text-white/80">كل حدث في منظومة AI</span></div>
-          <div class="flex items-start gap-2"><i class="fa-solid fa-circle text-pink-400 text-xs mt-1.5"></i><span class="text-sm text-white/80">القرارات والموافقات وتوقيتاتها</span></div>
-          <div class="flex items-start gap-2"><i class="fa-solid fa-circle text-pink-400 text-xs mt-1.5"></i><span class="text-sm text-white/80">الحوادث وخطوات المعالجة</span></div>
-          <div class="flex items-start gap-2"><i class="fa-solid fa-circle text-pink-400 text-xs mt-1.5"></i><span class="text-sm text-white/80">تغييرات السياسات وتواريخها</span></div>
-          <div class="flex items-start gap-2"><i class="fa-solid fa-circle text-pink-400 text-xs mt-1.5"></i><span class="text-sm text-white/80">بيانات التدريب والاختبار</span></div>
+          <div class="flex items-start gap-2"><iconify-icon class="text-pink-400 text-xs mt-1.5 icon-circle" icon="mdi:circle"></iconify-icon><span class="text-sm text-white/80">كل حدث في منظومة AI</span></div>
+          <div class="flex items-start gap-2"><iconify-icon class="text-pink-400 text-xs mt-1.5 icon-circle" icon="mdi:circle"></iconify-icon><span class="text-sm text-white/80">القرارات والموافقات وتوقيتاتها</span></div>
+          <div class="flex items-start gap-2"><iconify-icon class="text-pink-400 text-xs mt-1.5 icon-circle" icon="mdi:circle"></iconify-icon><span class="text-sm text-white/80">الحوادث وخطوات المعالجة</span></div>
+          <div class="flex items-start gap-2"><iconify-icon class="text-pink-400 text-xs mt-1.5 icon-circle" icon="mdi:circle"></iconify-icon><span class="text-sm text-white/80">تغييرات السياسات وتواريخها</span></div>
+          <div class="flex items-start gap-2"><iconify-icon class="text-pink-400 text-xs mt-1.5 icon-circle" icon="mdi:circle"></iconify-icon><span class="text-sm text-white/80">بيانات التدريب والاختبار</span></div>
         </div>
         <div class="p-5 space-y-3">
-          <div class="flex items-start gap-2"><i class="fa-solid fa-circle text-green-400 text-xs mt-1.5"></i><span class="text-sm text-white/80">PDF منظم جاهز للمدقق</span></div>
-          <div class="flex items-start gap-2"><i class="fa-solid fa-circle text-green-400 text-xs mt-1.5"></i><span class="text-sm text-white/80">ملحقات JSON/CSV قابلة للتحقق</span></div>
-          <div class="flex items-start gap-2"><i class="fa-solid fa-circle text-green-400 text-xs mt-1.5"></i><span class="text-sm text-white/80">تقرير مخصص لكل جهة تنظيمية</span></div>
-          <div class="flex items-start gap-2"><i class="fa-solid fa-circle text-green-400 text-xs mt-1.5"></i><span class="text-sm text-white/80">مؤشر جاهزية Audit Readiness</span></div>
-          <div class="flex items-start gap-2"><i class="fa-solid fa-circle text-green-400 text-xs mt-1.5"></i><span class="text-sm text-white/80">خريطة ثغرات الامتثال المتبقية</span></div>
+          <div class="flex items-start gap-2"><iconify-icon class="text-green-400 text-xs mt-1.5 icon-circle" icon="mdi:circle"></iconify-icon><span class="text-sm text-white/80">PDF منظم جاهز للمدقق</span></div>
+          <div class="flex items-start gap-2"><iconify-icon class="text-green-400 text-xs mt-1.5 icon-circle" icon="mdi:circle"></iconify-icon><span class="text-sm text-white/80">ملحقات JSON/CSV قابلة للتحقق</span></div>
+          <div class="flex items-start gap-2"><iconify-icon class="text-green-400 text-xs mt-1.5 icon-circle" icon="mdi:circle"></iconify-icon><span class="text-sm text-white/80">تقرير مخصص لكل جهة تنظيمية</span></div>
+          <div class="flex items-start gap-2"><iconify-icon class="text-green-400 text-xs mt-1.5 icon-circle" icon="mdi:circle"></iconify-icon><span class="text-sm text-white/80">مؤشر جاهزية Audit Readiness</span></div>
+          <div class="flex items-start gap-2"><iconify-icon class="text-green-400 text-xs mt-1.5 icon-circle" icon="mdi:circle"></iconify-icon><span class="text-sm text-white/80">خريطة ثغرات الامتثال المتبقية</span></div>
         </div>
       </div>
     </div>
@@ -874,7 +874,7 @@
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
     <div class="text-center mb-12">
       <span class="chip inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold mb-4">
-        <i class="fa-solid fa-building"></i> تطبيقات قطاعية
+        <iconify-icon class="icon-building" icon="mdi:office-building"></iconify-icon> تطبيقات قطاعية
       </span>
       <h2 id="sectors-title" class="text-2xl sm:text-3xl font-black">كيف يُستخدم <span class="gradient-text">Evidence File</span> في كل قطاع؟</h2>
     </div>
@@ -882,7 +882,7 @@
       <div class="glass rounded-2xl p-6">
         <div class="flex items-center gap-3 mb-4">
           <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style="background:rgba(239,68,68,.12); border:1px solid rgba(239,68,68,.25)">
-            <i class="fa-solid fa-heart-pulse text-red-400"></i>
+            <iconify-icon class="text-red-400 icon-heart-pulse" icon="mdi:heart-pulse"></iconify-icon>
           </div>
           <h3 class="font-bold">الرعاية الصحية</h3>
         </div>
@@ -891,7 +891,7 @@
       <div class="glass rounded-2xl p-6">
         <div class="flex items-center gap-3 mb-4">
           <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style="background:rgba(234,179,8,.12); border:1px solid rgba(234,179,8,.25)">
-            <i class="fa-solid fa-landmark text-yellow-400"></i>
+            <iconify-icon class="text-yellow-400 icon-landmark" icon="mdi:bank"></iconify-icon>
           </div>
           <h3 class="font-bold">البنوك والتمويل</h3>
         </div>
@@ -900,7 +900,7 @@
       <div class="glass rounded-2xl p-6">
         <div class="flex items-center gap-3 mb-4">
           <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style="background:rgba(0,212,255,.12); border:1px solid rgba(0,212,255,.25)">
-            <i class="fa-solid fa-building-government text-cyan-400"></i>
+            <iconify-icon class="text-cyan-400 icon-building-government" icon="mdi:bank"></iconify-icon>
           </div>
           <h3 class="font-bold">الجهات الحكومية</h3>
         </div>
@@ -909,7 +909,7 @@
       <div class="glass rounded-2xl p-6">
         <div class="flex items-center gap-3 mb-4">
           <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style="background:rgba(124,92,255,.12); border:1px solid rgba(124,92,255,.25)">
-            <i class="fa-solid fa-industry text-purple-400"></i>
+            <iconify-icon class="text-purple-400 icon-industry" icon="mdi:factory"></iconify-icon>
           </div>
           <h3 class="font-bold">الصناعة والتصنيع</h3>
         </div>
@@ -918,7 +918,7 @@
       <div class="glass rounded-2xl p-6">
         <div class="flex items-center gap-3 mb-4">
           <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style="background:rgba(34,197,94,.12); border:1px solid rgba(34,197,94,.25)">
-            <i class="fa-solid fa-graduation-cap text-green-400"></i>
+            <iconify-icon class="text-green-400 icon-graduation-cap" icon="mdi:school"></iconify-icon>
           </div>
           <h3 class="font-bold">التعليم</h3>
         </div>
@@ -927,7 +927,7 @@
       <div class="glass rounded-2xl p-6">
         <div class="flex items-center gap-3 mb-4">
           <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style="background:rgba(255,92,167,.12); border:1px solid rgba(255,92,167,.25)">
-            <i class="fa-solid fa-chart-line text-pink-400"></i>
+            <iconify-icon class="text-pink-400 icon-chart-line" icon="mdi:chart-line"></iconify-icon>
           </div>
           <h3 class="font-bold">الشركات المدرجة</h3>
         </div>
@@ -942,7 +942,7 @@
   <div class="max-w-4xl mx-auto px-5 lg:px-8">
     <div class="text-center mb-12">
       <span class="chip inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold mb-4">
-        <i class="fa-solid fa-circle-question"></i> أسئلة شائعة
+        <iconify-icon class="icon-circle-question" icon="mdi:help-circle"></iconify-icon> أسئلة شائعة
       </span>
       <h2 id="faq-title" class="text-2xl sm:text-3xl font-black">أسئلة شائعة حول <span class="gradient-text">AI Evidence File</span></h2>
     </div>
@@ -951,7 +951,7 @@
       <details class="glass rounded-2xl overflow-hidden transition-all">
         <summary class="flex items-center justify-between p-5 gap-4 hover:bg-white/2">
           <span class="font-bold text-right">ما صيغة AI Evidence File الذي يُنتجه BrightAI؟</span>
-          <i class="fa-solid fa-plus faq-icon text-cyan-400 shrink-0 text-sm"></i>
+          <iconify-icon class="faq-icon text-cyan-400 shrink-0 text-sm icon-plus" icon="mdi:plus"></iconify-icon>
         </summary>
         <div class="px-5 pb-5 pt-2 text-white/70 leading-relaxed">
           الملف الرئيسي بصيغة PDF احترافي يحتوي على الأقسام المنظّمة مع ملحقات JSON وCSV قابلة للتحقق الآلي. يمكن أن يتضمن أيضاً مستندات موقّعة رقمياً لضمان المصداقية وعدم التلاعب.
@@ -961,7 +961,7 @@
       <details class="glass rounded-2xl overflow-hidden transition-all">
         <summary class="flex items-center justify-between p-5 gap-4 hover:bg-white/2">
           <span class="font-bold text-right">هل يُولَّد Evidence File تلقائياً أم يحتاج تدخلاً يدوياً؟</span>
-          <i class="fa-solid fa-plus faq-icon text-cyan-400 shrink-0 text-sm"></i>
+          <iconify-icon class="faq-icon text-cyan-400 shrink-0 text-sm icon-plus" icon="mdi:plus"></iconify-icon>
         </summary>
         <div class="px-5 pb-5 pt-2 text-white/70 leading-relaxed">
           تلقائي بالكامل. يمكن جدولة توليده أسبوعياً أو شهرياً أو ربعياً. كما يمكن توليده فورياً بضغطة زر عند الطلب، مثلاً عند استلام إشعار تدقيق. لا يحتاج أي تدخل يدوي في جمع البيانات.
@@ -971,7 +971,7 @@
       <details class="glass rounded-2xl overflow-hidden transition-all">
         <summary class="flex items-center justify-between p-5 gap-4 hover:bg-white/2">
           <span class="font-bold text-right">هل يقبل المدقق الخارجي هذا الملف؟</span>
-          <i class="fa-solid fa-plus faq-icon text-cyan-400 shrink-0 text-sm"></i>
+          <iconify-icon class="faq-icon text-cyan-400 shrink-0 text-sm icon-plus" icon="mdi:plus"></iconify-icon>
         </summary>
         <div class="px-5 pb-5 pt-2 text-white/70 leading-relaxed">
           الملف مصمم خصيصاً وفق متطلبات NCA ECC وPDPL وISO 42001 وSAMA وSFDA. بنية الملف تُجيب مباشرة على أسئلة التدقيق الجوهرية لكل جهة. تمت مراجعته مع متخصصين في التدقيق لضمان القبول.
@@ -981,7 +981,7 @@
       <details class="glass rounded-2xl overflow-hidden transition-all">
         <summary class="flex items-center justify-between p-5 gap-4 hover:bg-white/2">
           <span class="font-bold text-right">هل يمكن تخصيص التقرير حسب جهة التدقيق؟</span>
-          <i class="fa-solid fa-plus faq-icon text-cyan-400 shrink-0 text-sm"></i>
+          <iconify-icon class="faq-icon text-cyan-400 shrink-0 text-sm icon-plus" icon="mdi:plus"></iconify-icon>
         </summary>
         <div class="px-5 pb-5 pt-2 text-white/70 leading-relaxed">
           نعم، توجد قوالب جاهزة مخصصة لكل جهة تنظيمية رئيسية. قالب NCA يُركّز على متطلبات ECC، قالب SAMA على الامتثال المالي، قالب SFDA على الأجهزة الطبية. كل قالب يُبرز المعلومات الأكثر أهمية للجهة المعنية.
@@ -991,7 +991,7 @@
       <details class="glass rounded-2xl overflow-hidden transition-all">
         <summary class="flex items-center justify-between p-5 gap-4 hover:bg-white/2">
           <span class="font-bold text-right">ما الفرق الجوهري بين Evidence File وAudit Trail؟</span>
-          <i class="fa-solid fa-plus faq-icon text-cyan-400 shrink-0 text-sm"></i>
+          <iconify-icon class="faq-icon text-cyan-400 shrink-0 text-sm icon-plus" icon="mdi:plus"></iconify-icon>
         </summary>
         <div class="px-5 pb-5 pt-2 text-white/70 leading-relaxed">
           Audit Trail هو سجل تقني خام لكل الأحداث – مفيد للمحقق التقني لكنه غير قابل للقراءة المباشرة من مدقق أعمال. Evidence File هو ملف منظم بسرد واضح يُجيب على الأسئلة الجوهرية: هل النظام يعمل بشكل آمن؟ هل هناك رقابة بشرية؟ هل السياسات مطبّقة فعلاً؟
@@ -1021,22 +1021,22 @@
 
       <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
         <a href="/contact/" class="glow-btn inline-flex items-center gap-3 px-10 py-5 rounded-2xl font-black text-white text-xl transition-all">
-          <i class="fa-solid fa-file-shield"></i>
+          <iconify-icon class="icon-file-shield" icon="mdi:file-lock"></iconify-icon>
           اطلب ديمو تنفيذي
         </a>
         <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="wa-btn inline-flex items-center gap-3 px-10 py-5 rounded-2xl font-bold text-white text-lg transition-all">
-          <i class="fa-brands fa-whatsapp text-2xl"></i>
+          <iconify-icon class="text-2xl icon-whatsapp" icon="mdi:whatsapp"></iconify-icon>
           053-822-9013
         </a>
       </div>
 
       <div class="flex flex-wrap items-center justify-center gap-6 text-xs text-white/50">
-        <span><i class="fa-solid fa-check-circle text-green-400 ml-1"></i>NCA ECC</span>
-        <span><i class="fa-solid fa-check-circle text-green-400 ml-1"></i>PDPL</span>
-        <span><i class="fa-solid fa-check-circle text-green-400 ml-1"></i>ISO 42001</span>
-        <span><i class="fa-solid fa-check-circle text-green-400 ml-1"></i>SAMA</span>
-        <span><i class="fa-solid fa-check-circle text-green-400 ml-1"></i>صُنع في السعودية</span>
-        <a href="/services/" class="text-cyan-400 hover:text-white transition-colors"><i class="fa-solid fa-arrow-left ml-1"></i>كل الخدمات</a>
+        <span><iconify-icon class="text-green-400 ml-1 icon-check-circle" icon="mdi:check-circle"></iconify-icon>NCA ECC</span>
+        <span><iconify-icon class="text-green-400 ml-1 icon-check-circle" icon="mdi:check-circle"></iconify-icon>PDPL</span>
+        <span><iconify-icon class="text-green-400 ml-1 icon-check-circle" icon="mdi:check-circle"></iconify-icon>ISO 42001</span>
+        <span><iconify-icon class="text-green-400 ml-1 icon-check-circle" icon="mdi:check-circle"></iconify-icon>SAMA</span>
+        <span><iconify-icon class="text-green-400 ml-1 icon-check-circle" icon="mdi:check-circle"></iconify-icon>صُنع في السعودية</span>
+        <a href="/services/" class="text-cyan-400 hover:text-white transition-colors"><iconify-icon class="ml-1 icon-arrow-left" icon="mdi:arrow-left"></iconify-icon>كل الخدمات</a>
       </div>
     </div>
   </div>
@@ -1058,42 +1058,42 @@
       <article class="glass rounded-2xl p-6 hover:border-brand-500/40 transition-all">
         <div class="flex items-center gap-3 mb-3">
           <span class="w-10 h-10 rounded-xl bg-brand-500/10 border border-brand-500/30 flex items-center justify-center shrink-0">
-            <i class="fa-solid fa-folder-open text-brand-300"></i>
+            <iconify-icon class="text-brand-300 icon-folder-open" icon="mdi:folder-open"></iconify-icon>
           </span>
           <h3 class="text-lg font-bold">دليل ملف أدلة الذكاء الاصطناعي</h3>
         </div>
         <p class="text-white/60 text-sm leading-relaxed mb-4">دليل تفصيلي يساعدك على فهم وتطبيق هذا الحل.</p>
         <a href="/docs/ai-evidence-file/" class="text-brand-300 hover:text-white text-sm inline-flex items-center gap-2">
           <span>اقرأ الدليل</span>
-          <i class="fa-solid fa-arrow-left text-xs"></i>
+          <iconify-icon class="text-xs icon-arrow-left" icon="mdi:arrow-left"></iconify-icon>
         </a>
       </article>
 
       <article class="glass rounded-2xl p-6 hover:border-brand-500/40 transition-all">
         <div class="flex items-center gap-3 mb-3">
           <span class="w-10 h-10 rounded-xl bg-brand-500/10 border border-brand-500/30 flex items-center justify-center shrink-0">
-            <i class="fa-solid fa-clipboard-check text-brand-300"></i>
+            <iconify-icon class="text-brand-300 icon-clipboard-check" icon="mdi:clipboard-check"></iconify-icon>
           </span>
           <h3 class="text-lg font-bold">جاهزية التدقيق للذكاء الاصطناعي</h3>
         </div>
         <p class="text-white/60 text-sm leading-relaxed mb-4">دليل تفصيلي يساعدك على فهم وتطبيق هذا الحل.</p>
         <a href="/docs/ai-audit-readiness/" class="text-brand-300 hover:text-white text-sm inline-flex items-center gap-2">
           <span>اقرأ الدليل</span>
-          <i class="fa-solid fa-arrow-left text-xs"></i>
+          <iconify-icon class="text-xs icon-arrow-left" icon="mdi:arrow-left"></iconify-icon>
         </a>
       </article>
 
       <article class="glass rounded-2xl p-6 hover:border-brand-500/40 transition-all">
         <div class="flex items-center gap-3 mb-3">
           <span class="w-10 h-10 rounded-xl bg-brand-500/10 border border-brand-500/30 flex items-center justify-center shrink-0">
-            <i class="fa-solid fa-clipboard-list text-brand-300"></i>
+            <iconify-icon class="text-brand-300 icon-clipboard-list" icon="mdi:clipboard-list"></iconify-icon>
           </span>
           <h3 class="text-lg font-bold">دليل سجل تدقيق الذكاء الاصطناعي</h3>
         </div>
         <p class="text-white/60 text-sm leading-relaxed mb-4">دليل تفصيلي يساعدك على فهم وتطبيق هذا الحل.</p>
         <a href="/docs/ai-audit-trail/" class="text-brand-300 hover:text-white text-sm inline-flex items-center gap-2">
           <span>اقرأ الدليل</span>
-          <i class="fa-solid fa-arrow-left text-xs"></i>
+          <iconify-icon class="text-xs icon-arrow-left" icon="mdi:arrow-left"></iconify-icon>
         </a>
       </article>
     </div>
@@ -1102,7 +1102,7 @@
 
 <!-- ================= FLOATING WHATSAPP BUTTON ================= -->
 <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="fixed bottom-6 left-6 z-50 wa-btn w-16 h-16 rounded-full flex items-center justify-center float-wa" aria-label="تواصل معنا عبر واتساب">
-  <i class="fa-brands fa-whatsapp text-white text-3xl"></i>
+  <iconify-icon class="text-white text-3xl icon-whatsapp" icon="mdi:whatsapp"></iconify-icon>
 </a>
 
 <!-- ================= FOOTER ================= -->
@@ -1113,7 +1113,7 @@
     <div class="glass rounded-2xl p-6 border border-brand-500/20 bg-brand-500/[.02]">
       <div class="flex items-start gap-4">
         <span class="w-10 h-10 rounded-xl bg-brand-500/10 border border-brand-500/30 flex items-center justify-center shrink-0">
-          <i class="fa-solid fa-arrow-up-right-from-square text-brand-300"></i>
+          <iconify-icon class="text-brand-300 icon-arrow-up-right-from-square" icon="mdi:open-in-new"></iconify-icon>
         </span>
         <div>
           <p class="text-white/70 text-sm leading-relaxed">
@@ -1129,7 +1129,7 @@
     <div>
       <a href="/" class="flex items-center gap-3" aria-label="BrightAI">
         <span class="inline-flex w-10 h-10 rounded-xl items-center justify-center" style="background:linear-gradient(135deg,#00d4ff,#7c5cff)">
-          <i class="fa-solid fa-shield-halved text-white"></i>
+          <iconify-icon class="text-white icon-shield-halved" icon="mdi:shield-half-full"></iconify-icon>
         </span>
         <span class="font-extrabold text-xl">Bright<span class="gradient-text">Trust</span></span>
       </a>
@@ -1159,13 +1159,13 @@
     <div>
       <h3 class="font-bold mb-3">تواصل</h3>
       <ul class="space-y-2 text-sm text-white/60">
-        <li><a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="hover:text-green-400"><i class="fa-brands fa-whatsapp text-green-400"></i> واتساب: 053-822-9013</a></li>
-        <li><a href="mailto:yazeed1job@gmail.com" class="hover:text-cyan-400"><i class="fa-solid fa-envelope text-cyan-500"></i> yazeed1job@gmail.com</a></li>
-        <li><i class="fa-solid fa-location-dot text-cyan-500"></i> الرياض، المملكة العربية السعودية</li>
+        <li><a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="hover:text-green-400"><iconify-icon class="text-green-400 icon-whatsapp" icon="mdi:whatsapp"></iconify-icon> واتساب: 053-822-9013</a></li>
+        <li><a href="mailto:yazeed1job@gmail.com" class="hover:text-cyan-400"><iconify-icon class="text-cyan-500 icon-envelope" icon="mdi:email"></iconify-icon> yazeed1job@gmail.com</a></li>
+        <li><iconify-icon class="text-cyan-500 icon-location-dot" icon="mdi:map-marker"></iconify-icon> الرياض، المملكة العربية السعودية</li>
         <li class="flex gap-3 mt-4">
-          <a href="#" aria-label="X" class="w-9 h-9 glass rounded-lg inline-flex items-center justify-center hover:text-cyan-400"><i class="fa-brands fa-x-twitter"></i></a>
-          <a href="#" aria-label="LinkedIn" class="w-9 h-9 glass rounded-lg inline-flex items-center justify-center hover:text-cyan-400"><i class="fa-brands fa-linkedin-in"></i></a>
-          <a href="#" aria-label="YouTube" class="w-9 h-9 glass rounded-lg inline-flex items-center justify-center hover:text-cyan-400"><i class="fa-brands fa-youtube"></i></a>
+          <a href="#" aria-label="X" class="w-9 h-9 glass rounded-lg inline-flex items-center justify-center hover:text-cyan-400"><iconify-icon class="icon-x-twitter" icon="mdi:twitter"></iconify-icon></a>
+          <a href="#" aria-label="LinkedIn" class="w-9 h-9 glass rounded-lg inline-flex items-center justify-center hover:text-cyan-400"><iconify-icon class="icon-linkedin-in" icon="mdi:linkedin"></iconify-icon></a>
+          <a href="#" aria-label="YouTube" class="w-9 h-9 glass rounded-lg inline-flex items-center justify-center hover:text-cyan-400"><iconify-icon class="icon-youtube" icon="mdi:youtube"></iconify-icon></a>
         </li>
       </ul>
     </div>

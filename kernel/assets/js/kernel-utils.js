@@ -35,7 +35,7 @@
       const allowedTags = [
         'a', 'article', 'b', 'br', 'button', 'circle', 'div', 'em', 'footer',
         'form', 'g', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'header', 'i',
-        'input', 'label', 'li', 'line', 'main', 'nav', 'ol', 'option', 'p',
+        'iconify-icon', 'input', 'label', 'li', 'line', 'main', 'nav', 'ol', 'option', 'p',
         'path', 'polygon', 'polyline', 'pre', 'code', 'rect', 'section',
         'select', 'small', 'span', 'strong', 'svg', 'table', 'tbody', 'td',
         'textarea', 'th', 'thead', 'time', 'tr', 'ul'
@@ -44,10 +44,11 @@
         'autocomplete', 'aria-controls', 'aria-current', 'aria-expanded', 'aria-haspopup',
         'aria-hidden', 'aria-label', 'aria-live', 'aria-pressed', 'aria-selected',
         'checked', 'class', 'clip-rule', 'colspan', 'cx', 'cy', 'd', 'datetime',
-        'dir', 'disabled', 'fill', 'fill-rule', 'for', 'height', 'hidden', 'href',
-        'id', 'lang', 'max', 'min', 'name', 'opacity', 'placeholder', 'points',
+        'dir', 'disabled', 'fill', 'fill-rule', 'flip', 'for', 'height', 'hidden', 'href',
+        'icon', 'id', 'lang', 'max', 'min', 'name', 'opacity', 'placeholder', 'points',
         'r', 'rel', 'role', 'rx', 'ry', 'selected', 'step', 'stroke',
-        'spellcheck', 'stroke-linecap', 'stroke-linejoin', 'stroke-width', 'style',
+        'preserveAspectRatio', 'preserveaspectratio', 'rotate', 'spellcheck',
+        'stroke-linecap', 'stroke-linejoin', 'stroke-width', 'style',
         'tabindex', 'target', 'title', 'type', 'value', 'viewBox', 'width', 'x',
         'x1', 'x2', 'y', 'y1', 'y2'
       ];

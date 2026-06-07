@@ -129,12 +129,11 @@
   <link rel="apple-touch-icon" href="/frontend/assets/images/logo.png" />
   <link rel="manifest" href="/manifest.webmanifest" />
 
-  <link rel="preload" href="/frontend/assets/fonts/TheYearofTheCamel-Medium.otf" as="font" type="font/otf" crossorigin />
+  <link rel="preload" href="/frontend/assets/fonts/TheYearofTheCamel-Medium.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" as="image" href="/frontend/assets/images/logo.png" fetchpriority="high" />
   <link rel="stylesheet" href="/frontend/css/tailwind.local.min.css" />
   <link rel="stylesheet" href="/frontend/assets/css/global-fonts.css?v=20260529-official-font">
-  <link rel="stylesheet" href="/frontend/vendor/fontawesome/css/all.min.css?v=20260529-icons">
-  <link rel="stylesheet" href="/frontend/css/sitewide-modernization.css" />
+<link rel="stylesheet" href="/frontend/css/sitewide-modernization.css" />
   <link rel="stylesheet" href="/frontend/css/unified-header.css?v=20260529-nav-v1">
   <link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css" />
 
@@ -346,6 +345,7 @@
   ]
 }
   </script>
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
 </head>
 <body class="bg-grid">
 
@@ -451,9 +451,9 @@
 <nav aria-label="مسار التنقل" class="max-w-7xl mx-auto px-5 lg:px-8 pt-6">
   <ol class="flex items-center gap-2 text-sm text-white/50 flex-wrap">
     <li><a href="/" class="hover:text-cyan-400 transition-colors">الرئيسية</a></li>
-    <li><i class="fa-solid fa-chevron-left text-xs"></i></li>
+    <li><iconify-icon class="text-xs icon-chevron-left" icon="mdi:chevron-left"></iconify-icon></li>
     <li><a href="/solutions/ai-governance-platform/" class="hover:text-cyan-400 transition-colors">الحلول</a></li>
-    <li><i class="fa-solid fa-chevron-left text-xs"></i></li>
+    <li><iconify-icon class="text-xs icon-chevron-left" icon="mdi:chevron-left"></iconify-icon></li>
     <li class="text-white/80 font-medium">حوكمة الذكاء الاصطناعي المستمرة</li>
   </ol>
 </nav>
@@ -477,11 +477,11 @@
 
     <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
       <a href="/contact/" class="glow-btn inline-flex items-center gap-3 px-8 py-4 rounded-2xl font-bold text-white text-lg transition-all">
-        <i class="fa-solid fa-infinity"></i>
+        <iconify-icon class="icon-infinity" icon="mdi:infinity"></iconify-icon>
         ابدأ الحوكمة المستمرة
       </a>
       <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="wa-btn inline-flex items-center gap-3 px-8 py-4 rounded-2xl font-bold text-white text-lg transition-all">
-        <i class="fa-brands fa-whatsapp text-xl"></i>
+        <iconify-icon class="text-xl icon-whatsapp" icon="mdi:whatsapp"></iconify-icon>
         053-822-9013
       </a>
     </div>
@@ -504,8 +504,8 @@
         </div>
       </div>
       <div class="mt-3 flex flex-wrap gap-2">
-        <span class="text-xs px-2 py-1 rounded-lg text-green-400" style="background:rgba(34,197,94,.1)"><i class="fa-solid fa-arrow-trend-up ml-1"></i>+12 نقطة هذا الشهر</span>
-        <span class="text-xs px-2 py-1 rounded-lg text-yellow-400" style="background:rgba(234,179,8,.1)"><i class="fa-solid fa-triangle-exclamation ml-1"></i>3 ثغرات تحتاج معالجة</span>
+        <span class="text-xs px-2 py-1 rounded-lg text-green-400" style="background:rgba(34,197,94,.1)"><iconify-icon class="ml-1 icon-arrow-trend-up" icon="mdi:trending-up"></iconify-icon>+12 نقطة هذا الشهر</span>
+        <span class="text-xs px-2 py-1 rounded-lg text-yellow-400" style="background:rgba(234,179,8,.1)"><iconify-icon class="ml-1 icon-triangle-exclamation" icon="mdi:alert-triangle"></iconify-icon>3 ثغرات تحتاج معالجة</span>
       </div>
     </div>
   </div>
@@ -524,29 +524,29 @@
       <div class="glass compare-old rounded-3xl p-8">
         <div class="flex items-center gap-3 mb-6">
           <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:rgba(239,68,68,.12); border:1px solid rgba(239,68,68,.25)">
-            <i class="fa-solid fa-calendar-xmark text-red-400"></i>
+            <iconify-icon class="text-red-400 icon-calendar-xmark" icon="mdi:calendar-remove"></iconify-icon>
           </div>
           <h3 class="font-black text-xl text-red-400">الحوكمة الدورية التقليدية</h3>
         </div>
         <div class="space-y-4">
           <div class="flex items-start gap-3">
-            <i class="fa-solid fa-xmark text-red-400 mt-1 shrink-0"></i>
+            <iconify-icon class="text-red-400 mt-1 shrink-0 icon-xmark" icon="mdi:close"></iconify-icon>
             <div><div class="font-bold text-sm mb-0.5">مرة أو مرتين سنوياً</div><div class="text-white/60 text-xs">فجوات زمنية طويلة بين كل مراجعة ومراجعة</div></div>
           </div>
           <div class="flex items-start gap-3">
-            <i class="fa-solid fa-xmark text-red-400 mt-1 shrink-0"></i>
+            <iconify-icon class="text-red-400 mt-1 shrink-0 icon-xmark" icon="mdi:close"></iconify-icon>
             <div><div class="font-bold text-sm mb-0.5">مخاطر تتراكم بصمت</div><div class="text-white/60 text-xs">لا أحد يعلم بالثغرات حتى يحين موعد المراجعة</div></div>
           </div>
           <div class="flex items-start gap-3">
-            <i class="fa-solid fa-xmark text-red-400 mt-1 shrink-0"></i>
+            <iconify-icon class="text-red-400 mt-1 shrink-0 icon-xmark" icon="mdi:close"></iconify-icon>
             <div><div class="font-bold text-sm mb-0.5">تكلفة عالية وجهد ضخم</div><div class="text-white/60 text-xs">مشروع متكامل في كل مرة يستنزف الموارد والوقت</div></div>
           </div>
           <div class="flex items-start gap-3">
-            <i class="fa-solid fa-xmark text-red-400 mt-1 shrink-0"></i>
+            <iconify-icon class="text-red-400 mt-1 shrink-0 icon-xmark" icon="mdi:close"></iconify-icon>
             <div><div class="font-bold text-sm mb-0.5">لا رؤية بين المراجعات</div><div class="text-white/60 text-xs">الإدارة لا تعلم وضعها الحقيقي في معظم العام</div></div>
           </div>
           <div class="flex items-start gap-3">
-            <i class="fa-solid fa-xmark text-red-400 mt-1 shrink-0"></i>
+            <iconify-icon class="text-red-400 mt-1 shrink-0 icon-xmark" icon="mdi:close"></iconify-icon>
             <div><div class="font-bold text-sm mb-0.5">تقديم للمدقق في آخر لحظة</div><div class="text-white/60 text-xs">ضغط شديد وتقارير ناقصة عند قدوم التدقيق</div></div>
           </div>
         </div>
@@ -555,29 +555,29 @@
       <div class="glass compare-new rounded-3xl p-8">
         <div class="flex items-center gap-3 mb-6">
           <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:rgba(34,197,94,.12); border:1px solid rgba(34,197,94,.25)">
-            <i class="fa-solid fa-infinity text-green-400"></i>
+            <iconify-icon class="text-green-400 icon-infinity" icon="mdi:infinity"></iconify-icon>
           </div>
           <h3 class="font-black text-xl text-green-400">الحوكمة المستمرة مع BrightAI</h3>
         </div>
         <div class="space-y-4">
           <div class="flex items-start gap-3">
-            <i class="fa-solid fa-check text-green-400 mt-1 shrink-0"></i>
+            <iconify-icon class="text-green-400 mt-1 shrink-0 icon-check" icon="mdi:check"></iconify-icon>
             <div><div class="font-bold text-sm mb-0.5">رصد يومي تلقائي 24/7</div><div class="text-white/60 text-xs">لا فجوات ولا مفاجآت. كل شيء تحت المراقبة دائماً</div></div>
           </div>
           <div class="flex items-start gap-3">
-            <i class="fa-solid fa-check text-green-400 mt-1 shrink-0"></i>
+            <iconify-icon class="text-green-400 mt-1 shrink-0 icon-check" icon="mdi:check"></iconify-icon>
             <div><div class="font-bold text-sm mb-0.5">اكتشاف فوري للمخاطر</div><div class="text-white/60 text-xs">تنبيه تلقائي لحظة ظهور أي ثغرة أو انحراف</div></div>
           </div>
           <div class="flex items-start gap-3">
-            <i class="fa-solid fa-check text-green-400 mt-1 shrink-0"></i>
+            <iconify-icon class="text-green-400 mt-1 shrink-0 icon-check" icon="mdi:check"></iconify-icon>
             <div><div class="font-bold text-sm mb-0.5">تكلفة اشتراك ثابتة</div><div class="text-white/60 text-xs">لا مشاريع مكلفة. تكلفة قابلة للتخطيط والتوسع</div></div>
           </div>
           <div class="flex items-start gap-3">
-            <i class="fa-solid fa-check text-green-400 mt-1 shrink-0"></i>
+            <iconify-icon class="text-green-400 mt-1 shrink-0 icon-check" icon="mdi:check"></iconify-icon>
             <div><div class="font-bold text-sm mb-0.5">رؤية كاملة طوال العام</div><div class="text-white/60 text-xs">لوحة تحكم حية تُظهر Governance Score في أي لحظة</div></div>
           </div>
           <div class="flex items-start gap-3">
-            <i class="fa-solid fa-check text-green-400 mt-1 shrink-0"></i>
+            <iconify-icon class="text-green-400 mt-1 shrink-0 icon-check" icon="mdi:check"></iconify-icon>
             <div><div class="font-bold text-sm mb-0.5">جاهزية تدقيق دائمة</div><div class="text-white/60 text-xs">Evidence File محدث دائماً. المدقق يجد كل شيء جاهزاً</div></div>
           </div>
         </div>
@@ -591,7 +591,7 @@
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
     <div class="text-center mb-12">
       <span class="chip inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold mb-4">
-        <i class="fa-solid fa-flag"></i> متى تحتاج الحوكمة المستمرة؟
+        <iconify-icon class="icon-flag" icon="mdi:flag"></iconify-icon> متى تحتاج الحوكمة المستمرة؟
       </span>
       <h2 id="triggers-title" class="text-2xl sm:text-3xl lg:text-4xl font-black">
         ست علامات أن مؤسستك <span class="gradient-text">تجاوزت الحوكمة الدورية</span>
@@ -600,42 +600,42 @@
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
       <div class="feature-card glass rounded-2xl p-6">
         <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-4" style="background:rgba(0,212,255,.12); border:1px solid rgba(0,212,255,.25)">
-          <i class="fa-solid fa-robot text-cyan-400 text-xl"></i>
+          <iconify-icon class="text-cyan-400 text-xl icon-robot" icon="mdi:robot"></iconify-icon>
         </div>
         <h3 class="font-bold text-lg mb-2">أنظمة AI متعددة في التشغيل</h3>
         <p class="text-white/60 text-sm leading-relaxed">عندما تتجاوز أنظمة AI المؤسسية الـ 5 أنظمة، الحوكمة اليدوية تصبح مستحيلة. الحوكمة المستمرة الوحيدة تعمل.</p>
       </div>
       <div class="feature-card glass rounded-2xl p-6">
         <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-4" style="background:rgba(124,92,255,.12); border:1px solid rgba(124,92,255,.25)">
-          <i class="fa-solid fa-chart-line text-purple-400 text-xl"></i>
+          <iconify-icon class="text-purple-400 text-xl icon-chart-line" icon="mdi:chart-line"></iconify-icon>
         </div>
         <h3 class="font-bold text-lg mb-2">نمو سريع في استخدام AI</h3>
         <p class="text-white/60 text-sm leading-relaxed">مع تسارع نشر AI، كل ربع يأتي بأنظمة وحالات استخدام جديدة تحتاج إشرافاً فورياً لا سنوياً.</p>
       </div>
       <div class="feature-card glass rounded-2xl p-6">
         <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-4" style="background:rgba(239,68,68,.12); border:1px solid rgba(239,68,68,.25)">
-          <i class="fa-solid fa-gavel text-red-400 text-xl"></i>
+          <iconify-icon class="text-red-400 text-xl icon-gavel" icon="mdi:gavel"></iconify-icon>
         </div>
         <h3 class="font-bold text-lg mb-2">بيئة تنظيمية متغيرة</h3>
         <p class="text-white/60 text-sm leading-relaxed">لوائح PDPL وNCA وISO 42001 تتطور. الحوكمة المستمرة تتكيف تلقائياً مع كل تحديث تنظيمي جديد.</p>
       </div>
       <div class="feature-card glass rounded-2xl p-6">
         <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-4" style="background:rgba(234,179,8,.12); border:1px solid rgba(234,179,8,.25)">
-          <i class="fa-solid fa-building-shield text-yellow-400 text-xl"></i>
+          <iconify-icon class="text-yellow-400 text-xl icon-building-shield" icon="mdi:shield-home"></iconify-icon>
         </div>
         <h3 class="font-bold text-lg mb-2">مؤسسة تحت رقابة مستمرة</h3>
         <p class="text-white/60 text-sm leading-relaxed">البنوك والجهات الصحية والحكومية تخضع لرقابة مستمرة. حوكمة AI متقطعة لا تتناسب مع هذا المستوى.</p>
       </div>
       <div class="feature-card glass rounded-2xl p-6">
         <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-4" style="background:rgba(34,197,94,.12); border:1px solid rgba(34,197,94,.25)">
-          <i class="fa-solid fa-handshake text-green-400 text-xl"></i>
+          <iconify-icon class="text-green-400 text-xl icon-handshake" icon="mdi:handshake"></iconify-icon>
         </div>
         <h3 class="font-bold text-lg mb-2">استراتيجية AI مؤسسية</h3>
         <p class="text-white/60 text-sm leading-relaxed">المؤسسات التي تعتمد AI كمحرك استراتيجي تحتاج حوكمة بنفس مستوى التشغيل: مستمرة وغير قابلة للتوقف.</p>
       </div>
       <div class="feature-card glass rounded-2xl p-6">
         <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-4" style="background:rgba(255,92,167,.12); border:1px solid rgba(255,92,167,.25)">
-          <i class="fa-solid fa-certificate text-pink-400 text-xl"></i>
+          <iconify-icon class="text-pink-400 text-xl icon-certificate" icon="mdi:certificate"></iconify-icon>
         </div>
         <h3 class="font-bold text-lg mb-2">شهادات ISO مستهدفة</h3>
         <p class="text-white/60 text-sm leading-relaxed">ISO 42001 يتطلب إثبات حوكمة مستمرة لا حوكمة موسمية. BrightAI يُوفّر هذا الإثبات بشكل يومي.</p>
@@ -650,35 +650,35 @@
     <div class="glass rounded-3xl p-8 lg:p-12" style="background: linear-gradient(135deg, rgba(0,212,255,.04), rgba(124,92,255,.04));">
       <div class="text-center mb-10">
         <span class="chip inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold mb-4">
-          <i class="fa-solid fa-bullseye"></i> من يستفيد؟
+          <iconify-icon class="icon-bullseye" icon="mdi:bullseye"></iconify-icon> من يستفيد؟
         </span>
         <h2 id="icp-title" class="text-2xl sm:text-3xl font-black">القيادة المؤسسية التي تتبنى الحوكمة المستمرة</h2>
       </div>
       <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <div class="text-center p-5 rounded-2xl" style="background:rgba(255,255,255,.03)">
           <div class="w-14 h-14 rounded-2xl mx-auto flex items-center justify-center mb-4 glow-btn">
-            <i class="fa-solid fa-laptop-code text-white text-xl"></i>
+            <iconify-icon class="text-white text-xl icon-laptop-code" icon="mdi:laptop"></iconify-icon>
           </div>
           <h3 class="font-bold mb-2">Chief AI Officer</h3>
           <p class="text-white/60 text-xs leading-relaxed">يُدير استراتيجية AI ويحتاج رؤية حية مستمرة لأداء وسلامة كل الأنظمة</p>
         </div>
         <div class="text-center p-5 rounded-2xl" style="background:rgba(255,255,255,.03)">
           <div class="w-14 h-14 rounded-2xl mx-auto flex items-center justify-center mb-4 glow-btn">
-            <i class="fa-solid fa-shield text-white text-xl"></i>
+            <iconify-icon class="text-white text-xl icon-shield" icon="mdi:shield"></iconify-icon>
           </div>
           <h3 class="font-bold mb-2">Chief Risk Officer</h3>
           <p class="text-white/60 text-xs leading-relaxed">يريد إطار مخاطر AI متكامل يعمل باستمرار لا مشروعاً دورياً</p>
         </div>
         <div class="text-center p-5 rounded-2xl" style="background:rgba(255,255,255,.03)">
           <div class="w-14 h-14 rounded-2xl mx-auto flex items-center justify-center mb-4 glow-btn">
-            <i class="fa-solid fa-network-wired text-white text-xl"></i>
+            <iconify-icon class="text-white text-xl icon-network-wired" icon="mdi:lan"></iconify-icon>
           </div>
           <h3 class="font-bold mb-2">Chief Technology Officer</h3>
           <p class="text-white/60 text-xs leading-relaxed">يريد مؤسسة تقنية ناضجة تُثبت السيطرة الكاملة على AI أمام الإدارة والمساهمين</p>
         </div>
         <div class="text-center p-5 rounded-2xl" style="background:rgba(255,255,255,.03)">
           <div class="w-14 h-14 rounded-2xl mx-auto flex items-center justify-center mb-4 glow-btn">
-            <i class="fa-solid fa-clipboard-check text-white text-xl"></i>
+            <iconify-icon class="text-white text-xl icon-clipboard-check" icon="mdi:clipboard-check"></iconify-icon>
           </div>
           <h3 class="font-bold mb-2">مسؤول الامتثال</h3>
           <p class="text-white/60 text-xs leading-relaxed">يريد إثبات الامتثال المستمر لا مجرد لحظة التدقيق السنوي</p>
@@ -693,7 +693,7 @@
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
     <div class="text-center mb-12">
       <span class="chip inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold mb-4">
-        <i class="fa-solid fa-rotate"></i> دورة الحوكمة
+        <iconify-icon class="icon-rotate" icon="mdi:refresh"></iconify-icon> دورة الحوكمة
       </span>
       <h2 id="cycle-title" class="text-2xl sm:text-3xl lg:text-4xl font-black">
         دورة <span class="gradient-text">الحوكمة المستمرة</span> في BrightAI
@@ -707,7 +707,7 @@
         <!-- Monitor -->
         <div class="cycle-node min-w-[140px]">
           <div class="cycle-icon mx-auto" style="background:rgba(0,212,255,.12); border:2px solid rgba(0,212,255,.3)">
-            <i class="fa-solid fa-eye text-cyan-400"></i>
+            <iconify-icon class="text-cyan-400 icon-eye" icon="mdi:eye"></iconify-icon>
           </div>
           <div class="font-black text-sm text-cyan-400">Monitor</div>
           <div class="text-white/50 text-xs mt-1">رصد مستمر</div>
@@ -716,7 +716,7 @@
         <!-- Assess -->
         <div class="cycle-node min-w-[140px]">
           <div class="cycle-icon mx-auto" style="background:rgba(124,92,255,.12); border:2px solid rgba(124,92,255,.3)">
-            <i class="fa-solid fa-gauge-high text-purple-400"></i>
+            <iconify-icon class="text-purple-400 icon-gauge-high" icon="mdi:gauge"></iconify-icon>
           </div>
           <div class="font-black text-sm text-purple-400">Assess</div>
           <div class="text-white/50 text-xs mt-1">تقييم تلقائي</div>
@@ -725,7 +725,7 @@
         <!-- Control -->
         <div class="cycle-node min-w-[140px]">
           <div class="cycle-icon mx-auto" style="background:rgba(255,92,167,.12); border:2px solid rgba(255,92,167,.3)">
-            <i class="fa-solid fa-sliders text-pink-400"></i>
+            <iconify-icon class="text-pink-400 icon-sliders" icon="mdi:tune"></iconify-icon>
           </div>
           <div class="font-black text-sm text-pink-400">Control</div>
           <div class="text-white/50 text-xs mt-1">تدخل وضبط</div>
@@ -734,7 +734,7 @@
         <!-- Evidence -->
         <div class="cycle-node min-w-[140px]">
           <div class="cycle-icon mx-auto" style="background:rgba(234,179,8,.12); border:2px solid rgba(234,179,8,.3)">
-            <i class="fa-solid fa-file-shield text-yellow-400"></i>
+            <iconify-icon class="text-yellow-400 icon-file-shield" icon="mdi:file-lock"></iconify-icon>
           </div>
           <div class="font-black text-sm text-yellow-400">Evidence</div>
           <div class="text-white/50 text-xs mt-1">توثيق أدلة</div>
@@ -743,7 +743,7 @@
         <!-- Improve -->
         <div class="cycle-node min-w-[140px]">
           <div class="cycle-icon mx-auto" style="background:rgba(34,197,94,.12); border:2px solid rgba(34,197,94,.3)">
-            <i class="fa-solid fa-arrow-trend-up text-green-400"></i>
+            <iconify-icon class="text-green-400 icon-arrow-trend-up" icon="mdi:trending-up"></iconify-icon>
           </div>
           <div class="font-black text-sm text-green-400">Improve</div>
           <div class="text-white/50 text-xs mt-1">تحسين مستمر</div>
@@ -756,7 +756,7 @@
     <div class="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
       <div class="glass rounded-2xl p-5" style="border-color:rgba(0,212,255,.2)">
         <div class="flex items-center gap-2 mb-3">
-          <i class="fa-solid fa-eye text-cyan-400"></i>
+          <iconify-icon class="text-cyan-400 icon-eye" icon="mdi:eye"></iconify-icon>
           <h3 class="font-bold text-sm text-cyan-400">Monitor</h3>
         </div>
         <ul class="space-y-2 text-xs text-white/60">
@@ -768,7 +768,7 @@
       </div>
       <div class="glass rounded-2xl p-5" style="border-color:rgba(124,92,255,.2)">
         <div class="flex items-center gap-2 mb-3">
-          <i class="fa-solid fa-gauge-high text-purple-400"></i>
+          <iconify-icon class="text-purple-400 icon-gauge-high" icon="mdi:gauge"></iconify-icon>
           <h3 class="font-bold text-sm text-purple-400">Assess</h3>
         </div>
         <ul class="space-y-2 text-xs text-white/60">
@@ -780,7 +780,7 @@
       </div>
       <div class="glass rounded-2xl p-5" style="border-color:rgba(255,92,167,.2)">
         <div class="flex items-center gap-2 mb-3">
-          <i class="fa-solid fa-sliders text-pink-400"></i>
+          <iconify-icon class="text-pink-400 icon-sliders" icon="mdi:tune"></iconify-icon>
           <h3 class="font-bold text-sm text-pink-400">Control</h3>
         </div>
         <ul class="space-y-2 text-xs text-white/60">
@@ -792,7 +792,7 @@
       </div>
       <div class="glass rounded-2xl p-5" style="border-color:rgba(234,179,8,.2)">
         <div class="flex items-center gap-2 mb-3">
-          <i class="fa-solid fa-file-shield text-yellow-400"></i>
+          <iconify-icon class="text-yellow-400 icon-file-shield" icon="mdi:file-lock"></iconify-icon>
           <h3 class="font-bold text-sm text-yellow-400">Evidence</h3>
         </div>
         <ul class="space-y-2 text-xs text-white/60">
@@ -804,7 +804,7 @@
       </div>
       <div class="glass rounded-2xl p-5" style="border-color:rgba(34,197,94,.2)">
         <div class="flex items-center gap-2 mb-3">
-          <i class="fa-solid fa-arrow-trend-up text-green-400"></i>
+          <iconify-icon class="text-green-400 icon-arrow-trend-up" icon="mdi:trending-up"></iconify-icon>
           <h3 class="font-bold text-sm text-green-400">Improve</h3>
         </div>
         <ul class="space-y-2 text-xs text-white/60">
@@ -823,17 +823,17 @@
   <div class="max-w-4xl mx-auto px-5 lg:px-8">
     <div class="glass rounded-3xl p-8 lg:p-12 text-center" style="background: linear-gradient(135deg, rgba(0,212,255,.06), rgba(124,92,255,.06)); border-color: rgba(0,212,255,.2);">
       <div class="w-16 h-16 rounded-2xl mx-auto flex items-center justify-center mb-6 glow-btn">
-        <i class="fa-solid fa-infinity text-white text-2xl"></i>
+        <iconify-icon class="text-white text-2xl icon-infinity" icon="mdi:infinity"></iconify-icon>
       </div>
       <h2 class="text-2xl sm:text-3xl font-black mb-4">ما هو Governance Maturity Score مؤسستك الآن؟</h2>
       <p class="text-white/60 mb-8 max-w-xl mx-auto leading-relaxed">في 30 دقيقة، يقيّم فريق BrightAI وضع حوكمة AI مؤسستك الحالي ويُحدد الفجوات ومسار التحسين. مجاناً.</p>
       <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
         <a href="/contact/" class="glow-btn inline-flex items-center gap-3 px-8 py-4 rounded-2xl font-bold text-white text-lg transition-all">
-          <i class="fa-solid fa-chart-bar"></i>
+          <iconify-icon class="icon-chart-bar" icon="mdi:chart-bar"></iconify-icon>
           اطلب تقييم Maturity Score
         </a>
         <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="wa-btn inline-flex items-center gap-3 px-8 py-4 rounded-2xl font-bold text-white transition-all">
-          <i class="fa-brands fa-whatsapp text-xl"></i>
+          <iconify-icon class="text-xl icon-whatsapp" icon="mdi:whatsapp"></iconify-icon>
           راسلنا الآن
         </a>
       </div>
@@ -846,7 +846,7 @@
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
     <div class="text-center mb-12">
       <span class="chip inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold mb-4">
-        <i class="fa-solid fa-table-columns"></i> قدرات الحوكمة المستمرة
+        <iconify-icon class="icon-table-columns" icon="mdi:view-dashboard"></iconify-icon> قدرات الحوكمة المستمرة
       </span>
       <h2 id="capabilities-title" class="text-2xl sm:text-3xl lg:text-4xl font-black">ماذا تفعل <span class="gradient-text">منصة BrightAI</span> يومياً؟</h2>
     </div>
@@ -854,57 +854,57 @@
       <div class="grid grid-cols-2 lg:grid-cols-4 table-header">
         <div class="p-5 border-l border-white/8">
           <div class="w-8 h-8 rounded-lg flex items-center justify-center mb-3" style="background:rgba(0,212,255,.15)">
-            <i class="fa-solid fa-eye text-cyan-400 text-sm"></i>
+            <iconify-icon class="text-cyan-400 text-sm icon-eye" icon="mdi:eye"></iconify-icon>
           </div>
           <h3 class="font-bold text-sm text-cyan-400">ما الذي تكشفه</h3>
         </div>
         <div class="p-5 border-l border-white/8">
           <div class="w-8 h-8 rounded-lg flex items-center justify-center mb-3" style="background:rgba(124,92,255,.15)">
-            <i class="fa-solid fa-sliders text-purple-400 text-sm"></i>
+            <iconify-icon class="text-purple-400 text-sm icon-sliders" icon="mdi:tune"></iconify-icon>
           </div>
           <h3 class="font-bold text-sm text-purple-400">ما الذي تتحكم فيه</h3>
         </div>
         <div class="p-5 border-l border-white/8">
           <div class="w-8 h-8 rounded-lg flex items-center justify-center mb-3" style="background:rgba(255,92,167,.15)">
-            <i class="fa-solid fa-database text-pink-400 text-sm"></i>
+            <iconify-icon class="text-pink-400 text-sm icon-database" icon="mdi:database"></iconify-icon>
           </div>
           <h3 class="font-bold text-sm text-pink-400">ما الذي تسجله</h3>
         </div>
         <div class="p-5">
           <div class="w-8 h-8 rounded-lg flex items-center justify-center mb-3" style="background:rgba(34,197,94,.15)">
-            <i class="fa-solid fa-certificate text-green-400 text-sm"></i>
+            <iconify-icon class="text-green-400 text-sm icon-certificate" icon="mdi:certificate"></iconify-icon>
           </div>
           <h3 class="font-bold text-sm text-green-400">ما الأدلة التي تنتجها</h3>
         </div>
       </div>
       <div class="grid grid-cols-2 lg:grid-cols-4 divide-x divide-white/5">
         <div class="p-5 space-y-3 border-l border-white/5">
-          <div class="flex items-start gap-2"><i class="fa-solid fa-circle text-cyan-400 text-xs mt-1.5"></i><span class="text-sm text-white/80">Governance Maturity Score اليومي</span></div>
-          <div class="flex items-start gap-2"><i class="fa-solid fa-circle text-cyan-400 text-xs mt-1.5"></i><span class="text-sm text-white/80">الفجوات في السياسات والضوابط</span></div>
-          <div class="flex items-start gap-2"><i class="fa-solid fa-circle text-cyan-400 text-xs mt-1.5"></i><span class="text-sm text-white/80">انحرافات أنظمة AI عن المعايير</span></div>
-          <div class="flex items-start gap-2"><i class="fa-solid fa-circle text-cyan-400 text-xs mt-1.5"></i><span class="text-sm text-white/80">تغييرات في اللوائح المنطبقة</span></div>
-          <div class="flex items-start gap-2"><i class="fa-solid fa-circle text-cyan-400 text-xs mt-1.5"></i><span class="text-sm text-white/80">مستوى جاهزية التدقيق اللحظي</span></div>
+          <div class="flex items-start gap-2"><iconify-icon class="text-cyan-400 text-xs mt-1.5 icon-circle" icon="mdi:circle"></iconify-icon><span class="text-sm text-white/80">Governance Maturity Score اليومي</span></div>
+          <div class="flex items-start gap-2"><iconify-icon class="text-cyan-400 text-xs mt-1.5 icon-circle" icon="mdi:circle"></iconify-icon><span class="text-sm text-white/80">الفجوات في السياسات والضوابط</span></div>
+          <div class="flex items-start gap-2"><iconify-icon class="text-cyan-400 text-xs mt-1.5 icon-circle" icon="mdi:circle"></iconify-icon><span class="text-sm text-white/80">انحرافات أنظمة AI عن المعايير</span></div>
+          <div class="flex items-start gap-2"><iconify-icon class="text-cyan-400 text-xs mt-1.5 icon-circle" icon="mdi:circle"></iconify-icon><span class="text-sm text-white/80">تغييرات في اللوائح المنطبقة</span></div>
+          <div class="flex items-start gap-2"><iconify-icon class="text-cyan-400 text-xs mt-1.5 icon-circle" icon="mdi:circle"></iconify-icon><span class="text-sm text-white/80">مستوى جاهزية التدقيق اللحظي</span></div>
         </div>
         <div class="p-5 space-y-3 border-l border-white/5">
-          <div class="flex items-start gap-2"><i class="fa-solid fa-circle text-purple-400 text-xs mt-1.5"></i><span class="text-sm text-white/80">دورة الحوكمة بأكملها تلقائياً</span></div>
-          <div class="flex items-start gap-2"><i class="fa-solid fa-circle text-purple-400 text-xs mt-1.5"></i><span class="text-sm text-white/80">معايير المخاطر وعتبات التنبيه</span></div>
-          <div class="flex items-start gap-2"><i class="fa-solid fa-circle text-purple-400 text-xs mt-1.5"></i><span class="text-sm text-white/80">خارطة الامتثال لكل جهة تنظيمية</span></div>
-          <div class="flex items-start gap-2"><i class="fa-solid fa-circle text-purple-400 text-xs mt-1.5"></i><span class="text-sm text-white/80">أولويات التحسين الأسبوعية</span></div>
-          <div class="flex items-start gap-2"><i class="fa-solid fa-circle text-purple-400 text-xs mt-1.5"></i><span class="text-sm text-white/80">Workflow الاستجابة للحوادث</span></div>
+          <div class="flex items-start gap-2"><iconify-icon class="text-purple-400 text-xs mt-1.5 icon-circle" icon="mdi:circle"></iconify-icon><span class="text-sm text-white/80">دورة الحوكمة بأكملها تلقائياً</span></div>
+          <div class="flex items-start gap-2"><iconify-icon class="text-purple-400 text-xs mt-1.5 icon-circle" icon="mdi:circle"></iconify-icon><span class="text-sm text-white/80">معايير المخاطر وعتبات التنبيه</span></div>
+          <div class="flex items-start gap-2"><iconify-icon class="text-purple-400 text-xs mt-1.5 icon-circle" icon="mdi:circle"></iconify-icon><span class="text-sm text-white/80">خارطة الامتثال لكل جهة تنظيمية</span></div>
+          <div class="flex items-start gap-2"><iconify-icon class="text-purple-400 text-xs mt-1.5 icon-circle" icon="mdi:circle"></iconify-icon><span class="text-sm text-white/80">أولويات التحسين الأسبوعية</span></div>
+          <div class="flex items-start gap-2"><iconify-icon class="text-purple-400 text-xs mt-1.5 icon-circle" icon="mdi:circle"></iconify-icon><span class="text-sm text-white/80">Workflow الاستجابة للحوادث</span></div>
         </div>
         <div class="p-5 space-y-3 border-l border-white/5">
-          <div class="flex items-start gap-2"><i class="fa-solid fa-circle text-pink-400 text-xs mt-1.5"></i><span class="text-sm text-white/80">تاريخ Maturity Score على مدار الوقت</span></div>
-          <div class="flex items-start gap-2"><i class="fa-solid fa-circle text-pink-400 text-xs mt-1.5"></i><span class="text-sm text-white/80">كل الإجراءات التصحيحية المتخذة</span></div>
-          <div class="flex items-start gap-2"><i class="fa-solid fa-circle text-pink-400 text-xs mt-1.5"></i><span class="text-sm text-white/80">سجل تحديثات السياسات والضوابط</span></div>
-          <div class="flex items-start gap-2"><i class="fa-solid fa-circle text-pink-400 text-xs mt-1.5"></i><span class="text-sm text-white/80">الحوادث ودورة حياتها الكاملة</span></div>
-          <div class="flex items-start gap-2"><i class="fa-solid fa-circle text-pink-400 text-xs mt-1.5"></i><span class="text-sm text-white/80">مؤشرات الأداء والتحسن الزمني</span></div>
+          <div class="flex items-start gap-2"><iconify-icon class="text-pink-400 text-xs mt-1.5 icon-circle" icon="mdi:circle"></iconify-icon><span class="text-sm text-white/80">تاريخ Maturity Score على مدار الوقت</span></div>
+          <div class="flex items-start gap-2"><iconify-icon class="text-pink-400 text-xs mt-1.5 icon-circle" icon="mdi:circle"></iconify-icon><span class="text-sm text-white/80">كل الإجراءات التصحيحية المتخذة</span></div>
+          <div class="flex items-start gap-2"><iconify-icon class="text-pink-400 text-xs mt-1.5 icon-circle" icon="mdi:circle"></iconify-icon><span class="text-sm text-white/80">سجل تحديثات السياسات والضوابط</span></div>
+          <div class="flex items-start gap-2"><iconify-icon class="text-pink-400 text-xs mt-1.5 icon-circle" icon="mdi:circle"></iconify-icon><span class="text-sm text-white/80">الحوادث ودورة حياتها الكاملة</span></div>
+          <div class="flex items-start gap-2"><iconify-icon class="text-pink-400 text-xs mt-1.5 icon-circle" icon="mdi:circle"></iconify-icon><span class="text-sm text-white/80">مؤشرات الأداء والتحسن الزمني</span></div>
         </div>
         <div class="p-5 space-y-3">
-          <div class="flex items-start gap-2"><i class="fa-solid fa-circle text-green-400 text-xs mt-1.5"></i><span class="text-sm text-white/80">تقرير حوكمة شهري للإدارة العليا</span></div>
-          <div class="flex items-start gap-2"><i class="fa-solid fa-circle text-green-400 text-xs mt-1.5"></i><span class="text-sm text-white/80">Evidence File محدث دائماً للتدقيق</span></div>
-          <div class="flex items-start gap-2"><i class="fa-solid fa-circle text-green-400 text-xs mt-1.5"></i><span class="text-sm text-white/80">خريطة امتثال ISO 42001 التفصيلية</span></div>
-          <div class="flex items-start gap-2"><i class="fa-solid fa-circle text-green-400 text-xs mt-1.5"></i><span class="text-sm text-white/80">مؤشر النضج للمساهمين والمدققين</span></div>
-          <div class="flex items-start gap-2"><i class="fa-solid fa-circle text-green-400 text-xs mt-1.5"></i><span class="text-sm text-white/80">تقرير تقدم الحوكمة ربعي</span></div>
+          <div class="flex items-start gap-2"><iconify-icon class="text-green-400 text-xs mt-1.5 icon-circle" icon="mdi:circle"></iconify-icon><span class="text-sm text-white/80">تقرير حوكمة شهري للإدارة العليا</span></div>
+          <div class="flex items-start gap-2"><iconify-icon class="text-green-400 text-xs mt-1.5 icon-circle" icon="mdi:circle"></iconify-icon><span class="text-sm text-white/80">Evidence File محدث دائماً للتدقيق</span></div>
+          <div class="flex items-start gap-2"><iconify-icon class="text-green-400 text-xs mt-1.5 icon-circle" icon="mdi:circle"></iconify-icon><span class="text-sm text-white/80">خريطة امتثال ISO 42001 التفصيلية</span></div>
+          <div class="flex items-start gap-2"><iconify-icon class="text-green-400 text-xs mt-1.5 icon-circle" icon="mdi:circle"></iconify-icon><span class="text-sm text-white/80">مؤشر النضج للمساهمين والمدققين</span></div>
+          <div class="flex items-start gap-2"><iconify-icon class="text-green-400 text-xs mt-1.5 icon-circle" icon="mdi:circle"></iconify-icon><span class="text-sm text-white/80">تقرير تقدم الحوكمة ربعي</span></div>
         </div>
       </div>
     </div>
@@ -916,7 +916,7 @@
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
     <div class="text-center mb-12">
       <span class="chip inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold mb-4">
-        <i class="fa-solid fa-building"></i> تطبيقات قطاعية
+        <iconify-icon class="icon-building" icon="mdi:office-building"></iconify-icon> تطبيقات قطاعية
       </span>
       <h2 id="sectors-title" class="text-2xl sm:text-3xl font-black">كيف تُطبّق القطاعات <span class="gradient-text">الحوكمة المستمرة</span>؟</h2>
     </div>
@@ -924,7 +924,7 @@
       <div class="glass rounded-2xl p-6">
         <div class="flex items-center gap-3 mb-4">
           <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style="background:rgba(234,179,8,.12); border:1px solid rgba(234,179,8,.25)">
-            <i class="fa-solid fa-landmark text-yellow-400"></i>
+            <iconify-icon class="text-yellow-400 icon-landmark" icon="mdi:bank"></iconify-icon>
           </div>
           <h3 class="font-bold">البنوك والمؤسسات المالية</h3>
         </div>
@@ -933,7 +933,7 @@
       <div class="glass rounded-2xl p-6">
         <div class="flex items-center gap-3 mb-4">
           <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style="background:rgba(239,68,68,.12); border:1px solid rgba(239,68,68,.25)">
-            <i class="fa-solid fa-heart-pulse text-red-400"></i>
+            <iconify-icon class="text-red-400 icon-heart-pulse" icon="mdi:heart-pulse"></iconify-icon>
           </div>
           <h3 class="font-bold">المستشفيات والجهات الصحية</h3>
         </div>
@@ -942,7 +942,7 @@
       <div class="glass rounded-2xl p-6">
         <div class="flex items-center gap-3 mb-4">
           <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style="background:rgba(0,212,255,.12); border:1px solid rgba(0,212,255,.25)">
-            <i class="fa-solid fa-building-government text-cyan-400"></i>
+            <iconify-icon class="text-cyan-400 icon-building-government" icon="mdi:bank"></iconify-icon>
           </div>
           <h3 class="font-bold">الوزارات والهيئات الحكومية</h3>
         </div>
@@ -951,7 +951,7 @@
       <div class="glass rounded-2xl p-6">
         <div class="flex items-center gap-3 mb-4">
           <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style="background:rgba(124,92,255,.12); border:1px solid rgba(124,92,255,.25)">
-            <i class="fa-solid fa-microchip text-purple-400"></i>
+            <iconify-icon class="text-purple-400 icon-microchip" icon="mdi:chip"></iconify-icon>
           </div>
           <h3 class="font-bold">شركات التقنية والـ SaaS</h3>
         </div>
@@ -960,7 +960,7 @@
       <div class="glass rounded-2xl p-6">
         <div class="flex items-center gap-3 mb-4">
           <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style="background:rgba(34,197,94,.12); border:1px solid rgba(34,197,94,.25)">
-            <i class="fa-solid fa-bolt text-green-400"></i>
+            <iconify-icon class="text-green-400 icon-bolt" icon="mdi:lightning-bolt"></iconify-icon>
           </div>
           <h3 class="font-bold">الطاقة والبنية التحتية</h3>
         </div>
@@ -969,7 +969,7 @@
       <div class="glass rounded-2xl p-6">
         <div class="flex items-center gap-3 mb-4">
           <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style="background:rgba(255,92,167,.12); border:1px solid rgba(255,92,167,.25)">
-            <i class="fa-solid fa-chart-pie text-pink-400"></i>
+            <iconify-icon class="text-pink-400 icon-chart-pie" icon="mdi:chart-pie"></iconify-icon>
           </div>
           <h3 class="font-bold">الشركات المدرجة في السوق المالية</h3>
         </div>
@@ -984,7 +984,7 @@
   <div class="max-w-4xl mx-auto px-5 lg:px-8">
     <div class="text-center mb-12">
       <span class="chip inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold mb-4">
-        <i class="fa-solid fa-circle-question"></i> أسئلة شائعة
+        <iconify-icon class="icon-circle-question" icon="mdi:help-circle"></iconify-icon> أسئلة شائعة
       </span>
       <h2 id="faq-title" class="text-2xl sm:text-3xl font-black">أسئلة شائعة حول <span class="gradient-text">الحوكمة المستمرة</span></h2>
     </div>
@@ -993,7 +993,7 @@
       <details class="glass rounded-2xl overflow-hidden transition-all">
         <summary class="flex items-center justify-between p-5 gap-4 hover:bg-white/2">
           <span class="font-bold text-right">ما الفرق الجوهري بين الحوكمة الدورية والحوكمة المستمرة؟</span>
-          <i class="fa-solid fa-plus faq-icon text-cyan-400 shrink-0 text-sm"></i>
+          <iconify-icon class="faq-icon text-cyan-400 shrink-0 text-sm icon-plus" icon="mdi:plus"></iconify-icon>
         </summary>
         <div class="px-5 pb-5 pt-2 text-white/70 leading-relaxed">
           الحوكمة الدورية تعمل مرة أو مرتين سنوياً وتكلف مشاريع ضخمة في كل مرة، وبينهما تتراكم المخاطر بصمت. الحوكمة المستمرة مع BrightAI تعمل يومياً بشكل تلقائي، تكتشف المشاكل فور حدوثها وتعالجها قبل أن تتفاقم، بتكلفة اشتراك ثابتة قابلة للتخطيط.
@@ -1003,7 +1003,7 @@
       <details class="glass rounded-2xl overflow-hidden transition-all">
         <summary class="flex items-center justify-between p-5 gap-4 hover:bg-white/2">
           <span class="font-bold text-right">كيف يُقدّر BrightAI مستوى نضج الحوكمة في مؤسستنا؟</span>
-          <i class="fa-solid fa-plus faq-icon text-cyan-400 shrink-0 text-sm"></i>
+          <iconify-icon class="faq-icon text-cyan-400 shrink-0 text-sm icon-plus" icon="mdi:plus"></iconify-icon>
         </summary>
         <div class="px-5 pb-5 pt-2 text-white/70 leading-relaxed">
           BrightAI يحسب Governance Maturity Score تلقائياً بناءً على عشرات المعايير الموزونة: اكتمال السياسات، كفاءة الرقابة البشرية على القرارات، معدل اكتشاف ومعالجة الحوادث، جاهزية التدقيق، ومدى تطبيق معايير ISO 42001. الـ Score يُحدَّث يومياً وتتوفر رؤية تاريخية كاملة.
@@ -1013,7 +1013,7 @@
       <details class="glass rounded-2xl overflow-hidden transition-all">
         <summary class="flex items-center justify-between p-5 gap-4 hover:bg-white/2">
           <span class="font-bold text-right">ما التكلفة مقارنة ببناء فريق حوكمة داخلي متخصص؟</span>
-          <i class="fa-solid fa-plus faq-icon text-cyan-400 shrink-0 text-sm"></i>
+          <iconify-icon class="faq-icon text-cyan-400 shrink-0 text-sm icon-plus" icon="mdi:plus"></iconify-icon>
         </summary>
         <div class="px-5 pb-5 pt-2 text-white/70 leading-relaxed">
           بناء فريق حوكمة AI داخلي متخصص يحتاج على الأقل: مدير حوكمة، محلل مخاطر، مختص امتثال، وخبير تقني – هذا يعني ملايين الريالات سنوياً في رواتب وتدريب واستشارات متخصصة. BrightAI يُقدم نفس القدرة وأكثر بتكلفة اشتراك شهري يتناسب مع حجم مؤسستك.
@@ -1023,7 +1023,7 @@
       <details class="glass rounded-2xl overflow-hidden transition-all">
         <summary class="flex items-center justify-between p-5 gap-4 hover:bg-white/2">
           <span class="font-bold text-right">كيف يتكيف النظام مع تغيير الأنظمة واللوائح التنظيمية؟</span>
-          <i class="fa-solid fa-plus faq-icon text-cyan-400 shrink-0 text-sm"></i>
+          <iconify-icon class="faq-icon text-cyan-400 shrink-0 text-sm icon-plus" icon="mdi:plus"></iconify-icon>
         </summary>
         <div class="px-5 pb-5 pt-2 text-white/70 leading-relaxed">
           BrightAI يتابع التحديثات التنظيمية لـ PDPL وNCA ECC وSAMA وSFDA والمعايير الدولية كـ ISO 42001. عند صدور لائحة جديدة أو تعديل في معيار قائم، النظام يُحدّث خريطة الامتثال تلقائياً ويُبلّغ الفريق بالمتطلبات الجديدة والفجوات الحالية التي تحتاج معالجة.
@@ -1033,7 +1033,7 @@
       <details class="glass rounded-2xl overflow-hidden transition-all">
         <summary class="flex items-center justify-between p-5 gap-4 hover:bg-white/2">
           <span class="font-bold text-right">هل يمكن استخدام BrightAI كأساس للحصول على شهادة ISO 42001؟</span>
-          <i class="fa-solid fa-plus faq-icon text-cyan-400 shrink-0 text-sm"></i>
+          <iconify-icon class="faq-icon text-cyan-400 shrink-0 text-sm icon-plus" icon="mdi:plus"></iconify-icon>
         </summary>
         <div class="px-5 pb-5 pt-2 text-white/70 leading-relaxed">
           نعم، BrightAI مصمم ليوثّق كل متطلبات ISO/IEC 42001 بشكل مستمر ومنهجي. يُنتج الأدلة اللازمة لكل بند في المعيار ويُبقيها محدثة طوال العام. هذا يُحوّل الحصول على شهادة ISO 42001 من مشروع ضخم يستهلك شهوراً إلى عملية تشغيلية اعتيادية منتظمة.
@@ -1063,22 +1063,22 @@
 
       <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
         <a href="/contact/" class="glow-btn inline-flex items-center gap-3 px-10 py-5 rounded-2xl font-black text-white text-xl transition-all">
-          <i class="fa-solid fa-rocket"></i>
+          <iconify-icon class="icon-rocket" icon="mdi:rocket-launch"></iconify-icon>
           ابدأ الحوكمة المستمرة
         </a>
         <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="wa-btn inline-flex items-center gap-3 px-10 py-5 rounded-2xl font-bold text-white text-lg transition-all">
-          <i class="fa-brands fa-whatsapp text-2xl"></i>
+          <iconify-icon class="text-2xl icon-whatsapp" icon="mdi:whatsapp"></iconify-icon>
           053-822-9013
         </a>
       </div>
 
       <div class="flex flex-wrap items-center justify-center gap-6 text-xs text-white/50">
-        <span><i class="fa-solid fa-check-circle text-green-400 ml-1"></i>ISO/IEC 42001</span>
-        <span><i class="fa-solid fa-check-circle text-green-400 ml-1"></i>NCA ECC</span>
-        <span><i class="fa-solid fa-check-circle text-green-400 ml-1"></i>PDPL</span>
-        <span><i class="fa-solid fa-check-circle text-green-400 ml-1"></i>SAMA</span>
-        <span><i class="fa-solid fa-check-circle text-green-400 ml-1"></i>صُنع في السعودية</span>
-        <a href="/services/" class="text-cyan-400 hover:text-white transition-colors"><i class="fa-solid fa-arrow-left ml-1"></i>كل الخدمات</a>
+        <span><iconify-icon class="text-green-400 ml-1 icon-check-circle" icon="mdi:check-circle"></iconify-icon>ISO/IEC 42001</span>
+        <span><iconify-icon class="text-green-400 ml-1 icon-check-circle" icon="mdi:check-circle"></iconify-icon>NCA ECC</span>
+        <span><iconify-icon class="text-green-400 ml-1 icon-check-circle" icon="mdi:check-circle"></iconify-icon>PDPL</span>
+        <span><iconify-icon class="text-green-400 ml-1 icon-check-circle" icon="mdi:check-circle"></iconify-icon>SAMA</span>
+        <span><iconify-icon class="text-green-400 ml-1 icon-check-circle" icon="mdi:check-circle"></iconify-icon>صُنع في السعودية</span>
+        <a href="/services/" class="text-cyan-400 hover:text-white transition-colors"><iconify-icon class="ml-1 icon-arrow-left" icon="mdi:arrow-left"></iconify-icon>كل الخدمات</a>
       </div>
     </div>
   </div>
@@ -1100,42 +1100,42 @@
       <article class="glass rounded-2xl p-6 hover:border-brand-500/40 transition-all">
         <div class="flex items-center gap-3 mb-3">
           <span class="w-10 h-10 rounded-xl bg-brand-500/10 border border-brand-500/30 flex items-center justify-center shrink-0">
-            <i class="fa-solid fa-book text-brand-300"></i>
+            <iconify-icon class="text-brand-300 icon-book" icon="mdi:book"></iconify-icon>
           </span>
           <h3 class="text-lg font-bold">دليل منصة حوكمة الذكاء الاصطناعي</h3>
         </div>
         <p class="text-white/60 text-sm leading-relaxed mb-4">دليل تفصيلي يساعدك على فهم وتطبيق هذا الحل.</p>
         <a href="/docs/ai-governance-platform/" class="text-brand-300 hover:text-white text-sm inline-flex items-center gap-2">
           <span>اقرأ الدليل</span>
-          <i class="fa-solid fa-arrow-left text-xs"></i>
+          <iconify-icon class="text-xs icon-arrow-left" icon="mdi:arrow-left"></iconify-icon>
         </a>
       </article>
 
       <article class="glass rounded-2xl p-6 hover:border-brand-500/40 transition-all">
         <div class="flex items-center gap-3 mb-3">
           <span class="w-10 h-10 rounded-xl bg-brand-500/10 border border-brand-500/30 flex items-center justify-center shrink-0">
-            <i class="fa-solid fa-flag text-brand-300"></i>
+            <iconify-icon class="text-brand-300 icon-flag" icon="mdi:flag"></iconify-icon>
           </span>
           <h3 class="text-lg font-bold">حوكمة الذكاء الاصطناعي في السعودية</h3>
         </div>
         <p class="text-white/60 text-sm leading-relaxed mb-4">دليل تفصيلي يساعدك على فهم وتطبيق هذا الحل.</p>
         <a href="/docs/ai-governance-saudi-arabia/" class="text-brand-300 hover:text-white text-sm inline-flex items-center gap-2">
           <span>اقرأ الدليل</span>
-          <i class="fa-solid fa-arrow-left text-xs"></i>
+          <iconify-icon class="text-xs icon-arrow-left" icon="mdi:arrow-left"></iconify-icon>
         </a>
       </article>
 
       <article class="glass rounded-2xl p-6 hover:border-brand-500/40 transition-all">
         <div class="flex items-center gap-3 mb-3">
           <span class="w-10 h-10 rounded-xl bg-brand-500/10 border border-brand-500/30 flex items-center justify-center shrink-0">
-            <i class="fa-solid fa-triangle-exclamation text-brand-300"></i>
+            <iconify-icon class="text-brand-300 icon-triangle-exclamation" icon="mdi:alert-triangle"></iconify-icon>
           </span>
           <h3 class="text-lg font-bold">إدارة مخاطر الذكاء الاصطناعي</h3>
         </div>
         <p class="text-white/60 text-sm leading-relaxed mb-4">دليل تفصيلي يساعدك على فهم وتطبيق هذا الحل.</p>
         <a href="/docs/ai-risk-management/" class="text-brand-300 hover:text-white text-sm inline-flex items-center gap-2">
           <span>اقرأ الدليل</span>
-          <i class="fa-solid fa-arrow-left text-xs"></i>
+          <iconify-icon class="text-xs icon-arrow-left" icon="mdi:arrow-left"></iconify-icon>
         </a>
       </article>
     </div>
@@ -1144,7 +1144,7 @@
 
 <!-- ================= FLOATING WHATSAPP BUTTON ================= -->
 <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="fixed bottom-6 left-6 z-50 wa-btn w-16 h-16 rounded-full flex items-center justify-center float-wa" aria-label="تواصل معنا عبر واتساب">
-  <i class="fa-brands fa-whatsapp text-white text-3xl"></i>
+  <iconify-icon class="text-white text-3xl icon-whatsapp" icon="mdi:whatsapp"></iconify-icon>
 </a>
 
 <!-- ================= FOOTER ================= -->
@@ -1155,7 +1155,7 @@
     <div class="glass rounded-2xl p-6 border border-brand-500/20 bg-brand-500/[.02]">
       <div class="flex items-start gap-4">
         <span class="w-10 h-10 rounded-xl bg-brand-500/10 border border-brand-500/30 flex items-center justify-center shrink-0">
-          <i class="fa-solid fa-arrow-up-right-from-square text-brand-300"></i>
+          <iconify-icon class="text-brand-300 icon-arrow-up-right-from-square" icon="mdi:open-in-new"></iconify-icon>
         </span>
         <div>
           <p class="text-white/70 text-sm leading-relaxed">
@@ -1171,7 +1171,7 @@
     <div>
       <a href="/" class="flex items-center gap-3" aria-label="BrightAI">
         <span class="inline-flex w-10 h-10 rounded-xl items-center justify-center" style="background:linear-gradient(135deg,#00d4ff,#7c5cff)">
-          <i class="fa-solid fa-shield-halved text-white"></i>
+          <iconify-icon class="text-white icon-shield-halved" icon="mdi:shield-half-full"></iconify-icon>
         </span>
         <span class="font-extrabold text-xl">Bright<span class="gradient-text">Trust</span></span>
       </a>
@@ -1202,13 +1202,13 @@
     <div>
       <h3 class="font-bold mb-3">تواصل</h3>
       <ul class="space-y-2 text-sm text-white/60">
-        <li><a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="hover:text-green-400"><i class="fa-brands fa-whatsapp text-green-400"></i> واتساب: 053-822-9013</a></li>
-        <li><a href="mailto:yazeed1job@gmail.com" class="hover:text-cyan-400"><i class="fa-solid fa-envelope text-cyan-500"></i> yazeed1job@gmail.com</a></li>
-        <li><i class="fa-solid fa-location-dot text-cyan-500"></i> الرياض، المملكة العربية السعودية</li>
+        <li><a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="hover:text-green-400"><iconify-icon class="text-green-400 icon-whatsapp" icon="mdi:whatsapp"></iconify-icon> واتساب: 053-822-9013</a></li>
+        <li><a href="mailto:yazeed1job@gmail.com" class="hover:text-cyan-400"><iconify-icon class="text-cyan-500 icon-envelope" icon="mdi:email"></iconify-icon> yazeed1job@gmail.com</a></li>
+        <li><iconify-icon class="text-cyan-500 icon-location-dot" icon="mdi:map-marker"></iconify-icon> الرياض، المملكة العربية السعودية</li>
         <li class="flex gap-3 mt-4">
-          <a href="#" aria-label="X" class="w-9 h-9 glass rounded-lg inline-flex items-center justify-center hover:text-cyan-400"><i class="fa-brands fa-x-twitter"></i></a>
-          <a href="#" aria-label="LinkedIn" class="w-9 h-9 glass rounded-lg inline-flex items-center justify-center hover:text-cyan-400"><i class="fa-brands fa-linkedin-in"></i></a>
-          <a href="#" aria-label="YouTube" class="w-9 h-9 glass rounded-lg inline-flex items-center justify-center hover:text-cyan-400"><i class="fa-brands fa-youtube"></i></a>
+          <a href="#" aria-label="X" class="w-9 h-9 glass rounded-lg inline-flex items-center justify-center hover:text-cyan-400"><iconify-icon class="icon-x-twitter" icon="mdi:twitter"></iconify-icon></a>
+          <a href="#" aria-label="LinkedIn" class="w-9 h-9 glass rounded-lg inline-flex items-center justify-center hover:text-cyan-400"><iconify-icon class="icon-linkedin-in" icon="mdi:linkedin"></iconify-icon></a>
+          <a href="#" aria-label="YouTube" class="w-9 h-9 glass rounded-lg inline-flex items-center justify-center hover:text-cyan-400"><iconify-icon class="icon-youtube" icon="mdi:youtube"></iconify-icon></a>
         </li>
       </ul>
     </div>

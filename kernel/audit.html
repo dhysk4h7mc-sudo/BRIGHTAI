@@ -17,7 +17,7 @@
   <link rel="manifest" href="/kernel/manifest.json">
   <link rel="icon" href="/frontend/assets/images/logo.png" type="image/png">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <title>تدقيق BrightAI Kernel لاستخدامات الذكاء الاصطناعي</title>
+  <title>تدقيق BrightAI Kernel لاستخدامات الذكاء الاصطناعي | BrightAI</title>
 <meta name="description" content="راجع أحداث وقرارات الذكاء الاصطناعي داخل BrightAI Kernel من سجل واحد، لتسهيل التحقيق الداخلي وإثبات الامتثال عند المراجعة. بما يناسب بيئة العمل السعودية." />
 
 
@@ -35,8 +35,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="/kernel/assets/css/kernel.css">
-  <link rel="stylesheet" href="/frontend/vendor/fontawesome/css/all.min.css">
-  <link rel="stylesheet" href="/frontend/css/unified-header.css?v=20260529-nav-v1">
+<link rel="stylesheet" href="/frontend/css/unified-header.css?v=20260529-nav-v1">
   <link rel="stylesheet" href="/kernel/assets/css/pages/audit.css">
   <meta name="robots" content="index, follow">
 <!-- AI Search / GEO / LLMO -->
@@ -116,8 +115,9 @@
   ]
 }
   </script>
-  <link rel="preload" href="/frontend/assets/fonts/TheYearofTheCamel-Medium.otf" as="font" type="font/otf" crossorigin />
+  <link rel="preload" href="/frontend/assets/fonts/TheYearofTheCamel-Medium.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css">
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
 </head>
 <body>
   <a href="#main-content" class="skip-link">تخطي إلى المحتوى الرئيسي</a>
@@ -254,7 +254,7 @@
         </button>
         <div style="display:flex; justify-content:flex-end; margin-top:var(--space-3);">
           <button class="btn btn-ghost" id="verify-chain-btn" type="button" style="min-height:38px;font-size:0.8125rem;" aria-label="التحقق من سلامة سلسلة التجزئة">
-            <i class="fa-solid fa-link" aria-hidden="true" style="margin-inline-end:var(--space-2);"></i>
+            <iconify-icon class="icon-link" aria-hidden="true" style="margin-inline-end:var(--space-2);" icon="mdi:link"></iconify-icon>
             التحقق من سلسلة التدقيق
           </button>
         </div>
@@ -287,7 +287,7 @@
             <div class="trace-timeline-subtitle" id="trace-timeline-subtitle">يتم اختيار أحدث <span lang="en" dir="ltr">trace</span> تلقائياً أو حسب <span lang="en" dir="ltr">trace_id</span> في الرابط.</div>
           </div>
           <button class="trace-id-chip" id="copy-trace-id" type="button" data-kernel-click="copySelectedTraceId" title="نسخ trace id" aria-label="نسخ trace id المحدد">
-            <i class="fa-regular fa-copy" aria-hidden="true"></i>
+            <iconify-icon class="icon-copy" aria-hidden="true" icon="mdi:content-copy"></iconify-icon>
             <span id="selected-trace-id">—</span>
           </button>
         </div>
@@ -297,7 +297,7 @@
         <div class="hash-chain-visual" aria-label="التحقق البصري من hash chain">
           <div class="hash-chain-track" id="hash-chain-track"></div>
           <div class="hash-chain-result valid" id="hash-chain-result">
-            <i class="fa-solid fa-shield-check" aria-hidden="true"></i>
+            <iconify-icon class="icon-shield-check" aria-hidden="true" icon="mdi:shield-check"></iconify-icon>
             <span>جاري التحقق</span>
           </div>
         </div>
@@ -377,11 +377,11 @@
 
             <div class="filter-actions-row">
               <button class="tool-btn primary" type="button" data-kernel-click="resetAdvancedFilters" aria-label="إعادة ضبط الفلاتر">
-                <i class="fa-solid fa-rotate-left" aria-hidden="true"></i>
+                <iconify-icon class="icon-rotate-left" aria-hidden="true" icon="mdi:restore"></iconify-icon>
                 إعادة ضبط
               </button>
               <button class="tool-btn" type="button" data-kernel-click="loadAuditChain" aria-label="تحديث سلسلة سجل التدقيق">
-                <i class="fa-solid fa-arrows-rotate" aria-hidden="true"></i>
+                <iconify-icon class="icon-arrows-rotate" aria-hidden="true" icon="mdi:refresh"></iconify-icon>
                 تحديث
               </button>
             </div>
@@ -392,25 +392,25 @@
           <div class="audit-toolbar" aria-label="أدوات عرض وتصدير السجل">
             <div class="view-toggle" role="group" aria-label="تبديل طريقة عرض السجل">
               <button class="view-toggle-btn active" id="table-view-btn" type="button" aria-pressed="true" data-kernel-click="setAuditView" data-kernel-arg-0="table" aria-label="عرض سجل التدقيق كجدول">
-                <i class="fa-solid fa-table-list" aria-hidden="true"></i>
+                <iconify-icon class="icon-table-list" aria-hidden="true" icon="mdi:table"></iconify-icon>
                 جدول
               </button>
               <button class="view-toggle-btn" id="timeline-view-btn" type="button" aria-pressed="false" data-kernel-click="setAuditView" data-kernel-arg-0="timeline" aria-label="عرض سجل التدقيق كخط زمني">
-                <i class="fa-solid fa-timeline" aria-hidden="true"></i>
+                <iconify-icon class="icon-timeline" aria-hidden="true" icon="mdi:timeline"></iconify-icon>
                 Timeline
               </button>
             </div>
             <div class="export-actions" aria-label="تصدير سجل التدقيق">
               <button class="tool-btn" type="button" data-kernel-click="exportAudit" data-kernel-arg-0="csv" aria-label="تصدير سجل التدقيق بصيغة CSV">
-                <i class="fa-solid fa-file-csv" aria-hidden="true"></i>
+                <iconify-icon class="icon-file-csv" aria-hidden="true" icon="mdi:file-delimited"></iconify-icon>
                 CSV
               </button>
               <button class="tool-btn" type="button" data-kernel-click="exportAudit" data-kernel-arg-0="json" aria-label="تصدير سجل التدقيق بصيغة JSON">
-                <i class="fa-solid fa-code" aria-hidden="true"></i>
+                <iconify-icon class="icon-code" aria-hidden="true" icon="mdi:code-tags"></iconify-icon>
                 JSON
               </button>
               <button class="tool-btn" type="button" data-kernel-click="exportAudit" data-kernel-arg-0="pdf" aria-label="تصدير سجل التدقيق بصيغة PDF">
-                <i class="fa-solid fa-file-pdf" aria-hidden="true"></i>
+                <iconify-icon class="icon-file-pdf" aria-hidden="true" icon="mdi:file-pdf-box"></iconify-icon>
                 PDF
               </button>
             </div>
@@ -434,15 +434,39 @@
                   <option value="50">50</option>
                 </select>
                 <button class="tool-btn" type="button" id="prev-page" data-kernel-click="changePage" data-kernel-arg-0="-1" aria-label="الصفحة السابقة">
-                  <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+                  <iconify-icon class="icon-chevron-right" aria-hidden="true" icon="mdi:chevron-right"></iconify-icon>
                 </button>
                 <button class="tool-btn" type="button" id="next-page" data-kernel-click="changePage" data-kernel-arg-0="1" aria-label="الصفحة التالية">
-                  <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+                  <iconify-icon class="icon-chevron-left" aria-hidden="true" icon="mdi:chevron-left"></iconify-icon>
                 </button>
               </div>
             </div>
           </section>
         </div>
+      </section>
+
+      <!-- SEO Content Section -->
+      <section class="kernel-seo-content" aria-labelledby="seo-audit-guide">
+        <h2 id="seo-audit-guide">سجل التدقيق لحوكمة الذكاء الاصطناعي</h2>
+        <p>يقدم سجل التدقيق في <a href="/kernel/">BrightAI Kernel</a> سجلاً شاملاً وغير قابل للتلاعب لجميع أحداث وقرارات الذكاء الاصطناعي داخل المؤسسة. يربط السجل كل عملية بمعرّف تتبع فريد trace ID وسلسلة تجزئة hash chain تضمن سلامة البيانات وتمنع أي تعديل لاحق. هذا السجل يمثل أساس الامتثال التنظيمي ويوفر الدليل المطلوب لإثبات الالتزام أمام الجهات المراجعة والجهات التنظيمية.</p>
+
+        <h3>سلسلة التجزئة والتحقق من السلامة</h3>
+        <p>يستخدم سجل التدقيق سلسلة تجزئة hash chain تربط كل حدث بالحدث الذي قبله، مما يخلق سلسلة غير قابلة للكسر. أي محاولة لتعديل حدث سابق ستؤدي إلى انقطاع السلسلة مما يكشف التلاعب فوراً. يعرض شريط حالة السلسلة أعلى الصفحة ما إذا كانت السلسلة سليمة أو تحتاج مراجعة. يمكنك التحقق من سلامة أي نقطة في السلسلة بضغطة زر واحدة.</p>
+
+        <h3>تفاصيل كل حدث</h3>
+        <p>كل حدث في سجل التدقيق يتضمن معلومات تفصيلية تشمل معرّف التتبع ونوع الحدث وقرار الجدار الأمني ودرجة المخاطر ومزود الذكاء الاصطناعي المستخدم والطابع الزمني وقيمة التجزئة. يمكنك فتح تفاصيل أي حدث في نافذة منبثقة لرؤية الخط الكامل للعملية مع روابط مباشرة إلى <a href="/kernel/evidence/">ملفات الأدلة</a> المرتبطة و<a href="/kernel/approvals/">قرارات الموافقة</a> المتخذة. هذا الربط يوفر شفافية كاملة من بداية العملية إلى نهايتها.</p>
+
+        <h3>الفلاتر والبحث المتقدم</h3>
+        <p>يوفر سجل التدقيق أدوات فلاتر متقدمة تشمل البحث النصي وتحديد نطاق التاريخ ومستوى المخاطر ونوع القرار ومزود الذكاء الاصطناعي ونوع الحدث. هذه الفلاتر تساعد فرق التدقيق الداخلي والامتثال على العثور بسرعة على الأحداث ذات الصلة بالمراجعة الحالية. يمكنك أيضاً التبديل بين عرض الجدول وعرض الجدول الزمني حسب ما يناسب طريقة عملك.</p>
+
+        <h3>تصدير وتقاريم التدقيق</h3>
+        <p>يدعم سجل التدقيق تصدير البيانات بصيغة PDF لتوثيق نتائج المراجعة. يمكنك تصدير السجل الكامل أو جزء محدد بناءً على الفلاتر المطبّقة. التقارير المُصدّرة تتضمن جميع التفاصيل وسلاسل التجزئة ومعرّفات التتبع، مما يجعلها صالحة كأدلة رسمية. يمكنك أيضاً إنشاء <a href="/kernel/reports/">تقارير تدقيق مفصّلة</a> من صفحة التقارير تجمع بين بيانات السجل و<a href="/kernel/stats/">الإحصائيات</a> و<a href="/kernel/compliance/">حالة الامتثال</a>.</p>
+
+        <h3>الأهمية التنظيمية</h3>
+        <p>يتطلب نظام حماية البيانات الشخصية PDPL ومعيار NCA ECC من المنشآت السعودية الاحتفاظ بسجلات تدقيق كاملة لعمليات معالجة البيانات. سجل تدقيق BrightAI Kernel يلبي هذه المتطلبات ويوفر آلية تحقق تلقائية تثبت سلامة السجلات. هذا يقلل من جهد التحضير لمراجعات الامتثال ويسرّع عملية التدقيق الخارجي. كل سجل مرتبط بـ <a href="/kernel/policies/">السياسات</a> المطبّقة ويمكن تتبعه عبر <a href="/kernel/scenarios/">السيناريوهات</a> المختبرة.</p>
+
+        <h3>الخطوات التالية</h3>
+        <p>ابدأ بالتحقق من حالة سلسلة التجزئة للتأكد من سلامة السجلات. راجع الأحداث ذات المخاطر العالية وافتح تفاصيلها. إذا وجدت أحداثاً تحتاج تحقيقاً، راجع <a href="/kernel/evidence/">ملفات الأدلة</a> المرتبطة. وإذا لاحظت أنماطاً متكررة، عدّل <a href="/kernel/policies/">السياسات</a> واستخدم <a href="/kernel/scenarios/">السيناريوهات</a> لاختبار التحسينات قبل تطبيقها.</p>
       </section>
 
     </div>
@@ -456,7 +480,7 @@
           <div class="audit-modal-meta" id="audit-detail-meta">—</div>
         </div>
         <button class="modal-close-btn" type="button" data-kernel-click="closeAuditModal" aria-label="إغلاق التفاصيل">
-          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+          <iconify-icon class="icon-xmark" aria-hidden="true" icon="mdi:close"></iconify-icon>
         </button>
       </header>
       <div class="audit-modal-body" id="audit-detail-body"></div>
@@ -557,12 +581,12 @@
       if (verifyBtn) {
         verifyBtn.addEventListener('click', async () => {
           verifyBtn.disabled = true;
-          verifyBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin" aria-hidden="true" style="margin-inline-end:var(--space-2);"></i> جاري التحقق...';
+          verifyBtn.innerHTML = '<iconify-icon class="icon-spinner iconify-spin" aria-hidden="true" style="margin-inline-end:var(--space-2);" icon="mdi:loading"></iconify-icon> جاري التحقق...';
           try {
             await runFullChainVerification();
           } finally {
             verifyBtn.disabled = false;
-            verifyBtn.innerHTML = '<i class="fa-solid fa-link" aria-hidden="true" style="margin-inline-end:var(--space-2);"></i> التحقق من سلسلة التدقيق';
+            verifyBtn.innerHTML = '<iconify-icon class="icon-link" aria-hidden="true" style="margin-inline-end:var(--space-2);" icon="mdi:link"></iconify-icon> التحقق من سلسلة التدقيق';
           }
         });
       }
@@ -587,12 +611,12 @@
 
       /* Build results HTML */
       const statusIcon = result.valid
-        ? '<i class="fa-solid fa-shield-check" aria-hidden="true" style="color:var(--success);"></i>'
-        : '<i class="fa-solid fa-triangle-exclamation" aria-hidden="true" style="color:var(--danger);"></i>';
+        ? '<iconify-icon class="icon-shield-check" aria-hidden="true" style="color:var(--success);" icon="mdi:shield-check"></iconify-icon>'
+        : '<iconify-icon class="icon-triangle-exclamation" aria-hidden="true" style="color:var(--danger);" icon="mdi:alert-triangle"></iconify-icon>';
 
       const insecureWarning = result.insecureCount > 0
         ? `<div class="chain-verify-warning">
-             <i class="fa-solid fa-lock-open" aria-hidden="true"></i>
+             <iconify-icon class="icon-lock-open" aria-hidden="true" icon="mdi:lock-open"></iconify-icon>
              <span>${result.insecureCount} تجزئة غير مؤمنة (سياق HTTP) — لا يمكن ضمان سلامة البيانات بدون HTTPS</span>
            </div>`
         : '';
@@ -607,8 +631,8 @@
       /* Build fingerprint table */
       const fingerprintRows = result.details.slice(0, 20).map((d) => {
         const status = d.valid
-          ? '<span class="chain-fp-valid" title="صالح"><i class="fa-solid fa-check" aria-hidden="true"></i></span>'
-          : '<span class="chain-fp-invalid" title="غير صالح"><i class="fa-solid fa-xmark" aria-hidden="true"></i></span>';
+          ? '<span class="chain-fp-valid" title="صالح"><iconify-icon class="icon-check" aria-hidden="true" icon="mdi:check"></iconify-icon></span>'
+          : '<span class="chain-fp-invalid" title="غير صالح"><iconify-icon class="icon-xmark" aria-hidden="true" icon="mdi:close"></iconify-icon></span>';
         const insecureTag = d.isInsecure
           ? ' <span class="badge badge-danger" style="font-size:0.6rem;padding:1px 6px;">HTTP</span>'
           : '';
@@ -729,7 +753,7 @@
       document.getElementById('hash-chain-track').innerHTML = '';
       document.getElementById('hash-chain-result').className = 'hash-chain-result invalid';
       document.getElementById('hash-chain-result').innerHTML =
-        KernelUtils.sanitizeHtml('<i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i><span>غير متاح</span>');
+        KernelUtils.sanitizeHtml('<iconify-icon class="icon-triangle-exclamation" aria-hidden="true" icon="mdi:alert-triangle"></iconify-icon><span>غير متاح</span>');
       document.getElementById('audit-log-body').innerHTML =
         KernelUtils.sanitizeHtml('<div class="error-state">تعذّر تحميل سجل التدقيق. يرجى المحاولة مجدداً.</div>');
     }
@@ -878,7 +902,7 @@
             <span class="audit-hash-wrap">
               <span class="audit-hash">${KernelUtils.escapeHtml(shortHashValue)}</span>
               <button class="audit-copy-btn" type="button" data-hash="${KernelUtils.escapeHtml(getRecordHash(entry))}" data-kernel-stop="true" data-kernel-click="copyHash" data-kernel-arg-0="__element__" title="نسخ التجزئة" aria-label="نسخ تجزئة سجل التدقيق">
-                <i class="fa-regular fa-copy" aria-hidden="true"></i>
+                <iconify-icon class="icon-copy" aria-hidden="true" icon="mdi:content-copy"></iconify-icon>
               </button>
             </span>
           </div>
@@ -904,7 +928,7 @@
                   <div class="timeline-card-head">
                     <span class="audit-action-badge ${info.cls}">${KernelUtils.escapeHtml(info.label)}</span>
                     <button class="audit-copy-btn" type="button" data-hash="${KernelUtils.escapeHtml(getRecordHash(entry))}" data-kernel-stop="true" data-kernel-click="copyHash" data-kernel-arg-0="__element__" title="نسخ التجزئة" aria-label="نسخ تجزئة سجل التدقيق">
-                      <i class="fa-regular fa-copy" aria-hidden="true"></i>
+                      <iconify-icon class="icon-copy" aria-hidden="true" icon="mdi:content-copy"></iconify-icon>
                     </button>
                   </div>
                   <div class="audit-details"><span class="actor">${KernelUtils.escapeHtml(entry.actor || 'نظام')}</span> · ${KernelUtils.escapeHtml(getProvider(entry))} · ${KernelUtils.escapeHtml(getRiskLabel(getRiskLevel(entry)))}</div>
@@ -1062,8 +1086,8 @@
 
       result.className = `hash-chain-result ${verification.valid ? 'valid' : 'invalid'}`;
       result.innerHTML = KernelUtils.sanitizeHtml(verification.valid
-        ? '<i class="fa-solid fa-shield-check" aria-hidden="true"></i><span>Hash chain مطابق بصرياً</span>'
-        : `<i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i><span>${KernelUtils.escapeHtml(verification.reason)}</span>`);
+        ? '<iconify-icon class="icon-shield-check" aria-hidden="true" icon="mdi:shield-check"></iconify-icon><span>Hash chain مطابق بصرياً</span>'
+        : `<iconify-icon class="icon-triangle-exclamation" aria-hidden="true" icon="mdi:alert-triangle"></iconify-icon><span>${KernelUtils.escapeHtml(verification.reason)}</span>`);
     }
 
     function findStageEvent(entries, stageKey) {

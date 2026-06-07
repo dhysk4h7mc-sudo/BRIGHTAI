@@ -36,8 +36,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
 <link rel="stylesheet" href="/kernel/assets/css/kernel.css">
-  <link rel="stylesheet" href="/frontend/vendor/fontawesome/css/all.min.css">
-  <link rel="stylesheet" href="/frontend/css/unified-header.css?v=20260529-nav-v1">
+<link rel="stylesheet" href="/frontend/css/unified-header.css?v=20260529-nav-v1">
   <link rel="stylesheet" href="/kernel/assets/css/pages/scenarios.css">
   <meta name="robots" content="index, follow">
 <!-- AI Search / GEO / LLMO -->
@@ -117,8 +116,9 @@
   ]
 }
   </script>
-  <link rel="preload" href="/frontend/assets/fonts/TheYearofTheCamel-Medium.otf" as="font" type="font/otf" crossorigin />
+  <link rel="preload" href="/frontend/assets/fonts/TheYearofTheCamel-Medium.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css">
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
 </head>
 <body>
   <a href="#main-content" class="skip-link">تخطي إلى المحتوى الرئيسي</a>
@@ -545,7 +545,31 @@
               </div>
             </div>
           </div>
-        </div>
+
+        <!-- SEO Content Section -->
+        <section class="kernel-seo-content" aria-labelledby="seo-scenarios-guide">
+          <h2 id="seo-scenarios-guide">اختبار سيناريوهات مخاطر الذكاء الاصطناعي</h2>
+          <p>توفر صفحة السيناريوهات في <a href="/kernel/">BrightAI Kernel</a> بيئة اختبار آمنة لتجربة كيفية استجابة نظام الحوكمة لسيناريوهات استخدام مختلفة قبل تطبيقها في بيئة العمل الفعلية. تضم الصفحة مجموعة من السيناريوهات المُعدّة مسبقاً التي تحاكي حالات استخدام شائعة في المؤسسات السعودية، مما يسمح لفرق الحوكمة بتقييم فعالية السياسات والضوابط المُعدّة.</p>
+
+          <h3>السيناريوهات المتاحة</h3>
+          <p>يقدم النظام خمسة سيناريوهات اختبار تغطي أكثر حالات استخدام الذكاء الاصطناعي شيوعاً في المؤسسات. سيناريو الخدمات المالية يختبر معالجة بيانات IBAN ومتطلبات PDPL في السياق المالي. سيناريو الموارد البشرية يختبر التعامل مع بيانات الموظفين ورواتبهم. سيناريو الشؤون القانونية يحاكي مراجعة عقود الموردين. سيناريو الرعاية الصحية يختبر معالجة ملفات المرضى وتقارير CAPA. وسيناريو أمن الكود يفحص كشف الأسرار والمفاتيح المكشوفة في الكود البرمجي.</p>
+
+          <h3>كيف يعمل اختبار السيناريو</h3>
+          <p>عند تشغيل أي سيناريو، يُرسل النص المُعدّ مسبقاً عبر <a href="/kernel/chat/">المحادثة الآمنة</a> مع تطبيق <a href="/kernel/policies/">السياسات</a> المحددة. يعرض النظام نتيجة الفحص مباشرة في لوحة النتائج، بما في ذلك البيانات الحساسة المكتشفة ودرجة المخاطر والإجراء المتخذ من الجدار الأمني. كل نتيجة مرتبطة بمعرّف تتبع يمكن متابعته في <a href="/kernel/audit/">سجل التدقيق</a> و<a href="/kernel/evidence/">ملفات الأدلة</a>.</p>
+
+          <h3>أهمية الاختبار الاستباقي</h3>
+          <p>اختبار السيناريوهات قبل النشر الفعلي يوفر عدة مزايا. يكشف عن فجوات في السياسات قبل أن تتحول إلى حوادث حقيقية. يسمح بقياس فعالية الضوابط بدقة عبر حالات مختلفة. يبني ثقة فرق الحوكمة في النظام قبل استخدامه في الإنتاج. ويوفر أدلة قابلة للتقديم للجهات التنظيمية تثبت أن المؤسسة اختبرت سيناريوهات المخاطر المحتملة.</p>
+
+          <h3>تخصيص السيناريوهات</h3>
+          <p>يمكن تعديل نص أي سيناريو ليتناسب مع سياق مؤسستك. يمكنك تغيير البيانات التجريبية وضبط حزمة الامتثال المطبّقة وتعديل نص الطلب. كل تعديل يُسجّل ويمكن مقارنة نتائج السيناريو قبل وبعد التعديل. هذا يساعد في تحسين السياسات بشكل متزايد بناءً على نتائج الاختبار الفعلية.</p>
+
+          <h3>الربط مع باقي مكونات Kernel</h3>
+          <p>نتائج السيناريوهات تتكامل مع باقي أدوات <a href="/kernel/">BrightAI Kernel</a>. القرارات المكتشفة تظهر في <a href="/kernel/approvals/">الموافقات</> إذا تجاوزت عتبة المخاطر. البيانات تُسجّل في <a href="/kernel/audit/">سجل التدقيق</a> وتُضاف لـ <a href="/kernel/stats/">الإحصائيات</a>. ويمكن تضمينها في <a href="/kernel/reports/">التقارير</a> كأدلة على اختبارات الحوكمة المجراة.</p>
+
+          <h3>الخطوات التالية</h3>
+          <p>ابدأ بتشغيل السيناريوهات الافتراضية ومراجعة النتائج. إذا كشف سيناريو عن ضعف في السياسات، عدّلها من <a href="/kernel/policies/">محرر السياسات</a> وأعد الاختبار. راجع <a href="/kernel/compliance/">حالة الامتثال</a> للتأكد من أن التحسينات تسد الفجوات المطلوبة. واستخدم <a href="/kernel/connectors/">الموصلات</a> لربط السيناريوهات بأنظمة حقيقية.</p>
+        </section>
+
       </div>
     </main>
   </div>
@@ -611,7 +635,7 @@
       panel.classList.add('is-visible');
       panel.innerHTML = KernelUtils.sanitizeHtml(`
         <div class="connector-result-title">
-          <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i>
+          <iconify-icon class="icon-pen-to-square" aria-hidden="true" icon="mdi:pencil-box"></iconify-icon>
           <span>مسار تعديل السيناريو جاهز</span>
         </div>
         <p>اخترنا <strong>${safeText(scenarioName)}</strong>. انتقل لمحرر السياسات لتعديل قواعده أو شغّله من زر التجربة.</p>

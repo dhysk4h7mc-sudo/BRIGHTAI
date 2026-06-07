@@ -38,7 +38,6 @@
 
 <link rel="stylesheet" href="/frontend/css/tailwind.local.min.css" />
 <link rel="stylesheet" href="/frontend/assets/css/global-fonts.css?v=20260529-official-font" />
-<link rel="stylesheet" href="/frontend/vendor/fontawesome/css/all.min.css?v=20260529-icons" />
 <link rel="stylesheet" href="/frontend/css/unified-header.css?v=20260529-nav-v1">
 <link rel="icon" href="/frontend/assets/images/logo.png" type="image/png">
 
@@ -125,6 +124,7 @@
   ]
 }
 </script>
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
 </head>
 <body class="bg-grid">
 
@@ -244,7 +244,7 @@
     </p>
     <div class="mt-5 flex items-center gap-3 flex-wrap">
       <span class="freshness">
-        <i class="fa-solid fa-clock"></i>
+        <iconify-icon class="icon-clock" icon="mdi:clock-outline"></iconify-icon>
         آخر تحديث: 31 مايو 2026
       </span>
       <span class="text-white/50 text-sm">· وقت القراءة: 12 دقيقة · 7 صفحات فرعية مرتبطة</span>
@@ -254,7 +254,7 @@
   <!-- Quick Answer Block -->
   <section class="answer-block" aria-label="الإجابة المختصرة">
     <h2 class="text-xl font-black mb-3 flex items-center gap-2">
-      <i class="fa-solid fa-bolt text-yellow-300"></i>
+      <iconify-icon class="text-yellow-300 icon-bolt" icon="mdi:lightning-bolt"></iconify-icon>
       الإجابة المختصرة
     </h2>
     <p class="text-white/85 leading-loose">
@@ -316,7 +316,7 @@
 
         <div class="grid md:grid-cols-2 gap-4 mt-6">
           <div class="glass p-5">
-            <i class="fa-solid fa-triangle-exclamation text-2xl text-red-400 mb-2"></i>
+            <iconify-icon class="text-2xl text-red-400 mb-2 icon-triangle-exclamation" icon="mdi:alert-triangle"></iconify-icon>
             <h3 class="font-bold text-white mb-2">المخاطر بدون حوكمة</h3>
             <ul class="text-sm text-white/70 space-y-1.5">
               <li>• موظف يرفع بيانات عملاء على ChatGPT</li>
@@ -326,7 +326,7 @@
             </ul>
           </div>
           <div class="glass p-5">
-            <i class="fa-solid fa-shield-halved text-2xl text-emerald-400 mb-2"></i>
+            <iconify-icon class="text-2xl text-emerald-400 mb-2 icon-shield-halved" icon="mdi:shield-half-full"></iconify-icon>
             <h3 class="font-bold text-white mb-2">المكاسب مع الحوكمة</h3>
             <ul class="text-sm text-white/70 space-y-1.5">
               <li>• حماية تلقائية للبيانات الحساسة</li>
@@ -348,7 +348,7 @@
         <div class="space-y-4">
           <div class="glass p-5">
             <div class="flex items-start gap-3">
-              <i class="fa-solid fa-shield-halved text-2xl text-cyan-300 mt-1"></i>
+              <iconify-icon class="text-2xl text-cyan-300 mt-1 icon-shield-halved" icon="mdi:shield-half-full"></iconify-icon>
               <div>
                 <h3 class="font-bold text-white text-lg">PDPL · نظام حماية البيانات الشخصية</h3>
                 <p class="text-white/70 text-sm mt-1 leading-relaxed">إلزامي لكل الشركات. يفرض إخفاء البيانات الشخصية قبل وصولها للنماذج، وموافقة أصحاب البيانات، وحق الحذف.</p>
@@ -359,7 +359,7 @@
 
           <div class="glass p-5">
             <div class="flex items-start gap-3">
-              <i class="fa-solid fa-brain text-2xl text-purple-300 mt-1"></i>
+              <iconify-icon class="text-2xl text-purple-300 mt-1 icon-brain" icon="mdi:brain"></iconify-icon>
               <div>
                 <h3 class="font-bold text-white text-lg">SDAIA · ضوابط الذكاء الاصطناعي</h3>
                 <p class="text-white/70 text-sm mt-1 leading-relaxed">إرشادات الاستخدام المسؤول للذكاء الاصطناعي. تركّز على الشفافية، عدم التحيّز، والمساءلة. إلزامية للجهات الحكومية.</p>
@@ -369,7 +369,7 @@
 
           <div class="glass p-5">
             <div class="flex items-start gap-3">
-              <i class="fa-solid fa-lock text-2xl text-emerald-300 mt-1"></i>
+              <iconify-icon class="text-2xl text-emerald-300 mt-1 icon-lock" icon="mdi:lock"></iconify-icon>
               <div>
                 <h3 class="font-bold text-white text-lg">NCA ECC 2-2024 · ضوابط الأمن السيبراني</h3>
                 <p class="text-white/70 text-sm mt-1 leading-relaxed">يطلب سجل تدقيق كامل لاستخدامات AI، تصنيف بيانات، وتقارير أمنية للجهات الوطنية.</p>
@@ -380,7 +380,7 @@
 
           <div class="glass p-5">
             <div class="flex items-start gap-3">
-              <i class="fa-solid fa-kit-medical text-2xl text-pink-300 mt-1"></i>
+              <iconify-icon class="text-2xl text-pink-300 mt-1 icon-kit-medical" icon="mdi:medical-bag"></iconify-icon>
               <div>
                 <h3 class="font-bold text-white text-lg">SFDA + ISO 13485 · للقطاع الطبي</h3>
                 <p class="text-white/70 text-sm mt-1 leading-relaxed">المصانع الطبية والمستشفيات لازم توثّق كل قرار AI يأثر على المنتج أو المريض.</p>
@@ -454,22 +454,22 @@
 
         <div class="grid md:grid-cols-2 gap-4">
           <a href="/hub/use-cases/#medical-manufacturing" class="hub-card">
-            <i class="fa-solid fa-flask-vial text-2xl text-cyan-300 mb-2"></i>
+            <iconify-icon class="text-2xl text-cyan-300 mb-2 icon-flask-vial" icon="mdi:flask"></iconify-icon>
             <h3>المصانع الطبية</h3>
             <p>SFDA، ISO 13485، إدارة المرفوضات وCAPA بـ AI.</p>
           </a>
           <a href="/hub/use-cases/#healthcare" class="hub-card">
-            <i class="fa-solid fa-hospital text-2xl text-cyan-300 mb-2"></i>
+            <iconify-icon class="text-2xl text-cyan-300 mb-2 icon-hospital" icon="mdi:hospital-building"></iconify-icon>
             <h3>الرعاية الصحية</h3>
             <p>حماية بيانات المرضى، أرشفة طبية، موافقات أطباء.</p>
           </a>
           <a href="/hub/use-cases/#government" class="hub-card">
-            <i class="fa-solid fa-building-columns text-2xl text-cyan-300 mb-2"></i>
+            <iconify-icon class="text-2xl text-cyan-300 mb-2 icon-building-columns" icon="mdi:bank"></iconify-icon>
             <h3>الجهات الحكومية</h3>
             <p>توافق SDAIA، خدمات ذكية، حوكمة بيانات المواطنين.</p>
           </a>
           <a href="/hub/use-cases/#finance" class="hub-card">
-            <i class="fa-solid fa-coins text-2xl text-cyan-300 mb-2"></i>
+            <iconify-icon class="text-2xl text-cyan-300 mb-2 icon-coins" icon="mdi:coins"></iconify-icon>
             <h3>القطاع المالي</h3>
             <p>ساما، AML، كشف الاحتيال، الزكاة والضريبة.</p>
           </a>
@@ -538,7 +538,7 @@
           <details class="glass p-5">
             <summary class="font-bold text-white cursor-pointer flex items-center justify-between">
               <span>وش الفرق بين حوكمة AI وأمان AI؟</span>
-              <i class="fa-solid fa-chevron-down"></i>
+              <iconify-icon class="icon-chevron-down" icon="mdi:chevron-down"></iconify-icon>
             </summary>
             <p class="mt-3 text-white/75 leading-loose text-sm">أمان AI = حماية تقنية (تشفير، فلترة، منع تسرب). حوكمة AI أوسع = أمان + سياسات + إجراءات بشرية + مساءلة + امتثال. الأمان جزء من الحوكمة، مو بديل عنها.</p>
           </details>
@@ -546,7 +546,7 @@
           <details class="glass p-5">
             <summary class="font-bold text-white cursor-pointer flex items-center justify-between">
               <span>كم تكلفة حوكمة AI؟</span>
-              <i class="fa-solid fa-chevron-down"></i>
+              <iconify-icon class="icon-chevron-down" icon="mdi:chevron-down"></iconify-icon>
             </summary>
             <p class="mt-3 text-white/75 leading-loose text-sm">يعتمد على حجم الشركة وعدد الاستخدامات. لكن خلني أقولك: تكلفة عدم الحوكمة دايماً أعلى. غرامة PDPL وحدها تبدأ من ٢٥٠ ألف ريال. <a href="/contact/" class="anchor-link">احصل على عرض مخصص</a>.</p>
           </details>
@@ -554,7 +554,7 @@
           <details class="glass p-5">
             <summary class="font-bold text-white cursor-pointer flex items-center justify-between">
               <span>كم ياخذ تطبيق حوكمة AI؟</span>
-              <i class="fa-solid fa-chevron-down"></i>
+              <iconify-icon class="icon-chevron-down" icon="mdi:chevron-down"></iconify-icon>
             </summary>
             <p class="mt-3 text-white/75 leading-loose text-sm">المرحلة الأولى (قسم واحد، استخدامات أساسية): ٢-٤ أسابيع. التطبيق الكامل عبر كل الأقسام: ٣-٦ أشهر. مع BrightAI Kernel، الجزء التقني يتركّب في أيام.</p>
           </details>
@@ -562,7 +562,7 @@
           <details class="glass p-5">
             <summary class="font-bold text-white cursor-pointer flex items-center justify-between">
               <span>هل لازم أوقف استخدام ChatGPT في شركتي؟</span>
-              <i class="fa-solid fa-chevron-down"></i>
+              <iconify-icon class="icon-chevron-down" icon="mdi:chevron-down"></iconify-icon>
             </summary>
             <p class="mt-3 text-white/75 leading-loose text-sm">لا. الحوكمة الصحيحة <strong>ما تمنع</strong>، تنظّم. ChatGPT أو أي نموذج تاني يشتغل تحت طبقة الحوكمة، اللي تفلتر الطلبات وتسجّلها وتمنع تسريب البيانات قبل ما توصل للنموذج.</p>
           </details>
@@ -575,10 +575,10 @@
         <p class="text-white/75 mb-6 max-w-2xl mx-auto">احجز جلسة جاهزية مجانية ٣٠ دقيقة، نراجع استخدامات AI في شركتك ونعطيك خطة تطبيق واضحة.</p>
         <div class="flex gap-3 justify-center flex-wrap">
           <a href="/contact/" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white" style="background: linear-gradient(135deg,#00d4ff,#7c5cff);">
-            <i class="fa-solid fa-calendar-check"></i> احجز جلسة الجاهزية
+            <iconify-icon class="icon-calendar-check" icon="mdi:calendar-check"></iconify-icon> احجز جلسة الجاهزية
           </a>
           <a href="https://wa.me/966538229013" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white" style="background: linear-gradient(135deg,#25D366,#128C7E);">
-            <i class="fa-brands fa-whatsapp"></i> سؤال على واتساب
+            <iconify-icon class="icon-whatsapp" icon="mdi:whatsapp"></iconify-icon> سؤال على واتساب
           </a>
         </div>
       </section>
