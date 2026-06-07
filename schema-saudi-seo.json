@@ -84,7 +84,12 @@
                 "https://api.whatsapp.com/send?phone=966538229013",
                 "https://www.tiktok.com/@bright1ai",
                 "https://www.linkedin.com/company/brightai-saudi",
-                "https://www.youtube.com/@BrightAiSaudi"
+                "https://www.youtube.com/@BrightAiSaudi",
+                "https://twitter.com/BrightAISite",
+                "https://linkedin.com/company/brightai-site",
+                "https://github.com/brightai-site",
+                "https://crunchbase.com/organization/brightai",
+                "https://www.wikidata.org/wiki/[QID]"
             ],
             "knowsAbout": [
                 "الذكاء الاصطناعي",
@@ -96,7 +101,13 @@
                 "تحليل البيانات",
                 "روبوتات المحادثة",
                 "الذكاء الاصطناعي التوليدي",
-                "التحول الرقمي"
+                "التحول الرقمي",
+                "AI Governance",
+                "AI Safety",
+                "PDPL Compliance",
+                "NCA ECC Controls",
+                "ISO/IEC 42001",
+                "حوكمة الذكاء الاصطناعي في السعودية"
             ],
             "makesOffer": [
                 {
@@ -135,7 +146,16 @@
                     },
                     "areaServed": "SA"
                 }
-            ]
+            ],
+            "founder": {
+                "@type": "Person",
+                "name": "يزيد",
+                "jobTitle": "المؤسس والمدير التنفيذي",
+                "sameAs": [
+                    "https://linkedin.com/in/[founder-linkedin]",
+                    "https://twitter.com/[founder-twitter]"
+                ]
+            }
         },
         {
             "@type": "WebSite",
@@ -184,7 +204,22 @@
             "serviceArea": {
                 "@type": "Country",
                 "name": "المملكة العربية السعودية"
-            }
+            },
+            "sameAs": [
+                "https://twitter.com/BrightAISite",
+                "https://linkedin.com/company/brightai-site",
+                "https://github.com/brightai-site",
+                "https://crunchbase.com/organization/brightai",
+                "https://www.wikidata.org/wiki/[QID]"
+            ],
+            "knowsAbout": [
+                "AI Governance",
+                "AI Safety",
+                "PDPL Compliance",
+                "NCA ECC Controls",
+                "ISO/IEC 42001",
+                "حوكمة الذكاء الاصطناعي في السعودية"
+            ]
         },
         {
             "@type": "TechArticle",

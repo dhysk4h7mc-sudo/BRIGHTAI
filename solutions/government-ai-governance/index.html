@@ -57,28 +57,97 @@ body{font-family:'BrightAI Official',system-ui,sans-serif;background:#060914;col
       "@id": "https://brightai.site/solutions/government-ai-governance/#service",
       "name": "حوكمة الذكاء الاصطناعي في الجهات الحكومية السعودية",
       "serviceType": "Government AI Governance",
-      "provider": { "@type": "Organization", "@id": "https://brightai.site/#organization", "name": "BrightAI", "url": "https://brightai.site/" },
-      "areaServed": { "@type": "Country", "name": "Saudi Arabia" },
-      "audience": { "@type": "Audience", "audienceType": "الجهات الحكومية السعودية" },
+      "provider": {
+        "@type": "Organization",
+        "@id": "https://brightai.site/#organization",
+        "name": "BrightAI",
+        "url": "https://brightai.site/",
+        "sameAs": [
+          "https://twitter.com/BrightAISite",
+          "https://linkedin.com/company/brightai-site",
+          "https://github.com/brightai-site",
+          "https://crunchbase.com/organization/brightai",
+          "https://www.wikidata.org/wiki/[QID]"
+        ],
+        "knowsAbout": [
+          "AI Governance",
+          "AI Safety",
+          "PDPL Compliance",
+          "NCA ECC Controls",
+          "ISO/IEC 42001",
+          "حوكمة الذكاء الاصطناعي في السعودية"
+        ]
+      },
+      "areaServed": {
+        "@type": "Country",
+        "name": "Saudi Arabia"
+      },
+      "audience": {
+        "@type": "Audience",
+        "audienceType": "الجهات الحكومية السعودية"
+      },
       "description": "خدمة حوكمة AI للجهات الحكومية، تشمل حماية بيانات المستفيدين، تصنيف مخاطر الخدمات الرقمية، الموافقات البشرية، سجل التدقيق، وملفات أدلة تدعم مواءمة DGA وPDPL ورؤية 2030."
     },
     {
       "@type": "BreadcrumbList",
       "@id": "https://brightai.site/solutions/government-ai-governance/#breadcrumb",
       "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "الرئيسية", "item": "https://brightai.site/" },
-        { "@type": "ListItem", "position": 2, "name": "الحلول", "item": "https://brightai.site/solutions/" },
-        { "@type": "ListItem", "position": 3, "name": "حوكمة AI الحكومية", "item": "https://brightai.site/solutions/government-ai-governance/" }
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "الرئيسية",
+          "item": "https://brightai.site/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "الحلول",
+          "item": "https://brightai.site/solutions/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "حوكمة AI الحكومية",
+          "item": "https://brightai.site/solutions/government-ai-governance/"
+        }
       ]
     },
     {
       "@type": "FAQPage",
       "@id": "https://brightai.site/solutions/government-ai-governance/#faq",
       "mainEntity": [
-        { "@type": "Question", "name": "هل BrightAI مناسب للجهات الحكومية التي تستخدم مساعدين داخليين؟", "acceptedAnswer": { "@type": "Answer", "text": "نعم. يمكن وضع BrightAI كطبقة حوكمة حول المساعد الداخلي لتصنيف الطلبات، حماية البيانات، توثيق المخرجات، وتفعيل الموافقة البشرية عند الحالات الحساسة." } },
-        { "@type": "Question", "name": "كيف يرتبط BrightAI بـ PDPL؟", "acceptedAnswer": { "@type": "Answer", "text": "يساعد BrightAI في تطبيق ضوابط عملية لحماية البيانات الشخصية، مثل اكتشاف المعرفات، الإخفاء، المنع، وسجل يوضح الغرض والمستخدم والسياسة المطبقة." } },
-        { "@type": "Question", "name": "هل BrightAI يضمن الالتزام الكامل بمتطلبات DGA؟", "acceptedAnswer": { "@type": "Answer", "text": "BrightAI يدعم الجاهزية التشغيلية والأدلة المرتبطة بحوكمة AI، لكنه لا يستبدل التقييم الرسمي أو الاستشارة التنظيمية الخاصة بكل جهة." } },
-        { "@type": "Question", "name": "ما أهم حالة استخدام حكومية تبدأ بها الجهة؟", "acceptedAnswer": { "@type": "Answer", "text": "غالباً تبدأ الجهة بحوكمة مساعد موظفين داخلي أو مساعد خدمة مستفيدين، لأن هاتين الحالتين تجمعان بيانات حساسة ومخرجات قد تؤثر على تجربة المستفيد." } }
+        {
+          "@type": "Question",
+          "name": "هل BrightAI مناسب للجهات الحكومية التي تستخدم مساعدين داخليين؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "نعم. يمكن وضع BrightAI كطبقة حوكمة حول المساعد الداخلي لتصنيف الطلبات، حماية البيانات، توثيق المخرجات، وتفعيل الموافقة البشرية عند الحالات الحساسة."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "كيف يرتبط BrightAI بـ PDPL؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "يساعد BrightAI في تطبيق ضوابط عملية لحماية البيانات الشخصية، مثل اكتشاف المعرفات، الإخفاء، المنع، وسجل يوضح الغرض والمستخدم والسياسة المطبقة."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "هل BrightAI يضمن الالتزام الكامل بمتطلبات DGA؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "BrightAI يدعم الجاهزية التشغيلية والأدلة المرتبطة بحوكمة AI، لكنه لا يستبدل التقييم الرسمي أو الاستشارة التنظيمية الخاصة بكل جهة."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "ما أهم حالة استخدام حكومية تبدأ بها الجهة؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "غالباً تبدأ الجهة بحوكمة مساعد موظفين داخلي أو مساعد خدمة مستفيدين، لأن هاتين الحالتين تجمعان بيانات حساسة ومخرجات قد تؤثر على تجربة المستفيد."
+          }
+        }
       ]
     }
   ]

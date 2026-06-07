@@ -58,28 +58,97 @@ body{font-family:'BrightAI Official',system-ui,sans-serif;background:#060914;col
       "@id": "https://brightai.site/solutions/healthcare-ai-governance/#service",
       "name": "حوكمة الذكاء الاصطناعي في الرعاية الصحية السعودية",
       "serviceType": "Healthcare AI Governance",
-      "provider": { "@type": "Organization", "@id": "https://brightai.site/#organization", "name": "BrightAI", "url": "https://brightai.site/" },
-      "areaServed": { "@type": "Country", "name": "Saudi Arabia" },
-      "audience": { "@type": "Audience", "audienceType": "المستشفيات ومقدمو الرعاية الصحية في السعودية" },
+      "provider": {
+        "@type": "Organization",
+        "@id": "https://brightai.site/#organization",
+        "name": "BrightAI",
+        "url": "https://brightai.site/",
+        "sameAs": [
+          "https://twitter.com/BrightAISite",
+          "https://linkedin.com/company/brightai-site",
+          "https://github.com/brightai-site",
+          "https://crunchbase.com/organization/brightai",
+          "https://www.wikidata.org/wiki/[QID]"
+        ],
+        "knowsAbout": [
+          "AI Governance",
+          "AI Safety",
+          "PDPL Compliance",
+          "NCA ECC Controls",
+          "ISO/IEC 42001",
+          "حوكمة الذكاء الاصطناعي في السعودية"
+        ]
+      },
+      "areaServed": {
+        "@type": "Country",
+        "name": "Saudi Arabia"
+      },
+      "audience": {
+        "@type": "Audience",
+        "audienceType": "المستشفيات ومقدمو الرعاية الصحية في السعودية"
+      },
       "description": "خدمة حوكمة AI للمستشفيات ومقدمي الرعاية الصحية، تشمل حماية بيانات المرضى، تصنيف مخاطر الاستخدامات السريرية، سجل التدقيق، وملفات أدلة تدعم جاهزية SFDA وISO 13485."
     },
     {
       "@type": "BreadcrumbList",
       "@id": "https://brightai.site/solutions/healthcare-ai-governance/#breadcrumb",
       "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "الرئيسية", "item": "https://brightai.site/" },
-        { "@type": "ListItem", "position": 2, "name": "الحلول", "item": "https://brightai.site/solutions/" },
-        { "@type": "ListItem", "position": 3, "name": "حوكمة AI للرعاية الصحية", "item": "https://brightai.site/solutions/healthcare-ai-governance/" }
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "الرئيسية",
+          "item": "https://brightai.site/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "الحلول",
+          "item": "https://brightai.site/solutions/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "حوكمة AI للرعاية الصحية",
+          "item": "https://brightai.site/solutions/healthcare-ai-governance/"
+        }
       ]
     },
     {
       "@type": "FAQPage",
       "@id": "https://brightai.site/solutions/healthcare-ai-governance/#faq",
       "mainEntity": [
-        { "@type": "Question", "name": "هل BrightAI بديل عن نظام إدارة الجودة ISO 13485؟", "acceptedAnswer": { "@type": "Answer", "text": "لا. BrightAI لا يستبدل نظام إدارة الجودة، لكنه يساعد فرق الجودة والامتثال على جمع أدلة تشغيل AI وربط الاستخدامات بضوابط وسياسات قابلة للتدقيق." } },
-        { "@type": "Question", "name": "كيف تتعامل BrightAI مع بيانات المرضى؟", "acceptedAnswer": { "@type": "Answer", "text": "تتعامل BrightAI مع بيانات المرضى كبيانات عالية الحساسية، وتطبق تصنيفاً للمدخلات، إخفاء للمعرفات، منعاً للطلبات الخطرة، وسجلاً يوضح من استخدم البيانات ولماذا." } },
-        { "@type": "Question", "name": "هل يمكن استخدام BrightAI مع نماذج تشخيصية أو مساعد طبي داخلي؟", "acceptedAnswer": { "@type": "Answer", "text": "نعم، يمكن وضع BrightAI كطبقة حوكمة حول المساعد الطبي أو النموذج الداخلي لتوثيق المدخلات والمخرجات، تفعيل الموافقة البشرية، وفصل الاستخدام الإداري عن الاستخدام السريري عالي الأثر." } },
-        { "@type": "Question", "name": "ما علاقة الصفحة بامتثال SFDA؟", "acceptedAnswer": { "@type": "Answer", "text": "الصفحة تركز على جاهزية الأدلة والضوابط عند استخدام AI في بيئات صحية. أي التزام تنظيمي نهائي يعتمد على طبيعة النظام الطبي وتصنيفه واللوائح السارية." } }
+        {
+          "@type": "Question",
+          "name": "هل BrightAI بديل عن نظام إدارة الجودة ISO 13485؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "لا. BrightAI لا يستبدل نظام إدارة الجودة، لكنه يساعد فرق الجودة والامتثال على جمع أدلة تشغيل AI وربط الاستخدامات بضوابط وسياسات قابلة للتدقيق."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "كيف تتعامل BrightAI مع بيانات المرضى؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "تتعامل BrightAI مع بيانات المرضى كبيانات عالية الحساسية، وتطبق تصنيفاً للمدخلات، إخفاء للمعرفات، منعاً للطلبات الخطرة، وسجلاً يوضح من استخدم البيانات ولماذا."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "هل يمكن استخدام BrightAI مع نماذج تشخيصية أو مساعد طبي داخلي؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "نعم، يمكن وضع BrightAI كطبقة حوكمة حول المساعد الطبي أو النموذج الداخلي لتوثيق المدخلات والمخرجات، تفعيل الموافقة البشرية، وفصل الاستخدام الإداري عن الاستخدام السريري عالي الأثر."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "ما علاقة الصفحة بامتثال SFDA؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "الصفحة تركز على جاهزية الأدلة والضوابط عند استخدام AI في بيئات صحية. أي التزام تنظيمي نهائي يعتمد على طبيعة النظام الطبي وتصنيفه واللوائح السارية."
+          }
+        }
       ]
     }
   ]

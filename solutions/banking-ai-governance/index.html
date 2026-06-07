@@ -57,28 +57,97 @@ body{font-family:'BrightAI Official',system-ui,sans-serif;background:#060914;col
       "@id": "https://brightai.site/solutions/banking-ai-governance/#service",
       "name": "حوكمة الذكاء الاصطناعي في القطاع المالي السعودي",
       "serviceType": "Banking AI Governance",
-      "provider": { "@type": "Organization", "@id": "https://brightai.site/#organization", "name": "BrightAI", "url": "https://brightai.site/" },
-      "areaServed": { "@type": "Country", "name": "Saudi Arabia" },
-      "audience": { "@type": "Audience", "audienceType": "البنوك والمؤسسات المالية السعودية" },
+      "provider": {
+        "@type": "Organization",
+        "@id": "https://brightai.site/#organization",
+        "name": "BrightAI",
+        "url": "https://brightai.site/",
+        "sameAs": [
+          "https://twitter.com/BrightAISite",
+          "https://linkedin.com/company/brightai-site",
+          "https://github.com/brightai-site",
+          "https://crunchbase.com/organization/brightai",
+          "https://www.wikidata.org/wiki/[QID]"
+        ],
+        "knowsAbout": [
+          "AI Governance",
+          "AI Safety",
+          "PDPL Compliance",
+          "NCA ECC Controls",
+          "ISO/IEC 42001",
+          "حوكمة الذكاء الاصطناعي في السعودية"
+        ]
+      },
+      "areaServed": {
+        "@type": "Country",
+        "name": "Saudi Arabia"
+      },
+      "audience": {
+        "@type": "Audience",
+        "audienceType": "البنوك والمؤسسات المالية السعودية"
+      },
       "description": "خدمة حوكمة AI للبنوك والمؤسسات المالية، تشمل حماية بيانات العملاء، تصنيف مخاطر الاستخدامات، سجلات تدقيق، موافقات بشرية، وأدلة امتثال مرتبطة بضوابط SAMA وNCA ECC ومكافحة غسل الأموال."
     },
     {
       "@type": "BreadcrumbList",
       "@id": "https://brightai.site/solutions/banking-ai-governance/#breadcrumb",
       "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "الرئيسية", "item": "https://brightai.site/" },
-        { "@type": "ListItem", "position": 2, "name": "الحلول", "item": "https://brightai.site/solutions/" },
-        { "@type": "ListItem", "position": 3, "name": "حوكمة AI للقطاع المالي", "item": "https://brightai.site/solutions/banking-ai-governance/" }
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "الرئيسية",
+          "item": "https://brightai.site/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "الحلول",
+          "item": "https://brightai.site/solutions/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "حوكمة AI للقطاع المالي",
+          "item": "https://brightai.site/solutions/banking-ai-governance/"
+        }
       ]
     },
     {
       "@type": "FAQPage",
       "@id": "https://brightai.site/solutions/banking-ai-governance/#faq",
       "mainEntity": [
-        { "@type": "Question", "name": "هل BrightAI يتخذ قرارات ائتمانية بدلاً من البنك؟", "acceptedAnswer": { "@type": "Answer", "text": "لا. BrightAI يعمل كطبقة حوكمة وتدقيق وضبط حول استخدامات AI، ولا يستبدل سياسات البنك أو لجان القرار أو النماذج المعتمدة داخلياً." } },
-        { "@type": "Question", "name": "كيف يدعم BrightAI امتثال SAMA؟", "acceptedAnswer": { "@type": "Answer", "text": "يدعم BrightAI جاهزية الامتثال عبر توثيق استخدامات AI، تصنيف المخاطر، حماية بيانات العملاء، وتوليد أدلة توضح الضوابط والموافقات، مع بقاء التقييم القانوني والتنظيمي مسؤولية البنك ومستشاريه." } },
-        { "@type": "Question", "name": "هل يفيد BrightAI فرق مكافحة غسل الأموال؟", "acceptedAnswer": { "@type": "Answer", "text": "نعم. يمكن استخدامه لتوثيق استخدامات AI في فرز التنبيهات، تلخيص التحقيقات، مراقبة جودة المخرجات، ومنع إدخال بيانات عملاء حساسة إلى نماذج غير مصرح بها." } },
-        { "@type": "Question", "name": "ما الفرق بين أمن المعلومات وحوكمة AI في البنك؟", "acceptedAnswer": { "@type": "Answer", "text": "أمن المعلومات يحمي الأنظمة والبيانات، بينما حوكمة AI تضيف طبقة تشرح كيف استخدم النموذج، ماذا دخل له، ماذا أخرج، من وافق، وهل الاستخدام مطابق للسياسة." } }
+        {
+          "@type": "Question",
+          "name": "هل BrightAI يتخذ قرارات ائتمانية بدلاً من البنك؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "لا. BrightAI يعمل كطبقة حوكمة وتدقيق وضبط حول استخدامات AI، ولا يستبدل سياسات البنك أو لجان القرار أو النماذج المعتمدة داخلياً."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "كيف يدعم BrightAI امتثال SAMA؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "يدعم BrightAI جاهزية الامتثال عبر توثيق استخدامات AI، تصنيف المخاطر، حماية بيانات العملاء، وتوليد أدلة توضح الضوابط والموافقات، مع بقاء التقييم القانوني والتنظيمي مسؤولية البنك ومستشاريه."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "هل يفيد BrightAI فرق مكافحة غسل الأموال؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "نعم. يمكن استخدامه لتوثيق استخدامات AI في فرز التنبيهات، تلخيص التحقيقات، مراقبة جودة المخرجات، ومنع إدخال بيانات عملاء حساسة إلى نماذج غير مصرح بها."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "ما الفرق بين أمن المعلومات وحوكمة AI في البنك؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "أمن المعلومات يحمي الأنظمة والبيانات، بينما حوكمة AI تضيف طبقة تشرح كيف استخدم النموذج، ماذا دخل له، ماذا أخرج، من وافق، وهل الاستخدام مطابق للسياسة."
+          }
+        }
       ]
     }
   ]

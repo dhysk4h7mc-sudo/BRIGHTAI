@@ -57,28 +57,97 @@ body{font-family:'BrightAI Official',system-ui,sans-serif;background:#060914;col
       "@id": "https://brightai.site/solutions/manufacturing-ai-governance/#service",
       "name": "حوكمة الذكاء الاصطناعي في القطاع الصناعي السعودي",
       "serviceType": "Manufacturing AI Governance",
-      "provider": { "@type": "Organization", "@id": "https://brightai.site/#organization", "name": "BrightAI", "url": "https://brightai.site/" },
-      "areaServed": { "@type": "Country", "name": "Saudi Arabia" },
-      "audience": { "@type": "Audience", "audienceType": "المصانع والشركات الصناعية السعودية" },
+      "provider": {
+        "@type": "Organization",
+        "@id": "https://brightai.site/#organization",
+        "name": "BrightAI",
+        "url": "https://brightai.site/",
+        "sameAs": [
+          "https://twitter.com/BrightAISite",
+          "https://linkedin.com/company/brightai-site",
+          "https://github.com/brightai-site",
+          "https://crunchbase.com/organization/brightai",
+          "https://www.wikidata.org/wiki/[QID]"
+        ],
+        "knowsAbout": [
+          "AI Governance",
+          "AI Safety",
+          "PDPL Compliance",
+          "NCA ECC Controls",
+          "ISO/IEC 42001",
+          "حوكمة الذكاء الاصطناعي في السعودية"
+        ]
+      },
+      "areaServed": {
+        "@type": "Country",
+        "name": "Saudi Arabia"
+      },
+      "audience": {
+        "@type": "Audience",
+        "audienceType": "المصانع والشركات الصناعية السعودية"
+      },
       "description": "خدمة حوكمة AI للتصنيع، تشمل سلامة IoT، جودة الإنتاج، حوكمة الصيانة التنبؤية، الموافقات البشرية لتغييرات التشغيل، وسجلات أدلة قابلة للتدقيق."
     },
     {
       "@type": "BreadcrumbList",
       "@id": "https://brightai.site/solutions/manufacturing-ai-governance/#breadcrumb",
       "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "الرئيسية", "item": "https://brightai.site/" },
-        { "@type": "ListItem", "position": 2, "name": "الحلول", "item": "https://brightai.site/solutions/" },
-        { "@type": "ListItem", "position": 3, "name": "حوكمة AI للتصنيع", "item": "https://brightai.site/solutions/manufacturing-ai-governance/" }
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "الرئيسية",
+          "item": "https://brightai.site/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "الحلول",
+          "item": "https://brightai.site/solutions/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "حوكمة AI للتصنيع",
+          "item": "https://brightai.site/solutions/manufacturing-ai-governance/"
+        }
       ]
     },
     {
       "@type": "FAQPage",
       "@id": "https://brightai.site/solutions/manufacturing-ai-governance/#faq",
       "mainEntity": [
-        { "@type": "Question", "name": "هل BrightAI يتحكم مباشرة في خطوط الإنتاج؟", "acceptedAnswer": { "@type": "Answer", "text": "لا. BrightAI يعمل كطبقة حوكمة وتدقيق وموافقات حول استخدامات AI، ولا يستبدل أنظمة التحكم الصناعية أو إجراءات السلامة المعتمدة." } },
-        { "@type": "Question", "name": "كيف يساعد BrightAI في IoT safety؟", "acceptedAnswer": { "@type": "Answer", "text": "يساعد عبر تصنيف استخدامات بيانات أجهزة IoT، توثيق التوصيات، منع القنوات غير المصرح بها، وطلب موافقة بشرية قبل تحويل توصية AI إلى تغيير تشغيلي حساس." } },
-        { "@type": "Question", "name": "هل يصلح BrightAI للصيانة التنبؤية؟", "acceptedAnswer": { "@type": "Answer", "text": "نعم، يمكن استخدامه لتوثيق توصيات نماذج الصيانة التنبؤية، ربطها بسجل أصول، وإظهار من اعتمد الإجراء ومتى ولماذا." } },
-        { "@type": "Question", "name": "ما علاقة حوكمة AI بجودة الإنتاج؟", "acceptedAnswer": { "@type": "Answer", "text": "حوكمة AI تساعد على تتبع النماذج التي تقترح رفض دفعة أو تعديل إعدادات أو تفسير عيب، وتضمن أن هذه التوصيات لها سجل ومراجعة قبل التأثير على الإنتاج." } }
+        {
+          "@type": "Question",
+          "name": "هل BrightAI يتحكم مباشرة في خطوط الإنتاج؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "لا. BrightAI يعمل كطبقة حوكمة وتدقيق وموافقات حول استخدامات AI، ولا يستبدل أنظمة التحكم الصناعية أو إجراءات السلامة المعتمدة."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "كيف يساعد BrightAI في IoT safety؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "يساعد عبر تصنيف استخدامات بيانات أجهزة IoT، توثيق التوصيات، منع القنوات غير المصرح بها، وطلب موافقة بشرية قبل تحويل توصية AI إلى تغيير تشغيلي حساس."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "هل يصلح BrightAI للصيانة التنبؤية؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "نعم، يمكن استخدامه لتوثيق توصيات نماذج الصيانة التنبؤية، ربطها بسجل أصول، وإظهار من اعتمد الإجراء ومتى ولماذا."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "ما علاقة حوكمة AI بجودة الإنتاج؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "حوكمة AI تساعد على تتبع النماذج التي تقترح رفض دفعة أو تعديل إعدادات أو تفسير عيب، وتضمن أن هذه التوصيات لها سجل ومراجعة قبل التأثير على الإنتاج."
+          }
+        }
       ]
     }
   ]
