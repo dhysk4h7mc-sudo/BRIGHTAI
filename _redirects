@@ -11,7 +11,6 @@ https://www.brightai.site/*    https://brightai.site/:splat  301
 
 # ── SEO: Renamed URL redirects ───────────────────────────────────────────────
 /docs/Governance%D9%80application/  /docs/governance-application/  301
-/docs/Governance%D9%80application   /docs/governance-application/  301
 
 # ── Core Marketing Pages ──────────────────────────────────────────────────────
 /assessment/ai-governance-readiness            /assessment/ai-governance-readiness/ 301
@@ -139,6 +138,97 @@ https://www.brightai.site/*    https://brightai.site/:splat  301
 /blog/pdpl-and-ai-saudi.html /blog/pdpl-and-ai-saudi/ 301
 /blog/pdpl-and-ai-saudi/index.html /blog/pdpl-and-ai-saudi/ 301
 
+# ── Additional Blog Redirects ────────────────────────────────────────────────
+/blog/ai-audit-trail-compliance-path /blog/ai-audit-trail-compliance-path/ 301
+/blog/ai-audit-trail-compliance-path.html /blog/ai-audit-trail-compliance-path/ 301
+/blog/ai-audit-trail-compliance-path/index.html /blog/ai-audit-trail-compliance-path/ 301
+/blog/ai-ethics-saudi-responsible-ai /blog/ai-ethics-saudi-responsible-ai/ 301
+/blog/ai-ethics-saudi-responsible-ai.html /blog/ai-ethics-saudi-responsible-ai/ 301
+/blog/ai-ethics-saudi-responsible-ai/index.html /blog/ai-ethics-saudi-responsible-ai/ 301
+/blog/ai-firewall-why-you-need-it /blog/ai-firewall-why-you-need-it/ 301
+/blog/ai-firewall-why-you-need-it.html /blog/ai-firewall-why-you-need-it/ 301
+/blog/ai-firewall-why-you-need-it/index.html /blog/ai-firewall-why-you-need-it/ 301
+/blog/ai-governance-vs-ai-safety-vs-ai-security /blog/ai-governance-vs-ai-safety-vs-ai-security/ 301
+/blog/ai-governance-vs-ai-safety-vs-ai-security.html /blog/ai-governance-vs-ai-safety-vs-ai-security/ 301
+/blog/ai-governance-vs-ai-safety-vs-ai-security/index.html /blog/ai-governance-vs-ai-safety-vs-ai-security/ 301
+/blog/ai-red-teaming-security-testing /blog/ai-red-teaming-security-testing/ 301
+/blog/ai-red-teaming-security-testing.html /blog/ai-red-teaming-security-testing/ 301
+/blog/ai-red-teaming-security-testing/index.html /blog/ai-red-teaming-security-testing/ 301
+/blog/banking-ai-governance-sama-requirements /blog/banking-ai-governance-sama-requirements/ 301
+/blog/banking-ai-governance-sama-requirements.html /blog/banking-ai-governance-sama-requirements/ 301
+/blog/banking-ai-governance-sama-requirements/index.html /blog/banking-ai-governance-sama-requirements/ 301
+/blog/best-ai-governance-platforms-2026 /blog/best-ai-governance-platforms-2026/ 301
+/blog/best-ai-governance-platforms-2026.html /blog/best-ai-governance-platforms-2026/ 301
+/blog/best-ai-governance-platforms-2026/index.html /blog/best-ai-governance-platforms-2026/ 301
+/blog/healthcare-ai-governance-saudi-hospitals /blog/healthcare-ai-governance-saudi-hospitals/ 301
+/blog/healthcare-ai-governance-saudi-hospitals.html /blog/healthcare-ai-governance-saudi-hospitals/ 301
+/blog/healthcare-ai-governance-saudi-hospitals/index.html /blog/healthcare-ai-governance-saudi-hospitals/ 301
+/blog/hidden-ai-risks-saudi-organizations /blog/hidden-ai-risks-saudi-organizations/ 301
+/blog/hidden-ai-risks-saudi-organizations.html /blog/hidden-ai-risks-saudi-organizations/ 301
+/blog/hidden-ai-risks-saudi-organizations/index.html /blog/hidden-ai-risks-saudi-organizations/ 301
+/blog/iso-42001-saudi-implementation-guide /blog/iso-42001-saudi-implementation-guide/ 301
+/blog/iso-42001-saudi-implementation-guide.html /blog/iso-42001-saudi-implementation-guide/ 301
+/blog/iso-42001-saudi-implementation-guide/index.html /blog/iso-42001-saudi-implementation-guide/ 301
+/blog/nca-ecc-ai-controls-guide /blog/nca-ecc-ai-controls-guide/ 301
+/blog/nca-ecc-ai-controls-guide.html /blog/nca-ecc-ai-controls-guide/ 301
+/blog/nca-ecc-ai-controls-guide/index.html /blog/nca-ecc-ai-controls-guide/ 301
+/blog/pdpl-ai-compliance-guide /blog/pdpl-ai-compliance-guide/ 301
+/blog/pdpl-ai-compliance-guide.html /blog/pdpl-ai-compliance-guide/ 301
+/blog/pdpl-ai-compliance-guide/index.html /blog/pdpl-ai-compliance-guide/ 301
+/blog/sdaia-generative-ai-guidelines-practical-compliance /blog/sdaia-generative-ai-guidelines-practical-compliance/ 301
+/blog/sdaia-generative-ai-guidelines-practical-compliance.html /blog/sdaia-generative-ai-guidelines-practical-compliance/ 301
+/blog/sdaia-generative-ai-guidelines-practical-compliance/index.html /blog/sdaia-generative-ai-guidelines-practical-compliance/ 301
+/blog/shadow-ai-discovery-saudi-company /blog/shadow-ai-discovery-saudi-company/ 301
+/blog/shadow-ai-discovery-saudi-company.html /blog/shadow-ai-discovery-saudi-company/ 301
+/blog/shadow-ai-discovery-saudi-company/index.html /blog/shadow-ai-discovery-saudi-company/ 301
+/blog/vision-2030-ai-governance-roadmap /blog/vision-2030-ai-governance-roadmap/ 301
+/blog/vision-2030-ai-governance-roadmap.html /blog/vision-2030-ai-governance-roadmap/ 301
+/blog/vision-2030-ai-governance-roadmap/index.html /blog/vision-2030-ai-governance-roadmap/ 301
+/blog/what-is-ai-governance-saudi-companies /blog/what-is-ai-governance-saudi-companies/ 301
+/blog/what-is-ai-governance-saudi-companies.html /blog/what-is-ai-governance-saudi-companies/ 301
+/blog/what-is-ai-governance-saudi-companies/index.html /blog/what-is-ai-governance-saudi-companies/ 301
+
+# ── Additional Docs Redirects ────────────────────────────────────────────────
+/docs/nca-ecc-ai-guide /docs/nca-ecc-ai-guide/ 301
+/docs/nca-ecc-ai-guide.html /docs/nca-ecc-ai-guide/ 301
+/docs/nca-ecc-ai-guide/index.html /docs/nca-ecc-ai-guide/ 301
+/docs/pdpl-ai-complete-guide /docs/pdpl-ai-complete-guide/ 301
+/docs/pdpl-ai-complete-guide.html /docs/pdpl-ai-complete-guide/ 301
+/docs/pdpl-ai-complete-guide/index.html /docs/pdpl-ai-complete-guide/ 301
+/docs/sdaia-generative-ai-guidelines /docs/sdaia-generative-ai-guidelines/ 301
+/docs/sdaia-generative-ai-guidelines.html /docs/sdaia-generative-ai-guidelines/ 301
+/docs/sdaia-generative-ai-guidelines/index.html /docs/sdaia-generative-ai-guidelines/ 301
+
+# ── Hub Redirects ────────────────────────────────────────────────────────────
+/hub /hub/ 301
+/hub.html /hub/ 301
+/hub/index.html /hub/ 301
+/hub/ai-governance /hub/ai-governance/ 301
+/hub/ai-governance.html /hub/ai-governance/ 301
+/hub/ai-governance/index.html /hub/ai-governance/ 301
+/hub/compliance /hub/compliance/ 301
+/hub/compliance.html /hub/compliance/ 301
+/hub/compliance/index.html /hub/compliance/ 301
+/hub/solutions /hub/solutions/ 301
+/hub/solutions.html /hub/solutions/ 301
+/hub/solutions/index.html /hub/solutions/ 301
+/hub/use-cases /hub/use-cases/ 301
+/hub/use-cases.html /hub/use-cases/ 301
+/hub/use-cases/index.html /hub/use-cases/ 301
+
+# ── Additional Solution Redirects ────────────────────────────────────────────
+/solutions/banking-ai-governance /solutions/banking-ai-governance/ 301
+/solutions/banking-ai-governance.html /solutions/banking-ai-governance/ 301
+/solutions/banking-ai-governance/index.html /solutions/banking-ai-governance/ 301
+/solutions/government-ai-governance /solutions/government-ai-governance/ 301
+/solutions/government-ai-governance.html /solutions/government-ai-governance/ 301
+/solutions/government-ai-governance/index.html /solutions/government-ai-governance/ 301
+/solutions/healthcare-ai-governance /solutions/healthcare-ai-governance/ 301
+/solutions/healthcare-ai-governance.html /solutions/healthcare-ai-governance/ 301
+/solutions/healthcare-ai-governance/index.html /solutions/healthcare-ai-governance/ 301
+/solutions/manufacturing-ai-governance /solutions/manufacturing-ai-governance/ 301
+/solutions/manufacturing-ai-governance.html /solutions/manufacturing-ai-governance/ 301
+/solutions/manufacturing-ai-governance/index.html /solutions/manufacturing-ai-governance/ 301
 
 # ── Kernel Module Redirections ────────────────────────────────────────────────
 /kernel                       /kernel/index.html            200

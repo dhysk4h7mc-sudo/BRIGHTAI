@@ -155,6 +155,11 @@ function groupRelPath(relPath) {
     return "solutions";
   }
 
+  // Content hubs
+  if (normalized.startsWith("hub/") && normalized.endsWith("/index.html")) {
+    return "pages";
+  }
+
   // Demo
   if (normalized.startsWith("demo/")) {
     return "demo";

@@ -162,6 +162,7 @@ services:
         "blog",
         "docs",
         "dashboard",
+        "hub",
         "solutions",
         "assessment",
         "trust"
@@ -1114,6 +1115,266 @@ services:
       - type: redirect
         source: /blog/pdpl-and-ai-saudi/index.html
         destination: /blog/pdpl-and-ai-saudi/
+
+      # ── Additional Blog Redirects ──────────────────────────────────────────
+      - type: redirect
+        source: /blog/ai-audit-trail-compliance-path
+        destination: /blog/ai-audit-trail-compliance-path/
+      - type: redirect
+        source: /blog/ai-audit-trail-compliance-path.html
+        destination: /blog/ai-audit-trail-compliance-path/
+      - type: redirect
+        source: /blog/ai-audit-trail-compliance-path/index.html
+        destination: /blog/ai-audit-trail-compliance-path/
+      - type: redirect
+        source: /blog/ai-ethics-saudi-responsible-ai
+        destination: /blog/ai-ethics-saudi-responsible-ai/
+      - type: redirect
+        source: /blog/ai-ethics-saudi-responsible-ai.html
+        destination: /blog/ai-ethics-saudi-responsible-ai/
+      - type: redirect
+        source: /blog/ai-ethics-saudi-responsible-ai/index.html
+        destination: /blog/ai-ethics-saudi-responsible-ai/
+      - type: redirect
+        source: /blog/ai-firewall-why-you-need-it
+        destination: /blog/ai-firewall-why-you-need-it/
+      - type: redirect
+        source: /blog/ai-firewall-why-you-need-it.html
+        destination: /blog/ai-firewall-why-you-need-it/
+      - type: redirect
+        source: /blog/ai-firewall-why-you-need-it/index.html
+        destination: /blog/ai-firewall-why-you-need-it/
+      - type: redirect
+        source: /blog/ai-governance-vs-ai-safety-vs-ai-security
+        destination: /blog/ai-governance-vs-ai-safety-vs-ai-security/
+      - type: redirect
+        source: /blog/ai-governance-vs-ai-safety-vs-ai-security.html
+        destination: /blog/ai-governance-vs-ai-safety-vs-ai-security/
+      - type: redirect
+        source: /blog/ai-governance-vs-ai-safety-vs-ai-security/index.html
+        destination: /blog/ai-governance-vs-ai-safety-vs-ai-security/
+      - type: redirect
+        source: /blog/ai-red-teaming-security-testing
+        destination: /blog/ai-red-teaming-security-testing/
+      - type: redirect
+        source: /blog/ai-red-teaming-security-testing.html
+        destination: /blog/ai-red-teaming-security-testing/
+      - type: redirect
+        source: /blog/ai-red-teaming-security-testing/index.html
+        destination: /blog/ai-red-teaming-security-testing/
+      - type: redirect
+        source: /blog/banking-ai-governance-sama-requirements
+        destination: /blog/banking-ai-governance-sama-requirements/
+      - type: redirect
+        source: /blog/banking-ai-governance-sama-requirements.html
+        destination: /blog/banking-ai-governance-sama-requirements/
+      - type: redirect
+        source: /blog/banking-ai-governance-sama-requirements/index.html
+        destination: /blog/banking-ai-governance-sama-requirements/
+      - type: redirect
+        source: /blog/best-ai-governance-platforms-2026
+        destination: /blog/best-ai-governance-platforms-2026/
+      - type: redirect
+        source: /blog/best-ai-governance-platforms-2026.html
+        destination: /blog/best-ai-governance-platforms-2026/
+      - type: redirect
+        source: /blog/best-ai-governance-platforms-2026/index.html
+        destination: /blog/best-ai-governance-platforms-2026/
+      - type: redirect
+        source: /blog/healthcare-ai-governance-saudi-hospitals
+        destination: /blog/healthcare-ai-governance-saudi-hospitals/
+      - type: redirect
+        source: /blog/healthcare-ai-governance-saudi-hospitals.html
+        destination: /blog/healthcare-ai-governance-saudi-hospitals/
+      - type: redirect
+        source: /blog/healthcare-ai-governance-saudi-hospitals/index.html
+        destination: /blog/healthcare-ai-governance-saudi-hospitals/
+      - type: redirect
+        source: /blog/hidden-ai-risks-saudi-organizations
+        destination: /blog/hidden-ai-risks-saudi-organizations/
+      - type: redirect
+        source: /blog/hidden-ai-risks-saudi-organizations.html
+        destination: /blog/hidden-ai-risks-saudi-organizations/
+      - type: redirect
+        source: /blog/hidden-ai-risks-saudi-organizations/index.html
+        destination: /blog/hidden-ai-risks-saudi-organizations/
+      - type: redirect
+        source: /blog/iso-42001-saudi-implementation-guide
+        destination: /blog/iso-42001-saudi-implementation-guide/
+      - type: redirect
+        source: /blog/iso-42001-saudi-implementation-guide.html
+        destination: /blog/iso-42001-saudi-implementation-guide/
+      - type: redirect
+        source: /blog/iso-42001-saudi-implementation-guide/index.html
+        destination: /blog/iso-42001-saudi-implementation-guide/
+      - type: redirect
+        source: /blog/nca-ecc-ai-controls-guide
+        destination: /blog/nca-ecc-ai-controls-guide/
+      - type: redirect
+        source: /blog/nca-ecc-ai-controls-guide.html
+        destination: /blog/nca-ecc-ai-controls-guide/
+      - type: redirect
+        source: /blog/nca-ecc-ai-controls-guide/index.html
+        destination: /blog/nca-ecc-ai-controls-guide/
+      - type: redirect
+        source: /blog/pdpl-ai-compliance-guide
+        destination: /blog/pdpl-ai-compliance-guide/
+      - type: redirect
+        source: /blog/pdpl-ai-compliance-guide.html
+        destination: /blog/pdpl-ai-compliance-guide/
+      - type: redirect
+        source: /blog/pdpl-ai-compliance-guide/index.html
+        destination: /blog/pdpl-ai-compliance-guide/
+      - type: redirect
+        source: /blog/sdaia-generative-ai-guidelines-practical-compliance
+        destination: /blog/sdaia-generative-ai-guidelines-practical-compliance/
+      - type: redirect
+        source: /blog/sdaia-generative-ai-guidelines-practical-compliance.html
+        destination: /blog/sdaia-generative-ai-guidelines-practical-compliance/
+      - type: redirect
+        source: /blog/sdaia-generative-ai-guidelines-practical-compliance/index.html
+        destination: /blog/sdaia-generative-ai-guidelines-practical-compliance/
+      - type: redirect
+        source: /blog/shadow-ai-discovery-saudi-company
+        destination: /blog/shadow-ai-discovery-saudi-company/
+      - type: redirect
+        source: /blog/shadow-ai-discovery-saudi-company.html
+        destination: /blog/shadow-ai-discovery-saudi-company/
+      - type: redirect
+        source: /blog/shadow-ai-discovery-saudi-company/index.html
+        destination: /blog/shadow-ai-discovery-saudi-company/
+      - type: redirect
+        source: /blog/vision-2030-ai-governance-roadmap
+        destination: /blog/vision-2030-ai-governance-roadmap/
+      - type: redirect
+        source: /blog/vision-2030-ai-governance-roadmap.html
+        destination: /blog/vision-2030-ai-governance-roadmap/
+      - type: redirect
+        source: /blog/vision-2030-ai-governance-roadmap/index.html
+        destination: /blog/vision-2030-ai-governance-roadmap/
+      - type: redirect
+        source: /blog/what-is-ai-governance-saudi-companies
+        destination: /blog/what-is-ai-governance-saudi-companies/
+      - type: redirect
+        source: /blog/what-is-ai-governance-saudi-companies.html
+        destination: /blog/what-is-ai-governance-saudi-companies/
+      - type: redirect
+        source: /blog/what-is-ai-governance-saudi-companies/index.html
+        destination: /blog/what-is-ai-governance-saudi-companies/
+
+      # ── Additional Docs Redirects ──────────────────────────────────────────
+      - type: redirect
+        source: /docs/nca-ecc-ai-guide
+        destination: /docs/nca-ecc-ai-guide/
+      - type: redirect
+        source: /docs/nca-ecc-ai-guide.html
+        destination: /docs/nca-ecc-ai-guide/
+      - type: redirect
+        source: /docs/nca-ecc-ai-guide/index.html
+        destination: /docs/nca-ecc-ai-guide/
+      - type: redirect
+        source: /docs/pdpl-ai-complete-guide
+        destination: /docs/pdpl-ai-complete-guide/
+      - type: redirect
+        source: /docs/pdpl-ai-complete-guide.html
+        destination: /docs/pdpl-ai-complete-guide/
+      - type: redirect
+        source: /docs/pdpl-ai-complete-guide/index.html
+        destination: /docs/pdpl-ai-complete-guide/
+      - type: redirect
+        source: /docs/sdaia-generative-ai-guidelines
+        destination: /docs/sdaia-generative-ai-guidelines/
+      - type: redirect
+        source: /docs/sdaia-generative-ai-guidelines.html
+        destination: /docs/sdaia-generative-ai-guidelines/
+      - type: redirect
+        source: /docs/sdaia-generative-ai-guidelines/index.html
+        destination: /docs/sdaia-generative-ai-guidelines/
+
+      # ── Hub Redirects ──────────────────────────────────────────────────────
+      - type: redirect
+        source: /hub
+        destination: /hub/
+      - type: redirect
+        source: /hub.html
+        destination: /hub/
+      - type: redirect
+        source: /hub/index.html
+        destination: /hub/
+      - type: redirect
+        source: /hub/ai-governance
+        destination: /hub/ai-governance/
+      - type: redirect
+        source: /hub/ai-governance.html
+        destination: /hub/ai-governance/
+      - type: redirect
+        source: /hub/ai-governance/index.html
+        destination: /hub/ai-governance/
+      - type: redirect
+        source: /hub/compliance
+        destination: /hub/compliance/
+      - type: redirect
+        source: /hub/compliance.html
+        destination: /hub/compliance/
+      - type: redirect
+        source: /hub/compliance/index.html
+        destination: /hub/compliance/
+      - type: redirect
+        source: /hub/solutions
+        destination: /hub/solutions/
+      - type: redirect
+        source: /hub/solutions.html
+        destination: /hub/solutions/
+      - type: redirect
+        source: /hub/solutions/index.html
+        destination: /hub/solutions/
+      - type: redirect
+        source: /hub/use-cases
+        destination: /hub/use-cases/
+      - type: redirect
+        source: /hub/use-cases.html
+        destination: /hub/use-cases/
+      - type: redirect
+        source: /hub/use-cases/index.html
+        destination: /hub/use-cases/
+
+      # ── Additional Solution Redirects ──────────────────────────────────────
+      - type: redirect
+        source: /solutions/banking-ai-governance
+        destination: /solutions/banking-ai-governance/
+      - type: redirect
+        source: /solutions/banking-ai-governance.html
+        destination: /solutions/banking-ai-governance/
+      - type: redirect
+        source: /solutions/banking-ai-governance/index.html
+        destination: /solutions/banking-ai-governance/
+      - type: redirect
+        source: /solutions/government-ai-governance
+        destination: /solutions/government-ai-governance/
+      - type: redirect
+        source: /solutions/government-ai-governance.html
+        destination: /solutions/government-ai-governance/
+      - type: redirect
+        source: /solutions/government-ai-governance/index.html
+        destination: /solutions/government-ai-governance/
+      - type: redirect
+        source: /solutions/healthcare-ai-governance
+        destination: /solutions/healthcare-ai-governance/
+      - type: redirect
+        source: /solutions/healthcare-ai-governance.html
+        destination: /solutions/healthcare-ai-governance/
+      - type: redirect
+        source: /solutions/healthcare-ai-governance/index.html
+        destination: /solutions/healthcare-ai-governance/
+      - type: redirect
+        source: /solutions/manufacturing-ai-governance
+        destination: /solutions/manufacturing-ai-governance/
+      - type: redirect
+        source: /solutions/manufacturing-ai-governance.html
+        destination: /solutions/manufacturing-ai-governance/
+      - type: redirect
+        source: /solutions/manufacturing-ai-governance/index.html
+        destination: /solutions/manufacturing-ai-governance/
 
 databases:
   - name: brightai-db
