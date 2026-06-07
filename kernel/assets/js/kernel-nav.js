@@ -677,6 +677,12 @@
      * The onboarding module owns localStorage gating and forced re-open events.
      */
     checkOnboarding() {
+      const path = global.location?.pathname || '';
+      const isHomePage = this.state.currentPage === 'home' && (
+        path === '/kernel/' || path === '/kernel' || path === '/kernel/index.html'
+      );
+      if (!isHomePage) return;
+
       const initOnboarding = () => {
         if (global.KernelOnboarding && typeof global.KernelOnboarding.init === 'function') {
           global.KernelOnboarding.init();

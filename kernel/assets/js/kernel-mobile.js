@@ -444,11 +444,11 @@
     createPullIndicator() {
       const indicator = document.createElement('div');
       indicator.className = 'pull-indicator';
-      indicator.innerHTML = `
+      indicator.innerHTML = global.KernelUtils?.sanitizeHtml?.(`
         <svg class="spinner" viewBox="0 0 24 24" width="24" height="24">
           <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="60" stroke-dashoffset="0"/>
         </svg>
-      `;
+      `) || '';
       indicator.style.cssText = `
         position: fixed;
         top: 0;

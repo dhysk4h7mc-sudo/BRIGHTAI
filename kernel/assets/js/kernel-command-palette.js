@@ -210,7 +210,7 @@
       root.setAttribute('dir', 'rtl');
       root.hidden = true;
 
-      root.innerHTML = `
+      root.innerHTML = this.sanitizeHtml(`
         <div class="kernel-command-palette-panel" role="document">
           <div class="kernel-command-header">
             <div>
@@ -239,7 +239,7 @@
           </form>
           <div class="kernel-command-results" id="kernel-command-results" role="listbox" aria-label="نتائج لوحة الأوامر"></div>
         </div>
-      `;
+      `);
 
       document.body.appendChild(root);
       this.cacheElements();
@@ -607,18 +607,18 @@
 
       if (!sections.length) {
         this.state.visibleItems = [];
-        this.results.innerHTML = `
+        this.results.innerHTML = this.sanitizeHtml(`
           <div class="kernel-command-empty" role="status">
             <strong>ما فيه نتائج مطابقة</strong>
             <span>جرّب اسم صفحة، أمر، أو إعداد ثاني.</span>
           </div>
-        `;
+        `);
         this.searchInput?.removeAttribute('aria-activedescendant');
         return;
       }
 
       let index = 0;
-      this.results.innerHTML = sections.map((section) => {
+      this.results.innerHTML = this.sanitizeHtml(sections.map((section) => {
         const itemsHtml = section.items.map((item) => {
           visibleItems.push(item);
           const itemIndex = index;
@@ -633,7 +633,7 @@
             <div class="kernel-command-section-items">${itemsHtml}</div>
           </section>
         `;
-      }).join('');
+      }).join(''));
 
       this.state.visibleItems = visibleItems;
       if (this.state.activeIndex >= visibleItems.length) this.state.activeIndex = 0;
@@ -849,6 +849,11 @@
         "'": '&#039;',
       };
       return String(value || '').replace(/[&<>"']/g, (char) => map[char]);
+    },
+
+    sanitizeHtml(value) {
+      if (global.KernelUtils?.sanitizeHtml) return global.KernelUtils.sanitizeHtml(value);
+      return String(value || '');
     },
   };
 

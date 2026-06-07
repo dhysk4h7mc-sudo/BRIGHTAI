@@ -32,7 +32,7 @@
         try { highlighted = hljs.highlight(code, { language: language }).value; } catch (e) { /* skip */ }
       }
       var label = language ? language : 'code';
-      return '<div class="code-header"><span>' + escapeHtml(label) + '</span><button class="code-copy-btn" onclick="kernelChatEnhanced.copyCode(this)">نسخ</button></div><pre><code class="hljs' + (language ? ' language-' + language : '') + '">' + highlighted + '</code></pre>';
+      return '<div class="code-header"><span>' + escapeHtml(label) + '</span><button class="code-copy-btn" data-kernel-click="kernelChatEnhanced.copyCode" data-kernel-arg-0="__element__">نسخ</button></div><pre><code class="hljs' + (language ? ' language-' + language : '') + '">' + highlighted + '</code></pre>';
     };
     marked.setOptions({ renderer: renderer });
   }
@@ -40,12 +40,19 @@
   function renderMarkdown(text) {
     if (!text) return '';
     if (typeof marked === 'undefined') return escapeHtml(text);
-    try { return marked.parse(text); } catch (e) { return escapeHtml(text); }
+    try { return sanitizeHtml(marked.parse(text)); } catch (e) { return escapeHtml(text); }
   }
 
   function escapeHtml(str) {
     if (typeof KernelUtils !== 'undefined' && KernelUtils.escapeHtml) return KernelUtils.escapeHtml(str);
     return String(str || '').replace(/[&<>"']/g, function (c) { return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' })[c]; });
+  }
+
+  function sanitizeHtml(html) {
+    var source = String(html || '');
+    if (typeof DOMPurify !== 'undefined' && DOMPurify.sanitize) return DOMPurify.sanitize(source);
+    if (typeof KernelUtils !== 'undefined' && KernelUtils.sanitizeHtml) return KernelUtils.sanitizeHtml(source);
+    return escapeHtml(source);
   }
 
   /* ═══════════════════════════════════════════════════════════════
@@ -97,7 +104,7 @@
 
     var el = document.createElement('div');
     el.className = 'thinking-process';
-    el.innerHTML = '<div class="thinking-steps" id="thinking-steps">' +
+    el.innerHTML = sanitizeHtml('<div class="thinking-steps" id="thinking-steps">' +
       steps.map(function (s, i) {
         return '<div class="thinking-step" data-step="' + i + '">' +
           '<span class="thinking-step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">' + s.icon + '</svg></span>' +
@@ -105,7 +112,7 @@
           '<span class="thinking-step-time"></span>' +
           '</div>';
       }).join('') +
-      '</div>';
+      '</div>');
 
     if (insertBefore) {
       container.insertBefore(el, insertBefore);
@@ -139,10 +146,10 @@
   function createMessageActions(msgId, text, data) {
     var traceId = data && (data.traceId || data.trace_id || data.kernel && data.kernel.traceId);
     var actionsHtml = '<div class="msg-actions">' +
-      '<button class="msg-action-btn" onclick="kernelChatEnhanced.copyMessage(\'' + msgId + '\', this)" title="نسخ">' +
+      '<button class="msg-action-btn" data-kernel-click="kernelChatEnhanced.copyMessage" data-kernel-arg-0="' + escapeHtml(msgId) + '" data-kernel-arg-1="__element__" title="نسخ">' +
       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>' +
       'نسخ</button>' +
-      '<button class="msg-action-btn" onclick="kernelChatEnhanced.regenerate(\'' + msgId + '\')" title="إعادة توليد">' +
+      '<button class="msg-action-btn" data-kernel-click="kernelChatEnhanced.regenerate" data-kernel-arg-0="' + escapeHtml(msgId) + '" title="إعادة توليد">' +
       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>' +
       'إعادة</button>';
 
@@ -203,9 +210,9 @@
     var key = (pack || 'general').toLowerCase();
     if (key === 'nca_ecc') key = 'NCA_ECC';
     var examples = examplesByPack[key] || examplesByPack.general;
-    container.innerHTML = examples.map(function (text) {
-      return '<button class="quick-example" onclick="useExample(this)">' + escapeHtml(text) + '</button>';
-    }).join('');
+    container.innerHTML = sanitizeHtml(examples.map(function (text) {
+      return '<button class="quick-example" data-kernel-click="useExample" data-kernel-arg-0="__element__">' + escapeHtml(text) + '</button>';
+    }).join(''));
   }
 
   /* ═══════════════════════════════════════════════════════════════
@@ -257,14 +264,14 @@
     if (!list) return;
     var sessions = getSessions();
     var activeId = getActiveSessionId();
-    list.innerHTML = sessions.map(function (s) {
+    list.innerHTML = sanitizeHtml(sessions.map(function (s) {
       var isActive = s.id === activeId;
-      return '<div class="session-item' + (isActive ? ' active' : '') + '" onclick="kernelChatEnhanced.switchSession(\'' + s.id + '\')">' +
+      return '<div class="session-item' + (isActive ? ' active' : '') + '" data-kernel-click="kernelChatEnhanced.switchSession" data-kernel-arg-0="' + escapeHtml(s.id) + '">' +
         '<span class="session-item-text">' + escapeHtml(s.title) + '</span>' +
-        '<button class="session-item-del" onclick="event.stopPropagation();kernelChatEnhanced.deleteAndRemoveSession(\'' + s.id + '\')" aria-label="حذف">' +
+        '<button class="session-item-del" data-kernel-stop="true" data-kernel-click="kernelChatEnhanced.deleteAndRemoveSession" data-kernel-arg-0="' + escapeHtml(s.id) + '" aria-label="حذف">' +
         '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button>' +
         '</div>';
-    }).join('');
+    }).join(''));
     var titleEl = document.getElementById('active-session-title');
     if (titleEl) {
       var active = sessions.find(function (s) { return s.id === activeId; });
@@ -291,9 +298,9 @@
       var chip = document.createElement('div');
       chip.className = 'file-chip';
       chip.id = 'chip-' + fileId;
-      chip.innerHTML = '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/></svg>' +
+      chip.innerHTML = sanitizeHtml('<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/></svg>' +
         '<span>' + escapeHtml(file.name) + '</span>' +
-        '<button class="file-chip-remove" onclick="kernelChatEnhanced.removeFile(\'' + fileId + '\')">×</button>';
+        '<button class="file-chip-remove" data-kernel-click="kernelChatEnhanced.removeFile" data-kernel-arg-0="' + escapeHtml(fileId) + '">×</button>');
       container.appendChild(chip);
     }
     container.classList.add('has-files');

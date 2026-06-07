@@ -12,6 +12,8 @@
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#030A18">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="BrightAI Kernel">
   <link rel="manifest" href="/kernel/manifest.json">
   <link rel="icon" href="/frontend/assets/images/logo.png" type="image/png">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -118,11 +120,12 @@
   <link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css">
 </head>
 <body>
+  <a href="#main-content" class="skip-link">تخطي إلى المحتوى الرئيسي</a>
 <!-- BRIGHTAI_NOSCRIPT_NAV_START -->
 <div id="brightai-unified-header">
   <noscript>
     <header class="brightai-noscript-header" role="banner" aria-label="BrightAI HTML navigation fallback">
-      <nav aria-label="التنقل الرئيسي في BrightAI">
+      <nav aria-label="التنقل الرئيسي في BrightAI" role="navigation">
         <a href="https://brightai.site/" aria-label="BrightAI الرئيسية">BrightAI</a>
         <ul>
           <li>
@@ -194,7 +197,7 @@
 </div>
 <!-- BRIGHTAI_NOSCRIPT_NAV_END -->
 <!-- BRIGHTAI_RAW_INTERNAL_LINKS_START -->
-<section class="brightai-raw-internal-links" data-brightai-raw-internal-links="true" aria-labelledby="brightai-raw-internal-links-title" dir="rtl" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;">
+<section class="brightai-raw-internal-links u-sr-only" data-brightai-raw-internal-links="true" aria-labelledby="brightai-raw-internal-links-title" dir="rtl">
   <h2 id="brightai-raw-internal-links-title">روابط BrightAI الداخلية الرئيسية</h2>
   <ul>
     <li><a href="https://brightai.site/about/">عن BrightAI</a></li>
@@ -213,7 +216,7 @@
 <!-- BRIGHTAI_RAW_INTERNAL_LINKS_END -->
 <div class="toast-container" id="toast-container" aria-live="polite"></div>
 
-  <main id="main-content">
+  <main id="main-content" role="main">
     <div class="container">
       <div class="page-header">
         <h1>الإحصائيات والمقاييس</h1>
@@ -226,17 +229,17 @@
 
       <div class="stats-toolbar" aria-label="أدوات لوحة الإحصائيات">
         <div class="date-range-selector" role="group" aria-label="اختر نطاق التاريخ">
-          <button class="range-btn active" type="button" data-range="7">آخر 7 أيام</button>
-          <button class="range-btn" type="button" data-range="30">30 يوم</button>
-          <button class="range-btn" type="button" data-range="90">90 يوم</button>
-          <button class="range-btn" type="button" data-range="custom">مخصص</button>
+          <button class="range-btn active" type="button" data-range="7" aria-label="عرض إحصائيات آخر 7 أيام">آخر 7 أيام</button>
+          <button class="range-btn" type="button" data-range="30" aria-label="عرض إحصائيات آخر 30 يوم">30 يوم</button>
+          <button class="range-btn" type="button" data-range="90" aria-label="عرض إحصائيات آخر 90 يوم">90 يوم</button>
+          <button class="range-btn" type="button" data-range="custom" aria-label="اختيار نطاق تاريخ مخصص">مخصص</button>
         </div>
         <div class="custom-date-range" id="custom-date-range" hidden>
           <input type="date" id="date-from" aria-label="من تاريخ">
           <input type="date" id="date-to" aria-label="إلى تاريخ">
-          <button class="range-btn" type="button" id="apply-custom-range">تطبيق</button>
+          <button class="range-btn" type="button" id="apply-custom-range" aria-label="تطبيق نطاق التاريخ المخصص">تطبيق</button>
         </div>
-        <button class="dashboard-action-btn" type="button" id="export-dashboard-pdf">
+        <button class="dashboard-action-btn" type="button" id="export-dashboard-pdf" aria-label="تصدير لوحة الإحصائيات بصيغة PDF">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
             <path d="M7 10l5 5 5-5"/>
@@ -246,7 +249,7 @@
         </button>
       </div>
 
-      <nav class="kernel-breadcrumb" aria-label="مسار التنقل">
+      <nav class="kernel-breadcrumb" aria-label="مسار التنقل" role="navigation">
         <ol>
           <li><a href="/">BrightAI</a></li>
           <li><a href="/kernel/">kernel</a></li>
@@ -276,7 +279,7 @@
           </div>
           <div class="kpi-label">إجمالي الطلبات</div>
           <div class="kpi-value" id="kpi-total">
-            <span class="skeleton" style="width:60px;height:36px;display:inline-block;border-radius:8px;"></span>
+            <span class="skeleton u-skeleton u-skeleton--md"></span>
           </div>
           <div class="kpi-sub">إجمالي الطلبات المعالجة</div>
           <div class="trend-indicator neutral" id="trend-total">-- عن الأسبوع الماضي</div>
@@ -290,7 +293,7 @@
           </div>
           <div class="kpi-label">بانتظار الموافقة</div>
           <div class="kpi-value" id="kpi-pending">
-            <span class="skeleton" style="width:40px;height:36px;display:inline-block;border-radius:8px;"></span>
+            <span class="skeleton u-skeleton u-skeleton--sm"></span>
           </div>
           <div class="kpi-sub">طلب يحتاج مراجعة</div>
           <div class="trend-indicator neutral" id="trend-pending">-- عن الأسبوع الماضي</div>
@@ -304,7 +307,7 @@
           </div>
           <div class="kpi-label">متوسط المخاطر</div>
           <div class="kpi-value" id="kpi-risk">
-            <span class="skeleton" style="width:50px;height:36px;display:inline-block;border-radius:8px;"></span>
+            <span class="skeleton u-skeleton u-skeleton--md"></span>
           </div>
           <div class="kpi-sub">درجة تعقيد الطلبات</div>
           <div class="trend-indicator neutral" id="trend-risk">-- عن الأسبوع الماضي</div>
@@ -318,7 +321,7 @@
           </div>
           <div class="kpi-label">اكتشاف PII</div>
           <div class="kpi-value" id="kpi-pii">
-            <span class="skeleton" style="width:50px;height:36px;display:inline-block;border-radius:8px;"></span>
+            <span class="skeleton u-skeleton u-skeleton--md"></span>
           </div>
           <div class="kpi-sub">نسبة الطلبات التي تحتوي PII</div>
           <div class="trend-indicator neutral" id="trend-pii">-- عن الأسبوع الماضي</div>
@@ -420,7 +423,7 @@
         </div>
         <div class="status-cards" id="latest-traces">
           <div class="glass-card-flat status-card">
-            <div class="status-card-value" style="font-size:1rem;">جاري التحميل</div>
+            <div class="status-card-value">جاري التحميل</div>
             <div class="status-card-label">جاري التحميل</div>
           </div>
         </div>
@@ -460,14 +463,18 @@
 
     </div>
   </main>
+  <a href="/kernel/offline.html" style="display:none">الوضع بدون اتصال</a>
   <script src="/frontend/js/unified-header.js?v=20260529-nav-v1" defer></script>
 
-  <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.2.7/purify.min.js" defer></script>
   <script src="/kernel/assets/js/kernel-utils.js" defer></script>
+  <script src="/kernel/kernel-web-vitals.js" defer></script>
+  <script src="/kernel/kernel-perf.js" defer></script>
   <script src="/kernel/assets/js/kernel-api.js" defer></script>
   <script src="/kernel/assets/js/kernel-demo-store.js" defer></script>
   <script src="/kernel/assets/js/kernel-mock-handlers.js" defer></script>
   <script src="/kernel/assets/js/kernel-demo-banner.js" defer></script>
+  <script src="/kernel/assets/js/kernel-notifications.js" defer></script>
   <script src="/kernel/assets/js/kernel-nav.js" defer></script>
   <script src="/kernel/assets/js/kernel-aurora.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.9/dist/chart.umd.min.js" defer></script>

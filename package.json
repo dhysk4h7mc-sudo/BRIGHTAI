@@ -35,6 +35,7 @@
     "production:fixes": "node scripts/apply-production-audit-fixes.mjs",
     "build:minify-all": "node scripts/minify-seo-assets.mjs && node scripts/replace-unminified-refs.mjs",
     "test:setup:backend": "npm --prefix frontend ci --include=dev --no-audit --no-fund",
+    "test:kernel": "vitest run kernel/tests/",
     "performance:budget": "node scripts/check-performance-budget.js",
     "internal-links:audit": "node scripts/internal-links-audit.mjs && node scripts/internal-linking-architecture.mjs",
     "internal-links:inventory": "node scripts/internal-linking-architecture.mjs",

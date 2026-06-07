@@ -165,7 +165,7 @@
     const demoStorageKey = global.KernelRuntimeConfig?.get?.().demoStorageKey || 'brightai_kernel_demo_mode';
     const isDemo = localStorage.getItem(demoStorageKey) === 'true';
 
-    banner.innerHTML = `
+    banner.innerHTML = global.KernelUtils?.sanitizeHtml?.(`
       <div class="brightai-demo-brand">
         <span class="brightai-demo-badge">
           <span class="brightai-demo-pulse"></span>
@@ -183,7 +183,7 @@
         </div>
         <button class="brightai-demo-btn" id="brightai-demo-reset-btn">إعادة تعيين البيانات</button>
       </div>
-    `;
+    `) || '';
 
     // Inject as the first child of the body element to display at top
     if (document.body) {

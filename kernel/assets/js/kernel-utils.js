@@ -26,35 +26,38 @@
 
     /**
      * Sanitize controlled HTML templates before inserting them into the DOM.
-     * Falls back to escaping text if DOMPurify is unavailable.
+     * Uses DOMPurify when available, then falls back to the local DOMParser allowlist.
      * @param {string} html - HTML string to sanitize
      * @returns {string} Sanitized HTML
      */
     sanitizeHtml(html) {
       const source = String(html || '');
       const allowedTags = [
-        'a', 'article', 'b', 'br', 'button', 'circle', 'div', 'em', 'g',
-        'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'header', 'i', 'li', 'line',
-        'nav', 'ol', 'p', 'path', 'polygon', 'polyline', 'rect', 'section',
-        'small', 'span', 'strong', 'svg', 'table', 'tbody', 'td', 'th',
-        'thead', 'tr', 'ul'
+        'a', 'article', 'b', 'br', 'button', 'circle', 'div', 'em', 'footer',
+        'form', 'g', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'header', 'i',
+        'input', 'label', 'li', 'line', 'main', 'nav', 'ol', 'option', 'p',
+        'path', 'polygon', 'polyline', 'pre', 'code', 'rect', 'section',
+        'select', 'small', 'span', 'strong', 'svg', 'table', 'tbody', 'td',
+        'textarea', 'th', 'thead', 'time', 'tr', 'ul'
       ];
       const allowedAttrs = [
-        'aria-controls', 'aria-current', 'aria-expanded', 'aria-haspopup',
-        'aria-hidden', 'aria-label', 'aria-live', 'class', 'clip-rule', 'colspan',
-        'cx', 'cy', 'd', 'data-action', 'data-command-palette-trigger', 'data-id',
-        'data-kernel-nav-id', 'data-package-id', 'data-report-action',
-        'data-report-id', 'data-type', 'dir', 'fill', 'fill-rule', 'height',
-        'hidden', 'href', 'id', 'lang', 'opacity', 'points', 'r', 'rel', 'role',
-        'rx', 'ry', 'stroke', 'stroke-linecap', 'stroke-linejoin', 'stroke-width',
-        'style', 'tabindex', 'title', 'type', 'viewBox', 'width', 'x', 'x1',
-        'x2', 'y', 'y1', 'y2'
+        'autocomplete', 'aria-controls', 'aria-current', 'aria-expanded', 'aria-haspopup',
+        'aria-hidden', 'aria-label', 'aria-live', 'aria-pressed', 'aria-selected',
+        'checked', 'class', 'clip-rule', 'colspan', 'cx', 'cy', 'd', 'datetime',
+        'dir', 'disabled', 'fill', 'fill-rule', 'for', 'height', 'hidden', 'href',
+        'id', 'lang', 'max', 'min', 'name', 'opacity', 'placeholder', 'points',
+        'r', 'rel', 'role', 'rx', 'ry', 'selected', 'step', 'stroke',
+        'spellcheck', 'stroke-linecap', 'stroke-linejoin', 'stroke-width', 'style',
+        'tabindex', 'target', 'title', 'type', 'value', 'viewBox', 'width', 'x',
+        'x1', 'x2', 'y', 'y1', 'y2'
       ];
 
       if (typeof global.DOMPurify !== 'undefined' && global.DOMPurify?.sanitize) {
         return global.DOMPurify.sanitize(source, {
           ALLOWED_TAGS: allowedTags,
           ALLOWED_ATTR: allowedAttrs,
+          ALLOW_ARIA_ATTR: true,
+          ALLOW_DATA_ATTR: true,
         });
       }
 
@@ -75,7 +78,8 @@
             const value = attr.value || '';
             const unsafeUrl = ['href', 'src'].includes(name) && /^\s*javascript:/i.test(value);
             const unsafeStyle = name === 'style' && /(javascript:|expression\s*\(|url\s*\()/i.test(value);
-            if (!attrSet.has(name) || name.startsWith('on') || unsafeUrl || unsafeStyle) {
+            const allowedPattern = name.startsWith('data-') || name.startsWith('aria-');
+            if ((!attrSet.has(name) && !allowedPattern) || name.startsWith('on') || unsafeUrl || unsafeStyle) {
               node.removeAttribute(attr.name);
             }
           });
@@ -85,6 +89,76 @@
       }
 
       return KernelUtils.escapeHtml(source);
+    },
+
+    resolveGlobalFunction(path) {
+      return String(path || '').split('.').reduce((ctx, key) => (ctx && ctx[key] ? ctx[key] : null), global);
+    },
+
+    getDelegatedArg(target, token, event) {
+      if (token === '__element__') return target;
+      if (token === '__event__') return event;
+      if (token === '__checked__') return Boolean(target.checked);
+      if (token === '__value__') return target.value;
+      if (token === '__files__') return target.files;
+      if (token && token.startsWith('__dataset:') && token.endsWith('__')) {
+        const key = token.slice(10, -2);
+        return target.dataset ? target.dataset[key] : '';
+      }
+      if (/^-?\d+(?:\.\d+)?$/.test(token)) return Number(token);
+      return token;
+    },
+
+    invokeDelegatedAction(target, event, actionKey = 'kernelClick') {
+      const action = target?.dataset?.[actionKey];
+      if (!action) return;
+      const fn = KernelUtils.resolveGlobalFunction(action);
+      if (typeof fn !== 'function') return;
+
+      const args = [];
+      for (let index = 0; index < 8; index += 1) {
+        const attr = target.getAttribute(`data-kernel-arg-${index}`);
+        if (attr === null) break;
+        args.push(KernelUtils.getDelegatedArg(target, attr, event));
+      }
+      fn(...args);
+    },
+
+    initDelegatedActions() {
+      if (!global.document?.addEventListener) return;
+      if (KernelUtils._delegatedActionsReady) return;
+      KernelUtils._delegatedActionsReady = true;
+
+      document.addEventListener('click', (event) => {
+        const stopTarget = event.target.closest('[data-kernel-stop="true"]');
+        if (stopTarget) event.stopPropagation();
+
+        const target = event.target.closest('[data-kernel-click]');
+        if (!target) return;
+        if (target.disabled || target.getAttribute('aria-disabled') === 'true') return;
+        if (target.dataset.kernelPrevent === 'true') event.preventDefault();
+        KernelUtils.invokeDelegatedAction(target, event);
+      });
+
+      document.addEventListener('change', (event) => {
+        const target = event.target.closest('[data-kernel-change]');
+        if (!target) return;
+        KernelUtils.invokeDelegatedAction(target, event, 'kernelChange');
+      });
+
+      document.addEventListener('input', (event) => {
+        const target = event.target.closest('[data-kernel-input]');
+        if (!target) return;
+        KernelUtils.invokeDelegatedAction(target, event, 'kernelInput');
+      });
+    },
+
+    removeClosest(element, selector) {
+      element?.closest?.(selector)?.remove();
+    },
+
+    reloadPage() {
+      global.location.reload();
     },
 
     /**
@@ -548,5 +622,6 @@
 
   // Export to global scope
   global.KernelUtils = KernelUtils;
+  KernelUtils.initDelegatedActions();
 
 })(typeof window !== 'undefined' ? window : this);

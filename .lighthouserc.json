@@ -1,0 +1,75 @@
+{
+  "ci": {
+    "collect": {
+      "staticDistDir": ".",
+      "url": [
+        "/kernel/",
+        "/kernel/approvals.html",
+        "/kernel/audit.html",
+        "/kernel/chat.html",
+        "/kernel/compliance.html",
+        "/kernel/connectors.html",
+        "/kernel/evidence.html",
+        "/kernel/offline.html",
+        "/kernel/policies.html",
+        "/kernel/reports.html",
+        "/kernel/scenarios.html",
+        "/kernel/stats.html"
+      ],
+      "settings": {
+        "budgets": [
+          {
+            "path": "/kernel/*",
+            "resourceSizes": [
+              {
+                "resourceType": "script",
+                "budget": 200
+              }
+            ],
+            "timings": [
+              {
+                "metric": "largest-contentful-paint",
+                "budget": 2500
+              },
+              {
+                "metric": "max-potential-fid",
+                "budget": 100
+              },
+              {
+                "metric": "cumulative-layout-shift",
+                "budget": 0.1
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "assert": {
+      "assertions": {
+        "largest-contentful-paint": [
+          "error",
+          {
+            "maxNumericValue": 2500
+          }
+        ],
+        "max-potential-fid": [
+          "error",
+          {
+            "maxNumericValue": 100
+          }
+        ],
+        "cumulative-layout-shift": [
+          "error",
+          {
+            "maxNumericValue": 0.1
+          }
+        ],
+        "font-display": "error"
+      }
+    },
+    "upload": {
+      "target": "filesystem",
+      "outputDir": "./reports/lighthouse"
+    }
+  }
+}

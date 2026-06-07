@@ -106,7 +106,7 @@
       root.setAttribute('aria-modal', 'true');
       root.setAttribute('aria-labelledby', 'kernel-onboarding-title');
       root.setAttribute('aria-describedby', 'kernel-onboarding-copy');
-      root.innerHTML = this.render();
+      root.innerHTML = global.KernelUtils?.sanitizeHtml?.(this.render()) || this.render();
 
       document.body.appendChild(root);
       document.body.classList.add('kernel-onboarding-open');

@@ -12,6 +12,9 @@
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#030A18">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="BrightAI Kernel">
   <link rel="manifest" href="/kernel/manifest.json">
   <link rel="icon" href="/frontend/assets/images/logo.png" type="image/png">
   <title>سيناريوهات BrightAI Kernel لاختبار مخاطر AI | BrightAI</title>
@@ -29,6 +32,9 @@
 <meta name="twitter:title" content="السيناريوهات | BrightAI" />
 <meta name="twitter:description" content="محاكاة سيناريوهات AI لاختبار المخاطر والضوابط" />
 <meta name="twitter:image" content="https://brightai.site/frontend/assets/images/logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
 <link rel="stylesheet" href="/kernel/assets/css/kernel.css">
   <link rel="stylesheet" href="/frontend/vendor/fontawesome/css/all.min.css">
   <link rel="stylesheet" href="/frontend/css/unified-header.css?v=20260529-nav-v1">
@@ -115,13 +121,13 @@
   <link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css">
 </head>
 <body>
-
+  <a href="#main-content" class="skip-link">تخطي إلى المحتوى الرئيسي</a>
 <div class="toast-container" id="toast-container" aria-live="polite"></div>
 <!-- BRIGHTAI_NOSCRIPT_NAV_START -->
 <div id="brightai-unified-header">
   <noscript>
     <header class="brightai-noscript-header" role="banner" aria-label="BrightAI HTML navigation fallback">
-      <nav aria-label="التنقل الرئيسي في BrightAI">
+      <nav aria-label="التنقل الرئيسي في BrightAI" role="navigation">
         <a href="https://brightai.site/" aria-label="BrightAI الرئيسية">BrightAI</a>
         <ul>
           <li>
@@ -193,7 +199,7 @@
 </div>
 <!-- BRIGHTAI_NOSCRIPT_NAV_END -->
 <!-- BRIGHTAI_RAW_INTERNAL_LINKS_START -->
-<section class="brightai-raw-internal-links" data-brightai-raw-internal-links="true" aria-labelledby="brightai-raw-internal-links-title" dir="rtl" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;">
+<section class="brightai-raw-internal-links u-sr-only" data-brightai-raw-internal-links="true" aria-labelledby="brightai-raw-internal-links-title" dir="rtl">
   <h2 id="brightai-raw-internal-links-title">روابط BrightAI الداخلية الرئيسية</h2>
   <ul>
     <li><a href="https://brightai.site/about/">عن BrightAI</a></li>
@@ -212,7 +218,7 @@
 <!-- BRIGHTAI_RAW_INTERNAL_LINKS_END -->
 <div class="kernel-layout">
     <!-- Sidebar -->
-    <aside class="kernel-sidebar" id="sidebar">
+    <aside class="kernel-sidebar" id="sidebar" role="complementary">
       <div class="sidebar-header">
         <div class="logo">
           <div class="logo-icon">
@@ -225,7 +231,7 @@
           <span class="logo-text">BrightAI</span>
         </div>
       </div>
-      <nav class="sidebar-nav" id="sidebarNav"></nav>
+      <nav class="sidebar-nav" id="sidebarNav" role="navigation"></nav>
       <div class="sidebar-footer">
         <button class="theme-toggle" id="themeToggle" title="تبديل المظهر" aria-label="تبديل المظهر">
           <svg class="sun-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -239,8 +245,8 @@
     </aside>
 
     <!-- Main Content -->
-    <main class="kernel-main">
-      <header class="main-header">
+    <main class="kernel-main" id="main-content" role="main">
+      <header class="main-header" role="banner">
         <button class="menu-toggle" id="menuToggle" aria-label="فتح القائمة الجانبية">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M3 12h18M3 6h18M3 18h18"/>
@@ -251,7 +257,7 @@
           <p>إدارة سيناريوهات الاستخدام والقواعد الخاصة بكل حالة</p>
         </div>
         <div class="header-actions">
-          <button class="add-btn" onclick="showAddModal()" type="button">
+          <button class="add-btn" data-kernel-click="showAddModal" type="button" aria-label="فتح نافذة إضافة سيناريو جديد">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
               <path d="M12 5v14M5 12h14"/>
             </svg>
@@ -260,7 +266,7 @@
         </div>
       </header>
 
-      <nav class="kernel-breadcrumb" aria-label="مسار التنقل">
+      <nav class="kernel-breadcrumb" aria-label="مسار التنقل" role="navigation">
         <ol>
           <li><a href="/">BrightAI</a></li>
           <li><a href="/kernel/">kernel</a></li>
@@ -325,13 +331,13 @@
                   <div class="stat-label">طلب</div>
                 </div>
                 <div class="scenario-stat">
-                  <div class="stat-value" style="color:var(--warning);">82%</div>
+                  <div class="stat-value u-color-warning">82%</div>
                   <div class="stat-label">خطورة معلقة</div>
                 </div>
               </div>
               <div class="scenario-actions">
-                <button class="scenario-btn secondary" type="button" data-edit-scenario="القطاع المالي (عقد تمويل + آيبان)" data-policy="/kernel/policies/?scenario=finance">تعديل</button>
-                <button class="scenario-btn primary" onclick="runDemoScenario('finance', 'PDPL', 'أريد مراجعة عقد تمويل شخصي يحتوي على رقم الآيبان SA9930000000001234567890 وتوقيع العميل لضمان سرية البيانات.')">جرّب السيناريو الآن</button>
+                <button class="scenario-btn secondary" type="button" data-edit-scenario="القطاع المالي (عقد تمويل + آيبان)" data-policy="/kernel/policies/?scenario=finance" aria-label="تعديل سيناريو القطاع المالي (عقد تمويل + آيبان)">تعديل</button>
+                <button class="scenario-btn primary" data-scenario="finance" data-pack="PDPL" data-prompt="أريد مراجعة عقد تمويل شخصي يحتوي على رقم الآيبان SA9930000000001234567890 وتوقيع العميل لضمان سرية البيانات." data-kernel-click="runDemoScenarioFromButton" data-kernel-arg-0="__element__" aria-label="تشغيل سيناريو finance">جرّب السيناريو الآن</button>
               </div>
             </div>
           </div>
@@ -376,13 +382,13 @@
                   <div class="stat-label">استفسار</div>
                 </div>
                 <div class="scenario-stat">
-                  <div class="stat-value" style="color:var(--success);">98%</div>
+                  <div class="stat-value u-color-success">98%</div>
                   <div class="stat-label">نسبة حماية</div>
                 </div>
               </div>
               <div class="scenario-actions">
-                <button class="scenario-btn secondary" type="button" data-edit-scenario="الموارد البشرية (بيانات موظف + راتب)" data-policy="/kernel/policies/?scenario=hr">تعديل</button>
-                <button class="scenario-btn primary" onclick="runDemoScenario('hr', 'PDPL', 'يرجى تحليل ملف الموظف خالد الحربي والتقييم السنوي متضمناً الراتب والمكافآت لمراجعة شروط زيادة الرواتب.')">جرّب السيناريو الآن</button>
+                <button class="scenario-btn secondary" type="button" data-edit-scenario="الموارد البشرية (بيانات موظف + راتب)" data-policy="/kernel/policies/?scenario=hr" aria-label="تعديل سيناريو الموارد البشرية (بيانات موظف + راتب)">تعديل</button>
+                <button class="scenario-btn primary" data-scenario="hr" data-pack="PDPL" data-prompt="يرجى تحليل ملف الموظف خالد الحربي والتقييم السنوي متضمناً الراتب والمكافآت لمراجعة شروط زيادة الرواتب." data-kernel-click="runDemoScenarioFromButton" data-kernel-arg-0="__element__" aria-label="تشغيل سيناريو hr">جرّب السيناريو الآن</button>
               </div>
             </div>
           </div>
@@ -427,13 +433,13 @@
                   <div class="stat-label">عقد</div>
                 </div>
                 <div class="scenario-stat">
-                  <div class="stat-value" style="color:var(--success);">100%</div>
+                  <div class="stat-value u-color-success">100%</div>
                   <div class="stat-label">نسبة امتثال</div>
                 </div>
               </div>
               <div class="scenario-actions">
-                <button class="scenario-btn secondary" type="button" data-edit-scenario="الشؤون القانونية (عقد مورد + شرط جزائي)" data-policy="/kernel/policies/?scenario=legal">تعديل</button>
-                <button class="scenario-btn primary" onclick="runDemoScenario('legal', 'general', 'يرجى فحص عقد المورد لشركة المشتريات والتأكد من توافق الشرط الجزائي البالغ 50,000 ريال مع لوائح الشركة.')">جرّب السيناريو الآن</button>
+                <button class="scenario-btn secondary" type="button" data-edit-scenario="الشؤون القانونية (عقد مورد + شرط جزائي)" data-policy="/kernel/policies/?scenario=legal" aria-label="تعديل سيناريو الشؤون القانونية (عقد مورد + شرط جزائي)">تعديل</button>
+                <button class="scenario-btn primary" data-scenario="legal" data-pack="general" data-prompt="يرجى فحص عقد المورد لشركة المشتريات والتأكد من توافق الشرط الجزائي البالغ 50,000 ريال مع لوائح الشركة." data-kernel-click="runDemoScenarioFromButton" data-kernel-arg-0="__element__" aria-label="تشغيل سيناريو legal">جرّب السيناريو الآن</button>
               </div>
             </div>
           </div>
@@ -478,13 +484,13 @@
                   <div class="stat-label">خطورة حرجة</div>
                 </div>
                 <div class="scenario-stat">
-                  <div class="stat-value" style="color:var(--danger);">0%</div>
+                  <div class="stat-value u-color-danger">0%</div>
                   <div class="stat-label">نسبة تسريب</div>
                 </div>
               </div>
               <div class="scenario-actions">
-                <button class="scenario-btn secondary" type="button" data-edit-scenario="الرعاية الصحية (CAPA + ملف مريض)" data-policy="/kernel/policies/?scenario=healthcare">تعديل</button>
-                <button class="scenario-btn primary" onclick="runDemoScenario('healthcare', 'SFDA', 'مراجعة تقرير تصحيحي CAPA لمريض مصاب بالسكري ورقمه الطبي MRN-12345، مع تحديد الإجراءات الوقائية المطلوبة.')">جرّب السيناريو الآن</button>
+                <button class="scenario-btn secondary" type="button" data-edit-scenario="الرعاية الصحية (CAPA + ملف مريض)" data-policy="/kernel/policies/?scenario=healthcare" aria-label="تعديل سيناريو الرعاية الصحية (CAPA + ملف مريض)">تعديل</button>
+                <button class="scenario-btn primary" data-scenario="healthcare" data-pack="SFDA" data-prompt="مراجعة تقرير تصحيحي CAPA لمريض مصاب بالسكري ورقمه الطبي MRN-12345، مع تحديد الإجراءات الوقائية المطلوبة." data-kernel-click="runDemoScenarioFromButton" data-kernel-arg-0="__element__" aria-label="تشغيل سيناريو healthcare">جرّب السيناريو الآن</button>
               </div>
             </div>
           </div>
@@ -529,13 +535,13 @@
                   <div class="stat-label">فحص كود</div>
                 </div>
                 <div class="scenario-stat">
-                  <div class="stat-value" style="color:var(--success);">95%</div>
+                  <div class="stat-value u-color-success">95%</div>
                   <div class="stat-label">منع مخاطر</div>
                 </div>
               </div>
               <div class="scenario-actions">
-                <button class="scenario-btn secondary" type="button" data-edit-scenario="أمن الكود البرمجي (Secrets مكشوفة)" data-policy="/kernel/policies/?scenario=code">تعديل</button>
-                <button class="scenario-btn primary" onclick="runDemoScenario('code', 'NCA_ECC', 'فحص الكود التالي للتأكد من عدم وجود ثغرات أمنية: const db_password = \'[CREDENTIAL]\'; connect(db_password);')">جرّب السيناريو الآن</button>
+                <button class="scenario-btn secondary" type="button" data-edit-scenario="أمن الكود البرمجي (Secrets مكشوفة)" data-policy="/kernel/policies/?scenario=code" aria-label="تعديل سيناريو أمن الكود البرمجي (Secrets مكشوفة)">تعديل</button>
+                <button class="scenario-btn primary" data-scenario="code" data-pack="NCA_ECC" data-prompt="فحص الكود التالي للتأكد من عدم وجود ثغرات أمنية: const db_password = '[CREDENTIAL]'; connect(db_password);" data-kernel-click="runDemoScenarioFromButton" data-kernel-arg-0="__element__" aria-label="تشغيل سيناريو code">جرّب السيناريو الآن</button>
               </div>
             </div>
           </div>
@@ -543,14 +549,18 @@
       </div>
     </main>
   </div>
+  <a href="/kernel/offline.html" style="display:none">الوضع بدون اتصال</a>
   <script src="/frontend/js/unified-header.js?v=20260529-nav-v1" defer></script>
 
-  <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.2.7/purify.min.js" defer></script>
   <script src="/kernel/assets/js/kernel-utils.js" defer></script>
+  <script src="/kernel/kernel-web-vitals.js" defer></script>
+  <script src="/kernel/kernel-perf.js" defer></script>
   <script src="/kernel/assets/js/kernel-api.js" defer></script>
   <script src="/kernel/assets/js/kernel-demo-store.js" defer></script>
   <script src="/kernel/assets/js/kernel-mock-handlers.js" defer></script>
   <script src="/kernel/assets/js/kernel-demo-banner.js" defer></script>
+  <script src="/kernel/assets/js/kernel-notifications.js" defer></script>
   <script src="/kernel/assets/js/kernel-nav.js" defer></script>
   <script src="/kernel/assets/js/kernel-aurora.js" defer></script>
   <script>
@@ -569,11 +579,15 @@
     }
 
     function runDemoScenario(scenario, compliancePack, samplePrompt) {
-      const url = new URL('/kernel/chat.html', window.location.origin);
+      const url = new URL('/kernel/chat/', window.location.origin);
       url.searchParams.set('scenario', scenario);
       url.searchParams.set('compliancePack', compliancePack);
       url.searchParams.set('samplePrompt', samplePrompt);
       window.location.href = url.toString();
+    }
+
+    function runDemoScenarioFromButton(button) {
+      runDemoScenario(button.dataset.scenario, button.dataset.pack, button.dataset.prompt);
     }
 
     function safeText(value) {
@@ -595,14 +609,14 @@
         return;
       }
       panel.classList.add('is-visible');
-      panel.innerHTML = `
+      panel.innerHTML = KernelUtils.sanitizeHtml(`
         <div class="connector-result-title">
           <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i>
           <span>مسار تعديل السيناريو جاهز</span>
         </div>
         <p>اخترنا <strong>${safeText(scenarioName)}</strong>. انتقل لمحرر السياسات لتعديل قواعده أو شغّله من زر التجربة.</p>
         <p><a href="${safeText(policyUrl)}">فتح محرر السياسات لهذا السيناريو</a></p>
-      `;
+      `);
       panel.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'nearest' });
     }
 

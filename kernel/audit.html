@@ -12,6 +12,8 @@
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#030A18">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="BrightAI Kernel">
   <link rel="manifest" href="/kernel/manifest.json">
   <link rel="icon" href="/frontend/assets/images/logo.png" type="image/png">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -118,11 +120,12 @@
   <link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css">
 </head>
 <body>
+  <a href="#main-content" class="skip-link">تخطي إلى المحتوى الرئيسي</a>
 <!-- BRIGHTAI_NOSCRIPT_NAV_START -->
 <div id="brightai-unified-header">
   <noscript>
     <header class="brightai-noscript-header" role="banner" aria-label="BrightAI HTML navigation fallback">
-      <nav aria-label="التنقل الرئيسي في BrightAI">
+      <nav aria-label="التنقل الرئيسي في BrightAI" role="navigation">
         <a href="https://brightai.site/" aria-label="BrightAI الرئيسية">BrightAI</a>
         <ul>
           <li>
@@ -194,7 +197,7 @@
 </div>
 <!-- BRIGHTAI_NOSCRIPT_NAV_END -->
 <!-- BRIGHTAI_RAW_INTERNAL_LINKS_START -->
-<section class="brightai-raw-internal-links" data-brightai-raw-internal-links="true" aria-labelledby="brightai-raw-internal-links-title" dir="rtl" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;">
+<section class="brightai-raw-internal-links u-sr-only" data-brightai-raw-internal-links="true" aria-labelledby="brightai-raw-internal-links-title" dir="rtl">
   <h2 id="brightai-raw-internal-links-title">روابط BrightAI الداخلية الرئيسية</h2>
   <ul>
     <li><a href="https://brightai.site/about/">عن BrightAI</a></li>
@@ -212,16 +215,14 @@
 </section>
 <!-- BRIGHTAI_RAW_INTERNAL_LINKS_END -->
 <div class="toast-container" id="toast-container" aria-live="polite"></div>
-
-  <a href="#main-content" class="skip-link">تخطي إلى المحتوى الرئيسي</a>
-  <main id="main-content" aria-labelledby="audit-page-title">
+<main id="main-content" aria-labelledby="audit-page-title" role="main">
     <div class="container">
       <div class="page-header">
         <h1 id="audit-page-title">سجل التدقيق</h1>
         <p>التحقق من سلامة السلسلة التشفيرية وتتبع جميع الأحداث</p>
       </div>
 
-      <nav class="kernel-breadcrumb" aria-label="مسار التنقل">
+      <nav class="kernel-breadcrumb" aria-label="مسار التنقل" role="navigation">
         <ol>
           <li><a href="/">BrightAI</a></li>
           <li><a href="/kernel/">kernel</a></li>
@@ -248,9 +249,17 @@
           <div class="chain-title valid" id="chain-title">جاري التحقق من سلامة السلسلة...</div>
         </div>
         <div class="chain-hash-label">تجزئة السلسلة الحالية</div>
-        <button class="chain-hash-value" id="chain-hash" type="button" onclick="copyHash(this)" title="انقر للنسخ" aria-label="نسخ تجزئة السلسلة الحالية">
+        <button class="chain-hash-value" id="chain-hash" type="button" data-kernel-click="copyHash" data-kernel-arg-0="__element__" title="انقر للنسخ" aria-label="نسخ تجزئة السلسلة الحالية">
           جاري التحميل...
         </button>
+        <div style="display:flex; justify-content:flex-end; margin-top:var(--space-3);">
+          <button class="btn btn-ghost" id="verify-chain-btn" type="button" style="min-height:38px;font-size:0.8125rem;" aria-label="التحقق من سلامة سلسلة التجزئة">
+            <i class="fa-solid fa-link" aria-hidden="true" style="margin-inline-end:var(--space-2);"></i>
+            التحقق من سلسلة التدقيق
+          </button>
+        </div>
+        <!-- Verification Results Panel -->
+        <div id="chain-verify-results" class="chain-verify-results" style="display:none;" aria-live="polite"></div>
       </section>
 
       <!-- Summary Stats -->
@@ -277,7 +286,7 @@
             <div class="trace-timeline-title" id="trace-timeline-title">مسار الطلب من الاستلام حتى الدليل</div>
             <div class="trace-timeline-subtitle" id="trace-timeline-subtitle">يتم اختيار أحدث <span lang="en" dir="ltr">trace</span> تلقائياً أو حسب <span lang="en" dir="ltr">trace_id</span> في الرابط.</div>
           </div>
-          <button class="trace-id-chip" id="copy-trace-id" type="button" onclick="copySelectedTraceId()" title="نسخ trace id" aria-label="نسخ trace id المحدد">
+          <button class="trace-id-chip" id="copy-trace-id" type="button" data-kernel-click="copySelectedTraceId" title="نسخ trace id" aria-label="نسخ trace id المحدد">
             <i class="fa-regular fa-copy" aria-hidden="true"></i>
             <span id="selected-trace-id">—</span>
           </button>
@@ -296,7 +305,7 @@
 
       <section class="audit-workbench" aria-label="منضدة سجل التدقيق">
         <!-- Advanced Filters -->
-        <aside class="glass-card advanced-filters-card" aria-labelledby="advanced-filters-title">
+        <aside class="glass-card advanced-filters-card" aria-labelledby="advanced-filters-title" role="complementary">
           <div class="panel-title-row">
             <div>
               <h2 class="panel-title" id="advanced-filters-title">الفلاتر المتقدمة</h2>
@@ -315,29 +324,29 @@
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                   <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
                 </svg>
-                <input type="search" class="search-input" id="audit-search" placeholder="اكتب جزءاً من query..." aria-label="بحث في نص طلب سجل التدقيق" oninput="filterEntries()">
+                <input type="search" class="search-input" id="audit-search" placeholder="اكتب جزءاً من query..." aria-label="بحث في نص طلب سجل التدقيق" data-kernel-input="filterEntries">
               </div>
             </div>
 
             <div class="filter-field">
               <span class="filter-label">نطاق التاريخ</span>
               <div class="date-range-grid">
-                <input type="date" class="filter-control" id="filter-date-from" aria-label="من تاريخ" onchange="filterEntries()">
-                <input type="date" class="filter-control" id="filter-date-to" aria-label="إلى تاريخ" onchange="filterEntries()">
+                <input type="date" class="filter-control" id="filter-date-from" aria-label="من تاريخ" data-kernel-change="filterEntries">
+                <input type="date" class="filter-control" id="filter-date-to" aria-label="إلى تاريخ" data-kernel-change="filterEntries">
               </div>
             </div>
 
             <div class="filter-field">
               <label class="filter-label" for="filter-risk-slider">أقل درجة مخاطر</label>
               <div class="risk-slider-row">
-                <input class="risk-slider" id="filter-risk-slider" type="range" min="0" max="100" step="5" value="0" oninput="updateRiskThreshold(this.value); filterEntries();" aria-label="أقل درجة مخاطر">
+                <input class="risk-slider" id="filter-risk-slider" type="range" min="0" max="100" step="5" value="0" data-kernel-input="updateRiskThresholdAndFilter" data-kernel-arg-0="__value__" aria-label="أقل درجة مخاطر">
                 <span class="risk-threshold" id="risk-threshold-label">0+</span>
               </div>
             </div>
 
             <div class="filter-field">
               <label class="filter-label" for="filter-decision">القرار</label>
-              <select class="filter-control" id="filter-decision" onchange="filterEntries()">
+              <select class="filter-control" id="filter-decision" data-kernel-change="filterEntries">
                 <option value="all">كل القرارات</option>
                 <option value="blocked">محظور</option>
                 <option value="pending">بانتظار الموافقة</option>
@@ -349,7 +358,7 @@
 
             <div class="filter-field">
               <label class="filter-label" for="filter-provider">مزود النموذج</label>
-              <select class="filter-control" id="filter-provider" onchange="filterEntries()">
+              <select class="filter-control" id="filter-provider" data-kernel-change="filterEntries">
                 <option value="all">كل المزودين</option>
               </select>
             </div>
@@ -357,21 +366,21 @@
             <div class="filter-field">
               <span class="filter-label">نوع الحدث</span>
               <div class="filters-bar" role="group" aria-label="فلاتر نوع الحدث">
-                <button class="filter-btn active" data-action="all" type="button" aria-pressed="true" onclick="setActionFilter(this,'all')">الكل</button>
-                <button class="filter-btn" data-action="chat" type="button" aria-pressed="false" onclick="setActionFilter(this,'chat')">محادثة</button>
-                <button class="filter-btn" data-action="approve" type="button" aria-pressed="false" onclick="setActionFilter(this,'approve')">موافقة</button>
-                <button class="filter-btn" data-action="reject" type="button" aria-pressed="false" onclick="setActionFilter(this,'reject')">رفض</button>
-                <button class="filter-btn" data-action="execute" type="button" aria-pressed="false" onclick="setActionFilter(this,'execute')">تنفيذ</button>
-                <button class="filter-btn" data-action="block" type="button" aria-pressed="false" onclick="setActionFilter(this,'block')">حظر</button>
+                <button class="filter-btn active" data-action="all" type="button" aria-pressed="true" data-kernel-click="setActionFilter" data-kernel-arg-0="__element__" data-kernel-arg-1="all" aria-label="عرض كل أحداث سجل التدقيق">الكل</button>
+                <button class="filter-btn" data-action="chat" type="button" aria-pressed="false" data-kernel-click="setActionFilter" data-kernel-arg-0="__element__" data-kernel-arg-1="chat" aria-label="فلترة سجل التدقيق حسب المحادثات">محادثة</button>
+                <button class="filter-btn" data-action="approve" type="button" aria-pressed="false" data-kernel-click="setActionFilter" data-kernel-arg-0="__element__" data-kernel-arg-1="approve" aria-label="فلترة سجل التدقيق حسب الموافقات">موافقة</button>
+                <button class="filter-btn" data-action="reject" type="button" aria-pressed="false" data-kernel-click="setActionFilter" data-kernel-arg-0="__element__" data-kernel-arg-1="reject" aria-label="فلترة سجل التدقيق حسب الرفض">رفض</button>
+                <button class="filter-btn" data-action="execute" type="button" aria-pressed="false" data-kernel-click="setActionFilter" data-kernel-arg-0="__element__" data-kernel-arg-1="execute" aria-label="فلترة سجل التدقيق حسب التنفيذ">تنفيذ</button>
+                <button class="filter-btn" data-action="block" type="button" aria-pressed="false" data-kernel-click="setActionFilter" data-kernel-arg-0="__element__" data-kernel-arg-1="block" aria-label="فلترة سجل التدقيق حسب الحظر">حظر</button>
               </div>
             </div>
 
             <div class="filter-actions-row">
-              <button class="tool-btn primary" type="button" onclick="resetAdvancedFilters()">
+              <button class="tool-btn primary" type="button" data-kernel-click="resetAdvancedFilters" aria-label="إعادة ضبط الفلاتر">
                 <i class="fa-solid fa-rotate-left" aria-hidden="true"></i>
                 إعادة ضبط
               </button>
-              <button class="tool-btn" type="button" onclick="loadAuditChain()">
+              <button class="tool-btn" type="button" data-kernel-click="loadAuditChain" aria-label="تحديث سلسلة سجل التدقيق">
                 <i class="fa-solid fa-arrows-rotate" aria-hidden="true"></i>
                 تحديث
               </button>
@@ -382,25 +391,25 @@
         <div class="audit-results-shell">
           <div class="audit-toolbar" aria-label="أدوات عرض وتصدير السجل">
             <div class="view-toggle" role="group" aria-label="تبديل طريقة عرض السجل">
-              <button class="view-toggle-btn active" id="table-view-btn" type="button" aria-pressed="true" onclick="setAuditView('table')">
+              <button class="view-toggle-btn active" id="table-view-btn" type="button" aria-pressed="true" data-kernel-click="setAuditView" data-kernel-arg-0="table" aria-label="عرض سجل التدقيق كجدول">
                 <i class="fa-solid fa-table-list" aria-hidden="true"></i>
                 جدول
               </button>
-              <button class="view-toggle-btn" id="timeline-view-btn" type="button" aria-pressed="false" onclick="setAuditView('timeline')">
+              <button class="view-toggle-btn" id="timeline-view-btn" type="button" aria-pressed="false" data-kernel-click="setAuditView" data-kernel-arg-0="timeline" aria-label="عرض سجل التدقيق كخط زمني">
                 <i class="fa-solid fa-timeline" aria-hidden="true"></i>
                 Timeline
               </button>
             </div>
             <div class="export-actions" aria-label="تصدير سجل التدقيق">
-              <button class="tool-btn" type="button" onclick="exportAudit('csv')">
+              <button class="tool-btn" type="button" data-kernel-click="exportAudit" data-kernel-arg-0="csv" aria-label="تصدير سجل التدقيق بصيغة CSV">
                 <i class="fa-solid fa-file-csv" aria-hidden="true"></i>
                 CSV
               </button>
-              <button class="tool-btn" type="button" onclick="exportAudit('json')">
+              <button class="tool-btn" type="button" data-kernel-click="exportAudit" data-kernel-arg-0="json" aria-label="تصدير سجل التدقيق بصيغة JSON">
                 <i class="fa-solid fa-code" aria-hidden="true"></i>
                 JSON
               </button>
-              <button class="tool-btn" type="button" onclick="exportAudit('pdf')">
+              <button class="tool-btn" type="button" data-kernel-click="exportAudit" data-kernel-arg-0="pdf" aria-label="تصدير سجل التدقيق بصيغة PDF">
                 <i class="fa-solid fa-file-pdf" aria-hidden="true"></i>
                 PDF
               </button>
@@ -419,15 +428,15 @@
             <div class="pagination-bar" id="pagination-bar" aria-label="صفحات سجل التدقيق">
               <span class="pagination-info" id="pagination-info">—</span>
               <div class="pagination-controls">
-                <select class="filter-control" id="page-size" onchange="setPageSize(this.value)" aria-label="عدد السجلات في الصفحة">
+                <select class="filter-control" id="page-size" data-kernel-change="setPageSize" data-kernel-arg-0="__value__" aria-label="عدد السجلات في الصفحة">
                   <option value="10">10</option>
                   <option value="25" selected>25</option>
                   <option value="50">50</option>
                 </select>
-                <button class="tool-btn" type="button" id="prev-page" onclick="changePage(-1)" aria-label="الصفحة السابقة">
+                <button class="tool-btn" type="button" id="prev-page" data-kernel-click="changePage" data-kernel-arg-0="-1" aria-label="الصفحة السابقة">
                   <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
                 </button>
-                <button class="tool-btn" type="button" id="next-page" onclick="changePage(1)" aria-label="الصفحة التالية">
+                <button class="tool-btn" type="button" id="next-page" data-kernel-click="changePage" data-kernel-arg-0="1" aria-label="الصفحة التالية">
                   <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
                 </button>
               </div>
@@ -441,26 +450,30 @@
 
   <div class="audit-modal-backdrop" id="audit-detail-modal" role="dialog" aria-modal="true" aria-labelledby="audit-detail-title" aria-hidden="true">
     <section class="audit-modal">
-      <header class="audit-modal-header">
+      <header class="audit-modal-header" role="banner">
         <div>
           <h2 class="audit-modal-title" id="audit-detail-title">تفاصيل trace</h2>
           <div class="audit-modal-meta" id="audit-detail-meta">—</div>
         </div>
-        <button class="modal-close-btn" type="button" onclick="closeAuditModal()" aria-label="إغلاق التفاصيل">
+        <button class="modal-close-btn" type="button" data-kernel-click="closeAuditModal" aria-label="إغلاق التفاصيل">
           <i class="fa-solid fa-xmark" aria-hidden="true"></i>
         </button>
       </header>
       <div class="audit-modal-body" id="audit-detail-body"></div>
     </section>
   </div>
+  <a href="/kernel/offline.html" style="display:none">الوضع بدون اتصال</a>
   <script src="/frontend/js/unified-header.js?v=20260529-nav-v1" defer></script>
 
-  <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.2.7/purify.min.js" defer></script>
   <script src="/kernel/assets/js/kernel-utils.js" defer></script>
+  <script src="/kernel/kernel-web-vitals.js" defer></script>
+  <script src="/kernel/kernel-perf.js" defer></script>
   <script src="/kernel/assets/js/kernel-api.js" defer></script>
   <script src="/kernel/assets/js/kernel-demo-store.js" defer></script>
   <script src="/kernel/assets/js/kernel-mock-handlers.js" defer></script>
   <script src="/kernel/assets/js/kernel-demo-banner.js" defer></script>
+  <script src="/kernel/assets/js/kernel-notifications.js" defer></script>
   <script src="/kernel/assets/js/kernel-nav.js" defer></script>
   <script src="/kernel/assets/js/kernel-aurora.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
@@ -534,7 +547,116 @@
       loadAuditChain();
       initializeRealtimeIndicator();
       setInterval(loadAuditChain, 30000);
+      document.addEventListener('keydown', (event) => {
+        const entry = event.target.closest('[data-audit-entry-key]');
+        if (entry) handleEntryKeydown(event, entry.dataset.auditEntryKey);
+      });
+
+      /* ── Verify Chain Button ────────────────────────────── */
+      const verifyBtn = document.getElementById('verify-chain-btn');
+      if (verifyBtn) {
+        verifyBtn.addEventListener('click', async () => {
+          verifyBtn.disabled = true;
+          verifyBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin" aria-hidden="true" style="margin-inline-end:var(--space-2);"></i> جاري التحقق...';
+          try {
+            await runFullChainVerification();
+          } finally {
+            verifyBtn.disabled = false;
+            verifyBtn.innerHTML = '<i class="fa-solid fa-link" aria-hidden="true" style="margin-inline-end:var(--space-2);"></i> التحقق من سلسلة التدقيق';
+          }
+        });
+      }
     });
+
+    async function runFullChainVerification() {
+      const resultsPanel = document.getElementById('chain-verify-results');
+      if (!resultsPanel) return;
+
+      /* Get all audit entries */
+      const records = allEntries || [];
+      if (!records.length) {
+        resultsPanel.style.display = 'block';
+        resultsPanel.innerHTML = KernelUtils.sanitizeHtml(`
+          <div class="chain-verify-empty">لا توجد سجلات تدقيق للتحقق.</div>
+        `);
+        return;
+      }
+
+      /* Run verification via KernelDemoStore */
+      const result = await KernelDemoStore.verifyAuditChain(records);
+
+      /* Build results HTML */
+      const statusIcon = result.valid
+        ? '<i class="fa-solid fa-shield-check" aria-hidden="true" style="color:var(--success);"></i>'
+        : '<i class="fa-solid fa-triangle-exclamation" aria-hidden="true" style="color:var(--danger);"></i>';
+
+      const insecureWarning = result.insecureCount > 0
+        ? `<div class="chain-verify-warning">
+             <i class="fa-solid fa-lock-open" aria-hidden="true"></i>
+             <span>${result.insecureCount} تجزئة غير مؤمنة (سياق HTTP) — لا يمكن ضمان سلامة البيانات بدون HTTPS</span>
+           </div>`
+        : '';
+
+      const brokenMsg = result.brokenAt
+        ? `<div class="chain-verify-broken">
+             <strong>انقطاع عند السجل #${result.brokenAt}</strong>
+             <span>تجزئة السجل لا تتطابق مع التجزئة السابقة المتوقعة</span>
+           </div>`
+        : '';
+
+      /* Build fingerprint table */
+      const fingerprintRows = result.details.slice(0, 20).map((d) => {
+        const status = d.valid
+          ? '<span class="chain-fp-valid" title="صالح"><i class="fa-solid fa-check" aria-hidden="true"></i></span>'
+          : '<span class="chain-fp-invalid" title="غير صالح"><i class="fa-solid fa-xmark" aria-hidden="true"></i></span>';
+        const insecureTag = d.isInsecure
+          ? ' <span class="badge badge-danger" style="font-size:0.6rem;padding:1px 6px;">HTTP</span>'
+          : '';
+        return `
+          <tr>
+            <td>${status}</td>
+            <td class="chain-fp-num">#${d.index}</td>
+            <td class="chain-fp-action">${KernelUtils.escapeHtml(d.action)}</td>
+            <td class="chain-fp-hash" dir="ltr" lang="en">${KernelUtils.escapeHtml(d.fingerprint)}${insecureTag}</td>
+            <td class="chain-fp-detail">${!d.hashMatches ? '<span style="color:var(--danger)">hash غير مطابق</span>' : !d.linkValid ? '<span style="color:var(--danger)">انقطاع الربط</span>' : '<span style="color:var(--success)">سليم</span>'}</td>
+          </tr>
+        `;
+      }).join('');
+
+      const moreRows = result.details.length > 20
+        ? `<tr><td colspan="5" class="chain-fp-more">... و${result.details.length - 20} سجل آخر</td></tr>`
+        : '';
+
+      resultsPanel.style.display = 'block';
+      resultsPanel.innerHTML = KernelUtils.sanitizeHtml(`
+        <div class="chain-verify-summary">
+          ${statusIcon}
+          <div>
+            <strong>${result.valid ? 'سلسلة التدقيق سليمة' : 'سلسلة التدقيق مكسورة'}</strong>
+            <span>${KernelUtils.escapeHtml(result.reason)} — ${result.totalRecords} سجل</span>
+          </div>
+        </div>
+        ${insecureWarning}
+        ${brokenMsg}
+        <div class="chain-fingerprint-table-wrapper">
+          <table class="chain-fingerprint-table">
+            <thead>
+              <tr>
+                <th style="width:32px"></th>
+                <th>#</th>
+                <th>الإجراء</th>
+                <th>البصمة</th>
+                <th>الحالة</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${fingerprintRows}
+              ${moreRows}
+            </tbody>
+          </table>
+        </div>
+      `);
+    }
 
     async function loadAuditChain() {
       try {
@@ -603,13 +725,13 @@
       document.getElementById('chain-title').textContent = 'تعذّر تحميل بيانات السلسلة';
       document.getElementById('chain-hash').textContent = '—';
       document.getElementById('trace-timeline-list').innerHTML =
-        '<div class="error-state">تعذّر بناء خط التتبع.</div>';
+        KernelUtils.sanitizeHtml('<div class="error-state">تعذّر بناء خط التتبع.</div>');
       document.getElementById('hash-chain-track').innerHTML = '';
       document.getElementById('hash-chain-result').className = 'hash-chain-result invalid';
       document.getElementById('hash-chain-result').innerHTML =
-        '<i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i><span>غير متاح</span>';
+        KernelUtils.sanitizeHtml('<i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i><span>غير متاح</span>');
       document.getElementById('audit-log-body').innerHTML =
-        '<div class="error-state">تعذّر تحميل سجل التدقيق. يرجى المحاولة مجدداً.</div>';
+        KernelUtils.sanitizeHtml('<div class="error-state">تعذّر تحميل سجل التدقيق. يرجى المحاولة مجدداً.</div>');
     }
 
     function setActionFilter(btn, filter) {
@@ -642,7 +764,7 @@
         : `${items.length} إدخالاً`;
 
       if (items.length === 0) {
-        body.innerHTML = '<div class="loading-entries">لا توجد نتائج لهذا الفلتر.</div>';
+        body.innerHTML = KernelUtils.sanitizeHtml('<div class="loading-entries">لا توجد نتائج لهذا الفلتر.</div>');
         updatePagination(0);
         return;
       }
@@ -651,9 +773,9 @@
       if (currentPage > totalPages) currentPage = totalPages;
       const pageItems = items.slice((currentPage - 1) * pageSize, currentPage * pageSize);
 
-      body.innerHTML = currentAuditView === 'timeline'
+      body.innerHTML = KernelUtils.sanitizeHtml(currentAuditView === 'timeline'
         ? renderTimelineEntries(pageItems)
-        : renderTableEntries(pageItems);
+        : renderTableEntries(pageItems));
       updatePagination(items.length);
     }
 
@@ -743,11 +865,11 @@
         const riskLevel = getRiskLevel(entry);
         const recordKey = getRecordKey(entry);
         const traceLink = traceId
-          ? `<a href="/kernel/evidence/?trace_id=${encodeURIComponent(traceId)}" class="audit-trace-link" onclick="event.stopPropagation()">${KernelUtils.escapeHtml(traceId)}</a>`
+          ? `<a href="/kernel/evidence/?trace_id=${encodeURIComponent(traceId)}" class="audit-trace-link" data-kernel-stop="true">${KernelUtils.escapeHtml(traceId)}</a>`
           : `<span title="سجل قديم بدون trace_id">${shortId}...</span>`;
 
         return `
-          <div class="audit-entry" role="listitem" tabindex="0" data-record-key="${KernelUtils.escapeHtml(recordKey)}" onclick="openAuditModalByKey('${escapeJs(recordKey)}')" onkeydown="handleEntryKeydown(event, '${escapeJs(recordKey)}')">
+          <div class="audit-entry" role="listitem" tabindex="0" data-record-key="${KernelUtils.escapeHtml(recordKey)}" data-audit-entry-key="${KernelUtils.escapeHtml(recordKey)}" data-kernel-click="openAuditModalByKey" data-kernel-arg-0="${KernelUtils.escapeHtml(recordKey)}">
             <span class="audit-time">${time}</span>
             <span class="audit-action-badge ${info.cls}" aria-label="نوع الحدث: ${KernelUtils.escapeHtml(info.label)}">${KernelUtils.escapeHtml(info.label)}</span>
             <span class="audit-details">
@@ -755,7 +877,7 @@
             </span>
             <span class="audit-hash-wrap">
               <span class="audit-hash">${KernelUtils.escapeHtml(shortHashValue)}</span>
-              <button class="audit-copy-btn" type="button" data-hash="${KernelUtils.escapeHtml(getRecordHash(entry))}" onclick="event.stopPropagation(); copyHash(this)" title="نسخ التجزئة" aria-label="نسخ تجزئة سجل التدقيق">
+              <button class="audit-copy-btn" type="button" data-hash="${KernelUtils.escapeHtml(getRecordHash(entry))}" data-kernel-stop="true" data-kernel-click="copyHash" data-kernel-arg-0="__element__" title="نسخ التجزئة" aria-label="نسخ تجزئة سجل التدقيق">
                 <i class="fa-regular fa-copy" aria-hidden="true"></i>
               </button>
             </span>
@@ -775,13 +897,13 @@
             const date = getEntryDate(entry);
             const query = getRequestText(entry);
             return `
-              <article class="audit-timeline-item" role="listitem" tabindex="0" onclick="openAuditModalByKey('${escapeJs(recordKey)}')" onkeydown="handleEntryKeydown(event, '${escapeJs(recordKey)}')">
+              <article class="audit-timeline-item" role="listitem" tabindex="0" data-audit-entry-key="${KernelUtils.escapeHtml(recordKey)}" data-kernel-click="openAuditModalByKey" data-kernel-arg-0="${KernelUtils.escapeHtml(recordKey)}">
                 <time class="audit-time" datetime="${KernelUtils.escapeHtml(entry.timestamp || entry.createdAt || entry.created_at || '')}">${KernelUtils.escapeHtml(date)}<br>${KernelUtils.escapeHtml(time)}</time>
                 <div class="audit-timeline-rail"><span class="audit-timeline-dot" aria-hidden="true"></span></div>
                 <div class="audit-timeline-card">
                   <div class="timeline-card-head">
                     <span class="audit-action-badge ${info.cls}">${KernelUtils.escapeHtml(info.label)}</span>
-                    <button class="audit-copy-btn" type="button" data-hash="${KernelUtils.escapeHtml(getRecordHash(entry))}" onclick="event.stopPropagation(); copyHash(this)" title="نسخ التجزئة" aria-label="نسخ تجزئة سجل التدقيق">
+                    <button class="audit-copy-btn" type="button" data-hash="${KernelUtils.escapeHtml(getRecordHash(entry))}" data-kernel-stop="true" data-kernel-click="copyHash" data-kernel-arg-0="__element__" title="نسخ التجزئة" aria-label="نسخ تجزئة سجل التدقيق">
                       <i class="fa-regular fa-copy" aria-hidden="true"></i>
                     </button>
                   </div>
@@ -832,6 +954,11 @@
       document.getElementById('risk-threshold-label').textContent = `${Number(value) || 0}+`;
     }
 
+    function updateRiskThresholdAndFilter(value) {
+      updateRiskThreshold(value);
+      filterEntries();
+    }
+
     function resetAdvancedFilters() {
       document.getElementById('audit-search').value = '';
       document.getElementById('filter-date-from').value = '';
@@ -855,9 +982,9 @@
       if (!select) return;
       const currentValue = select.value || 'all';
       const providers = [...new Set(allEntries.map(getProvider).filter(Boolean))].sort();
-      select.innerHTML = '<option value="all">كل المزودين</option>' + providers.map((provider) =>
+      select.innerHTML = KernelUtils.sanitizeHtml('<option value="all">كل المزودين</option>' + providers.map((provider) =>
         `<option value="${KernelUtils.escapeHtml(provider)}">${KernelUtils.escapeHtml(provider)}</option>`
-      ).join('');
+      ).join(''));
       select.value = providers.includes(currentValue) ? currentValue : 'all';
     }
 
@@ -880,7 +1007,7 @@
 
       if (!activeTraceId) {
         subtitle.textContent = 'لا يوجد trace_id صالح في السجلات المحملة.';
-        list.innerHTML = '<div class="loading-entries">لا يوجد trace timeline لهذا العرض.</div>';
+        list.innerHTML = KernelUtils.sanitizeHtml('<div class="loading-entries">لا يوجد trace timeline لهذا العرض.</div>');
         return;
       }
 
@@ -890,7 +1017,7 @@
         ? 'تم عرض trace محدد من الرابط.'
         : 'تم اختيار أحدث trace متاح تلقائياً.';
 
-      list.innerHTML = TRACE_STAGES.map((stage, index) => {
+      list.innerHTML = KernelUtils.sanitizeHtml(TRACE_STAGES.map((stage, index) => {
         const event = findStageEvent(traceEntries, stage.key);
         const source = event || baseRecord;
         const state = getStageState(stage.key, source, event);
@@ -908,7 +1035,7 @@
             <div class="trace-step-hash">${KernelUtils.escapeHtml(hash ? shortHash(hash) : 'hash: —')}</div>
           </article>
         `;
-      }).join('');
+      }).join(''));
     }
 
     function renderHashChainVisual(data = {}) {
@@ -919,9 +1046,9 @@
       const sample = entries.slice(-6);
 
       if (!sample.length) {
-        track.innerHTML = '<span class="hash-node">لا توجد hashes كافية للعرض</span>';
+        track.innerHTML = KernelUtils.sanitizeHtml('<span class="hash-node">لا توجد hashes كافية للعرض</span>');
       } else {
-        track.innerHTML = sample.map((entry, index) => {
+        track.innerHTML = KernelUtils.sanitizeHtml(sample.map((entry, index) => {
           const nodeValid = isNodeLinked(entries, entry, data);
           const link = index < sample.length - 1 ? '<span class="hash-link" aria-hidden="true"></span>' : '';
           return `
@@ -930,13 +1057,13 @@
               <span>${KernelUtils.escapeHtml(shortHash(getRecordHash(entry)))}</span>
             </span>${link}
           `;
-        }).join('');
+        }).join(''));
       }
 
       result.className = `hash-chain-result ${verification.valid ? 'valid' : 'invalid'}`;
-      result.innerHTML = verification.valid
+      result.innerHTML = KernelUtils.sanitizeHtml(verification.valid
         ? '<i class="fa-solid fa-shield-check" aria-hidden="true"></i><span>Hash chain مطابق بصرياً</span>'
-        : `<i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i><span>${KernelUtils.escapeHtml(verification.reason)}</span>`;
+        : `<i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i><span>${KernelUtils.escapeHtml(verification.reason)}</span>`);
     }
 
     function findStageEvent(entries, stageKey) {
@@ -1155,7 +1282,7 @@
 
       title.textContent = `تفاصيل ${traceId}`;
       meta.textContent = `${getProvider(record)} · ${getEntryDate(record)} · ${getStageTime(record) || '—'}`;
-      body.innerHTML = `
+      body.innerHTML = KernelUtils.sanitizeHtml(`
         <div class="modal-grid">
           <section class="detail-panel wide">
             <div class="detail-panel-title">Full request</div>
@@ -1199,7 +1326,7 @@
             <pre class="detail-pre detail-code">${KernelUtils.escapeHtml(proofLines.join('\n'))}</pre>
           </section>
         </div>
-      `;
+      `);
       modal.classList.add('open');
       modal.setAttribute('aria-hidden', 'false');
       document.body.style.overflow = 'hidden';

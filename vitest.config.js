@@ -11,7 +11,6 @@ export default defineConfig({
     environment: 'node',
     globals: true,
     setupFiles: [],
-    include: ['tests/**/*.{test,spec}.{js,mjs,cjs,ts}'],
-    exclude: ['frontend/**', 'backend/**'],
+    include: ['kernel/tests/**/*.test.js', 'frontend/tests/**/*.test.{js,ts}'],
   },
 });

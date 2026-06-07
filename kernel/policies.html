@@ -12,6 +12,9 @@
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#030A18">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="BrightAI Kernel">
   <link rel="manifest" href="/kernel/manifest.json">
   <link rel="icon" href="/frontend/assets/images/logo.png" type="image/png">
   <title>محرر سياسات BrightAI Kernel البصري | BrightAI</title>
@@ -29,6 +32,9 @@
 <meta name="twitter:title" content="محرر السياسات | BrightAI" />
 <meta name="twitter:description" content="إنشاء وإدارة سياسات حوكمة AI مع محاكاة حية" />
 <meta name="twitter:image" content="https://brightai.site/frontend/assets/images/logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
 <link rel="stylesheet" href="/kernel/assets/css/kernel.css">
   <link rel="stylesheet" href="/frontend/vendor/fontawesome/css/all.min.css">
   <link rel="stylesheet" href="/frontend/css/unified-header.css?v=20260529-nav-v1">
@@ -115,13 +121,13 @@
   <link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css">
 </head>
 <body>
-
+  <a href="#main-content" class="skip-link">تخطي إلى المحتوى الرئيسي</a>
 <div class="toast-container" id="toast-container" aria-live="polite"></div>
 <!-- BRIGHTAI_NOSCRIPT_NAV_START -->
 <div id="brightai-unified-header">
   <noscript>
     <header class="brightai-noscript-header" role="banner" aria-label="BrightAI HTML navigation fallback">
-      <nav aria-label="التنقل الرئيسي في BrightAI">
+      <nav aria-label="التنقل الرئيسي في BrightAI" role="navigation">
         <a href="https://brightai.site/" aria-label="BrightAI الرئيسية">BrightAI</a>
         <ul>
           <li>
@@ -193,7 +199,7 @@
 </div>
 <!-- BRIGHTAI_NOSCRIPT_NAV_END -->
 <!-- BRIGHTAI_RAW_INTERNAL_LINKS_START -->
-<section class="brightai-raw-internal-links" data-brightai-raw-internal-links="true" aria-labelledby="brightai-raw-internal-links-title" dir="rtl" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;">
+<section class="brightai-raw-internal-links u-sr-only" data-brightai-raw-internal-links="true" aria-labelledby="brightai-raw-internal-links-title" dir="rtl">
   <h2 id="brightai-raw-internal-links-title">روابط BrightAI الداخلية الرئيسية</h2>
   <ul>
     <li><a href="https://brightai.site/about/">عن BrightAI</a></li>
@@ -212,7 +218,7 @@
 <!-- BRIGHTAI_RAW_INTERNAL_LINKS_END -->
 <div class="kernel-layout">
     <!-- Sidebar -->
-    <aside class="kernel-sidebar" id="sidebar">
+    <aside class="kernel-sidebar" id="sidebar" role="complementary">
       <div class="sidebar-header">
         <div class="logo">
           <div class="logo-icon">
@@ -225,7 +231,7 @@
           <span class="logo-text">BrightAI</span>
         </div>
       </div>
-      <nav class="sidebar-nav" id="sidebarNav"></nav>
+      <nav class="sidebar-nav" id="sidebarNav" role="navigation"></nav>
       <div class="sidebar-footer">
         <button class="theme-toggle" id="themeToggle" title="تبديل المظهر" aria-label="تبديل المظهر">
           <svg class="sun-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -239,8 +245,8 @@
     </aside>
 
     <!-- Main Content -->
-    <main class="kernel-main">
-      <header class="main-header">
+    <main class="kernel-main" id="main-content" role="main">
+      <header class="main-header" role="banner">
         <button class="menu-toggle" id="menuToggle" aria-label="فتح القائمة الجانبية">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M3 12h18M3 6h18M3 18h18"/>
@@ -252,7 +258,7 @@
         </div>
       </header>
 
-      <nav class="kernel-breadcrumb" aria-label="مسار التنقل">
+      <nav class="kernel-breadcrumb" aria-label="مسار التنقل" role="navigation">
         <ol>
           <li><a href="/">BrightAI</a></li>
           <li><a href="/kernel/">kernel</a></li>
@@ -276,8 +282,8 @@
         <!-- Demo Data Status Bar -->
         <div class="mode-bar">
           <div>
-            <h4 style="margin: 0 0 0.25rem 0; font-weight: 600;"><i class="fas fa-magic" style="margin-left: 0.5rem; color: var(--primary-color);"></i>بيانات تجريبية</h4>
-            <p id="demoModeHelp" style="margin: 0; font-size: 0.8125rem; color: var(--text-secondary);">الوضع الافتراضي يتصل بواجهة الإنتاج /api/kernel. فعّل هذا الخيار فقط لاستخدام المحاكاة المحلية.</p>
+            <h4 class="u-mb-1 u-font-semibold"><i class="fas fa-magic u-ml-1 u-color-brand"></i>بيانات تجريبية</h4>
+            <p id="demoModeHelp" class="u-text-sm u-color-text-secondary">الوضع الافتراضي يتصل بواجهة الإنتاج /api/kernel. فعّل هذا الخيار فقط لاستخدام المحاكاة المحلية.</p>
           </div>
           <div>
             <label class="switch">
@@ -350,9 +356,9 @@
                   </div>
                 </div>
 
-                <div style="display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: 1rem;">
-                  <button type="reset" class="btn btn-secondary"><i class="fas fa-undo"></i>إعادة تعيين</button>
-                  <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i>إضافة وحفظ السياسة</button>
+                <div class="u-flex-between u-mt-4 u-gap-2">
+                  <button type="reset" class="btn btn-secondary" aria-label="إعادة تعيين نموذج السياسة"><i class="fas fa-undo"></i>إعادة تعيين</button>
+                  <button type="submit" class="btn btn-primary" aria-label="إضافة وحفظ سياسة جديدة"><i class="fas fa-save"></i>إضافة وحفظ السياسة</button>
                 </div>
               </form>
             </div>
@@ -378,7 +384,7 @@
                   </thead>
                   <tbody id="policyTableBody">
                     <tr>
-                      <td colspan="7" style="text-align: center; color: var(--text-muted);">جاري تحميل البيانات من النواة...</td>
+                      <td colspan="7" class="u-text-center u-color-text-tertiary">جاري تحميل البيانات من النواة...</td>
                     </tr>
                   </tbody>
                 </table>
@@ -388,18 +394,18 @@
 
           <!-- Left side: Live Interactive Preview Console -->
           <div>
-            <div class="card" style="position: sticky; top: 1.5rem;">
+            <div class="card u-sticky-top">
               <div class="card-header">
                 <h3 class="card-title"><i class="fas fa-terminal"></i>شاشة المحاكاة المباشرة (Preview)</h3>
               </div>
               <div class="form-group" style="margin-bottom: 1rem;">
                 <label for="previewText">اكتب نصاً تجريبياً للفحص الفوري</label>
-                <textarea id="previewText" class="form-control" style="min-height: 120px; font-family: inherit;" placeholder="اكتب نصاً يحتوي على بيانات شخصية هنا.. مثل: الهوية الوطنية هي 1023456789 أو حسابي SA5512345678901234567890" oninput="runLivePreview()"></textarea>
+                <textarea id="previewText" class="form-control" style="min-height: 120px; font-family: inherit;" placeholder="اكتب نصاً يحتوي على بيانات شخصية هنا.. مثل: الهوية الوطنية هي 1023456789 أو حسابي SA5512345678901234567890" data-kernel-input="runLivePreview"></textarea>
               </div>
 
               <div class="form-group" style="margin-bottom: 1.25rem;">
                 <label for="previewPack">حزمة الامتثال النشطة للتجربة</label>
-                <select id="previewPack" class="form-control" onchange="runLivePreview()">
+                <select id="previewPack" class="form-control" data-kernel-change="runLivePreview">
                   <option value="general">حزمة عامة (general)</option>
                   <option value="pdpl">نظام حماية البيانات الشخصية (pdpl)</option>
                   <option value="nca_ecc">ضوابط الأمن السيبراني NCA (nca_ecc)</option>
@@ -411,35 +417,35 @@
 
               <div class="preview-console">
                 <div class="preview-header">
-                  <span style="color: var(--primary-color); font-weight: bold;">[BRIGHTAI_KERNEL_SCAN]</span>
+                  <span class="u-color-brand u-font-bold">[BRIGHTAI_KERNEL_SCAN]</span>
                   <span class="badge badge-success" id="scanStatusBadge">جاهز</span>
                 </div>
 
                 <div id="previewResults">
                   <div class="preview-metric">
                     <span>البيانات المكتشفة PII:</span>
-                    <span id="resPiiDetected" style="color: var(--text-muted);">لا يوجد بيانات</span>
+                    <span id="resPiiDetected" class="u-color-text-tertiary">لا يوجد بيانات</span>
                   </div>
                   <div class="preview-metric">
                     <span>إجراء الجدار الناري Firewall:</span>
-                    <span id="resFirewallAction" style="color: var(--success); font-weight: bold;">PASS</span>
+                    <span id="resFirewallAction" class="u-color-success u-font-bold">PASS</span>
                   </div>
                   <div class="preview-metric">
                     <span>مؤشر المخاطر الأساسي:</span>
-                    <span id="resRiskBefore" style="color: var(--success);">0</span>
+                    <span id="resRiskBefore" class="u-color-success">0</span>
                   </div>
                   <div class="preview-metric">
                     <span>مؤشر المخاطر النهائي:</span>
-                    <span id="resRiskAfter" style="color: var(--success);">0</span>
+                    <span id="resRiskAfter" class="u-color-success">0</span>
                   </div>
                   <div class="preview-metric">
                     <span>موافقة إشرافية مطلوبة؟:</span>
-                    <span id="resApprovalRequired" style="color: var(--success);">تلقائي (لا)</span>
+                    <span id="resApprovalRequired" class="u-color-success">تلقائي (لا)</span>
                   </div>
 
                   <div class="preview-result">
-                    <div style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.35rem; font-weight: bold;">المخرجات بعد الحجب والمعالجة (Masked Output):</div>
-                    <div id="resMaskedOutput" style="word-break: break-all; font-size: 0.875rem; color: var(--text-primary);">اكتب نصاً في الأعلى للبدء..</div>
+                    <div class="u-text-xs u-color-text-tertiary u-mb-1 u-font-bold">المخرجات بعد الحجب والمعالجة (Masked Output):</div>
+                    <div id="resMaskedOutput">اكتب نصاً في الأعلى للبدء..</div>
                   </div>
                 </div>
               </div>
@@ -450,13 +456,17 @@
     </main>
   </div>
 
+  <a href="/kernel/offline.html" style="display:none">الوضع بدون اتصال</a>
   <script src="/frontend/js/unified-header.js?v=20260529-nav-v1" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.2.7/purify.min.js" defer></script>
   <script src="/kernel/assets/js/kernel-utils.js" defer></script>
+  <script src="/kernel/kernel-web-vitals.js" defer></script>
+  <script src="/kernel/kernel-perf.js" defer></script>
   <script src="/kernel/assets/js/kernel-api.js" defer></script>
   <script src="/kernel/assets/js/kernel-demo-store.js" defer></script>
   <script src="/kernel/assets/js/kernel-mock-handlers.js" defer></script>
   <script src="/kernel/assets/js/kernel-demo-banner.js" defer></script>
+  <script src="/kernel/assets/js/kernel-notifications.js" defer></script>
   <script src="/kernel/assets/js/kernel-nav.js" defer></script>
   <script src="/kernel/assets/js/kernel-aurora.js" defer></script>
   <script>
@@ -524,16 +534,16 @@
         countBadge.textContent = `${policiesList.length} قواعد نشطة`;
 
         if (policiesList.length === 0) {
-          tableBody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: var(--text-muted);">لا يوجد سياسات مسجلة حالياً. قم بإضافة قاعدة في الأعلى.</td></tr>`;
+          tableBody.innerHTML = KernelUtils.sanitizeHtml(`<tr><td colspan="7" class="u-text-center u-color-text-tertiary">لا يوجد سياسات مسجلة حالياً. قم بإضافة قاعدة في الأعلى.</td></tr>`);
           return;
         }
 
-        tableBody.innerHTML = policiesList.map(rule => {
+        tableBody.innerHTML = KernelUtils.sanitizeHtml(policiesList.map(rule => {
           const actionLabels = {
-            mask: '<span class="badge badge-primary"><i class="fas fa-eye-slash" style="margin-left: 0.35rem;"></i>تعمية (mask)</span>',
-            block: '<span class="badge badge-danger"><i class="fas fa-ban" style="margin-left: 0.35rem;"></i>حظر (block)</span>',
-            escalate: '<span class="badge badge-warning"><i class="fas fa-arrow-up" style="margin-left: 0.35rem;"></i>تصعيد (escalate)</span>',
-            allow: '<span class="badge badge-success"><i class="fas fa-check" style="margin-left: 0.35rem;"></i>تمرير (allow)</span>'
+            mask: '<span class="badge badge-primary"><i class="fas fa-eye-slash u-ml-1"</i>تعمية (mask)</span>',
+            block: '<span class="badge badge-danger"><i class="fas fa-ban u-ml-1"</i>حظر (block)</span>',
+            escalate: '<span class="badge badge-warning"><i class="fas fa-arrow-up u-ml-1"</i>تصعيد (escalate)</span>',
+            allow: '<span class="badge badge-success"><i class="fas fa-check u-ml-1"</i>تمرير (allow)</span>'
           };
 
           const piiLabels = {
@@ -558,30 +568,30 @@
 
           return `
             <tr id="row-${rule.id}">
-              <td style="font-weight: 500;">
+              <td class="u-font-semibold">
                 <div>${escapeHtml(rule.name)}</div>
-                <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem;">${escapeHtml(rule.description || '')}</div>
+                <div class="u-text-xs u-color-text-tertiary u-mt-1">${escapeHtml(rule.description || '')}</div>
               </td>
-              <td><code>${rule.pii_type}</code><br><span style="font-size: 0.75rem; color: var(--text-muted);">${piiLabels[rule.pii_type] || rule.pii_type}</span></td>
+              <td><code>${rule.pii_type}</code><br><span class="u-text-xs u-color-text-tertiary">${piiLabels[rule.pii_type] || rule.pii_type}</span></td>
               <td><span class="badge badge-primary">${packLabels[rule.compliance_pack] || rule.compliance_pack}</span></td>
               <td>${actionLabels[rule.action] || rule.action}</td>
-              <td style="font-weight: 600;">+${rule.risk_score_modifier}</td>
+              <td class="u-font-semibold">+${rule.risk_score_modifier}</td>
               <td>
                 <label class="switch">
-                  <input type="checkbox" ${rule.is_active === 1 || rule.is_active === '1' || rule.is_active === true ? 'checked' : ''} onchange="togglePolicyActive('${rule.id}', this.checked)">
+                  <input type="checkbox" ${rule.is_active === 1 || rule.is_active === '1' || rule.is_active === true ? 'checked' : ''} data-kernel-change="togglePolicyActive" data-kernel-arg-0="${escapeHtml(rule.id)}" data-kernel-arg-1="__checked__">
                   <span class="slider"></span>
                 </label>
               </td>
               <td>
-                <button class="btn btn-danger" style="padding: 0.4rem 0.75rem; font-size: 0.75rem;" onclick="deletePolicy('${rule.id}')"><i class="fas fa-trash-alt"></i>حذف</button>
+                <button class="btn btn-danger" data-kernel-click="deletePolicy" data-kernel-arg-0="${escapeHtml(rule.id)}" aria-label="حذف السياسة المحددة"><i class="fas fa-trash-alt"></i>حذف</button>
               </td>
             </tr>
           `;
-        }).join('');
+        }).join(''));
 
         runLivePreview();
       } catch (err) {
-        tableBody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: var(--danger);"><i class="fas fa-exclamation-triangle" style="margin-left: 0.5rem;"></i>حدث خطأ أثناء الاتصال بالنواة: ${err.message}</td></tr>`;
+        tableBody.innerHTML = KernelUtils.sanitizeHtml(`<tr><td colspan="7" class="u-text-center u-color-danger"><i class="fas fa-exclamation-triangle u-ml-1"></i>حدث خطأ أثناء الاتصال بالنواة: ${escapeHtml(err.message)}</td></tr>`);
       }
     }
 
@@ -773,7 +783,7 @@
       resAction.textContent = maxAction.toUpperCase();
       if (maxAction === 'block') {
         resAction.style.color = 'var(--danger)';
-        document.getElementById('resMaskedOutput').innerHTML = `<span style="color: var(--danger); font-weight: bold;"><i class="fas fa-ban"></i> [تم حظر المحتوى بالكامل بموجب السياسات النشطة]</span>`;
+        document.getElementById('resMaskedOutput').innerHTML = KernelUtils.sanitizeHtml(`<span class="u-color-danger u-font-bold"><i class="fas fa-ban"></i> [تم حظر المحتوى بالكامل بموجب السياسات النشطة]</span>`);
       } else if (maxAction === 'escalate') {
         resAction.style.color = 'var(--warning)';
         document.getElementById('resMaskedOutput').textContent = maskedText;

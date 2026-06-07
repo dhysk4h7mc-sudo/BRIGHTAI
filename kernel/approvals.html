@@ -12,6 +12,9 @@
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#030A18">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="BrightAI Kernel">
   <link rel="manifest" href="/kernel/manifest.json">
   <link rel="icon" href="/frontend/assets/images/logo.png" type="image/png">
   <title>موافقات BrightAI Kernel لحوكمة قرارات AI | BrightAI</title>
@@ -117,11 +120,12 @@
   <link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css">
 </head>
 <body>
+  <a href="#main-content" class="skip-link">تخطي إلى المحتوى الرئيسي</a>
 <!-- BRIGHTAI_NOSCRIPT_NAV_START -->
 <div id="brightai-unified-header">
   <noscript>
     <header class="brightai-noscript-header" role="banner" aria-label="BrightAI HTML navigation fallback">
-      <nav aria-label="التنقل الرئيسي في BrightAI">
+      <nav aria-label="التنقل الرئيسي في BrightAI" role="navigation">
         <a href="https://brightai.site/" aria-label="BrightAI الرئيسية">BrightAI</a>
         <ul>
           <li>
@@ -193,7 +197,7 @@
 </div>
 <!-- BRIGHTAI_NOSCRIPT_NAV_END -->
 <!-- BRIGHTAI_RAW_INTERNAL_LINKS_START -->
-<section class="brightai-raw-internal-links" data-brightai-raw-internal-links="true" aria-labelledby="brightai-raw-internal-links-title" dir="rtl" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;">
+<section class="brightai-raw-internal-links u-sr-only" data-brightai-raw-internal-links="true" aria-labelledby="brightai-raw-internal-links-title" dir="rtl">
   <h2 id="brightai-raw-internal-links-title">روابط BrightAI الداخلية الرئيسية</h2>
   <ul>
     <li><a href="https://brightai.site/about/">عن BrightAI</a></li>
@@ -210,10 +214,9 @@
   </ul>
 </section>
 <!-- BRIGHTAI_RAW_INTERNAL_LINKS_END -->
-<a href="#main-content" class="skip-link">تخطي إلى المحتوى</a>
-  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+<div class="toast-container" id="toast-container" aria-live="polite"></div>
 
-  <main id="main-content">
+  <main id="main-content" role="main">
     <div class="container">
       <!-- Page Header -->
       <div class="page-header">
@@ -221,7 +224,7 @@
         <p>الطلبات المعلّقة التي تحتاج موافقة إدارية قبل تنفيذها بالذكاء الاصطناعي</p>
       </div>
 
-      <nav class="kernel-breadcrumb" aria-label="مسار التنقل">
+      <nav class="kernel-breadcrumb" aria-label="مسار التنقل" role="navigation">
         <ol>
           <li><a href="/">BrightAI</a></li>
           <li><a href="/kernel/">kernel</a></li>
@@ -245,25 +248,25 @@
       <div class="summary-bar" id="summary-bar">
         <div class="glass-card summary-stat">
           <div class="summary-stat-value" id="stat-pending">
-            <span class="skeleton" style="width:40px; height:36px; display:inline-block;"></span>
+            <span class="skeleton u-skeleton u-skeleton--sm"></span>
           </div>
           <div class="summary-stat-label">بانتظار المراجعة</div>
         </div>
         <div class="glass-card summary-stat">
           <div class="summary-stat-value danger" id="stat-critical">
-            <span class="skeleton" style="width:40px; height:36px; display:inline-block;"></span>
+            <span class="skeleton u-skeleton u-skeleton--sm"></span>
           </div>
           <div class="summary-stat-label">خطر حرج</div>
         </div>
         <div class="glass-card summary-stat">
           <div class="summary-stat-value warning" id="stat-high">
-            <span class="skeleton" style="width:40px; height:36px; display:inline-block;"></span>
+            <span class="skeleton u-skeleton u-skeleton--sm"></span>
           </div>
           <div class="summary-stat-label">خطر مرتفع</div>
         </div>
         <div class="glass-card summary-stat">
           <div class="summary-stat-value success" id="stat-completed">
-            <span class="skeleton" style="width:40px; height:36px; display:inline-block;"></span>
+            <span class="skeleton u-skeleton u-skeleton--sm"></span>
           </div>
           <div class="summary-stat-label">مكتمل اليوم</div>
         </div>
@@ -274,7 +277,7 @@
         <div class="filters-bar" id="status-tabs" role="tablist" aria-label="حالات الطلبات"></div>
         <label class="sort-control" for="risk-sort">
           ترتيب المخاطر
-          <select id="risk-sort" onchange="setRiskSort(this.value)">
+          <select id="risk-sort" data-kernel-change="setRiskSort" data-kernel-arg-0="__value__">
             <option value="desc">الأعلى خطراً أولاً</option>
             <option value="asc">الأقل خطراً أولاً</option>
           </select>
@@ -284,26 +287,26 @@
       <div class="advanced-filters" aria-label="الفلاتر المتقدمة">
         <div class="advanced-filter-field">
           <label for="filter-date-from">من تاريخ</label>
-          <input id="filter-date-from" type="date" onchange="setAdvancedFilter('dateFrom', this.value)">
+          <input id="filter-date-from" type="date" data-kernel-change="setAdvancedFilter" data-kernel-arg-0="dateFrom" data-kernel-arg-1="__value__">
         </div>
         <div class="advanced-filter-field">
           <label for="filter-date-to">إلى تاريخ</label>
-          <input id="filter-date-to" type="date" onchange="setAdvancedFilter('dateTo', this.value)">
+          <input id="filter-date-to" type="date" data-kernel-change="setAdvancedFilter" data-kernel-arg-0="dateTo" data-kernel-arg-1="__value__">
         </div>
         <div class="advanced-filter-field">
           <div class="risk-range-head">
             <label for="filter-risk-min">الحد الأدنى للمخاطر</label>
             <span class="risk-range-value" id="risk-min-value">0%</span>
           </div>
-          <input id="filter-risk-min" type="range" min="0" max="100" value="0" oninput="setAdvancedFilter('riskMin', this.value)">
+          <input id="filter-risk-min" type="range" min="0" max="100" value="0" data-kernel-input="setAdvancedFilter" data-kernel-arg-0="riskMin" data-kernel-arg-1="__value__">
         </div>
         <div class="advanced-filter-field">
           <label for="filter-package">الحزمة</label>
-          <select id="filter-package" onchange="setAdvancedFilter('packageName', this.value)">
+          <select id="filter-package" data-kernel-change="setAdvancedFilter" data-kernel-arg-0="packageName" data-kernel-arg-1="__value__">
             <option value="">كل الحزم</option>
           </select>
         </div>
-        <button class="btn btn-ghost filter-reset-btn" type="button" onclick="resetAdvancedFilters()">تصفير الفلاتر</button>
+        <button class="btn btn-ghost filter-reset-btn" type="button" data-kernel-click="resetAdvancedFilters" aria-label="إعادة ضبط الفلاتر">تصفير الفلاتر</button>
       </div>
 
       <div class="bulk-toolbar" id="bulk-toolbar" aria-live="polite">
@@ -312,9 +315,9 @@
           <span class="bulk-note">الموافقة الجماعية لا تختار الطلبات الحرجة افتراضياً. الاختصارات: A قبول، R رفض.</span>
         </div>
         <div class="bulk-actions">
-          <button class="btn btn-success" type="button" onclick="handleBulkAction('approve')">Approve all</button>
-          <button class="btn btn-danger" type="button" onclick="handleBulkAction('reject')">Reject all</button>
-          <button class="btn btn-ghost" type="button" onclick="clearSelection()">إلغاء التحديد</button>
+          <button class="btn btn-success" type="button" data-kernel-click="handleBulkAction" data-kernel-arg-0="approve" aria-label="اعتماد كل الطلبات المحددة">Approve all</button>
+          <button class="btn btn-danger" type="button" data-kernel-click="handleBulkAction" data-kernel-arg-0="reject" aria-label="رفض كل الطلبات المحددة">Reject all</button>
+          <button class="btn btn-ghost" type="button" data-kernel-click="clearSelection" aria-label="إلغاء تحديد الطلبات">إلغاء التحديد</button>
         </div>
       </div>
 
@@ -335,7 +338,7 @@
     <div class="approval-modal">
       <div class="approval-modal-header">
         <h2 class="approval-modal-title" id="approval-comment-title">تعليق القرار</h2>
-        <button class="modal-close" type="button" onclick="closeApprovalModal()" aria-label="إغلاق">×</button>
+        <button class="modal-close" type="button" data-kernel-click="closeApprovalModal" aria-label="إغلاق">×</button>
       </div>
       <div class="approval-modal-body">
         <p class="approval-modal-hint" id="approval-comment-hint"></p>
@@ -343,8 +346,8 @@
         <div class="modal-error" id="approval-comment-error">تعليق الرفض إلزامي قبل تنفيذ القرار.</div>
       </div>
       <div class="approval-modal-footer">
-        <button class="btn btn-primary" type="button" id="approval-comment-submit">تأكيد القرار</button>
-        <button class="btn btn-ghost" type="button" onclick="closeApprovalModal()">إلغاء</button>
+        <button class="btn btn-primary" type="button" id="approval-comment-submit" aria-label="تأكيد قرار الموافقة أو الرفض">تأكيد القرار</button>
+        <button class="btn btn-ghost" type="button" data-kernel-click="closeApprovalModal" aria-label="إلغاء وإغلاق نافذة القرار">إلغاء</button>
       </div>
     </div>
   </div>
@@ -353,7 +356,7 @@
     <div class="approval-modal">
       <div class="approval-modal-header">
         <h2 class="approval-modal-title" id="delegation-title">تحويل الطلب لمراجع آخر</h2>
-        <button class="modal-close" type="button" onclick="closeDelegationModal()" aria-label="إغلاق">×</button>
+        <button class="modal-close" type="button" data-kernel-click="closeDelegationModal" aria-label="إغلاق">×</button>
       </div>
       <div class="approval-modal-body">
         <p class="approval-modal-hint" id="delegation-hint">اختر المراجع الذي يستلم الطلب داخل واجهة الموافقات.</p>
@@ -366,19 +369,23 @@
         <textarea id="delegation-note" placeholder="ملاحظة التحويل (اختياري)"></textarea>
       </div>
       <div class="approval-modal-footer">
-        <button class="btn btn-primary" type="button" id="delegation-submit">تحويل الطلب</button>
-        <button class="btn btn-ghost" type="button" onclick="closeDelegationModal()">إلغاء</button>
+        <button class="btn btn-primary" type="button" id="delegation-submit" aria-label="تحويل الطلب إلى مراجع آخر">تحويل الطلب</button>
+        <button class="btn btn-ghost" type="button" data-kernel-click="closeDelegationModal" aria-label="إلغاء وإغلاق نافذة التحويل">إلغاء</button>
       </div>
     </div>
   </div>
+  <a href="/kernel/offline.html" style="display:none">الوضع بدون اتصال</a>
   <script src="/frontend/js/unified-header.js?v=20260529-nav-v1" defer></script>
 
-  <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.2.7/purify.min.js" defer></script>
   <script src="/kernel/assets/js/kernel-utils.js" defer></script>
+  <script src="/kernel/kernel-web-vitals.js" defer></script>
+  <script src="/kernel/kernel-perf.js" defer></script>
   <script src="/kernel/assets/js/kernel-api.js" defer></script>
   <script src="/kernel/assets/js/kernel-demo-store.js" defer></script>
   <script src="/kernel/assets/js/kernel-mock-handlers.js" defer></script>
   <script src="/kernel/assets/js/kernel-demo-banner.js" defer></script>
+  <script src="/kernel/assets/js/kernel-notifications.js" defer></script>
   <script src="/kernel/assets/js/kernel-nav.js" defer></script>
   <script src="/kernel/assets/js/kernel-aurora.js" defer></script>
 
@@ -403,6 +410,7 @@
     let slaTicker;
     let pendingApprovalModalResolve = null;
     let pendingDelegationRequestId = '';
+    let pendingApprovalCommentRequired = false;
     const statusTabs = [
       { key: 'pending', label: 'قيد الانتظار' },
       { key: 'critical', label: 'حرجة' },
@@ -422,6 +430,8 @@
       document.addEventListener('keydown', handleKeyboardShortcut);
       document.addEventListener('pointerdown', enableNotificationAudio, { once: true });
       document.addEventListener('keydown', enableNotificationAudio, { once: true });
+      document.getElementById('approval-comment-submit')?.addEventListener('click', submitApprovalComment);
+      document.getElementById('delegation-submit')?.addEventListener('click', submitDelegation);
     });
 
     // ── Load Data ──
@@ -442,11 +452,11 @@
         const loading = document.getElementById('loading-state');
         if (loading) loading.style.display = 'none';
         const list = document.getElementById('requests-list');
-        list.innerHTML = `
+        list.innerHTML = KernelUtils.sanitizeHtml(`
           <div class="glass-card empty-state">
-            <p style="color:var(--danger);">تعذّر تحميل البيانات. يرجى التحديث.</p>
+            <p class="u-color-danger">تعذّر تحميل البيانات. يرجى التحديث.</p>
           </div>
-        `;
+        `);
       }
     }
 
@@ -461,19 +471,20 @@
       const tabs = document.getElementById('status-tabs');
       if (!tabs) return;
       const counts = getStatusCounts();
-      tabs.innerHTML = statusTabs.map((tab) => `
+      tabs.innerHTML = KernelUtils.sanitizeHtml(statusTabs.map((tab) => `
         <button
           class="filter-btn ${currentFilter === tab.key ? 'active' : ''}"
           type="button"
           role="tab"
           aria-selected="${currentFilter === tab.key ? 'true' : 'false'}"
           data-filter="${tab.key}"
-          onclick="setFilter('${tab.key}')"
-        >
+          data-kernel-click="setFilter"
+          data-kernel-arg-0="${KernelUtils.escapeHtml(tab.key)}"
+         aria-label="تغيير فلتر حالة الطلبات">
           ${tab.label}
           <span class="tab-count">${KernelUtils.formatNumber(counts[tab.key] || 0)}</span>
         </button>
-      `).join('');
+      `).join(''));
     }
 
     function getStatusCounts() {
@@ -530,9 +541,9 @@
       if (!select) return;
       const selected = select.value;
       const packages = [...new Set(allRequests.map((request) => getCompliancePackage(request)).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'ar'));
-      select.innerHTML = '<option value="">كل الحزم</option>' + packages.map((pack) => `
+      select.innerHTML = KernelUtils.sanitizeHtml('<option value="">كل الحزم</option>' + packages.map((pack) => `
         <option value="${KernelUtils.escapeHtml(pack)}">${KernelUtils.escapeHtml(pack)}</option>
-      `).join('');
+      `).join(''));
       select.value = packages.includes(selected) ? selected : '';
       advancedFilters.packageName = select.value;
     }
@@ -584,7 +595,7 @@
       updateBulkToolbar();
 
       if (items.length === 0) {
-        list.innerHTML = `
+        list.innerHTML = KernelUtils.sanitizeHtml(`
           <div class="glass-card">
             <div class="empty-state">
               <div class="empty-icon">
@@ -596,20 +607,20 @@
               <p>${selectedTraceId ? KernelUtils.escapeHtml(selectedTraceId) : currentFilter === 'pending' ? 'جميع الطلبات تمّت معالجتها.' : 'جرّب فلتراً مختلفاً.'}</p>
             </div>
           </div>
-        `;
+        `);
         return;
       }
 
       const selectable = items.filter((request) => canSelectRequest(request));
       const safeSelectable = selectable.filter((request) => !isCriticalRequest(request));
       const allSafeSelected = safeSelectable.length > 0 && safeSelectable.every((request) => selectedRequestIds.has(getRequestId(request)));
-      list.innerHTML = `
+      list.innerHTML = KernelUtils.sanitizeHtml(`
         <label class="select-visible-row">
-          <input type="checkbox" ${allSafeSelected ? 'checked' : ''} onchange="toggleVisibleSelection(this.checked)">
+          <input type="checkbox" ${allSafeSelected ? 'checked' : ''} data-kernel-change="toggleVisibleSelection" data-kernel-arg-0="__checked__">
           <span>تحديد الطلبات الظاهرة غير الحرجة (${KernelUtils.formatNumber(safeSelectable.length)})</span>
         </label>
         ${items.map(req => buildRequestCard(req)).join('')}
-      `;
+      `);
       updateBulkToolbar();
     }
 
@@ -673,7 +684,7 @@
             </div>
             ${selectable ? `
             <label class="request-select" title="${isCriticalRequest(req) ? 'الطلبات الحرجة لا تدخل في التحديد الجماعي الافتراضي' : 'تحديد الطلب'}">
-              <input type="checkbox" ${isSelected ? 'checked' : ''} onchange="toggleRequestSelection('${jsString(requestId)}', this.checked)">
+              <input type="checkbox" ${isSelected ? 'checked' : ''} data-kernel-change="toggleRequestSelection" data-kernel-arg-0="${KernelUtils.escapeHtml(requestId)}" data-kernel-arg-1="__checked__">
               <span>تحديد</span>
             </label>` : ''}
           </div>
@@ -721,14 +732,14 @@
                 PII detected: ${piiItems.length ? 'Yes' : 'No'}
               </span>
             </div>
-            <div class="risk-bar-row" style="margin-bottom:0;">
+            <div class="risk-bar-row u-mb-0">
               <span class="risk-bar-label">${riskLabel}</span>
               <div class="risk-bar-track" aria-label="Risk score ${riskScore}%">
                 <div class="risk-bar-fill" style="width:${riskScore}%; background:${riskColor};"></div>
               </div>
               <span class="risk-bar-value" style="color:${riskColor};">${riskScore}%</span>
             </div>
-            <div class="chips-section" style="margin-bottom:0;">
+            <div class="chips-section u-mb-0">
               <div class="chips-label">Matched policies</div>
               <div class="chips-row">
                 ${policies.length > 0
@@ -737,7 +748,7 @@
               </div>
             </div>
             ${piiItems.length > 0 ? `
-            <div class="chips-section" style="margin-bottom:0;">
+            <div class="chips-section u-mb-0">
               <div class="chips-label">PII types</div>
               <div class="chips-row">${piiItems.map(p => `<span class="chip-pii">${KernelUtils.escapeHtml(typeof p === 'string' ? p : p.type || p.name || p)}</span>`).join('')}</div>
             </div>` : ''}
@@ -792,12 +803,15 @@
             <button
               class="btn btn-success"
               id="approve-btn-${KernelUtils.escapeHtml(requestId)}"
-              onclick="handleAction('${jsString(requestId)}','approve',this)"
+              data-kernel-click="handleAction"
+              data-kernel-arg-0="${KernelUtils.escapeHtml(requestId)}"
+              data-kernel-arg-1="approve"
+              data-kernel-arg-2="__element__"
               aria-label="الموافقة على الطلب، الاختصار A"
             >
               <span class="action-spinner" aria-hidden="true"></span>
               <span class="btn-label">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;vertical-align:-2px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="u-icon-inline">
                   <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
                 موافقة وتنفيذ (A)
@@ -806,12 +820,15 @@
             <button
               class="btn btn-danger"
               id="reject-btn-${KernelUtils.escapeHtml(requestId)}"
-              onclick="handleAction('${jsString(requestId)}','reject',this)"
+              data-kernel-click="handleAction"
+              data-kernel-arg-0="${KernelUtils.escapeHtml(requestId)}"
+              data-kernel-arg-1="reject"
+              data-kernel-arg-2="__element__"
               aria-label="رفض الطلب، الاختصار R"
             >
               <span class="action-spinner" aria-hidden="true"></span>
               <span class="btn-label">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;vertical-align:-2px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="u-icon-inline">
                   <path d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
                 رفض (R)
@@ -820,13 +837,14 @@
             <button
               class="btn btn-ghost"
               type="button"
-              onclick="openDelegationModal('${jsString(requestId)}')"
+              data-kernel-click="openDelegationModal"
+              data-kernel-arg-0="${KernelUtils.escapeHtml(requestId)}"
               aria-label="تحويل الطلب لمراجع آخر"
             >
               تحويل لمراجع
             </button>
             <a href="${evidenceHref}" class="btn btn-ghost">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;vertical-align:-2px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="u-icon-inline">
                 <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
               </svg>
               الأدلة
@@ -1156,18 +1174,23 @@
         error.classList.remove('active');
         submit.textContent = isApprove ? 'تأكيد الموافقة' : 'تأكيد الرفض';
         submit.className = `btn ${isApprove ? 'btn-success' : 'btn-danger'}`;
-        submit.onclick = () => {
-          const comment = input.value.trim();
-          if (required && !comment) {
-            error.classList.add('active');
-            input.focus();
-            return;
-          }
-          closeApprovalModal({ comment });
-        };
+        pendingApprovalCommentRequired = required;
         modal.classList.add('active');
         setTimeout(() => input.focus(), 0);
       });
+    }
+
+    function submitApprovalComment() {
+      const input = document.getElementById('approval-comment-input');
+      const error = document.getElementById('approval-comment-error');
+      if (!input) return;
+      const comment = input.value.trim();
+      if (pendingApprovalCommentRequired && !comment) {
+        error?.classList.add('active');
+        input.focus();
+        return;
+      }
+      closeApprovalModal({ comment });
     }
 
     function closeApprovalModal(result = null) {
@@ -1192,7 +1215,6 @@
         : 'اختر المراجع الذي يستلم الطلب داخل واجهة الموافقات.';
       if (delegationAssignments[requestId]?.reviewer) reviewer.value = delegationAssignments[requestId].reviewer;
       note.value = delegationAssignments[requestId]?.note || '';
-      document.getElementById('delegation-submit').onclick = submitDelegation;
       modal.classList.add('active');
       setTimeout(() => reviewer.focus(), 0);
     }
@@ -1361,7 +1383,7 @@
         : `/kernel/evidence/?id=${encodeURIComponent(result.requestId || requestId)}`;
 
       container.style.display = 'block';
-      container.innerHTML = `
+      container.innerHTML = KernelUtils.sanitizeHtml(`
         <div class="execution-result">
           <div class="execution-result-header">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1382,7 +1404,7 @@
             <a href="${evidenceHref}">عرض سجل الأدلة الكاملة</a>
           </div>` : ''}
         </div>
-      `;
+      `);
     }
 
     function getTraceId(record = {}) {
@@ -1395,7 +1417,7 @@
       const container = document.getElementById('toast-container');
       const toast = document.createElement('div');
       toast.className = `toast ${type}`;
-      toast.innerHTML = `
+      toast.innerHTML = KernelUtils.sanitizeHtml(`
         <svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="${type === 'success' ? 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z' : type === 'error' ? 'M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z' : 'M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z'}"/>
         </svg>
@@ -1403,12 +1425,12 @@
           ${title ? `<div class="toast-title">${KernelUtils.escapeHtml(title)}</div>` : ''}
           ${message ? `<div class="toast-message">${KernelUtils.escapeHtml(message)}</div>` : ''}
         </div>
-        <button class="toast-close" onclick="this.parentElement.remove()" aria-label="إغلاق">
+        <button class="toast-close" data-kernel-click="KernelUtils.removeClosest" data-kernel-arg-0="__element__" data-kernel-arg-1=".toast" aria-label="إغلاق">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M6 18L18 6M6 6l12 12"/>
           </svg>
         </button>
-      `;
+      `);
       container.appendChild(toast);
       setTimeout(() => { if (toast.parentElement) toast.remove(); }, 5000);
     }

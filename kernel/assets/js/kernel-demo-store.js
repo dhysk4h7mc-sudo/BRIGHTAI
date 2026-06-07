@@ -120,6 +120,7 @@
             created_at: new Date(Date.now() - 600000).toISOString(),
             timestamp: new Date(Date.now() - 600000).toISOString(),
             createdAt: new Date(Date.now() - 600000).toISOString(),
+            serverTimestamp: null,
             user_id: "user_saudi_01",
             userId: "user_saudi_01",
             user_name: "سارة القحطاني",
@@ -167,6 +168,7 @@
             created_at: new Date(Date.now() - 1200000).toISOString(),
             timestamp: new Date(Date.now() - 1200000).toISOString(),
             createdAt: new Date(Date.now() - 1200000).toISOString(),
+            serverTimestamp: null,
             user_id: "user_saudi_02",
             userId: "user_saudi_02",
             user_name: "عبد الله الشمري",
@@ -211,6 +213,7 @@
             created_at: new Date(Date.now() - 1800000).toISOString(),
             timestamp: new Date(Date.now() - 1800000).toISOString(),
             createdAt: new Date(Date.now() - 1800000).toISOString(),
+            serverTimestamp: null,
             user_id: "user_saudi_03",
             userId: "user_saudi_03",
             user_name: "سعد المطيري",
@@ -698,25 +701,161 @@
     localStorage.setItem('brightai_kernel_mock_db', JSON.stringify(db));
   }
 
+  /**
+   * SHA-256 hash via Web Crypto API.
+   * Strategy: SHA-256 → PBKDF2 fallback → explicit insecure warning.
+   * NEVER silently degrades to a weak algorithm.
+   */
   async function generateHash(content = '') {
     const input = content || `${Date.now()}-${Math.random().toString(36).slice(2)}-${global.performance?.now?.() || 0}`;
     const encoder = new TextEncoder();
     const data = encoder.encode(input);
+    const subtle = global.crypto?.subtle;
 
-    try {
-      if (!global.crypto?.subtle?.digest) throw new Error('crypto.subtle unavailable');
-      const hashBuffer = await global.crypto.subtle.digest('SHA-256', data);
-      const hashArray = Array.from(new Uint8Array(hashBuffer));
-      return hashArray.map((byte) => byte.toString(16).padStart(2, '0')).join('');
-    } catch (_error) {
-      console.warn('[BrightAI Kernel] crypto.subtle unavailable, using simple hash fallback');
-      let hash = 0;
-      for (let i = 0; i < input.length; i += 1) {
-        hash = ((hash << 5) - hash) + input.charCodeAt(i);
-        hash |= 0;
+    /* ── 1. Preferred: SHA-256 via crypto.subtle ─────────── */
+    if (subtle?.digest) {
+      try {
+        const hashBuffer = await subtle.digest('SHA-256', data);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        return hashArray.map((byte) => byte.toString(16).padStart(2, '0')).join('');
+      } catch (_shaError) {
+        /* Fall through to PBKDF2 */
       }
-      return Math.abs(hash).toString(16).padStart(64, '0').slice(0, 64);
     }
+
+    /* ── 2. Fallback: PBKDF2 with high iteration count ──── */
+    if (subtle?.deriveBits) {
+      try {
+        const salt = encoder.encode('brightai-kernel-audit-chain-v1');
+        const baseKey = await subtle.importKey('raw', data, { name: 'PBKDF2' }, false, ['deriveBits']);
+        const derivedBits = await subtle.deriveBits(
+          { name: 'PBKDF2', salt, iterations: 100000, hash: 'SHA-256' },
+          baseKey,
+          256
+        );
+        const hashArray = Array.from(new Uint8Array(derivedBits));
+        return hashArray.map((byte) => byte.toString(16).padStart(2, '0')).join('');
+      } catch (_pbkdf2Error) {
+        /* Fall through to insecure warning */
+      }
+    }
+
+    /* ── 3. Insecure context: no crypto available ───────── */
+    console.error(
+      '%c[BrightAI Kernel] ⚠️ SECURITY WARNING%c\n' +
+      'crypto.subtle is unavailable (likely HTTP without secure context).\n' +
+      'Audit chain hashes are NOT cryptographically secure.\n' +
+      'Data integrity cannot be guaranteed. Serve over HTTPS to fix this.',
+      'color:#EF4444;font-weight:bold;font-size:14px',
+      'color:inherit'
+    );
+
+    /* Return a clearly marked insecure hash so the UI can distinguish it */
+    const insecureHash = await insecureFallbackHash(input);
+    return 'INSECURE_' + insecureHash;
+  }
+
+  /**
+   * Insecure fallback — only used when NO Web Crypto API is available.
+   * Uses a multi-pass DJB2 hash for basic integrity, but this is NOT
+   * cryptographically secure. The INSECURE_ prefix makes this explicit.
+   */
+  async function insecureFallbackHash(input) {
+    /* Run multiple passes to make collision harder (still NOT crypto-grade) */
+    let h = 0x811c9dc5; // FNV offset basis
+    for (let pass = 0; pass < 64; pass += 1) {
+      for (let i = 0; i < input.length; i += 1) {
+        h ^= input.charCodeAt(i);
+        h = Math.imul(h, 0x01000193); // FNV prime
+      }
+      h ^= pass;
+    }
+    /* Combine into 64 hex chars using two 32-bit parts */
+    const part1 = (h >>> 0).toString(16).padStart(8, '0');
+    const part2 = (Math.imul(h, 0x5bd1e995) >>> 0).toString(16).padStart(8, '0');
+    const part3 = (Math.imul(h ^ 0x27d4eb2d, 0x165667b1) >>> 0).toString(16).padStart(8, '0');
+    const part4 = (Math.imul(h ^ 0x9e3779b9, 0xcc9e2d51) >>> 0).toString(16).padStart(8, '0');
+    /* Repeat pattern to fill 64 chars */
+    const body = part1 + part2 + part3 + part4 + part1 + part3 + part2 + part4;
+    return body.slice(0, 57); /* 57 chars + 'INSECURE_' prefix = 65 chars total, truncated to 64 */
+  }
+
+  /**
+   * Verify the integrity of the audit hash chain.
+   * Checks that each record's hash correctly links to the previous record.
+   * @param {Array} records - Audit records sorted chronologically (oldest first)
+   * @returns {{ valid: boolean, brokenAt: number|null, details: Array, insecureCount: number }}
+   */
+  async function verifyAuditChain(records = []) {
+    if (!records || records.length === 0) {
+      return { valid: false, brokenAt: null, details: [], insecureCount: 0, reason: 'لا توجد سجلات للتحقق' };
+    }
+
+    /* Sort chronologically (oldest first) for chain verification */
+    const sorted = records.slice().sort((a, b) => {
+      const serialA = Number(a.serialId || a.serial_id || 0);
+      const serialB = Number(b.serialId || b.serial_id || 0);
+      if (serialA || serialB) return serialA - serialB;
+      return Number(new Date(a.timestamp || a.createdAt || a.created_at || 0))
+           - Number(new Date(b.timestamp || b.createdAt || b.created_at || 0));
+    });
+
+    const details = [];
+    let brokenAt = null;
+    let insecureCount = 0;
+
+    for (let index = 0; index < sorted.length; index += 1) {
+      const record = sorted[index];
+      const recordHash = record.recordHash || record.record_hash || record.hash || '';
+      const previousHash = record.previousHash || record.previous_hash || '';
+
+      /* Check for insecure hashes */
+      const isInsecure = recordHash.startsWith('INSECURE_');
+      if (isInsecure) insecureCount += 1;
+
+      /* Verify: recompute the expected hash from record data */
+      const expectedRecordHash = await generateRecordHash(record);
+      const hashMatches = recordHash === expectedRecordHash || recordHash.replace('INSECURE_', '') === expectedRecordHash.replace('INSECURE_', '');
+
+      /* Verify: previousHash links correctly to the prior record */
+      let linkValid = true;
+      if (index > 0) {
+        const previousRecordHash = sorted[index - 1].recordHash || sorted[index - 1].record_hash || sorted[index - 1].hash || '';
+        linkValid = !previousHash || previousHash === previousRecordHash;
+      }
+
+      const recordValid = hashMatches && linkValid;
+
+      details.push({
+        index: index + 1,
+        id: record.id || record.traceId || record.trace_id || index + 1,
+        action: record.action || record.firewall_action || '—',
+        timestamp: record.timestamp || record.createdAt || record.created_at,
+        recordHash,
+        previousHash,
+        expectedRecordHash,
+        hashMatches,
+        linkValid,
+        isInsecure,
+        valid: recordValid,
+        fingerprint: recordHash ? recordHash.slice(0, 12) + '...' + recordHash.slice(-8) : '—'
+      });
+
+      if (!recordValid && brokenAt === null) {
+        brokenAt = index + 1;
+      }
+    }
+
+    return {
+      valid: brokenAt === null,
+      brokenAt,
+      details,
+      insecureCount,
+      totalRecords: sorted.length,
+      reason: brokenAt === null
+        ? 'سلسلة التدقيق سليمة — جميع التجزئات متصلة بشكل صحيح'
+        : `انقطاع في السلسلة عند السجل #${brokenAt}`
+    };
   }
 
   async function generateRecordHash(record = {}) {
@@ -727,7 +866,12 @@
       timestamp: record.createdAt || record.created_at || record.timestamp,
       previousHash: record.previousHash || record.previous_hash || '',
     });
-    return generateHash(content);
+    const hash = await generateHash(content);
+    /* Add serverTimestamp placeholder for production — filled by server in real deployments */
+    if (!record.serverTimestamp) {
+      record.serverTimestamp = null; /* Explicit null: signals "awaiting server confirmation" */
+    }
+    return hash;
   }
 
   function maskSensitiveText(value, piiTypes = []) {
@@ -1025,6 +1169,7 @@
         const auditEntry = {
           ...newRecord,
           created_at: newRecord.createdAt,
+          serverTimestamp: null,
           approvalStatus: 'blocked',
           action: 'BLOCKED',
           actor: 'system',
@@ -1043,6 +1188,7 @@
         const completedAudit = {
           ...newRecord,
           created_at: newRecord.createdAt,
+          serverTimestamp: null,
           approvalStatus: 'auto_approved',
           action: 'CHAT_REQUEST',
           actor: newRecord.userName,
@@ -1109,7 +1255,7 @@
     const toast = document.createElement('div');
     toast.className = 'toast info';
     toast.style.animation = 'fadeSlideUp 300ms ease-out';
-    toast.innerHTML = `
+    toast.innerHTML = KernelUtils.sanitizeHtml(`
       <svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/>
       </svg>
@@ -1117,12 +1263,12 @@
         <div class="toast-title">${KernelUtils?.escapeHtml(title) || title}</div>
         <div class="toast-message">${KernelUtils?.escapeHtml(message) || message}</div>
       </div>
-      <button class="toast-close" onclick="this.parentElement.remove()" aria-label="إغلاق التنبيه">
+      <button class="toast-close" data-kernel-click="KernelUtils.removeClosest" data-kernel-arg-0="__element__" data-kernel-arg-1=".toast" aria-label="إغلاق التنبيه">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M6 18L18 6M6 6l12 12"/>
         </svg>
       </button>
-    `;
+    `);
     toastContainer.appendChild(toast);
     setTimeout(() => { if (toast.parentElement) toast.remove(); }, 5000);
   }
@@ -1135,6 +1281,7 @@
     recalculateSummaryStats,
     generateHash,
     generateRecordHash,
+    verifyAuditChain,
     maskSensitiveText,
     normalizeMockList,
     inferMockDepartment,

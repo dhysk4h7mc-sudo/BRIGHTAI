@@ -12,6 +12,9 @@
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#030A18">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="BrightAI Kernel">
   <link rel="manifest" href="/kernel/manifest.json">
   <link rel="icon" href="/frontend/assets/images/logo.png" type="image/png">
   <title>موصلات BrightAI Kernel للأنظمة والبيانات | BrightAI</title>
@@ -29,6 +32,9 @@
 <meta name="twitter:title" content="الموصلات المؤسسية | BrightAI" />
 <meta name="twitter:description" content="ربط أنظمة SAP و Oracle و SharePoint و HIS" />
 <meta name="twitter:image" content="https://brightai.site/frontend/assets/images/logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
 <link rel="stylesheet" href="/kernel/assets/css/kernel.css">
   <link rel="stylesheet" href="/frontend/vendor/fontawesome/css/all.min.css">
   <link rel="stylesheet" href="/frontend/css/unified-header.css?v=20260529-nav-v1">
@@ -115,13 +121,13 @@
   <link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css">
 </head>
 <body>
-
+  <a href="#main-content" class="skip-link">تخطي إلى المحتوى الرئيسي</a>
 <div class="toast-container" id="toast-container" aria-live="polite"></div>
 <!-- BRIGHTAI_NOSCRIPT_NAV_START -->
 <div id="brightai-unified-header">
   <noscript>
     <header class="brightai-noscript-header" role="banner" aria-label="BrightAI HTML navigation fallback">
-      <nav aria-label="التنقل الرئيسي في BrightAI">
+      <nav aria-label="التنقل الرئيسي في BrightAI" role="navigation">
         <a href="https://brightai.site/" aria-label="BrightAI الرئيسية">BrightAI</a>
         <ul>
           <li>
@@ -193,7 +199,7 @@
 </div>
 <!-- BRIGHTAI_NOSCRIPT_NAV_END -->
 <!-- BRIGHTAI_RAW_INTERNAL_LINKS_START -->
-<section class="brightai-raw-internal-links" data-brightai-raw-internal-links="true" aria-labelledby="brightai-raw-internal-links-title" dir="rtl" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;">
+<section class="brightai-raw-internal-links u-sr-only" data-brightai-raw-internal-links="true" aria-labelledby="brightai-raw-internal-links-title" dir="rtl">
   <h2 id="brightai-raw-internal-links-title">روابط BrightAI الداخلية الرئيسية</h2>
   <ul>
     <li><a href="https://brightai.site/about/">عن BrightAI</a></li>
@@ -212,7 +218,7 @@
 <!-- BRIGHTAI_RAW_INTERNAL_LINKS_END -->
 <div class="kernel-layout">
     <!-- Sidebar -->
-    <aside class="kernel-sidebar" id="sidebar">
+    <aside class="kernel-sidebar" id="sidebar" role="complementary">
       <div class="sidebar-header">
         <div class="logo">
           <div class="logo-icon">
@@ -225,7 +231,7 @@
           <span class="logo-text">BrightAI</span>
         </div>
       </div>
-      <nav class="sidebar-nav" id="sidebarNav"></nav>
+      <nav class="sidebar-nav" id="sidebarNav" role="navigation"></nav>
       <div class="sidebar-footer">
         <button class="theme-toggle" id="themeToggle" title="تبديل المظهر" aria-label="تبديل المظهر">
           <svg class="sun-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -239,8 +245,8 @@
     </aside>
 
     <!-- Main Content -->
-    <main class="kernel-main">
-      <header class="main-header">
+    <main class="kernel-main" id="main-content" role="main">
+      <header class="main-header" role="banner">
         <button class="menu-toggle" id="menuToggle" aria-label="فتح القائمة الجانبية">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M3 12h18M3 6h18M3 18h18"/>
@@ -255,7 +261,7 @@
         </div>
       </header>
 
-      <nav class="kernel-breadcrumb" aria-label="مسار التنقل">
+      <nav class="kernel-breadcrumb" aria-label="مسار التنقل" role="navigation">
         <ol>
           <li><a href="/">BrightAI</a></li>
           <li><a href="/kernel/">kernel</a></li>
@@ -326,8 +332,8 @@
                 <div class="scenario-strip"><i class="fa-solid fa-route" aria-hidden="true"></i> SAP invoice risk review</div>
               </div>
               <div class="connector-footer">
-                <button class="connector-btn secondary" data-test-connector="SAP">اختبار الاتصال</button>
-                <button class="connector-btn primary" data-run-scenario="SAP invoice risk review" data-connector="SAP" data-pack="PDPL">تشغيل سيناريو من هذا الموصل</button>
+                <button class="connector-btn secondary" data-test-connector="SAP" aria-label="اختبار اتصال موصل SAP">اختبار الاتصال</button>
+                <button class="connector-btn primary" data-run-scenario="SAP invoice risk review" data-connector="SAP" data-pack="PDPL" aria-label="تشغيل سيناريو باستخدام موصل SAP">تشغيل سيناريو من هذا الموصل</button>
               </div>
             </article>
 
@@ -353,8 +359,8 @@
                 <div class="scenario-strip"><i class="fa-solid fa-route" aria-hidden="true"></i> Oracle ERP vendor invoice review</div>
               </div>
               <div class="connector-footer">
-                <button class="connector-btn secondary" data-test-connector="Oracle ERP">اختبار الاتصال</button>
-                <button class="connector-btn primary" data-run-scenario="Oracle ERP vendor invoice review" data-connector="Oracle ERP" data-pack="PDPL">تشغيل سيناريو من هذا الموصل</button>
+                <button class="connector-btn secondary" data-test-connector="Oracle ERP" aria-label="اختبار اتصال موصل Oracle ERP">اختبار الاتصال</button>
+                <button class="connector-btn primary" data-run-scenario="Oracle ERP vendor invoice review" data-connector="Oracle ERP" data-pack="PDPL" aria-label="تشغيل سيناريو باستخدام موصل Oracle ERP">تشغيل سيناريو من هذا الموصل</button>
               </div>
             </article>
 
@@ -380,8 +386,8 @@
                 <div class="scenario-strip"><i class="fa-solid fa-route" aria-hidden="true"></i> SharePoint contract review</div>
               </div>
               <div class="connector-footer">
-                <button class="connector-btn secondary" data-test-connector="Microsoft SharePoint">اختبار الاتصال</button>
-                <button class="connector-btn primary" data-run-scenario="SharePoint contract review" data-connector="Microsoft SharePoint" data-pack="NCA">تشغيل سيناريو من هذا الموصل</button>
+                <button class="connector-btn secondary" data-test-connector="Microsoft SharePoint" aria-label="اختبار اتصال موصل Microsoft SharePoint">اختبار الاتصال</button>
+                <button class="connector-btn primary" data-run-scenario="SharePoint contract review" data-connector="Microsoft SharePoint" data-pack="NCA" aria-label="تشغيل سيناريو باستخدام موصل Microsoft SharePoint">تشغيل سيناريو من هذا الموصل</button>
               </div>
             </article>
 
@@ -407,8 +413,8 @@
                 <div class="scenario-strip"><i class="fa-solid fa-route" aria-hidden="true"></i> Excel HR file privacy review</div>
               </div>
               <div class="connector-footer">
-                <button class="connector-btn secondary" data-test-connector="Excel/CSV">اختبار الاتصال</button>
-                <button class="connector-btn primary" data-run-scenario="Excel HR file privacy review" data-connector="Excel/CSV" data-pack="PDPL">تشغيل سيناريو من هذا الموصل</button>
+                <button class="connector-btn secondary" data-test-connector="Excel/CSV" aria-label="اختبار اتصال موصل Excel/CSV">اختبار الاتصال</button>
+                <button class="connector-btn primary" data-run-scenario="Excel HR file privacy review" data-connector="Excel/CSV" data-pack="PDPL" aria-label="تشغيل سيناريو باستخدام موصل Excel/CSV">تشغيل سيناريو من هذا الموصل</button>
               </div>
             </article>
 
@@ -434,8 +440,8 @@
                 <div class="scenario-strip"><i class="fa-solid fa-route" aria-hidden="true"></i> HIS CAPA review</div>
               </div>
               <div class="connector-footer">
-                <button class="connector-btn secondary" data-test-connector="HIS Healthcare">اختبار الاتصال</button>
-                <button class="connector-btn primary" data-run-scenario="HIS CAPA review" data-connector="HIS Healthcare" data-pack="SFDA">تشغيل سيناريو من هذا الموصل</button>
+                <button class="connector-btn secondary" data-test-connector="HIS Healthcare" aria-label="اختبار اتصال موصل HIS Healthcare">اختبار الاتصال</button>
+                <button class="connector-btn primary" data-run-scenario="HIS CAPA review" data-connector="HIS Healthcare" data-pack="SFDA" aria-label="تشغيل سيناريو باستخدام موصل HIS Healthcare">تشغيل سيناريو من هذا الموصل</button>
               </div>
             </article>
 
@@ -461,8 +467,8 @@
                 <div class="scenario-strip"><i class="fa-solid fa-route" aria-hidden="true"></i> CRM contract obligation review</div>
               </div>
               <div class="connector-footer">
-                <button class="connector-btn secondary" data-test-connector="CRM">اختبار الاتصال</button>
-                <button class="connector-btn primary" data-run-scenario="CRM contract obligation review" data-connector="CRM" data-pack="PDPL">تشغيل سيناريو من هذا الموصل</button>
+                <button class="connector-btn secondary" data-test-connector="CRM" aria-label="اختبار اتصال موصل CRM">اختبار الاتصال</button>
+                <button class="connector-btn primary" data-run-scenario="CRM contract obligation review" data-connector="CRM" data-pack="PDPL" aria-label="تشغيل سيناريو باستخدام موصل CRM">تشغيل سيناريو من هذا الموصل</button>
               </div>
             </article>
           </div>
@@ -470,14 +476,18 @@
       </div>
     </main>
   </div>
+  <a href="/kernel/offline.html" style="display:none">الوضع بدون اتصال</a>
   <script src="/frontend/js/unified-header.js?v=20260529-nav-v1" defer></script>
 
-  <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.2.7/purify.min.js" defer></script>
   <script src="/kernel/assets/js/kernel-utils.js" defer></script>
+  <script src="/kernel/kernel-web-vitals.js" defer></script>
+  <script src="/kernel/kernel-perf.js" defer></script>
   <script src="/kernel/assets/js/kernel-api.js" defer></script>
   <script src="/kernel/assets/js/kernel-demo-store.js" defer></script>
   <script src="/kernel/assets/js/kernel-mock-handlers.js" defer></script>
   <script src="/kernel/assets/js/kernel-demo-banner.js" defer></script>
+  <script src="/kernel/assets/js/kernel-notifications.js" defer></script>
   <script src="/kernel/assets/js/kernel-nav.js" defer></script>
   <script src="/kernel/assets/js/kernel-aurora.js" defer></script>
   <script>
@@ -513,7 +523,7 @@
       if (!panel) return;
 
       panel.classList.add('is-visible');
-      panel.innerHTML = `
+      panel.innerHTML = KernelUtils.sanitizeHtml(`
         <div class="connector-result-title">
           <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
           <span>${escapeHtml(title)}</span>
@@ -522,7 +532,7 @@
         <p>الموصل: <strong>${escapeHtml(connector)}</strong> · الحزمة: <strong>${escapeHtml(compliancePack)}</strong></p>
         <p>trace_id: <code>${escapeHtml(traceId)}</code></p>
         <p><strong>Demo connector — no real data is accessed</strong></p>
-      `;
+      `);
       const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       panel.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'nearest' });
     }

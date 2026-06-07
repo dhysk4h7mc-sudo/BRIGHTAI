@@ -1116,3 +1116,156 @@
       color: var(--text-secondary);
       font-size: 0.75rem;
     }
+
+    /* ── Chain Verification Results Panel ─────────────────── */
+    .chain-verify-results {
+      margin-top: var(--space-4);
+      padding: var(--space-4);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      background: rgba(11, 22, 40, 0.6);
+      contain: layout;
+    }
+
+    .chain-verify-summary {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-3);
+      margin-bottom: var(--space-4);
+    }
+
+    .chain-verify-summary > i {
+      font-size: 1.25rem;
+      flex: 0 0 auto;
+      margin-block-start: 2px;
+    }
+
+    .chain-verify-summary > div {
+      display: grid;
+      gap: var(--space-1);
+    }
+
+    .chain-verify-summary strong {
+      color: var(--text-primary);
+      font-size: 0.9375rem;
+    }
+
+    .chain-verify-summary span {
+      color: var(--text-secondary);
+      font-size: 0.8125rem;
+    }
+
+    .chain-verify-warning {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-3);
+      margin-bottom: var(--space-3);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      border-radius: var(--radius-sm);
+      background: var(--warning-bg);
+      color: var(--warning);
+      font-size: 0.8125rem;
+    }
+
+    .chain-verify-broken {
+      display: grid;
+      gap: var(--space-1);
+      padding: var(--space-3);
+      margin-bottom: var(--space-3);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      border-radius: var(--radius-sm);
+      background: var(--danger-bg);
+    }
+
+    .chain-verify-broken strong {
+      color: var(--danger);
+      font-size: 0.875rem;
+    }
+
+    .chain-verify-broken span {
+      color: var(--text-secondary);
+      font-size: 0.8125rem;
+    }
+
+    .chain-verify-empty {
+      padding: var(--space-6);
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+    }
+
+    .chain-fingerprint-table-wrapper {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .chain-fingerprint-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8125rem;
+    }
+
+    .chain-fingerprint-table th {
+      padding: var(--space-2) var(--space-3);
+      text-align: start;
+      color: var(--text-tertiary);
+      font-weight: 600;
+      font-size: 0.6875rem;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+
+    .chain-fingerprint-table td {
+      padding: var(--space-2) var(--space-3);
+      border-bottom: 1px solid rgba(0, 212, 255, 0.05);
+      color: var(--text-secondary);
+      white-space: nowrap;
+    }
+
+    .chain-fingerprint-table tbody tr:hover {
+      background: rgba(0, 212, 255, 0.04);
+    }
+
+    .chain-fp-valid {
+      color: var(--success);
+    }
+
+    .chain-fp-invalid {
+      color: var(--danger);
+    }
+
+    .chain-fp-num {
+      color: var(--text-tertiary);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .chain-fp-action {
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    .chain-fp-hash {
+      font-family: 'IBM Plex Mono', 'Consolas', monospace;
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+    }
+
+    .chain-fp-detail {
+      font-size: 0.75rem;
+    }
+
+    .chain-fp-more {
+      text-align: center !important;
+      color: var(--text-tertiary);
+      font-size: 0.75rem;
+      padding: var(--space-3) !important;
+    }
+
+    @media (max-width: 560px) {
+      .chain-fingerprint-table th:nth-child(4),
+      .chain-fingerprint-table td:nth-child(4) {
+        display: none;
+      }
+    }

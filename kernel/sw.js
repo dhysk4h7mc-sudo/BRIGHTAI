@@ -1,21 +1,32 @@
-/* BrightAI Kernel Service Worker */
-const KERNEL_CACHE_VERSION = '2026-06-07-2';
+/* BrightAI Kernel Service Worker v2 — enhanced caching strategies */
+const KERNEL_CACHE_VERSION = '2026-06-07-4';
 const CACHE_PREFIX = 'brightai-kernel';
 const STATIC_CACHE = `${CACHE_PREFIX}-static-${KERNEL_CACHE_VERSION}`;
 const API_CACHE = `${CACHE_PREFIX}-api-${KERNEL_CACHE_VERSION}`;
+const RUNTIME_CACHE = `${CACHE_PREFIX}-runtime-${KERNEL_CACHE_VERSION}`;
 const OFFLINE_URL = '/kernel/offline.html';
 const APPROVAL_SYNC_TAG = 'brightai-kernel-pending-approvals';
+const PERIODIC_SYNC_TAG = 'brightai-kernel-periodic-sync';
 const DB_NAME = 'brightai-kernel-sw';
 const DB_VERSION = 1;
 const APPROVAL_STORE = 'pendingApprovals';
+
+/* Cacheable response thresholds — only cache responses matching these criteria */
+const CACHEABLE_RESPONSE_CONFIG = {
+  statuses: [0, 200],
+  maxAgeSeconds: 30 * 24 * 60 * 60 // 30 days for static assets
+};
 
 const PRECACHE_URLS = [
   OFFLINE_URL,
   '/kernel/',
   '/kernel/manifest.json',
   '/kernel/assets/css/kernel.css',
+  '/kernel/assets/js/kernel-utils.js',
   '/kernel/assets/js/kernel-notifications.js',
   '/kernel/assets/js/kernel-pwa.js',
+  '/kernel/kernel-web-vitals.js',
+  '/kernel/kernel-perf.js',
   '/frontend/vendor/fontawesome/css/all.min.css',
   '/frontend/vendor/fontawesome/webfonts/fa-solid-900.woff2',
   '/frontend/vendor/fontawesome/webfonts/fa-regular-400.woff2',
@@ -23,6 +34,7 @@ const PRECACHE_URLS = [
   '/frontend/images/android-chrome-512x512.png'
 ];
 
+/* ── Install ─────────────────────────────────────────────── */
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(STATIC_CACHE)
@@ -33,37 +45,59 @@ self.addEventListener('install', (event) => {
   );
 });
 
+/* ── Activate ────────────────────────────────────────────── */
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys()
-      .then((keys) => Promise.all(
-        keys
-          .filter((key) => key.startsWith(`${CACHE_PREFIX}-`) && ![STATIC_CACHE, API_CACHE].includes(key))
-          .map((key) => caches.delete(key))
-      ))
-      .then(() => self.clients.claim())
+    Promise.all([
+      cleanOldCaches(),
+      self.clients.claim(),
+      enableNavigationPreload()
+    ])
   );
 });
 
+async function cleanOldCaches() {
+  const keys = await caches.keys();
+  return Promise.all(
+    keys
+      .filter((key) => key.startsWith(`${CACHE_PREFIX}-`) && ![STATIC_CACHE, API_CACHE, RUNTIME_CACHE].includes(key))
+      .map((key) => caches.delete(key))
+  );
+}
+
+/* ── Navigation Preload ─────────────────────────────────── */
+async function enableNavigationPreload() {
+  if (!self.registration.navigationPreload) return;
+  try {
+    await self.registration.navigationPreload.enable();
+  } catch (_error) {
+    // Navigation preload not supported — safe to ignore.
+  }
+}
+
+/* ── Fetch ───────────────────────────────────────────────── */
 self.addEventListener('fetch', (event) => {
   const request = event.request;
   const url = new URL(request.url);
 
   if (url.origin !== self.location.origin) return;
 
+  /* Static assets → cache-first */
   if (request.method === 'GET' && isStaticAsset(request, url)) {
     event.respondWith(cacheFirst(request, STATIC_CACHE));
     return;
   }
 
+  /* Navigation requests → network-first with preload support */
   if (request.method === 'GET' && isNavigationRequest(request)) {
-    event.respondWith(networkFirstNavigation(request));
+    event.respondWith(networkFirstNavigation(request, event));
     return;
   }
 
+  /* Kernel API GET → stale-while-revalidate for speed */
   if (isKernelApiRequest(url)) {
     if (request.method === 'GET') {
-      event.respondWith(networkFirstApi(request));
+      event.respondWith(staleWhileRevalidate(request, API_CACHE));
       return;
     }
 
@@ -76,12 +110,53 @@ self.addEventListener('fetch', (event) => {
   }
 });
 
+/* ── Background Sync ────────────────────────────────────── */
 self.addEventListener('sync', (event) => {
   if (event.tag === APPROVAL_SYNC_TAG) {
     event.waitUntil(replayPendingApprovals());
   }
 });
 
+/* ── Periodic Background Sync ───────────────────────────── */
+self.addEventListener('periodicsync', (event) => {
+  if (event.tag === PERIODIC_SYNC_TAG) {
+    event.waitUntil(periodicBackgroundSync());
+  }
+});
+
+async function periodicBackgroundSync() {
+  try {
+    /* Refresh key API data in background so the next load is fresh */
+    const endpoints = [
+      '/api/kernel/approvals',
+      '/api/kernel/stats'
+    ];
+
+    const cache = await caches.open(API_CACHE);
+    await Promise.allSettled(
+      endpoints.map(async (path) => {
+        try {
+          const response = await fetch(path, { cache: 'reload' });
+          if (isCacheableWithPlugin(response)) {
+            await cache.put(new Request(path), response.clone());
+          }
+        } catch (_error) {
+          // Network unavailable during periodic sync — ignore.
+        }
+      })
+    );
+
+    postPerfMetric('periodic_sync', {
+      status: 'success',
+      endpoints: endpoints.length,
+      timestamp: Date.now()
+    });
+  } catch (_error) {
+    postPerfMetric('periodic_sync', { status: 'error' });
+  }
+}
+
+/* ── Push ────────────────────────────────────────────────── */
 self.addEventListener('push', (event) => {
   const payload = readPushPayload(event);
   const isPendingApproval = payload.type === 'pending_approval' || payload.type === 'pending_approvals';
@@ -100,6 +175,7 @@ self.addEventListener('push', (event) => {
   }));
 });
 
+/* ── Notification Click ──────────────────────────────────── */
 self.addEventListener('notificationclick', (event) => {
   event.notification.close();
   const targetUrl = new URL(event.notification.data?.url || '/kernel/approvals/', self.location.origin).href;
@@ -113,6 +189,7 @@ self.addEventListener('notificationclick', (event) => {
   );
 });
 
+/* ── Message ─────────────────────────────────────────────── */
 self.addEventListener('message', (event) => {
   const message = event.data || {};
   if (message.type === 'SHOW_PENDING_APPROVAL_NOTIFICATION') {
@@ -124,11 +201,21 @@ self.addEventListener('message', (event) => {
       renotify: true
     }));
   }
+
+  /* Handle update notification → activate new SW immediately */
+  if (message.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
 });
 
+/* ════════════════════════════════════════════════════════════
+   Caching Strategies
+   ════════════════════════════════════════════════════════════ */
+
+/* ── Helpers ─────────────────────────────────────────────── */
 function isStaticAsset(request, url) {
   if (request.destination === 'style' || request.destination === 'script' || request.destination === 'font') return true;
-  return /\.(?:css|js|woff2?|ttf|otf)$/i.test(url.pathname);
+  return /\.(?:css|js|woff2?|ttf|otf|png|jpg|jpeg|svg|webp)$/i.test(url.pathname);
 }
 
 function isNavigationRequest(request) {
@@ -143,35 +230,169 @@ function isApprovalMutation(url) {
   return url.pathname === '/api/kernel/approvals' || url.pathname.startsWith('/api/kernel/approve/') || url.pathname.startsWith('/api/kernel/reject/');
 }
 
+/**
+ * Cacheable Response Plugin logic — validates response before caching.
+ * Rejects opaque cross-origin responses and non-2xx statuses.
+ */
+function isCacheableWithPlugin(response) {
+  if (!response) return false;
+  if (!CACHEABLE_RESPONSE_CONFIG.statuses.includes(response.status)) return false;
+  return response.type === 'basic' || response.type === 'cors';
+}
+
+function isCacheable(response) {
+  return Boolean(response && response.ok && response.type === 'basic');
+}
+
+/* ── Strategy: Cache First ───────────────────────────────── */
 async function cacheFirst(request, cacheName) {
+  const start = performance.now();
   const cache = await caches.open(cacheName);
   const cached = await cache.match(request);
-  if (cached) return cached;
+  if (cached) {
+    postPerfMetric('cache', {
+      result: 'hit',
+      cacheName,
+      url: new URL(request.url).pathname,
+      duration: Math.round(performance.now() - start)
+    });
+    return cached;
+  }
 
   const response = await fetch(request);
-  if (isCacheable(response)) await cache.put(request, response.clone());
+  if (isCacheableWithPlugin(response)) await cache.put(request, response.clone());
+  postPerfMetric('cache', {
+    result: 'miss',
+    cacheName,
+    url: new URL(request.url).pathname,
+    duration: Math.round(performance.now() - start),
+    status: response.status
+  });
   return response;
 }
 
-async function networkFirstNavigation(request) {
+/* ── Strategy: Network First (Navigation with preload) ──── */
+async function networkFirstNavigation(request, event) {
+  const start = performance.now();
+
+  /* Use navigation preload response if available */
+  if (event.preloadResponse) {
+    try {
+      const preloadResponse = await event.preloadResponse;
+      if (preloadResponse && preloadResponse.ok) {
+        postPerfMetric('navigation', {
+          source: 'preload',
+          url: new URL(request.url).pathname,
+          duration: Math.round(performance.now() - start)
+        });
+        return preloadResponse;
+      }
+    } catch (_error) {
+      // Preload response failed — fall through to normal fetch.
+    }
+  }
+
   try {
     const response = await fetch(new Request(request, { cache: 'reload' }));
     return response;
   } catch (_error) {
+    postPerfMetric('offline_fallback_latency', {
+      url: new URL(request.url).pathname,
+      duration: Math.round(performance.now() - start)
+    });
+
+    /* Try cache for previously visited pages */
+    const cache = await caches.open(RUNTIME_CACHE);
+    const cached = await cache.match(request);
+    if (cached) return cached;
+
     return caches.match(OFFLINE_URL) || Response.error();
   }
 }
 
+/* ── Strategy: Stale-While-Revalidate (API calls) ───────── */
+async function staleWhileRevalidate(request, cacheName) {
+  const start = performance.now();
+  const cache = await caches.open(cacheName);
+  const cached = await cache.match(request);
+
+  /* Fire-and-forget network request to update cache in background */
+  const fetchPromise = fetch(new Request(request, { cache: 'reload' }))
+    .then((networkResponse) => {
+      if (isCacheableWithPlugin(networkResponse)) {
+        cache.put(request, networkResponse.clone());
+      }
+      postPerfMetric('cache', {
+        result: cached ? 'revalidated' : 'miss',
+        cacheName,
+        url: new URL(request.url).pathname,
+        duration: Math.round(performance.now() - start),
+        status: networkResponse.status
+      });
+      return networkResponse;
+    })
+    .catch(() => null);
+
+  /* Return cached immediately if available, otherwise wait for network */
+  if (cached) {
+    postPerfMetric('cache', {
+      result: 'hit',
+      cacheName,
+      url: new URL(request.url).pathname,
+      duration: Math.round(performance.now() - start),
+      strategy: 'stale-while-revalidate'
+    });
+    return cached;
+  }
+
+  const networkResponse = await fetchPromise;
+  if (networkResponse) return networkResponse;
+
+  /* Both cache and network failed → API fallback */
+  postPerfMetric('cache', {
+    result: 'miss',
+    cacheName,
+    url: new URL(request.url).pathname,
+    duration: Math.round(performance.now() - start),
+    fallback: true
+  });
+  return apiFallback(request);
+}
+
+/* ── Strategy: Network First (API mutations) ─────────────── */
 async function networkFirstApi(request) {
+  const start = performance.now();
   const cache = await caches.open(API_CACHE);
 
   try {
     const response = await fetch(new Request(request, { cache: 'reload' }));
     if (isCacheable(response)) await cache.put(request, response.clone());
+    postPerfMetric('cache', {
+      result: 'miss',
+      cacheName: API_CACHE,
+      url: new URL(request.url).pathname,
+      duration: Math.round(performance.now() - start),
+      status: response.status
+    });
     return response;
   } catch (_error) {
     const cached = await cache.match(request);
-    if (cached) return cached;
+    if (cached) {
+      postPerfMetric('cache', {
+        result: 'hit',
+        cacheName: API_CACHE,
+        url: new URL(request.url).pathname,
+        duration: Math.round(performance.now() - start)
+      });
+      return cached;
+    }
+    postPerfMetric('cache', {
+      result: 'miss',
+      cacheName: API_CACHE,
+      url: new URL(request.url).pathname,
+      duration: Math.round(performance.now() - start),
+      fallback: true
+    });
     return apiFallback(request);
   }
 }
@@ -201,6 +422,7 @@ async function networkFirstApiMutation(request) {
   }
 }
 
+/* ── API Fallback Responses ─────────────────────────────── */
 function apiFallback(request) {
   const url = new URL(request.url);
   if (url.pathname.endsWith('/approvals')) {
@@ -233,6 +455,10 @@ function apiFallback(request) {
     errorCode: 'KERNEL_OFFLINE'
   }, 503);
 }
+
+/* ════════════════════════════════════════════════════════════
+   IndexedDB — Pending Approvals Queue
+   ════════════════════════════════════════════════════════════ */
 
 async function queueApprovalMutation(request) {
   const body = await request.clone().text().catch(() => '');
@@ -327,6 +553,10 @@ async function registerApprovalSync() {
   }
 }
 
+/* ════════════════════════════════════════════════════════════
+   Utilities
+   ════════════════════════════════════════════════════════════ */
+
 function readPushPayload(event) {
   if (!event.data) return {};
   try {
@@ -345,8 +575,22 @@ function showKernelNotification(title, options = {}) {
   });
 }
 
-function isCacheable(response) {
-  return Boolean(response && response.ok && response.type === 'basic');
+function postPerfMetric(name, payload = {}) {
+  if (!self.clients?.matchAll) return;
+  self.clients.matchAll({ type: 'window', includeUncontrolled: true })
+    .then((clientList) => {
+      clientList.forEach((client) => {
+        client.postMessage({
+          type: 'KERNEL_PWA_PERF',
+          metric: {
+            name,
+            timestamp: Date.now(),
+            ...payload
+          }
+        });
+      });
+    })
+    .catch(() => {});
 }
 
 function jsonResponse(payload, status = 200) {

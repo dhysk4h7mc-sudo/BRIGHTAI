@@ -12,6 +12,7 @@
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#030A18">
+  <meta name="apple-mobile-web-app-title" content="BrightAI Kernel">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
@@ -117,13 +118,13 @@
   <link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css">
 </head>
 <body>
-
+  <a href="#main-content" class="skip-link">تخطي إلى المحتوى الرئيسي</a>
 <div class="toast-container" id="toast-container" aria-live="polite"></div>
 <!-- BRIGHTAI_NOSCRIPT_NAV_START -->
 <div id="brightai-unified-header">
   <noscript>
     <header class="brightai-noscript-header" role="banner" aria-label="BrightAI HTML navigation fallback">
-      <nav aria-label="التنقل الرئيسي في BrightAI">
+      <nav aria-label="التنقل الرئيسي في BrightAI" role="navigation">
         <a href="https://brightai.site/" aria-label="BrightAI الرئيسية">BrightAI</a>
         <ul>
           <li>
@@ -195,7 +196,7 @@
 </div>
 <!-- BRIGHTAI_NOSCRIPT_NAV_END -->
 <!-- BRIGHTAI_RAW_INTERNAL_LINKS_START -->
-<section class="brightai-raw-internal-links" data-brightai-raw-internal-links="true" aria-labelledby="brightai-raw-internal-links-title" dir="rtl" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;">
+<section class="brightai-raw-internal-links u-sr-only" data-brightai-raw-internal-links="true" aria-labelledby="brightai-raw-internal-links-title" dir="rtl">
   <h2 id="brightai-raw-internal-links-title">روابط BrightAI الداخلية الرئيسية</h2>
   <ul>
     <li><a href="https://brightai.site/about/">عن BrightAI</a></li>
@@ -212,10 +213,8 @@
   </ul>
 </section>
 <!-- BRIGHTAI_RAW_INTERNAL_LINKS_END -->
-<a href="#main-content" class="skip-link">تخطي إلى المحتوى الرئيسي</a>
-
-  <!-- Keyboard Shortcut Overlay -->
-<div class="shortcut-overlay" id="shortcut-overlay" onclick="if(event.target===this)this.classList.remove('open')">
+<!-- Keyboard Shortcut Overlay -->
+<div class="shortcut-overlay" id="shortcut-overlay" data-kernel-click="closeShortcutOverlay" data-kernel-arg-0="__element__" data-kernel-arg-1="__event__">
   <div class="shortcut-card">
     <h3>اختصارات لوحة المفاتيح</h3>
     <div class="shortcut-row"><span>فتح المحادثة</span><span class="shortcut-key">C</span></div>
@@ -226,9 +225,9 @@
     <div class="shortcut-row"><span>إغلاق</span><span class="shortcut-key">Esc</span></div>
   </div>
 </div>
-  <main id="main-content">
+  <main id="main-content" role="main">
     <div class="container dashboard-shell" aria-label="لوحة تشغيل BrightAI Kernel">
-      <nav class="kernel-breadcrumb" aria-label="مسار التنقل">
+      <nav class="kernel-breadcrumb" aria-label="مسار التنقل" role="navigation">
         <ol>
           <li><a href="/">BrightAI</a></li>
           <li aria-current="page">نواة BrightAI - حوكمة الذكاء الاصطناعي للمؤسسات السعودية</li>
@@ -367,22 +366,22 @@
         <div class="metrics-grid">
           <article class="metric-card">
             <div class="metric-label">إجمالي الطلبات</div>
-            <div class="metric-value" id="stat-total"><span class="skeleton" style="width: 72px; height: 38px;"></span></div>
+            <div class="metric-value" id="stat-total"><span class="skeleton u-skeleton u-skeleton--lg"></span></div>
             <div class="metric-trend" id="stat-total-note">من سجل Kernel</div>
           </article>
           <article class="metric-card">
             <div class="metric-label">بانتظار الموافقة</div>
-            <div class="metric-value" id="stat-pending"><span class="skeleton" style="width: 48px; height: 38px;"></span></div>
+            <div class="metric-value" id="stat-pending"><span class="skeleton u-skeleton u-skeleton--sm"></span></div>
             <div class="metric-trend">تحتاج قرار بشري</div>
           </article>
           <article class="metric-card">
             <div class="metric-label">متوسط المخاطر</div>
-            <div class="metric-value" id="stat-risk"><span class="skeleton" style="width: 62px; height: 38px;"></span></div>
+            <div class="metric-value" id="stat-risk"><span class="skeleton u-skeleton u-skeleton--md"></span></div>
             <div class="metric-trend">درجة تشغيلية تراكمية</div>
           </article>
           <article class="metric-card">
             <div class="metric-label">كشف PII</div>
-            <div class="metric-value" id="stat-pii"><span class="skeleton" style="width: 62px; height: 38px;"></span></div>
+            <div class="metric-value" id="stat-pii"><span class="skeleton u-skeleton u-skeleton--md"></span></div>
             <div class="metric-trend">من الطلبات المفحوصة</div>
           </article>
         </div>
@@ -413,7 +412,7 @@
     </div>
 
     <!-- Footer -->
-<footer class="footer">
+<footer class="footer" role="contentinfo">
       <div class="container">
         <p class="footer-text">
           &copy; 2024 نواة BrightAI. منصة حوكمة الذكاء الاصطناعي المؤسسية.
@@ -423,15 +422,21 @@
   </main>
 
   <!-- Scripts -->
+  <a href="/kernel/offline.html" style="display:none">الوضع بدون اتصال</a>
   <script src="/frontend/js/unified-header.js?v=20260529-nav-v1" defer></script>
 
-  <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.2.7/purify.min.js" defer></script>
   <script src="/kernel/assets/js/kernel-utils.js" defer></script>
+  <script src="/kernel/kernel-web-vitals.js" defer></script>
+  <script src="/kernel/kernel-perf.js" defer></script>
   <script src="/kernel/assets/js/kernel-api.js" defer></script>
   <script src="/kernel/assets/js/kernel-demo-store.js" defer></script>
   <script src="/kernel/assets/js/kernel-mock-handlers.js" defer></script>
   <script src="/kernel/assets/js/kernel-demo-banner.js" defer></script>
+  <script src="/kernel/assets/js/kernel-notifications.js" defer></script>
   <script src="/kernel/assets/js/kernel-nav.js" defer></script>
+  <script src="/kernel/assets/js/kernel-onboarding.js" defer></script>
+  <script src="/kernel/assets/js/kernel-command-palette.js" defer></script>
   <script src="/kernel/assets/js/kernel-aurora.js" defer></script>
 
   <script>
@@ -547,15 +552,15 @@
       if (!container) return;
       const rows = (traces || []).slice(0, 5).map(normalizeTrace);
       if (!rows.length) {
-        container.innerHTML = `<div class="empty-illustrated">
+        container.innerHTML = KernelUtils.sanitizeHtml(`<div class="empty-illustrated">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
           <h3>لا توجد سجلات حديثة</h3>
           <p>ابدأ محادثة آمنة لإنشاء أول trace في سجل الحوكمة.</p>
-          <a href="/kernel/chat/" class="btn btn-primary btn-sm" style="margin-top:var(--space-2);">تشغيل محادثة آمنة</a>
-        </div>`;
+          <a href="/kernel/chat/" class="btn btn-primary btn-sm u-mt-2">تشغيل محادثة آمنة</a>
+        </div>`);
         return;
       }
-      container.innerHTML = rows.map((t, i) => {
+      container.innerHTML = KernelUtils.sanitizeHtml(rows.map((t, i) => {
         const rl = String(t.riskLevel || 'minimal').toLowerCase();
         const score = Math.max(0, Math.min(100, t.riskScore || 0));
         const href = `/kernel/evidence/?trace_id=${encodeURIComponent(t.traceId)}`;
@@ -572,7 +577,7 @@
             </div>
           </div>
         </div>`;
-      }).join('');
+      }).join(''));
     }
 
     // ── Risk Heat Map ──
@@ -595,7 +600,7 @@
         counts[key] = (counts[key] || 0) + 1;
       });
       const maxCount = Math.max(1, ...Object.values(counts));
-      grid.innerHTML = categories.map(cat => levels.map(lvl => {
+      grid.innerHTML = KernelUtils.sanitizeHtml(categories.map(cat => levels.map(lvl => {
         const rl = lvl.toLowerCase();
         const key = cat + '_' + rl;
         const count = counts[key] || 0;
@@ -604,8 +609,8 @@
         const c = colors[rl] || colors.low;
         const bg = `rgba(${c[0]},${c[1]},${c[2]},${0.08 + intensity * 0.6})`;
         return `<div class="heatmap-cell" style="background:${bg}">${count || ''}<span class="heatmap-tip">${cat} · ${lvl}: ${count}</span></div>`;
-      }).join('')).join('');
-      labels.innerHTML = categories.map(c => `<span class="heatmap-label">${c}</span>`).join('');
+      }).join('')).join(''));
+      labels.innerHTML = KernelUtils.sanitizeHtml(categories.map(c => `<span class="heatmap-label">${c}</span>`).join(''));
     }
 
     async function loadStats() {
@@ -684,6 +689,12 @@
       const txt = document.getElementById(textId);
       if (dot) dot.className = 'health-dot ' + (ok ? 'ok' : 'err');
       if (txt) txt.textContent = text;
+    }
+
+    function closeShortcutOverlay(overlay, event) {
+      if (event.target === overlay) {
+        overlay.classList.remove('open');
+      }
     }
 
     // ── Keyboard Shortcuts ──

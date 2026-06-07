@@ -425,9 +425,9 @@
       }
 
       if (!this.elements.list) return;
-      this.elements.list.innerHTML = latest.length
+      this.elements.list.innerHTML = global.KernelUtils?.sanitizeHtml((latest.length
         ? latest.map((notification) => this.renderNotification(notification)).join('')
-        : '<div class="kernel-notification-empty">لا توجد إشعارات حالياً</div>';
+        : '<div class="kernel-notification-empty">لا توجد إشعارات حالياً</div>')) || '';
     },
 
     renderNotification(notification) {
