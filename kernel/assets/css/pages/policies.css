@@ -178,7 +178,7 @@
     table {
       width: 100%;
       border-collapse: collapse;
-      text-align: right;
+      text-align: start;
     }
 
     th {
@@ -276,7 +276,7 @@
       padding: 1rem;
       background: var(--bg-secondary);
       border-radius: 8px;
-      border-right: 4px solid var(--primary-color);
+      border-inline-start: 4px solid var(--primary-color);
       font-family: inherit;
     }
 

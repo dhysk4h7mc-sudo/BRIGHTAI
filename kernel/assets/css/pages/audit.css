@@ -84,7 +84,7 @@
       transition: border-color var(--transition-fast);
       display: block;
       width: 100%;
-      text-align: left;
+      text-align: end;
     }
 
     .chain-hash-value:hover { border-color: var(--border-hover); }
@@ -292,7 +292,7 @@
       background: transparent;
       border: 0;
       padding: var(--space-2);
-      text-align: left;
+      text-align: end;
       cursor: pointer;
       transition: color var(--transition-fast);
     }
@@ -455,7 +455,7 @@
 
     .trace-step-code {
       direction: ltr;
-      text-align: left;
+      text-align: end;
       font-family: 'IBM Plex Mono', monospace;
       color: var(--text-primary);
       font-size: 0.75rem;
@@ -472,7 +472,7 @@
 
     .trace-step-hash {
       direction: ltr;
-      text-align: left;
+      text-align: end;
       margin-top: var(--space-3);
       color: var(--text-tertiary);
       font-family: 'IBM Plex Mono', monospace;
@@ -691,7 +691,7 @@
 
     .filter-control[type="date"] {
       direction: ltr;
-      text-align: left;
+      text-align: end;
       color-scheme: dark;
     }
 
@@ -1007,7 +1007,7 @@
       font-family: 'IBM Plex Mono', monospace;
       font-size: 0.75rem;
       direction: ltr;
-      text-align: right;
+      text-align: start;
     }
 
     .modal-close-btn {
@@ -1079,7 +1079,7 @@
 
     .detail-code {
       direction: ltr;
-      text-align: left;
+      text-align: end;
       font-family: 'IBM Plex Mono', monospace;
       font-size: 0.75rem;
     }

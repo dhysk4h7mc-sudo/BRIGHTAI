@@ -53,7 +53,7 @@
     }
     .evidence-item.selected {
       background: var(--primary-light);
-      border-right: 3px solid var(--primary-color);
+      border-inline-start: 3px solid var(--primary-color);
     }
     .evidence-item:last-child {
       border-bottom: none;
