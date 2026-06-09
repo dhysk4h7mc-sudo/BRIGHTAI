@@ -63,6 +63,7 @@ const NON_INDEXABLE_REL_PATH_PATTERNS = [
   /^interview\/pages\/supportAI\/index\.html$/i,
   /^blog\/atou\.doc\.html$/i,
   /^blog\/generative-artificial-intelligence\.html$/i,
+  /^components\//i,
   /^demo\/mais-dashboard\//i,
 ];
 

@@ -32,6 +32,7 @@ const HTML_IGNORE_DIRS = new Set([
   ".next",
   ".nuxt",
   ".render-static",
+  "components",
 ]);
 const INTERNAL_PAGE_PATTERN =
   /(^|\/)(404|500)\.html$|(^|\/)offline\/index\.html$|^aimais\/public\/|^frontend\/pages\/interview\/|^mais-OBM\/index\.html$|(^|\/)(admin|settings|analytics|reports|operations|scorecard|copilot|executive)(\/|\.|$)/i;

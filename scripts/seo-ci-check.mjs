@@ -30,7 +30,7 @@ const BASE_URL = "https://brightai.site";
 const ROOT = process.cwd();
 const SITEMAP_PATH = path.join(ROOT, "sitemap.xml");
 const SERVICE_OG_IMAGE_URL = `${BASE_URL}/frontend/assets/images/og/og-solutions.png`;
-const HTML_IGNORE_DIRS = new Set([".git", ".agents", "node_modules", "dist", "build", "coverage", ".next", ".nuxt", ".render-static"]);
+const HTML_IGNORE_DIRS = new Set([".git", ".agents", "node_modules", "dist", "build", "coverage", ".next", ".nuxt", ".render-static", "components"]);
 const INTERNAL_PAGE_PATTERN =
   /(^|\/)(404|500)\.html$|(^|\/)offline\/index\.html$|^aimais\/public\/|^frontend\/pages\/interview\/|^mais-OBM\/index\.html$|(^|\/)(admin|settings|analytics|reports|operations|scorecard|copilot|executive)(\/|\.|$)/i;
 function buildRequiredHreflangForFile(file, lowerPathMap) {

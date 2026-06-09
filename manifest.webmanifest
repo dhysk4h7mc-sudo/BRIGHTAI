@@ -1,24 +1,146 @@
 {
-  "name": "BrightAI",
+  "id": "/",
+  "name": "BrightAI — منصة حوكمة وأمان الذكاء الاصطناعي",
   "short_name": "BrightAI",
-  "description": "طبقة الأمان والحوكمة للذكاء الاصطناعي في الشركات السعودية. متوافق مع PDPL و NCA ECC و SFDA و ISO 13485. تواصل معنا عبر واتساب.",
+  "description": "طبقة الأمان والحوكمة للذكاء الاصطناعي في الشركات السعودية. متوافق مع PDPL و NCA ECC و SFDA و ISO 13485. AI Firewall، سجلات تدقيق، موافقات بشرية، حماية بيانات.",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
-  "orientation": "portrait",
+  "display_override": ["window-controls-overlay", "standalone", "browser"],
+  "orientation": "portrait-primary",
   "background_color": "#060914",
   "theme_color": "#0b1220",
   "lang": "ar-SA",
   "dir": "rtl",
-  "scope": "/",
-  "categories": ["business", "productivity", "security", "utilities"],
+  "categories": ["business", "productivity", "security", "utilities", "government", "health", "finance"],
   "icons": [
     {
-      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='42' fill='%230b1220'/%3E%3Cpath d='M96 36 L150 66 V108 C150 138 126 156 96 162 C66 156 42 138 42 108 V66 Z' fill='none' stroke='%2300d4ff' stroke-width='8'/%3E%3C/svg%3E",
+      "src": "/frontend/images/icon-192.png",
       "sizes": "192x192",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/frontend/images/icon-maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/frontend/images/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/frontend/images/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/frontend/images/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/frontend/images/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
     }
   ],
-  "screenshots": [],
+  "screenshots": [
+    {
+      "src": "/frontend/assets/images/og/og-home.png",
+      "sizes": "1200x630",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "BrightAI — منصة حوكمة وأمان الذكاء الاصطناعي"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "منصة Kernel",
+      "short_name": "Kernel",
+      "description": "لوحة تشغيل حوكمة الذكاء الاصطناعي للمؤسسات.",
+      "url": "/kernel/",
+      "icons": [
+        {
+          "src": "/frontend/images/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "حلول القطاع المصرفي",
+      "short_name": "المصرفي",
+      "description": "حوكمة الذكاء الاصطناعي للبنوك والمؤسسات المالية.",
+      "url": "/solutions/banking-ai-governance/",
+      "icons": [
+        {
+          "src": "/frontend/images/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "حلول القطاع الصحي",
+      "short_name": "الصحي",
+      "description": "حوكمة الذكاء الاصطناعي للمستشفيات والرعاية الصحية.",
+      "url": "/solutions/healthcare-ai-governance/",
+      "icons": [
+        {
+          "src": "/frontend/images/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "حلول القطاع الحكومي",
+      "short_name": "الحكومي",
+      "description": "حوكمة الذكاء الاصطناعي للجهات الحكومية.",
+      "url": "/solutions/government-ai-governance/",
+      "icons": [
+        {
+          "src": "/frontend/images/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "تواصل معنا",
+      "short_name": "تواصل",
+      "description": "تواصل مع فريق BrightAI أو اطلب عرض توضيحي.",
+      "url": "/contact/",
+      "icons": [
+        {
+          "src": "/frontend/images/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  "share_target": {
+    "action": "/contact/",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "subject",
+      "text": "body"
+    }
+  },
+  "protocol_handlers": [
+    {
+      "protocol": "web+brightai",
+      "url": "/?q=%s"
+    }
+  ],
   "prefer_related_applications": false
 }
