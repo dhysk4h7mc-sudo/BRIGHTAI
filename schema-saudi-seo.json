@@ -66,8 +66,7 @@
                     "availableLanguage": [
                         "Arabic",
                         "English"
-                    ],
-                    "contactOption": "TollFree"
+                    ]
                 },
                 {
                     "@type": "ContactPoint",
@@ -88,8 +87,7 @@
                 "https://twitter.com/BrightAISite",
                 "https://linkedin.com/company/brightai-site",
                 "https://github.com/brightai-site",
-                "https://crunchbase.com/organization/brightai",
-                "https://www.wikidata.org/wiki/[QID]"
+                "https://crunchbase.com/organization/brightai"
             ],
             "knowsAbout": [
                 "الذكاء الاصطناعي",
@@ -150,11 +148,7 @@
             "founder": {
                 "@type": "Person",
                 "name": "يزيد",
-                "jobTitle": "المؤسس والمدير التنفيذي",
-                "sameAs": [
-                    "https://linkedin.com/in/[founder-linkedin]",
-                    "https://twitter.com/[founder-twitter]"
-                ]
+                "jobTitle": "المؤسس والمدير التنفيذي"
             }
         },
         {
@@ -209,8 +203,7 @@
                 "https://twitter.com/BrightAISite",
                 "https://linkedin.com/company/brightai-site",
                 "https://github.com/brightai-site",
-                "https://crunchbase.com/organization/brightai",
-                "https://www.wikidata.org/wiki/[QID]"
+                "https://crunchbase.com/organization/brightai"
             ],
             "knowsAbout": [
                 "AI Governance",
@@ -232,7 +225,7 @@
             "publisher": {
                 "@id": "https://brightai.site/#organization"
             },
-            "datePublished": "2023-01-01",
+            "datePublished": "2025-01-01",
             "dateModified": "2025-01-16",
             "mainEntityOfPage": {
                 "@id": "https://brightai.site/"
