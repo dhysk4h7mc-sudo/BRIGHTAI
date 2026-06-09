@@ -6,13 +6,6 @@
     "name": "forrestchang"
   },
   "license": "MIT",
-  "keywords": [
-    "guidelines",
-    "best-practices",
-    "coding",
-    "karpathy"
-  ],
-  "skills": [
-    "./skills/karpathy-guidelines"
-  ]
+  "keywords": ["guidelines", "best-practices", "coding", "karpathy"],
+  "skills": ["./skills/karpathy-guidelines"]
 }
