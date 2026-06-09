@@ -575,6 +575,12 @@
     <lastmod>2026-06-10</lastmod>
   </url>
   <url>
+    <loc>https://brightai.site/solutions/banking-ai-governance/riyadh/</loc>
+    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/solutions/banking-ai-governance/riyadh/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/solutions/banking-ai-governance/riyadh/" />
+    <lastmod>2026-06-09</lastmod>
+  </url>
+  <url>
     <loc>https://brightai.site/solutions/continuous-ai-governance/</loc>
     <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/solutions/continuous-ai-governance/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/solutions/continuous-ai-governance/" />
@@ -587,10 +593,22 @@
     <lastmod>2026-06-10</lastmod>
   </url>
   <url>
+    <loc>https://brightai.site/solutions/government-ai-governance/dammam/</loc>
+    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/solutions/government-ai-governance/dammam/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/solutions/government-ai-governance/dammam/" />
+    <lastmod>2026-06-09</lastmod>
+  </url>
+  <url>
     <loc>https://brightai.site/solutions/healthcare-ai-governance/</loc>
     <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/solutions/healthcare-ai-governance/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/solutions/healthcare-ai-governance/" />
     <lastmod>2026-06-10</lastmod>
+  </url>
+  <url>
+    <loc>https://brightai.site/solutions/healthcare-ai-governance/jeddah/</loc>
+    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/solutions/healthcare-ai-governance/jeddah/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/solutions/healthcare-ai-governance/jeddah/" />
+    <lastmod>2026-06-09</lastmod>
   </url>
   <url>
     <loc>https://brightai.site/solutions/human-approval-layer/</loc>

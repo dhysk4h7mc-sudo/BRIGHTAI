@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ar-SA" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BRIGHTAI — Glass Card</title>
+  <link rel="stylesheet" href="/frontend/css/design-system.css">
+  <link rel="stylesheet" href="/frontend/css/asset-fonts.css">
+  <style>
+    .glass-card {
+      background: var(--surface-panel);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-card);
+      padding: var(--spacing-lg);
+      transition: transform var(--duration-base) var(--ease-standard),
+                  box-shadow var(--duration-base) var(--ease-standard),
+                  border-color var(--duration-base) var(--ease-standard);
+    }
+    .glass-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--border-strong);
+    }
+    .glass-card-icon {
+      inline-size: 48px;
+      block-size: 48px;
+      border-radius: var(--radius-lg);
+      background: var(--color-surface-glass);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-primary);
+      margin-block-end: var(--spacing-4);
+    }
+    .glass-card h3 {
+      font-size: var(--text-xl);
+      font-weight: var(--weight-bold);
+      color: var(--color-text);
+      margin-block-end: var(--spacing-2);
+    }
+    .glass-card p {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      line-height: var(--leading-relaxed);
+    }
+  </style>
+</head>
+<body style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;padding:2rem;min-height:100vh">
+
+  <!-- ═══ Glass Card — Default ═══ -->
+  <article class="glass-card">
+    <div class="glass-card-icon">
+      <iconify-icon icon="lucide:shield-check" width="24"></iconify-icon>
+    </div>
+    <h3>حوكمة الذكاء الاصطناعي</h3>
+    <p>نظام شامل لإدارة ومراقبة تطبيقات الذكاء الاصطناعي وفق أفضل المعايير الدولية واللوائح التنظيمية السعودية.</p>
+  </article>
+
+  <!-- ═══ Glass Card — With Accent ═══ -->
+  <article class="glass-card" style="border-inline-start:3px solid var(--color-brand-gold)">
+    <div class="glass-card-icon" style="color:var(--color-brand-gold)">
+      <iconify-icon icon="lucide:brain-circuit" width="24"></iconify-icon>
+    </div>
+    <h3>تحليل المخاطر</h3>
+    <p>تحليل ذكي وشامل لمخاطر الذكاء الاصطناعي مع توصيات عملية للحد من التهديدات المحتملة.</p>
+  </article>
+
+  <!-- ═══ Glass Card — Gradient Border ═══ -->
+  <article class="glass-card" style="border-image:var(--gradient-primary) 1">
+    <div class="glass-card-icon" style="background:linear-gradient(135deg,rgba(99,102,241,0.2),rgba(139,92,246,0.2));color:#8b5cf6">
+      <iconify-icon icon="lucide:scan-line" width="24"></iconify-icon>
+    </div>
+    <h3>المراجعة الآلية</h3>
+    <p>مراجعة تلقائية لنماذج الذكاء الاصطناعي واكتشاف الانحياز والمشاكل الأخلاقية قبل النشر.</p>
+  </article>
+
+  <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+</body>
+</html>

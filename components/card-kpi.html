@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ar-SA" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BRIGHTAI — KPI Card</title>
+  <link rel="stylesheet" href="/frontend/css/design-system.css">
+  <link rel="stylesheet" href="/frontend/css/asset-fonts.css">
+  <style>
+    .kpi-card {
+      background: var(--color-neutral-800);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: var(--radius-card);
+      padding: var(--spacing-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-2);
+      position: relative;
+      overflow: hidden;
+    }
+    .kpi-card::after {
+      content: '';
+      position: absolute;
+      inset-block-start: 0;
+      inset-inline-end: 0;
+      inline-size: 80px;
+      block-size: 80px;
+      border-radius: 0 0 0 80px;
+      opacity: 0.06;
+    }
+    .kpi-card-label {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      font-weight: var(--weight-medium);
+    }
+    .kpi-card-value {
+      font-size: var(--text-4xl);
+      font-weight: var(--weight-extrabold);
+      color: var(--color-text);
+      line-height: var(--leading-tight);
+    }
+    .kpi-card-unit {
+      font-size: var(--text-lg);
+      color: rgba(255,255,255,0.95);
+      font-weight: var(--weight-bold);
+    }
+    .kpi-card-change {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--spacing-1);
+      font-size: var(--text-xs);
+      font-weight: var(--weight-bold);
+      padding: var(--spacing-1) var(--spacing-2);
+      border-radius: var(--radius-pill);
+      align-self: flex-start;
+    }
+    .kpi-card-change.positive {
+      background: rgba(34,197,94,0.15);
+      color: var(--color-success);
+    }
+    .kpi-card-change.negative {
+      background: rgba(239,68,68,0.15);
+      color: var(--color-danger);
+    }
+    .kpi-card-change.neutral {
+      background: rgba(56,189,248,0.15);
+      color: var(--color-info);
+    }
+    .kpi-card-sparkline {
+      margin-block-start: var(--spacing-3);
+      block-size: 40px;
+      background: linear-gradient(180deg, rgba(103,232,249,0.15) 0%, transparent 100%);
+      border-radius: var(--radius-sm);
+      position: relative;
+    }
+  </style>
+</head>
+<body style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem;padding:2rem;min-height:100vh">
+
+  <!-- ═══ KPI Card — Default ═══ -->
+  <article class="kpi-card">
+    <span class="kpi-card-label">النماذج المراقبة</span>
+    <div>
+      <span class="kpi-card-value">247</span>
+      <span class="kpi-card-unit">نموذج</span>
+    </div>
+    <span class="kpi-card-change positive">
+      <iconify-icon icon="lucide:trending-up" width="14"></iconify-icon>
+      +12% هذا الشهر
+    </span>
+  </article>
+
+  <!-- ═══ KPI Card — Warning ═══ -->
+  <article class="kpi-card" style="border-block-start:3px solid var(--color-warning)">
+    <span class="kpi-card-label">تنبيهات مفتوحة</span>
+    <div>
+      <span class="kpi-card-value" style="color:var(--color-warning)">18</span>
+    </div>
+    <span class="kpi-card-change negative">
+      <iconify-icon icon="lucide:alert-triangle" width="14"></iconify-icon>
+      5 حرجة
+    </span>
+  </article>
+
+  <!-- ═══ KPI Card — Success ═══ -->
+  <article class="kpi-card" style="border-block-start:3px solid var(--color-success)">
+    <span class="kpi-card-label">نسبة الامتثال</span>
+    <div>
+      <span class="kpi-card-value" style="color:var(--color-success)">94.2%</span>
+    </div>
+    <span class="kpi-card-change positive">
+      <iconify-icon icon="lucide:check-circle" width="14"></iconify-icon>
+      +3.1% عن الربع السابق
+    </span>
+  </article>
+
+  <!-- ═══ KPI Card — Neutral ═══ -->
+  <article class="kpi-card">
+    <span class="kpi-card-label">طلبات الموافقة المعلقة</span>
+    <div>
+      <span class="kpi-card-value">32</span>
+    </div>
+    <span class="kpi-card-change neutral">
+      <iconify-icon icon="lucide:clock" width="14"></iconify-icon>
+      متوسط الانتظار: 2.4 يوم
+    </span>
+  </article>
+
+  <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+</body>
+</html>

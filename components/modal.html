@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ar-SA" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BRIGHTAI — Modal</title>
+  <link rel="stylesheet" href="/frontend/css/design-system.css">
+  <link rel="stylesheet" href="/frontend/css/asset-fonts.css">
+  <style>
+    /* Backdrop */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: var(--surface-overlay);
+      backdrop-filter: blur(4px);
+      z-index: var(--z-modal);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--spacing-lg);
+    }
+    /* Modal Shell */
+    .modal {
+      background: #0b1220;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius-2xl);
+      box-shadow: var(--shadow-xl);
+      inline-size: 100%;
+      max-inline-size: 520px;
+      max-block-size: 90vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    /* Header */
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--spacing-lg) var(--spacing-lg) var(--spacing-4);
+    }
+    .modal-title {
+      font-size: var(--text-xl);
+      font-weight: var(--weight-bold);
+      color: var(--color-text);
+    }
+    .modal-close {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      inline-size: 36px;
+      block-size: 36px;
+      border-radius: var(--radius-lg);
+      background: transparent;
+      border: none;
+      color: var(--color-text-muted);
+      cursor: pointer;
+      transition: all var(--duration-fast) var(--ease-standard);
+    }
+    .modal-close:hover {
+      background: rgba(255,255,255,0.08);
+      color: var(--color-text);
+    }
+    /* Body */
+    .modal-body {
+      padding: 0 var(--spacing-lg) var(--spacing-lg);
+      overflow-y: auto;
+      flex: 1;
+    }
+    .modal-body p {
+      color: var(--color-text-muted);
+      font-size: var(--text-sm);
+      line-height: var(--leading-relaxed);
+    }
+    /* Footer */
+    .modal-footer {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: var(--spacing-3);
+      padding: var(--spacing-4) var(--spacing-lg);
+      border-block-start: 1px solid var(--border-subtle);
+    }
+    /* Size variants */
+    .modal--sm { max-inline-size: 400px; }
+    .modal--lg { max-inline-size: 720px; }
+    .modal--full { max-inline-size: 100%; max-block-size: 100%; border-radius: 0; }
+  </style>
+</head>
+<body style="min-height:100vh">
+
+  <!-- ═══ Modal Example ═══ -->
+  <div class="modal-backdrop" onclick="event.target===this&&this.remove()">
+    <dialog open class="modal" role="dialog" aria-labelledby="modal-title" aria-modal="true">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modal-title">تأكيد النشر</h2>
+        <button class="modal-close" aria-label="إغلاق" onclick="this.closest('.modal-backdrop').remove()">
+          <iconify-icon icon="lucide:x" width="18"></iconify-icon>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <p>هل أنت متأكد من نشر نموذج الذكاء الاصطناعي "محلل المخاطر v2.1" في بيئة الإنتاج؟</p>
+        <p style="margin-block-start:1rem">بمجرد النشر، سيتم تطبيق جميع سياسات الحوكمة تلقائياً على النموذج.</p>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-ghost" onclick="this.closest('.modal-backdrop').remove()">إلغاء</button>
+        <button class="btn-primary">
+          <iconify-icon icon="lucide:rocket" width="16"></iconify-icon>
+          نشر الآن
+        </button>
+      </div>
+    </dialog>
+  </div>
+
+  <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+</body>
+</html>

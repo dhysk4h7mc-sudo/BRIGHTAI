@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ar-SA" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BRIGHTAI — Breadcrumb</title>
+  <link rel="stylesheet" href="/frontend/css/design-system.css">
+  <link rel="stylesheet" href="/frontend/css/asset-fonts.css">
+  <style>
+    .breadcrumb-nav {
+      max-inline-size: 80rem;
+      margin: 80px auto 0;
+      padding: var(--spacing-3) var(--spacing-lg);
+    }
+    .breadcrumb-list {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-2);
+      margin: 0;
+      padding: 0;
+      flex-wrap: wrap;
+    }
+    .breadcrumb-item {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-2);
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+    }
+    .breadcrumb-item a {
+      color: var(--color-text-muted);
+      text-decoration: none;
+      transition: color var(--duration-fast) var(--ease-standard);
+    }
+    .breadcrumb-item a:hover {
+      color: var(--color-primary);
+    }
+    .breadcrumb-separator {
+      color: var(--color-neutral-600);
+      font-size: var(--text-xs);
+    }
+    .breadcrumb-current {
+      color: #818cf8;
+      font-weight: var(--weight-bold);
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body style="min-height:100vh">
+
+  <nav class="breadcrumb-nav" aria-label="مسار التنقل">
+    <ol class="breadcrumb-list">
+      <li class="breadcrumb-item">
+        <a href="/">
+          <iconify-icon icon="lucide:home" width="14"></iconify-icon>
+          الرئيسية
+        </a>
+        <span class="breadcrumb-separator" aria-hidden="true">/</span>
+      </li>
+      <li class="breadcrumb-item">
+        <a href="/solutions/">الحلول</a>
+        <span class="breadcrumb-separator" aria-hidden="true">/</span>
+      </li>
+      <li class="breadcrumb-item">
+        <a href="/solutions/healthcare-ai-governance/">القطاع الصحي</a>
+        <span class="breadcrumb-separator" aria-hidden="true">/</span>
+      </li>
+      <li class="breadcrumb-item">
+        <a href="#" class="breadcrumb-current" aria-current="page">جدة</a>
+      </li>
+    </ol>
+  </nav>
+
+  <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+</body>
+</html>

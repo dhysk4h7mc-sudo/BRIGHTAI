@@ -74,7 +74,7 @@ const TRAILING_SLASH_ROUTE_PATTERNS = [
   /^\/hub(?:\/.*)?\/?$/i,
   /^\/blog(?:\/.*)?\/?$/i,
   /^\/services\/[^/]+\/?$/i,
-  /^\/solutions\/[^/]+\/?$/i,
+  /^\/solutions(?:\/.*)?\/?$/i,
   /^\/locations\/[^/]+\/?$/i,
   /^\/sectors\/[^/]+\/?$/i,
   /^\/tools\/[^/]+\/?$/i,

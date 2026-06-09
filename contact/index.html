@@ -297,6 +297,9 @@
   .form-input:focus { border-color: #00d4ff; box-shadow: 0 0 0 3px rgba(0,212,255,.15); }
   .form-input::placeholder { color: rgba(255,255,255,.35); }
   .form-input option { background: #111a2e; color: #e6edf7; }
+  .map-frame { width: 100%; min-height: 380px; border: 0; display: block; filter: saturate(1.05) contrast(1.02); }
+  .map-link { position:absolute; inset-inline-start:1rem; inset-block-end:1rem; background:rgba(6,9,20,.88); border:1px solid rgba(255,255,255,.16); color:#e6edf7; padding:.65rem .9rem; border-radius:.85rem; font-size:.85rem; font-weight:700; backdrop-filter:blur(14px); }
+  .map-link:hover { color:#9be5ff; border-color:rgba(0,212,255,.35); }
 </style>
   <link rel="icon" href="/frontend/assets/images/logo.png" type="image/png">
 <link rel="apple-touch-icon" href="/frontend/assets/images/logo.png">
@@ -315,7 +318,37 @@
       "name": "BrightAI",
       "url": "https://brightai.site",
       "logo": "https://brightai.site/frontend/assets/images/logo.png",
-      "areaServed": "SA",
+      "image": "https://brightai.site/frontend/assets/images/og/og-home.png",
+      "telephone": "+966-538-229-013",
+      "email": "yazeed1job@gmail.com",
+      "priceRange": "SAR 15,000-120,000+",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "King Fahd Road, Al Olaya",
+        "addressLocality": "Riyadh",
+        "addressRegion": "Riyadh",
+        "postalCode": "12212",
+        "addressCountry": "SA"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 24.71360,
+        "longitude": 46.67530
+      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"],
+          "opens": "09:00",
+          "closes": "18:00"
+        }
+      ],
+      "areaServed": [
+        { "@type": "City", "name": "Riyadh" },
+        { "@type": "City", "name": "Jeddah" },
+        { "@type": "City", "name": "Dammam" },
+        { "@type": "Country", "name": "Saudi Arabia" }
+      ],
       "sameAs": [
         "https://twitter.com/BrightAISite",
         "https://linkedin.com/company/brightai-site",
@@ -692,28 +725,18 @@
       <!-- Map + Info -->
       <div class="order-1 lg:order-2 space-y-6">
 
-        <!-- Map Placeholder -->
+        <!-- Google Map -->
         <div class="glass rounded-3xl overflow-hidden relative" style="min-height: 380px;">
-          <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-8" style="background: linear-gradient(135deg, rgba(0,212,255,.06), rgba(124,92,255,.06));">
-            <div class="w-20 h-20 rounded-full flex items-center justify-center mb-4" style="background:linear-gradient(135deg, rgba(0,212,255,.2), rgba(124,92,255,.2)); border:1px solid rgba(0,212,255,.3)">
-              <iconify-icon class="text-brand-300 text-3xl icon-map-location-dot" icon="mdi:map-marker-radius"></iconify-icon>
-            </div>
-            <h2 class="text-xl font-bold mb-2">موقعنا في الرياض</h2>
-            <p class="text-white/50 text-sm max-w-sm">مقر BrightAI في الرياض. نخدم الشركات في كل المملكة.</p>
-            <div class="mt-6 flex items-center gap-3">
-              <span class="chip px-3 py-1.5 rounded-full text-xs font-bold">
-                <iconify-icon class="ml-1 icon-location-crosshairs" icon="mdi:crosshairs-gps"></iconify-icon> 24.7136° N, 46.6753° E
-              </span>
-            </div>
-            <!-- Decorative grid lines for map effect -->
-            <div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: linear-gradient(rgba(0,212,255,.3) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,.3) 1px, transparent 1px); background-size: 60px 60px;"></div>
-            <!-- Animated ping on location -->
-            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-              <div class="w-4 h-4 rounded-full bg-brand-500 relative">
-                <div class="absolute inset-0 rounded-full bg-brand-500 animate-ping opacity-50"></div>
-              </div>
-            </div>
-          </div>
+          <iframe
+            class="map-frame"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="خريطة Google لموقع BrightAI في الرياض"
+            src="https://www.google.com/maps?q=24.71360,46.67530&hl=ar&z=14&output=embed">
+          </iframe>
+          <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=24.71360,46.67530" target="_blank" rel="noopener noreferrer">
+            افتح الموقع في خرائط Google
+          </a>
         </div>
 
         <!-- Quick Info Card -->
