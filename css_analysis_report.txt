@@ -1,0 +1,428 @@
+CSS Dependencies Analysis - BRIGHTAI Project
+============================================
+
+Total HTML files analyzed: 110
+
+File: .agents/skills/brainstorming/scripts/frame-template.html
+----------------------------------------
+Additional CSS files:
+  (None)
+
+File: 404.html
+----------------------------------------
+✓ sitewide-modernization.css
+✓ production-fixes.v20260427.css
+✓ unified-header.css
+Additional CSS files:
+  (None)
+
+File: 500.html
+----------------------------------------
+✓ global-fonts.css
+✓ sitewide-modernization.css
+✓ production-fixes.v20260427.css
+✓ unified-header.css
+Additional CSS files:
+  + /frontend/css/bundle-critical.css
+  + /frontend/css/extracted-inline-styles.css
+  + /frontend/css/main.bundle.min.css
+  + /frontend/css/unified-nav-search.css
+
+File: about/index.html
+----------------------------------------
+✓ tailwind.local.min.css
+✓ global-fonts.css
+✓ sitewide-modernization.css
+✓ production-fixes.v20260427.css
+✓ unified-header.css
+Additional CSS files:
+  + /frontend/css/design-tokens.css
+  + /frontend/css/extracted-inline-styles.css
+  + /frontend/css/index-theme.min.css
+  + /frontend/css/main.bundle.min.css
+  + /frontend/css/unified-nav-search.css
+  + /frontend/css/ux-audit-fixes.css
+
+File: assessment/ai-governance-readiness/index.html
+----------------------------------------
+✓ tailwind.local.min.css
+✓ global-fonts.css
+✓ sitewide-modernization.css
+✓ production-fixes.v20260427.css
+✓ unified-header.css
+Additional CSS files:
+
+File: blog/ai-audit-trail-compliance-path/index.html
+----------------------------------------
+✓ sitewide-modernization.css
+✓ unified-header.css
+Additional CSS files:
+
+File: blog/ai-audit-trail-saudi/index.html
+----------------------------------------
+✓ tailwind.local.min.css
+✓ global-fonts.css
+✓ sitewide-modernization.css
+✓ production-fixes.v20260427.css
+✓ unified-header.css
+Additional CSS files:
+
+File: blog/ai-customer-data-protection-saudi/index.html
+----------------------------------------
+✓ sitewide-modernization.css
+✓ unified-header.css
+Additional CSS files:
+
+File: blog/ai-ethics-saudi-responsible-ai/index.html
+----------------------------------------
+✓ sitewide-modernization.css
+✓ unified-header.css
+Additional CSS files:
+
+File: blog/ai-firewall-why-you-need-it/index.html
+----------------------------------------
+✓ sitewide-modernization.css
+✓ unified-header.css
+Additional CSS files:
+
+File: blog/ai-governance-saudi-arabia/index.html
+----------------------------------------
+✓ sitewide-modernization.css
+✓ unified-header.css
+Additional CSS files:
+
+File: blog/ai-governance-vs-ai-safety-vs-ai-security/index.html
+----------------------------------------
+✓ sitewide-modernization.css
+✓ unified-header.css
+Additional CSS files:
+
+File: blog/ai-governance/index.html
+----------------------------------------
+✓ tailwind.local.min.css
+✓ global-fonts.css
+✓ sitewide-modernization.css
+✓ production-fixes.v20260427.css
+✓ unified-header.css
+Additional CSS files:
+
+File: blog/ai-red-teaming-security-testing/index.html
+----------------------------------------
+✓ sitewide-modernization.css
+✓ unified-header.css
+Additional CSS files:
+
+File: blog/banking-ai-governance-sama-requirements/index.html
+----------------------------------------
+✓ sitewide-modernization.css
+✓ unified-header.css
+Additional CSS files:
+
+File: blog/best-ai-governance-platforms-2026/index.html
+----------------------------------------
+✓ sitewide-modernization.css
+✓ unified-header.css
+Additional CSS files:
+
+File: blog/healthcare-ai-governance-saudi-hospitals/index.html
+----------------------------------------
+✓ sitewide-modernization.css
+✓ unified-header.css
+Additional CSS files:
+
+File: blog/hidden-ai-risks-saudi-organizations/index.html
+----------------------------------------
+✓ sitewide-modernization.css
+✓ unified-header.css
+Additional CSS files:
+
+File: blog/index.html
+----------------------------------------
+✓ tailwind.local.min.css
+✓ global-fonts.css
+✓ sitewide-modernization.css
+✓ production-fixes.v20260427.css
+✓ unified-header.css
+Additional CSS files:
+
+File: blog/iso-42001-saudi-implementation-guide/index.html
+----------------------------------------
+✓ sitewide-modernization.css
+✓ unified-header.css
+Additional CSS files:
+
+File: blog/nca-ecc-ai-controls-guide/index.html
+----------------------------------------
+✓ sitewide-modernization.css
+✓ unified-header.css
+Additional CSS files:
+
+File: blog/pdpl-ai-compliance-guide/index.html
+----------------------------------------
+✓ sitewide-modernization.css
+✓ unified-header.css
+Additional CSS files:
+
+File: blog/pdpl-ai-safety/index.html
+----------------------------------------
+✓ tailwind.local.min.css
+✓ global-fonts.css
+✓ sitewide-modernization.css
+✓ production-fixes.v20260427.css
+✓ unified-header.css
+Additional CSS files:
+
+File: blog/pdpl-and-ai-saudi/index.html
+----------------------------------------
+✓ sitewide-modernization.css
+✓ unified-header.css
+Additional CSS files:
+
+File: blog/sdaia-generative-ai-guidelines-practical-compliance/index.html
+----------------------------------------
+✓ sitewide-modernization.css
+✓ unified-header.css
+Additional CSS files:
+
+File: blog/shadow-ai-discovery-saudi-company/index.html
+----------------------------------------
+✓ sitewide-modernization.css
+✓ unified-header.css
+Additional CSS files:
+
+File: blog/vision-2030-ai-governance-roadmap/index.html
+----------------------------------------
+✓ sitewide-modernization.css
+✓ unified-header.css
+Additional CSS files:
+
+File: blog/what-is-ai-governance-saudi-companies/index.html
+----------------------------------------
+✓ sitewide-modernization.css
+✓ unified-header.css
+Additional CSS files:
+
+File: contact/index.html
+----------------------------------------
+✓ tailwind.local.min.css
+✓ global-fonts.css
+✓ sitewide-modernization.css
+✓ production-fixes.v20260427.css
+✓ unified-header.css
+Additional CSS files:
+
+File: cookie-policy/index.html
+----------------------------------------
+✓ tailwind.local.min.css
+✓ global-fonts.css
+✓ sitewide-modernization.css
+✓ production-fixes.v20260427.css
+✓ unified-header.css
+Additional CSS files:
+
+File: data-processing-agreement/index.html
+----------------------------------------
+✓ tailwind.local.min.css
+✓ global-fonts.css
+✓ sitewide-modernization.css
+✓ production-fixes.v20260427.css
+✓ unified-header.css
+Additional CSS files:
+
+File: demo/index.html
+----------------------------------------
+✓ sitewide-modernization.css
+✓ production-fixes.v20260427.css
+✓ unified-header.css
+Additional CSS files:
+  + /frontend/css/components.css
+  + /frontend/css/demo-premium.css
+  + /frontend/css/design-tokens.css
+  + /frontend/css/motion.css
+  + /frontend/css/tokens.css
+  + /frontend/css/typography.css
+
+File: docs/ai-audit-readiness/index.html
+----------------------------------------
+✓ tailwind.local.min.css
+✓ global-fonts.css
+✓ sitewide-modernization.css
+✓ production-fixes.v20260427.css
+✓ unified-header.css
+Additional CSS files:
+
+File: docs/ai-audit-trail/index.html
+----------------------------------------
+✓ tailwind.local.min.css
+✓ global-fonts.css
+✓ sitewide-modernization.css
+✓ production-fixes.v20260427.css
+✓ unified-header.css
+Additional CSS files:
+
+File: docs/ai-evidence-file/index.html
+----------------------------------------
+✓ tailwind.local.min.css
+✓ global-fonts.css
+✓ sitewide-modernization.css
+✓ production-fixes.v20260427.css
+✓ unified-header.css
+Additional CSS files:
+
+File: docs/ai-firewall/index.html
+----------------------------------------
+✓ tailwind.local.min.css
+✓ global-fonts.css
+✓ sitewide-modernization.css
+✓ production-fixes.v20260427.css
+✓ unified-header.css
+Additional CSS files:
+
+File: docs/ai-governance-platform/index.html
+----------------------------------------
+✓ tailwind.local.min.css
+✓ global-fonts.css
+✓ sitewide-modernization.css
+✓ production-fixes.v20260427.css
+✓ unified-header.css
+Additional CSS files:
+
+File: docs/ai-governance-saudi-arabia/index.html
+----------------------------------------
+✓ tailwind.local.min.css
+✓ global-fonts.css
+✓ sitewide-modernization.css
+✓ production-fixes.v20260427.css
+✓ unified-header.css
+Additional CSS files:
+
+File: docs/ai-risk-management/index.html
+----------------------------------------
+✓ tailwind.local.min.css
+✓ global-fonts.css
+✓ sitewide-modernization.css
+✓ production-fixes.v20260427.css
+✓ unified-header.css
+Additional CSS files:
+
+File: docs/docs.html
+----------------------------------------
+✓ sitewide-modernization.css
+✓ production-fixes.v20260427.css
+✓ unified-header.css
+Additional CSS files:
+  + /frontend/css/bundle-critical.css
+  + /frontend/css/extracted-inline-styles.css
+  + /frontend/css/main.bundle.min.css
+  + /frontend/css/unified-nav-search.css
+
+File: docs/governance-application/index.html
+----------------------------------------
+✓ tailwind.local.min.css
+✓ global-fonts.css
+✓ sitewide-modernization.css
+✓ production-fixes.v20260427.css
+✓ unified-header.css
+Additional CSS files:
+
+File: docs/human-approval-layer/index.html
+----------------------------------------
+✓ tailwind.local.min.css
+✓ global-fonts.css
+✓ sitewide-modernization.css
+✓ production-fixes.v20260427.css
+✓ unified-header.css
+Additional CSS files:
+
+File: docs/index.html
+----------------------------------------
+✓ tailwind.local.min.css
+✓ global-fonts.css
+✓ sitewide-modernization.css
+✓ production-fixes.v20260427.css
+✓ unified-header.css
+Additional CSS files:
+
+File: docs/kernel-approvals/index.html
+----------------------------------------
+✓ tailwind.local.min.css
+✓ global-fonts.css
+✓ sitewide-modernization.css
+✓ production-fixes.v20260427.css
+✓ unified-header.css
+Additional CSS files:
+
+File: docs/kernel-audit-trail/index.html
+----------------------------------------
+✓ tailwind.local.min.css
+✓ global-fonts.css
+✓ sitewide-modernization.css
+✓ production-fixes.v20260427.css
+✓ unified-header.css
+Additional CSS files:
+
+File: docs/kernel-chat/index.html
+----------------------------------------
+✓ tailwind.local.min.css
+✓ global-fonts.css
+✓ sitewide-modernization.css
+✓ production-fixes.v20260427.css
+✓ unified-header.css
+Additional CSS files:
+
+File: docs/kernel-compliance/index.html
+----------------------------------------
+✓ tailwind.local.min.css
+✓ global-fonts.css
+✓ sitewide-modernization.css
+✓ production-fixes.v20260427.css
+✓ unified-header.css
+Additional CSS files:
+
+File: docs/kernel-connectors/index.html
+----------------------------------------
+✓ tailwind.local.min.css
+✓ global-fonts.css
+✓ sitewide-modernization.css
+✓ production-fixes.v20260427.css
+✓ unified-header.css
+Additional CSS files:
+
+File: docs/kernel-evidence/index.html
+----------------------------------------
+✓ tailwind.local.min.css
+✓ global-fonts.css
+✓ sitewide-modernization.css
+✓ production-fixes.v20260427.css
+✓ unified-header.css
+Additional CSS files:
+
+File: docs/kernel-policies/index.html
+----------------------------------------
+✓ tailwind.local.min.css
+✓ global-fonts.css
+✓ sitewide-modernization.css
+✓ production-fixes.v20260427.css
+✓ unified-header.css
+Additional CSS files:
+
+File: docs/kernel-reports/index.html
+----------------------------------------
+✓ tailwind.local.min.css
+✓ global-fonts.css
+✓ sitewide-modernization.css
+✓ production-fixes.v20260427.css
+✓ unified-header.css
+Additional CSS files:
+
+File: docs/kernel-scenarios/index.html
+----------------------------------------
+✓ tailwind.local.min.css
+✓ global-fonts.css
+✓ sitewide-modernization.css
+✓ production-fixes.v20260427.css
+✓ unified-header.css
+Additional CSS files:
+
+File: docs/kernel-stats/index.html
+----------------------------------------

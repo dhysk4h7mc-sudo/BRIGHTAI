@@ -24,6 +24,7 @@ const ROBOTS_PATH = path.join(ROOT, "robots.txt");
 const SITEMAP_PATH = path.join(ROOT, "sitemap.xml");
 const HTML_IGNORE_DIRS = new Set([
   ".git",
+  ".agents",
   "node_modules",
   "dist",
   "build",
