@@ -102,6 +102,7 @@ services:
       npm run assets:minify
       npm run assets:replace-refs
       npm run production:fixes
+      npm run schema:solutions:sync
       npm run sitemap:all
 
       rm -rf .render-static

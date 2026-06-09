@@ -7,7 +7,21 @@ const ROOT = process.cwd();
 const BASE_URL = "https://brightai.site";
 const CSS_HREF = "/frontend/css/production-fixes.v20260427.css";
 const JS_SRC = "/frontend/js/production-runtime.v20260427.js";
-const SKIP_DIRS = new Set([".git", "node_modules", ".venv", "dist", "build", ".next", "coverage", ".render-static"]);
+const SKIP_DIRS = new Set([
+  ".agents",
+  ".codex",
+  ".git",
+  ".next",
+  ".render-static",
+  ".venv",
+  "build",
+  "coverage",
+  "dist",
+  "node_modules",
+  "plugins",
+  "reports",
+  "tmp",
+]);
 const ERROR_PAGES = new Set(["404.html", "500.html", "error.html"]);
 const SERVICE_PATH_RE = /(^|\/)(services|ai-agent|ai-bots|smart-automation|data-analysis|machine-learning|ai-workflows|consultation|sectors|health|smart-medical-archive|tenders)(\/|\.html|$)/i;
 const COMMERCIAL_ROUTE_RE = /^\/(?:contact|tools|about|case-studies|partners)\/?$/i;
