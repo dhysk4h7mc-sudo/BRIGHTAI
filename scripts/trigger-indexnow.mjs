@@ -1,57 +1,185 @@
-/**
- * سكريبت أتمتة الفهرسة اللحظية (IndexNow API Automation) لـ BrightAI
- * يقوم بإرسال إشارة أرشفة فورية لمحركات البحث (مثل Bing) عند كل عملية نشر.
- */
+#!/usr/bin/env node
+import fs from "node:fs/promises";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 
-import { writeFileSync } from 'fs';
+const HOST = "brightai.site";
+const BASE_URL = `https://${HOST}`;
+const KEY_FILE = "e158df443f2742d281a02c4aeecb4a60.txt";
+const INDEXNOW_ENDPOINT = "https://api.indexnow.org/indexnow";
+const MAX_URLS_PER_REQUEST = 10_000;
 
-const host = 'brightai.site';
-const key = '06932e6c52144c44bb9ff0296e3da655';
-const keyLocation = `https://${host}/${key}.txt`;
+export async function loadKey(root = process.cwd(), keyFile = KEY_FILE) {
+  const keyPath = path.join(root, keyFile);
+  const key = (await fs.readFile(keyPath, "utf8")).trim();
+  const expectedKey = path.basename(keyFile, ".txt");
 
-// قائمة الروابط الرئيسية التي نريد أرشفتها تلقائياً عند النشر
-const urlList = [
-  `https://${host}/`,
-  `https://${host}/about/`,
-  `https://${host}/contact/`,
-  `https://${host}/services/`,
-  `https://${host}/pricing/`,
-  `https://${host}/pdpl-statement/`,
-  `https://${host}/solutions/`,
-  `https://${host}/solutions/ai-governance-platform/`,
-  `https://${host}/solutions/ai-firewall/`,
-  `https://${host}/solutions/ai-audit-trail/`,
-  `https://${host}/solutions/human-approval-layer/`,
-  `https://${host}/solutions/ai-evidence-file/`
-];
-
-async function triggerIndexNow() {
-  console.log('🔄 جاري بدء أرشفة الصفحات لحظياً عبر بروتوكول IndexNow لـ Bing...');
-  
-  try {
-    const response = await fetch('https://www.bing.com/indexnow', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8'
-      },
-      body: JSON.stringify({
-        host,
-        key,
-        keyLocation,
-        urlList
-      })
-    });
-
-    if (response.status === 200) {
-      console.log('✅ تم إرسال الروابط بنجاح! Bing ومحركات البحث الشريكة ستبدأ أرشفتها فورياً.');
-      console.log(`🔗 قائمة الروابط المرسلة (${urlList.length} روابط):`);
-      urlList.forEach(url => console.log(`   - ${url}`));
-    } else {
-      console.error(`❌ فشل الاتصال بـ IndexNow API. رمز الاستجابة: ${response.status}`);
-    }
-  } catch (error) {
-    console.error('❌ حدث خطأ غير متوقع أثناء إرسال طلب IndexNow:', error);
+  if (!/^[A-Za-z0-9-]{8,128}$/.test(key)) {
+    throw new Error("IndexNow key must contain 8-128 letters, numbers, or dashes.");
   }
+  if (key !== expectedKey) {
+    throw new Error("IndexNow key contents must match the key filename.");
+  }
+
+  return key;
 }
 
-triggerIndexNow();
+export async function loadSitemapUrls(
+  root = process.cwd(),
+  sitemapFile = "sitemap.xml",
+) {
+  const xml = await fs.readFile(path.join(root, sitemapFile), "utf8");
+  return [...xml.matchAll(/<loc>\s*([^<]+?)\s*<\/loc>/gi)].map((match) =>
+    match[1].trim(),
+  );
+}
+
+export function normalizeUrls(urls) {
+  const normalized = [];
+  const seen = new Set();
+
+  for (const value of urls) {
+    let url;
+    try {
+      url = new URL(value);
+    } catch {
+      throw new Error(`Invalid IndexNow URL: ${value}`);
+    }
+
+    if (url.protocol !== "https:") {
+      throw new Error(`IndexNow URL must use HTTPS: ${value}`);
+    }
+    if (url.hostname !== HOST) {
+      throw new Error(`IndexNow URL must belong to ${HOST}: ${value}`);
+    }
+
+    url.hash = "";
+    const normalizedUrl = url.toString();
+    if (!seen.has(normalizedUrl)) {
+      seen.add(normalizedUrl);
+      normalized.push(normalizedUrl);
+    }
+  }
+
+  if (normalized.length === 0) {
+    throw new Error("No valid URLs were provided for IndexNow.");
+  }
+
+  return normalized;
+}
+
+export function buildPayload(key, urlList) {
+  return {
+    host: HOST,
+    key,
+    keyLocation: `${BASE_URL}/${key}.txt`,
+    urlList,
+  };
+}
+
+export function chunkUrls(urls, size = MAX_URLS_PER_REQUEST) {
+  const chunks = [];
+  for (let index = 0; index < urls.length; index += size) {
+    chunks.push(urls.slice(index, index + size));
+  }
+  return chunks;
+}
+
+export async function submitIndexNow(payload, fetchImpl = fetch) {
+  const response = await fetchImpl(INDEXNOW_ENDPOINT, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+    },
+    body: JSON.stringify(payload),
+  });
+
+  if (response.status === 200 || response.status === 202) {
+    return response.status;
+  }
+
+  const explanations = {
+    400: "invalid request format",
+    403: "key file was not found or did not match",
+    422: "URL host or key data did not match",
+    429: "submission rate limit reached",
+  };
+  const detail = explanations[response.status] || "unexpected IndexNow response";
+  throw new Error(`IndexNow returned HTTP ${response.status}: ${detail}.`);
+}
+
+function parseArgs(args) {
+  const options = {
+    dryRun: false,
+    softFail: false,
+    sitemapFile: "sitemap.xml",
+    urls: [],
+  };
+
+  for (let index = 0; index < args.length; index += 1) {
+    const arg = args[index];
+    if (arg === "--dry-run") {
+      options.dryRun = true;
+    } else if (arg === "--soft-fail") {
+      options.softFail = true;
+    } else if (arg === "--url") {
+      options.urls.push(args[index + 1]);
+      index += 1;
+    } else if (arg.startsWith("--url=")) {
+      options.urls.push(arg.slice("--url=".length));
+    } else if (arg === "--sitemap") {
+      options.sitemapFile = args[index + 1];
+      index += 1;
+    } else if (arg.startsWith("--sitemap=")) {
+      options.sitemapFile = arg.slice("--sitemap=".length);
+    } else if (/^https:\/\//i.test(arg)) {
+      options.urls.push(arg);
+    } else {
+      throw new Error(`Unknown IndexNow argument: ${arg}`);
+    }
+  }
+
+  return options;
+}
+
+export async function runCli(args = process.argv.slice(2), root = process.cwd()) {
+  const options = parseArgs(args);
+  const key = await loadKey(root);
+  const sourceUrls = options.urls.length
+    ? options.urls
+    : await loadSitemapUrls(root, options.sitemapFile);
+  const urls = normalizeUrls(sourceUrls);
+  const payloads = chunkUrls(urls).map((chunk) => buildPayload(key, chunk));
+
+  if (options.dryRun) {
+    console.log(
+      `IndexNow dry run: ${urls.length} URL(s), ${payloads.length} request(s), key ${KEY_FILE}.`,
+    );
+    return payloads;
+  }
+
+  for (const payload of payloads) {
+    try {
+      const status = await submitIndexNow(payload);
+      console.log(
+        `IndexNow accepted ${payload.urlList.length} URL(s) with HTTP ${status}.`,
+      );
+    } catch (error) {
+      if (!options.softFail) throw error;
+      console.warn(`IndexNow deploy warning: ${error.message}`);
+    }
+  }
+
+  return payloads;
+}
+
+const isDirectRun =
+  process.argv[1] &&
+  path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+
+if (isDirectRun) {
+  runCli().catch((error) => {
+    console.error(`IndexNow failed: ${error.message}`);
+    process.exitCode = 1;
+  });
+}

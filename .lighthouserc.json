@@ -32,8 +32,8 @@
                 "budget": 2500
               },
               {
-                "metric": "max-potential-fid",
-                "budget": 100
+                "metric": "interaction-to-next-paint",
+                "budget": 200
               },
               {
                 "metric": "cumulative-layout-shift",
@@ -52,10 +52,10 @@
             "maxNumericValue": 2500
           }
         ],
-        "max-potential-fid": [
+        "interaction-to-next-paint": [
           "error",
           {
-            "maxNumericValue": 100
+            "maxNumericValue": 200
           }
         ],
         "cumulative-layout-shift": [
