@@ -22,6 +22,7 @@ const DEFAULT_SUGGESTIONS = [
   'كيف أبدأ معكم؟'
 ];
 const AI_GATEWAY_MOCK_MODE = process.env.AI_GATEWAY_MOCK_MODE === '1';
+const AI_FALLBACK_CHAIN = ['gemini', 'groq', 'nvidia', 'deepseek', 'demo'];
 
 const BASE_DEMO_SCHEMA = {
   type: 'object',
@@ -1157,6 +1158,69 @@ function writeSse(streamRes, payload) {
   streamRes.write(`data: ${JSON.stringify(payload)}\n\n`);
 }
 
+function getFallbackChain(body = {}) {
+  const requestedProvider = String(body.provider || body.aiProvider || '').trim().toLowerCase();
+  if (!requestedProvider || requestedProvider === 'gemini') return [...AI_FALLBACK_CHAIN];
+  const providerIndex = AI_FALLBACK_CHAIN.indexOf(requestedProvider);
+  if (providerIndex < 0 || requestedProvider === 'demo') return [...AI_FALLBACK_CHAIN];
+  return [
+    ...AI_FALLBACK_CHAIN.slice(providerIndex, -1),
+    ...AI_FALLBACK_CHAIN.slice(0, providerIndex),
+    'demo'
+  ];
+}
+
+function isProviderConfigured(provider) {
+  if (provider === 'gemini') return isApiKeyConfigured();
+  if (provider === 'groq') return isGroqConfigured();
+  if (provider === 'nvidia') return isNvidiaConfigured();
+  if (provider === 'deepseek') return isDeepSeekConfigured();
+  if (provider === 'demo') return true;
+  return false;
+}
+
+function logProviderSwitch(fromProvider, toProvider, reason) {
+  console.warn(`[AIGateway] Switching AI provider from ${fromProvider} to ${toProvider}`, {
+    reason: reason?.code || reason?.message || reason || 'unavailable'
+  });
+}
+
+function buildDemoFallbackResponse({ schemaName, demoType, fallbackChain, errors }) {
+  const data = createMockDemoData(schemaName, demoType);
+  const content = JSON.stringify(data);
+  return {
+    ok: true,
+    provider: 'demo',
+    model: 'demo-mode',
+    activeModel: 'demo-mode',
+    requestId: createRequestId(),
+    data,
+    text: content,
+    schemaName,
+    fallback: true,
+    fallbackChain,
+    providerErrors: errors,
+    choices: [{ message: { role: 'assistant', content }, finish_reason: 'stop' }]
+  };
+}
+
+function normalizeOpenAiCompatibleResult(result, provider, fallbackChain) {
+  const content = result?.data?.choices?.[0]?.message?.content
+    || result?.choices?.[0]?.message?.content
+    || result?.data?.text
+    || (typeof result?.data === 'string' ? result.data : JSON.stringify(result?.data || {}));
+
+  return {
+    ...(result?.data && typeof result.data === 'object' ? result.data : {}),
+    ok: true,
+    provider,
+    activeModel: result?.model,
+    fallback: fallbackChain[0] !== provider,
+    fallbackChain,
+    choices: [{ message: { role: 'assistant', content }, finish_reason: 'stop' }]
+  };
+}
+
 async function chat(req) {
   const { sanitizedMessage, activeSessionId, history } = validateChatRequest(req);
   const contents = buildGeminiContents(history, sanitizedMessage);
@@ -1237,7 +1301,6 @@ async function chatStream(req, rawRes) {
 
 async function openAiCompatChat(req) {
   const body = req && req.body && typeof req.body === 'object' ? req.body : {};
-  const provider = pickProvider(body);
   const model = String(body.model || '').trim() || resolveModel();
   const temperature = Number.isFinite(Number(body.temperature)) ? Number(body.temperature) : 0.2;
   const maxTokens = Number.isFinite(Number(body.max_tokens || body.maxTokens)) ? Number(body.max_tokens || body.maxTokens) : 4096;
@@ -1255,40 +1318,97 @@ async function openAiCompatChat(req) {
     throw error;
   }
 
-  if (provider === 'nvidia' || provider === 'deepseek') {
-    const result = await callOpenAiCompatibleProvider({ provider, messages, temperature, maxTokens, model: body.model });
-    return { ...result.data, provider: result.provider, activeModel: result.model };
+  const schemaName = resolveSchemaName(body);
+  const responseSchema = resolveResponseSchema(body);
+  const fallbackChain = getFallbackChain(body);
+  const attemptedProviders = [];
+  const providerErrors = [];
+
+  for (const provider of fallbackChain) {
+    attemptedProviders.push(provider);
+
+    if (provider === 'demo') {
+      return buildDemoFallbackResponse({
+        schemaName,
+        demoType: body.demoType,
+        fallbackChain: attemptedProviders,
+        errors: providerErrors
+      });
+    }
+
+    if (!isProviderConfigured(provider)) {
+      const error = { provider, code: 'MISSING_KEY', message: `${provider.toUpperCase()} API key is missing` };
+      providerErrors.push(error);
+      const nextProvider = fallbackChain[fallbackChain.indexOf(provider) + 1];
+      if (nextProvider) logProviderSwitch(provider, nextProvider, error);
+      continue;
+    }
+
+    try {
+      if (provider === 'gemini') {
+        const result = await runGeminiCompletion({
+          model,
+          messages,
+          temperature,
+          maxOutputTokens: maxTokens,
+          responseFormat: body.response_format || body.responseFormat,
+          schemaName,
+          schema: responseSchema,
+          demoType: body.demoType,
+          agentType: body.agentType,
+          locale: body.locale || 'ar-SA',
+          sourcePage: body.sourcePage,
+          safetyProfile: body.safetyProfile,
+          metadata: { maxOutputTokens: maxTokens }
+        });
+
+        if (!result.ok) {
+          providerErrors.push({
+            provider,
+            code: result.error?.code || 'GEMINI_UNAVAILABLE',
+            statusCode: result.statusCode || 503,
+            message: result.error?.message_ar || 'Gemini unavailable'
+          });
+          const nextProvider = fallbackChain[fallbackChain.indexOf(provider) + 1];
+          if (nextProvider) logProviderSwitch(provider, nextProvider, providerErrors[providerErrors.length - 1]);
+          continue;
+        }
+
+        const content = typeof result.data === 'string' ? result.data : JSON.stringify(result.data);
+        return {
+          ok: true,
+          provider: result.provider || 'gemini',
+          model: result.model,
+          activeModel: result.model,
+          requestId: result.requestId,
+          data: result.data,
+          schemaName: result.schemaName,
+          fallback: attemptedProviders[0] !== provider,
+          fallbackChain: attemptedProviders,
+          choices: [{ message: { role: 'assistant', content }, finish_reason: 'stop' }]
+        };
+      }
+
+      const result = await callOpenAiCompatibleProvider({ provider, messages, temperature, maxTokens, model: body.model });
+      return normalizeOpenAiCompatibleResult(result, provider, attemptedProviders);
+    } catch (error) {
+      providerErrors.push({
+        provider,
+        code: error?.code || `${provider.toUpperCase()}_UNAVAILABLE`,
+        statusCode: normalizeStatusCode(error),
+        message: error?.message || `${provider} unavailable`
+      });
+      const nextProvider = fallbackChain[fallbackChain.indexOf(provider) + 1];
+      if (nextProvider) logProviderSwitch(provider, nextProvider, error);
+    }
   }
 
-  const schemaName = resolveSchemaName(body);
-  const result = await runGeminiCompletion({
-    model,
-    messages,
-    temperature,
-    maxOutputTokens: maxTokens,
-    responseFormat: body.response_format || body.responseFormat,
+  return buildDemoFallbackResponse({
     schemaName,
-    schema: resolveResponseSchema(body),
     demoType: body.demoType,
-    agentType: body.agentType,
-    locale: body.locale || 'ar-SA',
-    sourcePage: body.sourcePage,
-    safetyProfile: body.safetyProfile,
-    metadata: { maxOutputTokens: maxTokens }
+    fallbackChain: attemptedProviders.length ? attemptedProviders : ['demo'],
+    errors: providerErrors
   });
-
-  if (!result.ok) return result;
-  const content = typeof result.data === 'string' ? result.data : JSON.stringify(result.data);
-  return {
-    ok: true,
-    provider: result.provider || 'gemini',
-    model: result.model,
-    activeModel: result.model,
-    requestId: result.requestId,
-    data: result.data,
-    schemaName: result.schemaName,
-    choices: [{ message: { role: 'assistant', content }, finish_reason: 'stop' }]
-  };
 }
 
 function getProviderStatus() {
@@ -1316,6 +1436,12 @@ function getProviderStatus() {
       model: config.deepseek.model,
       primary: false,
       message: isDeepSeekConfigured() ? 'DEEPSEEK_API_KEY مُعد' : 'DEEPSEEK_API_KEY غير مُعد'
+    },
+    demo: {
+      configured: true,
+      model: 'demo-mode',
+      primary: false,
+      message: 'Demo Mode جاهز كآخر fallback'
     }
   };
 }
@@ -1359,5 +1485,6 @@ module.exports = {
   CHAT_SYSTEM_PROMPT,
   STREAM_SYSTEM_PROMPT,
   DEFAULT_SUGGESTIONS,
+  AI_FALLBACK_CHAIN,
   writeSse
 };

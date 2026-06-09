@@ -28,11 +28,17 @@ try {
 function readSecret(name, fallback = '') {
   const rawValue = process.env[name] || fallback;
   const value = typeof rawValue === 'string' ? rawValue.trim() : '';
-  if (!value || value === 'YOUR_SECRET_HERE') return '';
+  if (
+    !value ||
+    value === 'YOUR_SECRET_HERE' ||
+    /^your[_-].+[_-](key|url)$/i.test(value) ||
+    /placeholder/i.test(value)
+  ) return '';
   return value;
 }
 
 const nvidiaBaseUrl = (process.env.NVIDIA_URL || 'https://integrate.api.nvidia.com/v1').trim();
+const groqBaseUrl = (process.env.GROQ_BASE_URL || 'https://api.groq.com/openai/v1').trim();
 
 const config = {
   // Gemini AI Configuration
@@ -53,7 +59,8 @@ const config = {
       '',
     model: process.env.GROQ_MODEL || process.env.GROQ_DEFAULT_MODEL || 'llama-3.3-70b-versatile',
     visionModel: process.env.GROQ_VISION_MODEL || 'llama-3.2-11b-vision-preview',
-    endpoint: process.env.GROQ_ENDPOINT || '/api/ai/openai-chat',
+    baseUrl: groqBaseUrl,
+    endpoint: process.env.GROQ_ENDPOINT || `${groqBaseUrl.replace(/\/$/, '')}/chat/completions`,
     transcribeModel: process.env.GROQ_TRANSCRIBE_MODEL || 'whisper-large-v3-turbo',
     streamTimeoutMs: parseInt(process.env.GROQ_STREAM_TIMEOUT_MS, 10) || 30000
   },
@@ -136,6 +143,33 @@ const config = {
   }
 };
 
+const providerDefinitions = [
+  { id: 'gemini', label: 'Gemini', env: 'GEMINI_API_KEY', required: true, configured: () => isApiKeyConfigured(), model: () => config.gemini.model },
+  { id: 'groq', label: 'Groq', env: 'GROQ_API_KEY', required: false, configured: () => isGroqConfigured(), model: () => config.groq.model },
+  { id: 'nvidia', label: 'NVIDIA', env: 'NVIDIA_API_KEY', required: false, configured: () => isNvidiaConfigured(), model: () => config.nvidia.model },
+  { id: 'deepseek', label: 'DeepSeek', env: 'DEEPSEEK_API_KEY', required: false, configured: () => isDeepSeekConfigured(), model: () => config.deepseek.model },
+  { id: 'openai', label: 'OpenAI', env: 'OPENAI_API_KEY', required: false, configured: () => isOpenAiConfigured(), model: () => config.openai.model },
+  { id: 'anthropic', label: 'Anthropic', env: 'ANTHROPIC_API_KEY', required: false, configured: () => isAnthropicConfigured(), model: () => config.anthropic.model }
+];
+
+function getProviderHealthChecks() {
+  return Object.fromEntries(providerDefinitions.map(provider => {
+    const configured = provider.configured();
+    return [provider.id, {
+      provider: provider.id,
+      label: provider.label,
+      env: provider.env,
+      configured,
+      required: provider.required,
+      status: configured ? 'ready' : 'missing_key',
+      model: provider.model(),
+      message: configured
+        ? `${provider.env} configured`
+        : `${provider.env} is missing; ${provider.required ? 'primary provider unavailable' : 'secondary provider will be skipped'}`
+    }];
+  }));
+}
+
 /**
  * Validate that required configuration is present
  * @returns {boolean} - True if configuration is valid
@@ -148,7 +182,14 @@ function validateConfig() {
     errors.push('AI_GATEWAY_MOCK_MODE must not be enabled in production');
   }
 
-  if (!mockMode && !config.gemini.apiKey && !config.groq.apiKey && !config.nvidia.apiKey && !config.deepseek.apiKey && !config.openai.apiKey && !config.anthropic.apiKey) {
+  const providerHealth = getProviderHealthChecks();
+  Object.values(providerHealth)
+    .filter(provider => !provider.configured)
+    .forEach(provider => {
+      console.warn(`Warning: ${provider.env} not set. ${provider.required ? 'Primary provider unavailable.' : 'Secondary provider will be skipped if needed.'}`);
+    });
+
+  if (!mockMode && !Object.values(providerHealth).some(provider => provider.configured)) {
     console.warn('Warning: No production AI provider key is configured. Demo/local fallback will be used where supported.');
   }
 
@@ -162,6 +203,18 @@ function validateConfig() {
   }
 
   return true;
+}
+
+function runStartupProviderHealthCheck(logger = console) {
+  const checks = getProviderHealthChecks();
+  Object.values(checks).forEach(provider => {
+    const log = provider.configured ? logger.info || logger.log : logger.warn || logger.log;
+    log.call(
+      logger,
+      `[AI Provider Health] ${provider.label}: ${provider.status} (${provider.env}${provider.model ? `, model=${provider.model}` : ''})`
+    );
+  });
+  return checks;
 }
 
 /**
@@ -207,6 +260,8 @@ function isGa4MpConfigured() {
 module.exports = {
   config,
   validateConfig,
+  getProviderHealthChecks,
+  runStartupProviderHealthCheck,
   isApiKeyConfigured,
   isGeminiConfigured: isApiKeyConfigured,
   isGroqConfigured,

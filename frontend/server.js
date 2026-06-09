@@ -8,7 +8,8 @@ const http = require('http');
 const { WebSocketServer } = require('ws');
 const fs = require('fs');
 const path = require('path');
-const { config, validateConfig } = require('./config');
+const { config, validateConfig, runStartupProviderHealthCheck } = require('./config');
+const { enforceProductionSecrets } = require('./middleware/productionSecrets');
 const { getRedirectTarget } = require('./services/redirects');
 const { HTML_SECURITY_HEADERS, tryServeStaticRequest } = require('./services/staticFiles');
 const { rateLimiterMiddleware } = require('./middleware/rateLimiter');
@@ -606,6 +607,8 @@ async function handleRequest(req, res) {
  * Start the server
  */
 function startServer() {
+  enforceProductionSecrets(process.env);
+
   const spacedRuntimeFiles = findBackendRuntimeFilesWithSpaces();
   if (spacedRuntimeFiles.length > 0) {
     throw new Error(`Backend runtime filenames must not contain spaces: ${spacedRuntimeFiles.join(', ')}`);
@@ -620,6 +623,7 @@ function startServer() {
     console.warn('Warning: Server starting with incomplete configuration');
     console.warn('AI features may use demo/local fallback until a production provider key is configured (GEMINI_API_KEY, NVIDIA_API_KEY, OPENAI_API_KEY, ANTHROPIC_API_KEY, GROQ_API_KEY, or DEEPSEEK_API_KEY)');
   }
+  runStartupProviderHealthCheck();
 
   const server = http.createServer(handleRequest);
   setupLiveWebSocket(server);

@@ -51,10 +51,21 @@ function resolveProviderModel(provider, requestedModel) {
     return hasText(model) ? model : config.gemini.model;
   }
 
-  return hasText(model) ? model : config.groq.model;
+  if (provider === 'groq') {
+    return hasText(model) ? model : config.groq.model;
+  }
+
+  return hasText(model) ? model : config.openai.model;
 }
 
 function assertProviderReady(provider) {
+  if (provider === 'groq' && !isGroqConfigured()) {
+    const error = new Error('GROQ_API_KEY غير مُعد في بيئة الخادم');
+    error.statusCode = 503;
+    error.code = 'GROQ_NOT_CONFIGURED';
+    throw error;
+  }
+
   if (provider === 'nvidia' && !isNvidiaConfigured()) {
     const error = new Error('NVIDIA_API_KEY غير مُعد في بيئة الخادم');
     error.statusCode = 503;
@@ -74,8 +85,13 @@ async function callOpenAiCompatibleProvider({ provider, messages, temperature, m
   assertProviderReady(provider);
 
   const resolvedModel = resolveProviderModel(provider, model);
-  const endpoint = provider === 'nvidia' ? config.nvidia.endpoint : config.deepseek.endpoint;
-  const apiKey = provider === 'nvidia' ? config.nvidia.apiKey : config.deepseek.apiKey;
+  const providerConfig = {
+    groq: config.groq,
+    nvidia: config.nvidia,
+    deepseek: config.deepseek
+  }[provider];
+  const endpoint = providerConfig.endpoint;
+  const apiKey = providerConfig.apiKey;
 
   const upstreamResponse = await fetch(endpoint, {
     method: 'POST',
@@ -124,19 +140,19 @@ function getProviderHealthSnapshot() {
         ? 'DEEPSEEK_API_KEY مُعد وجاهز'
         : 'DEEPSEEK_API_KEY غير مُعد'
     },
-    gemini: {
-      configured: isApiKeyConfigured(),
-      model: config.gemini.model,
-      message: isApiKeyConfigured()
-        ? 'GEMINI_API_KEY مُعد وجاهز'
-        : 'GEMINI_API_KEY غير مُعد'
-    },
     groq: {
       configured: isGroqConfigured(),
       model: config.groq.model,
       message: isGroqConfigured()
         ? 'GROQ_API_KEY مُعد وجاهز'
         : 'GROQ_API_KEY غير مُعد'
+    },
+    gemini: {
+      configured: isApiKeyConfigured(),
+      model: config.gemini.model,
+      message: isApiKeyConfigured()
+        ? 'GEMINI_API_KEY مُعد وجاهز'
+        : 'GEMINI_API_KEY غير مُعد'
     }
   };
 }
