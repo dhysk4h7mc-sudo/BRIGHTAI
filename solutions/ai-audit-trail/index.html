@@ -1317,9 +1317,6 @@
 </footer>
 
 <script>
-  }
-  });
-
   const io = new IntersectionObserver((entries) => {
     entries.forEach(en => { if (en.isIntersecting) en.target.classList.add('opacity-100','translate-y-0'); });
   }, { threshold: .1 });
