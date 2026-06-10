@@ -24,7 +24,7 @@
     "typecheck": "echo 'TypeScript check skipped'",
     "seo:all": "npm run seo:check && npm run seo:schema && npm run seo:gate",
     "seo:check": "node scripts/seo-health-check.mjs",
-    "seo:schema": "npm run schema:solutions:check && npm run schema:docs:check && node scripts/seo-schema-audit.mjs",
+    "seo:schema": "npm run schema:solutions:check && npm run schema:docs:check && node scripts/seo-schema-audit.mjs && node scripts/check-speakable-schema.mjs",
     "seo:gate": "node scripts/seo-ci-check.mjs",
     "seo:production-guard": "npm run seo:all",
     "sitemap:generate": "node scripts/generate-sitemap-all-pages.mjs",

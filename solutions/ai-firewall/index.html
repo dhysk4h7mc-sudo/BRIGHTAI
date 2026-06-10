@@ -121,6 +121,12 @@
     },
     {
       "@type": "WebPage",
+      "speakable": {
+        "@type": "SpeakableSpecification",
+        "cssSelector": [
+          "h1"
+        ]
+      },
       "@id": "https://brightai.site/solutions/ai-firewall/#webpage",
       "url": "https://brightai.site/solutions/ai-firewall/",
       "name": "AI Firewall لحماية البيانات الحساسة قبل وصولها للنماذج | BrightAI",
@@ -414,7 +420,8 @@
   ]
 }
 </script>
-  <link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css">
+  <link rel="preload" href="/frontend/css/production-fixes.v20260427.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css"></noscript>
 </head>
 <body class="bg-grid">
 <span aria-hidden="true" class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;">
@@ -545,6 +552,9 @@
         <h1 id="hero-title" class="text-3xl sm:text-5xl lg:text-5xl font-black leading-[1.2] mb-6">
           <span class="gradient-text">AI Firewall</span> لحماية البيانات<br />الحساسة قبل وصولها<br />للنماذج
         </h1>
+        <p class="lead-definition" data-speakable="">
+          <strong>AI Firewall</strong> هو طبقة حماية ذكية تعترض كل طلب يُرسَل لنماذج الذكاء الاصطناعي داخل المؤسسات السعودية. يساعدك على إخفاء بيانات الهوية والبيانات الطبية والمعلومات المالية تلقائياً قبل وصولها للنموذج، مع ضمان التوافق مع PDPL وNCA وSFDA.
+        </p>
         <p class="text-xl text-white/70 leading-loose mb-8">
           الموظف يسأل GPT سؤالاً بسيطاً لكنه يضمّن في السؤال رقم عقد أو اسم عميل أو معلومة طبية. النموذج يستقبلها — وتصبح خارج سيطرة المؤسسة. هذا انتهاك PDPL حتى لو لم يكن مقصوداً.
         </p>

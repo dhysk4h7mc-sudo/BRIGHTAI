@@ -112,6 +112,13 @@
     },
     {
       "@type": "WebPage",
+      "speakable": {
+        "@type": "SpeakableSpecification",
+        "cssSelector": [
+          "h1",
+          ".tldr"
+        ]
+      },
       "@id": "https://brightai.site/docs/nca-ecc-ai-guide/#webpage",
       "url": "https://brightai.site/docs/nca-ecc-ai-guide/",
       "name": "ضوابط NCA ECC 2-2024 للذكاء الاصطناعي: دليل التطبيق العملي | BrightAI",
@@ -489,7 +496,8 @@
   ]
 }
   </script>
-  <link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css">
+  <link rel="preload" href="/frontend/css/production-fixes.v20260427.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css"></noscript>
 </head>
 <body class="bg-grid">
 <span aria-hidden="true" class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;">جدار حماية الذكاء الاصطناعي، سجل تدقيق AI، طبقة الموافقة البشرية، ملف أدلة الامتثال، حماية البيانات الشخصية في AI، NCA ECC AI controls، SDAIA generative AI guidelines</span>
@@ -518,7 +526,7 @@
   </section>
 
   
-<section class="lead-card">
+<section class="lead-card tldr">
   <h2>الخلاصة التنفيذية</h2>
   <p>ضوابط NCA للذكاء الاصطناعي ليست قائمة منفصلة تعيش خارج الأمن السيبراني. أي نظام AI تستخدمه المؤسسة هو أصل تقني، ومورد محتمل، ونقطة معالجة بيانات، وقناة وصول، ومصدر سجلات، وربما جزء من خدمة حرجة. لذلك تطبيق NCA ECC AI controls يعني ترجمة ضوابط الحوكمة والدفاع والمرونة والموردين والسحابة إلى طبقات عملية حول النموذج والبوابة والبيانات والمستخدمين والمخرجات.</p>
   <p>نشرة NCA الرسمية توضح أن ECC 2-2024 تم تحديثه لتعزيز الأمن السيبراني وحماية الأصول المعلوماتية والتقنية على المستوى الوطني، وأن صفحة ECC الرسمية كانت تعرض آخر تحديث بتاريخ 20 أبريل 2026 بتوقيت السعودية. كما يوضح ملف ECC أن الهيئة تراجع وتحدث الضوابط دوريًا حسب متطلبات الأمن السيبراني وتغيرات الصناعة. هذه النقطة مهمة لمشاريع AI لأن الموردين والنماذج والهجمات تتغير بسرعة، وأي ضابط يوضع اليوم يجب أن يكون قابلًا للمراجعة والتحديث.</p>

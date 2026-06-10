@@ -132,6 +132,12 @@
     },
     {
       "@type": "WebPage",
+      "speakable": {
+        "@type": "SpeakableSpecification",
+        "cssSelector": [
+          "h1"
+        ]
+      },
       "@id": "https://brightai.site/privacy-cookies/#webpage",
       "url": "https://brightai.site/privacy-cookies/",
       "name": "سياسة ملفات تعريف الارتباط | BrightAI السعودية",
@@ -280,7 +286,8 @@
   <meta name="twitter:title" content="سياسة الخصوصية وملفات الارتباط السعودية | BrightAI" />
   <meta name="twitter:description" content="راجع سياسة الخصوصية وملفات الارتباط في BrightAI لمعرفة كيفية جمع البيانات واستخدامها، وخيارات التحكم المتاحة لزوار الموقع والعملاء، مع خطوة تالية واضحة." />
   <meta name="twitter:image" content="https://brightai.site/frontend/assets/images/og/og-home.png" />
-  <link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css">
+  <link rel="preload" href="/frontend/css/production-fixes.v20260427.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css"></noscript>
 </head>
 
 <body class="antialiased selection:bg-gold-500/30 selection:text-gold-400 tracking-tight bright-page--legal" data-bright-page-type="legal">

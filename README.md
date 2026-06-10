@@ -297,6 +297,16 @@ Configured via `render.yaml`:
 
 ---
 
+## Indexability
+
+- The production sitemap and IndexNow key file are published with the static site.
+- `.github/workflows/deploy.yml` runs `npm run indexnow:deploy` only after GitHub receives a successful deployment status for the `production` environment.
+- Pull request builds do not trigger IndexNow.
+- The IndexNow step uses `continue-on-error: true`, so a search-engine notification failure does not fail an otherwise successful deployment.
+- Run `npm run indexnow:check` locally to validate the key and sitemap payload without sending a request.
+
+---
+
 ## Tech Stack
 
 - **Backend**: Node.js, CommonJS, custom HTTP server (no Express framework)

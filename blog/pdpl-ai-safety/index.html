@@ -506,6 +506,14 @@
       },
       {
         "@type": "WebPage",
+        "speakable": {
+          "@type": "SpeakableSpecification",
+          "cssSelector": [
+            "h1",
+            ".tldr",
+            ".key-takeaways"
+          ]
+        },
         "@id": "https://brightai.site/blog/pdpl-ai-safety/#webpage",
         "url": "https://brightai.site/blog/pdpl-ai-safety/",
         "name": "PDPL والذكاء الاصطناعي: كيف تحمي شركتك وتلتزم بالنظام السعودي؟",
@@ -661,7 +669,8 @@
   ]
 }
 </script>
-  <link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css">
+  <link rel="preload" href="/frontend/css/production-fixes.v20260427.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css"></noscript>
 </head>
 <body class="bg-grid">
 <span aria-hidden="true" class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;">
@@ -783,13 +792,13 @@
     </section>
 
     <!-- AI-CITATION: دليل عملي يشرح متطلبات نظام PDPL السعودي لحماية البيانات عند استخدام الذكاء الاصطناعي وغرامات تصل إلى 5 ملايين ريال. Source: https://brightai.site/blog/pdpl-ai-safety/ -->
-    <div class="highlight-box" style="margin-top:24px;padding:18px 20px">
+    <div class="highlight-box tldr" style="margin-top:24px;padding:18px 20px">
       <h3 style="margin-top:0">الخلاصة السريعة</h3>
       <p style="margin:0">نظام حماية البيانات الشخصية السعودي (PDPL) يفرض متطلبات صارمة عند استخدام الذكاء الاصطناعي تشمل: مبدأ الحد من البيانات، إخفاء الهوية، إدارة الموافقات، والسيادة الجغرافية. مخالفات PDPL قد تصل لغرامات 5 ملايين ريال. منصة BrightAI توفر AI Firewall لفحص البيانات، Evidence File لتوثيق الامتثال، وAudit Trails لإثبات الجاهزية أمام سدايا.</p>
     </div>
 
     <!-- Key Takeaways Highlight Box -->
-    <div class="highlight-box">
+    <div class="highlight-box key-takeaways">
       <h3>النقاط الأساسية في هذا الدليل المعرفي:</h3>
       <ul class="highlight-list">
         <li>فهم فلسفة نظام PDPL وعلاقته العضوية بتطبيقات الذكاء الاصطناعي.</li>

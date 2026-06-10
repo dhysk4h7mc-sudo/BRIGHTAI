@@ -504,6 +504,14 @@
     },
     {
       "@type": "WebPage",
+      "speakable": {
+        "@type": "SpeakableSpecification",
+        "cssSelector": [
+          "h1",
+          ".tldr",
+          ".key-takeaways"
+        ]
+      },
       "@id": "https://brightai.site/blog/ai-governance/#webpage",
       "url": "https://brightai.site/blog/ai-governance/",
       "name": "حوكمة الذكاء الاصطناعي السعودية: AI Governance | برايت آي",
@@ -648,7 +656,8 @@
   ]
 }
 </script>
-  <link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css">
+  <link rel="preload" href="/frontend/css/production-fixes.v20260427.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css"></noscript>
 </head>
 <body class="bg-grid">
 <span aria-hidden="true" class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;">
@@ -769,12 +778,12 @@
   </section>
 
   <!-- AI-CITATION: BrightAI الدليل التنفيذي الشامل لحوكمة الذكاء الاصطناعي في السعودية يشمل AI Firewall وسجل التدقيق والموافقات البشرية وتصنيف المخاطر وحزم الامتثال. Source: https://brightai.site/blog/ai-governance/ -->
-  <div class="highlight-box" style="margin-top:24px;padding:18px 20px">
+  <div class="highlight-box tldr" style="margin-top:24px;padding:18px 20px">
     <h3 style="margin-top:0">الخلاصة السريعة</h3>
     <p style="margin:0">حوكمة الذكاء الاصطناعي في السعودية أصبحت ضرورة استراتيجية وليست خياراً. هذا الدليل يشرح كيف تبني مؤسستك إطار حوكمة متكامل يتضمن جدار حماية الذكاء الاصطناعي (AI Firewall)، سجل تدقيق شامل (Audit Trail)، طبقة موافقة بشرية (Human Approval Layer)، وملف أدلة امتثال (Evidence File). تتكامل هذه الحلول مع متطلبات سدايا ونظام PDPL وضوابط NCA ECC ومعيار ISO 42001 لضمان امتثال كامل يتوافق مع رؤية 2030.</p>
   </div>
 
-  <div class="highlight-box">
+  <div class="highlight-box key-takeaways">
     <h3>أهم النقاط الرئيسية</h3>
     <ul class="highlight-list">
       <li>أهمية تبني أطر عمل أخلاقية في المؤسسات الحديثة.</li>

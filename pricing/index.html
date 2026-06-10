@@ -122,6 +122,13 @@
     },
     {
       "@type": "WebPage",
+      "speakable": {
+        "@type": "SpeakableSpecification",
+        "cssSelector": [
+          "h1",
+          ".tldr"
+        ]
+      },
       "@id": "https://brightai.site/pricing/#webpage",
       "url": "https://brightai.site/pricing/",
       "name": "نظام أمان AI للشركات: باقات AI Governance | Saudi AI Safety OS",
@@ -263,7 +270,8 @@
 </script>
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css">
+  <link rel="preload" href="/frontend/css/production-fixes.v20260427.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css"></noscript>
 </head>
 <body class="bright-page--pricing" data-bright-page-type="pricing">
 <span aria-hidden="true" class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;">

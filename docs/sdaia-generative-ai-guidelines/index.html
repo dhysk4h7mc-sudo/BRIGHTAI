@@ -112,6 +112,13 @@
     },
     {
       "@type": "WebPage",
+      "speakable": {
+        "@type": "SpeakableSpecification",
+        "cssSelector": [
+          "h1",
+          ".tldr"
+        ]
+      },
       "@id": "https://brightai.site/docs/sdaia-generative-ai-guidelines/#webpage",
       "url": "https://brightai.site/docs/sdaia-generative-ai-guidelines/",
       "name": "إرشادات سدايا للاستخدام المسؤول للذكاء الاصطناعي التوليدي: شرح عملي | BrightAI",
@@ -497,7 +504,8 @@
   ]
 }
   </script>
-  <link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css">
+  <link rel="preload" href="/frontend/css/production-fixes.v20260427.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css"></noscript>
 </head>
 <body class="bg-grid">
 <span aria-hidden="true" class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;">جدار حماية الذكاء الاصطناعي، سجل تدقيق AI، طبقة الموافقة البشرية، ملف أدلة الامتثال، حماية البيانات الشخصية في AI، NCA ECC AI controls، SDAIA generative AI guidelines</span>
@@ -526,7 +534,7 @@
   </section>
 
   
-<section class="lead-card">
+<section class="lead-card tldr">
   <h2>الخلاصة التنفيذية</h2>
   <p>إرشادات سدايا للاستخدام المسؤول للذكاء الاصطناعي التوليدي تساعد المؤسسات على استخدام GenAI بدون تحويله إلى مصدر تسريب بيانات أو تضليل أو قرارات غير قابلة للمساءلة. الفكرة ليست منع التقنية، بل وضع حدود واضحة: ما الذي يسمح بإدخاله؟ ما الذي يحتاج موافقة؟ ما الذي يجب التحقق منه؟ متى نكشف للمستخدم أن AI ساعد في إنتاج المخرج؟ ومن يتحمل القرار النهائي؟</p>
   <p>مراجع SDAIA الرسمية المنشورة تشير إلى وجود نسختين من إرشادات الذكاء الاصطناعي التوليدي في 2024: نسخة عامة ونسخة للجهات الحكومية، إضافة إلى مبادئ أخلاقيات الذكاء الاصطناعي التي تركز على العدالة، الخصوصية والأمن، الإنسانية، المنافع الاجتماعية والبيئية، الموثوقية والسلامة، الشفافية والقابلية للتفسير، والمساءلة والمسؤولية. هذا الدليل يحول هذه المبادئ إلى سياسة تشغيل قابلة للتطبيق داخل فرق العمل.</p>

@@ -86,6 +86,12 @@
   "@graph": [
     {
       "@type": "WebPage",
+      "speakable": {
+        "@type": "SpeakableSpecification",
+        "cssSelector": [
+          "h1"
+        ]
+      },
       "@id": "https://brightai.site/solutions/ai-evidence-file/#webpage",
       "url": "https://brightai.site/solutions/ai-evidence-file/",
       "name": "AI Evidence File لإثبات جاهزية مؤسستك للتدقيق والمراجعة | BrightAI",
@@ -422,7 +428,8 @@
   ]
 }
 </script>
-  <link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css">
+  <link rel="preload" href="/frontend/css/production-fixes.v20260427.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css"></noscript>
 </head>
 <body class="bg-grid">
 <span aria-hidden="true" class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;">
@@ -552,6 +559,10 @@
       <span class="gradient-text">AI Evidence File</span><br />
       لإثبات الجاهزية أمام التدقيق والمراجعة
     </h1>
+
+    <p class="lead-definition" data-speakable="">
+      <strong>AI Evidence File</strong> هو ملف امتثال شامل يُولَّد تلقائياً لإثبات جاهزية نظام الذكاء الاصطناعي أمام المدققين داخل المؤسسات السعودية. يساعدك على استعراض أدلة السياسات والموافقات والمخاطر في مكان واحد، مع التوافق مع متطلبات NCA وPDPL وSAMA.
+    </p>
 
     <p class="mt-6 text-lg sm:text-xl text-white/70 leading-loose max-w-3xl mx-auto">
       عندما يطلب المدقق إثبات امتثال AI، الفريق يقضي أسابيع في جمع البيانات من أنظمة مختلفة. النتيجة: تقارير ناقصة، تدقيق مطوّل، وأحياناً ملاحظات سلبية بسبب غياب الأدلة لا وجود مشكلة فعلية. BrightAI يُولّد هذا الملف تلقائياً، في أي وقت.

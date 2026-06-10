@@ -120,6 +120,12 @@
     },
     {
       "@type": "WebPage",
+      "speakable": {
+        "@type": "SpeakableSpecification",
+        "cssSelector": [
+          "h1"
+        ]
+      },
       "@id": "https://brightai.site/solutions/ai-audit-trail/#webpage",
       "url": "https://brightai.site/solutions/ai-audit-trail/",
       "name": "AI Audit Trail لتوثيق كل طلب وقرار وموافقة | BrightAI",
@@ -422,7 +428,8 @@
   ]
 }
 </script>
-  <link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css">
+  <link rel="preload" href="/frontend/css/production-fixes.v20260427.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css"></noscript>
 </head>
 <body class="bg-grid">
 <span aria-hidden="true" class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;">
@@ -553,6 +560,9 @@
         <h1 id="hero-title" class="text-3xl sm:text-5xl lg:text-5xl font-black leading-[1.2] mb-6">
           <span class="gradient-text">AI Audit Trail</span> لتوثيق<br />كل طلب وقرار وموافقة
         </h1>
+        <p class="lead-definition" data-speakable="">
+          <strong>AI Audit Trail</strong> هو سجل رقمي مؤمّن يوثّق كل تفاعل مع الذكاء الاصطناعي داخل المؤسسات السعودية. يساعدك على إثبات الامتثال أمام المدققين الخارجيين وتتبع كل قرار AI بمعرّف المستخدم والنموذج والتوقيت، مع التوافق الكامل مع متطلبات PDPL وNCA وISO 42001.
+        </p>
         <p class="text-xl text-white/70 leading-loose mb-8">
           عندما يأتي المدقق ويسأل: "من استخدم AI في قرار تعيين هذا الموظف؟" أو "ما النموذج الذي أوصى بهذه الصفقة؟" — بدون AI Audit Trail، لا أحد يعرف الإجابة. وهذا وحده يكفي لإسقاط شهادة الامتثال.
         </p>

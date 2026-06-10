@@ -193,7 +193,6 @@ services:
       NODE
 
       npm run seo:production-guard
-    preDeployCommand: npm run indexnow:deploy
     staticPublishPath: .render-static
     headers:
       - path: /*

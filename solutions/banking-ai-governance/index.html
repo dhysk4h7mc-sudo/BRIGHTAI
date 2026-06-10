@@ -187,6 +187,12 @@ body{font-family:'BrightAI Official',system-ui,sans-serif;background:#060914;col
     },
     {
       "@type": "WebPage",
+      "speakable": {
+        "@type": "SpeakableSpecification",
+        "cssSelector": [
+          "h1"
+        ]
+      },
       "@id": "https://brightai.site/solutions/banking-ai-governance/#webpage",
       "url": "https://brightai.site/solutions/banking-ai-governance/",
       "name": "حوكمة الذكاء الاصطناعي في القطاع المالي السعودي | BrightAI",
@@ -264,7 +270,8 @@ body{font-family:'BrightAI Official',system-ui,sans-serif;background:#060914;col
   ]
 }
 </script>
-  <link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css">
+  <link rel="preload" href="/frontend/css/production-fixes.v20260427.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css"></noscript>
 </head>
 <body class="bg-grid">
 <a href="#main" class="skip-link">تخطى للمحتوى</a>

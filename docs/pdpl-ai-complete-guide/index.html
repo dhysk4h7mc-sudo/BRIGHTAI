@@ -112,6 +112,13 @@
     },
     {
       "@type": "WebPage",
+      "speakable": {
+        "@type": "SpeakableSpecification",
+        "cssSelector": [
+          "h1",
+          ".tldr"
+        ]
+      },
       "@id": "https://brightai.site/docs/pdpl-ai-complete-guide/#webpage",
       "url": "https://brightai.site/docs/pdpl-ai-complete-guide/",
       "name": "الدليل الشامل لتطبيق نظام حماية البيانات الشخصية PDPL مع الذكاء الاصطناعي | BrightAI",
@@ -501,7 +508,8 @@
   ]
 }
   </script>
-  <link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css">
+  <link rel="preload" href="/frontend/css/production-fixes.v20260427.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css"></noscript>
 </head>
 <body class="bg-grid">
 <span aria-hidden="true" class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;">جدار حماية الذكاء الاصطناعي، سجل تدقيق AI، طبقة الموافقة البشرية، ملف أدلة الامتثال، حماية البيانات الشخصية في AI، NCA ECC AI controls، SDAIA generative AI guidelines</span>
@@ -530,7 +538,7 @@
   </section>
 
   
-<section class="lead-card">
+<section class="lead-card tldr">
   <h2>الخلاصة التنفيذية</h2>
   <p>امتثال PDPL للذكاء الاصطناعي لا يبدأ من السؤال: هل نستخدم النموذج الفلاني أم لا؟ يبدأ من سؤال أدق: ما البيانات التي ستدخل في النظام، لماذا تدخل، من يملك قرار استخدامها، من يستطيع رؤيتها، أين تحفظ، وكيف نثبت لاحقًا أن الاستخدام كان مشروعًا ومحدودًا وآمنًا؟ في بيئة الذكاء الاصطناعي الحديثة، النص الحر في المحادثات، ملفات التدريب، سجلات البحث، embeddings، المخرجات، وسجلات المراقبة قد تتحول كلها إلى معالجة بيانات شخصية إذا كان يمكن ربطها بشخص مباشر أو غير مباشر.</p>
   <p>هذا الدليل يحول نظام حماية البيانات الشخصية إلى برنامج عمل قابل للتنفيذ داخل فرق البيانات، الأمن السيبراني، الامتثال، الشؤون القانونية، وملاك المنتجات. الصفحة ليست بديلًا عن النص النظامي أو الاستشارة القانونية، لكنها تعطي طريقة عملية لبناء ضوابط داخلية تساعد المؤسسة على حماية البيانات الشخصية في AI، وتقليل مخاطر التسريب، وتجهيز أدلة قابلة للمراجعة عند التدقيق الداخلي أو مراجعة الجهات المختصة.</p>
