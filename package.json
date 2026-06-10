@@ -14,7 +14,7 @@
     "dev:backend": "npm run dev --workspace brightai-frontend",
     "build": "npm run build:assets",
     "build:frontend": "echo 'Static HTML site - no build needed'",
-    "build:assets": "node scripts/build-tailwind-purged.mjs && node scripts/build-css-bundle.mjs && node scripts/minify-seo-assets.mjs && node scripts/replace-unminified-refs.mjs && node scripts/apply-css-bundle.mjs && node scripts/apply-production-audit-fixes.mjs",
+    "build:assets": "node scripts/build-tailwind-purged.mjs && node scripts/build-css-bundle.mjs && node scripts/minify-seo-assets.mjs && node scripts/replace-unminified-refs.mjs && node scripts/apply-css-bundle.mjs && node scripts/apply-production-audit-fixes.mjs && node scripts/sync-solution-faq-schema.mjs && node scripts/sync-docs-howto-schema.mjs",
     "build:css-bundle": "node scripts/build-css-bundle.mjs",
     "build:css-apply": "node scripts/apply-css-bundle.mjs",
     "build:sitemap": "node scripts/generate-sitemap-all-pages.mjs",
