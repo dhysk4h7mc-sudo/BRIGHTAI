@@ -17,9 +17,8 @@
   <meta name="apple-mobile-web-app-title" content="BrightAI Kernel">
   <link rel="manifest" href="/kernel/manifest.json">
   <link rel="icon" href="/frontend/assets/images/logo.png" type="image/png">
-  <title>موافقات BrightAI Kernel لحوكمة قرارات AI | BrightAI</title>
-<meta name="description" content="أدر موافقات استخدامات الذكاء الاصطناعي داخل BrightAI Kernel، واربط كل قرار بسياق ومراجع وسجل تدقيق واضح يناسب فرق الامتثال في السعودية، دون تعقيد زائد." />
-<meta name="keywords" content="جدار حماية الذكاء الاصطناعي, سجل تدقيق الذكاء الاصطناعي, طبقة الموافقة البشرية للذكاء الاصطناعي, ملف أدلة الامتثال, تقييم وتصنيف مخاطر الذكاء الاصطناعي, إخفاء البيانات الشخصية في الذكاء الاصطناعي, حزم الامتثال التنظيمي, الاستخدام الخفي للذكاء الاصطناعي, الإنسان في الحلقة" />
+  <title>الموافقات البشرية على قرارات الذكاء الاصطناعي | BrightAI</title>
+<meta name="description" content="أدر الموافقات البشرية على قرارات الذكاء الاصطناعي، وراجع مستوى المخاطر والسياق قبل الاعتماد أو الرفض مع توثيق كامل لكل قرار." />
 
 
 <meta property="og:type" content="website" />
@@ -92,6 +91,29 @@
       ]
     },
     {
+      "@type": [
+        "SoftwareApplication",
+        "WebApplication"
+      ],
+      "@id": "https://brightai.site/#product",
+      "name": "BrightAI Kernel",
+      "url": "https://brightai.site/kernel/",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Cloud, Hybrid, On-Premise",
+      "description": "تطبيق ويب مؤسسي لحوكمة وأمان الذكاء الاصطناعي، يوفّر جدار حماية للذكاء الاصطناعي وسجل تدقيق وموافقات بشرية وملفات أدلة وضوابط امتثال للمنشآت السعودية.",
+      "provider": {
+        "@id": "https://brightai.site/#organization"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": 0,
+        "priceCurrency": "SAR",
+        "availability": "https://schema.org/InStock",
+        "url": "https://brightai.site/kernel/",
+        "description": "ديمو عام مجاني لواجهة BrightAI Kernel"
+      }
+    },
+    {
       "@type": "WebPage",
       "@id": "https://brightai.site/kernel/approvals/#webpage",
       "url": "https://brightai.site/kernel/approvals/",
@@ -103,7 +125,10 @@
       "about": {
         "@id": "https://brightai.site/#organization"
       },
-      "inLanguage": "ar-SA"
+      "inLanguage": "ar-SA",
+      "mainEntity": {
+        "@id": "https://brightai.site/#product"
+      }
     },
     {
       "@type": "BreadcrumbList",
@@ -131,6 +156,7 @@
     }
   ]
 }
+
 </script>
   <link rel="preload" href="/frontend/assets/fonts/TheYearofTheCamel-Medium.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="/frontend/css/production-fixes.v20260427.css" as="style" onload="this.onload=null;this.rel='stylesheet'">

@@ -129,6 +129,29 @@
       ]
     },
     {
+      "@type": [
+        "SoftwareApplication",
+        "WebApplication"
+      ],
+      "@id": "https://brightai.site/#product",
+      "name": "BrightAI Kernel",
+      "url": "https://brightai.site/kernel/",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Cloud, Hybrid, On-Premise",
+      "description": "تطبيق ويب مؤسسي لحوكمة وأمان الذكاء الاصطناعي، يوفّر جدار حماية للذكاء الاصطناعي وسجل تدقيق وموافقات بشرية وملفات أدلة وضوابط امتثال للمنشآت السعودية.",
+      "provider": {
+        "@id": "https://brightai.site/#organization"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": 0,
+        "priceCurrency": "SAR",
+        "availability": "https://schema.org/InStock",
+        "url": "https://brightai.site/kernel/",
+        "description": "ديمو عام مجاني لواجهة BrightAI Kernel"
+      }
+    },
+    {
       "@type": "WebPage",
       "@id": "https://brightai.site/kernel/offline/#webpage",
       "url": "https://brightai.site/kernel/offline/",
@@ -140,7 +163,10 @@
       "about": {
         "@id": "https://brightai.site/#organization"
       },
-      "inLanguage": "ar-SA"
+      "inLanguage": "ar-SA",
+      "mainEntity": {
+        "@id": "https://brightai.site/#product"
+      }
     },
     {
       "@type": "BreadcrumbList",
@@ -168,6 +194,7 @@
     }
   ]
 }
+
   </script>
   <link rel="preload" href="/frontend/assets/fonts/TheYearofTheCamel-Medium.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="/frontend/css/production-fixes.v20260427.css" as="style" onload="this.onload=null;this.rel='stylesheet'">

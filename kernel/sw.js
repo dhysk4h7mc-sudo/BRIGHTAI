@@ -1,5 +1,5 @@
 /* BrightAI Kernel Service Worker v2 — enhanced caching strategies */
-const KERNEL_CACHE_VERSION = '2026-06-07-5';
+const KERNEL_CACHE_VERSION = '2026-06-10-1';
 const CACHE_PREFIX = 'brightai-kernel';
 const STATIC_CACHE = `${CACHE_PREFIX}-static-${KERNEL_CACHE_VERSION}`;
 const API_CACHE = `${CACHE_PREFIX}-api-${KERNEL_CACHE_VERSION}`;
@@ -23,6 +23,7 @@ const PRECACHE_URLS = [
   '/kernel/manifest.json',
   '/kernel/assets/css/kernel.css',
   '/kernel/assets/js/kernel-utils.js',
+  '/kernel/assets/js/kernel-nav.js',
   '/kernel/assets/js/kernel-notifications.js',
   '/kernel/assets/js/kernel-pwa.js',
   '/kernel/kernel-web-vitals.js',

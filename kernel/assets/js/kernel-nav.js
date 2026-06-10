@@ -39,6 +39,8 @@
       initialized: false,
       pendingIntervalId: null,
       statusIntervalId: null,
+      connectivityOffline: false,
+      connectivityToastDismissed: false,
       lastDrawerTrigger: null,
       lastMoreTrigger: null,
     },
@@ -92,6 +94,7 @@
 
       this.render();
       this.bindEvents();
+      this.checkConnectivity();
       this.startPendingCheck();
       this.loadCommandPalette();
       this.loadNotifications();
@@ -473,6 +476,9 @@
           this.closeDrawer();
         }
       });
+
+      window.addEventListener('offline', () => this.checkConnectivity());
+      window.addEventListener('online', () => this.handleConnectivityRestored());
     },
 
     /**
@@ -750,7 +756,7 @@
       utils.initTheme();
     },
 
-    showToast(message, type = 'info') {
+    showToast(message, type = 'info', options = {}) {
       let container = document.getElementById('toast-container');
       if (!container) {
         container = document.createElement('div');
@@ -762,13 +768,65 @@
 
       const toast = document.createElement('div');
       toast.className = `toast ${type}`;
-      toast.textContent = String(message || '');
+      if (options.connectivity) {
+        toast.dataset.kernelConnectivityToast = 'true';
+      }
+
+      const content = document.createElement('div');
+      content.className = 'toast-content';
+      content.textContent = String(message || '');
+
+      const closeButton = document.createElement('button');
+      closeButton.type = 'button';
+      closeButton.className = 'toast-close';
+      closeButton.setAttribute('aria-label', 'إغلاق التنبيه');
+      closeButton.textContent = '×';
+      closeButton.addEventListener('click', () => {
+        if (options.connectivity) this.state.connectivityToastDismissed = true;
+        toast.remove();
+      });
+
+      toast.append(content, closeButton);
       container.appendChild(toast);
       requestAnimationFrame(() => toast.classList.add('show'));
-      setTimeout(() => {
-        toast.classList.remove('show');
-        setTimeout(() => toast.remove(), 250);
-      }, 3200);
+      if (!options.persistent) {
+        setTimeout(() => {
+          toast.classList.remove('show');
+          setTimeout(() => toast.remove(), 250);
+        }, 3200);
+      }
+      return toast;
+    },
+
+    async checkConnectivity() {
+      if (navigator.onLine !== false) {
+        this.handleConnectivityRestored();
+        return true;
+      }
+
+      try {
+        await fetch(`/kernel/connectivity-check?ts=${Date.now()}`, {
+          cache: 'no-store',
+          headers: { Accept: 'text/plain' },
+        });
+        this.handleConnectivityRestored();
+        return true;
+      } catch (_error) {
+        this.state.connectivityOffline = true;
+        if (!this.state.connectivityToastDismissed && !document.querySelector('[data-kernel-connectivity-toast]')) {
+          this.showToast('الاتصال بالإنترنت غير متاح. سنخفي هذا التنبيه تلقائياً عند عودة الشبكة.', 'warning', {
+            connectivity: true,
+            persistent: true,
+          });
+        }
+        return false;
+      }
+    },
+
+    handleConnectivityRestored() {
+      this.state.connectivityOffline = false;
+      this.state.connectivityToastDismissed = false;
+      document.querySelectorAll('[data-kernel-connectivity-toast]').forEach((toast) => toast.remove());
     },
 
     /**
