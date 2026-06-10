@@ -114,6 +114,11 @@ function findInsertionPoint(html) {
 
 // ── Process a single HTML file ───────────────────────────────────────────
 function processHTML(html, filePath) {
+  if (/<meta\b[^>]*name=["']robots["'][^>]*content=["'][^"']*noindex/i.test(html)
+    || /<meta\b[^>]*content=["'][^"']*noindex[^"']*["'][^>]*name=["']robots["']/i.test(html)) {
+    return { changed: false, reason: "noindex page" };
+  }
+
   if (alreadyHasBundle(html)) {
     return { changed: false, reason: "already has bundle" };
   }
@@ -165,7 +170,17 @@ async function main() {
   // Find all HTML files
   const htmlFiles = await glob("**/*.html", {
     cwd: ROOT,
-    ignore: ["node_modules/**", ".git/**", ".claude/**"],
+    ignore: [
+      "node_modules/**",
+      ".git/**",
+      ".claude/**",
+      ".agents/**",
+      ".codex/**",
+      ".render-static/**",
+      "components/**",
+      "report/**",
+      "reports/**",
+    ],
     absolute: true,
   });
 

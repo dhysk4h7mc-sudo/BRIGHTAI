@@ -2,9 +2,9 @@ const STATIC_ROUTE_REDIRECTS = new Map([
   ['/interview', '/demo/'],
   ['/interview/', '/demo/'],
   ['/interview/index.html', '/demo/'],
-  ['/interview/pages/supportAI', '/demo/pages/support-ai/'],
-  ['/interview/pages/supportAI/', '/demo/pages/support-ai/'],
-  ['/interview/pages/supportAI/index.html', '/demo/pages/support-ai/'],
+  ['/interview/pages/supportAI', '/demo/'],
+  ['/interview/pages/supportAI/', '/demo/'],
+  ['/interview/pages/supportAI/index.html', '/demo/'],
   ['/job.MAISco', '/demo/'],
   ['/job.MAISco/', '/demo/']
 ]);

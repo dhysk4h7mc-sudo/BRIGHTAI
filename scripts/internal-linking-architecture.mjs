@@ -22,8 +22,11 @@ const END = "<!-- BRIGHTAI_INTERNAL_LINKS_END -->";
 
 const IGNORE_DIRS = new Set([
   ".git",
+  ".agents",
+  ".codex",
   "node_modules",
   "reports",
+  "components",
   "tmp",
   "dist",
   "build",

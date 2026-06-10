@@ -1,11 +1,19 @@
 {
   "redirects": [
     {
-      "from": "/blog/Generative-artificial-intelligence",
-      "to": "/services/"
+      "from": "/report",
+      "to": "/trust/"
     },
     {
-      "from": "/services/",
+      "from": "/report.html",
+      "to": "/trust/"
+    },
+    {
+      "from": "/report/index.html",
+      "to": "/trust/"
+    },
+    {
+      "from": "/blog/Generative-artificial-intelligence",
       "to": "/services/"
     },
     {
@@ -17,19 +25,11 @@
       "to": "/services/"
     },
     {
-      "from": "/services/",
-      "to": "/services/"
-    },
-    {
       "from": "/blog/agint-bblog.html",
       "to": "/services/"
     },
     {
       "from": "/blog/ai",
-      "to": "/services/"
-    },
-    {
-      "from": "/services/",
       "to": "/services/"
     },
     {
@@ -41,10 +41,6 @@
       "to": "/services/"
     },
     {
-      "from": "/services/",
-      "to": "/services/"
-    },
-    {
       "from": "/blog/analysy.html",
       "to": "/services/"
     },
@@ -53,19 +49,11 @@
       "to": "/services/"
     },
     {
-      "from": "/services/",
-      "to": "/services/"
-    },
-    {
       "from": "/blog/atou-job.html",
       "to": "/services/"
     },
     {
       "from": "/blog/auto",
-      "to": "/services/"
-    },
-    {
-      "from": "/services/",
       "to": "/services/"
     },
     {
@@ -125,19 +113,11 @@
       "to": "/services/"
     },
     {
-      "from": "/services/",
-      "to": "/services/"
-    },
-    {
       "from": "/blog/digital.html",
       "to": "/services/"
     },
     {
       "from": "/blog/gov",
-      "to": "/services/"
-    },
-    {
-      "from": "/services/",
       "to": "/services/"
     },
     {
@@ -154,7 +134,7 @@
     },
     {
       "from": "/en/index.html",
-      "to": "/en/"
+      "to": "/"
     },
     {
       "from": "/en/:slug/index.html",
@@ -362,23 +342,23 @@
     },
     {
       "from": "/demo/pages/appointment/index.html",
-      "to": "/demo/pages/appointment/"
+      "to": "/demo/"
     },
     {
       "from": "/demo/pages/dashboard/index.html",
-      "to": "/demo/pages/dashboard/"
+      "to": "/demo/"
     },
     {
       "from": "/demo/pages/support-ai/index.html",
-      "to": "/demo/pages/support-ai/"
+      "to": "/demo/"
     },
     {
       "from": "/demo/pages/Visitor-registration/index.html",
-      "to": "/demo/pages/Visitor-registration/"
+      "to": "/demo/"
     },
     {
       "from": "/en/docs/docs.html",
-      "to": "/en/docs/"
+      "to": "/docs/"
     },
     {
       "from": "/health-bright.html",
@@ -413,36 +393,12 @@
       "to": "/services/"
     },
     {
-      "from": "/frontend/pages/services/",
-      "to": "/services/"
-    },
-    {
-      "from": "/frontend/pages/services/",
-      "to": "/services/"
-    },
-    {
-      "from": "/frontend/pages/services/",
-      "to": "/services/"
-    },
-    {
-      "from": "/frontend/pages/services/",
-      "to": "/services/"
-    },
-    {
       "from": "/frontend/pages/contact/index.html",
       "to": "/contact/"
     },
     {
       "from": "/frontend/pages/contact/",
       "to": "/contact/"
-    },
-    {
-      "from": "/frontend/pages/services/index.html",
-      "to": "/services/"
-    },
-    {
-      "from": "/frontend/pages/services/",
-      "to": "/services/"
     },
     {
       "from": "/frontend/pages/services/index.html",
@@ -458,27 +414,27 @@
     },
     {
       "from": "/frontend/pages/smart-medical-archive/index.html",
-      "to": "/smart-medical-archive/"
+      "to": "/solutions/healthcare-ai-governance/"
     },
     {
       "from": "/frontend/pages/smart-medical-archive/",
-      "to": "/smart-medical-archive/"
+      "to": "/solutions/healthcare-ai-governance/"
     },
     {
       "from": "/frontend/pages/try/index.html",
-      "to": "/try/"
+      "to": "/demo/"
     },
     {
       "from": "/demo/pages/supportAI",
-      "to": "/demo/pages/support-ai/"
+      "to": "/demo/"
     },
     {
       "from": "/demo/pages/supportAI/",
-      "to": "/demo/pages/support-ai/"
+      "to": "/demo/"
     },
     {
       "from": "/demo/pages/supportAI/index.html",
-      "to": "/demo/pages/support-ai/"
+      "to": "/demo/"
     },
     {
       "from": "/frontend/pages/blogger/nca-compliance",
@@ -494,10 +450,6 @@
     },
     {
       "from": "/blog/production-line",
-      "to": "/services/"
-    },
-    {
-      "from": "/services/",
       "to": "/services/"
     },
     {
@@ -538,30 +490,6 @@
     },
     {
       "from": "/blog/Generative artificial intelligence",
-      "to": "/services/"
-    },
-    {
-      "from": "/services/",
-      "to": "/services/"
-    },
-    {
-      "from": "/services/",
-      "to": "/services/"
-    },
-    {
-      "from": "/services/",
-      "to": "/services/"
-    },
-    {
-      "from": "/services/",
-      "to": "/services/"
-    },
-    {
-      "from": "/services/",
-      "to": "/services/"
-    },
-    {
-      "from": "/services/",
       "to": "/services/"
     },
     {
@@ -653,71 +581,15 @@
       "to": "/docs/"
     },
     {
-      "from": "/docs/solutions-supply-chain-en.html",
-      "to": "/docs/"
-    },
-    {
-      "from": "/docs/solutions-retail-en.html",
-      "to": "/docs/"
-    },
-    {
-      "from": "/docs/solutions-ocr-en.html",
-      "to": "/docs/"
-    },
-    {
-      "from": "/docs/solutions-logistics-en.html",
-      "to": "/docs/"
-    },
-    {
-      "from": "/docs/solutions-interview-en.html",
-      "to": "/docs/"
-    },
-    {
-      "from": "/docs/solutions-hr-en.html",
-      "to": "/docs/"
-    },
-    {
-      "from": "/docs/solutions-healthcare-en.html",
-      "to": "/docs/"
-    },
-    {
-      "from": "/docs/solutions-finance-en.html",
-      "to": "/docs/"
-    },
-    {
-      "from": "/docs/solutions-crm-en.html",
-      "to": "/docs/"
-    },
-    {
-      "from": "/docs/solutions-bi-en.html",
-      "to": "/docs/"
-    },
-    {
-      "from": "/docs/services-overview-en.html",
-      "to": "/docs/"
-    },
-    {
       "from": "/privacy-policy/privacy-policy-en.html",
       "to": "/docs/"
     },
     {
-      "from": "/docs/faq-en.html",
-      "to": "/docs/"
-    },
-    {
       "from": "/docs/docs-en.html",
-      "to": "/docs-en.html"
-    },
-    {
-      "from": "/docs/data-analysis-en.html",
       "to": "/docs/"
     },
     {
       "from": "/contact/contact-en.html",
-      "to": "/docs/"
-    },
-    {
-      "from": "/docs/ai-bots-en.html",
       "to": "/docs/"
     },
     {
@@ -946,27 +818,27 @@
     },
     {
       "from": "/docs/Governanceـapplication",
-      "to": "/docs/Governanceـapplication/"
+      "to": "/docs/governance-application/"
     },
     {
       "from": "/docs/Governanceـapplication.html",
-      "to": "/docs/Governanceـapplication/"
+      "to": "/docs/governance-application/"
     },
     {
       "from": "/docs/Governanceـapplication/index.html",
-      "to": "/docs/Governanceـapplication/"
+      "to": "/docs/governance-application/"
     },
     {
       "from": "/docs/Governance%D9%80application",
-      "to": "/docs/Governance%D9%80application/"
+      "to": "/docs/governance-application/"
     },
     {
       "from": "/docs/Governance%D9%80application.html",
-      "to": "/docs/Governance%D9%80application/"
+      "to": "/docs/governance-application/"
     },
     {
       "from": "/docs/Governance%D9%80application/index.html",
-      "to": "/docs/Governance%D9%80application/"
+      "to": "/docs/governance-application/"
     },
     {
       "from": "/assessment/ai-governance-readiness",
@@ -982,7 +854,7 @@
     },
     {
       "from": "/blog/ai-governance",
-      "to": "/blog/ai-governance.html"
+      "to": "/blog/ai-governance/"
     }
   ]
 }

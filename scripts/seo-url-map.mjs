@@ -54,6 +54,8 @@ const NON_INDEXABLE_REL_PATH_PATTERNS = [
   /^(404|500)\.html$/i,
   /^error\.html$/i,
   /^offline\/index\.html$/i,
+  /^kernel\/offline\.html$/i,
+  /^report\/index\.html$/i,
   /^frontend\/font-demo\.html$/i,
   /^en\/docs\/docs\.html$/i,
   /^blog\/(ai-automation-project-analysis|digital-transformation-automation|financial-hr-automation|industrial-automation-productivity|machine-learning-computer-vision|process-automation-ai-efficiency)\.html$/i,

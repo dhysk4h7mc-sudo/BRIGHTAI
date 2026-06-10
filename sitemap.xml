@@ -167,7 +167,7 @@
     <loc>https://brightai.site/contact/</loc>
     <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/contact/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/contact/" />
-    <lastmod>2026-06-10</lastmod>
+    <lastmod>2026-06-11</lastmod>
   </url>
   <url>
     <loc>https://brightai.site/cookie-policy/</loc>
@@ -515,12 +515,6 @@
     <lastmod>2026-06-10</lastmod>
   </url>
   <url>
-    <loc>https://brightai.site/report/</loc>
-    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/report/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/report/" />
-    <lastmod>2026-06-10</lastmod>
-  </url>
-  <url>
     <loc>https://brightai.site/services/</loc>
     <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/services/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/services/" />
@@ -542,19 +536,19 @@
     <loc>https://brightai.site/solutions/ai-audit-trail/</loc>
     <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/solutions/ai-audit-trail/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/solutions/ai-audit-trail/" />
-    <lastmod>2026-06-10</lastmod>
+    <lastmod>2026-06-11</lastmod>
   </url>
   <url>
     <loc>https://brightai.site/solutions/ai-evidence-file/</loc>
     <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/solutions/ai-evidence-file/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/solutions/ai-evidence-file/" />
-    <lastmod>2026-06-10</lastmod>
+    <lastmod>2026-06-11</lastmod>
   </url>
   <url>
     <loc>https://brightai.site/solutions/ai-firewall/</loc>
     <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/solutions/ai-firewall/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/solutions/ai-firewall/" />
-    <lastmod>2026-06-10</lastmod>
+    <lastmod>2026-06-11</lastmod>
   </url>
   <url>
     <loc>https://brightai.site/solutions/ai-governance-platform/</loc>
@@ -620,7 +614,7 @@
     <loc>https://brightai.site/solutions/human-approval-layer/</loc>
     <xhtml:link rel="alternate" hreflang="ar-SA" href="https://brightai.site/solutions/human-approval-layer/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://brightai.site/solutions/human-approval-layer/" />
-    <lastmod>2026-06-10</lastmod>
+    <lastmod>2026-06-11</lastmod>
   </url>
   <url>
     <loc>https://brightai.site/solutions/manufacturing-ai-governance/</loc>

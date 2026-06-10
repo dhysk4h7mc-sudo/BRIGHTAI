@@ -139,7 +139,7 @@ export async function runSync({
   root = process.cwd(),
   check = false,
 } = {}) {
-  const files = await glob("solutions/*/index.html", {
+  const files = await glob("solutions/**/index.html", {
     cwd: root,
     absolute: true,
     nodir: true,
@@ -148,6 +148,7 @@ export async function runSync({
 
   for (const file of files.sort()) {
     const before = await fs.readFile(file, "utf8");
+    if (extractVisibleFaq(before).length === 0) continue;
     const after = syncSolutionFaqSchema(before);
     if (after === before) continue;
 

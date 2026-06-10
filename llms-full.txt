@@ -146,11 +146,6 @@ Primary machine-readable files:
 - [llms-full.txt](https://brightai.site/llms-full.txt)
 - [robots.txt](https://brightai.site/robots.txt)
 - [sitemap.xml](https://brightai.site/sitemap.xml)
-- [sitemap-pages.xml](https://brightai.site/sitemap-pages.xml)
-- [sitemap-kernel.xml](https://brightai.site/sitemap-kernel.xml)
-- [sitemap-legal.xml](https://brightai.site/sitemap-legal.xml)
-- [sitemap-solutions.xml](https://brightai.site/sitemap-solutions.xml)
-- [sitemap-demo.xml](https://brightai.site/sitemap-demo.xml)
 
 ## Preferred Citation Targets
 For general brand or product citation, use:

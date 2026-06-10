@@ -16,9 +16,11 @@ const SKIP_DIRS = new Set([
   ".venv",
   "build",
   "coverage",
+  "components",
   "dist",
   "node_modules",
   "plugins",
+  "report",
   "reports",
   "tmp",
 ]);
@@ -247,10 +249,10 @@ function ensureCanonical(html, relPath) {
   return html.replace(/<\/head>/i, `  ${tag}\n</head>`);
 }
 
-function ensureRobots(html, relPath) {
+function ensureRobots(html) {
   const tag = '<meta name="robots" content="index, follow">';
   if (/<meta\b[^>]*name=["']robots["'][^>]*>/i.test(html)) {
-    return html.replace(/<meta\b[^>]*name=["']robots["'][^>]*>/i, tag);
+    return html;
   }
   return html.replace(/<\/head>/i, `  ${tag}\n</head>`);
 }
@@ -330,7 +332,7 @@ async function main() {
     let html = await fs.readFile(fullPath, "utf8");
     if (!/<head\b/i.test(html) || !/<body\b/i.test(html)) continue;
     const original = html;
-    html = ensureRobots(html, relPath);
+    html = ensureRobots(html);
     html = ensureCanonical(html, relPath);
     html = ensureSchema(html, relPath);
     html = ensureAnswerBlock(html, relPath);

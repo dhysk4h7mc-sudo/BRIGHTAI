@@ -216,6 +216,78 @@
       .articles { grid-template-columns: 1fr; }
     }
   </style>
+  <script id="brightai-production-schema" type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": [
+        "Organization",
+        "LocalBusiness"
+      ],
+      "@id": "https://brightai.site/#organization",
+      "name": "BrightAI",
+      "url": "https://brightai.site",
+      "logo": "https://brightai.site/frontend/assets/images/logo.png",
+      "areaServed": "SA",
+      "sameAs": []
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://brightai.site/#website",
+      "url": "https://brightai.site",
+      "name": "BrightAI",
+      "publisher": {
+        "@id": "https://brightai.site/#organization"
+      },
+      "inLanguage": [
+        "ar-SA",
+        "en-SA"
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://brightai.site/authors/nasser-alabdullah/#webpage",
+      "url": "https://brightai.site/authors/nasser-alabdullah/",
+      "name": "م. ناصر العبدالله — مؤسس BrightAI | حوكمة الذكاء الاصطناعي",
+      "description": "الصفحة التعريفية لم. ناصر العبدالله، مؤلف في BrightAI يكتب عن حوكمة الذكاء الاصطناعي وPDPL وضوابط NCA ECC وإرشادات سدايا.",
+      "isPartOf": {
+        "@id": "https://brightai.site/#website"
+      },
+      "about": {
+        "@id": "https://brightai.site/#organization"
+      },
+      "inLanguage": "ar-SA"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://brightai.site/authors/nasser-alabdullah/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "BrightAI",
+          "item": "https://brightai.site/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "authors",
+          "item": "https://brightai.site/authors/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "م. ناصر العبدالله — مؤسس BrightAI | حوكمة الذكاء الاصطناعي",
+          "item": "https://brightai.site/authors/nasser-alabdullah/"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+  <link rel="preload" href="/frontend/assets/fonts/TheYearofTheCamel-Medium.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css">
 </head>
 <body>
   <header class="site-header">
@@ -239,7 +311,7 @@
           <p class="bio">م. ناصر العبدالله مهندس ومستشار حوكمة ذكاء اصطناعي في BrightAI، ويركز محتواه المنشور على تحويل مبادئ AI Governance ومتطلبات الامتثال السعودية إلى ضوابط تشغيلية قابلة للتطبيق والتدقيق داخل المؤسسات. تغطي مقالاته حماية البيانات الشخصية وفق PDPL، وربط استخدامات الذكاء الاصطناعي بضوابط NCA ECC، والتعامل العملي مع إرشادات سدايا، إلى جانب سلامة الذكاء الاصطناعي وسجلات التدقيق والرقابة البشرية وإدارة المخاطر.</p>
         </div>
         <figure class="portrait">
-          <img src="/frontend/assets/images/authors/nasser-alabdullah.svg" alt="رسم تعريفي مؤقت لم. ناصر العبدالله" width="150" height="150">
+          <img src="/frontend/assets/images/authors/nasser-alabdullah.svg" alt="رسم تعريفي مؤقت لم. ناصر العبدالله" width="150" height="150" decoding="async" loading="lazy">
           <figcaption>رسم تعريفي مؤقت لحين توفير صورة شخصية موثقة.</figcaption>
         </figure>
       </div>
@@ -281,5 +353,6 @@
   <footer>
     <div class="shell">© BrightAI — حوكمة وأمان الذكاء الاصطناعي في السعودية</div>
   </footer>
+  <script src="/frontend/js/production-runtime.v20260427.js" defer></script>
 </body>
 </html>

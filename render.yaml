@@ -114,6 +114,7 @@ services:
         --exclude='.agents' \
         --exclude='plugins' \
         --exclude='reports' \
+        --exclude='report' \
         --exclude='tmp' \
         --exclude='backend' \
         --exclude='app' \
@@ -210,9 +211,6 @@ services:
       - path: /*
         name: Permissions-Policy
         value: camera=(), microphone=(), geolocation=()
-      - path: /*
-        name: X-Robots-Tag
-        value: index, follow
       - path: /*
         name: Content-Security-Policy
         value: "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; form-action 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://js.sentry-cdn.com https://www.clarity.ms https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://cdn.tailwindcss.com https://code.iconify.design https://tovik.app; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; connect-src 'self' https://brightai-api.onrender.com wss://brightai-api.onrender.com https://o4510966719840256.ingest.us.sentry.io https://*.sentry.io https://www.google-analytics.com https://region1.google-analytics.com https://www.clarity.ms https://api.iconify.design https://api.simplesvg.com https://api.unisvg.com https://api.contractai.sa https://tovik.app; frame-src 'self' https://tovik.app; worker-src 'self' blob:; manifest-src 'self'"
@@ -483,13 +481,13 @@ services:
         destination: /sitemap/
       - type: redirect
         source: /report
-        destination: /report/
+        destination: /trust/
       - type: redirect
         source: /report.html
-        destination: /report/
+        destination: /trust/
       - type: redirect
         source: /report/index.html
-        destination: /report/
+        destination: /trust/
 
       # ── Solutions Module Redirects ──────────────────────────────────────────
       - type: redirect

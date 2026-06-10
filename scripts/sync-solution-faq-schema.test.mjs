@@ -1,8 +1,12 @@
 import assert from "node:assert/strict";
+import { mkdtemp, mkdir, writeFile } from "node:fs/promises";
+import os from "node:os";
+import path from "node:path";
 import test from "node:test";
 
 import {
   extractVisibleFaq,
+  runSync,
   syncSolutionFaqSchema,
 } from "./sync-solution-faq-schema.mjs";
 
@@ -85,4 +89,15 @@ test("replaces only the managed FAQPage node", () => {
     faq["@id"],
     "https://brightai.site/solutions/example/#faq",
   );
+});
+
+test("sync includes nested city solution pages", async () => {
+  const root = await mkdtemp(path.join(os.tmpdir(), "brightai-faq-"));
+  const nested = path.join(root, "solutions", "sector", "city");
+  await mkdir(nested, { recursive: true });
+  await writeFile(path.join(nested, "index.html"), fixture);
+
+  const changed = await runSync({ root });
+
+  assert.deepEqual(changed, ["solutions/sector/city/index.html"]);
 });

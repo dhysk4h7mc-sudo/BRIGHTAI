@@ -1,0 +1,98 @@
+import assert from "node:assert/strict";
+import fs from "node:fs";
+import path from "node:path";
+import test from "node:test";
+import { execFileSync } from "node:child_process";
+import * as cheerio from "cheerio";
+
+const ROOT = process.cwd();
+const CORE_PAGES = [
+  "trust/index.html",
+  "contact/index.html",
+  "solutions/index.html",
+  "assessment/ai-governance-readiness/index.html",
+];
+
+function loadPage(relPath) {
+  const html = fs.readFileSync(path.join(ROOT, relPath), "utf8");
+  return { html, $: cheerio.load(html) };
+}
+
+function mainWordCount(relPath) {
+  const { $ } = loadPage(relPath);
+  $("script, style, noscript, nav, footer").remove();
+  return $("main")
+    .text()
+    .replace(/\s+/g, " ")
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean).length;
+}
+
+function solutionPages() {
+  return fs
+    .readdirSync(path.join(ROOT, "solutions"), { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => path.join("solutions", entry.name, "index.html"))
+    .filter((relPath) => fs.existsSync(path.join(ROOT, relPath)));
+}
+
+function countLinkingSourceFiles(target) {
+  const htmlFiles = [];
+  const ignored = new Set([".git", ".agents", "node_modules", ".render-static", "reports", "report", "components"]);
+
+  function walk(current = "") {
+    for (const entry of fs.readdirSync(path.join(ROOT, current), { withFileTypes: true })) {
+      if (entry.isDirectory() && ignored.has(entry.name)) continue;
+      const relPath = path.posix.join(current, entry.name);
+      if (entry.isDirectory()) walk(relPath);
+      if (entry.isFile() && entry.name.endsWith(".html")) htmlFiles.push(relPath);
+    }
+  }
+
+  walk();
+  return htmlFiles.filter((file) => {
+    const { $ } = loadPage(file);
+    return $(`a[href="${target}"]`).length > 0;
+  }).length;
+}
+
+test("core commercial pages contain at least 800 meaningful words", () => {
+  for (const relPath of CORE_PAGES) {
+    assert.ok(mainWordCount(relPath) >= 800, `${relPath} must contain at least 800 main-content words`);
+  }
+});
+
+test("every primary solution has substantial content and matching visible FAQ", () => {
+  for (const relPath of solutionPages()) {
+    const { html, $ } = loadPage(relPath);
+    assert.ok(mainWordCount(relPath) >= 800, `${relPath} must contain at least 800 main-content words`);
+    assert.ok($("main details summary").length >= 3, `${relPath} must expose at least three FAQ questions`);
+    assert.match(html, /"@type"\s*:\s*"FAQPage"/, `${relPath} must include FAQPage schema`);
+  }
+});
+
+test("weak sector solution pages receive at least three contextual linking sources", () => {
+  for (const target of [
+    "/solutions/government-ai-governance/",
+    "/solutions/manufacturing-ai-governance/",
+  ]) {
+    assert.ok(countLinkingSourceFiles(target) >= 3, `${target} must have at least three linking source pages`);
+  }
+});
+
+test("every indexable page receives at least three internal linking sources", () => {
+  execFileSync(process.execPath, ["scripts/internal-linking-architecture.mjs"], {
+    cwd: ROOT,
+    stdio: "pipe",
+  });
+
+  const inventory = JSON.parse(
+    fs.readFileSync(path.join(ROOT, "reports/internal-links/full-inventory.json"), "utf8"),
+  );
+  const weakPages = inventory.pages
+    .filter((page) => page.indexable && page.incoming.length < 3)
+    .map((page) => `${page.relPath} (${page.incoming.length})`);
+
+  assert.deepEqual(weakPages, [], `indexable pages below three incoming sources:\n${weakPages.join("\n")}`);
+});

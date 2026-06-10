@@ -41,9 +41,9 @@ https://www.brightai.site/*    https://brightai.site/:splat  301
 /sitemap                      /sitemap/                     301
 /sitemap/index.html           /sitemap/                     301
 /sitemap.html                 /sitemap/                     301
-/report                       /report/                      301
-/report/index.html            /report/                      301
-/report.html                  /report/                      301
+/report                       /trust/                       301
+/report/index.html            /trust/                       301
+/report.html                  /trust/                       301
 
 # ── Privacy, Policies and Legal Statements (Arabic) ─────────────────────────
 /privacy-policy               /privacy-policy/              301
