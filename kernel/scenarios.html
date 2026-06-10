@@ -398,7 +398,7 @@
         <div class="connector-result-panel" id="scenarioResult" aria-live="polite"></div>
 
         <!-- Scenarios Grid -->
-        <div class="scenarios-grid">
+        <div class="scenarios-grid" id="scenariosGrid">
           <!-- Scenario 1: Finance -->
           <div class="scenario-card">
             <div class="scenario-header">
@@ -694,6 +694,8 @@
   <script src="/kernel/assets/js/kernel-demo-banner.js" defer></script>
   <script src="/kernel/assets/js/kernel-notifications.js" defer></script>
   <script src="/kernel/assets/js/kernel-nav.js" defer></script>
+  <script src="/kernel/assets/js/kernel-onboarding.js" defer></script>
+  <script src="/kernel/assets/js/kernel-empty-states.js" defer></script>
   <script src="/kernel/assets/js/kernel-aurora.js" defer></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -703,6 +705,12 @@
       }
       if (window.KernelUtils) {
         KernelUtils.initTheme();
+      }
+      // Show empty state if no scenario cards exist
+      const grid = document.getElementById('scenariosGrid');
+      if (grid && window.KernelEmptyStates) {
+        const cards = grid.querySelectorAll('.scenario-card');
+        KernelEmptyStates.showIfEmpty(grid, Array.from(cards));
       }
     });
 

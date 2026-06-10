@@ -543,6 +543,7 @@
   <script src="/kernel/assets/js/kernel-notifications.js" defer></script>
   <script src="/kernel/assets/js/kernel-nav.js" defer></script>
   <script src="/kernel/assets/js/kernel-onboarding.js" defer></script>
+  <script src="/kernel/assets/js/kernel-empty-states.js" defer></script>
   <script src="/kernel/assets/js/kernel-command-palette.js" defer></script>
   <script src="/kernel/assets/js/kernel-aurora.js" defer></script>
 
@@ -659,14 +660,11 @@
       if (!container) return;
       const rows = (traces || []).slice(0, 5).map(normalizeTrace);
       if (!rows.length) {
-        container.innerHTML = KernelUtils.sanitizeHtml(`<div class="empty-illustrated">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
-          <h3>لا توجد سجلات حديثة</h3>
-          <p>ابدأ محادثة آمنة لإنشاء أول trace في سجل الحوكمة.</p>
-          <a href="/kernel/chat/" class="btn btn-primary btn-sm u-mt-2">تشغيل محادثة آمنة</a>
-        </div>`);
+        if (window.KernelEmptyStates) KernelEmptyStates.render(container);
+        else container.innerHTML = '';
         return;
       }
+      if (window.KernelEmptyStates) KernelEmptyStates.clear(container);
       container.innerHTML = KernelUtils.sanitizeHtml(rows.map((t, i) => {
         const rl = String(t.riskLevel || 'minimal').toLowerCase();
         const score = Math.max(0, Math.min(100, t.riskScore || 0));

@@ -340,6 +340,13 @@
         this.onDataUpdate(this.normalizeStats(data));
       }
 
+      const kpiGrid = document.getElementById('kpi-grid');
+      if (data.totalRequests === 0 && kpiGrid && global.KernelEmptyStates) {
+        KernelEmptyStates.render(kpiGrid);
+        return;
+      }
+      if (kpiGrid && global.KernelEmptyStates) KernelEmptyStates.clear(kpiGrid);
+
       this.renderKPIs(data);
       this.renderStatusCards(data.statusDistribution || {});
       this.renderCharts(data);

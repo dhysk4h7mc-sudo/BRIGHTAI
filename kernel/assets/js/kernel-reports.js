@@ -242,16 +242,15 @@
       const filtered = this.filterReports(this.state.reports);
       
       if (filtered.length === 0) {
-        grid.innerHTML = KernelUtils.sanitizeHtml(`
-          <div class="empty-state" style="grid-column: 1 / -1; text-align: center; padding: 3rem;">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color: var(--text-muted); margin: 0 auto 1rem;">
-              <path d="M9 17H5a2 2 0 01-2-2V5a2 2 0 012-2h4m6 14h4a2 2 0 002-2V5a2 2 0 00-2-2h-4m-6 14v4m6-4v4m-6-4h6"/>
-            </svg>
-            <p style="color: var(--text-secondary);">لا توجد تقارير مطابقة للفلاتر المحددة</p>
-          </div>
-        `);
+        if (global.KernelEmptyStates) {
+          KernelEmptyStates.render(grid);
+        } else {
+          grid.innerHTML = '';
+        }
         return;
       }
+
+      if (global.KernelEmptyStates) KernelEmptyStates.clear(grid);
 
       grid.innerHTML = KernelUtils.sanitizeHtml(filtered.map(report => this.renderReportCard(report)).join(''));
     },

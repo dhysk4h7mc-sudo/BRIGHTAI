@@ -528,6 +528,8 @@
   <script src="/kernel/assets/js/kernel-demo-banner.js" defer></script>
   <script src="/kernel/assets/js/kernel-notifications.js" defer></script>
   <script src="/kernel/assets/js/kernel-nav.js" defer></script>
+  <script src="/kernel/assets/js/kernel-onboarding.js" defer></script>
+  <script src="/kernel/assets/js/kernel-empty-states.js" defer></script>
   <script src="/kernel/assets/js/kernel-aurora.js" defer></script>
   <script>
     let evidenceRecords = [];
@@ -581,9 +583,14 @@
       document.getElementById('evidenceCount').textContent = `${records.length} سجل`;
 
       if (!records.length) {
-        list.innerHTML = KernelUtils.sanitizeHtml('<div class="evidence-item selected"><p class="evidence-preview">لا توجد أدلة مطابقة.</p></div>');
+        if (window.KernelEmptyStates) {
+          KernelEmptyStates.render(list);
+        } else {
+          list.innerHTML = '';
+        }
         return;
       }
+      if (window.KernelEmptyStates) KernelEmptyStates.clear(list);
 
       list.innerHTML = KernelUtils.sanitizeHtml(records.map((record, index) => {
         const traceId = record.traceId || record.interactionId;
@@ -668,7 +675,12 @@
       selectedEvidence = null;
       document.querySelector('.detail-title').textContent = '—';
       document.querySelector('.detail-subtitle').textContent = '';
-      document.querySelector('.detail-body').innerHTML = KernelUtils.sanitizeHtml(`<div class="detail-section"><div class="detail-content">${KernelUtils.escapeHtml(message)}</div></div>`);
+      const detailBody = document.querySelector('.detail-body');
+      if (detailBody && window.KernelEmptyStates) {
+        KernelEmptyStates.render(detailBody);
+      } else if (detailBody) {
+        detailBody.innerHTML = KernelUtils.sanitizeHtml(`<div class="detail-section"><div class="detail-content">${KernelUtils.escapeHtml(message)}</div></div>`);
+      }
     }
 
     function normalizeEvidenceRecord(record = {}) {

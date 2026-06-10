@@ -417,7 +417,7 @@
 
           <div class="connector-result-panel" id="connectorResult" aria-live="polite"></div>
 
-          <div class="connectors-grid" aria-label="قائمة موصلات المؤسسة">
+          <div class="connectors-grid" id="connectorsGrid" aria-label="قائمة موصلات المؤسسة">
             <article class="connector-card" data-status="connected">
               <div class="connector-header">
                 <div class="connector-info">
@@ -619,6 +619,8 @@
   <script src="/kernel/assets/js/kernel-demo-banner.js" defer></script>
   <script src="/kernel/assets/js/kernel-notifications.js" defer></script>
   <script src="/kernel/assets/js/kernel-nav.js" defer></script>
+  <script src="/kernel/assets/js/kernel-onboarding.js" defer></script>
+  <script src="/kernel/assets/js/kernel-empty-states.js" defer></script>
   <script src="/kernel/assets/js/kernel-aurora.js" defer></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -628,6 +630,12 @@
       }
       if (window.KernelUtils) {
         KernelUtils.initTheme();
+      }
+      // Show empty state if no configured connectors exist
+      const grid = document.getElementById('connectorsGrid');
+      if (grid && window.KernelEmptyStates) {
+        const configured = grid.querySelectorAll('.connector-card:not([data-status="not-configured"])');
+        KernelEmptyStates.showIfEmpty(grid, Array.from(configured));
       }
     });
 

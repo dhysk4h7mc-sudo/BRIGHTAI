@@ -519,6 +519,8 @@
   <script src="/kernel/assets/js/kernel-demo-banner.js" defer></script>
   <script src="/kernel/assets/js/kernel-notifications.js" defer></script>
   <script src="/kernel/assets/js/kernel-nav.js" defer></script>
+  <script src="/kernel/assets/js/kernel-onboarding.js" defer></script>
+  <script src="/kernel/assets/js/kernel-empty-states.js" defer></script>
   <script src="/kernel/assets/js/kernel-aurora.js" defer></script>
 
   <script>
@@ -727,21 +729,18 @@
       updateBulkToolbar();
 
       if (items.length === 0) {
-        list.innerHTML = KernelUtils.sanitizeHtml(`
-          <div class="glass-card">
-            <div class="empty-state">
-              <div class="empty-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
-              </div>
-              <h3>${selectedTraceId ? 'لا يوجد طلب موافقة لهذا Trace ID' : currentFilter === 'pending' ? 'لا توجد طلبات معلّقة' : 'لا توجد نتائج'}</h3>
-              <p>${selectedTraceId ? KernelUtils.escapeHtml(selectedTraceId) : currentFilter === 'pending' ? 'جميع الطلبات تمّت معالجتها.' : 'جرّب فلتراً مختلفاً.'}</p>
-            </div>
-          </div>
-        `);
+        if (window.KernelEmptyStates) {
+          KernelEmptyStates.render(list, selectedTraceId ? {
+            icon: 'approvals',
+            title: 'لا يوجد طلب موافقة لهذا Trace ID',
+            description: KernelUtils.escapeHtml(selectedTraceId),
+          } : undefined);
+        } else {
+          list.innerHTML = '';
+        }
         return;
       }
+      if (window.KernelEmptyStates) KernelEmptyStates.clear(list);
 
       const selectable = items.filter((request) => canSelectRequest(request));
       const safeSelectable = selectable.filter((request) => !isCriticalRequest(request));

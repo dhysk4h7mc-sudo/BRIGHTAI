@@ -598,6 +598,8 @@
   <script src="/kernel/assets/js/kernel-demo-banner.js" defer></script>
   <script src="/kernel/assets/js/kernel-notifications.js" defer></script>
   <script src="/kernel/assets/js/kernel-nav.js" defer></script>
+  <script src="/kernel/assets/js/kernel-onboarding.js" defer></script>
+  <script src="/kernel/assets/js/kernel-empty-states.js" defer></script>
   <script src="/kernel/assets/js/kernel-aurora.js" defer></script>
   <script>
     let policiesList = [];
@@ -664,8 +666,17 @@
         countBadge.textContent = `${policiesList.length} قواعد نشطة`;
 
         if (policiesList.length === 0) {
-          tableBody.innerHTML = KernelUtils.sanitizeHtml(`<tr><td colspan="7" class="u-text-center u-color-text-tertiary">لا يوجد سياسات مسجلة حالياً. قم بإضافة قاعدة في الأعلى.</td></tr>`);
+          const parent = tableBody.closest('table') ? tableBody.closest('table').parentElement : tableBody;
+          if (window.KernelEmptyStates) {
+            KernelEmptyStates.render(parent);
+          } else {
+            tableBody.innerHTML = '';
+          }
           return;
+        }
+        if (window.KernelEmptyStates) {
+          const parent = tableBody.closest('table') ? tableBody.closest('table').parentElement : tableBody;
+          KernelEmptyStates.clear(parent);
         }
 
         tableBody.innerHTML = KernelUtils.sanitizeHtml(policiesList.map(rule => {

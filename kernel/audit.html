@@ -607,6 +607,8 @@
   <script src="/kernel/assets/js/kernel-demo-banner.js" defer></script>
   <script src="/kernel/assets/js/kernel-notifications.js" defer></script>
   <script src="/kernel/assets/js/kernel-nav.js" defer></script>
+  <script src="/kernel/assets/js/kernel-onboarding.js" defer></script>
+  <script src="/kernel/assets/js/kernel-empty-states.js" defer></script>
   <script src="/kernel/assets/js/kernel-aurora.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
 
@@ -896,10 +898,19 @@
         : `${items.length} إدخالاً`;
 
       if (items.length === 0) {
-        body.innerHTML = KernelUtils.sanitizeHtml('<div class="loading-entries">لا توجد نتائج لهذا الفلتر.</div>');
+        if (window.KernelEmptyStates) {
+          KernelEmptyStates.render(body, {
+            icon: 'audit',
+            title: 'لا توجد نتائج',
+            description: 'لا توجد سجلات تطابق الفلاتر المحددة. جرّب تغيير معايير البحث أو إزالة الفلاتر.',
+          });
+        } else {
+          body.innerHTML = '';
+        }
         updatePagination(0);
         return;
       }
+      if (window.KernelEmptyStates) KernelEmptyStates.clear(body);
 
       const totalPages = Math.max(1, Math.ceil(items.length / pageSize));
       if (currentPage > totalPages) currentPage = totalPages;
@@ -1139,9 +1150,11 @@
 
       if (!activeTraceId) {
         subtitle.textContent = 'لا يوجد trace_id صالح في السجلات المحملة.';
-        list.innerHTML = KernelUtils.sanitizeHtml('<div class="loading-entries">لا يوجد trace timeline لهذا العرض.</div>');
+        if (window.KernelEmptyStates) KernelEmptyStates.render(list);
+        else list.innerHTML = '';
         return;
       }
+      if (window.KernelEmptyStates) KernelEmptyStates.clear(list);
 
       const traceEntries = allEntries.filter((entry) => getTraceId(entry) === activeTraceId);
       const baseRecord = traceEntries[0] || {};
