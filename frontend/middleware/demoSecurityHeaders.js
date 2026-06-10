@@ -6,7 +6,7 @@ function demoSecurityHeaders(_req, res, next) {
   res.setHeader('X-Frame-Options', 'SAMEORIGIN');
   res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
   res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
-  res.setHeader('X-Robots-Tag', 'noindex');
+  res.setHeader('X-Robots-Tag', 'index, follow');
   return next();
 }
 

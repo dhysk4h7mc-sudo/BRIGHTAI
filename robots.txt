@@ -4,10 +4,14 @@
 
 User-agent: *
 Allow: /
+Disallow: /components/
+Disallow: /frontend/font-demo.html
 
 # Google
 User-agent: Googlebot
 Allow: /
+Disallow: /components/
+Disallow: /frontend/font-demo.html
 
 User-agent: Googlebot-Image
 Allow: /
@@ -15,31 +19,45 @@ Allow: /*.webp
 Allow: /*.jpg
 Allow: /*.png
 Allow: /*.svg
+Disallow: /components/
+Disallow: /frontend/font-demo.html
 
 # Bing
 User-agent: Bingbot
 Allow: /
+Disallow: /components/
+Disallow: /frontend/font-demo.html
 Crawl-delay: 1
 
 User-agent: MSNBot-Media
 Allow: /
+Disallow: /components/
+Disallow: /frontend/font-demo.html
 
 # Yandex
 User-agent: YandexBot
 Allow: /
+Disallow: /components/
+Disallow: /frontend/font-demo.html
 Crawl-delay: 2
 
 # DuckDuckGo
 User-agent: DuckDuckBot
 Allow: /
+Disallow: /components/
+Disallow: /frontend/font-demo.html
 
 # Baidu
 User-agent: Baiduspider
 Allow: /
+Disallow: /components/
+Disallow: /frontend/font-demo.html
 Crawl-delay: 2
 
 User-agent: Baiduspider-image
 Allow: /
+Disallow: /components/
+Disallow: /frontend/font-demo.html
 
 # ==================== AI Crawlers / LLMO / EAO ====================
 # Allow all AI crawlers to learn about BrightAI
@@ -47,69 +65,107 @@ Allow: /
 # OpenAI
 User-agent: GPTBot
 Allow: /
+Disallow: /components/
+Disallow: /frontend/font-demo.html
 
 User-agent: ChatGPT-User
 Allow: /
+Disallow: /components/
+Disallow: /frontend/font-demo.html
 
 User-agent: OAI-SearchBot
 Allow: /
+Disallow: /components/
+Disallow: /frontend/font-demo.html
 
 # Google AI
 User-agent: Google-Extended
 Allow: /
+Disallow: /components/
+Disallow: /frontend/font-demo.html
 
 User-agent: Google-CloudVertexBot
 Allow: /
+Disallow: /components/
+Disallow: /frontend/font-demo.html
 
 # Anthropic
 User-agent: ClaudeBot
 Allow: /
+Disallow: /components/
+Disallow: /frontend/font-demo.html
 
 User-agent: anthropic-ai
 Allow: /
+Disallow: /components/
+Disallow: /frontend/font-demo.html
 
 # Perplexity
 User-agent: PerplexityBot
 Allow: /
+Disallow: /components/
+Disallow: /frontend/font-demo.html
 
 User-agent: Perplexity-ai
 Allow: /
+Disallow: /components/
+Disallow: /frontend/font-demo.html
 
 # Meta
 User-agent: FacebookBot
 Allow: /
+Disallow: /components/
+Disallow: /frontend/font-demo.html
 
 User-agent: Meta-ExternalAgent
 Allow: /
+Disallow: /components/
+Disallow: /frontend/font-demo.html
 
 # BytesDance / TikTok
 User-agent: Bytespider
 Allow: /
+Disallow: /components/
+Disallow: /frontend/font-demo.html
 
 # Apple
 User-agent: Applebot
 Allow: /
+Disallow: /components/
+Disallow: /frontend/font-demo.html
 
 User-agent: Applebot-Extended
 Allow: /
+Disallow: /components/
+Disallow: /frontend/font-demo.html
 
 # Cohere
 User-agent: cohere-ai
 Allow: /
+Disallow: /components/
+Disallow: /frontend/font-demo.html
 
 # AI Search Engines
 User-agent: YouBot
 Allow: /
+Disallow: /components/
+Disallow: /frontend/font-demo.html
 
 User-agent: Timpibot
 Allow: /
+Disallow: /components/
+Disallow: /frontend/font-demo.html
 
 User-agent: omgili
 Allow: /
+Disallow: /components/
+Disallow: /frontend/font-demo.html
 
 # Common Crawl
 User-agent: CCBot
 Allow: /
+Disallow: /components/
+Disallow: /frontend/font-demo.html
 
 # ==================== SEO Files ====================
 

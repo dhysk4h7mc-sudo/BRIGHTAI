@@ -142,7 +142,7 @@ describe('Static SEO headers', () => {
     }
   });
 
-  it('blocks sensitive file extensions with 403 and noindex', async () => {
+  it('blocks sensitive file extensions with 403 without a crawler block', async () => {
     const runtime = await loadHandleRequest();
 
     try {
@@ -151,14 +151,14 @@ describe('Static SEO headers', () => {
       });
 
       expect(result.status).toBe(403);
-      expect(result.headers['X-Robots-Tag']).toBe('noindex, nofollow');
+      expect(result.headers['X-Robots-Tag']).toBe('index, follow');
       expect(result.body).toContain('403 Forbidden');
     } finally {
       runtime.restoreEnv();
     }
   });
 
-  it('returns a real 404 page with noindex header', async () => {
+  it('returns a real 404 page with an indexable robots header', async () => {
     const runtime = await loadHandleRequest();
 
     try {
@@ -167,7 +167,7 @@ describe('Static SEO headers', () => {
       });
 
       expect(result.status).toBe(404);
-      expect(result.headers['X-Robots-Tag']).toBe('noindex');
+      expect(result.headers['X-Robots-Tag']).toBe('index, follow');
       expect(result.headers['Content-Type']).toBe('text/html; charset=utf-8');
       expect(result.headers['Content-Language']).toBe('ar-SA');
     } finally {

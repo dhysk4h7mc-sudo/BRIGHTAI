@@ -80,14 +80,14 @@
                 }
             ],
             "sameAs": [
-                "https://api.whatsapp.com/send?phone=966538229013",
-                "https://www.tiktok.com/@bright1ai",
-                "https://www.linkedin.com/company/brightai-saudi",
-                "https://www.youtube.com/@BrightAiSaudi",
-                "https://twitter.com/BrightAISite",
+                "https://brightai.site/",
                 "https://linkedin.com/company/brightai-site",
+                "https://x.com/BrightAISite",
+                "https://www.youtube.com/@BrightAiSaudi",
+                "https://www.tiktok.com/@bright1ai",
                 "https://github.com/brightai-site",
-                "https://crunchbase.com/organization/brightai"
+                "https://crunchbase.com/organization/brightai",
+                "https://api.whatsapp.com/send?phone=966538229013"
             ],
             "knowsAbout": [
                 "الذكاء الاصطناعي",
@@ -200,10 +200,14 @@
                 "name": "المملكة العربية السعودية"
             },
             "sameAs": [
-                "https://twitter.com/BrightAISite",
+                "https://brightai.site/",
                 "https://linkedin.com/company/brightai-site",
+                "https://x.com/BrightAISite",
+                "https://www.youtube.com/@BrightAiSaudi",
+                "https://www.tiktok.com/@bright1ai",
                 "https://github.com/brightai-site",
-                "https://crunchbase.com/organization/brightai"
+                "https://crunchbase.com/organization/brightai",
+                "https://api.whatsapp.com/send?phone=966538229013"
             ],
             "knowsAbout": [
                 "AI Governance",

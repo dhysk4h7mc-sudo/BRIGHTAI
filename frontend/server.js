@@ -570,7 +570,7 @@ async function handleRequest(req, res) {
       // BrightAI Kernel — AI Safety & Governance
       await kernelRouteHandler(ctx.req, ctx.res, method, url);
     } else {
-      ctx.res.setHeader('X-Robots-Tag', 'noindex');
+      ctx.res.setHeader('X-Robots-Tag', 'index, follow');
       ctx.res.status(404).json({
         error: 'الصفحة غير موجودة',
         errorCode: 'NOT_FOUND'

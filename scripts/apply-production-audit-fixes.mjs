@@ -248,8 +248,7 @@ function ensureCanonical(html, relPath) {
 }
 
 function ensureRobots(html, relPath) {
-  const robots = ERROR_PAGES.has(relPath) ? "noindex, follow" : "index, follow";
-  const tag = `<meta name="robots" content="${robots}">`;
+  const tag = '<meta name="robots" content="index, follow">';
   if (/<meta\b[^>]*name=["']robots["'][^>]*>/i.test(html)) {
     return html.replace(/<meta\b[^>]*name=["']robots["'][^>]*>/i, tag);
   }

@@ -70,5 +70,6 @@ describe('demo security headers middleware', () => {
     expect(res.headers['X-Frame-Options']).toBe('SAMEORIGIN');
     expect(res.headers['Referrer-Policy']).toBe('strict-origin-when-cross-origin');
     expect(res.headers['Permissions-Policy']).toBe('camera=(), microphone=(), geolocation=()');
+    expect(res.headers['X-Robots-Tag']).toBe('index, follow');
   });
 });

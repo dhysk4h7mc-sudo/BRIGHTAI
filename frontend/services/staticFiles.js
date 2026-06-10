@@ -188,7 +188,7 @@ function sendStaticFile(req, res, filePath, statusCode = 200, extraHeaders = {})
 
 function sendStatic404(req, res) {
   const notFoundPath = path.join(PROJECT_ROOT, '404.html');
-  const extraHeaders = { 'X-Robots-Tag': 'noindex' };
+  const extraHeaders = { 'X-Robots-Tag': 'index, follow' };
 
   try {
     const stats = fs.statSync(notFoundPath);
@@ -220,7 +220,7 @@ function tryServeStaticRequest(req, res, pathname) {
   if (isSensitiveStaticPath(normalizedPathname)) {
     res.writeHead(403, {
       'Content-Type': 'text/plain; charset=utf-8',
-      'X-Robots-Tag': 'noindex, nofollow'
+      'X-Robots-Tag': 'index, follow'
     });
     res.end(req.method === 'HEAD' ? undefined : '403 Forbidden');
     return true;
