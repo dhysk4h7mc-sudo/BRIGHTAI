@@ -901,7 +901,7 @@
       }
     }
   </style>
-<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js" defer></script>
 <script id="brightai-technical-terms-schema" type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -963,6 +963,109 @@
 </script>
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
+  <script id="brightai-production-schema" type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": [
+        "Organization",
+        "LocalBusiness"
+      ],
+      "@id": "https://brightai.site/#organization",
+      "name": "BrightAI",
+      "url": "https://brightai.site",
+      "logo": "https://brightai.site/frontend/assets/images/logo.png",
+      "areaServed": "SA",
+      "sameAs": []
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://brightai.site/#website",
+      "url": "https://brightai.site",
+      "name": "BrightAI",
+      "publisher": {
+        "@id": "https://brightai.site/#organization"
+      },
+      "inLanguage": [
+        "ar-SA",
+        "en-SA"
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://brightai.site/blog/#webpage",
+      "url": "https://brightai.site/blog/",
+      "name": "مدونة BrightAI لحوكمة الذكاء الاصطناعي في السعودية | BrightAI",
+      "description": "22 مقالاً عملياً من BrightAI عن حوكمة الذكاء الاصطناعي، PDPL، NCA ECC، سدايا، ISO 42001، AI Firewall، وسجلات التدقيق للشركات السعودية.",
+      "isPartOf": {
+        "@id": "https://brightai.site/#website"
+      },
+      "about": {
+        "@id": "https://brightai.site/#organization"
+      },
+      "inLanguage": "ar-SA"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://brightai.site/blog/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "BrightAI",
+          "item": "https://brightai.site/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "مدونة BrightAI لحوكمة الذكاء الاصطناعي في السعودية | BrightAI",
+          "item": "https://brightai.site/blog/"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://brightai.site/blog/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "روابط BrightAI الداخلية الرئيسية عن BrightAI الخدمات المدونة التواصل الأسعار الوثائق الحلول Hub Kernel Demo Trust المدونة الرسمية مقالات عملية عن حوكمة الذكاء الاصطناعي في السعودية مركز معرفة عملي يجمع مقالات BrightAI عن حوكمة الذكاء الاصطناعي، حماية البيانات، الامتثال، وسلامة التشغيل داخل المؤسسات السعودية. 22 مقالاً منشوراً أدلة تنفيذية مختصرة AI Governance وPDPL ابدأ حسب سؤال فريقك",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "اختر مسار القراءة الأقرب لقرارك الحالي، ثم انتقل للتفاصيل من شبكة المقالات الكاملة."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "ما هي حوكمة الذكاء الاصطناعي؟ الدليل الكامل للشركات السعودية",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "ابدأ من هنا إذا تحتاج إطار واضح يربط السياسات، المخاطر، الامتثال، وسجلات التشغيل."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "دليل PDPL والذكاء الاصطناعي لمسؤول الامتثال سلامة التشغيل جدار حماية الذكاء الاصطناعي: ما هو ولماذا تحتاجه كل المقالات",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "مجموعة مرتبة من الأدلة والمقالات العملية المنشورة على BrightAI."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "ما هي حوكمة الذكاء الاصطناعي؟ الدليل الكامل للشركات السعودية وAI Governance Saudi Arabia",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "دليل تنفيذي يشرح معنى حوكمة الذكاء الاصطناعي للشركات السعودية، وكيف تربط السياسات والمخاطر والامتثال بضوابط تشغيلية قابلة للتدقيق."
+          }
+        }
+      ]
+    }
+  ]
+}
+  </script>
+  <link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css">
 </head>
 <body>
 <span aria-hidden="true" class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;">

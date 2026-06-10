@@ -67,7 +67,7 @@
   ]
 }
 </script>
-<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js" defer></script>
 <script id="brightai-technical-terms-schema" type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -138,6 +138,86 @@
   <meta name="twitter:title" content="مراكز المحتوى المرجعية | BrightAI" />
   <meta name="twitter:description" content="٤ مراكز محتوى مرجعية تغطي كل ما يخص حوكمة وأمان الذكاء الاصطناعي في السعودية: الحوكمة، الامتثال، الحلول التقنية، وحالات الاستخدام." />
   <meta name="twitter:image" content="https://brightai.site/frontend/assets/images/og/og-home.png" />
+  <meta name="robots" content="index, follow">
+  <script id="brightai-production-schema" type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": [
+        "Organization",
+        "LocalBusiness"
+      ],
+      "@id": "https://brightai.site/#organization",
+      "name": "Bright AI",
+      "url": "https://brightai.site",
+      "logo": "https://brightai.site/frontend/assets/images/logo.png",
+      "areaServed": "SA",
+      "sameAs": []
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://brightai.site/#website",
+      "url": "https://brightai.site",
+      "name": "Bright AI",
+      "publisher": {
+        "@id": "https://brightai.site/#organization"
+      },
+      "inLanguage": [
+        "ar-SA",
+        "en-SA"
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://brightai.site/hub/#webpage",
+      "url": "https://brightai.site/hub/",
+      "name": "مراكز المحتوى المرجعية | BrightAI",
+      "description": "٤ مراكز محتوى مرجعية تغطي كل ما يخص حوكمة وأمان الذكاء الاصطناعي في السعودية: الحوكمة، الامتثال، الحلول التقنية، وحالات الاستخدام.",
+      "isPartOf": {
+        "@id": "https://brightai.site/#website"
+      },
+      "about": {
+        "@id": "https://brightai.site/#organization"
+      },
+      "inLanguage": "ar-SA"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://brightai.site/hub/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Bright AI",
+          "item": "https://brightai.site/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "مراكز المحتوى المرجعية | BrightAI",
+          "item": "https://brightai.site/hub/"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://brightai.site/hub/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "روابط BrightAI الداخلية الرئيسية عن BrightAI الخدمات المدونة التواصل الأسعار الوثائق الحلول Hub Kernel Demo Trust الرئيسية / مراكز المحتوى المرجع الشامل مراكز المحتوى المرجعية كل شي تبي تعرفه عن حوكمة وأمان الذكاء الاصطناعي في السعودية، مرتّب في ٤ مراكز موضوعية. ابدأ من المركز اللي يخص سؤالك. ١٠+ مقالات حوكمة الذكاء الاصطناعي",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "وش هي حوكمة AI، ليش تحتاجها شركتك السعودية، الأنظمة المنطبقة، وخطوات التطبيق العملي."
+          }
+        }
+      ]
+    }
+  ]
+}
+  </script>
+  <link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css">
 </head>
 <body class="bg-grid">
 <span aria-hidden="true" class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;">
@@ -311,5 +391,6 @@
 </main>
 
 <script src="/frontend/js/unified-header.js" defer></script>
+  <script src="/frontend/js/production-runtime.v20260427.js" defer></script>
 </body>
 </html>

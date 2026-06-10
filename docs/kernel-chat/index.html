@@ -292,7 +292,7 @@
     ]
   }
   </script>
-<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js" defer></script>
 <script id="brightai-technical-terms-schema" type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -356,6 +356,115 @@
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta name="twitter:image" content="https://brightai.site/frontend/assets/images/og/og-docs.png" />
+  <script id="brightai-production-schema" type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": [
+        "Organization",
+        "LocalBusiness"
+      ],
+      "@id": "https://brightai.site/#organization",
+      "name": "BrightAI",
+      "url": "https://brightai.site",
+      "logo": "https://brightai.site/frontend/assets/images/logo.png",
+      "areaServed": "SA",
+      "sameAs": []
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://brightai.site/#website",
+      "url": "https://brightai.site",
+      "name": "BrightAI",
+      "publisher": {
+        "@id": "https://brightai.site/#organization"
+      },
+      "inLanguage": [
+        "ar-SA",
+        "en-SA"
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://brightai.site/docs/kernel-chat/#webpage",
+      "url": "https://brightai.site/docs/kernel-chat/",
+      "name": "Kernel Chat - المحادثة الآمنة مع الذكاء الاصطناعي | BrightAI",
+      "description": "شرح عملي لواجهة المحادثة الآمنة في BrightAI Kernel: كيف تحمي بيانات شركتك، تصنف المخاطر، وتوثق كل قرار قبل ما يوصل للنموذج.",
+      "isPartOf": {
+        "@id": "https://brightai.site/#website"
+      },
+      "about": {
+        "@id": "https://brightai.site/#organization"
+      },
+      "inLanguage": "ar-SA"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://brightai.site/docs/kernel-chat/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "BrightAI",
+          "item": "https://brightai.site/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "docs",
+          "item": "https://brightai.site/docs/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Kernel Chat - المحادثة الآمنة مع الذكاء الاصطناعي | BrightAI",
+          "item": "https://brightai.site/docs/kernel-chat/"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://brightai.site/docs/kernel-chat/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "روابط BrightAI الداخلية الرئيسية عن BrightAI الخدمات المدونة التواصل الأسعار الوثائق الحلول Hub Kernel Demo Trust الرئيسية / الوثائق / Kernel Chat BrightAI Kernel Kernel Chat: المحادثة الآمنة مع الذكاء الاصطناعي واجهة محادثة ذكية تحمي بيانات شركتك، تصنف المخاطر، وتوثق كل قرار قبل ما يوصل للنموذج الفكرة ببساطة",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "تخيل إن موظفينك يستخدمون ChatGPT أو أي نموذج ذكاء اصطناعي ثاني. المشكلة مو في الاستخدام نفسه، المشكلة إنك ما تدري:"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "ليش هالشي مهم للشركات السعودية؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "لأن نظام حماية البيانات الشخصية (PDPL) يلزمك تحمي بيانات العملاء. ولأن الضوابط الأساسية للأمن السيبراني (NCA ECC) تطلب منك توثيق وتدقيق استخدام الأنظمة الحساسة."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "كيف يشتغل Kernel Chat؟ 1 الموظف يكتب طلبه",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "يفتح واجهة Kernel Chat ويكتب سؤاله أو طلبه بشكل طبيعي، مثل: \"لخص لي عقد العميل أحمد محمد\""
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "وش اللي يميز Kernel Chat؟ الميزة الفائدة للشركة الخطر لو ما استخدمته فحص PII تلقائي يكتشف البيانات الشخصية قبل ما تطلع من شبكتك تسريب بيانات عملاء بدون علمك، مخالفة PDPL تصنيف مخاطر ذكي يعطي كل طلب درجة خطورة واضحة طلبات خطرة تمر بدون مراجعة موافقات بشرية الطلبات الحساسة ما تمر إلا بعد موافقة مسؤول قرارات حساسة تتخذ بدون إشراف سجل تدقيق كامل كل طلب موثق: متى، مين، وش، ليش ما تقدر تثبت الامتثال وقت التدقيق ربط بالسياسات كل قرار مرتبط بسياسة واضحة ومعتمدة قرارات عشوائية بدون مرجعية Trace ID لكل طلب تقدر تتبع أي طلب من البداية للنهاية صعوبة التحقيق في الحوادث متى تستخدم Kernel Chat؟ ✅ استخدمه في هالحالات: موظفين يحتاجون يستخدمون AI في شغلهم اليومي فيه بيانات عملاء أو معلومات حساسة ممكن تدخل في الطلبات تبي توثق كل استخدام للذكاء الاصطناعي داخل الشركة عندك متطلبات امتثال (PDPL، NCA ECC، ISO) تبي تعطي صلاحيات محددة لكل قسم أو موظف ❌ ما تحتاجه إذا: ما عندك استخدام فعلي للذكاء الاصطناعي في الشركة كل البيانات اللي تشتغلون عليها عامة ومو حساسة ما عندك متطلبات امتثال أو تدقيق أخطاء شائعة - انتبه لها ❌ الخطأ الأول: تفعيل Kernel Chat بدون تدريب الموظفين",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "لو الموظفين ما يفهمون ليش الطلب انحظر أو تعلق، بيحاولون يتحايلون على النظام أو يستخدمون أدوات خارجية."
+          }
+        }
+      ]
+    }
+  ]
+}
+  </script>
+  <link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css">
 </head>
 <body>
 <span aria-hidden="true" class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;">

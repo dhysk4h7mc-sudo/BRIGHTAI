@@ -389,6 +389,115 @@
 }</script>
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
+  <script id="brightai-production-schema" type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": [
+        "Organization",
+        "LocalBusiness"
+      ],
+      "@id": "https://brightai.site/#organization",
+      "name": "BrightAI",
+      "url": "https://brightai.site",
+      "logo": "https://brightai.site/frontend/assets/images/logo.png",
+      "areaServed": "SA",
+      "sameAs": []
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://brightai.site/#website",
+      "url": "https://brightai.site",
+      "name": "BrightAI",
+      "publisher": {
+        "@id": "https://brightai.site/#organization"
+      },
+      "inLanguage": [
+        "ar-SA",
+        "en-SA"
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://brightai.site/docs/sdaia-generative-ai-guidelines/#webpage",
+      "url": "https://brightai.site/docs/sdaia-generative-ai-guidelines/",
+      "name": "إرشادات سدايا للاستخدام المسؤول للذكاء الاصطناعي التوليدي: شرح عملي | BrightAI",
+      "description": "شرح عملي لإرشادات سدايا للذكاء الاصطناعي وSDAIA generative AI guidelines للقطاعين العام والخاص، مع سياسات استخدام وتصنيف مخاطر وجداول تطبيق.",
+      "isPartOf": {
+        "@id": "https://brightai.site/#website"
+      },
+      "about": {
+        "@id": "https://brightai.site/#organization"
+      },
+      "inLanguage": "ar-SA"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://brightai.site/docs/sdaia-generative-ai-guidelines/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "BrightAI",
+          "item": "https://brightai.site/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "docs",
+          "item": "https://brightai.site/docs/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "إرشادات سدايا للاستخدام المسؤول للذكاء الاصطناعي التوليدي: شرح عملي | BrightAI",
+          "item": "https://brightai.site/docs/sdaia-generative-ai-guidelines/"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://brightai.site/docs/sdaia-generative-ai-guidelines/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "روابط BrightAI الداخلية الرئيسية الوثائق AI Governance Platform AI Firewall AI Audit Trail Human Approval Layer AI Evidence File التواصل الرئيسية / الوثائق / إرشادات سدايا للذكاء الاصطناعي التوليدي SDAIA Generative AI Guidelines إرشادات سدايا للاستخدام المسؤول للذكاء الاصطناعي التوليدي: شرح عملي شرح عملي لإرشادات سدايا للذكاء الاصطناعي وSDAIA generative AI guidelines للقطاعين العام والخاص، مع سياسات استخدام وتصنيف مخاطر وجداول تطبيق. تاريخ النشر: 2026-06-07 | آخر مراجعة تنظيمية: 2026-06-07 | عدد الكلمات التقريبي: 2063 الخلاصة التنفيذية",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "إرشادات سدايا للاستخدام المسؤول للذكاء الاصطناعي التوليدي تساعد المؤسسات على استخدام GenAI بدون تحويله إلى مصدر تسريب بيانات أو تضليل أو قرارات غير قابلة للمساءلة. الفكرة ليست منع التقنية، بل وضع حدود واضحة: ما الذي يسمح بإدخاله؟ ما الذي يحتاج موافقة؟ ما الذي يجب التحقق منه؟ متى نكشف للمستخدم أن AI ساعد في إنتاج المخرج؟ ومن يتحمل القرار النهائي؟"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "لماذا تحتاج المؤسسة سياسة GenAI مستقلة؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "أدوات الذكاء الاصطناعي التوليدي تختلف عن البرمجيات التقليدية. المستخدم قد يضع نصًا طويلًا، مرفقًا، صورة، أو كودًا، ثم يحصل على مخرج يبدو واثقًا حتى لو كان خاطئًا. الأداة قد تحفظ السجلات، أو تستخدم البيانات لتحسين الخدمة، أو تنتج مخرجات شبيهة بمحتوى محمي، أو تقترح قرارًا يؤثر على عميل أو موظف. لذلك سياسة أمن المعلومات العامة لا تكفي وحدها؛ يجب أن توجد سياسة GenAI توضح الحدود بلغة يفهمها الموظفون والمطورون والإدارة."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "تصنيف الاستخدامات: ممنوع، مقيد، مسموح بمراجعة، مسموح",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "أفضل طريقة لتقليل الفوضى هي تصنيف الاستخدامات بدل كتابة قائمة طويلة من الأمثلة. الاستخدام الممنوع يشمل إدخال أسرار أو بيانات شخصية أو بيانات مصنفة في أدوات غير معتمدة، أو استخدام GenAI لاتخاذ قرار نهائي عن شخص بدون مراجعة. الاستخدام المقيد يشمل تحليل عقود أو شكاوى أو ملفات موظفين عبر أدوات معتمدة وبموافقات محددة. الاستخدام المسموح بمراجعة يشمل صياغة محتوى خارجي أو توصيات تؤثر على عملاء. الاستخدام المسموح يشمل العصف الذهني العام، إعادة الصياغة غير الحساسة، أو تلخيص نصوص عامة."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "التحقق من المخرجات والهلوسة",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "المخرج الجميل ليس دليل صحة. GenAI يستطيع تقديم إجابة واثقة بمعلومة غير دقيقة أو مصدر غير موجود. لذلك يجب تصنيف المخرجات حسب أثرها. إذا كان المخرج للتفكير الداخلي، يكفي تنبيه المستخدم. إذا كان سيرسل لعميل أو ينشر للجمهور، يجب مراجعته. وإذا كان سيؤثر على قرار ائتماني أو وظيفي أو صحي أو أمني، يجب أن يكون AI مساعدًا لا صاحب القرار، مع مراجعة بشرية موثقة ومصادر تحقق."
+          }
+        }
+      ]
+    }
+  ]
+}
+  </script>
+  <link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css">
 </head>
 <body class="bg-grid">
 <span aria-hidden="true" class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;">جدار حماية الذكاء الاصطناعي، سجل تدقيق AI، طبقة الموافقة البشرية، ملف أدلة الامتثال، حماية البيانات الشخصية في AI، NCA ECC AI controls، SDAIA generative AI guidelines</span>

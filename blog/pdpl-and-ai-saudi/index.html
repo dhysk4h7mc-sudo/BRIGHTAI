@@ -689,7 +689,7 @@
     .risk-table th, .risk-table td { padding: 12px 14px; font-size: 14px; }
   }
 </style>
-<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js" defer></script>
 <script id="brightai-technical-terms-schema" type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -753,6 +753,115 @@
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta name="twitter:image" content="https://brightai.site/frontend/assets/images/og/og-blog.png" />
+  <script id="brightai-production-schema" type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": [
+        "Organization",
+        "LocalBusiness"
+      ],
+      "@id": "https://brightai.site/#organization",
+      "name": "BrightAI",
+      "url": "https://brightai.site",
+      "logo": "https://brightai.site/frontend/assets/images/logo.png",
+      "areaServed": "SA",
+      "sameAs": []
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://brightai.site/#website",
+      "url": "https://brightai.site",
+      "name": "BrightAI",
+      "publisher": {
+        "@id": "https://brightai.site/#organization"
+      },
+      "inLanguage": [
+        "ar-SA",
+        "en-SA"
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://brightai.site/blog/pdpl-and-ai-saudi/#webpage",
+      "url": "https://brightai.site/blog/pdpl-and-ai-saudi/",
+      "name": "PDPL والذكاء الاصطناعي: ما الذي يجب أن تعرفه الشركات السعودية؟ | BrightAI",
+      "description": "دليل شامل حول PDPL والذكاء الاصطناعي للشركات السعودية: المخاطر، الامتثال، حماية البيانات الشخصية، ودور AI Firewall و Audit Trail في بناء بيئة AI آمنة وخاضعة للحوكمة.",
+      "isPartOf": {
+        "@id": "https://brightai.site/#website"
+      },
+      "about": {
+        "@id": "https://brightai.site/#organization"
+      },
+      "inLanguage": "ar-SA"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://brightai.site/blog/pdpl-and-ai-saudi/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "BrightAI",
+          "item": "https://brightai.site/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "blog",
+          "item": "https://brightai.site/blog/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "PDPL والذكاء الاصطناعي: ما الذي يجب أن تعرفه الشركات السعودية؟ | BrightAI",
+          "item": "https://brightai.site/blog/pdpl-and-ai-saudi/"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://brightai.site/blog/pdpl-and-ai-saudi/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "روابط BrightAI الداخلية الرئيسية عن BrightAI الخدمات المدونة التواصل الأسعار الوثائق الحلول Hub Kernel Demo Trust الرئيسية / المدونة / PDPL والذكاء الاصطناعي حوكمة AI · امتثال · خصوصية PDPL والذكاء الاصطناعي: ما الذي يجب أن تعرفه الشركات السعودية؟ دليل عملي للمدراء التقنيين ومسؤولي الامتثال حول مواءمة مشاريع الذكاء الاصطناعي مع نظام حماية البيانات الشخصية السعودية ، وكيفية بناء بيئة AI خاضعة للحوكمة دون تعطيل الابتكار. 📅 31 مايو 2026 ⏱️ 12 دقيقة قراءة ✍️ فريق BrightAI 🏷️ حوكمة الذكاء الاصطناعي الخلاصة السريعة لا يوجد تعارض جوهري بين PDPL والذكاء الاصطناعي ؛ النظام السعودي لا يمنع استخدام AI، لكنه يضع شروطًا صارمة حول شرعية المعالجة، تقليل البيانات، الشفافية، وحقوق أصحاب البيانات. التحدي الحقيقي للشركات ليس في \"هل نستخدم AI؟\" بل في \"كيف نستخدمه بضوابط قابلة للتدقيق؟\". الحل العملي يمر عبر ثلاث طبقات: AI Firewall ، Audit Trail ، و طبقة موافقة بشرية — مع إبقاء المسؤولية القانونية النهائية على عاتق الجهة وبالرجوع إلى مستشار قانوني متخصص. الفصل الأول ما العلاقة بين PDPL والذكاء الاصطناعي؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "يصدر نظام نظام حماية البيانات الشخصية السعودية (PDPL) الإطار القانوني العام لمعالجة أي بيانات شخصية داخل المملكة، سواء تمت المعالجة عبر نظام تقليدي أو عبر نماذج الذكاء الاصطناعي. ومع الانتشار السريع لأدوات Generative AI، باتت معظم الشركات السعودية تواجه أسئلة متشابهة:"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "أين تظهر مخاطر خصوصية البيانات في مشاريع AI؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "تظهر خصوصية البيانات AI في نقاط محددة داخل دورة حياة النموذج، وأهمها:"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "ما البيانات التي يجب ألا تُرسل مباشرة إلى أدوات AI؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "كقاعدة ذهبية في حماية البيانات الشخصية : كل ما يمكنه تعريف شخص طبيعي — بشكل مباشر أو غير مباشر — يجب أن يخضع لمرحلة معالجة قبل الوصول إلى أي نموذج AI خارجي أو داخلي. القائمة العملية تشمل:"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "كيف تدعم BrightAI الشركات السعودية؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "نودّ أن نكون واضحين منذ البداية: BrightAI لا تقدم استشارة قانونية، ولا تضمن الامتثال الكامل لنظام PDPL أو أي نظام آخر. الامتثال مسؤولية قانونية تقع على الجهة نفسها، ويجب أن يُبنى بالتعاون مع مستشار قانوني مؤهّل ومختص بالشأن السعودي."
+          }
+        }
+      ]
+    }
+  ]
+}
+  </script>
+  <link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css">
 </head>
 <body>
 <span aria-hidden="true" class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;">
@@ -1302,5 +1411,6 @@
   });
 </script>
 
+  <script src="/frontend/js/production-runtime.v20260427.js" defer></script>
 </body>
 </html>

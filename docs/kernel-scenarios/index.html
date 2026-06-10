@@ -124,7 +124,7 @@
     ]
   }
   </script>
-<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js" defer></script>
 <script id="brightai-technical-terms-schema" type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -229,6 +229,115 @@
   ]
 }
 </script>
+  <script id="brightai-production-schema" type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": [
+        "Organization",
+        "LocalBusiness"
+      ],
+      "@id": "https://brightai.site/#organization",
+      "name": "BrightAI",
+      "url": "https://brightai.site",
+      "logo": "https://brightai.site/frontend/assets/images/logo.png",
+      "areaServed": "SA",
+      "sameAs": []
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://brightai.site/#website",
+      "url": "https://brightai.site",
+      "name": "BrightAI",
+      "publisher": {
+        "@id": "https://brightai.site/#organization"
+      },
+      "inLanguage": [
+        "ar-SA",
+        "en-SA"
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://brightai.site/docs/kernel-scenarios/#webpage",
+      "url": "https://brightai.site/docs/kernel-scenarios/",
+      "name": "Kernel Scenarios - سيناريوهات اختبار الذكاء الاصطناعي | BrightAI",
+      "description": "شرح عملي لسيناريوهات الاختبار في BrightAI Kernel: كيف تختبر سياسات AI والضوابط قبل التطبيق الفعلي.",
+      "isPartOf": {
+        "@id": "https://brightai.site/#website"
+      },
+      "about": {
+        "@id": "https://brightai.site/#organization"
+      },
+      "inLanguage": "ar-SA"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://brightai.site/docs/kernel-scenarios/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "BrightAI",
+          "item": "https://brightai.site/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "docs",
+          "item": "https://brightai.site/docs/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Kernel Scenarios - سيناريوهات اختبار الذكاء الاصطناعي | BrightAI",
+          "item": "https://brightai.site/docs/kernel-scenarios/"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://brightai.site/docs/kernel-scenarios/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "روابط BrightAI الداخلية الرئيسية عن BrightAI الخدمات المدونة التواصل الأسعار الوثائق الحلول Hub Kernel Demo Trust الرئيسية / الوثائق / Kernel Scenarios BrightAI Kernel Kernel Scenarios: سيناريوهات اختبار الذكاء الاصطناعي اختبر سياسات AI والضوابط بسيناريوهات جاهزة قبل التطبيق الفعلي الفكرة ببساطة",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "السيناريوهات هي حالات اختبار جاهزة تساعدك تتأكد إن سياسات AI تشتغل صح قبل ما تطبقها على الموظفين."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "ليش هالشي مهم للشركات السعودية؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "لأن الاختبار قبل التطبيق يمنع الكوارث . لو طبقت سياسة خاطئة مباشرة:"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "كيف تستخدم السيناريوهات؟ اختر سيناريو جاهز: من المكتبة (بيانات عملاء، عقود، أسئلة عامة) أو أنشئ سيناريو مخصص: اكتب الطلب والنتيجة المتوقعة شغّل السيناريو: النظام يعالج الطلب ويعطيك النتيجة راجع النتيجة: هل النظام تصرف صح؟ عدّل السياسات: لو النتيجة خاطئة، عدّل السياسة وأعد الاختبار أمثلة على السيناريوهات الجاهزة السيناريو الطلب النتيجة المتوقعة بيانات عميل \"لخص لي ملف العميل أحمد محمد\" محظور - يحتوي على اسم شخص معلومات مالية \"وش رصيد الحساب 123456؟\" معلق - يحتاج موافقة مدير المالية سؤال عام \"وش أفضل طريقة لكتابة إيميل احترافي؟\" مسموح - سؤال عام بدون بيانات حساسة عقد تجاري \"راجع هالعقد وقل لي إذا فيه مشاكل\" معلق - يحتاج موافقة مدير قانوني نصيحة يزيد من تجربتي مع الشركات السعودية: قبل ما تطلق Kernel للموظفين، شغّل 10 سيناريوهات على الأقل تغطي: 3 سيناريوهات آمنة (لازم تمر) 4 سيناريوهات خطرة (لازم تنحظر) 3 سيناريوهات حساسة (لازم تحتاج موافقة) لو كل السيناريوهات نجحت، تقدر تطلق بثقة. أخطاء شائعة - انتبه لها ❌ الخطأ الأول: اختبار سيناريوهات بسيطة فقط",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "لو تختبر بس سيناريوهات واضحة، ما بتكتشف الحالات الغريبة."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "جاهز تختبر سياساتك؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "افتح Kernel Scenarios وشغّل سيناريوهات الاختبار"
+          }
+        }
+      ]
+    }
+  ]
+}
+  </script>
+  <link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css">
 </head>
 <body>
 <span aria-hidden="true" class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;">

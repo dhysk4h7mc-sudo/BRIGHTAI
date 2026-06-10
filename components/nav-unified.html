@@ -210,6 +210,80 @@
     /* ── Spacer for demo ── */
     .demo-spacer { block-size: 120px; }
   </style>
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://brightai.site/components/nav-unified/">
+  <script id="brightai-production-schema" type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": [
+        "Organization",
+        "LocalBusiness"
+      ],
+      "@id": "https://brightai.site/#organization",
+      "name": "Bright AI",
+      "url": "https://brightai.site",
+      "logo": "https://brightai.site/frontend/assets/images/logo.png",
+      "areaServed": "SA",
+      "sameAs": []
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://brightai.site/#website",
+      "url": "https://brightai.site",
+      "name": "Bright AI",
+      "publisher": {
+        "@id": "https://brightai.site/#organization"
+      },
+      "inLanguage": [
+        "ar-SA",
+        "en-SA"
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://brightai.site/components/nav-unified/#webpage",
+      "url": "https://brightai.site/components/nav-unified/",
+      "name": "BRIGHTAI — Unified Navigation",
+      "description": "↑ التنقل الموحّد مع تأثير Glassmorphism. مرّر لأسفل لمشاهدة تأثير التمرير.",
+      "isPartOf": {
+        "@id": "https://brightai.site/#website"
+      },
+      "about": {
+        "@id": "https://brightai.site/#organization"
+      },
+      "inLanguage": "ar-SA"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://brightai.site/components/nav-unified/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Bright AI",
+          "item": "https://brightai.site/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "components",
+          "item": "https://brightai.site/components/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "BRIGHTAI — Unified Navigation",
+          "item": "https://brightai.site/components/nav-unified/"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+  <link rel="preload" href="/frontend/assets/fonts/TheYearofTheCamel-Medium.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css">
 </head>
 <body style="min-height:200vh">
 
@@ -270,7 +344,7 @@
     ↑ التنقل الموحّد مع تأثير Glassmorphism. مرّر لأسفل لمشاهدة تأثير التمرير.
   </p>
 
-  <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+  <script src="https://code.iconify.design/3/3.1.0/iconify.min.js" defer></script>
   <script>
     const nav = document.getElementById('mainNav');
     const toggle = document.querySelector('.mobile-toggle');
@@ -282,5 +356,6 @@
       toggle.setAttribute('aria-expanded', !expanded);
     });
   </script>
+  <script src="/frontend/js/production-runtime.v20260427.js" defer></script>
 </body>
 </html>

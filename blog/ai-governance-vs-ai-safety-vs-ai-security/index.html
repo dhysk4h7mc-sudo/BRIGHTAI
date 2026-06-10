@@ -121,6 +121,77 @@
   </style>
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
+  <script id="brightai-production-schema" type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": [
+        "Organization",
+        "LocalBusiness"
+      ],
+      "@id": "https://brightai.site/#organization",
+      "name": "BrightAI",
+      "url": "https://brightai.site",
+      "logo": "https://brightai.site/frontend/assets/images/logo.png",
+      "areaServed": "SA",
+      "sameAs": []
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://brightai.site/#website",
+      "url": "https://brightai.site",
+      "name": "BrightAI",
+      "publisher": {
+        "@id": "https://brightai.site/#organization"
+      },
+      "inLanguage": [
+        "ar-SA",
+        "en-SA"
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://brightai.site/blog/ai-governance-vs-ai-safety-vs-ai-security/#webpage",
+      "url": "https://brightai.site/blog/ai-governance-vs-ai-safety-vs-ai-security/",
+      "name": "الفرق بين AI Governance و AI Safety و AI Security: حوكمة AI وأمان AI وأمن AI | BrightAI",
+      "description": "شرح عملي للفروق بين حوكمة AI وأمان AI وأمن AI، وكيف تتكامل الثلاثة داخل برنامج واحد بدلاً من أن تعمل كجزر منفصلة.",
+      "isPartOf": {
+        "@id": "https://brightai.site/#website"
+      },
+      "about": {
+        "@id": "https://brightai.site/#organization"
+      },
+      "inLanguage": "ar-SA"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://brightai.site/blog/ai-governance-vs-ai-safety-vs-ai-security/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "BrightAI",
+          "item": "https://brightai.site/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "blog",
+          "item": "https://brightai.site/blog/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "الفرق بين AI Governance و AI Safety و AI Security: حوكمة AI وأمان AI وأمن AI | BrightAI",
+          "item": "https://brightai.site/blog/ai-governance-vs-ai-safety-vs-ai-security/"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+  <link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css">
 </head>
 <body>
   <header class="top">
@@ -149,7 +220,7 @@
     <div class="shell layout">
       <article class="article">
         <div class="author">
-          <img src="/frontend/assets/images/authors/nasser-alabdullah.svg" alt="صورة م. ناصر العبدالله" width="76" height="76">
+          <img src="/frontend/assets/images/authors/nasser-alabdullah.svg" alt="صورة م. ناصر العبدالله" width="76" height="76" decoding="async" loading="lazy">
           <div>
             <strong>م. ناصر العبدالله</strong>
             <p>مستشار حوكمة الذكاء الاصطناعي في BrightAI. مهندس ومستشار حوكمة ذكاء اصطناعي يركز على تحويل متطلبات الامتثال السعودية إلى ضوابط تشغيلية قابلة للتدقيق داخل المؤسسات.</p>
@@ -312,5 +383,6 @@
   <footer class="footer">
     <div class="shell">© 2026 BrightAI. حوكمة ذكاء اصطناعي عملية للشركات السعودية.</div>
   </footer>
+  <script src="/frontend/js/production-runtime.v20260427.js" defer></script>
 </body>
 </html>

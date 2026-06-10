@@ -974,7 +974,7 @@
       ]
     }
     </script>
-<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js" defer></script>
 <script id="brightai-technical-terms-schema" type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -1038,6 +1038,115 @@
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta name="twitter:image" content="https://brightai.site/frontend/assets/images/og/og-blog.png" />
+  <script id="brightai-production-schema" type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": [
+        "Organization",
+        "LocalBusiness"
+      ],
+      "@id": "https://brightai.site/#organization",
+      "name": "BrightAI",
+      "url": "https://brightai.site",
+      "logo": "https://brightai.site/frontend/assets/images/logo.png",
+      "areaServed": "SA",
+      "sameAs": []
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://brightai.site/#website",
+      "url": "https://brightai.site",
+      "name": "BrightAI",
+      "publisher": {
+        "@id": "https://brightai.site/#organization"
+      },
+      "inLanguage": [
+        "ar-SA",
+        "en-SA"
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://brightai.site/blog/ai-customer-data-protection-saudi/#webpage",
+      "url": "https://brightai.site/blog/ai-customer-data-protection-saudi/",
+      "name": "حماية بيانات العملاء بالذكاء الاصطناعي في السعودية | BrightAI",
+      "description": "دليل شامل لحماية بيانات العملاء عند استخدام AI في الشركات السعودية. تعلم كيفية منع تسرب البيانات، إخفاء PII، والامتثال لـ PDPL مع حلول BrightAI.",
+      "isPartOf": {
+        "@id": "https://brightai.site/#website"
+      },
+      "about": {
+        "@id": "https://brightai.site/#organization"
+      },
+      "inLanguage": "ar-SA"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://brightai.site/blog/ai-customer-data-protection-saudi/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "BrightAI",
+          "item": "https://brightai.site/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "blog",
+          "item": "https://brightai.site/blog/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "حماية بيانات العملاء بالذكاء الاصطناعي في السعودية | BrightAI",
+          "item": "https://brightai.site/blog/ai-customer-data-protection-saudi/"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://brightai.site/blog/ai-customer-data-protection-saudi/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "روابط BrightAI الداخلية الرئيسية عن BrightAI الخدمات المدونة التواصل الأسعار الوثائق الحلول Hub Kernel Demo Trust الرئيسية ‹ المدونة ‹ حماية بيانات العملاء بالذكاء الاصطناعي السعودية حماية البيانات · PDPL Compliance حماية بيانات العملاء عند استخدام الذكاء الاصطناعي في الشركات السعودية مع تزايد اعتماد الشركات السعودية على أدوات الذكاء الاصطناعي، تبرز مخاطر حقيقية لتسرب بيانات العملاء الحساسة. هذا الدليل يوضح كيف تحمي بيانات عملائك وتمتثل لنظام PDPL بدون تعطيل الإنتاجية. 31 مايو 2026 14 دقيقة قراءة فريق BrightAI الإجابة المختصرة",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "حماية بيانات العملاء بالذكاء الاصطناعي في السعودية تتطلب ثلاث طبقات أساسية: AI Firewall لمنع تسرب PII قبل إرسالها للنماذج، PII Masking لإخفاء البيانات الحساسة تلقائيًا، و Audit Trail لتوثيق كل العمليات. هذه الحلول تضمن الامتثال لنظام PDPL وضوابط SDAIA دون تعطيل عمل الموظفين."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "لماذا حماية بيانات العملاء أصبحت أولوية قصوى؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "في العصر الرقمي الحالي، أصبحت بيانات العملاء أحد أهم أصول أي شركة سعودية. لكن مع انتشار أدوات AI مثل ChatGPT وClaude وGemini، يواجه المسؤولون تحديًا خطيرًا: الموظفون يستخدمون هذه الأدوات يوميًا لتحسين إنتاجيتهم، لكنهم قد يشاركون بيانات حساسة دون وعي بالمخاطر."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "المخاطر الحقيقية مخالفات PDPL: غرامات تصل إلى 5 ملايين ريال لكل مخالفة، مع عقوبات جنائية في الحالات الخطيرة. فقدان ثقة العملاء: العملاء السعوديون أصبحوا أكثر وعيًا بحماية بياناتهم، وأي تسرب يضر بالسمعة. مخاطر تنافسية: بيانات العملاء قد تصل لمنافسين عبر النماذج الخارجية. متطلبات الشركاء: الشركات العالمية تشترط الامتثال لمعايير حماية البيانات قبل التعاقد. أنواع البيانات الحساسة في السوق السعودي",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "لا تقتصر البيانات الحساسة على المعلومات المالية فقط. إليك الأنواع الأكثر شيوعًا التي يجب حمايتها عند استخدام AI:"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "ما هو AI Firewall وكيف يعمل؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "AI Firewall هو جدار حماية ذكي مصمم خصيصًا لتدفقات البيانات بين موظفيك ونماذج الذكاء الاصطناعي. يعمل كطبقة وسيطة (proxy layer) تفحص كل ما يُرسل وكل ما يُستلم."
+          }
+        }
+      ]
+    }
+  ]
+}
+  </script>
+  <link rel="stylesheet" href="/frontend/css/production-fixes.v20260427.css">
 </head>
 <body>
 <span aria-hidden="true" class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;">
@@ -1582,5 +1691,6 @@
         });
     </script>
 
+  <script src="/frontend/js/production-runtime.v20260427.js" defer></script>
 </body>
 </html>
