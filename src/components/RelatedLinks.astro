@@ -1,0 +1,67 @@
+---
+/**
+ * RelatedLinks — Reusable internal links for solutions/docs
+ */
+import { solutions, sectors } from '../data/solutions';
+import type { SolutionData, SectorData } from '../data/solutions';
+
+interface Props {
+  relatedSlugs?: string[];
+  sectorSlugs?: string[];
+  docs?: string[];
+  blog?: string[];
+  kernel?: string[];
+}
+const { relatedSlugs = [], sectorSlugs = [], docs = [], blog = [], kernel = [] } = Astro.props;
+
+const relSols = relatedSlugs.map(s => solutions.find(x => x.slug === s)).filter(Boolean) as SolutionData[];
+const relSectors = sectorSlugs.map(s => sectors.find(x => x.slug === s)).filter(Boolean) as SectorData[];
+const hasLinks = relSols.length || relSectors.length || docs.length || blog.length || kernel.length;
+---
+{hasLinks && (
+<section class="inner-section" aria-labelledby="related-links">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <p class="inner-section__label">ذات صلة</p>
+    <h2 id="related-links" class="inner-section__title">روابط مفيدة</h2>
+    <div class="inner-grid inner-grid--2">
+      {relSols.length > 0 && (
+        <div class="inner-card p-6">
+          <h3 class="inner-card__title mb-4"><iconify-icon icon="mdi:puzzle" class="text-cyan-300 ml-2"></iconify-icon>حلول مرتبطة</h3>
+          <ul class="space-y-2">
+            {relSols.map(s => (
+              <li><a href={s.href} class="text-cyan-300 hover:text-white transition-colors text-sm">{s.h1}</a></li>
+            ))}
+          </ul>
+        </div>
+      )}
+      {relSectors.length > 0 && (
+        <div class="inner-card p-6">
+          <h3 class="inner-card__title mb-4"><iconify-icon icon="mdi:domain" class="text-cyan-300 ml-2"></iconify-icon>حلول قطاعية</h3>
+          <ul class="space-y-2">
+            {relSectors.map(s => (
+              <li><a href={s.href} class="text-cyan-300 hover:text-white transition-colors text-sm">{s.h1}</a></li>
+            ))}
+          </ul>
+        </div>
+      )}
+      {(docs.length || kernel.length) > 0 && (
+        <div class="inner-card p-6">
+          <h3 class="inner-card__title mb-4"><iconify-icon icon="mdi:file-document" class="text-cyan-300 ml-2"></iconify-icon>الوثائق والمراجع</h3>
+          <ul class="space-y-2">
+            {docs.map(d => <li><a href={d} class="text-cyan-300 hover:text-white transition-colors text-sm">{d.replace('/docs/','').replace('/','').replace(/-/g,' ')}</a></li>)}
+            {kernel.map(k => <li><a href={k} class="text-cyan-300 hover:text-white transition-colors text-sm">Kernel: {k.replace('/kernel/','').replace('/','')}</a></li>)}
+          </ul>
+        </div>
+      )}
+      {blog.length > 0 && (
+        <div class="inner-card p-6">
+          <h3 class="inner-card__title mb-4"><iconify-icon icon="mdi:post" class="text-cyan-300 ml-2"></iconify-icon>من المدونة</h3>
+          <ul class="space-y-2">
+            {blog.map(b => <li><a href={b} class="text-cyan-300 hover:text-white transition-colors text-sm">اقرأ المقال</a></li>)}
+          </ul>
+        </div>
+      )}
+    </div>
+  </div>
+</section>
+)}

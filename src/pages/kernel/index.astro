@@ -1,0 +1,244 @@
+---
+/**
+ * /kernel/ — Index page
+ * Overview + cards for all units + LiveDashboardMockup
+ * GSAP allowed here (dynamic import, idle, reduced-motion, CSS fallback)
+ */
+import KernelLayout from '../../layouts/KernelLayout.astro';
+import LiveDashboardMockup from '../../components/LiveDashboardMockup.astro';
+import { kernelNavItems, getCrossLinks } from '../../data/kernel';
+
+const unit = {
+  title: 'منصة حوكمة الذكاء الاصطناعي للمنشآت | BrightAI Kernel',
+  description: 'شغّل حوكمة الذكاء الاصطناعي في منشأتك من لوحة مركزية تجمع السياسات والموافقات والأدلة والرقابة، وتمنح فرق العمل رؤية تنفيذية موحدة.',
+  canonical: 'https://brightai.site/kernel/',
+  h1: 'غرفة تشغيل حوكمة الذكاء الاصطناعي — راقب كل شي من مكان واحد',
+  hreflang: [
+    { lang: 'ar-SA', href: 'https://brightai.site/kernel/' },
+    { lang: 'x-default', href: 'https://brightai.site/kernel/' },
+  ],
+};
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'BrightAI Kernel',
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Web',
+  description: unit.description,
+  url: 'https://brightai.site/kernel/',
+  offers: {
+    '@type': 'Offer',
+    category: 'SaaS',
+  },
+};
+---
+
+<KernelLayout
+  title={unit.title}
+  description={unit.description}
+  canonical={unit.canonical}
+  hreflang={unit.hreflang}
+  jsonLd={jsonLd}
+  currentPath="/kernel/"
+>
+  <style>
+    .k-hero { margin-bottom: 2rem; }
+    .k-hero h1 {
+      font-size: clamp(1.5rem, 4vw, 2.25rem);
+      font-weight: 800;
+      color: var(--fg, #e2e8f0);
+      line-height: 1.4;
+      margin-bottom: 1rem;
+    }
+    .k-hero p {
+      font-size: 1rem;
+      color: var(--fg-muted, #94a3b8);
+      line-height: 1.8;
+      max-width: 48rem;
+    }
+    .k-section-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--fg, #e2e8f0);
+      margin: 2.5rem 0 1rem;
+    }
+    .k-units {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+    .k-unit-card {
+      background: var(--card-bg, rgba(255,255,255,0.03));
+      border: 1px solid var(--border, rgba(255,255,255,0.08));
+      border-radius: 0.75rem;
+      padding: 1.25rem;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      transition: border-color 0.15s, transform 0.15s;
+    }
+    .k-unit-card:hover,
+    .k-unit-card:focus-visible {
+      border-color: var(--brand, #00D4AA);
+      transform: translateY(-2px);
+    }
+    .k-unit-card__icon {
+      width: 2.5rem;
+      height: 2.5rem;
+      color: var(--brand, #00D4AA);
+    }
+    .k-unit-card__label {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--fg, #e2e8f0);
+    }
+    .k-unit-card__desc {
+      font-size: 0.8125rem;
+      color: var(--fg-muted, #94a3b8);
+      line-height: 1.6;
+    }
+    .k-unit-card__links {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: auto;
+      flex-wrap: wrap;
+    }
+    .k-unit-card__link {
+      font-size: 0.75rem;
+      color: var(--brand, #00D4AA);
+      text-decoration: none;
+    }
+    .k-unit-card__link:hover { text-decoration: underline; }
+
+    .k-cross-links {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border, rgba(255,255,255,0.08));
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    .k-cross-links a {
+      display: block;
+      padding: 1rem;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border, rgba(255,255,255,0.08));
+      border-radius: 0.5rem;
+      color: var(--fg-muted, #94a3b8);
+      text-decoration: none;
+      font-size: 0.8125rem;
+      line-height: 1.6;
+    }
+    .k-cross-links a:hover,
+    .k-cross-links a:focus-visible {
+      color: var(--brand, #00D4AA);
+      border-color: var(--brand, #00D4AA);
+    }
+    .k-cross-links a strong {
+      display: block;
+      color: var(--fg, #e2e8f0);
+      margin-bottom: 0.25rem;
+    }
+
+    /* GSAP animation targets — fallback visible without JS */
+    .gsap-fade { opacity: 1; }
+    .gsap-fade[data-gsap-ready] { opacity: 0; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .k-unit-card { transition: none; }
+      .gsap-fade { opacity: 1 !important; }
+    }
+  </style>
+
+  <!-- Breadcrumb -->
+  <nav aria-label="التنقل التفصيلي" style="margin-bottom:1.5rem">
+    <ol style="display:flex;gap:0.5rem;list-style:none;padding:0;margin:0;font-size:0.8125rem;color:var(--fg-muted,#94a3b8)">
+      <li><a href="/" style="color:var(--fg-muted,#94a3b8);text-decoration:none">الرئيسية</a></li>
+      <li aria-hidden="true">/</li>
+      <li><a href="/kernel/" style="color:var(--brand,#00D4AA);text-decoration:none;font-weight:600">Kernel</a></li>
+    </ol>
+  </nav>
+
+  <!-- Hero -->
+  <section class="k-hero">
+    <h1>{unit.h1}</h1>
+    <p>
+      منصة BrightAI Kernel هي غرفة تشغيل مركزية تمنح فرق الحوكمة والامتثال رؤية تنفيذية موحدة على كل أنشطة الذكاء الاصطناعي في المنشأة. تجمع السياسات والموافقات والأدلة والرقابة في لوحة واحدة، وتدعم جاهزية المؤسسة للمراجعات والتدقيق.
+    </p>
+  </section>
+
+  <!-- Dashboard Metrics -->
+  <h2 class="k-section-title">مؤشرات التشغيل</h2>
+  <LiveDashboardMockup />
+
+  <!-- Unit Cards -->
+  <h2 class="k-section-title">وحدات Kernel</h2>
+  <div class="k-units">
+    {kernelNavItems.map((item, i) => {
+      const links = getCrossLinks(item);
+      return (
+        <a href={item.path} class="k-unit-card gsap-fade" data-gsap-delay={String(i * 60)}>
+          <div class="k-unit-card__icon" aria-hidden="true">
+            <Fragment set:html={item.iconSvg} />
+          </div>
+          <div class="k-unit-card__label">{item.label}</div>
+          <div class="k-unit-card__desc">{item.shortDescription}</div>
+          <div class="k-unit-card__links">
+            {links.solutionPath && <a href={links.solutionPath} class="k-unit-card__link" onclick="event.stopPropagation()">الحل ←</a>}
+            <a href={links.docPath} class="k-unit-card__link" onclick="event.stopPropagation()">التوثيق ←</a>
+          </div>
+        </a>
+      );
+    })}
+  </div>
+
+  <!-- Cross-links to Solutions & Docs -->
+  <div class="k-cross-links">
+    <a href="/solutions/ai-governance-platform/">
+      <strong>حلول الحوكمة</strong>
+      تعرّف على حلول BrightAI لإدارة حوكمة الذكاء الاصطناعي
+    </a>
+    <a href="/docs/kernel-architecture/">
+      <strong>توثيق Kernel</strong>
+      الدليل التقني لمعمارية Kernel وإعدادها وتشغيلها
+    </a>
+    <a href="/contact/">
+      <strong>احجز استشارة</strong>
+      تحدث مع فريق BrightAI عن متطلبات حوكمة الذكاء الاصطناعي
+    </a>
+  </div>
+
+  <!-- GSAP: dynamic import, idle, reduced-motion, cleanup -->
+  <script>
+    function initGSAP() {
+      const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+      if (mq.matches) return;
+
+      const cards = document.querySelectorAll<HTMLElement>('.gsap-fade');
+      cards.forEach(el => el.setAttribute('data-gsap-ready', ''));
+
+      import('gsap').then(({ default: gsap }) => {
+        cards.forEach((el) => {
+          const delay = parseInt(el.dataset.gsapDelay || '0', 10);
+          gsap.fromTo(el,
+            { opacity: 0, y: 20 },
+            { opacity: 1, y: 0, duration: 0.5, delay: delay / 1000, ease: 'power2.out' }
+          );
+        });
+      }).catch(() => {
+        // Fallback: show all cards without animation
+        cards.forEach(el => { el.style.opacity = '1'; el.removeAttribute('data-gsap-ready'); });
+      });
+    }
+
+    if (document.readyState === 'complete') {
+      requestIdleCallback ? requestIdleCallback(initGSAP) : setTimeout(initGSAP, 200);
+    } else {
+      window.addEventListener('load', () => {
+        requestIdleCallback ? requestIdleCallback(initGSAP) : setTimeout(initGSAP, 200);
+      });
+    }
+  </script>
+</KernelLayout>

@@ -1,0 +1,126 @@
+---
+import ArabicLayout from '../../layouts/ArabicLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import BackgroundGrid from '../../components/BackgroundGrid.astro';
+import RelatedLinks from '../../components/RelatedLinks.astro';
+import SectorCard from '../../components/SectorCard.astro';
+import { sectors, solutions, getRelatedSectors } from '../../data/solutions';
+
+export function getStaticPaths() {
+  return sectors.map(s => ({ params: { sector: s.slug }, props: { sector: s } }));
+}
+const { sector } = Astro.props;
+const relatedSols = sector.related.map(r => solutions.find(s => s.slug === r)).filter(Boolean);
+
+const crumbs = [
+  { label: 'الرئيسية', href: '/' },
+  { label: 'الحلول', href: '/solutions/' },
+  { label: sector.h1 }
+];
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Service",
+      "@id": sector.canonical + "#service",
+      "name": sector.h1,
+      "description": sector.description,
+      "provider": { "@type": "Organization", "name": "BrightAI", "url": "https://brightai.site" },
+      "url": sector.canonical,
+      "areaServed": "Saudi Arabia"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": crumbs.map((c, i) => ({
+        "@type": "ListItem", "position": i + 1, "name": c.label,
+        "item": c.href ? `https://brightai.site${c.href}` : sector.canonical
+      }))
+    }
+  ]
+};
+---
+<ArabicLayout title={sector.title} description={sector.description} canonical={sector.canonical} hreflang={[{lang:'ar-SA',href:sector.canonical},{lang:'x-default',href:sector.canonical}]} jsonLd={jsonLd as any} currentPath={sector.href}>
+<style is:global>@import '../../styles/inner-pages.css';</style>
+
+<section class="inner-hero" aria-label={sector.h1}>
+  <BackgroundGrid />
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <Breadcrumbs crumbs={crumbs} />
+    <div class="inner-hero__badge"><iconify-icon icon={sector.icon}></iconify-icon> {sector.chip}</div>
+    <h1>{sector.h1}</h1>
+    <p class="inner-hero__desc">{sector.description}</p>
+    <div class="inner-hero__actions">
+      <a href="/contact/" class="home-glow-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-bold"><iconify-icon icon="mdi:calendar-check"></iconify-icon> اطلب عرض توضيحي</a>
+      <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white" style="background:linear-gradient(135deg,#25D366,#128C7E)"><iconify-icon icon="mdi:whatsapp"></iconify-icon> تواصل عبر واتساب</a>
+    </div>
+  </div>
+</section>
+
+<section class="inner-section inner-section--alt" aria-labelledby="problem">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <h2 id="problem" class="inner-section__title"><iconify-icon icon="mdi:alert-circle" class="text-red-400"></iconify-icon> التحدي</h2>
+    <p class="inner-section__lead">متى تحتاج هذا الحل؟ {sector.whenNeeded}</p>
+    <div class="inner-card p-8">
+      <p class="inner-card__text text-base leading-loose">{sector.shortDesc} هذا الحل يدعم جاهزية مؤسستك للضوابط التنظيمية السعودية وليس استشارة قانونية.</p>
+    </div>
+  </div>
+</section>
+
+<section class="inner-section" aria-labelledby="solutions-for-sector">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <h2 id="solutions-for-sector" class="inner-section__title"><iconify-icon icon="mdi:puzzle" class="text-cyan-300"></iconify-icon> حلول BrightAI لهذا القطاع</h2>
+    <div class="inner-grid inner-grid--2">
+      {relatedSols.map(sol => (
+        <a href={sol!.href} class="inner-card p-6" style="text-decoration:none;color:inherit">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="text-2xl"><iconify-icon icon={sol!.icon} class="text-cyan-300"></iconify-icon></div>
+            <h3 class="inner-card__title text-base">{sol!.h1.split('(')[0].trim()}</h3>
+          </div>
+          <p class="inner-card__text text-sm">{sol!.shortDesc}</p>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+{sector.locals && sector.locals.length > 0 && (
+<section class="inner-section inner-section--alt" aria-labelledby="local-presence">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <h2 id="local-presence" class="inner-section__title"><iconify-icon icon="mdi:map-marker" class="text-emerald-400"></iconify-icon> تواجدنا المحلي</h2>
+    <div class="inner-grid inner-grid--3">
+      {sector.locals.map(loc => (
+        <a href={loc.href} class="inner-card p-6 text-center" style="text-decoration:none;color:inherit">
+          <div class="text-3xl mb-3"><iconify-icon icon="mdi:map-marker-radius" class="text-emerald-400"></iconify-icon></div>
+          <h3 class="inner-card__title">{loc.cityAr}</h3>
+          <p class="inner-card__text text-xs mt-2">{loc.h1.split('في')[1]?.trim() || loc.cityAr}</p>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+)}
+
+<RelatedLinks relatedSlugs={sector.related} sectorSlugs={sectors.filter(s => s.slug !== sector.slug).map(s => s.slug)} docs={sector.docs} blog={sector.blog} />
+
+<section class="inner-cta-final">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <div class="inner-cta-final__card">
+      <h2 class="inner-cta-final__title">ابدأ بحوكمة الذكاء الاصطناعي في {sector.h1.replace('حوكمة الذكاء الاصطناعي في', '').trim()} الآن</h2>
+      <p class="inner-cta-final__desc">تواصل معنا للحصول على عرض توضيحي مخصص لقطاعك.</p>
+      <div class="inner-hero__actions" style="justify-content:center;">
+        <a href="/contact/" class="home-glow-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-bold"><iconify-icon icon="mdi:calendar-check"></iconify-icon> اطلب عرض توضيحي</a>
+        <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white" style="background:linear-gradient(135deg,#25D366,#128C7E)"><iconify-icon icon="mdi:whatsapp"></iconify-icon> تواصل عبر واتساب</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const reveals = document.querySelectorAll('.inner-reveal');
+  if (reveals.length && 'IntersectionObserver' in window) {
+    const obs = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-visible'); obs.unobserve(e.target); } }); }, { threshold: 0.1 });
+    reveals.forEach(el => obs.observe(el));
+  } else { reveals.forEach(el => el.classList.add('is-visible')); }
+</script>
+</ArabicLayout>

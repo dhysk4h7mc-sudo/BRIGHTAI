@@ -1,0 +1,104 @@
+---
+import ArabicLayout from '../../layouts/ArabicLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import BackgroundGrid from '../../components/BackgroundGrid.astro';
+import SolutionCard from '../../components/SolutionCard.astro';
+import SectorCard from '../../components/SectorCard.astro';
+import { solutions, sectors } from '../../data/solutions';
+
+const crumbs = [{ label: 'الرئيسية', href: '/' }, { label: 'الحلول التقنية' }];
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    { "@type": "WebPage", "@id": "https://brightai.site/solutions/#webpage", url: "https://brightai.site/solutions/", name: "حلول حوكمة وأمان الذكاء الاصطناعي | BrightAI", description: "مرجع شامل لكل حلول BrightAI التقنية.", inLanguage: "ar-SA" },
+    { "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "الرئيسية", item: "https://brightai.site/" }, { "@type": "ListItem", position: 2, name: "الحلول التقنية", item: "https://brightai.site/solutions/" }] }
+  ]
+};
+---
+<ArabicLayout title="حلول حوكمة وأمان الذكاء الاصطناعي | المركز التقني | BrightAI" description="مرجع شامل لكل حلول BrightAI التقنية: AI Firewall، سجل التدقيق، الموافقات البشرية، ملف الأدلة، وأنظمة الحوكمة. شرح كل حل، متى تستخدمه، وكيف يشتغل." canonical="https://brightai.site/solutions/" hreflang={[{lang:'ar-SA',href:'https://brightai.site/solutions/'},{lang:'x-default',href:'https://brightai.site/solutions/'}]} jsonLd={jsonLd as any} currentPath="/solutions/">
+<style is:global>@import '../../styles/inner-pages.css';</style>
+
+<section class="inner-hero" aria-label="حلول BrightAI">
+  <BackgroundGrid />
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <Breadcrumbs crumbs={crumbs} />
+    <div class="inner-hero__badge"><iconify-icon icon="mdi:wrench"></iconify-icon> مركز محتوى تقني · Solutions Hub</div>
+    <h1>حلول <span class="home-gradient-text">حوكمة وأمان</span> الذكاء الاصطناعي</h1>
+    <p class="inner-hero__desc">كل حلول BrightAI التقنية في صفحة واحدة. اشرحنا لك كل حل بالتفصيل: متى تحتاجه، كيف يشتغل، وش الفايدة اللي يجيبها لشركتك. مرجعك السريع لاختيار الحل المناسب.</p>
+  </div>
+</section>
+
+<section class="inner-section inner-section--alt" aria-labelledby="quick-answer">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <h2 id="quick-answer" class="inner-section__title"><iconify-icon icon="mdi:lightning-bolt" class="text-yellow-300"></iconify-icon> الإجابة المختصرة</h2>
+    <div class="inner-card p-8" style="border-color:rgba(34,211,238,.25);background:linear-gradient(135deg,rgba(34,211,238,.08),rgba(124,92,255,.05))">
+      <p class="inner-card__text text-base leading-loose">BrightAI تقدم حلول تقنية وقطاعية مترابطة، كل واحد يحل مشكلة محددة في رحلة استخدام AI. <strong>AI Firewall</strong> يحمي البيانات قبل ما توصل للنموذج، <strong>Audit Trail</strong> يوثّق كل شي، <strong>Human Approval</strong> يوقف القرارات الخطرة، و<strong>Evidence File</strong> يعطيك ملف جاهز للمدقق. وكلهم يشتغلون سوا تحت <strong>BrightAI Kernel</strong>.</p>
+    </div>
+  </div>
+</section>
+
+<section class="inner-section" aria-labelledby="how-together">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <h2 id="how-together" class="inner-section__title">كيف يشتغلون مع بعض؟</h2>
+    <p class="inner-section__lead">رحلة طلب AI واحد داخل شركتك مع BrightAI:</p>
+    <div class="inner-grid inner-grid--4">
+      <div class="inner-card text-center"><div class="inline-flex items-center justify-center w-8 h-8 rounded-full text-white font-black text-sm mb-2" style="background:linear-gradient(135deg,#22d3ee,#7c5cff)">١</div><h3 class="inner-card__title text-sm">الموظف يكتب طلب</h3><p class="inner-card__text text-xs">طلب AI عادي من شات أو نظام داخلي.</p></div>
+      <div class="inner-card text-center"><div class="inline-flex items-center justify-center w-8 h-8 rounded-full text-white font-black text-sm mb-2" style="background:linear-gradient(135deg,#22d3ee,#7c5cff)">٢</div><h3 class="inner-card__title text-sm">AI Firewall يفحص</h3><p class="inner-card__text text-xs">يخفي البيانات الحساسة قبل ما تطلع برا.</p></div>
+      <div class="inner-card text-center"><div class="inline-flex items-center justify-center w-8 h-8 rounded-full text-white font-black text-sm mb-2" style="background:linear-gradient(135deg,#22d3ee,#7c5cff)">٣</div><h3 class="inner-card__title text-sm">Audit Trail يسجل</h3><p class="inner-card__text text-xs">كل حركة محفوظة بهاش غير قابل للتعديل.</p></div>
+      <div class="inner-card text-center"><div class="inline-flex items-center justify-center w-8 h-8 rounded-full text-white font-black text-sm mb-2" style="background:linear-gradient(135deg,#22d3ee,#7c5cff)">٤</div><h3 class="inner-card__title text-sm">Evidence File يصدر</h3><p class="inner-card__text text-xs">PDF موقّع جاهز للمدقق.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="inner-section inner-section--alt" aria-labelledby="all-solutions">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <h2 id="all-solutions" class="inner-section__title">الحلول التقنية</h2>
+    <div class="inner-grid inner-grid--3">
+      {solutions.map(s => <SolutionCard solution={s} />)}
+    </div>
+  </div>
+</section>
+
+<section class="inner-section" aria-labelledby="sector-solutions">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <h2 id="sector-solutions" class="inner-section__title">الحلول القطاعية</h2>
+    <div class="inner-grid inner-grid--2">
+      {sectors.map(s => <SectorCard sector={s} />)}
+    </div>
+  </div>
+</section>
+
+<section class="inner-section inner-section--alt" aria-labelledby="guide-title">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <h2 id="guide-title" class="inner-section__title">أي حل يناسبني؟ دليل سريع</h2>
+    <div class="space-y-4">
+      <div class="flex items-start gap-3"><iconify-icon icon="mdi:check-circle" class="text-emerald-400 mt-1 flex-shrink-0"></iconify-icon><p class="text-white/80"><strong class="text-white">شركة صغيرة، AI أساسي:</strong> ابدأ بـ <a href="/solutions/ai-firewall/" class="text-cyan-300 font-bold">AI Firewall</a> + <a href="/solutions/ai-audit-trail/" class="text-cyan-300 font-bold">Audit Trail</a>.</p></div>
+      <div class="flex items-start gap-3"><iconify-icon icon="mdi:check-circle" class="text-emerald-400 mt-1 flex-shrink-0"></iconify-icon><p class="text-white/80"><strong class="text-white">شركة متوسطة، استخدامات متعددة:</strong> <a href="/solutions/ai-governance-platform/" class="text-cyan-300 font-bold">منصة الحوكمة</a> + <a href="/solutions/human-approval-layer/" class="text-cyan-300 font-bold">الموافقات البشرية</a>.</p></div>
+      <div class="flex items-start gap-3"><iconify-icon icon="mdi:check-circle" class="text-emerald-400 mt-1 flex-shrink-0"></iconify-icon><p class="text-white/80"><strong class="text-white">جهة حكومية أو طبية:</strong> الحزمة الكاملة + <a href="/solutions/ai-evidence-file/" class="text-cyan-300 font-bold">Evidence File</a>.</p></div>
+      <div class="flex items-start gap-3"><iconify-icon icon="mdi:check-circle" class="text-emerald-400 mt-1 flex-shrink-0"></iconify-icon><p class="text-white/80"><strong class="text-white">مو متأكد؟</strong> ابدأ بـ <a href="/solutions/ai-use-case-discovery/" class="text-cyan-300 font-bold">اكتشاف الاستخدامات</a>.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="inner-cta-final">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <div class="inner-cta-final__card">
+      <h2 class="inner-cta-final__title">جرّب BrightAI Kernel مجاناً</h2>
+      <p class="inner-cta-final__desc">تجربة تفاعلية كاملة لكل الحلول، بدون التزام.</p>
+      <div class="inner-hero__actions" style="justify-content:center;">
+        <a href="/kernel/" class="home-glow-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-bold"><iconify-icon icon="mdi:gauge"></iconify-icon> ابدأ التجربة المجانية</a>
+        <a href="/contact/" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white border border-white/20"><iconify-icon icon="mdi:calendar-check"></iconify-icon> احجز ديمو مخصص</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const reveals = document.querySelectorAll('.inner-reveal');
+  if (reveals.length && 'IntersectionObserver' in window) {
+    const obs = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-visible'); obs.unobserve(e.target); } }); }, { threshold: 0.1 });
+    reveals.forEach(el => obs.observe(el));
+  } else { reveals.forEach(el => el.classList.add('is-visible')); }
+</script>
+</ArabicLayout>

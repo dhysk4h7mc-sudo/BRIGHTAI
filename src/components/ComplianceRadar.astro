@@ -1,0 +1,113 @@
+---
+/**
+ * ComplianceRadar — Framework compliance bars for /kernel/compliance/.
+ * CSS-only, no JS. "يدعم مواءمة الضوابط" phrasing only.
+ */
+import { complianceFrameworks } from '../data/kernel';
+import type { ComplianceFramework } from '../data/kernel';
+
+interface Props { frameworks?: ComplianceFramework[] }
+const { frameworks = complianceFrameworks } = Astro.props;
+
+function statusLabel(s: string): string {
+  const m: Record<string, string> = { active: 'نشط', partial: 'جزئي', 'not-started': 'لم يبدأ' };
+  return m[s] || s;
+}
+function barColor(s: string): string {
+  const m: Record<string, string> = { active: '#00D4AA', partial: '#f59e0b', 'not-started': '#64748b' };
+  return m[s] || '#64748b';
+}
+---
+
+<style>
+  .k-radar { display: grid; gap: 1.25rem; }
+  .k-radar__item {
+    background: var(--card-bg, rgba(255,255,255,0.03));
+    border: 1px solid var(--border, rgba(255,255,255,0.08));
+    border-radius: 0.75rem;
+    padding: 1.25rem;
+  }
+  .k-radar__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .k-radar__name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--fg, #e2e8f0);
+  }
+  .k-radar__name small {
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: var(--fg-muted, #94a3b8);
+    display: block;
+    margin-top: 0.125rem;
+  }
+  .k-radar__status {
+    font-size: 0.6875rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-weight: 500;
+  }
+  .k-radar__bar-track {
+    width: 100%;
+    height: 8px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 9999px;
+    overflow: hidden;
+  }
+  .k-radar__bar-fill {
+    height: 100%;
+    border-radius: 9999px;
+    transition: width 0.4s ease;
+  }
+  .k-radar__score {
+    font-size: 0.75rem;
+    color: var(--fg-muted, #94a3b8);
+    margin-top: 0.375rem;
+  }
+  .k-radar__desc {
+    font-size: 0.8125rem;
+    color: var(--fg-muted, #94a3b8);
+    margin-top: 0.5rem;
+    line-height: 1.6;
+  }
+  .k-radar__demo {
+    display: inline-block;
+    font-size: 0.625rem;
+    color: var(--fg-muted, #94a3b8);
+    background: rgba(255,255,255,0.05);
+    border-radius: 0.25rem;
+    padding: 0.125rem 0.375rem;
+    margin-top: 0.5rem;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .k-radar__bar-fill { transition: none; }
+  }
+</style>
+
+<div class="k-radar" aria-label="أطر الامتثال">
+  {frameworks.map(fw => (
+    <article class="k-radar__item">
+      <div class="k-radar__header">
+        <div class="k-radar__name">
+          {fw.name}
+          <small>{fw.nameAr}</small>
+        </div>
+        <span class="k-radar__status" style={`background:${barColor(fw.status)}22;color:${barColor(fw.status)}`}>
+          {statusLabel(fw.status)}
+        </span>
+      </div>
+      <div class="k-radar__bar-track">
+        <div class="k-radar__bar-fill" style={`width:${fw.score}%;background:${barColor(fw.status)}`}></div>
+      </div>
+      <div class="k-radar__score">{fw.score} من {fw.maxScore}</div>
+      <p class="k-radar__desc">{fw.description}</p>
+      {fw.demo && <span class="k-radar__demo">بيانات توضيحية</span>}
+    </article>
+  ))}
+</div>

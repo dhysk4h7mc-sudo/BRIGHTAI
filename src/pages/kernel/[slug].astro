@@ -1,0 +1,293 @@
+---
+/**
+ * /kernel/[slug]/ — Dynamic route for all 10 kernel sub-pages.
+ * getStaticPaths generates: chat, audit, approvals, stats, connectors,
+ * scenarios, policies, evidence, compliance, reports.
+ * CSS only (no GSAP). Full HTML content, indexable without JS.
+ */
+import KernelLayout from '../../layouts/KernelLayout.astro';
+import ActivityStream from '../../components/ActivityStream.astro';
+import EvidenceFileMockup from '../../components/EvidenceFileMockup.astro';
+import ComplianceRadar from '../../components/ComplianceRadar.astro';
+import {
+  kernelNavItems,
+  getCrossLinks,
+  type KernelUnit,
+} from '../../data/kernel';
+
+export function getStaticPaths() {
+  return kernelNavItems.map(unit => ({
+    params: { slug: unit.slug },
+    props: { unit },
+  }));
+}
+
+interface Props { unit: KernelUnit }
+const { unit } = Astro.props;
+const cross = getCrossLinks(unit);
+
+// BreadcrumbList JSON-LD
+const breadcrumbLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'الرئيسية', item: 'https://brightai.site/' },
+    { '@type': 'ListItem', position: 2, name: 'Kernel', item: 'https://brightai.site/kernel/' },
+    { '@type': 'ListItem', position: 3, name: unit.label, item: unit.canonical },
+  ],
+};
+
+// Page-specific content sections
+const pageContent: Record<string, {
+  what: string;
+  when: string;
+  value: string;
+  governance: string;
+  outputs: string;
+}> = {
+  chat: {
+    what: 'المحادثة الآمنة هي واجهة تفاعل مباشر مع نماذج الذكاء الاصطناعي عبر بوابة محكومة تطبّق سياسات الحوكمة تلقائياً. كل رسالة تُفحص قبل الإرسال وبعده، وتُسجّل في سجل التدقيق.',
+    when: 'تستخدمها المؤسسة عندما يحتاج فرق العمل التفاعل مع الذكاء الاصطناعي في مهام يومية مثل التحليل والترجمة والتلخيص، مع ضمان حماية البيانات الحساسة.',
+    value: 'توفّر طبقة حماية بين المستخدمين ونماذج الذكاء الاصطناعي، وتمنع تسريب البيانات الشخصية، وتوثّق كل تفاعل لأغراض المساءلة والتدقيق.',
+    governance: 'ترتبط مباشرة بسياسات الحوكمة النشطة — كل محادثة تخضع لفحص السياسات وتقييم المخاطر قبل عرض النتائج على المستخدم.',
+    outputs: 'سجل تدقيق كامل لكل محادثة، تنبيهات أمنية عند كشف محتوى حساس، تقارير استخدام دورية.',
+  },
+  audit: {
+    what: 'سجل التدقيق هو السجل الزمني الشامل لكل أحداث الذكاء الاصطناعي في المنشأة. يوثّق الطلبات والقرارات والتغييرات والفحوصات في تسلسل زمني واضح.',
+    when: 'يستخدمه فريق الحوكمة والامتثال أثناء المراجعات الدورية، والتحقيقات الداخلية، وإعداد تقارير المساءلة للجهات التنظيمية.',
+    value: 'يوفّر شفافية كاملة على كل عملية ذكاء اصطناعي، ويسهّل تتبع القرارات والتحقق من مساءلة الفرق والمسؤولين.',
+    governance: 'يرتبط بكل وحدات Kernel — كل حدث في السياسات والموافقات والأدلة والامتثال يظهر في هذا السجل.',
+    outputs: 'سجل زمني قابل للتصفية، تقارير تدقيق دورية، أدلة للمراجعات التنظيمية.',
+  },
+  approvals: {
+    what: 'مراجعة الحوكمة هي وحدة الموافقات البشرية على قرارات الذكاء الاصطناعي ذات المخاطر المرتفعة. تعرض السياق ومستوى المخاطر وتتيح للمسؤول قبول أو رفض أو طلب مراجعة إضافية.',
+    when: 'تُفعّل عندما يتجاوز طلب الذكاء الاصطناعي عتبة المخاطر المحددة في السياسات، أو يتضمن بيانات حساسة تتطلب قراراً بشرياً.',
+    value: 'تضمن بقاء القرارات الحرجة تحت إشراف بشري، وتوفّر توثيقاً كاملاً لكل قرار بالموافقة أو الرفض مع السبب.',
+    governance: 'تكمل حلقة الحوكمة — السياسات تحدد متى يلزم موافقة بشرية، والموافقات تُسجّل في سجل التدقيق وتُضاف لملف الأدلة.',
+    outputs: 'سجل موافقات كامل، قرارات موثّقة بالسياق والسبب، تقارير دورية عن معدلات الموافقة والرفض.',
+  },
+  stats: {
+    what: 'مؤشرات وإحصائيات استخدام الذكاء الاصطناعي تعرض المقاييس التشغيلية الرئيسية: إجمالي الطلبات، معدلات المخاطر، أوقات الموافقات، ومعدلات الامتثال.',
+    when: 'تُستخدم يومياً من قبل فرق الحوكمة لمتابعة الأداء، وشهرياً لإعداد تقارير الإدارة العليا، وربع سنوياً لمراجعات الامتثال.',
+    value: 'تكشف الاتجاهات مبكراً — ارتفاع مفاجئ في المخاطر أو تراجع في الامتثال — وتدعم اتخاذ قرارات مبنية على بيانات.',
+    governance: 'تجمع بيانات من كل وحدات Kernel لتقديم رؤية موحدة عن حالة الحوكمة في المنشأة.',
+    outputs: 'لوحة مؤشرات تحليلية، تقارير دورية آلية، تنبيهات عند تجاوز العتبات.',
+  },
+  connectors: {
+    what: 'الموصلات هي الروابط المحكومة بين بوابة BrightAI وأنظمة المؤسسة ومصادر البيانات. كل موصل يمر عبر فحص أمني ويوثّق كل اتصال.',
+    when: 'تُستخدم عند ربط Kernel بأنظمة المؤسسة مثل قواعد البيانات ومنصات التخزين وأنظمة إدارة العلاقات.',
+    value: 'توفّر طبقة وسيطة آمنة بين الذكاء الاصطناعي والبيانات المؤسسية، وتضمن تطبيق سياسات الحوكمة على كل اتصال.',
+    governance: 'كل موصل مسجّل في سجل التدقيق، وتخضع اتصالاته لسياسات الحوكمة النشطة وتقييم المخاطر.',
+    outputs: 'سجل اتصالات موثّق، تقارير أمان دورية، تنبيهات عند الأنشطة غير المعتادة.',
+  },
+  scenarios: {
+    what: 'السيناريوهات تمكّن فرق الحوكمة من اختبار استخدامات الذكاء الاصطناعي قبل التشغيل الفعلي. تتيح محاكاة طلبات حقيقية وقبس استجابات النظام ومستويات المخاطر.',
+    when: 'تُستخدم قبل إطلاق أي استخدام جديد للذكاء الاصطناعي، وأثناء تحديث السياسات، وفي تدريبات فرق الحوكمة.',
+    value: 'تكشف المخاطر المحتملة قبل التشغيل، وتساعد فرق الحوكمة على الاستعداد للتعامل مع الحالات المختلفة.',
+    governance: 'ترتبط بالسياسات النشطة — كل سيناريو يُفحص مقابل السياسات ويعرض نتائج التقييم.',
+    outputs: 'تقارير سيناريوهات شاملة، توصيات لتحديث السياسات، سجلات تدريب الفرق.',
+  },
+  policies: {
+    what: 'محرر السياسات البصري يتيح تصميم سياسات الذكاء الاصطناعي عبر واجهة بصرية تحدد الشروط والإجراءات والضوابط. كل سياسة تُفعّل فوراً عبر سير العمل.',
+    when: 'يُستخدم عند إنشاء سياسات جديدة، أو تعديل السياسات الموجودة بناءً على تغييرات تنظيمية أو تشغيلية.',
+    value: 'يبسّط إدارة السياسات ويتيح لفرق الحوكمة تعديل الضوابط بدون تدخل تقني، مع ضمان تطبيقها فوراً.',
+    governance: 'السياسات هي الأساس — كل وحدات Kernel تعتمد عليها لفحص الطلبات وتقييم المخاطر وتحديد متى يلزم موافقة بشرية.',
+    outputs: 'سياسات فعّالة ونشطة، سجل تغييرات كامل، إشعارات تلقائية عند التعديل.',
+  },
+  evidence: {
+    what: 'ملف الأدلة يجمع كل السجلات والموافقات والسياسات المرتبطة بقرار ذكاء اصطناعي واحد في ملف شامل. يتضمن بصمة رقمية للتحقق من سلامة البيانات.',
+    when: 'يُستخدم أثناء المراجعات التنظيمية، والتدقيق الداخلي، وعند الحاجة لإثبات الامتثال لجهة رقابية.',
+    value: 'يوفّر دليلاً موثقاً وقابلاً للتحقق لكل قرار، ويدعم جاهزية المؤسسة للمراجعات والتحقيقات.',
+    governance: 'يربط سجل التدقيق والموافقات والسياسات في ملف واحد — يُنشأ تلقائياً لكل قرار ويتوفر للمراجعة.',
+    outputs: 'ملفات أدلة فردية لكل قرار، تقارير جماعية، بصمات رقمية للتحقق.',
+  },
+  compliance: {
+    what: 'إدارة الامتثال تراقب مدى مواءمة أنظمة الذكاء الاصطناعي للأطر التنظيمية مثل PDPL وNCA ECC وSDAIA وISO 27001 وISO 42001. تربط كل متطلب بالضوابط والسجلات ذات الصلة.',
+    when: 'تُستخدم بشكل مستمر لمتابعة حالة الامتثال، وتركّز عليها أثناء المراجعات التنظيمية وتحضيرات التدقيق.',
+    value: 'تقدم رؤية واضحة عن فجوات الامتثال وتساعد فرق الامتثال على تحديد الأولويات ومعالجة النواقص.',
+    governance: 'تكمل حلقة الحوكمة — تتأكد من أن السياسات والإجراءات النشطة تدعم متطلبات الأطر التنظيمية.',
+    outputs: 'خريطة امتثال شاملة، تقارير فجوات، توصيات معالجة مُسببة.',
+  },
+  reports: {
+    what: 'التقارير التنفيذية تجمع بيانات من كل وحدات Kernel في تقارير مخصصة للإدارة وفرق الامتثال. تعرض اتجاهات المخاطر والامتثال والقرارات والنشاط.',
+    when: 'تُعدّ شهرياً للإدارة العليا، وربع سنوياً لمجلس الإدارة، وعند الحاجة لتقارير مخصصة للجهات التنظيمية.',
+    value: 'تحوّل البيانات التشغيلية إلى رؤى تنفيذية تدعم اتخاذ القرارات على المستوى الاستراتيجي.',
+    governance: 'تجمع مؤشرات من كل وحدات Kernel لتقديم تقييم شامل لحالة الحوكمة في المنشأة.',
+    outputs: 'تقارير تنفيذية دورية، لوحات تحكم تحليلية، ملخصات للمسارات التنظيمية.',
+  },
+};
+
+const content = pageContent[unit.slug];
+const isAudit = unit.slug === 'audit';
+const isEvidence = unit.slug === 'evidence';
+const isCompliance = unit.slug === 'compliance';
+---
+
+<KernelLayout
+  title={unit.title}
+  description={unit.description}
+  canonical={unit.canonical}
+  hreflang={unit.hreflang}
+  jsonLd={breadcrumbLd}
+  currentPath={unit.path}
+>
+  <style>
+    .k-breadcrumb {
+      display: flex;
+      gap: 0.5rem;
+      list-style: none;
+      padding: 0;
+      margin: 0 0 1.5rem;
+      font-size: 0.8125rem;
+      color: var(--fg-muted, #94a3b8);
+    }
+    .k-breadcrumb a {
+      color: var(--fg-muted, #94a3b8);
+      text-decoration: none;
+    }
+    .k-breadcrumb a:hover { color: var(--brand, #00D4AA); }
+    .k-breadcrumb__current {
+      color: var(--brand, #00D4AA);
+      font-weight: 600;
+    }
+
+    .k-page h1 {
+      font-size: clamp(1.375rem, 3.5vw, 2rem);
+      font-weight: 800;
+      color: var(--fg, #e2e8f0);
+      line-height: 1.4;
+      margin-bottom: 1.5rem;
+    }
+    .k-page h2 {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: var(--fg, #e2e8f0);
+      margin: 2rem 0 0.75rem;
+    }
+    .k-page p {
+      font-size: 0.9375rem;
+      color: var(--fg-muted, #94a3b8);
+      line-height: 1.8;
+      max-width: 48rem;
+    }
+    .k-page__component {
+      margin: 1.5rem 0;
+    }
+    .k-page__cross {
+      margin-top: 2.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border, rgba(255,255,255,0.08));
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .k-page__cross a {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.375rem;
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--border, rgba(255,255,255,0.1));
+      border-radius: 0.5rem;
+      color: var(--fg-muted, #94a3b8);
+      text-decoration: none;
+      font-size: 0.8125rem;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .k-page__cross a:hover,
+    .k-page__cross a:focus-visible {
+      color: var(--brand, #00D4AA);
+      border-color: var(--brand, #00D4AA);
+    }
+    .k-page__cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      background: var(--brand, #00D4AA);
+      color: #0a0f1a;
+      border-radius: 0.5rem;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9375rem;
+      margin-top: 2rem;
+      transition: opacity 0.15s;
+    }
+    .k-page__cta:hover { opacity: 0.9; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .k-page__cross a, .k-page__cta { transition: none; }
+    }
+  </style>
+
+  <div class="k-page">
+    <!-- Breadcrumb -->
+    <nav aria-label="التنقل التفصيلي">
+      <ol class="k-breadcrumb">
+        <li><a href="/">الرئيسية</a></li>
+        <li aria-hidden="true">/</li>
+        <li><a href="/kernel/">Kernel</a></li>
+        <li aria-hidden="true">/</li>
+        <li class="k-breadcrumb__current">{unit.label}</li>
+      </ol>
+    </nav>
+
+    <!-- Title -->
+    <h1>{unit.h1}</h1>
+
+    <!-- Content Sections -->
+    <h2>ما هي {unit.label}؟</h2>
+    <p>{content.what}</p>
+
+    <h2>متى تستخدمها المؤسسة؟</h2>
+    <p>{content.when}</p>
+
+    <h2>القيمة التنظيمية</h2>
+    <p>{content.value}</p>
+
+    <h2>علاقتها بالحوكمة</h2>
+    <p>{content.governance}</p>
+
+    <h2>المخرجات</h2>
+    <p>{content.outputs}</p>
+
+    <!-- Page-specific components -->
+    {isAudit && (
+      <div class="k-page__component">
+        <h2>سجل الأنشطة الأخيرة</h2>
+        <ActivityStream />
+      </div>
+    )}
+
+    {isEvidence && (
+      <div class="k-page__component">
+        <h2>سجل الأدلة</h2>
+        <EvidenceFileMockup />
+      </div>
+    )}
+
+    {isCompliance && (
+      <div class="k-page__component">
+        <h2>حالة الامتثال</h2>
+        <ComplianceRadar />
+      </div>
+    )}
+
+    <!-- Demo disclaimer -->
+    <div style="margin-top:1.5rem;padding:0.75rem 1rem;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:0.5rem;font-size:0.75rem;color:var(--fg-muted,#94a3b8)">
+      ℹ️ هذه الصفحة توضيحية تعرّف إمكانات وحدة {unit.label} في BrightAI Kernel. الأرقام والبيانات المعروضة هي بيانات توضيحية (demo) ولا تمثل بيانات حقيقية.
+    </div>
+
+    <!-- Cross-links -->
+    <div class="k-page__cross">
+      <a href="/kernel/">← العودة لفهرس Kernel</a>
+      {cross.solutionPath && <a href={cross.solutionPath}>الحل المقابل ←</a>}
+      <a href={cross.docPath}>التوثيق التقني ←</a>
+      <a href="/contact/">احجز استشارة ←</a>
+    </div>
+
+    <!-- CTA -->
+    <a href="/contact/" class="k-page__cta">
+      ابدأ تطبيق الحوكمة في منشأتك
+    </a>
+  </div>
+</KernelLayout>

@@ -1,7 +1,7 @@
 ---
-import ArabicLayout from '../../layouts/ArabicLayout.astro';
-import Breadcrumbs from '../../components/Breadcrumbs.astro';
-import BackgroundGrid from '../../components/BackgroundGrid.astro';
+import ArabicLayout from '../../../layouts/ArabicLayout.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import BackgroundGrid from '../../../components/BackgroundGrid.astro';
 const crumbs = [{ label: 'الرئيسية', href: '/' }, { label: 'تقييم الجاهزية' }];
 const targetAudience = [
   { icon: 'mdi:shield-half-full', bg: 'linear-gradient(135deg,#00d4ff,#7c5cff)', title: 'CISOs', sub: 'مسؤولو أمن المعلومات', desc: 'الذين يرغبون في رصد كافة تطبيقات الذكاء الاصطناعي غير المصرح بها (Shadow AI)، والتحقق من عدم مغادرة البيانات الحساسة لحدود المؤسسة.', tags: ['رصد البنية التحتية','إدارة الثغرات'] },
@@ -30,9 +30,21 @@ const faqItems = [
   { q: 'هل يوفر هذا التقييم شهادة ضمان امتثال قانوني؟', a: 'لا، نحن لا نمنح شهادات أو ضمانات امتثال قانوني قاطعة، بل نوفر الأدوات الفنية التشغيلية وسجلات التدقيق (Audit Trails) التي تدعم جاهزية مؤسستك الفنية للوفاء بمتطلبات اللوائح التنظيمية مثل نظام حماية البيانات الشخصية (PDPL).' },
   { q: 'كيف يتوافق التقييم مع الضوابط الوطنية في المملكة العربية السعودية؟', a: 'التقييم مبني بالكامل ليتماشى مع متطلبات الهيئة السعودية للبيانات والذكاء الاصطناعي (SDAIA)، ونظام حماية البيانات الشخصية (PDPL)، والضوابط الأساسية للأمن السيبراني الصادرة عن NCA.' },
 ];
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {"@type":"WebPage","name":"تقييم جاهزية حوكمة الذكاء الاصطناعي للشركات السعودية","url":"https://brightai.site/assessment/ai-governance-readiness/","description":"قيّم جاهزية مؤسستك لاستخدام الذكاء الاصطناعي بأمان عبر فحص المخاطر، البيانات، الموافقات، وسجلات التدقيق مع BrightAI.","inLanguage":"ar-SA"},
+    {"@type":"FAQPage","mainEntity":[
+      {"@type":"Question","name":"ما الذي يقدمه تقييم جاهزية حوكمة الذكاء الاصطناعي من BrightAI؟","acceptedAnswer":{"@type":"Answer","text":"يقدم تقييمًا فنيًا وتشغيليًا شاملًا للمؤسسات السعودية للوقوف على مستوى شفافية وأمان استخدام تطبيقات ونماذج الذكاء الاصطناعي."}},
+      {"@type":"Question","name":"هل يوفر هذا التقييم شهادة ضمان امتثال قانوني؟","acceptedAnswer":{"@type":"Answer","text":"لا، نحن لا نمنح شهادات أو ضمانات امتثال قانوني قاطعة، بل نوفر الأدوات الفنية التشغيلية وسجلات التدقيق."}},
+      {"@type":"Question","name":"كيف يتوافق التقييم مع الضوابط الوطنية؟","acceptedAnswer":{"@type":"Answer","text":"التقييم مبني بالكامل ليتماشى مع متطلبات SDAIA وPDPL وNCA."}}
+    ]}
+  ]
+};
 ---
-<ArabicLayout title="تقييم جاهزية حوكمة الذكاء الاصطناعي | BrightAI" description="ابدأ تقييم جاهزية حوكمة الذكاء الاصطناعي داخل منشأتك، وحدد فجوات السياسات والضوابط والبيانات قبل بناء خطة امتثال عملية تناسب السوق السعودي، بوضوح." canonical="https://brightai.site/assessment/ai-governance-readiness/" hreflang={[{lang:'ar-SA',href:'https://brightai.site/assessment/ai-governance-readiness/'},{lang:'x-default',href:'https://brightai.site/assessment/ai-governance-readiness/'}]} jsonLd={{"@context":"https://schema.org","@graph":[{"@type":"WebPage","name":"تقييم جاهزية حوكمة الذكاء الاصطناعي للشركات السعودية","url":"https://brightai.site/assessment/ai-governance-readiness/","description":"قيّم جاهزية مؤسستك لاستخدام الذكاء الاصطناعي بأمان عبر فحص المخاطر، البيانات، الموافقات، وسجلات التدقيق مع BrightAI.","inLanguage":"ar-SA"},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"ما الذي يقدمه تقييم جاهزية حوكمة الذكاء الاصطناعي من BrightAI؟","acceptedAnswer":{"@type":"Answer","text":"يقدم تقييمًا فنيًا وتشغيليًا شاملًا للمؤسسات السعودية للوقوف على مستوى شفافية وأمان استخدام تطبيقات ونماذج الذكاء الاصطناعي."}},{"@type":"Question","name":"هل يوفر هذا التقييم شهادة ضمان امتثال قانوني؟","acceptedAnswer":{"@type":"Answer","text":"لا، نحن لا نمنح شهادات أو ضمانات امتثال قانوني قاطعة، بل نوفر الأدوات الفنية التشغيلية وسجلات التدقيق."}},{"@type":"Question","name":"كيف يتوافق التقييم مع الضوابط الوطنية؟","acceptedAnswer":{"@type":"Answer","text":"التقييم مبني بالكامل ليتماشى مع متطلبات SDAIA وPDPL وNCA."}}}]} currentPath="/assessment/ai-governance-readiness/">
-<style is:global>@import '../../styles/inner-pages.css';</style>
+<ArabicLayout title="تقييم جاهزية حوكمة الذكاء الاصطناعي | BrightAI" description="ابدأ تقييم جاهزية حوكمة الذكاء الاصطناعي داخل منشأتك، وحدد فجوات السياسات والضوابط والبيانات قبل بناء خطة امتثال عملية تناسب السوق السعودي، بوضوح." canonical="https://brightai.site/assessment/ai-governance-readiness/" hreflang={[{lang:'ar-SA',href:'https://brightai.site/assessment/ai-governance-readiness/'},{lang:'x-default',href:'https://brightai.site/assessment/ai-governance-readiness/'}]} jsonLd={jsonLd as any} currentPath="/assessment/ai-governance-readiness/">
+<style is:global>@import '../../../styles/inner-pages.css';</style>
 
 <section class="inner-hero" aria-label="تقييم الجاهزية">
   <BackgroundGrid />

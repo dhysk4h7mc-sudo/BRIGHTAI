@@ -1,82 +1,360 @@
 ---
 /**
- * KernelLayout — Dashboard-style layout for /kernel/ pages.
- * Arabic RTL default. Includes sidebar placeholder.
+ * KernelLayout — Layout for /kernel/* pages.
+ * Wraps BaseLayout (Header + Footer) with a kernel-specific
+ * sticky top-nav (desktop) + drawer/bottom-nav (mobile).
+ * RTL-aware, touch ≥44px, aria + keyboard nav.
  */
-import SEOHead from '../components/SEOHead.astro';
-import WhatsAppCTA from '../components/WhatsAppCTA.astro';
+import BaseLayout from './BaseLayout.astro';
+import { kernelNavItems } from '../data/kernel';
 import type { SEOProps } from '../data/site';
 
 interface Props extends SEOProps {
   currentPath?: string;
 }
 
-const {
-  title,
-  description,
-  canonical,
-  hreflang = [],
-  ogImage,
-  jsonLd,
-  currentPath = '/kernel/',
-} = Astro.props;
+const { title, description, canonical, hreflang = [], ogImage, jsonLd, currentPath = '/kernel/' } = Astro.props;
+
+const allItems = [
+  { path: '/kernel/', label: 'الفهرس' },
+  ...kernelNavItems.map(item => ({ path: item.path, label: item.label })),
+];
 ---
 
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<BaseLayout
+  lang="ar"
+  dir="rtl"
+  title={title}
+  description={description}
+  canonical={canonical}
+  hreflang={hreflang}
+  ogImage={ogImage}
+  jsonLd={jsonLd}
+  currentPath={currentPath}
+>
+  <style>
+    .k-topnav {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: var(--bg, #0a0f1a);
+      border-bottom: 1px solid var(--border, rgba(255,255,255,0.08));
+      padding: 0 1rem;
+    }
+    .k-topnav__inner {
+      max-width: 80rem;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    .k-topnav__inner::-webkit-scrollbar { display: none; }
+    .k-topnav__brand {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 700;
+      color: var(--fg, #e2e8f0);
+      text-decoration: none;
+      white-space: nowrap;
+      padding: 0.75rem 0;
+      font-size: 0.9375rem;
+    }
+    .k-topnav__brand svg { flex-shrink: 0; }
+    .k-topnav__links {
+      display: flex;
+      align-items: center;
+      gap: 0.125rem;
+      margin-right: auto;
+    }
+    .k-topnav__link {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.5rem 0.75rem;
+      border-radius: 0.5rem;
+      font-size: 0.8125rem;
+      color: var(--fg-muted, #94a3b8);
+      text-decoration: none;
+      white-space: nowrap;
+      transition: background 0.15s, color 0.15s;
+      min-height: 44px;
+    }
+    .k-topnav__link:hover,
+    .k-topnav__link:focus-visible {
+      background: rgba(255,255,255,0.06);
+      color: var(--fg, #e2e8f0);
+    }
+    .k-topnav__link[aria-current="page"] {
+      background: rgba(0, 212, 170, 0.1);
+      color: var(--brand, #00D4AA);
+      font-weight: 600;
+    }
 
-  <SEOHead
-    title={title}
-    description={description}
-    canonical={canonical}
-    hreflang={hreflang}
-    ogImage={ogImage}
-    jsonLd={jsonLd}
-  />
+    /* Mobile bottom nav */
+    .k-bottomnav {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      background: var(--bg, #0a0f1a);
+      border-top: 1px solid var(--border, rgba(255,255,255,0.08));
+      padding: 0.25rem 0;
+      padding-bottom: env(safe-area-inset-bottom, 0.25rem);
+    }
+    .k-bottomnav__list {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .k-bottomnav__list::-webkit-scrollbar { display: none; }
+    .k-bottomnav__item {
+      flex-shrink: 0;
+    }
+    .k-bottomnav__link {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.125rem;
+      padding: 0.375rem 0.5rem;
+      color: var(--fg-muted, #94a3b8);
+      text-decoration: none;
+      font-size: 0.625rem;
+      min-width: 52px;
+      min-height: 44px;
+      justify-content: center;
+      border-radius: 0.5rem;
+      transition: color 0.15s;
+    }
+    .k-bottomnav__link[aria-current="page"] {
+      color: var(--brand, #00D4AA);
+    }
+    .k-bottomnav__link svg {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
 
-  <style is:global>
-    @import '../styles/global.css';
-    @import '../styles/layout.css';
-    @import '../styles/components.css';
-    @import '../styles/animations.css';
-    @import '../styles/mobile.css';
+    /* Mobile drawer toggle */
+    .k-drawer-toggle {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      background: none;
+      border: 1px solid var(--border, rgba(255,255,255,0.1));
+      border-radius: 0.5rem;
+      color: var(--fg, #e2e8f0);
+      cursor: pointer;
+    }
+
+    /* Mobile drawer */
+    .k-drawer {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+    }
+    .k-drawer__backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+    }
+    .k-drawer__panel {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: min(85vw, 320px);
+      background: var(--bg, #0a0f1a);
+      border-left: 1px solid var(--border, rgba(255,255,255,0.08));
+      padding: 1.5rem 1rem;
+      overflow-y: auto;
+    }
+    .k-drawer__panel h3 {
+      color: var(--fg, #e2e8f0);
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+    .k-drawer__link {
+      display: block;
+      padding: 0.75rem 1rem;
+      border-radius: 0.5rem;
+      color: var(--fg-muted, #94a3b8);
+      text-decoration: none;
+      font-size: 0.9375rem;
+      min-height: 44px;
+      transition: background 0.15s, color 0.15s;
+    }
+    .k-drawer__link:hover,
+    .k-drawer__link:focus-visible {
+      background: rgba(255,255,255,0.06);
+      color: var(--fg, #e2e8f0);
+    }
+    .k-drawer__link[aria-current="page"] {
+      background: rgba(0, 212, 170, 0.1);
+      color: var(--brand, #00D4AA);
+      font-weight: 600;
+    }
+    .k-drawer__close {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: none;
+      border: 1px solid var(--border, rgba(255,255,255,0.1));
+      border-radius: 0.5rem;
+      color: var(--fg, #e2e8f0);
+      cursor: pointer;
+    }
+
+    /* Content area spacing */
+    .k-content {
+      max-width: 80rem;
+      margin: 0 auto;
+      padding: 1.5rem 1rem 4rem;
+    }
+
+    @media (max-width: 768px) {
+      .k-topnav__links { display: none; }
+      .k-drawer-toggle { display: inline-flex; }
+      .k-bottomnav { display: block; }
+      .k-content { padding-bottom: 6rem; }
+    }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      .k-topnav__link,
+      .k-bottomnav__link,
+      .k-drawer__link { transition: none; }
+    }
   </style>
-</head>
-<body>
-  <div class="page">
-    <!-- Kernel top bar -->
-    <header class="nav">
-      <div class="nav__inner">
-        <a href="/kernel/" class="nav__logo">
-          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-            <rect width="32" height="32" rx="8" fill="var(--brand)" />
-            <path d="M8 16L14 10L16 12L12 16L16 20L14 22L8 16Z" fill="var(--bg)" />
-            <path d="M24 16L18 22L16 20L20 16L16 12L18 10L24 16Z" fill="var(--bg)" />
-          </svg>
-          <span>Kernel</span>
-        </a>
-        <nav class="nav__links" aria-label="Kernel navigation">
-          <a href="/kernel/chat/" class="nav__link">المحادثة</a>
-          <a href="/kernel/audit/" class="nav__link">التدقيق</a>
-          <a href="/kernel/approvals/" class="nav__link">الموافقات</a>
-          <a href="/kernel/compliance/" class="nav__link">الامتثال</a>
-          <a href="/kernel/reports/" class="nav__link">التقارير</a>
-        </nav>
-        <a href="/" class="btn btn--ghost btn--sm">الموقع الرئيسي</a>
-      </div>
-    </header>
 
-    <main id="main-content" class="page__main">
-      <slot />
-    </main>
+  <!-- Kernel Top Nav -->
+  <nav class="k-topnav" aria-label="تنقل Kernel">
+    <div class="k-topnav__inner">
+      <a href="/kernel/" class="k-topnav__brand" aria-label="BrightAI Kernel">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        <span>Kernel</span>
+      </a>
+
+      <div class="k-topnav__links">
+        {allItems.map(item => (
+          <a
+            href={item.path}
+            class="k-topnav__link"
+            aria-current={currentPath === item.path ? 'page' : undefined}
+          >
+            {item.label}
+          </a>
+        ))}
+      </div>
+
+      <button
+        class="k-drawer-toggle"
+        aria-label="فتح قائمة Kernel"
+        aria-expanded="false"
+        aria-controls="k-drawer"
+        data-kernel-drawer-toggle
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Drawer -->
+  <div class="k-drawer" id="k-drawer" aria-hidden="true" role="dialog" aria-label="قائمة Kernel">
+    <div class="k-drawer__backdrop" data-kernel-drawer-close></div>
+    <div class="k-drawer__panel">
+      <button class="k-drawer__close" data-kernel-drawer-close aria-label="إغلاق القائمة">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+      <h3>وحدات Kernel</h3>
+      {allItems.map(item => (
+        <a
+          href={item.path}
+          class="k-drawer__link"
+          aria-current={currentPath === item.path ? 'page' : undefined}
+          data-kernel-drawer-close
+        >
+          {item.label}
+        </a>
+      ))}
+    </div>
   </div>
 
-  <WhatsAppCTA lang="ar" />
-</body>
-</html>
+  <!-- Main content -->
+  <div class="k-content">
+    <slot />
+  </div>
+
+  <!-- Mobile Bottom Nav (5 key items) -->
+  <nav class="k-bottomnav" aria-label="تنقل Kernel السريع">
+    <ul class="k-bottomnav__list">
+      {kernelNavItems.slice(0, 5).map(item => (
+        <li class="k-bottomnav__item">
+          <a
+            href={item.path}
+            class="k-bottomnav__link"
+            aria-current={currentPath === item.path ? 'page' : undefined}
+            aria-label={item.label}
+          >
+            <Fragment set:html={item.iconSvg} />
+            <span>{item.label}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+
+  <!-- Drawer JS (minimal, no external deps) -->
+  <script is:inline>
+    (function() {
+      var toggle = document.querySelector('[data-kernel-drawer-toggle]');
+      var drawer = document.getElementById('k-drawer');
+      if (!toggle || !drawer) return;
+
+      function openDrawer() {
+        drawer.setAttribute('aria-hidden', 'false');
+        drawer.style.display = 'block';
+        toggle.setAttribute('aria-expanded', 'true');
+        drawer.querySelector('.k-drawer__link')?.focus();
+      }
+
+      function closeDrawer() {
+        drawer.setAttribute('aria-hidden', 'true');
+        drawer.style.display = 'none';
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.focus();
+      }
+
+      toggle.addEventListener('click', function() {
+        var isOpen = drawer.getAttribute('aria-hidden') === 'false';
+        if (isOpen) closeDrawer(); else openDrawer();
+      });
+
+      drawer.querySelectorAll('[data-kernel-drawer-close]').forEach(function(el) {
+        el.addEventListener('click', closeDrawer);
+      });
+
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && drawer.getAttribute('aria-hidden') === 'false') {
+          closeDrawer();
+        }
+      });
+    })();
+  </script>
+</BaseLayout>

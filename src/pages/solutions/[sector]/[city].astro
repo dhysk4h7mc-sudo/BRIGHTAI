@@ -1,0 +1,132 @@
+---
+import ArabicLayout from '../../../layouts/ArabicLayout.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import BackgroundGrid from '../../../components/BackgroundGrid.astro';
+import RelatedLinks from '../../../components/RelatedLinks.astro';
+import { sectors, solutions } from '../../../data/solutions';
+
+export function getStaticPaths() {
+  const paths: any[] = [];
+  for (const sector of sectors) {
+    if (sector.locals) {
+      for (const loc of sector.locals) {
+        paths.push({
+          params: { sector: sector.slug, city: loc.slug },
+          props: { sector, loc }
+        });
+      }
+    }
+  }
+  return paths;
+}
+const { sector, loc } = Astro.props;
+const relatedSols = sector.related.map(r => solutions.find(s => s.slug === r)).filter(Boolean);
+
+const crumbs = [
+  { label: 'الرئيسية', href: '/' },
+  { label: 'الحلول', href: '/solutions/' },
+  { label: sector.h1, href: sector.href },
+  { label: loc.cityAr }
+];
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Service",
+      "@id": loc.canonical + "#service",
+      "name": loc.h1,
+      "description": loc.description,
+      "provider": { "@type": "Organization", "name": "BrightAI", "url": "https://brightai.site" },
+      "url": loc.canonical,
+      "areaServed": { "@type": "City", "name": loc.areaServed, "@id": `https://www.wikidata.org/wiki/${loc.cityEn === 'Riyadh' ? 'Q3674' : loc.cityEn === 'Dammam' ? 'Q41630' : 'Q39547'}` },
+      "serviceArea": { "@type": "GeoCircle", "geoMidpoint": { "@type": "GeoCoordinates", "name": loc.cityAr }, "geoRadius": "100 km" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": crumbs.map((c: any, i: number) => ({
+        "@type": "ListItem", "position": i + 1, "name": c.label,
+        "item": c.href ? `https://brightai.site${c.href}` : loc.canonical
+      }))
+    }
+  ]
+};
+---
+<ArabicLayout title={loc.title} description={loc.description} canonical={loc.canonical} hreflang={[{lang:'ar-SA',href:loc.canonical},{lang:'x-default',href:loc.canonical}]} jsonLd={jsonLd as any} currentPath={loc.href}>
+<style is:global>@import '../../../styles/inner-pages.css';</style>
+
+<section class="inner-hero" aria-label={loc.h1}>
+  <BackgroundGrid />
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <Breadcrumbs crumbs={crumbs} />
+    <div class="inner-hero__badge"><iconify-icon icon="mdi:map-marker-radius"></iconify-icon> {loc.cityAr} — {sector.chip}</div>
+    <h1>{loc.h1}</h1>
+    <p class="inner-hero__desc">{loc.description}</p>
+    <div class="inner-hero__actions">
+      <a href="/contact/" class="home-glow-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-bold"><iconify-icon icon="mdi:calendar-check"></iconify-icon> اطلب عرض توضيحي</a>
+      <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white" style="background:linear-gradient(135deg,#25D366,#128C7E)"><iconify-icon icon="mdi:whatsapp"></iconify-icon> تواصل عبر واتساب</a>
+    </div>
+  </div>
+</section>
+
+<section class="inner-section inner-section--alt" aria-labelledby="local-context">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <h2 id="local-context" class="inner-section__title"><iconify-icon icon="mdi:city" class="text-cyan-300"></iconify-icon> خدمات حوكمة الذكاء الاصطناعي في {loc.cityAr}</h2>
+    <div class="inner-card p-8">
+      <p class="inner-card__text text-base leading-loose">{sector.shortDesc} نقدم خدماتنا محلياً في {loc.cityAr} مع دعم فني ميداني وتكامل مع الأنظمة المحلية. هذا الحل يدعم جاهزية مؤسستك للضوابط التنظيمية السعودية وليس استشارة قانونية.</p>
+    </div>
+  </div>
+</section>
+
+<section class="inner-section" aria-labelledby="solutions-local">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <h2 id="solutions-local" class="inner-section__title"><iconify-icon icon="mdi:puzzle" class="text-cyan-300"></iconify-icon> حلول BrightAI المتاحة في {loc.cityAr}</h2>
+    <div class="inner-grid inner-grid--2">
+      {relatedSols.map(sol => (
+        <a href={sol!.href} class="inner-card p-6" style="text-decoration:none;color:inherit">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="text-2xl"><iconify-icon icon={sol!.icon} class="text-cyan-300"></iconify-icon></div>
+            <h3 class="inner-card__title text-base">{sol!.h1.split('(')[0].trim()}</h3>
+          </div>
+          <p class="inner-card__text text-sm">{sol!.shortDesc}</p>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<a href={sector.href} class="block inner-section inner-section--alt" style="text-decoration:none;color:inherit" aria-labelledby="parent-sector">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <div class="inner-card p-8 flex items-center gap-4">
+      <div class="text-4xl"><iconify-icon icon={sector.icon} class="text-cyan-300"></iconify-icon></div>
+      <div>
+        <h2 id="parent-sector" class="inner-card__title text-lg">الصفحة الرئيسية: {sector.h1}</h2>
+        <p class="inner-card__text text-sm mt-1">اطّلع على التفاصيل الكاملة لحوكمة الذكاء الاصطناعي في {sector.chip} ←</p>
+      </div>
+    </div>
+  </div>
+</a>
+
+<RelatedLinks relatedSlugs={sector.related} sectorSlugs={sectors.filter(s => s.slug !== sector.slug).map(s => s.slug)} docs={sector.docs} blog={sector.blog} />
+
+<section class="inner-cta-final">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <div class="inner-cta-final__card">
+      <h2 class="inner-cta-final__title">ابدأ بحوكمة الذكاء الاصطناعي في {loc.cityAr} الآن</h2>
+      <p class="inner-cta-final__desc">فريقنا في {loc.cityAr} جاهز لمساعدتك. تواصل معنا للحصول على عرض توضيحي مخصص.</p>
+      <div class="inner-hero__actions" style="justify-content:center;">
+        <a href="/contact/" class="home-glow-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-bold"><iconify-icon icon="mdi:calendar-check"></iconify-icon> اطلب عرض توضيحي</a>
+        <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white" style="background:linear-gradient(135deg,#25D366,#128C7E)"><iconify-icon icon="mdi:whatsapp"></iconify-icon> تواصل عبر واتساب</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const reveals = document.querySelectorAll('.inner-reveal');
+  if (reveals.length && 'IntersectionObserver' in window) {
+    const obs = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-visible'); obs.unobserve(e.target); } }); }, { threshold: 0.1 });
+    reveals.forEach(el => obs.observe(el));
+  } else { reveals.forEach(el => el.classList.add('is-visible')); }
+</script>
+</ArabicLayout>
