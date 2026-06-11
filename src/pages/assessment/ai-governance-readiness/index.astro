@@ -1,0 +1,186 @@
+---
+import ArabicLayout from '../../layouts/ArabicLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import BackgroundGrid from '../../components/BackgroundGrid.astro';
+const crumbs = [{ label: 'الرئيسية', href: '/' }, { label: 'تقييم الجاهزية' }];
+const targetAudience = [
+  { icon: 'mdi:shield-half-full', bg: 'linear-gradient(135deg,#00d4ff,#7c5cff)', title: 'CISOs', sub: 'مسؤولو أمن المعلومات', desc: 'الذين يرغبون في رصد كافة تطبيقات الذكاء الاصطناعي غير المصرح بها (Shadow AI)، والتحقق من عدم مغادرة البيانات الحساسة لحدود المؤسسة.', tags: ['رصد البنية التحتية','إدارة الثغرات'] },
+  { icon: 'mdi:database', bg: 'linear-gradient(135deg,#7c5cff,#ff5ca7)', title: 'CDOs', sub: 'مسؤولو البيانات', desc: 'الباحثون عن خريطة تدفق واضحة لكافة عمليات التفاعل مع النماذج اللغوية الكبيرة وضمان تصنيف البيانات ومعالجتها وفق المعايير السعودية.', tags: ['تصنيف البيانات','خرائط التدفق'] },
+  { icon: 'mdi:scale-balance', bg: 'linear-gradient(135deg,#00d4ff,#25D366)', title: 'مسؤولو الامتثال والرقابة', sub: 'Compliance Officers', desc: 'الذين يسعون لتوليد أدلة تشغيلية وسجلات تدقيق فنية غير قابلة للتعديل لإثبات الالتزام بالإجراءات التنظيمية والسياسات الداخلية.', tags: ['سجل التدقيق','تقييم المخاطر'] },
+];
+const auditPillars = [
+  { icon: 'mdi:alert-triangle', color: 'rgba(255,92,92,.15)', border: 'rgba(255,92,92,.25)', iconColor: '#f87171', title: 'فحص وتقييم المخاطر', desc: 'تحليل مخاطر النماذج المستخدمة وتحديد الثغرات الأمنية المحتملة في معالجة المدخلات والمخرجات وتصنيف درجات التهديد.' },
+  { icon: 'mdi:shield-alert', color: 'rgba(0,212,255,.15)', border: 'rgba(0,212,255,.25)', iconColor: '#22d3ee', title: 'تسريب وحماية البيانات', desc: 'تتبع حركة البيانات الحساسة (PII) مثل سجلات العملاء والبيانات المالية للتأكد من عدم مشاركتها مع أطراف ثالثة خارجية.' },
+  { icon: 'mdi:account-check', color: 'rgba(124,92,255,.15)', border: 'rgba(124,92,255,.25)', iconColor: '#a78bfa', title: 'الموافقات والصلاحيات', desc: 'تقييم هيكل الصلاحيات المعمول به ومسار الموافقات البشرية لضمان أن كل تفاعل مع نماذج الذكاء الاصطناعي معتمد ومراقب.' },
+  { icon: 'mdi:format-list-checks', color: 'rgba(37,211,102,.15)', border: 'rgba(37,211,102,.25)', iconColor: '#4ade80', title: 'سجلات وخطوط التدقيق', desc: 'مراجعة الآليات التقنية لتوثيق وتخزين عمليات الذكاء الاصطناعي في سجل تدقيق محصن ومستدام لمواجهة متطلبات التفتيش.' },
+];
+const outputs = [
+  { num: '01', border: 'border-cyan-400', title: 'ملف أدلة تشغيلي (Evidence File)', desc: 'ملف توثيقي شامل يحتوي على البراهين الفنية والتشغيلية التي توضح كيفية إدارة ومراقبة عمليات استخدام نماذج الذكاء الاصطناعي وسلوك موظفيك الفعلي.' },
+  { num: '02', border: 'border-purple-400', title: 'تقرير تحليل المخاطر الفنية', desc: 'لوحة تحليلية مفصلة تصنف كافة تطبيقات الذكاء الاصطناعي النشطة في مؤسستك بحسب مستوى خطورتها الفنية، مع إرشادات تصحيح فوري.' },
+  { num: '03', border: 'border-green-400', title: 'خطة حوكمة متوافقة محلياً', desc: 'توصيات عملية ومسودة سياسات تقنية مهيأة للتكامل المباشر مع أطر الامتثال لنظام حماية البيانات الشخصية السعودي (PDPL) دون تعقيد.' },
+];
+const steps = [
+  { num: '١', title: 'الفحص الفني والاستكشاف الأولي', desc: 'يقوم فريقنا بفحص مسارات تدفق البيانات وتحديد كافة أدوات الذكاء الاصطناعي والشبكات المفتوحة داخل مؤسستك للكشف عن Shadow AI ورصد الثغرات.' },
+  { num: '٢', title: 'تهيئة وهيكلة نظام تصنيف المخاطر', desc: 'بناء وتخصيص مستويات تصنيف المخاطر الأمنية وتحديد القواعد التلقائية التي تفرز البيانات المدخلة والمخرجة بناءً على معايير الحماية الوطنية.' },
+  { num: '٣', title: 'دمج جدار الحماية (AI Firewall) والتحكم الفعال', desc: 'إدراج طبقة الأمان الذكية لمنع مشاركة البيانات الحساسة أو إرسال المعلومات السرية دون موافقات مسبقة، مع الاحتفاظ بمسار مراجعة بشري مرن.', links: [{ href: '/solutions/ai-firewall/', label: 'اكتشف حلول AI Firewall' }] },
+  { num: '٤', title: 'تشغيل سجل التدقيق وإصدار الأدلة (Evidence)', desc: 'تفعيل Immutable Audit Trail لحفظ قرارات الذكاء الاصطناعي ونشاط الموظفين في سجل تشغيلي مشفر محصن ضد التلاعب، وتوليد تقارير الجاهزية.', links: [{ href: '/solutions/ai-audit-trail/', label: 'اقرأ عن نظام AI Audit Trail' }, { href: '/solutions/ai-governance-platform/', label: 'منصة حوكمة الذكاء الاصطناعي' }] },
+];
+const faqItems = [
+  { q: 'ما الذي يقدمه تقييم جاهزية حوكمة الذكاء الاصطناعي من BrightAI؟', a: 'يقدم تقييمًا فنيًا وتشغيليًا شاملًا للمؤسسات السعودية للوقوف على مستوى شفافية وأمان استخدام تطبيقات ونماذج الذكاء الاصطناعي، وفحص مدى تسريب البيانات الحساسة وتحديد مواطن القوة والضعف لتوليد أدلة تدقيق تشغيلية متماشية مع الأطر المحلية.' },
+  { q: 'هل يوفر هذا التقييم شهادة ضمان امتثال قانوني؟', a: 'لا، نحن لا نمنح شهادات أو ضمانات امتثال قانوني قاطعة، بل نوفر الأدوات الفنية التشغيلية وسجلات التدقيق (Audit Trails) التي تدعم جاهزية مؤسستك الفنية للوفاء بمتطلبات اللوائح التنظيمية مثل نظام حماية البيانات الشخصية (PDPL).' },
+  { q: 'كيف يتوافق التقييم مع الضوابط الوطنية في المملكة العربية السعودية؟', a: 'التقييم مبني بالكامل ليتماشى مع متطلبات الهيئة السعودية للبيانات والذكاء الاصطناعي (SDAIA)، ونظام حماية البيانات الشخصية (PDPL)، والضوابط الأساسية للأمن السيبراني الصادرة عن NCA.' },
+];
+---
+<ArabicLayout title="تقييم جاهزية حوكمة الذكاء الاصطناعي | BrightAI" description="ابدأ تقييم جاهزية حوكمة الذكاء الاصطناعي داخل منشأتك، وحدد فجوات السياسات والضوابط والبيانات قبل بناء خطة امتثال عملية تناسب السوق السعودي، بوضوح." canonical="https://brightai.site/assessment/ai-governance-readiness/" hreflang={[{lang:'ar-SA',href:'https://brightai.site/assessment/ai-governance-readiness/'},{lang:'x-default',href:'https://brightai.site/assessment/ai-governance-readiness/'}]} jsonLd={{"@context":"https://schema.org","@graph":[{"@type":"WebPage","name":"تقييم جاهزية حوكمة الذكاء الاصطناعي للشركات السعودية","url":"https://brightai.site/assessment/ai-governance-readiness/","description":"قيّم جاهزية مؤسستك لاستخدام الذكاء الاصطناعي بأمان عبر فحص المخاطر، البيانات، الموافقات، وسجلات التدقيق مع BrightAI.","inLanguage":"ar-SA"},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"ما الذي يقدمه تقييم جاهزية حوكمة الذكاء الاصطناعي من BrightAI؟","acceptedAnswer":{"@type":"Answer","text":"يقدم تقييمًا فنيًا وتشغيليًا شاملًا للمؤسسات السعودية للوقوف على مستوى شفافية وأمان استخدام تطبيقات ونماذج الذكاء الاصطناعي."}},{"@type":"Question","name":"هل يوفر هذا التقييم شهادة ضمان امتثال قانوني؟","acceptedAnswer":{"@type":"Answer","text":"لا، نحن لا نمنح شهادات أو ضمانات امتثال قانوني قاطعة، بل نوفر الأدوات الفنية التشغيلية وسجلات التدقيق."}},{"@type":"Question","name":"كيف يتوافق التقييم مع الضوابط الوطنية؟","acceptedAnswer":{"@type":"Answer","text":"التقييم مبني بالكامل ليتماشى مع متطلبات SDAIA وPDPL وNCA."}}}]} currentPath="/assessment/ai-governance-readiness/">
+<style is:global>@import '../../styles/inner-pages.css';</style>
+
+<section class="inner-hero" aria-label="تقييم الجاهزية">
+  <BackgroundGrid />
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <Breadcrumbs crumbs={crumbs} />
+    <div class="inner-hero__badge"><iconify-icon icon="mdi:clipboard-check"></iconify-icon> أدوات وتقنيات مواءمة لنظام PDPL وضوابط NCA</div>
+    <h1><span class="home-gradient-text">تقييم جاهزية حوكمة</span><br/>الذكاء الاصطناعي للشركات السعودية</h1>
+    <p class="inner-hero__desc">هل تستخدم مؤسستك أدوات ونماذج الذكاء الاصطناعي بشكل فاعل وآمن بالكامل؟ يقدم تقييم جاهزية حوكمة الذكاء الاصطناعي من BrightAI رؤية تشغيلية شاملة تتيح لك رصد المخاطر، تصنيف البيانات، وهيكلة سجلات التدقيق لدعم كفاءة أعمالك محلياً.</p>
+    <div class="inner-hero__actions">
+      <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="home-glow-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-bold"><iconify-icon icon="mdi:play-circle"></iconify-icon> احصل على تقييم فوري لمؤسستك</a>
+      <a href="/contact/" class="home-wa-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white"><iconify-icon icon="mdi:email"></iconify-icon> تواصل مع مهندسينا</a>
+    </div>
+  </div>
+</section>
+
+{/* Target Audience */}
+<section class="inner-section" aria-labelledby="target-audience-title">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <p class="inner-section__label">الفئات المستهدفة</p>
+    <h2 id="target-audience-title" class="inner-section__title">لمن هذا التقييم؟</h2>
+    <p class="inner-section__lead">تم تصميم تقييم الجاهزية خصيصاً للقادة التنفيذيين وصناع القرار في المؤسسات السعودية الكبرى لمساندتهم في إرساء دعائم حوكمة تقنية متكاملة.</p>
+    <div class="inner-grid inner-grid--3">
+      {targetAudience.map(a => (
+        <div class="inner-card">
+          <div style={`width:56px;height:56px;border-radius:16px;display:grid;place-items:center;background:${a.bg};margin-bottom:1rem;`}>
+            <iconify-icon icon={a.icon} style="font-size:1.5rem;color:#fff;"></iconify-icon>
+          </div>
+          <h3 class="inner-card__title">{a.title}</h3>
+          <p class="text-cyan-300 font-bold text-sm mb-3">{a.sub}</p>
+          <p class="inner-card__text">{a.desc}</p>
+          <div class="flex flex-wrap gap-2 mt-3">
+            {a.tags.map(t => <span class="text-xs px-2 py-1 rounded-lg" style="background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.25);color:#9be5ff;">{t}</span>)}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+{/* Audit Scope */}
+<section class="inner-section inner-section--alt" aria-labelledby="audit-scope-title">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <p class="inner-section__label">آلية الفحص</p>
+    <h2 id="audit-scope-title" class="inner-section__title">ماذا نفحص في تقييم الجاهزية؟</h2>
+    <p class="inner-section__lead">نقوم بفحص ومراجعة أربع ركائز أساسية تغطي كافة جوانب استخدامات الذكاء الاصطناعي داخل بيئتك التقنية.</p>
+    <div class="inner-grid inner-grid--4">
+      {auditPillars.map(p => (
+        <div class="inner-card">
+          <div style={`width:48px;height:48px;border-radius:12px;display:grid;place-items:center;background:${p.color};border:1px solid ${p.border};margin-bottom:1rem;`}>
+            <iconify-icon icon={p.icon} style={`font-size:1.25rem;color:${p.iconColor};`}></iconify-icon>
+          </div>
+          <h3 class="inner-card__title">{p.title}</h3>
+          <p class="inner-card__text">{p.desc}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+{/* Outputs */}
+<section class="inner-section" aria-labelledby="outputs-title">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <p class="inner-section__label">نتائج ملموسة</p>
+    <h2 id="outputs-title" class="inner-section__title">مخرجات تقييم الجاهزية</h2>
+    <p class="inner-section__lead">نترجم جهود الفحص والتقييم إلى مخرجات تشغيلية داعمة لمسيرة عملك بدقة واحترافية.</p>
+    <div class="inner-grid inner-grid--3">
+      {outputs.map(o => (
+        <div class={`inner-card border-t-4 ${o.border}`}>
+          <span class="text-3xl font-black text-cyan-300 block mb-3">{o.num}</span>
+          <h3 class="inner-card__title">{o.title}</h3>
+          <p class="inner-card__text">{o.desc}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+{/* Why BrightAI */}
+<section class="inner-section inner-section--alt" aria-labelledby="why-us-title">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <p class="inner-section__label">ريادة محلية</p>
+    <h2 id="why-us-title" class="inner-section__title">لماذا تختار BrightAI لحوكمة الذكاء الاصطناعي؟</h2>
+    <p class="inner-section__lead">نحن نوفر لك حلولاً وحوكمة فنية حقيقية مصممة خصيصاً للمؤسسات التي تتطلب مستويات أمان سيبراني صارمة داخل المملكة.</p>
+    <div class="inner-grid inner-grid--3">
+      <div class="inner-card"><h3 class="inner-card__title"><iconify-icon class="text-cyan-300" icon="mdi:server"></iconify-icon> استضافة محلية 100%</h3><p class="inner-card__text">تضمن حلولنا بقاء كافة البيانات وعمليات التدقيق والتقارير داخل حدود المملكة العربية السعودية، مما يمنع تسريبها للخارج تماماً.</p></div>
+      <div class="inner-card"><h3 class="inner-card__title"><iconify-icon class="text-cyan-300" icon="mdi:lightning-bolt"></iconify-icon> لا عرقلة للإنتاجية</h3><p class="inner-card__text">تعمل أدواتنا كـ Middleware غير مرئي. يستمر موظفوك باستخدام أدوات الذكاء الاصطناعي المفضلة لديهم دون أي بطء أو تعطيل لمهامهم اليومية.</p></div>
+      <div class="inner-card"><h3 class="inner-card__title"><iconify-icon class="text-cyan-300" icon="mdi:laptop"></iconify-icon> تكامل تقني عميق</h3><p class="inner-card__text">تتكامل أنظمتنا بسلاسة مع أنظمة ERP الشائعة مثل SAP وOracle وMicrosoft 365 لتسجيل الأنشطة وتتبع البيانات الحساسة تلقائياً.</p></div>
+    </div>
+  </div>
+</section>
+
+{/* Steps */}
+<section class="inner-section" aria-labelledby="steps-title">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <p class="inner-section__label">آلية التنفيذ</p>
+    <h2 id="steps-title" class="inner-section__title">خطوات تقييم الجاهزية والتفعيل</h2>
+    <p class="inner-section__lead">منهجية واضحة ومحددة تمكننا من فهم بيئتك التقنية وبناء جدار الحماية خلال فترة وجيزة.</p>
+    <div class="max-w-4xl mx-auto space-y-4">
+      {steps.map(s => (
+        <div class="inner-card flex gap-4 items-start">
+          <div class="step-num" style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#00d4ff,#7c5cff);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1.1rem;color:#fff;flex-shrink:0;">{s.num}</div>
+          <div class="flex-1">
+            <h3 class="inner-card__title">{s.title}</h3>
+            <p class="inner-card__text">{s.desc}</p>
+            {s.links && s.links.length > 0 && (
+              <div class="flex flex-wrap gap-3 mt-2">
+                {s.links.map(l => <a href={l.href} class="text-cyan-300 hover:text-white text-sm font-bold underline">{l.label}</a>)}
+              </div>
+            )}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+{/* FAQ */}
+<section class="inner-section inner-section--alt" aria-labelledby="assessment-faq">
+  <div class="max-w-4xl mx-auto px-5 lg:px-8">
+    <p class="inner-section__label">الأسئلة الشائعة</p>
+    <h2 id="assessment-faq" class="inner-section__title">أسئلة شائعة حول التقييم</h2>
+    <div class="inner-faq">
+      {faqItems.map((item, i) => (
+        <details open={i === 0}>
+          <summary><span>{item.q}</span><iconify-icon icon="mdi:chevron-down"></iconify-icon></summary>
+          <div class="inner-faq__answer"><p>{item.a}</p></div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+{/* CTA */}
+<section class="inner-cta-final">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <div class="inner-cta-final__card">
+      <h2 class="inner-cta-final__title">احمِ أصول بياناتك وباشر <span class="home-gradient-text">تقييم جاهزيتك اليوم</span></h2>
+      <p class="inner-cta-final__desc">فريقنا الهندسي في الرياض جاهز لمساعدتك في رصد وإدارة مخاطر الذكاء الاصطناعي وتطبيق سياسات الأمان السيبراني بفعالية تشغيلية تامة.</p>
+      <div class="inner-hero__actions" style="justify-content:center;">
+        <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="home-wa-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white"><iconify-icon icon="mdi:whatsapp"></iconify-icon> تحدث مع مهندسينا عبر واتساب</a>
+        <a href="/contact/" class="home-glow-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-bold"><iconify-icon icon="mdi:calendar"></iconify-icon> طلب اجتماع فني مخصص</a>
+      </div>
+      <div class="flex flex-wrap justify-center gap-6 text-sm text-white/50 mt-6">
+        <span><iconify-icon class="text-cyan-300" icon="mdi:check"></iconify-icon> فحص واستكشاف في غضون أيام</span>
+        <span><iconify-icon class="text-cyan-300" icon="mdi:check"></iconify-icon> استضافة سحابية أو محلية كاملة</span>
+        <span><iconify-icon class="text-cyan-300" icon="mdi:check"></iconify-icon> فريق تقني سعودي متخصص</span>
+      </div>
+    </div>
+  </div>
+</section>
+</ArabicLayout>

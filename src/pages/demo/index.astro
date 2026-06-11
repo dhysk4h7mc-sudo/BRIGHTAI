@@ -1,0 +1,89 @@
+---
+import ArabicLayout from '../../layouts/ArabicLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import BackgroundGrid from '../../components/BackgroundGrid.astro';
+const crumbs = [{ label: 'الرئيسية', href: '/' }, { label: 'الديمو' }];
+---
+<ArabicLayout title="احجز ديمو BrightAI — شوف المنصة بعينك | BrightAI" description="احجز جلسة ديمو مخصصة لشركتك وشوّف كيف Saudi AI Safety OS يحمي بياناتك ويوفر حوكمة كاملة للذكاء الاصطناعي داخل مؤسستك." canonical="https://brightai.site/demo/" hreflang={[{lang:'ar-SA',href:'https://brightai.site/demo/'},{lang:'x-default',href:'https://brightai.site/demo/'}]} jsonLd={{"@context":"https://schema.org","@type":"WebPage","name":"احجز ديمو BrightAI","description":"جلسة ديمو مخصصة لشركتك","url":"https://brightai.site/demo/"}} currentPath="/demo/">
+<style is:global>@import '../../styles/inner-pages.css';</style>
+
+<section class="inner-hero" aria-label="الديمو">
+  <BackgroundGrid />
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <Breadcrumbs crumbs={crumbs} />
+    <div class="inner-hero__badge"><iconify-icon icon="mdi:monitor-dashboard"></iconify-icon> جرب المنصة بعينك</div>
+    <h1>احجز <span class="home-gradient-text">ديمو مخصص</span> لشركتك</h1>
+    <p class="inner-hero__desc">شوّف كيف Saudi AI Safety OS يشتغل في بيئة حقيقية. الديمو مخصص لقطاعك واحتياجاتك — مو عرض عام. نبيك تشوف كيف نحمي بياناتك وندقق كل عملية AI.</p>
+    <div class="inner-hero__actions">
+      <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="home-glow-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-bold"><iconify-icon icon="mdi:whatsapp"></iconify-icon> احجز عبر واتساب</a>
+      <a href="/contact/" class="home-wa-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white"><iconify-icon icon="mdi:email-outline"></iconify-icon> أو أرسل طلب</a>
+    </div>
+  </div>
+</section>
+
+<section class="inner-section" aria-labelledby="demo-what">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <h2 id="demo-what" class="inner-section__title">وش تشوفه في الديمو؟</h2>
+    <p class="inner-section__lead">جلسة 30-45 دقيقة نشخّص فيها وضع شركتك ونعرض لك المنصة على الهوا.</p>
+    <div class="inner-grid inner-grid--4">
+      <div class="inner-card"><iconify-icon class="inner-card__icon" icon="mdi:shield-half-full"></iconify-icon><h3 class="inner-card__title">AI Firewall حي</h3><p class="inner-card__text">شوّف كيف نفلّر الاستفسارات ونخفي البيانات الحساسة في الوقت الحقيقي.</p></div>
+      <div class="inner-card"><iconify-icon class="inner-card__icon" icon="mdi:file-sign"></iconify-icon><h3 class="inner-card__title">سجل التدقيق</h3><p class="inner-card__text">كل عملية AI موثقة بـ Hash ومشفرة. شوف سجل تدقيق حقيقي.</p></div>
+      <div class="inner-card"><iconify-icon class="inner-card__icon" icon="mdi:account-check"></iconify-icon><h3 class="inner-card__title">الموافقات البشرية</h3><p class="inner-card__text">شوّف مسار الموافقات للقرارات عالية المخاطر مع الإشعارات الفورية.</p></div>
+      <div class="inner-card"><iconify-icon class="inner-card__icon" icon="mdi:folder-lock"></iconify-icon><h3 class="inner-card__title">ملفات الأدلة</h3><p class="inner-card__text">ملفات PDF موقّعة رقمياً جاهزة للمدققين والجهات التنظيمية.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="inner-section inner-section--alt" aria-labelledby="demo-form-sec">
+  <div class="max-w-4xl mx-auto px-5 lg:px-8">
+    <h2 id="demo-form-sec" class="inner-section__title text-center">احجز ديمو الآن</h2>
+    <p class="inner-section__lead text-center">املأ النموذج ونتواصل معك خلال 24 ساعة لتحديد موعد الديمو.</p>
+    <form class="inner-form" action="https://formsubmit.co/info@brightai.site" method="POST">
+      <input type="hidden" name="_subject" value="طلب ديمو BrightAI" />
+      <input type="hidden" name="_captcha" value="false" />
+      <div class="inner-grid inner-grid--2">
+        <div class="inner-form__group">
+          <label class="inner-form__label" for="demo-name">الاسم</label>
+          <input class="inner-form__input" type="text" id="demo-name" name="name" required placeholder="اسمك الكامل" />
+        </div>
+        <div class="inner-form__group">
+          <label class="inner-form__label" for="demo-email">البريد الإلكتروني</label>
+          <input class="inner-form__input" type="email" id="demo-email" name="email" required placeholder="email@company.sa" />
+        </div>
+      </div>
+      <div class="inner-grid inner-grid--2">
+        <div class="inner-form__group">
+          <label class="inner-form__label" for="demo-company">الشركة / الجهة</label>
+          <input class="inner-form__input" type="text" id="demo-company" name="company" placeholder="اسم الشركة" />
+        </div>
+        <div class="inner-form__group">
+          <label class="inner-form__label" for="demo-sector">القطاع</label>
+          <select class="inner-form__select" id="demo-sector" name="sector">
+            <option value="">اختر القطاع</option>
+            <option value="government">جهة حكومية</option>
+            <option value="healthcare">رعاية صحية</option>
+            <option value="finance">قطاع مالي</option>
+            <option value="manufacturing">مصانع طبية</option>
+            <option value="other">قطاع آخر</option>
+          </select>
+        </div>
+      </div>
+      <div class="inner-form__group">
+        <label class="inner-form__label" for="demo-msg">ملاحظات إضافية</label>
+        <textarea class="inner-form__textarea" id="demo-msg" name="message" placeholder="مثلاً: عدد الموظفين، أنظمة AI المستخدمة حالياً..."></textarea>
+      </div>
+      <button class="inner-form__submit" type="submit"><iconify-icon icon="mdi:calendar-check"></iconify-icon> احجز الديمو</button>
+    </form>
+  </div>
+</section>
+
+<section class="inner-cta-final">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <div class="inner-cta-final__card">
+      <h2 class="inner-cta-final__title">تبي تكلم أحد مباشرة؟</h2>
+      <p class="inner-cta-final__desc">تواصل عبر واتساب واحجز ديمو خلال دقائق.</p>
+      <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="home-wa-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white"><iconify-icon icon="mdi:whatsapp"></iconify-icon> واتساب: +966 538 229 013</a>
+    </div>
+  </div>
+</section>
+</ArabicLayout>

@@ -1,0 +1,94 @@
+---
+import ArabicLayout from '../../layouts/ArabicLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import BackgroundGrid from '../../components/BackgroundGrid.astro';
+const crumbs = [{ label: 'الرئيسية', href: '/' }, { label: 'خريطة الموقع' }];
+const sections = [
+  { title: 'Saudi AI Safety OS والطبقات الرئيسية', links: [
+    { href: '/', label: 'الرئيسية' },
+    { href: '/about/', label: 'عن BrightAI' },
+    { href: '/services/', label: 'الخدمات' },
+    { href: '/pricing/', label: 'الأسعار' },
+    { href: '/contact/', label: 'تواصل معنا' },
+    { href: '/demo/', label: 'احجز ديمو' },
+    { href: '/trust/', label: 'مركز الثقة' },
+  ]},
+  { title: 'الحلول', links: [
+    { href: '/solutions/', label: 'مركز الحلول' },
+    { href: '/solutions/ai-governance-platform/', label: 'AI Governance Platform' },
+    { href: '/solutions/ai-firewall/', label: 'AI Firewall' },
+    { href: '/solutions/ai-audit-trail/', label: 'AI Audit Trail' },
+    { href: '/solutions/human-approval-layer/', label: 'Human Approval Layer' },
+    { href: '/solutions/ai-evidence-file/', label: 'AI Evidence File' },
+    { href: '/solutions/continuous-ai-governance/', label: 'Continuous AI Governance' },
+    { href: '/solutions/ai-risk-classification/', label: 'AI Risk Classification' },
+  ]},
+  { title: 'النواة — Kernel', links: [
+    { href: '/kernel/', label: 'Kernel الرئيسية' },
+    { href: '/kernel/chat/', label: 'Kernel Chat' },
+    { href: '/kernel/audit/', label: 'Kernel Audit' },
+    { href: '/kernel/approvals/', label: 'Kernel Approvals' },
+    { href: '/kernel/compliance/', label: 'Kernel Compliance' },
+    { href: '/kernel/policies/', label: 'Kernel Policies' },
+    { href: '/kernel/connectors/', label: 'Kernel Connectors' },
+    { href: '/kernel/reports/', label: 'Kernel Reports' },
+    { href: '/kernel/stats/', label: 'Kernel Stats' },
+    { href: '/kernel/scenarios/', label: 'Kernel Scenarios' },
+    { href: '/kernel/evidence/', label: 'Kernel Evidence' },
+  ]},
+  { title: 'الموارد', links: [
+    { href: '/blog/', label: 'المدونة' },
+    { href: '/docs/', label: 'الوثائق' },
+    { href: '/hub/', label: 'Hub' },
+    { href: '/assessment/ai-governance-readiness/', label: 'تقييم جاهزية حوكمة AI' },
+  ]},
+  { title: 'السياسات والقانونية', links: [
+    { href: '/privacy-policy/', label: 'سياسة الخصوصية' },
+    { href: '/terms/', label: 'الشروط والأحكام' },
+    { href: '/data-processing-agreement/', label: 'اتفاقية معالجة البيانات' },
+    { href: '/cookie-policy/', label: 'سياسة الكوكيز' },
+    { href: '/pdpl-statement/', label: 'بيان PDPL' },
+  ]},
+];
+---
+<ArabicLayout title="خريطة موقع BrightAI للصفحات والخدمات | BrightAI" description="استخدم خريطة موقع BrightAI للوصول بسرعة إلى صفحات الخدمات والحلول والوثائق والديمو، واختيار المسار الأنسب لاحتياجك." canonical="https://brightai.site/sitemap/" hreflang={[{lang:'ar-SA',href:'https://brightai.site/sitemap/'},{lang:'x-default',href:'https://brightai.site/sitemap/'}]} jsonLd={{"@context":"https://schema.org","@type":"WebPage","name":"خريطة موقع BrightAI","url":"https://brightai.site/sitemap/"}} currentPath="/sitemap/">
+<style is:global>@import '../../styles/inner-pages.css';</style>
+
+<section class="inner-hero" aria-label="خريطة الموقع">
+  <BackgroundGrid />
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <Breadcrumbs crumbs={crumbs} />
+    <div class="inner-hero__badge"><iconify-icon icon="mdi:map"></iconify-icon> كل الروابط في مكان واحد</div>
+    <h1>خريطة <span class="home-gradient-text">Saudi AI Safety OS</span> — روابط BrightAI العامة</h1>
+    <p class="inner-hero__desc">هذه الخريطة تجمع روابط BrightAI العامة حول intent واحد: Saudi AI Safety OS. ستجد مسارات الحوكمة والأمان مثل AI Firewall وAudit Trail وHuman Approval وEvidence File، إضافة إلى الوثائق، الديمو، صفحات الامتثال، والتواصل.</p>
+  </div>
+</section>
+
+<section class="inner-section" aria-labelledby="sitemap-all">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <h2 id="sitemap-all" class="inner-section__title sr-only">كل صفحات الموقع</h2>
+    <div class="inner-grid inner-grid--2 lg:inner-grid--3">
+      {sections.map(s => (
+        <div class="sitemap-section">
+          <h3 class="sitemap-section__title">{s.title}</h3>
+          <ul class="sitemap-links">
+            {s.links.map(l => (
+              <li><a href={l.href}><iconify-icon icon="mdi:chevron-left" style="transform:scaleX(-1);font-size:0.8rem;color:#22d3ee;"></iconify-icon> {l.label}</a></li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="inner-cta-final">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <div class="inner-cta-final__card">
+      <h2 class="inner-cta-final__title">ما لقيت اللي تدور عليه؟</h2>
+      <p class="inner-cta-final__desc">تواصل معنا عبر واتساب ونساعدك تلاقي اللي تحتاجه.</p>
+      <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="home-wa-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white"><iconify-icon icon="mdi:whatsapp"></iconify-icon> تواصل عبر واتساب</a>
+    </div>
+  </div>
+</section>
+</ArabicLayout>

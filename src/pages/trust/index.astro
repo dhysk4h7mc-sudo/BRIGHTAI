@@ -1,0 +1,133 @@
+---
+import ArabicLayout from '../../layouts/ArabicLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import BackgroundGrid from '../../components/BackgroundGrid.astro';
+const crumbs = [{ label: 'الرئيسية', href: '/' }, { label: 'مركز الثقة' }];
+const securityBadges = [
+  { icon: 'mdi:lock', title: 'AES-256 Encryption', sub: 'تشفير كامل للبيانات أثناء النقل والتخزين' },
+  { icon: 'mdi:account-check', title: 'فريق سعودي 100%', sub: 'تطوير ودعم محلي بالكامل داخل المملكة' },
+  { icon: 'mdi:file-certificate', title: 'NCA ECC Compliant', sub: 'متوافق مع ضوابط الهيئة الوطنية للأمن السيبراني' },
+  { icon: 'mdi:shield-account', title: 'PDPL Ready', sub: 'حماية بيانات شخصية وفق نظام السعودية' },
+  { icon: 'mdi:certificate', title: 'ISO/IEC 42001', sub: 'معيار حوكمة الذكاء الاصطناعي العالمي' },
+  { icon: 'mdi:bug-outline', title: 'SOC 2 Type II', sub: 'أعلى معايير الأمان والسرية العالمية' },
+  { icon: 'mdi:heart-pulse', title: 'SFDA / ISO 13485', sub: 'متوافق مع متطلبات القطاع الصحي والطبي' },
+  { icon: 'mdi:eye-off', title: 'PII Redaction', sub: 'إخفاء تلقائي للبيانات الشخصية الحساسة' },
+];
+const coreFeatures = [
+  { icon: 'mdi:shield-half-full', title: 'AI Firewall', desc: 'فلترة ذكية تمنع تسريب البيانات الحساسة للنماذج الخارجية. حماية في الوقت الحقيقي.' },
+  { icon: 'mdi:file-sign', title: 'Audit Trail', desc: 'سجل تدقيق غير قابل للتعديل. كل عملية موثقة بـ Hash ومشفرة بالكامل.' },
+  { icon: 'mdi:account-check', title: 'Human Approval', desc: 'موافقات بشرية إلزامية للقرارات عالية المخاطر. مسار Risk-Based ذكي.' },
+  { icon: 'mdi:folder-lock', title: 'Evidence File', desc: 'ملفات أدلة PDF موقّعة رقمياً جاهزة للمدققين والجهات التنظيمية.' },
+];
+const deploymentOptions = [
+  { title: 'Cloud مستضاف', desc: 'مستضاف داخل data centers سعودية. أسرع نشر وأقل تكلفة.' },
+  { title: 'Hybrid هجين', desc: 'جزء Cloud وجزء On-Premise. مرونة مع الحفاظ على التحكم.' },
+  { title: 'Air-Gapped معزول', desc: 'معزول بالكامل عن الإنترنت. أقصى درجات الأمان للبيانات الحساسة.' },
+];
+const trustFaq = [
+  { q: 'كيف تحمون بياناتنا الحساسة؟', a: 'نستخدم AES-256 encryption للبيانات في النقل والتخزين. كل البيانات تبقى داخل المملكة. نطبق PII Redaction تلقائي لإخفاء المعلومات الشخصية قبل وصولها لأي نموذج AI.' },
+  { q: 'هل BrightAI متوافق مع NCA ECC؟', a: 'نعم، منصة BrightAI مصممة لتكون متوافقة بالكامل مع ضوابط الهيئة الوطنية للأمن السيبراني (NCA ECC). نوفر سجلات تدقيق مشفرة ومحمية.' },
+  { q: 'أين تخزنون البيانات؟', a: 'كل البيانات تخزن داخل data centers في المملكة العربية السعودية. لا ننقل أي بيانات خارج المملكة. يدعم النظام أيضاً النشر On-Premise أو Air-Gapped.' },
+  { q: 'هل تقدمون اتفاقية معالجة بيانات (DPA)؟', a: 'نعم، نقدم Data Processing Agreement موقّع لكل عميل Enterprise. يمكنكم الاطلاع على اتفاقية معالجة البيانات في صفحة DPA.' },
+];
+---
+<ArabicLayout title="مركز ثقة BrightAI للأمان والامتثال | BrightAI" description="تعرف على ممارسات BrightAI في الأمان والخصوصية والامتثال، وكيف تساعد المنصة الجهات السعودية على تشغيل الذكاء الاصطناعي بثقة ومسؤولية." canonical="https://brightai.site/trust/" hreflang={[{lang:'ar-SA',href:'https://brightai.site/trust/'},{lang:'x-default',href:'https://brightai.site/trust/'}]} jsonLd={{"@context":"https://schema.org","@type":"WebPage","name":"مركز ثقة BrightAI","description":"ممارسات الأمان والخصوصية والامتثال","url":"https://brightai.site/trust/"}} currentPath="/trust/">
+<style is:global>@import '../../styles/inner-pages.css';</style>
+
+<section class="inner-hero" aria-label="مركز الثقة">
+  <BackgroundGrid />
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <Breadcrumbs crumbs={crumbs} />
+    <div class="inner-hero__badge"><iconify-icon icon="mdi:shield-check"></iconify-icon> حماية وامتثال وحوكمة</div>
+    <h1><span class="home-gradient-text">مركز الثقة والأمان</span> — أمان وحوكمة بلا تسويات</h1>
+    <p class="inner-hero__desc">أمان البيانات عندنا مو ميزة ثانوية — هو أساس المنصة. نحمي بياناتك بأعلى معايير التشفير والامتثال المطلوبة في السوق السعودي.</p>
+  </div>
+</section>
+
+<section class="inner-section" aria-labelledby="security-badges">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <h2 id="security-badges" class="inner-section__title text-center">شهادات ومعايير الأمان</h2>
+    <p class="inner-section__lead text-center">فريق سعودي، تشفير AES-256، امتثال كامل للأنظمة المحلية والعالمية.</p>
+    <div class="inner-grid inner-grid--4">
+      {securityBadges.map(b => (
+        <div class="inner-badge">
+          <iconify-icon class="inner-badge__icon" icon={b.icon}></iconify-icon>
+          <div class="inner-badge__text"><strong class="inner-badge__title">{b.title}</strong><span class="inner-badge__sub">{b.sub}</span></div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="inner-section inner-section--alt" aria-labelledby="core-features-title">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <p class="inner-section__label">البنية التحتية</p>
+    <h2 id="core-features-title" class="inner-section__title">البنية التحتية لحوكمة الذكاء الاصطناعي</h2>
+    <p class="inner-section__lead">أربع طبقات أمان مدمجة في كل عملية AI تمر عبر المنصة.</p>
+    <div class="inner-grid inner-grid--4">
+      {coreFeatures.map(f => (
+        <div class="inner-card">
+          <iconify-icon class="inner-card__icon" icon={f.icon}></iconify-icon>
+          <h3 class="inner-card__title">{f.title}</h3>
+          <p class="inner-card__text">{f.desc}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="inner-section" aria-labelledby="deployment-title">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <p class="inner-section__label">خيارات النشر</p>
+    <h2 id="deployment-title" class="inner-section__title">خيارات نشر متعددة تناسب متطلبات الأمان لديك</h2>
+    <div class="inner-grid inner-grid--3">
+      {deploymentOptions.map(d => (
+        <div class="inner-card text-center">
+          <h3 class="inner-card__title">{d.title}</h3>
+          <p class="inner-card__text">{d.desc}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="inner-section inner-section--alt" aria-labelledby="compliance-title">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <p class="inner-section__label">الامتثال</p>
+    <h2 id="compliance-title" class="inner-section__title">الامتثال التشغيلي والمطابقة</h2>
+    <p class="inner-section__lead">منصة BrightAI مصممة لتلبية المتطلبات التنظيمية السعودية التالية:</p>
+    <div class="inner-grid inner-grid--3">
+      <div class="inner-card"><h3 class="inner-card__title">PDPL</h3><p class="inner-card__text">نظام حماية البيانات الشخصية — إخفاء تلقائي للبيانات الحساسة وحق النسيان.</p></div>
+      <div class="inner-card"><h3 class="inner-card__title">NCA ECC</h3><p class="inner-card__text">ضوابط الهيئة الوطنية للأمن السيبراني — سجلات تدقيق مشفرة ومحمية.</p></div>
+      <div class="inner-card"><h3 class="inner-card__title">SDAIA Guidelines</h3><p class="inner-card__text">إرشادات الذكاء الاصطناعي التوليدي — شفافية وعدالة وقابلية للتفسير.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="inner-section" aria-labelledby="trust-faq">
+  <div class="max-w-4xl mx-auto px-5 lg:px-8">
+    <h2 id="trust-faq" class="inner-section__title text-center">أسئلة شائعة حول مركز الثقة</h2>
+    <div class="inner-faq">
+      {trustFaq.map((item, i) => (
+        <details open={i === 0}>
+          <summary><span>{item.q}</span><iconify-icon icon="mdi:chevron-down"></iconify-icon></summary>
+          <div class="inner-faq__answer"><p>{item.a}</p></div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="inner-cta-final">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <div class="inner-cta-final__card">
+      <h2 class="inner-cta-final__title">هل أنت مستعد لتمكين الذكاء الاصطناعي بأمان تام؟</h2>
+      <p class="inner-cta-final__desc">احجز جلسة استشارية مجانية واكتشف كيف نحمي بيانات مؤسستك.</p>
+      <div class="inner-hero__actions" style="justify-content:center;">
+        <a href="/contact/" class="home-glow-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-bold"><iconify-icon icon="mdi:calendar-check"></iconify-icon> احجز جلسة</a>
+        <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="home-wa-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white"><iconify-icon icon="mdi:whatsapp"></iconify-icon> واتساب</a>
+      </div>
+    </div>
+  </div>
+</section>
+</ArabicLayout>

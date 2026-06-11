@@ -1,0 +1,103 @@
+---
+import ArabicLayout from '../../layouts/ArabicLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import BackgroundGrid from '../../components/BackgroundGrid.astro';
+const crumbs = [{ label: 'الرئيسية', href: '/' }, { label: 'تواصل معنا' }];
+---
+<ArabicLayout title="تواصل مع BrightAI — احجز جلسة استشارية أو ديمو | BrightAI" description="تواصل مع فريق BrightAI للاستفسار عن خدمات حوكمة وأمان الذكاء الاصطناعي، احجز جلسة استشارية مجانية أو اطلب عرض سعر خلال 24 ساعة." canonical="https://brightai.site/contact/" hreflang={[{lang:'ar-SA',href:'https://brightai.site/contact/'},{lang:'x-default',href:'https://brightai.site/contact/'}]} jsonLd={{"@context":"https://schema.org","@type":"ContactPage","name":"تواصل مع BrightAI","url":"https://brightai.site/contact/","mainEntity":{"@type":"Organization","name":"BrightAI","telephone":"+966538229013","url":"https://brightai.site"}}} currentPath="/contact/">
+<style is:global>@import '../../styles/inner-pages.css';</style>
+
+<section class="inner-hero" aria-label="تواصل معنا">
+  <BackgroundGrid />
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <Breadcrumbs crumbs={crumbs} />
+    <div class="inner-hero__badge"><iconify-icon icon="mdi:message-text"></iconify-icon> نحن هنا لمساعدتك</div>
+    <h1>تواصل مع <span class="home-gradient-text">فريق BrightAI</span></h1>
+    <p class="inner-hero__desc">احجز جلسة استشارية مجانية، اطلب عرض سعر خلال 24 ساعة، أو استفسر عن خدمات حوكمة وأمان الذكاء الاصطناعي. فريقنا جاهز لمساعدتك.</p>
+  </div>
+</section>
+
+<section class="inner-section" aria-labelledby="contact-methods">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <h2 id="contact-methods" class="inner-section__title">طرق التواصل</h2>
+    <div class="inner-grid inner-grid--3">
+      <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="inner-card text-center" style="text-decoration:none;">
+        <iconify-icon class="inner-card__icon" icon="mdi:whatsapp" style="font-size:2.5rem;color:#25D366;"></iconify-icon>
+        <h3 class="inner-card__title">واتساب</h3>
+        <p class="inner-card__text">أسرع طريقة للتواصل. اكتبنا ونجاوبك خلال دقائق.</p>
+        <span class="text-cyan-300 font-bold text-sm mt-2 block">+966 538 229 013</span>
+      </a>
+      <a href="/demo/" class="inner-card text-center" style="text-decoration:none;">
+        <iconify-icon class="inner-card__icon" icon="mdi:monitor-dashboard" style="font-size:2.5rem;"></iconify-icon>
+        <h3 class="inner-card__title">احجز ديمو</h3>
+        <p class="inner-card__text">شوّف المنصة بعينك في جلسة ديمو مخصصة لشركتك.</p>
+        <span class="text-cyan-300 font-bold text-sm mt-2 block">احجز الآن ←</span>
+      </a>
+      <a href="/pricing/" class="inner-card text-center" style="text-decoration:none;">
+        <iconify-icon class="inner-card__icon" icon="mdi:tag-outline" style="font-size:2.5rem;"></iconify-icon>
+        <h3 class="inner-card__title">عرض سعر</h3>
+        <p class="inner-card__text">اطلب عرض سعر مخصص خلال 24 ساعة عبر واتساب.</p>
+        <span class="text-cyan-300 font-bold text-sm mt-2 block">اطلب عرض سعر ←</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="inner-section inner-section--alt" aria-labelledby="contact-form-sec">
+  <div class="max-w-4xl mx-auto px-5 lg:px-8">
+    <h2 id="contact-form-sec" class="inner-section__title text-center">أو أرسل لنا رسالة</h2>
+    <p class="inner-section__lead text-center">املأ النموذج ونتواصل معك خلال 24 ساعة كحد أقصى.</p>
+    <form class="inner-form" action="https://formsubmit.co/info@brightai.site" method="POST">
+      <input type="hidden" name="_subject" value="طلب تواصل من موقع BrightAI" />
+      <input type="hidden" name="_captcha" value="false" />
+      <input type="hidden" name="_next" value="https://brightai.site/contact/" />
+      <div class="inner-grid inner-grid--2">
+        <div class="inner-form__group">
+          <label class="inner-form__label" for="name">الاسم</label>
+          <input class="inner-form__input" type="text" id="name" name="name" required placeholder="اسمك الكامل" />
+        </div>
+        <div class="inner-form__group">
+          <label class="inner-form__label" for="email">البريد الإلكتروني</label>
+          <input class="inner-form__input" type="email" id="email" name="email" required placeholder="email@company.sa" />
+        </div>
+      </div>
+      <div class="inner-grid inner-grid--2">
+        <div class="inner-form__group">
+          <label class="inner-form__label" for="company">الشركة / الجهة</label>
+          <input class="inner-form__input" type="text" id="company" name="company" placeholder="اسم الشركة" />
+        </div>
+        <div class="inner-form__group">
+          <label class="inner-form__label" for="sector">القطاع</label>
+          <select class="inner-form__select" id="sector" name="sector">
+            <option value="">اختر القطاع</option>
+            <option value="government">جهة حكومية</option>
+            <option value="healthcare">رعاية صحية</option>
+            <option value="finance">قطاع مالي</option>
+            <option value="manufacturing">مصانع طبية</option>
+            <option value="other">قطاع آخر</option>
+          </select>
+        </div>
+      </div>
+      <div class="inner-form__group">
+        <label class="inner-form__label" for="message">الرسالة</label>
+        <textarea class="inner-form__textarea" id="message" name="message" required placeholder="كيف نقدر نساعدك؟"></textarea>
+      </div>
+      <button class="inner-form__submit" type="submit">
+        <iconify-icon icon="mdi:send"></iconify-icon> إرسال الرسالة
+      </button>
+    </form>
+  </div>
+</section>
+
+<section class="inner-cta-final">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <div class="inner-cta-final__card">
+      <h2 class="inner-cta-final__title">تبي تكلم أحد مباشرة؟</h2>
+      <p class="inner-cta-final__desc">تواصل عبر واتساب الآن ونجاوبك خلال دقائق.</p>
+      <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="home-wa-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white">
+        <iconify-icon icon="mdi:whatsapp"></iconify-icon> تواصل عبر واتساب
+      </a>
+    </div>
+  </div>
+</section>
+</ArabicLayout>

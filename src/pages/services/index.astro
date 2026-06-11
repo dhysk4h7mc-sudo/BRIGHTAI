@@ -1,0 +1,109 @@
+---
+import ArabicLayout from '../../layouts/ArabicLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import BackgroundGrid from '../../components/BackgroundGrid.astro';
+const crumbs = [{ label: 'الرئيسية', href: '/' }, { label: 'الخدمات' }];
+const servicePaths = [
+  { icon: 'mdi:shield-half-full', title: 'AI Firewall', desc: 'حماية البيانات الحساسة قبل وصولها للنماذج. PII Redaction تلقائي وفلترة استفسارات ومنع التسريب.', href: '/solutions/ai-firewall/' },
+  { icon: 'mdi:file-sign', title: 'AI Audit Trail', desc: 'سجل غير قابل للتعديل لكل طلب وقرار وموافقة. محمي بـ Hash ومتطابق مع ضوابط NCA ECC.', href: '/solutions/ai-audit-trail/' },
+  { icon: 'mdi:account-check', title: 'Human Approval Layer', desc: 'موافقات بشرية للقرارات عالية المخاطر. مسار Risk-Based ذكي مع إشعارات فورية.', href: '/solutions/human-approval-layer/' },
+  { icon: 'mdi:folder-open', title: 'AI Evidence File', desc: 'ملفات أدلة PDF موقّعة رقمياً جاهزة للمدققين. متوافقة مع PDPL وNCA وSFDA وISO.', href: '/solutions/ai-evidence-file/' },
+  { icon: 'mdi:scale-balance', title: 'AI Governance Platform', desc: 'طبقة تشغيلية مركزية لإدارة استخدامات ومخاطر AI. رؤية شاملة وضوابط موحدة.', href: '/solutions/ai-governance-platform/' },
+  { icon: 'mdi:tune', title: 'محرر السياسات', desc: 'ضبط قواعد الاستخدام والحساسية والتصعيد بدون تعقيد تقني.', href: '/kernel/policies/' },
+];
+const faqItems = [
+  { q: 'وش هو Saudi AI Safety OS؟', a: 'Saudi AI Safety OS هو نظام تشغيل أمان وحوكمة للذكاء الاصطناعي يركّب تحت أي نظام AI في شركتك ويوفّر AI Firewall وسجل تدقيق وموافقات بشرية وملفات أدلة.' },
+  { q: 'كم ياخذ وقت التركيب؟', a: 'الـ Pilot يطلع خلال 30 يوم على قسم واحد. والنشر الكامل من 60 إلى 120 يوم حسب حجم الشركة.' },
+  { q: 'هل ينفع نركّب BrightAI On-Premise؟', a: 'نعم، BrightAI يدعم 3 أوضاع نشر: Cloud مستضاف داخل السعودية، Hybrid هجين، وAir-Gapped معزول بالكامل.' },
+  { q: 'وش الفرق بين BrightAI وشات بوت AI العادي؟', a: 'BrightAI مو شات بوت. هو نظام تشغيل أمان يركّب تحت أي نظام AI ويوفّر حماية بيانات وتدقيق وموافقات وأدلة — كلها متوافقة مع PDPL وNCA.' },
+];
+---
+<ArabicLayout title="خدمات حوكمة وأمان الذكاء الاصطناعي للمؤسسات | BrightAI" description="خدمات BrightAI تساعد الشركات السعودية على تقييم جاهزية الذكاء الاصطناعي، حماية البيانات، بناء سجلات تدقيق، إدارة الموافقات البشرية، وربط الاستخدام بضوابط امتثال واضحة." canonical="https://brightai.site/services/" hreflang={[{lang:'ar-SA',href:'https://brightai.site/services/'},{lang:'x-default',href:'https://brightai.site/services/'}]} jsonLd={{"@context":"https://schema.org","@type":"Service","name":"Saudi AI Safety OS Services","provider":{"@type":"Organization","name":"BrightAI","url":"https://brightai.site"},"areaServed":"SA"}} currentPath="/services/">
+<style is:global>@import '../../styles/inner-pages.css';</style>
+
+<section class="inner-hero" aria-label="خدمات BrightAI">
+  <BackgroundGrid />
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <Breadcrumbs crumbs={crumbs} />
+    <div class="inner-hero__badge"><iconify-icon icon="mdi:cogs"></iconify-icon> تنفيذ Saudi AI Safety OS للسوق السعودي</div>
+    <h1>خدمات تنفيذ <span class="home-gradient-text">Saudi AI Safety OS</span> داخل شركتك</h1>
+    <p class="inner-hero__desc">نركّب لك طبقة حماية وحوكمة تشغيلية متكاملة داخل المؤسسة: من تقييم جاهزية AI، لتصميم ضوابط الحماية والتدقيق والموافقة البشرية، ثم الربط الآمن مع أنظمتك الداخلية وتشغيل حالات الاستخدام.</p>
+    <div class="inner-hero__actions">
+      <a href="/contact/" class="home-glow-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-bold"><iconify-icon icon="mdi:calendar-check"></iconify-icon> ابدأ تقييم مجاني</a>
+      <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="home-wa-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white"><iconify-icon icon="mdi:whatsapp"></iconify-icon> تواصل عبر واتساب</a>
+    </div>
+  </div>
+</section>
+
+<section class="inner-section" aria-labelledby="service-paths">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <p class="inner-section__label">مسارات التنفيذ</p>
+    <h2 id="service-paths" class="inner-section__title">مسارات تنفيذ واضحة لنظام واحد</h2>
+    <p class="inner-section__lead">للفرق التي تحتاج AI قابل للتشغيل لا للاستعراض. مسار تنفيذ واضح من التقييم إلى التشغيل.</p>
+    <div class="inner-grid inner-grid--3">
+      {servicePaths.map(s => (
+        <a href={s.href} class="inner-card" style="text-decoration:none;">
+          <div class="inner-card__icon"><iconify-icon icon={s.icon}></iconify-icon></div>
+          <h3 class="inner-card__title">{s.title}</h3>
+          <p class="inner-card__text">{s.desc}</p>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="inner-section inner-section--alt" aria-labelledby="impl-steps">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <p class="inner-section__label">كيف نشتغل؟</p>
+    <h2 id="impl-steps" class="inner-section__title">مسار تنفيذ واضح من التقييم إلى التشغيل</h2>
+    <p class="inner-section__lead">لأن الشركات ما تحتاج ديمو جميل فقط؛ تحتاج طبقة تشغيل حقيقية.</p>
+    <div class="inner-grid inner-grid--4">
+      <div class="inner-card"><div class="text-cyan-400 font-bold text-lg mb-2">١</div><h3 class="inner-card__title">تقييم جاهزية AI</h3><p class="inner-card__text">نقيّم بيئتك الحالية، ونحدد الفجوات الأمنية والتنظيمية في استخدام AI.</p></div>
+      <div class="inner-card"><div class="text-cyan-400 font-bold text-lg mb-2">٢</div><h3 class="inner-card__title">تصميم الضوابط</h3><p class="inner-card__text">نصمّم سياسات الحماية والتدقيق والموافقات حسب قطاعك ومتطلبات الجهات التنظيمية.</p></div>
+      <div class="inner-card"><div class="text-cyan-400 font-bold text-lg mb-2">٣</div><h3 class="inner-card__title">الربط والنشر</h3><p class="inner-card__text">نربط النواة مع أنظمتك (ERP, CRM, HIS) وننفّذ الحل على بيئتك.</p></div>
+      <div class="inner-card"><div class="text-cyan-400 font-bold text-lg mb-2">٤</div><h3 class="inner-card__title">التشغيل والمتابعة</h3><p class="inner-card__text">نشغّل حالات الاستخدام ونراقب الأداء ونقدم تقارير دورية للإدارة والامتثال.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="inner-section" aria-labelledby="sector-sel">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <p class="inner-section__label">القطاعات</p>
+    <h2 id="sector-sel" class="inner-section__title">اختر المسار الأقرب لقطاعك وقرارك</h2>
+    <div class="inner-grid inner-grid--4">
+      <div class="inner-card"><iconify-icon class="inner-card__icon" icon="mdi:flask"></iconify-icon><h3 class="inner-card__title">المصانع الطبية</h3><p class="inner-card__text">SFDA · ISO 13485 · CAPA · المرفوضات</p></div>
+      <div class="inner-card"><iconify-icon class="inner-card__icon" icon="mdi:hospital-building"></iconify-icon><h3 class="inner-card__title">الرعاية الصحية</h3><p class="inner-card__text">أرشفة طبية · حماية بيانات المرضى</p></div>
+      <div class="inner-card"><iconify-icon class="inner-card__icon" icon="mdi:bank"></iconify-icon><h3 class="inner-card__title">الجهات الحكومية</h3><p class="inner-card__text">SDAIA · NCA · الخدمات الرقمية</p></div>
+      <div class="inner-card"><iconify-icon class="inner-card__icon" icon="mdi:coins"></iconify-icon><h3 class="inner-card__title">القطاع المالي</h3><p class="inner-card__text">SAMA · ZATCA · AML · الاحتيال</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="inner-section inner-section--alt" aria-labelledby="svc-faq">
+  <div class="max-w-4xl mx-auto px-5 lg:px-8">
+    <p class="inner-section__label">أسئلة شائعة</p>
+    <h2 id="svc-faq" class="inner-section__title">أسئلة شائعة عن Saudi AI Safety OS</h2>
+    <div class="inner-faq">
+      {faqItems.map((item, i) => (
+        <details open={i === 0}>
+          <summary><span>{item.q}</span><iconify-icon icon="mdi:chevron-down"></iconify-icon></summary>
+          <div class="inner-faq__answer"><p>{item.a}</p></div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="inner-cta-final">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <div class="inner-cta-final__card">
+      <h2 class="inner-cta-final__title">ابدأ تقييم جاهزية الذكاء الاصطناعي في شركتك</h2>
+      <p class="inner-cta-final__desc">كلمنا الآن واحصل على تقييم مجاني خلال 24 ساعة.</p>
+      <div class="inner-hero__actions" style="justify-content:center;">
+        <a href="/contact/" class="home-glow-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-bold"><iconify-icon icon="mdi:calendar-check"></iconify-icon> احجز جلسة تقييم</a>
+        <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="home-wa-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white"><iconify-icon icon="mdi:whatsapp"></iconify-icon> واتساب</a>
+      </div>
+    </div>
+  </div>
+</section>
+</ArabicLayout>

@@ -1,0 +1,81 @@
+---
+import ArabicLayout from '../../layouts/ArabicLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import BackgroundGrid from '../../components/BackgroundGrid.astro';
+const crumbs = [{ label: 'الرئيسية', href: '/' }, { label: 'الأسعار' }];
+const packages = [
+  { badge: '', name: 'Starter', desc: 'لقسم واحد أو Pilot مشروع أولي. مثالي للشركات اللي تبي تجرب AI Safety.', features: ['AI Firewall أساسي','سجل تدقيق مشفر','دعم فني عبر البريد','تقرير جاهزية مبدئي','PII Redaction تلقائي'] },
+  { badge: 'الأكثر طلباً', name: 'Business', desc: 'نشر على مستوى المؤسسة مع موافقات بشرية وأدلة امتثال كاملة.', features: ['كل مزايا Starter','Human Approval Layer','AI Evidence File PDF','لوحة تحكم مركزية','تكامل ERP/CRM/HIS','ضوابط NCA ECC وPDPL','تقارير امتثال دورية'] },
+  { badge: '', name: 'Enterprise', desc: 'نشر Air-Gapped مخصص مع SLA وSFDA وISO 42001 ودعم 24/7.', features: ['كل مزايا Business','نشر On-Premise / Air-Gapped','امتثال SFDA وISO 13485','ISO/IEC 42001 جاهز','مدير نجاح مخصص','SLA مخصص للشركة'] },
+];
+---
+<ArabicLayout title="أسعار BrightAI — باقات حوكمة وأمان الذكاء الاصطناعي | BrightAI" description="أسعار BrightAI مصممة حسب حجم شركتك واحتياجك. باقات Starter وBusiness وEnterprise مع عرض سعر مخصص خلال 24 ساعة عبر واتساب." canonical="https://brightai.site/pricing/" hreflang={[{lang:'ar-SA',href:'https://brightai.site/pricing/'},{lang:'x-default',href:'https://brightai.site/pricing/'}]} jsonLd={{"@context":"https://schema.org","@type":"WebPage","name":"أسعار BrightAI","description":"باقات حوكمة وأمان الذكاء الاصطناعي حسب حجم المؤسسة","url":"https://brightai.site/pricing/"} as any} currentPath="/pricing/">
+<style is:global>@import '../../styles/inner-pages.css';</style>
+
+<section class="inner-hero" aria-label="الأسعار">
+  <BackgroundGrid />
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <Breadcrumbs crumbs={crumbs} />
+    <div class="inner-hero__badge"><iconify-icon icon="mdi:tag-outline"></iconify-icon> باقات حسب حجم شركتك</div>
+    <h1>أسعار <span class="home-gradient-text">Saudi AI Safety OS</span></h1>
+    <p class="inner-hero__desc">باقات مصممة حسب حجم المؤسسة واحتياجك الفعلي. بدون أسعار خيالية — نعطيك عرض سعر مخصص خلال 24 ساعة بعد ما نفهم وضعك بالضبط.</p>
+    <div class="inner-hero__actions">
+      <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="home-glow-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-bold"><iconify-icon icon="mdi:whatsapp"></iconify-icon> اطلب عرض سعر خلال 24 ساعة</a>
+    </div>
+  </div>
+</section>
+
+<section class="inner-section" aria-labelledby="pricing-plans">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <h2 id="pricing-plans" class="inner-section__title text-center">اختر الباقة المناسبة</h2>
+    <p class="inner-section__lead text-center">كل باقة تشمل AI Safety OS Core. الفرق في حجم النشر وعدد المستخدمين ومستوى الامتثال.</p>
+    <div class="inner-grid inner-grid--3">
+      {packages.map((pkg, i) => (
+        <div class:list={['pricing-card', { 'pricing-card--featured': i === 1 }]}>
+          {pkg.badge && <span class="pricing-card__badge">{pkg.badge}</span>}
+          <h3 class="pricing-card__name">{pkg.name}</h3>
+          <p class="pricing-card__desc">{pkg.desc}</p>
+          <ul class="pricing-card__features">
+            {pkg.features.map(f => (
+              <li><iconify-icon icon="mdi:check-circle"></iconify-icon> {f}</li>
+            ))}
+          </ul>
+          <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="inner-form__submit" style="text-decoration:none;">اطلب عرض سعر</a>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="inner-section inner-section--alt" aria-labelledby="pricing-faq">
+  <div class="max-w-4xl mx-auto px-5 lg:px-8">
+    <h2 id="pricing-faq" class="inner-section__title text-center">أسئلة شائعة عن الأسعار</h2>
+    <div class="inner-faq">
+      <details open>
+        <summary><span>ليش ما نشرح الأسعار بالتفصيل هنا؟</span><iconify-icon icon="mdi:chevron-down"></iconify-icon></summary>
+        <div class="inner-faq__answer"><p>كل شركة مختلفة: عدد المستخدمين، القطاع، متطلبات الامتثال، نوع النشر (Cloud أو On-Premise). نعطيك عرض سعر دقيق خلال 24 ساعة بعد ما نفهم احتياجك.</p></div>
+      </details>
+      <details>
+        <summary><span>هل في فترة تجريبية مجانية؟</span><iconify-icon icon="mdi:chevron-down"></iconify-icon></summary>
+        <div class="inner-faq__answer"><p>نعم، نقدم Pilot مجاني لمدة 30 يوم على قسم واحد حتى تتأكد إن النظام يناسبك قبل ما تلتزم.</p></div>
+      </details>
+      <details>
+        <summary><span>هل الدفع سنوي أو شهري؟</span><iconify-icon icon="mdi:chevron-down"></iconify-icon></summary>
+        <div class="inner-faq__answer"><p>عندنا خيارات مرنة: سنوي مع خصم، أو شهري. تفاصيل الدفع تكون في عرض السعر المخصص.</p></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="inner-cta-final">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <div class="inner-cta-final__card">
+      <h2 class="inner-cta-final__title">جاهز تعرف كم يكلف حماية AI في شركتك؟</h2>
+      <p class="inner-cta-final__desc">اكتب لنا عبر واتساب وقولنا عن شركتك وقطاعك — نرجع لك بعرض سعر خلال 24 ساعة.</p>
+      <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="home-wa-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white">
+        <iconify-icon icon="mdi:whatsapp"></iconify-icon> تواصل عبر واتساب
+      </a>
+    </div>
+  </div>
+</section>
+</ArabicLayout>
