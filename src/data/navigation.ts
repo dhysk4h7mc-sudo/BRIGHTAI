@@ -1,0 +1,143 @@
+/**
+ * BrightAI — Navigation configuration
+ * Single source of truth for all navigation menus.
+ * All paths use trailing slash convention.
+ * Routes sourced from ROUTE-INVENTORY.md + actual file system audit.
+ */
+
+export interface NavItem {
+  label: string;
+  labelAr: string;
+  href: string;
+  children?: NavItem[];
+  /** Group heading inside dropdown (e.g., "Products" vs "Sectors") */
+  group?: string;
+  groupAr?: string;
+}
+
+export interface NavGroup {
+  label: string;
+  labelAr: string;
+  items: NavItem[];
+}
+
+export const NAV: NavItem[] = [
+  {
+    label: 'Solutions',
+    labelAr: 'الحلول',
+    href: '/solutions/',
+    children: [
+      // Products
+      { label: 'AI Governance Platform', labelAr: 'منصة حوكمة الذكاء الاصطناعي', href: '/solutions/ai-governance-platform/', group: 'Products', groupAr: 'المنتجات' },
+      { label: 'AI Firewall', labelAr: 'جدار حماية الذكاء الاصطناعي', href: '/solutions/ai-firewall/', group: 'Products', groupAr: 'المنتجات' },
+      { label: 'AI Audit Trail', labelAr: 'مسار تدقيق الذكاء الاصطناعي', href: '/solutions/ai-audit-trail/', group: 'Products', groupAr: 'المنتجات' },
+      { label: 'AI Evidence File', labelAr: 'ملف أدلة الذكاء الاصطناعي', href: '/solutions/ai-evidence-file/', group: 'Products', groupAr: 'المنتجات' },
+      { label: 'Human Approval Layer', labelAr: 'طبقة الموافقة البشرية', href: '/solutions/human-approval-layer/', group: 'Products', groupAr: 'المنتجات' },
+      { label: 'Continuous AI Governance', labelAr: 'الحوكمة المستمرة للذكاء الاصطناعي', href: '/solutions/continuous-ai-governance/', group: 'Products', groupAr: 'المنتجات' },
+      { label: 'AI Risk Classification', labelAr: 'تصنيف مخاطر الذكاء الاصطناعي', href: '/solutions/ai-risk-classification/', group: 'Products', groupAr: 'المنتجات' },
+      { label: 'AI Use Case Discovery', labelAr: 'اكتشاف حالات استخدام الذكاء الاصطناعي', href: '/solutions/ai-use-case-discovery/', group: 'Products', groupAr: 'المنتجات' },
+      { label: 'Policy-to-Control Mapping', labelAr: 'ربط السياسات بالضوابط', href: '/solutions/policy-to-control-mapping/', group: 'Products', groupAr: 'المنتجات' },
+      // Sectors
+      { label: 'Banking', labelAr: 'القطاع المصرفي', href: '/solutions/banking-ai-governance/', group: 'Sectors', groupAr: 'القطاعات' },
+      { label: 'Government', labelAr: 'القطاع الحكومي', href: '/solutions/government-ai-governance/', group: 'Sectors', groupAr: 'القطاعات' },
+      { label: 'Healthcare', labelAr: 'القطاع الصحي', href: '/solutions/healthcare-ai-governance/', group: 'Sectors', groupAr: 'القطاعات' },
+      { label: 'Manufacturing', labelAr: 'القطاع الصناعي', href: '/solutions/manufacturing-ai-governance/', group: 'Sectors', groupAr: 'القطاعات' },
+    ],
+  },
+  {
+    label: 'Kernel',
+    labelAr: 'كيرنل',
+    href: '/kernel/',
+    children: [
+      { label: 'Dashboard', labelAr: 'لوحة التحكم', href: '/kernel/' },
+      { label: 'Chat', labelAr: 'المحادثة', href: '/kernel/chat/' },
+      { label: 'Audit', labelAr: 'التدقيق', href: '/kernel/audit/' },
+      { label: 'Approvals', labelAr: 'الموافقات', href: '/kernel/approvals/' },
+      { label: 'Stats', labelAr: 'الإحصائيات', href: '/kernel/stats/' },
+      { label: 'Connectors', labelAr: 'الموصّلات', href: '/kernel/connectors/' },
+      { label: 'Scenarios', labelAr: 'السيناريوهات', href: '/kernel/scenarios/' },
+      { label: 'Policies', labelAr: 'السياسات', href: '/kernel/policies/' },
+      { label: 'Evidence', labelAr: 'الأدلة', href: '/kernel/evidence/' },
+      { label: 'Compliance', labelAr: 'الامتثال', href: '/kernel/compliance/' },
+      { label: 'Reports', labelAr: 'التقارير', href: '/kernel/reports/' },
+    ],
+  },
+  {
+    label: 'Resources',
+    labelAr: 'الموارد',
+    href: '/docs/',
+    children: [
+      { label: 'Documentation', labelAr: 'التوثيق', href: '/docs/' },
+      { label: 'Blog', labelAr: 'المدونة', href: '/blog/' },
+      { label: 'Hub', labelAr: 'المركز', href: '/hub/' },
+      { label: 'Trust Center', labelAr: 'مركز الثقة', href: '/trust/' },
+      { label: 'AI Governance Readiness Assessment', labelAr: 'تقييم جاهزية حوكمة الذكاء الاصطناعي', href: '/assessment/ai-governance-readiness/' },
+    ],
+  },
+  {
+    label: 'Pricing',
+    labelAr: 'الأسعار',
+    href: '/pricing/',
+  },
+];
+
+export const FOOTER_NAV = {
+  solutions: {
+    label: 'Solutions',
+    labelAr: 'الحلول',
+    items: [
+      { label: 'AI Governance Platform', labelAr: 'منصة حوكمة الذكاء الاصطناعي', href: '/solutions/ai-governance-platform/' },
+      { label: 'AI Firewall', labelAr: 'جدار حماية الذكاء الاصطناعي', href: '/solutions/ai-firewall/' },
+      { label: 'AI Audit Trail', labelAr: 'مسار التدقيق', href: '/solutions/ai-audit-trail/' },
+      { label: 'AI Evidence File', labelAr: 'ملف الأدلة', href: '/solutions/ai-evidence-file/' },
+      { label: 'Human Approval Layer', labelAr: 'طبقة الموافقة البشرية', href: '/solutions/human-approval-layer/' },
+      { label: 'Continuous AI Governance', labelAr: 'الحوكمة المستمرة', href: '/solutions/continuous-ai-governance/' },
+      { label: 'AI Risk Classification', labelAr: 'تصنيف المخاطر', href: '/solutions/ai-risk-classification/' },
+      { label: 'AI Use Case Discovery', labelAr: 'اكتشاف حالات الاستخدام', href: '/solutions/ai-use-case-discovery/' },
+      { label: 'Policy-to-Control Mapping', labelAr: 'ربط السياسات بالضوابط', href: '/solutions/policy-to-control-mapping/' },
+    ],
+  },
+  kernel: {
+    label: 'Kernel',
+    labelAr: 'كيرنل',
+    items: [
+      { label: 'Dashboard', labelAr: 'لوحة التحكم', href: '/kernel/' },
+      { label: 'Chat', labelAr: 'المحادثة', href: '/kernel/chat/' },
+      { label: 'Audit', labelAr: 'التدقيق', href: '/kernel/audit/' },
+      { label: 'Approvals', labelAr: 'الموافقات', href: '/kernel/approvals/' },
+      { label: 'Compliance', labelAr: 'الامتثال', href: '/kernel/compliance/' },
+      { label: 'Reports', labelAr: 'التقارير', href: '/kernel/reports/' },
+    ],
+  },
+  resources: {
+    label: 'Resources',
+    labelAr: 'الموارد',
+    items: [
+      { label: 'Documentation', labelAr: 'التوثيق', href: '/docs/' },
+      { label: 'Blog', labelAr: 'المدونة', href: '/blog/' },
+      { label: 'Hub', labelAr: 'المركز', href: '/hub/' },
+      { label: 'Trust Center', labelAr: 'مركز الثقة', href: '/trust/' },
+      { label: 'Assessment', labelAr: 'التقييم', href: '/assessment/ai-governance-readiness/' },
+      { label: 'Pricing', labelAr: 'الأسعار', href: '/pricing/' },
+    ],
+  },
+  legal: {
+    label: 'Legal',
+    labelAr: 'قانوني',
+    items: [
+      { label: 'Privacy Policy', labelAr: 'سياسة الخصوصية', href: '/privacy-policy/' },
+      { label: 'Cookie Policy', labelAr: 'سياسة الكوكيز', href: '/cookie-policy/' },
+      { label: 'Terms of Service', labelAr: 'شروط الخدمة', href: '/terms/' },
+      { label: 'PDPL Statement', labelAr: 'بيان حماية البيانات الشخصية', href: '/pdpl-statement/' },
+      { label: 'Data Processing Agreement', labelAr: 'اتفاقية معالجة البيانات', href: '/data-processing-agreement/' },
+    ],
+  },
+} as const;
+
+export const CTA_NAV: NavItem[] = [
+  {
+    label: 'Book Demo',
+    labelAr: 'احجز ديمو',
+    href: '/contact/',
+  },
+];

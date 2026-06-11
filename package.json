@@ -3,16 +3,18 @@
   "private": true,
   "type": "module",
   "engines": {
-    "node": ">=22 <23"
+    "node": ">=22"
   },
   "workspaces": [
     "frontend"
   ],
   "scripts": {
-    "dev": "echo 'Static site - open index.html in browser'",
+    "dev": "astro dev",
+    "dev:old": "echo 'Static site - open index.html in browser'",
     "dev:frontend": "npm run dev:frontend --workspace brightai-frontend",
     "dev:backend": "npm run dev --workspace brightai-frontend",
-    "build": "npm run build:assets",
+    "build": "astro build",
+    "build:old": "npm run build:assets",
     "build:frontend": "echo 'Static HTML site - no build needed'",
     "build:assets": "node scripts/build-tailwind-purged.mjs && node scripts/build-css-bundle.mjs && node scripts/minify-seo-assets.mjs && node scripts/replace-unminified-refs.mjs && node scripts/apply-css-bundle.mjs && node scripts/apply-production-audit-fixes.mjs && node scripts/sync-solution-faq-schema.mjs && node scripts/sync-docs-howto-schema.mjs",
     "build:css-bundle": "node scripts/build-css-bundle.mjs",
@@ -43,7 +45,8 @@
     "schema:docs:sync": "node scripts/sync-docs-howto-schema.mjs",
     "schema:docs:check": "node scripts/sync-docs-howto-schema.mjs --check",
     "verify:all": "node scripts/verify-all.mjs && node scripts/check-render-readiness.mjs && npm run sitemap:generate && npm run seo:schema && npm run seo:gate",
-    "clean": "rm -rf .next .render-static reports/",
+    "preview": "astro preview",
+    "clean": "rm -rf .next .render-static reports/ dist/",
     "tailwind:build": "node scripts/build-tailwind-purged.mjs",
     "assets:minify": "node scripts/minify-seo-assets.mjs",
     "assets:replace-refs": "node scripts/replace-unminified-refs.mjs",
@@ -96,6 +99,7 @@
     "@typescript-eslint/eslint-plugin": "^8.59.1",
     "@typescript-eslint/parser": "^8.59.1",
     "aos": "^2.3.4",
+    "astro": "^6.4.6",
     "cssnano": "^8.0.1",
     "docx": "^9.6.1",
     "eslint": "^9.17.0",

@@ -1,0 +1,171 @@
+/**
+ * BrightAI Mobile Styles
+ * Mobile-first overrides and touch optimizations.
+ * Base styles target 360px+; these refine for larger screens.
+ */
+
+/* ─── Mobile-first Base (360px+) ─── */
+
+/* Ensure no horizontal overflow */
+html,
+body {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+/* Touch targets minimum 44px */
+@media (pointer: coarse) {
+  a,
+  button,
+  [role="button"],
+  input[type="checkbox"],
+  input[type="radio"],
+  select {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  .btn {
+    min-height: 48px;
+  }
+
+  .nav__link {
+    min-height: 48px;
+  }
+}
+
+/* ─── Responsive Typography ─── */
+
+/* Mobile: 360px+ (base) */
+h1 { font-size: var(--text-4xl); }
+h2 { font-size: var(--text-3xl); }
+h3 { font-size: var(--text-2xl); }
+
+/* Tablet: 640px+ */
+@media (min-width: 640px) {
+  h1 { font-size: var(--text-5xl); }
+  h2 { font-size: var(--text-4xl); }
+
+  .section {
+    padding-block: var(--space-20);
+  }
+}
+
+/* Desktop: 1024px+ */
+@media (min-width: 1024px) {
+  .section {
+    padding-block: var(--space-24);
+  }
+
+  .page__main {
+    padding-top: var(--nav-height);
+  }
+}
+
+/* Large: 1280px+ */
+@media (min-width: 1280px) {
+  h1 { font-size: var(--text-6xl); }
+}
+
+/* ─── Mobile Navigation ─── */
+
+.nav__burger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  color: var(--text);
+  border-radius: var(--radius-md);
+}
+
+.nav__burger:hover {
+  background: var(--glass);
+}
+
+@media (min-width: 1024px) {
+  .nav__burger {
+    display: none;
+  }
+}
+
+/* ─── Mobile Spacing Adjustments ─── */
+
+@media (max-width: 639px) {
+  .hero {
+    padding-block: var(--space-12);
+  }
+
+  .hero__title {
+    font-size: var(--text-4xl);
+  }
+
+  .hero__description {
+    font-size: var(--text-lg);
+  }
+
+  .section__header {
+    margin-bottom: var(--space-8);
+  }
+
+  .glass-card {
+    padding: var(--space-4);
+  }
+
+  .container {
+    padding-inline: var(--space-4);
+  }
+
+  .footer__bottom {
+    text-align: center;
+  }
+
+  /* Stack comparison cards on mobile */
+  .comparison-card {
+    padding: var(--space-6);
+  }
+}
+
+/* ─── Safe Area (notch/gesture bar) ─── */
+
+@supports (padding: env(safe-area-inset-bottom)) {
+  .whatsapp-cta {
+    bottom: calc(var(--space-6) + env(safe-area-inset-bottom));
+  }
+
+  .footer {
+    padding-bottom: calc(var(--space-16) + env(safe-area-inset-bottom));
+  }
+
+  .mobile-menu {
+    padding-bottom: calc(var(--space-6) + env(safe-area-inset-bottom));
+  }
+}
+
+/* ─── Viewport height fixes ─── */
+
+@supports (height: 100dvh) {
+  .page {
+    min-height: 100dvh;
+  }
+}
+
+/* ─── Print styles ─── */
+
+@media print {
+  .nav,
+  .mobile-menu,
+  .whatsapp-cta,
+  .bg-grid {
+    display: none !important;
+  }
+
+  body {
+    background: white;
+    color: black;
+  }
+
+  .page__main {
+    padding-top: 0;
+  }
+}

@@ -1,0 +1,36 @@
+---
+/**
+ * ArabicLayout — Arabic (RTL) pages layout.
+ * Defaults: lang="ar", dir="rtl", locale ar-SA.
+ */
+import BaseLayout from './BaseLayout.astro';
+import type { SEOProps } from '../data/site';
+
+interface Props extends SEOProps {
+  currentPath?: string;
+}
+
+const {
+  title,
+  description,
+  canonical,
+  hreflang = [],
+  ogImage,
+  jsonLd,
+  currentPath = '/',
+} = Astro.props;
+---
+
+<BaseLayout
+  lang="ar"
+  dir="rtl"
+  title={title}
+  description={description}
+  canonical={canonical}
+  hreflang={hreflang}
+  ogImage={ogImage}
+  jsonLd={jsonLd}
+  currentPath={currentPath}
+>
+  <slot />
+</BaseLayout>

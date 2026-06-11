@@ -1,0 +1,44 @@
+---
+/**
+ * Breadcrumbs — Accessible breadcrumb navigation with Schema.org markup.
+ */
+import { SITE } from '../data/site';
+
+interface Crumb {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  crumbs: Crumb[];
+}
+
+const { crumbs } = Astro.props;
+
+const schemaItems = crumbs.map((crumb, i) => ({
+  '@type': 'ListItem',
+  position: i + 1,
+  name: crumb.label,
+  ...(crumb.href ? { item: `${SITE.url}${crumb.href}` } : {}),
+}));
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: schemaItems,
+};
+---
+
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+  {crumbs.map((crumb, i) => (
+    <>
+      {i > 0 && <span class="breadcrumbs__sep" aria-hidden="true">/</span>}
+      {crumb.href ? (
+        <a href={crumb.href} class="breadcrumbs__link">{crumb.label}</a>
+      ) : (
+        <span class="breadcrumbs__current" aria-current="page">{crumb.label}</span>
+      )}
+    </>
+  ))}
+</nav>

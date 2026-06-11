@@ -1,0 +1,82 @@
+---
+/**
+ * KernelLayout — Dashboard-style layout for /kernel/ pages.
+ * Arabic RTL default. Includes sidebar placeholder.
+ */
+import SEOHead from '../components/SEOHead.astro';
+import WhatsAppCTA from '../components/WhatsAppCTA.astro';
+import type { SEOProps } from '../data/site';
+
+interface Props extends SEOProps {
+  currentPath?: string;
+}
+
+const {
+  title,
+  description,
+  canonical,
+  hreflang = [],
+  ogImage,
+  jsonLd,
+  currentPath = '/kernel/',
+} = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+  <SEOHead
+    title={title}
+    description={description}
+    canonical={canonical}
+    hreflang={hreflang}
+    ogImage={ogImage}
+    jsonLd={jsonLd}
+  />
+
+  <style is:global>
+    @import '../styles/global.css';
+    @import '../styles/layout.css';
+    @import '../styles/components.css';
+    @import '../styles/animations.css';
+    @import '../styles/mobile.css';
+  </style>
+</head>
+<body>
+  <div class="page">
+    <!-- Kernel top bar -->
+    <header class="nav">
+      <div class="nav__inner">
+        <a href="/kernel/" class="nav__logo">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <rect width="32" height="32" rx="8" fill="var(--brand)" />
+            <path d="M8 16L14 10L16 12L12 16L16 20L14 22L8 16Z" fill="var(--bg)" />
+            <path d="M24 16L18 22L16 20L20 16L16 12L18 10L24 16Z" fill="var(--bg)" />
+          </svg>
+          <span>Kernel</span>
+        </a>
+        <nav class="nav__links" aria-label="Kernel navigation">
+          <a href="/kernel/chat/" class="nav__link">المحادثة</a>
+          <a href="/kernel/audit/" class="nav__link">التدقيق</a>
+          <a href="/kernel/approvals/" class="nav__link">الموافقات</a>
+          <a href="/kernel/compliance/" class="nav__link">الامتثال</a>
+          <a href="/kernel/reports/" class="nav__link">التقارير</a>
+        </nav>
+        <a href="/" class="btn btn--ghost btn--sm">الموقع الرئيسي</a>
+      </div>
+    </header>
+
+    <main id="main-content" class="page__main">
+      <slot />
+    </main>
+  </div>
+
+  <WhatsAppCTA lang="ar" />
+</body>
+</html>

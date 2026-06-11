@@ -1,0 +1,390 @@
+---
+/**
+ * MobileNav — Full-screen slide-in mobile navigation overlay.
+ * Controlled by Header burger button via data-mobile-toggle.
+ * Features: Accordion sub-menus, touch targets ≥44px, keyboard nav, Escape close.
+ */
+import { NAV, CTA_NAV } from '../data/navigation';
+import { SITE } from '../data/site';
+
+interface Props {
+  lang?: 'ar' | 'en';
+  currentPath?: string;
+}
+
+const { lang = 'ar', currentPath = '/' } = Astro.props;
+const isAr = lang === 'ar';
+
+function isActive(href: string): boolean {
+  if (href === '/') return currentPath === '/';
+  return currentPath.startsWith(href);
+}
+---
+
+<div id="mobile-menu" class="mobile-menu" role="dialog" aria-label={isAr ? 'القائمة' : 'Menu'} aria-hidden="true">
+  <!-- Header: close button -->
+  <div class="mobile-menu__header">
+    <a href={isAr ? '/' : '/en/'} class="mobile-menu__logo" aria-label="BrightAI Home">
+      <svg width="28" height="28" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <rect width="32" height="32" rx="8" fill="var(--brand)" />
+        <path d="M8 16L14 10L16 12L12 16L16 20L14 22L8 16Z" fill="var(--bg)" />
+        <path d="M24 16L18 22L16 20L20 16L16 12L18 10L24 16Z" fill="var(--bg)" />
+      </svg>
+      <span>BrightAI</span>
+    </a>
+    <button class="mobile-menu__close" aria-label={isAr ? 'إغلاق' : 'Close'} data-mobile-close>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M6 6L18 18M18 6L6 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Nav links with accordion sub-menus -->
+  <nav class="mobile-menu__nav" aria-label={isAr ? 'القائمة الرئيسية' : 'Main navigation'}>
+    {NAV.map((item, idx) => (
+      <div class="mobile-menu__item">
+        {item.children ? (
+          <>
+            <button
+              class:list={[
+                'mobile-menu__accordion-trigger',
+                { 'mobile-menu__accordion-trigger--active': isActive(item.href) },
+              ]}
+              aria-expanded="false"
+              aria-controls={`mobile-accordion-${idx}`}
+              data-accordion-trigger
+            >
+              <span>{isAr ? item.labelAr : item.label}</span>
+              <svg class="mobile-menu__accordion-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </button>
+            <div
+              id={`mobile-accordion-${idx}`}
+              class="mobile-menu__accordion-panel"
+              role="region"
+              aria-label={isAr ? item.labelAr : item.label}
+              data-accordion-panel
+            >
+              <a
+                href={item.href}
+                class:list={[
+                  'mobile-menu__sub-link',
+                  'mobile-menu__sub-link--overview',
+                  { 'mobile-menu__sub-link--active': currentPath === item.href },
+                ]}
+              >
+                {isAr ? `نظرة عامة — ${item.labelAr}` : `Overview — ${item.label}`}
+              </a>
+              {item.children.map((child) => (
+                <a
+                  href={child.href}
+                  class:list={[
+                    'mobile-menu__sub-link',
+                    { 'mobile-menu__sub-link--active': currentPath === child.href },
+                  ]}
+                >
+                  {isAr ? child.labelAr : child.label}
+                </a>
+              ))}
+            </div>
+          </>
+        ) : (
+          <a
+            href={item.href}
+            class:list={[
+              'mobile-menu__link',
+              { 'mobile-menu__link--active': isActive(item.href) },
+            ]}
+          >
+            {isAr ? item.labelAr : item.label}
+          </a>
+        )}
+      </div>
+    ))}
+  </nav>
+
+  <!-- CTAs -->
+  <div class="mobile-menu__ctas">
+    {CTA_NAV.map((item) => (
+      <a href={item.href} class="btn btn--primary mobile-menu__cta-btn">
+        {isAr ? item.labelAr : item.label}
+      </a>
+    ))}
+
+    <!-- WhatsApp -->
+    <a
+      href={`${SITE.whatsapp.url}?text=${encodeURIComponent(isAr ? SITE.whatsapp.message.ar : SITE.whatsapp.message.en)}`}
+      class="btn btn--secondary mobile-menu__cta-btn"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+      </svg>
+      {isAr ? 'تواصل عبر واتساب' : 'Chat on WhatsApp'}
+    </a>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const menu = document.getElementById('mobile-menu') as HTMLDivElement | null;
+    const toggle = document.querySelector('[data-mobile-toggle]') as HTMLButtonElement | null;
+    const close = document.querySelector('[data-mobile-close]') as HTMLButtonElement | null;
+
+    if (!menu || !toggle) return;
+
+    const open = () => {
+      menu.classList.add('mobile-menu--open');
+      menu.setAttribute('aria-hidden', 'false');
+      toggle.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+      // Focus first focusable element
+      const first = menu.querySelector<HTMLElement>('a, button');
+      first?.focus();
+    };
+
+    const shut = () => {
+      menu.classList.remove('mobile-menu--open');
+      menu.setAttribute('aria-hidden', 'true');
+      toggle.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+      toggle.focus();
+    };
+
+    toggle.addEventListener('click', open);
+    if (close) close.addEventListener('click', shut);
+
+    // Escape to close
+    menu.addEventListener('keydown', (e: KeyboardEvent) => {
+      if (e.key === 'Escape') shut();
+    });
+
+    // Accordion
+    menu.querySelectorAll('[data-accordion-trigger]').forEach((trigger) => {
+      trigger.addEventListener('click', () => {
+        const panel = trigger.nextElementSibling as HTMLElement | null;
+        if (!panel) return;
+
+        const isOpen = trigger.getAttribute('aria-expanded') === 'true';
+
+        // Close all other panels
+        menu.querySelectorAll('[data-accordion-trigger]').forEach((other) => {
+          if (other !== trigger) {
+            other.setAttribute('aria-expanded', 'false');
+            const otherPanel = other.nextElementSibling as HTMLElement | null;
+            if (otherPanel) otherPanel.style.maxHeight = '0';
+          }
+        });
+
+        if (isOpen) {
+          trigger.setAttribute('aria-expanded', 'false');
+          panel.style.maxHeight = '0';
+        } else {
+          trigger.setAttribute('aria-expanded', 'true');
+          panel.style.maxHeight = panel.scrollHeight + 'px';
+        }
+      });
+    });
+
+    // Auto-open accordion containing the active page
+    menu.querySelectorAll('[data-accordion-trigger]').forEach((trigger) => {
+      const panel = trigger.nextElementSibling as HTMLElement | null;
+      if (!panel) return;
+      const activeLink = panel.querySelector('.mobile-menu__sub-link--active');
+      if (activeLink) {
+        trigger.setAttribute('aria-expanded', 'true');
+        panel.style.maxHeight = panel.scrollHeight + 'px';
+      }
+    });
+  });
+</script>
+
+<style>
+  .mobile-menu {
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-modal, 300);
+    background: var(--bg);
+    overflow-y: auto;
+    transform: translateX(100%);
+    transition: transform var(--duration-normal) var(--ease-out);
+    padding: var(--space-4);
+    display: flex;
+    flex-direction: column;
+  }
+
+  [dir="rtl"] .mobile-menu {
+    transform: translateX(-100%);
+  }
+
+  .mobile-menu--open {
+    transform: translateX(0) !important;
+  }
+
+  .mobile-menu__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-6);
+  }
+
+  .mobile-menu__logo {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    text-decoration: none;
+    color: var(--text);
+    font-weight: var(--weight-bold);
+    font-size: var(--text-lg);
+    min-height: 44px;
+  }
+
+  .mobile-menu__close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border: none;
+    background: var(--glass);
+    color: var(--text);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: background var(--duration-fast) var(--ease-out);
+  }
+
+  .mobile-menu__close:hover { background: var(--glass-hover); }
+  .mobile-menu__close:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+
+  /* Nav */
+  .mobile-menu__nav {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mobile-menu__item {
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* Top-level link (no children) */
+  .mobile-menu__link {
+    display: flex;
+    align-items: center;
+    min-height: 56px;
+    padding-block: var(--space-3);
+    padding-inline: var(--space-2);
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: var(--text-lg);
+    font-weight: var(--weight-medium);
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+
+  .mobile-menu__link:hover,
+  .mobile-menu__link:focus-visible {
+    color: var(--text);
+  }
+
+  .mobile-menu__link--active { color: var(--brand); }
+  .mobile-menu__link:focus-visible { outline: 2px solid var(--brand); outline-offset: -2px; }
+
+  /* Accordion trigger */
+  .mobile-menu__accordion-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    min-height: 56px;
+    padding-inline: var(--space-2);
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: var(--text-lg);
+    font-weight: var(--weight-medium);
+    font-family: inherit;
+    cursor: pointer;
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+
+  .mobile-menu__accordion-trigger:hover,
+  .mobile-menu__accordion-trigger:focus-visible {
+    color: var(--text);
+  }
+
+  .mobile-menu__accordion-trigger--active { color: var(--brand); }
+  .mobile-menu__accordion-trigger:focus-visible { outline: 2px solid var(--brand); outline-offset: -2px; }
+
+  .mobile-menu__accordion-chevron {
+    transition: transform var(--duration-fast) var(--ease-out);
+    flex-shrink: 0;
+  }
+
+  .mobile-menu__accordion-trigger[aria-expanded="true"] .mobile-menu__accordion-chevron {
+    transform: rotate(180deg);
+  }
+
+  /* Accordion panel */
+  .mobile-menu__accordion-panel {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height var(--duration-normal) var(--ease-out);
+  }
+
+  .mobile-menu__sub-link {
+    display: flex;
+    align-items: center;
+    min-height: 48px;
+    padding-block: var(--space-2);
+    padding-inline: var(--space-6);
+    color: var(--muted);
+    text-decoration: none;
+    font-size: var(--text-base);
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+
+  .mobile-menu__sub-link:hover,
+  .mobile-menu__sub-link:focus-visible {
+    color: var(--text);
+  }
+
+  .mobile-menu__sub-link--active { color: var(--brand); }
+  .mobile-menu__sub-link--overview {
+    font-weight: var(--weight-semibold);
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border);
+    margin-bottom: var(--space-1);
+  }
+
+  .mobile-menu__sub-link:focus-visible {
+    outline: 2px solid var(--brand);
+    outline-offset: -2px;
+  }
+
+  /* CTAs */
+  .mobile-menu__ctas {
+    margin-top: auto;
+    padding-top: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .mobile-menu__cta-btn {
+    justify-content: center;
+    min-height: 48px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mobile-menu { transition: none; }
+    .mobile-menu__accordion-panel { transition: none; }
+    .mobile-menu__accordion-chevron { transition: none; }
+  }
+
+  /* Hide on desktop */
+  @media (min-width: 1024px) {
+    .mobile-menu { display: none !important; }
+  }
+</style>

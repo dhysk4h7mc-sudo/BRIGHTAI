@@ -1,0 +1,278 @@
+---
+/**
+ * Footer — Site-wide footer with navigation columns, legal links,
+ * WhatsApp, language switcher (ar/en), and Saudi branding.
+ */
+import { FOOTER_NAV } from '../data/navigation';
+import { SITE } from '../data/site';
+
+interface Props {
+  lang?: 'ar' | 'en';
+  currentPath?: string;
+}
+
+const { lang = 'ar', currentPath = '/' } = Astro.props;
+const isAr = lang === 'ar';
+const year = new Date().getFullYear();
+
+const footerSections = Object.values(FOOTER_NAV);
+
+/**
+ * Build language switch URL.
+ * If current page is Arabic, switch to English equivalent and vice versa.
+ */
+function getLangSwitchUrl(): string {
+  if (isAr) {
+    // Arabic → English: prepend /en/ to current path
+    return '/en/' + currentPath.replace(/^\//, '');
+  }
+  // English → Arabic: remove /en/ prefix
+  return currentPath.replace(/^\/en\/?/, '/') || '/';
+}
+---
+
+<footer class="footer" role="contentinfo">
+  <div class="container">
+    <div class="footer__grid">
+      <!-- Brand column -->
+      <div class="footer__brand">
+        <a href={isAr ? '/' : '/en/'} class="footer__logo" aria-label="BrightAI Home">
+          <svg width="28" height="28" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <rect width="32" height="32" rx="8" fill="var(--brand)" />
+            <path d="M8 16L14 10L16 12L12 16L16 20L14 22L8 16Z" fill="var(--bg)" />
+            <path d="M24 16L18 22L16 20L20 16L16 12L18 10L24 16Z" fill="var(--bg)" />
+          </svg>
+          <span>BrightAI</span>
+        </a>
+        <p class="footer__tagline">
+          {isAr
+            ? 'نظام حماية الذكاء الاصطناعي السعودي — حوكمة، امتثال، وأمان للمؤسسات.'
+            : 'Saudi AI Safety OS — Governance, compliance, and security for enterprises.'}
+        </p>
+
+        <!-- WhatsApp link -->
+        <a
+          href={`${SITE.whatsapp.url}?text=${encodeURIComponent(isAr ? SITE.whatsapp.message.ar : SITE.whatsapp.message.en)}`}
+          class="footer__whatsapp"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={isAr ? 'تواصل معنا عبر واتساب' : 'Chat on WhatsApp'}
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+          </svg>
+          <span>{isAr ? 'تواصل عبر واتساب' : 'Chat on WhatsApp'}</span>
+        </a>
+
+        <!-- Language Switcher -->
+        <div class="footer__lang">
+          <span class="footer__lang-label">{isAr ? 'اللغة' : 'Language'}:</span>
+          <a
+            href={getLangSwitchUrl()}
+            class="footer__lang-switch"
+            aria-label={isAr ? 'Switch to English' : 'التبديل إلى العربية'}
+          >
+            {isAr ? 'English' : 'العربية'}
+          </a>
+        </div>
+      </div>
+
+      <!-- Nav columns -->
+      {footerSections.map((section) => (
+        <div class="footer__col">
+          <h4 class="footer__heading">{isAr ? section.labelAr : section.label}</h4>
+          <nav aria-label={isAr ? section.labelAr : section.label}>
+            {section.items.map((item) => (
+              <a href={item.href} class="footer__link">
+                {isAr ? item.labelAr : item.label}
+              </a>
+            ))}
+          </nav>
+        </div>
+      ))}
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="footer__bottom">
+      <p class="footer__copy">
+        © {year} {SITE.name}. {isAr ? 'جميع الحقوق محفوظة.' : 'All rights reserved.'}
+      </p>
+      <div class="footer__bottom-right">
+        <span class="footer__made-in">🇸🇦 {isAr ? 'صنع في السعودية' : 'Made in Saudi Arabia'}</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: var(--bg-elevated);
+    border-top: 1px solid var(--border);
+    padding-block: var(--space-16) var(--space-8);
+    margin-top: auto;
+  }
+
+  .footer__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+  }
+
+  @media (min-width: 640px) {
+    .footer__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .footer__grid {
+      grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+      gap: var(--space-8);
+    }
+  }
+
+  /* Brand column */
+  .footer__brand {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .footer__logo {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    text-decoration: none;
+    color: var(--text);
+    font-weight: var(--weight-bold);
+    font-size: var(--text-lg);
+  }
+
+  .footer__tagline {
+    color: var(--muted);
+    font-size: var(--text-sm);
+    max-width: 320px;
+    line-height: var(--leading-relaxed);
+    margin: 0;
+  }
+
+  .footer__whatsapp {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--success);
+    text-decoration: none;
+    font-size: var(--text-sm);
+    font-weight: var(--weight-medium);
+    padding: var(--space-2) 0;
+    min-height: 44px;
+    transition: opacity var(--duration-fast) var(--ease-out);
+  }
+
+  .footer__whatsapp:hover { opacity: 0.85; }
+  .footer__whatsapp:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; border-radius: var(--radius-md); }
+
+  /* Language Switcher */
+  .footer__lang {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-top: var(--space-2);
+  }
+
+  .footer__lang-label {
+    font-size: var(--text-sm);
+    color: var(--muted);
+  }
+
+  .footer__lang-switch {
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    color: var(--brand);
+    text-decoration: none;
+    padding: var(--space-1) var(--space-3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    transition: border-color var(--duration-fast) var(--ease-out),
+                background var(--duration-fast) var(--ease-out);
+  }
+
+  .footer__lang-switch:hover {
+    border-color: var(--brand);
+    background: var(--brand-subtle);
+  }
+
+  .footer__lang-switch:focus-visible {
+    outline: 2px solid var(--brand);
+    outline-offset: 2px;
+  }
+
+  /* Nav columns */
+  .footer__col {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .footer__heading {
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    color: var(--text);
+    margin: 0 0 var(--space-3) 0;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .footer__link {
+    display: block;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: var(--text-sm);
+    padding-block: var(--space-1);
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+
+  .footer__link:hover { color: var(--text); }
+  .footer__link:focus-visible { outline: 2px solid var(--brand); outline-offset: -2px; border-radius: var(--radius-sm); }
+
+  /* Bottom bar */
+  .footer__bottom {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    align-items: center;
+    justify-content: space-between;
+    margin-top: var(--space-12);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--border);
+  }
+
+  @media (min-width: 640px) {
+    .footer__bottom {
+      flex-direction: row;
+    }
+  }
+
+  .footer__copy {
+    font-size: var(--text-sm);
+    color: var(--muted);
+    margin: 0;
+  }
+
+  .footer__bottom-right {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .footer__made-in {
+    font-size: var(--text-sm);
+    color: var(--muted);
+  }
+</style>

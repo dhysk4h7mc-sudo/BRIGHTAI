@@ -1,0 +1,68 @@
+---
+/**
+ * SEOHead — Complete SEO meta tags for every page.
+ * Props: title, description, canonical, hreflang, ogImage, jsonLd
+ * Always: robots no noindex, Google tag G-8LLESL207Q, canonical self-reference.
+ */
+import { SITE } from '../data/site';
+import type { SEOProps } from '../data/site';
+
+interface Props extends SEOProps {}
+
+const {
+  title,
+  description,
+  canonical,
+  hreflang = [],
+  ogImage = SITE.ogImage,
+  jsonLd,
+} = Astro.props;
+
+const fullOgImage = ogImage.startsWith('http') ? ogImage : `${SITE.url}${ogImage}`;
+const siteName = SITE.name;
+---
+
+<!-- Primary Meta Tags -->
+<title>{title}</title>
+<meta name="description" content={description} />
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+<link rel="canonical" href={canonical} />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content={canonical} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={fullOgImage} />
+<meta property="og:site_name" content={siteName} />
+<meta property="og:locale" content={Astro.currentLocale === 'en' ? 'en_SA' : 'ar_SA'} />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:url" content={canonical} />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={fullOgImage} />
+
+<!-- Hreflang -->
+{hreflang.map((link) => (
+  <link rel="alternate" hreflang={link.lang} href={link.href} />
+))}
+<link rel="alternate" hreflang="x-default" href={canonical} />
+
+<!-- JSON-LD Structured Data -->
+{jsonLd && (
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+)}
+
+<!-- Google Analytics (gtag.js) -->
+<script is:inline src={`https://www.googletagmanager.com/gtag/js?id=${SITE.googleTagId}`} async></script>
+<script is:inline set:html={`
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', '${SITE.googleTagId}', {
+    page_path: window.location.pathname,
+    anonymize_ip: true
+  });
+`} async></script>
