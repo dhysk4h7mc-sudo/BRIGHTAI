@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "canonical": {
+      "type": "string",
+      "format": "uri"
+    },
+    "pubDate": {
+      "type": "string"
+    },
+    "updatedDate": {
+      "type": "string"
+    },
+    "author": {
+      "type": "string"
+    },
+    "slug": {
+      "type": "string"
+    },
+    "readingTime": {
+      "type": "number"
+    },
+    "$schema": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "title",
+    "description",
+    "canonical",
+    "pubDate",
+    "updatedDate",
+    "author",
+    "slug",
+    "readingTime"
+  ]
+}

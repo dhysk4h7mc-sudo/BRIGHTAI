@@ -1,0 +1,26 @@
+---
+interface Heading {
+  depth: 2 | 3;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  headings: Heading[];
+}
+
+const { headings } = Astro.props;
+---
+
+{headings.length > 0 && (
+  <nav class="docs-toc" aria-labelledby="docs-toc-title">
+    <p id="docs-toc-title" class="docs-toc__title">في هذه الوثيقة</p>
+    <ol class="docs-toc__list">
+      {headings.map((heading) => (
+        <li class:list={['docs-toc__item', heading.depth === 3 && 'docs-toc__item--nested']}>
+          <a href={`#${heading.slug}`}>{heading.text}</a>
+        </li>
+      ))}
+    </ol>
+  </nav>
+)}

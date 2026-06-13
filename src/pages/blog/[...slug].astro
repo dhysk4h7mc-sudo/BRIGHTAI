@@ -1,0 +1,48 @@
+---
+/**
+ * Blog article dynamic page — /blog/<slug>/
+ * Uses data from src/data/blog.ts + content from src/content/blog/*.md
+ */
+import BlogLayout from '../../layouts/BlogLayout.astro';
+import { posts, getRelatedPosts, type BlogPost } from '../../data/blog';
+import { getCollection } from 'astro:content';
+import { SITE } from '../../data/site';
+
+export async function getStaticPaths() {
+  // Get all blog content files
+  const blogEntries = await getCollection('blog');
+
+  return blogEntries.map(entry => ({
+    params: { slug: entry.data.slug || entry.id.replace(/\.md$/, '') },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const slug = entry.data.slug || entry.id.replace(/\.md$/, '');
+
+// Find matching post metadata from data file
+const post = posts.find(p => p.slug === slug);
+
+if (!post) {
+  return Astro.redirect('/blog/');
+}
+
+const relatedPosts = getRelatedPosts(slug);
+const body = entry.body || '';
+
+// BreadcrumbList JSON-LD
+const breadcrumbLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'الرئيسية', item: `${SITE.url}/` },
+    { '@type': 'ListItem', position: 2, name: 'المدونة', item: `${SITE.url}/blog/` },
+    { '@type': 'ListItem', position: 3, name: post.title, item: post.canonical },
+  ],
+};
+---
+
+<BlogLayout post={post} body={body} relatedPosts={relatedPosts}>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLd)} />
+</BlogLayout>

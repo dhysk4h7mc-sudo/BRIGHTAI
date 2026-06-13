@@ -1,0 +1,408 @@
+---
+/**
+ * BlogLayout — Blog article page layout.
+ * Used by src/pages/blog/[slug].astro
+ * Injects BlogPosting + BreadcrumbList JSON-LD.
+ */
+import ArabicLayout from './ArabicLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import RelatedPosts from '../components/RelatedPosts.astro';
+import { SITE } from '../data/site';
+import type { BlogPost } from '../data/blog';
+
+interface Props {
+  post: BlogPost;
+  body: string;
+  relatedPosts: BlogPost[];
+}
+
+const { post, body, relatedPosts } = Astro.props;
+
+const blogPostingLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  '@id': `${post.canonical}#blogposting`,
+  headline: post.title,
+  description: post.description,
+  image: `${SITE.url}${post.ogImage}`,
+  datePublished: post.pubDate,
+  dateModified: post.updatedDate,
+  inLanguage: 'ar-SA',
+  author: {
+    '@type': 'Person',
+    name: post.author.name,
+    url: post.author.url,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'BrightAI',
+    url: SITE.url,
+    logo: { '@type': 'ImageObject', url: `${SITE.url}/logo.png` },
+  },
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': post.canonical,
+  },
+  articleSection: post.category,
+  keywords: post.tags.join(', '),
+};
+
+// Combine with any additional JSON-LD
+const jsonLd = blogPostingLd;
+---
+
+<ArabicLayout
+  title={`${post.title} | BrightAI`}
+  description={post.description}
+  canonical={post.canonical}
+  hreflang={[{ lang: 'ar-SA', href: post.canonical }]}
+  ogImage={post.ogImage}
+  jsonLd={jsonLd}
+  currentPath={`/blog/${post.slug}/`}
+>
+  <style is:global>
+    .blog-shell {
+      width: min(100% - 2rem, 52rem);
+      margin-inline: auto;
+      padding-block: 2rem 5rem;
+    }
+    .blog-breadcrumbs { margin-block-end: 1.5rem; }
+
+    .blog-hero {
+      padding-block: 1rem 2rem;
+      border-block-end: 1px solid rgba(148, 163, 184, 0.12);
+      margin-block-end: 2rem;
+    }
+    .blog-hero__category {
+      margin: 0 0 0.5rem;
+      color: var(--brand, #00d4aa);
+      font-size: 0.8125rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+    }
+    .blog-hero h1 {
+      margin: 0;
+      color: var(--fg, #f8fafc);
+      font-size: clamp(1.75rem, 4.5vw, 2.75rem);
+      line-height: 1.3;
+    }
+    .blog-hero__meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-block-start: 1rem;
+      font-size: 0.8125rem;
+      color: var(--fg-muted, #94a3b8);
+    }
+    .blog-hero__meta a {
+      color: var(--brand, #00d4aa);
+      text-decoration: none;
+    }
+    .blog-hero__meta a:hover { text-decoration: underline; }
+    .blog-hero__tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-block-start: 1rem;
+    }
+    .blog-hero__tag {
+      padding: 0.25rem 0.75rem;
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      border-radius: 999px;
+      font-size: 0.75rem;
+      color: var(--fg-muted, #94a3b8);
+      background: rgba(15, 23, 42, 0.5);
+    }
+
+    /* "Last updated" banner */
+    .blog-updated {
+      margin-block-end: 1.5rem;
+      padding: 0.75rem 1rem;
+      border: 1px solid color-mix(in srgb, var(--brand, #00d4aa) 25%, transparent);
+      border-inline-start: 3px solid var(--brand, #00d4aa);
+      border-radius: 0.75rem;
+      background: color-mix(in srgb, var(--brand, #00d4aa) 6%, transparent);
+      font-size: 0.8125rem;
+      color: var(--fg-muted, #94a3b8);
+    }
+
+    /* Article content styles */
+    .blog-content {
+      color: var(--fg-muted, #cbd5e1);
+      line-height: 1.9;
+    }
+    .blog-content :where(h2) {
+      color: var(--fg, #f8fafc);
+      margin: 2.5rem 0 1rem;
+      font-size: clamp(1.3rem, 2.5vw, 1.75rem);
+      line-height: 1.4;
+      padding-inline-end: 0;
+      border-inline-end: none;
+    }
+    .blog-content :where(h3) {
+      color: var(--fg, #f8fafc);
+      margin: 2rem 0 0.75rem;
+      font-size: 1.2rem;
+      line-height: 1.5;
+    }
+    .blog-content :where(h4) {
+      color: var(--fg, #f8fafc);
+      margin: 1.5rem 0 0.5rem;
+      font-size: 1.05rem;
+    }
+    .blog-content :where(p) {
+      margin-block-end: 1.2rem;
+      max-width: 52rem;
+    }
+    .blog-content :where(a) {
+      color: #67e8f9;
+      text-underline-offset: 0.2em;
+    }
+    .blog-content :where(ul, ol) {
+      margin-block-end: 1.5rem;
+      padding-inline-start: 1.5rem;
+    }
+    .blog-content :where(li) {
+      margin-block-end: 0.5rem;
+      line-height: 2;
+    }
+    .blog-content :where(li)::marker {
+      color: var(--brand, #00d4aa);
+    }
+
+    /* Short answer box */
+    .blog-content .short-answer-box,
+    .short-answer-box {
+      margin-block: 1rem 2rem;
+      padding: 1.5rem;
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      border-inline-start: 4px solid var(--brand, #00d4aa);
+      border-radius: 1rem;
+      background: rgba(15, 23, 42, 0.58);
+    }
+    .short-answer-box h2 {
+      color: var(--brand, #00d4aa) !important;
+      font-size: 1.1rem !important;
+      margin: 0 0 0.75rem !important;
+    }
+    .short-answer-box p {
+      color: var(--fg-muted, #94a3b8);
+      line-height: 1.9;
+      margin: 0 !important;
+    }
+
+    /* Risk/solution/step cards */
+    .blog-content :where(.risk-grid, .solutions-grid) {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.25rem;
+      margin-block: 1.5rem;
+    }
+    .blog-content :where(.risk-card, .solution-card) {
+      padding: 1.5rem;
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      border-radius: 1rem;
+      background: rgba(15, 23, 42, 0.55);
+    }
+    .blog-content .step-item {
+      display: flex;
+      gap: 1.25rem;
+      padding: 1.25rem;
+      margin-block-end: 1rem;
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      border-radius: 1rem;
+      background: rgba(15, 23, 42, 0.55);
+    }
+    .blog-content .step-number {
+      width: 44px;
+      height: 44px;
+      min-width: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      background: var(--brand, #00d4aa);
+      color: #0a0f1a;
+    }
+
+    /* Checklist */
+    .blog-content .checklist {
+      padding: 2rem;
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      border-radius: 1rem;
+      background: rgba(15, 23, 42, 0.55);
+      margin-block: 1.5rem;
+    }
+
+    /* FAQ */
+    .blog-content .faq-section { margin-block: 2rem; }
+    .blog-content .faq-item {
+      padding: 1rem 1.5rem;
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      border-radius: 0.75rem;
+      margin-block-end: 0.75rem;
+      background: rgba(15, 23, 42, 0.55);
+    }
+    .blog-content .faq-question {
+      font-weight: 600;
+      color: var(--fg, #f8fafc);
+    }
+
+    /* CTA */
+    .blog-content .cta-section {
+      padding: 2.5rem;
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      border-radius: 1.25rem;
+      text-align: center;
+      background: linear-gradient(135deg, rgba(0, 212, 170, 0.08), rgba(6, 182, 212, 0.06));
+      margin-block: 2rem;
+    }
+    .blog-content .cta-section h2,
+    .blog-content .cta-section h3 {
+      color: var(--fg, #f8fafc);
+    }
+    .blog-content .cta-section p {
+      color: var(--fg-muted, #94a3b8);
+    }
+    .blog-content .btn-primary,
+    .blog-content .btn-secondary {
+      display: inline-flex;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.75rem;
+      font-weight: 700;
+      text-decoration: none;
+      margin-inline: 0.5rem;
+    }
+    .blog-content .btn-primary {
+      background: var(--brand, #00d4aa);
+      color: #0a0f1a;
+    }
+    .blog-content .btn-secondary {
+      border: 2px solid var(--brand, #00d4aa);
+      color: var(--brand, #00d4aa);
+      background: transparent;
+    }
+
+    /* Internal links section */
+    .blog-links {
+      margin-block-start: 3rem;
+      padding-block-start: 2rem;
+      border-block-start: 1px solid rgba(148, 163, 184, 0.16);
+    }
+    .blog-links h2 {
+      color: var(--fg, #f8fafc);
+      font-size: 1.25rem;
+      margin-block-end: 1rem;
+    }
+    .blog-links__grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+    .blog-links__grid a {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.375rem;
+      padding: 0.5rem 1rem;
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      border-radius: 0.75rem;
+      color: var(--fg-muted, #94a3b8);
+      text-decoration: none;
+      font-size: 0.8125rem;
+      transition: color 0.15s, border-color 0.15s;
+      background: rgba(15, 23, 42, 0.5);
+    }
+    .blog-links__grid a:hover {
+      color: var(--brand, #00d4aa);
+      border-color: var(--brand, #00d4aa);
+    }
+
+    /* Demo CTA */
+    .blog-demo-cta {
+      margin-block-start: 3rem;
+      padding: 2rem;
+      border-radius: 1.25rem;
+      text-align: center;
+      background: linear-gradient(135deg, rgba(0, 212, 170, 0.14), rgba(6, 182, 212, 0.08));
+    }
+    .blog-demo-cta h2 {
+      margin: 0;
+      color: var(--fg, #f8fafc);
+    }
+    .blog-demo-cta p {
+      margin: 0.75rem auto 1.25rem;
+      color: var(--fg-muted, #cbd5e1);
+    }
+    .blog-demo-cta a {
+      display: inline-flex;
+      min-height: 44px;
+      align-items: center;
+      justify-content: center;
+      padding: 0.75rem 1.4rem;
+      border-radius: 0.75rem;
+      background: var(--brand, #00d4aa);
+      color: #061018;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    @media (max-width: 640px) {
+      .blog-shell { width: min(100% - 1.25rem, 52rem); padding-block-start: 1.25rem; }
+      .blog-content .step-item { flex-direction: column; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .blog-links__grid a { transition: none; }
+    }
+  </style>
+
+  <div class="blog-shell">
+    <div class="blog-breadcrumbs">
+      <Breadcrumbs crumbs={[
+        { label: 'الرئيسية', href: '/' },
+        { label: 'المدونة', href: '/blog/' },
+        { label: post.title },
+      ]} />
+    </div>
+
+    <header class="blog-hero">
+      <p class="blog-hero__category">{post.category}</p>
+      <h1>{post.title}</h1>
+      <div class="blog-hero__meta">
+        <span>✍️ <a href={`/authors/${post.author.slug}/`}>{post.author.name}</a></span>
+        <span>📅 {post.pubDate}</span>
+        <span>⏱ {post.readingTime} دقائق قراءة</span>
+      </div>
+      <div class="blog-hero__tags">
+        {post.tags.map(tag => <span class="blog-hero__tag">{tag}</span>)}
+      </div>
+    </header>
+
+    {post.updatedDate !== post.pubDate && (
+      <div class="blog-updated">
+        🔄 آخر تحديث: {post.updatedDate}
+      </div>
+    )}
+
+    <article class="blog-content" set:html={body} />
+
+    <!-- Internal links: related posts, solution, doc -->
+    <RelatedPosts posts={relatedPosts} />
+
+    <div class="blog-links">
+      <h2>🔗 محتوى ذو صلة</h2>
+      <div class="blog-links__grid">
+        <a href="/solutions/ai-governance-platform/">حل حوكمة AI ←</a>
+        <a href="/docs/ai-audit-trail/">توثيق سجل التدقيق ←</a>
+        <a href="/hub/ai-governance/">مركز حوكمة AI ←</a>
+        <a href="/hub/compliance/">مركز الامتثال ←</a>
+      </div>
+    </div>
+
+    <section class="blog-demo-cta" aria-labelledby="blog-demo-title">
+      <h2 id="blog-demo-title">شاهد حوكمة AI وهي تعمل على حالاتك الفعلية</h2>
+      <p>احجز جلسة تعريفية لمراجعة احتياج منشأتك ومسار التطبيق المناسب.</p>
+      <a href="/contact/">احجز ديمو</a>
+    </section>
+  </div>
+</ArabicLayout>

@@ -1,0 +1,28 @@
+---
+interface RelatedDoc {
+  slug: string;
+  title: string;
+  description: string;
+}
+
+interface Props {
+  docs: RelatedDoc[];
+}
+
+const { docs } = Astro.props;
+---
+
+{docs.length > 0 && (
+  <section class="docs-related" aria-labelledby="docs-related-title">
+    <p class="docs-section-label">ذات صلة</p>
+    <h2 id="docs-related-title">وثائق مرتبطة</h2>
+    <div class="docs-related__grid">
+      {docs.map((doc) => (
+        <a class="docs-related__card" href={`/docs/${doc.slug}/`}>
+          <h3>{doc.title}</h3>
+          <p>{doc.description}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+)}

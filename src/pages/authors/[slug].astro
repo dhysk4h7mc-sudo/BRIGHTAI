@@ -1,0 +1,160 @@
+---
+/**
+ * Author page — /authors/<slug>/
+ * Currently only nasser-alabdullah.
+ */
+import ArabicLayout from '../../layouts/ArabicLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { authors, getPostsByAuthor } from '../../data/blog';
+import { SITE } from '../../data/site';
+
+export function getStaticPaths() {
+  return Object.keys(authors).map(slug => ({
+    params: { slug },
+    props: { author: authors[slug] },
+  }));
+}
+
+const { author } = Astro.props;
+const authorPosts = getPostsByAuthor(author.slug);
+
+const personLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: author.name,
+  alternateName: author.nameEn,
+  url: author.url,
+  jobTitle: author.title,
+  description: author.bio,
+  worksFor: {
+    '@type': 'Organization',
+    name: 'BrightAI',
+    url: SITE.url,
+  },
+  inLanguage: 'ar-SA',
+};
+
+const breadcrumbLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'الرئيسية', item: `${SITE.url}/` },
+    { '@type': 'ListItem', position: 2, name: 'المؤلفون', item: `${SITE.url}/authors/` },
+    { '@type': 'ListItem', position: 3, name: author.name, item: author.url },
+  ],
+};
+---
+
+<ArabicLayout
+  title={`${author.name} | BrightAI`}
+  description={author.bio}
+  canonical={author.url}
+  hreflang={[{ lang: 'ar-SA', href: author.url }]}
+  jsonLd={personLd}
+  currentPath={`/authors/${author.slug}/`}
+>
+  <style is:global>
+    .author-shell {
+      width: min(100% - 2rem, 56rem);
+      margin-inline: auto;
+      padding-block: 2rem 5rem;
+    }
+    .author-header {
+      margin-block-end: 2rem;
+      padding-block-end: 2rem;
+      border-block-end: 1px solid rgba(148, 163, 184, 0.12);
+    }
+    .author-header h1 {
+      margin: 0;
+      color: var(--fg, #f8fafc);
+      font-size: 2rem;
+    }
+    .author-header .author-title {
+      color: var(--brand, #00d4aa);
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-block-start: 0.25rem;
+    }
+    .author-header .author-bio {
+      color: var(--fg-muted, #94a3b8);
+      margin-block-start: 1rem;
+      line-height: 1.8;
+      max-width: 42rem;
+    }
+    .author-posts-count {
+      color: var(--fg-muted, #64748b);
+      font-size: 0.8125rem;
+      margin-block-start: 0.5rem;
+    }
+    .author-posts {
+      display: grid;
+      gap: 1rem;
+      margin-block-start: 2rem;
+    }
+    .author-post-card {
+      display: block;
+      padding: 1.25rem;
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      border-radius: 1rem;
+      background: rgba(15, 23, 42, 0.5);
+      text-decoration: none;
+      color: inherit;
+      transition: border-color 0.15s;
+    }
+    .author-post-card:hover,
+    .author-post-card:focus-visible {
+      border-color: var(--brand, #00d4aa);
+    }
+    .author-post-card__cat {
+      color: var(--brand, #00d4aa);
+      font-size: 0.75rem;
+      font-weight: 800;
+    }
+    .author-post-card h2 {
+      margin: 0.25rem 0;
+      color: var(--fg, #f8fafc);
+      font-size: 1.05rem;
+      line-height: 1.4;
+    }
+    .author-post-card__desc {
+      margin: 0;
+      color: var(--fg-muted, #94a3b8);
+      font-size: 0.8125rem;
+      line-height: 1.7;
+    }
+    .author-post-card__meta {
+      margin-block-start: 0.5rem;
+      font-size: 0.75rem;
+      color: var(--fg-muted, #64748b);
+    }
+    @media (max-width: 640px) {
+      .author-shell { width: min(100% - 1.25rem, 56rem); }
+    }
+  </style>
+
+  <div class="author-shell">
+    <Breadcrumbs crumbs={[
+      { label: 'الرئيسية', href: '/' },
+      { label: 'المؤلفون' },
+      { label: author.name },
+    ]} />
+
+    <header class="author-header">
+      <h1>{author.name}</h1>
+      <p class="author-title">{author.title}</p>
+      <p class="author-bio">{author.bio}</p>
+      <p class="author-posts-count">{authorPosts.length} مقال منشور</p>
+    </header>
+
+    <div class="author-posts">
+      {authorPosts.map(post => (
+        <a href={`/blog/${post.slug}/`} class="author-post-card">
+          <span class="author-post-card__cat">{post.category}</span>
+          <h2>{post.title}</h2>
+          <p class="author-post-card__desc">{post.description}</p>
+          <span class="author-post-card__meta">{post.pubDate} · {post.readingTime} دقائق</span>
+        </a>
+      ))}
+    </div>
+  </div>
+</ArabicLayout>
