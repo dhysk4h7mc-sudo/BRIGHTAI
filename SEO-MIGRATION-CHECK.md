@@ -1,6 +1,6 @@
 # SEO Migration Check
 
-> Generated: 2026-06-13T18:01:44.421Z
+> Generated: 2026-06-13T18:55:41.870Z
 > Sitemap source: `public/sitemap.xml`
 > Routes: 109 | FOUND: 105 | MISSING: 0 | EXTRA: 4
 > Sitemap audit failures: 0 | Extra route findings: 4

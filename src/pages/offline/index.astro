@@ -57,9 +57,18 @@ import BackgroundGrid from '../../components/BackgroundGrid.astro';
   </section>
 
   <script>
-    document.querySelector('.offline-page__retry')?.addEventListener('click', () => {
-      window.location.reload();
-    });
+    function initOfflineRetry() {
+      const btn = document.querySelector('.offline-page__retry');
+      if (!btn || btn.hasAttribute('data-retry-initialized')) return;
+
+      btn.addEventListener('click', () => {
+        window.location.reload();
+      });
+
+      btn.setAttribute('data-retry-initialized', 'true');
+    }
+
+    document.addEventListener('astro:page-load', initOfflineRetry);
   </script>
 
   <style>

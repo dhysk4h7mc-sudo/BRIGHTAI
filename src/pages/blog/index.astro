@@ -201,16 +201,26 @@ const collectionLd = {
 
   <script>
     // Client-side category filter
-    document.querySelectorAll('.blog-filter-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const cat = (btn as HTMLElement).dataset.category;
-        document.querySelectorAll('.blog-filter-btn').forEach(b => b.classList.remove('is-active'));
-        btn.classList.add('is-active');
-        document.querySelectorAll('.blog-card').forEach(card => {
-          const cardCat = (card as HTMLElement).dataset.category;
-          (card as HTMLElement).style.display = (cat === 'all' || cardCat === cat) ? '' : 'none';
+    function initBlogFilters() {
+      const container = document.querySelector('.blog-filters');
+      if (!container || container.hasAttribute('data-filters-initialized')) return;
+
+      const buttons = container.querySelectorAll('.blog-filter-btn');
+      buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const cat = (btn as HTMLElement).dataset.category;
+          buttons.forEach(b => b.classList.remove('is-active'));
+          btn.classList.add('is-active');
+          document.querySelectorAll('.blog-card').forEach(card => {
+            const cardCat = (card as HTMLElement).dataset.category;
+            (card as HTMLElement).style.display = (cat === 'all' || cardCat === cat) ? '' : 'none';
+          });
         });
       });
-    });
+
+      container.setAttribute('data-filters-initialized', 'true');
+    }
+
+    document.addEventListener('astro:page-load', initBlogFilters);
   </script>
 </ArabicLayout>

@@ -212,33 +212,68 @@ const jsonLd = {
 
   <!-- GSAP: dynamic import, idle, reduced-motion, cleanup -->
   <script>
-    function initGSAP() {
+    let gsapCtx: any = null;
+
+    async function initGSAP() {
       const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
       if (mq.matches) return;
 
-      const cards = document.querySelectorAll<HTMLElement>('.gsap-fade');
-      cards.forEach(el => el.setAttribute('data-gsap-ready', ''));
+      const cards = document.querySelectorAll('.gsap-fade');
+      if (!cards.length) return;
 
-      import('gsap').then(({ default: gsap }) => {
+      // تحميل المكتبات ديناميكياً لتسريع تحميل الصفحة الأولي
+      const { default: gsap } = await import('gsap');
+      const { ScrollTrigger } = await import('gsap/ScrollTrigger');
+
+      gsap.registerPlugin(ScrollTrigger);
+
+      // تسجيل مراجع المكتبات عالمياً لضمان عثور سكريبت التنظيف عليها
+      const w = window as any;
+      w.gsap = gsap;
+      w.ScrollTrigger = ScrollTrigger;
+
+      // تدمير السياق القديم إن وجد لمنع التراكم
+      if (gsapCtx) {
+        gsapCtx.revert();
+      }
+
+      // إنشاء سياق جديد للحركات
+      gsapCtx = gsap.context(() => {
         cards.forEach((el) => {
-          const delay = parseInt(el.dataset.gsapDelay || '0', 10);
+          el.setAttribute('data-gsap-ready', '');
+          const delay = parseInt((el as HTMLElement).dataset.gsapDelay || '0', 10);
           gsap.fromTo(el,
             { opacity: 0, y: 20 },
-            { opacity: 1, y: 0, duration: 0.5, delay: delay / 1000, ease: 'power2.out' }
+            { 
+              opacity: 1, 
+              y: 0, 
+              duration: 0.5, 
+              delay: delay / 1000, 
+              ease: 'power2.out',
+              scrollTrigger: {
+                trigger: el,
+                start: 'top 85%',
+                toggleActions: 'play none none none'
+              }
+            }
           );
         });
-      }).catch(() => {
-        // Fallback: show all cards without animation
-        cards.forEach(el => { el.style.opacity = '1'; el.removeAttribute('data-gsap-ready'); });
       });
+
+      ScrollTrigger.refresh();
     }
 
-    if (document.readyState === 'complete') {
-      requestIdleCallback ? requestIdleCallback(initGSAP) : setTimeout(initGSAP, 200);
-    } else {
-      window.addEventListener('load', () => {
-        requestIdleCallback ? requestIdleCallback(initGSAP) : setTimeout(initGSAP, 200);
-      });
-    }
+    // تشغيل التهيئة عند تحميل الصفحة
+    document.addEventListener('astro:page-load', () => {
+      initGSAP();
+    });
+
+    // تنظيف سياقي قبل استبدال الصفحة
+    document.addEventListener('astro:before-swap', () => {
+      if (gsapCtx) {
+        gsapCtx.revert();
+        gsapCtx = null;
+      }
+    });
   </script>
 </KernelLayout>

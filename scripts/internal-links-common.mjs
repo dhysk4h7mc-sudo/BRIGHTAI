@@ -15,6 +15,7 @@ export const DEFAULT_IGNORE_PATTERNS = [
   "**/node_modules/**",
   "aimais/**",
   "backend/**",
+  "dist/**",
   "frontend/{server.js,config,controllers,data,db,kernel,middleware,routes,services,utils,tests}/**",
   "frontend/*.test.js",
   "frontend/*.e2e.test.js",
@@ -1051,10 +1052,18 @@ function evaluateReference(reference, fileIndex) {
       matchedPath = candidate;
       break;
     }
+    if (reference.original.startsWith("/")) {
+      const publicCandidate = normalizeRelativePath("public/" + candidate);
+      if (fileIndex.files.has(publicCandidate)) {
+        matchedPath = publicCandidate;
+        break;
+      }
+    }
   }
 
   if (matchedPath) {
-    const canonical = `/${matchedPath}${normalizedSuffix}`;
+    const cleanPath = matchedPath.startsWith("public/") ? matchedPath.slice(7) : matchedPath;
+    const canonical = `/${cleanPath}${normalizedSuffix}`;
     const current = reference.original.trim();
     return {
       status: "valid",

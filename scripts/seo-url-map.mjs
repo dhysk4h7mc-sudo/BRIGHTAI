@@ -51,7 +51,7 @@ const REL_PATH_ALIASES = new Map([
 ]);
 
 const NON_INDEXABLE_REL_PATH_PATTERNS = [
-  /^(404|500)\.html$/i,
+  /^(?:public\/)?(404|500)\.html$/i,
   /^error\.html$/i,
   /^offline\/index\.html$/i,
   /^kernel\/offline\.html$/i,

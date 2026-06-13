@@ -322,7 +322,21 @@ const allItems = [
 
   <!-- Drawer JS (minimal, no external deps) -->
   <script is:inline>
-    (function() {
+    // حفظ مرجع دالة ثابت خارج نطاق دالة التهيئة لمنع تراكم المستمعين
+    function handleKernelEscapeKey(e) {
+      var drawer = document.getElementById('k-drawer');
+      if (!drawer) return;
+      var toggle = document.querySelector('[data-kernel-drawer-toggle]');
+      
+      if (e.key === 'Escape' && drawer.getAttribute('aria-hidden') === 'false') {
+        drawer.setAttribute('aria-hidden', 'true');
+        drawer.style.display = 'none';
+        toggle?.setAttribute('aria-expanded', 'false');
+        if (toggle instanceof HTMLElement) toggle.focus();
+      }
+    }
+
+    function initKernelDrawer() {
       var toggle = document.querySelector('[data-kernel-drawer-toggle]');
       var drawer = document.getElementById('k-drawer');
       if (!toggle || !drawer) return;
@@ -350,11 +364,11 @@ const allItems = [
         el.addEventListener('click', closeDrawer);
       });
 
-      document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && drawer.getAttribute('aria-hidden') === 'false') {
-          closeDrawer();
-        }
-      });
-    })();
+      // إزالة المستمع القديم وإعادة الإضافة الآمنة بمرجع ثابت
+      document.removeEventListener('keydown', handleKernelEscapeKey);
+      document.addEventListener('keydown', handleKernelEscapeKey);
+    }
+
+    document.addEventListener('astro:page-load', initKernelDrawer);
   </script>
 </BaseLayout>

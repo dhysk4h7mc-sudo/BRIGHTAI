@@ -5,22 +5,8 @@
 
 @import './tokens.css';
 
-/* ─── Font Faces ─── */
-@font-face {
-  font-family: 'IBM Plex Sans Arabic';
-  font-style: normal;
-  font-weight: 400 700;
-  font-display: swap;
-  src: url('/fonts/IBM-Plex-Sans-Arabic-var.woff2') format('woff2');
-}
+/* ─── Font Faces (Loaded via Google Fonts in BaseLayout.astro) ─── */
 
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 400 700;
-  font-display: swap;
-  src: url('/fonts/Inter-var.woff2') format('woff2');
-}
 
 /* ─── Reset ─── */
 *,

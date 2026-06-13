@@ -119,6 +119,7 @@ export const FOOTER_NAV = {
       { label: 'Trust Center', labelAr: 'مركز الثقة', href: '/trust/' },
       { label: 'Assessment', labelAr: 'التقييم', href: '/assessment/ai-governance-readiness/' },
       { label: 'Pricing', labelAr: 'الأسعار', href: '/pricing/' },
+      { label: 'Sitemap', labelAr: 'خريطة الموقع', href: '/sitemap/' },
     ],
   },
   legal: {
@@ -126,6 +127,7 @@ export const FOOTER_NAV = {
     labelAr: 'قانوني',
     items: [
       { label: 'Privacy Policy', labelAr: 'سياسة الخصوصية', href: '/privacy-policy/' },
+      { label: 'Privacy & Cookies', labelAr: 'الخصوصية والكوكيز', href: '/privacy-cookies/' },
       { label: 'Cookie Policy', labelAr: 'سياسة الكوكيز', href: '/cookie-policy/' },
       { label: 'Terms of Service', labelAr: 'شروط الخدمة', href: '/terms/' },
       { label: 'PDPL Statement', labelAr: 'بيان حماية البيانات الشخصية', href: '/pdpl-statement/' },
