@@ -1,0 +1,127 @@
+---
+import ArabicLayout from '../layouts/ArabicLayout.astro';
+import BackgroundGrid from '../components/BackgroundGrid.astro';
+
+const navigationLinks = [
+  { href: '/', label: 'الرئيسية', icon: 'mdi:home-outline' },
+  { href: '/solutions/', label: 'الحلول', icon: 'mdi:shield-check-outline' },
+  { href: '/kernel/', label: 'النواة', icon: 'mdi:hexagon-multiple-outline' },
+  { href: '/blog/', label: 'المدونة', icon: 'mdi:post-outline' },
+  { href: '/docs/', label: 'الوثائق', icon: 'mdi:file-document-outline' },
+];
+---
+
+<ArabicLayout
+  title="الصفحة غير موجودة | BrightAI"
+  description="تعذر العثور على الصفحة المطلوبة. ارجع للرئيسية أو استكشف حلول BrightAI والنواة والمدونة والوثائق."
+  canonical="https://brightai.site/404/"
+  hreflang={[
+    { lang: 'ar-SA', href: 'https://brightai.site/404/' },
+    { lang: 'x-default', href: 'https://brightai.site/404/' },
+  ]}
+  jsonLd={{
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'الصفحة غير موجودة',
+    url: 'https://brightai.site/404/',
+    inLanguage: 'ar-SA',
+  }}
+  currentPath="/404/"
+>
+  <style is:global>@import '../styles/inner-pages.css';</style>
+
+  <section class="inner-hero error-page" aria-labelledby="error-title">
+    <BackgroundGrid />
+    <div class="max-w-4xl mx-auto px-5 lg:px-8 text-center">
+      <p class="error-page__code" aria-hidden="true">404</p>
+      <div class="inner-hero__badge">
+        <iconify-icon icon="mdi:map-marker-question-outline"></iconify-icon>
+        الرابط ما وصل لصفحة
+      </div>
+      <h1 id="error-title">الصفحة غير موجودة</h1>
+      <p class="inner-hero__desc mx-auto">
+        يمكن الرابط تغيّر أو الصفحة انتقلت. استخدم المسارات تحت، أو ابحث داخل الحلول
+        والمدونة والوثائق عن الموضوع اللي تحتاجه.
+      </p>
+
+      <nav class="error-page__links" aria-label="روابط مقترحة">
+        {navigationLinks.map((link) => (
+          <a href={link.href} class="inner-card error-page__link">
+            <iconify-icon icon={link.icon}></iconify-icon>
+            <span>{link.label}</span>
+          </a>
+        ))}
+      </nav>
+
+      <div class="inner-hero__actions error-page__actions">
+        <a href="/contact/" class="home-glow-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-bold">
+          <iconify-icon icon="mdi:calendar-check"></iconify-icon>
+          احجز جلسة
+        </a>
+        <a href="/" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white border border-white/20">
+          <iconify-icon icon="mdi:arrow-right"></iconify-icon>
+          العودة للرئيسية
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .error-page {
+      min-height: 72vh;
+      display: grid;
+      align-items: center;
+    }
+
+    .error-page__code {
+      margin: 0 0 0.75rem;
+      color: rgba(34, 211, 238, 0.14);
+      font-size: clamp(5rem, 18vw, 10rem);
+      font-weight: 900;
+      line-height: 0.8;
+      letter-spacing: -0.05em;
+    }
+
+    .error-page__links {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 0.75rem;
+      margin-top: 2.25rem;
+    }
+
+    .error-page__link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      min-height: 4.5rem;
+      color: rgba(255, 255, 255, 0.82);
+      text-decoration: none;
+    }
+
+    .error-page__link:hover,
+    .error-page__link:focus-visible {
+      border-color: rgba(34, 211, 238, 0.5);
+      color: #67e8f9;
+    }
+
+    .error-page__link iconify-icon {
+      font-size: 1.25rem;
+    }
+
+    .error-page__actions {
+      justify-content: center;
+      margin-top: 2rem;
+    }
+
+    @media (max-width: 760px) {
+      .error-page__links {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .error-page__link:first-child {
+        grid-column: 1 / -1;
+      }
+    }
+  </style>
+</ArabicLayout>

@@ -8,6 +8,7 @@ import type { SEOProps } from '../data/site';
 
 interface Props extends SEOProps {
   currentPath?: string;
+  languageCounterpart?: string;
 }
 
 const {
@@ -18,6 +19,7 @@ const {
   ogImage,
   jsonLd,
   currentPath = '/',
+  languageCounterpart,
 } = Astro.props;
 ---
 
@@ -31,6 +33,7 @@ const {
   ogImage={ogImage}
   jsonLd={jsonLd}
   currentPath={currentPath}
+  languageCounterpart={languageCounterpart}
 >
   <slot />
 </BaseLayout>

@@ -7,7 +7,9 @@
 import { SITE } from '../data/site';
 import type { SEOProps } from '../data/site';
 
-interface Props extends SEOProps {}
+interface Props extends SEOProps {
+  locale?: 'ar' | 'en';
+}
 
 const {
   title,
@@ -16,10 +18,12 @@ const {
   hreflang = [],
   ogImage = SITE.ogImage,
   jsonLd,
+  locale = 'ar',
 } = Astro.props;
 
 const fullOgImage = ogImage.startsWith('http') ? ogImage : `${SITE.url}${ogImage}`;
 const siteName = SITE.name;
+const hasXDefault = hreflang.some((link) => link.lang === 'x-default');
 ---
 
 <!-- Primary Meta Tags -->
@@ -35,7 +39,7 @@ const siteName = SITE.name;
 <meta property="og:description" content={description} />
 <meta property="og:image" content={fullOgImage} />
 <meta property="og:site_name" content={siteName} />
-<meta property="og:locale" content={Astro.currentLocale === 'en' ? 'en_SA' : 'ar_SA'} />
+<meta property="og:locale" content={locale === 'en' ? 'en_SA' : 'ar_SA'} />
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image" />
@@ -48,7 +52,7 @@ const siteName = SITE.name;
 {hreflang.map((link) => (
   <link rel="alternate" hreflang={link.lang} href={link.href} />
 ))}
-<link rel="alternate" hreflang="x-default" href={canonical} />
+{!hasXDefault && <link rel="alternate" hreflang="x-default" href={canonical} />}
 
 <!-- JSON-LD Structured Data -->
 {jsonLd && (

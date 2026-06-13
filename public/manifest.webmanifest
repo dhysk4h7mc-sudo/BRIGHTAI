@@ -15,37 +15,37 @@
   "categories": ["business", "productivity", "security", "utilities", "government", "health", "finance"],
   "icons": [
     {
-      "src": "/frontend/images/icon-192.png",
+      "src": "/images/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/frontend/images/icon-maskable-192.png",
+      "src": "/images/icon-maskable-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "maskable"
     },
     {
-      "src": "/frontend/images/icon-512.png",
+      "src": "/images/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/frontend/images/icon-512.png",
+      "src": "/images/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
     },
     {
-      "src": "/frontend/images/android-chrome-192x192.png",
+      "src": "/images/android-chrome-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/frontend/images/android-chrome-512x512.png",
+      "src": "/images/android-chrome-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
@@ -53,7 +53,7 @@
   ],
   "screenshots": [
     {
-      "src": "/frontend/assets/images/og/og-home.png",
+      "src": "/images/og/brightai-og-1200x630.png",
       "sizes": "1200x630",
       "type": "image/png",
       "form_factor": "wide",
@@ -68,7 +68,7 @@
       "url": "/kernel/",
       "icons": [
         {
-          "src": "/frontend/images/icon-192.png",
+          "src": "/images/icon-192.png",
           "sizes": "192x192",
           "type": "image/png"
         }
@@ -81,7 +81,7 @@
       "url": "/solutions/banking-ai-governance/",
       "icons": [
         {
-          "src": "/frontend/images/icon-192.png",
+          "src": "/images/icon-192.png",
           "sizes": "192x192",
           "type": "image/png"
         }
@@ -94,7 +94,7 @@
       "url": "/solutions/healthcare-ai-governance/",
       "icons": [
         {
-          "src": "/frontend/images/icon-192.png",
+          "src": "/images/icon-192.png",
           "sizes": "192x192",
           "type": "image/png"
         }
@@ -107,7 +107,7 @@
       "url": "/solutions/government-ai-governance/",
       "icons": [
         {
-          "src": "/frontend/images/icon-192.png",
+          "src": "/images/icon-192.png",
           "sizes": "192x192",
           "type": "image/png"
         }
@@ -120,7 +120,7 @@
       "url": "/contact/",
       "icons": [
         {
-          "src": "/frontend/images/icon-192.png",
+          "src": "/images/icon-192.png",
           "sizes": "192x192",
           "type": "image/png"
         }

@@ -1,0 +1,74 @@
+.legal-page {
+  width: min(100% - 2rem, 76rem);
+  margin-inline: auto;
+  padding-block: clamp(3rem, 7vw, 6rem);
+}
+
+.legal-page :global(h1) {
+  margin: 0 0 1rem;
+  color: var(--text);
+  font-size: clamp(2.25rem, 6vw, 4rem);
+  line-height: 1.15;
+}
+
+.legal-page :global(h2) {
+  margin: 0 0 1rem;
+  color: var(--text);
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
+}
+
+.legal-page :global(h3) {
+  color: var(--text);
+}
+
+.legal-page :global(p),
+.legal-page :global(li) {
+  color: var(--muted);
+  line-height: 1.9;
+}
+
+.legal-page :global(a) {
+  color: var(--brand);
+}
+
+.legal-page :global(aside),
+.legal-page :global(article),
+.legal-page :global(.glass-card),
+.legal-page :global(.policy-card),
+.legal-page :global(.cookie-type-card),
+.legal-page :global(.lp-note) {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  background: var(--surface);
+  padding: clamp(1.25rem, 3vw, 2rem);
+}
+
+.legal-page :global(article),
+.legal-page :global(.policy-card),
+.legal-page :global(.glass-card) {
+  margin-block: 1rem;
+}
+
+.legal-page :global(ul),
+.legal-page :global(ol) {
+  padding-inline-start: 1.4rem;
+}
+
+.legal-page :global(.lp-doc-layout),
+.legal-page :global(.policy-layout),
+.legal-page :global(.grid) {
+  display: grid;
+  gap: 1.5rem;
+}
+
+@media (min-width: 900px) {
+  .legal-page :global(.lp-doc-layout),
+  .legal-page :global(.policy-layout) {
+    grid-template-columns: minmax(14rem, 0.32fr) minmax(0, 1fr);
+    align-items: start;
+  }
+
+  .legal-page :global(.lg\:grid-cols-12) {
+    grid-template-columns: minmax(14rem, 4fr) minmax(0, 8fr);
+  }
+}

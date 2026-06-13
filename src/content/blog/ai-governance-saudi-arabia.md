@@ -313,7 +313,7 @@ readingTime: 22
             <h2>ابدأ رحلة حوكمة AI في شركتك اليوم</h2>
             <p>انضم إلى الشركات السعودية الرائدة التي تستخدم BrightAI لضمان استخدام آمن ومتوافق للذكاء الاصطناعي.</p>
             <div class="cta-buttons">
-                <a href="/demo/" class="btn-primary">احجز عرضًا توضيحيًا مجانيًا</a>
+                <a href="/contact/" class="btn-primary">احجز عرضًا توضيحيًا مجانيًا</a>
                 <a href="/contact/" class="btn-secondary">تحدث مع فريقنا</a>
             </div>
         </div>
@@ -547,7 +547,7 @@ readingTime: 22
             <h2>ابدأ رحلة حوكمة AI في شركتك اليوم</h2>
             <p>انضم إلى الشركات السعودية الرائدة التي تستخدم BrightAI لضمان استخدام آمن ومتوافق للذكاء الاصطناعي.</p>
             <div class="cta-buttons">
-                <a href="/demo/" class="btn-primary">احجز عرضًا توضيحيًا مجانيًا</a>
+                <a href="/contact/" class="btn-primary">احجز عرضًا توضيحيًا مجانيًا</a>
                 <a href="/contact/" class="btn-secondary">تحدث مع فريقنا</a>
             </div>
         

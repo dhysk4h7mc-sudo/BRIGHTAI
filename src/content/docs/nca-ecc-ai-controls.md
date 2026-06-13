@@ -638,5 +638,5 @@ related: ["nca-ecc-ai-controls-mapping","nca-ecc-ai-governance"]
   <section class="action-cta">
     <h3 id="section-14-7">هل أنت جاهز لتأمين وامتثال أنظمة ذكاءك الاصطناعي؟</h3>
     <p>تواصل مع مستشارينا في BrightAI اليوم لنساعدك في مواءمة خوارزمياتك وتأمين بياناتك وفق أعلى المعايير الوطنية.</p>
-    <a href="/solutions/ai-audit-trail/" class="action-btn">احجز جلسة استشارية لتأمين الـ AI</a>
+    <a href="/contact/" class="action-btn">احجز جلسة استشارية لتأمين الـ AI</a>
   </section>

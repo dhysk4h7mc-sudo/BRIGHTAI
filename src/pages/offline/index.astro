@@ -1,0 +1,121 @@
+---
+import ArabicLayout from '../../layouts/ArabicLayout.astro';
+import BackgroundGrid from '../../components/BackgroundGrid.astro';
+---
+
+<ArabicLayout
+  title="أنت غير متصل بالإنترنت | BrightAI"
+  description="تعذر الاتصال مؤقتًا. أعد المحاولة عند رجوع الشبكة أو ارجع إلى محتوى BrightAI المحفوظ في جهازك."
+  canonical="https://brightai.site/offline/"
+  hreflang={[
+    { lang: 'ar-SA', href: 'https://brightai.site/offline/' },
+    { lang: 'x-default', href: 'https://brightai.site/offline/' },
+  ]}
+  jsonLd={{
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'أنت غير متصل بالإنترنت',
+    url: 'https://brightai.site/offline/',
+    inLanguage: 'ar-SA',
+  }}
+  currentPath="/offline/"
+>
+  <style is:global>@import '../../styles/inner-pages.css';</style>
+
+  <section class="inner-hero offline-page" aria-labelledby="offline-title">
+    <BackgroundGrid />
+    <div class="max-w-3xl mx-auto px-5 lg:px-8 text-center">
+      <div class="offline-page__icon" aria-hidden="true">
+        <iconify-icon icon="mdi:wifi-off"></iconify-icon>
+      </div>
+      <div class="inner-hero__badge">
+        <iconify-icon icon="mdi:cloud-off-outline"></iconify-icon>
+        وضع عدم الاتصال
+      </div>
+      <h1 id="offline-title">أنت غير متصل بالإنترنت</h1>
+      <p class="inner-hero__desc mx-auto">
+        ما قدرنا نوصل للشبكة الآن. تقدر ترجع للمحتوى المحفوظ مسبقًا في جهازك،
+        أو تعيد المحاولة بعد ما يرجع الاتصال.
+      </p>
+
+      <div class="offline-page__note">
+        <iconify-icon icon="mdi:archive-check-outline"></iconify-icon>
+        <p>الصفحات اللي زرتها سابقًا قد تظل متاحة من الذاكرة المؤقتة.</p>
+      </div>
+
+      <div class="inner-hero__actions offline-page__actions">
+        <button type="button" class="home-glow-btn offline-page__retry inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-bold">
+          <iconify-icon icon="mdi:refresh"></iconify-icon>
+          حاول الاتصال من جديد
+        </button>
+        <a href="/" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white border border-white/20">
+          <iconify-icon icon="mdi:home-outline"></iconify-icon>
+          افتح المحتوى المحفوظ
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    document.querySelector('.offline-page__retry')?.addEventListener('click', () => {
+      window.location.reload();
+    });
+  </script>
+
+  <style>
+    .offline-page {
+      min-height: 72vh;
+      display: grid;
+      align-items: center;
+    }
+
+    .offline-page__icon {
+      display: grid;
+      place-items: center;
+      width: 6.5rem;
+      height: 6.5rem;
+      margin: 0 auto 1.5rem;
+      border: 1px solid rgba(34, 211, 238, 0.26);
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(34, 211, 238, 0.12), rgba(124, 92, 255, 0.1));
+      color: #67e8f9;
+      font-size: 3rem;
+      box-shadow: 0 0 50px rgba(34, 211, 238, 0.08);
+    }
+
+    .offline-page__note {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      max-width: 36rem;
+      margin: 2rem auto 0;
+      padding: 1rem 1.25rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 1rem;
+      background: rgba(255, 255, 255, 0.04);
+      color: rgba(255, 255, 255, 0.72);
+    }
+
+    .offline-page__note iconify-icon {
+      flex: 0 0 auto;
+      color: #67e8f9;
+      font-size: 1.5rem;
+    }
+
+    .offline-page__note p {
+      margin: 0;
+    }
+
+    .offline-page__actions {
+      justify-content: center;
+      margin-top: 2rem;
+    }
+
+    .offline-page__retry {
+      border: 0;
+      cursor: pointer;
+      font: inherit;
+    }
+  </style>
+</ArabicLayout>

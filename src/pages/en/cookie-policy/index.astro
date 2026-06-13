@@ -1,0 +1,16 @@
+---
+import EnglishLayout from '../../../layouts/EnglishLayout.astro';
+import { getLanguageCounterpart, getLegalAlternates } from '../../../data/i18n-pairs';
+import { getLegalContent } from '../../../data/legal-content';
+const route = '/en/cookie-policy/';
+const canonical = `https://brightai.site${route}`;
+const legalContent = getLegalContent('en/cookie-policy/index.html');
+const jsonLd = { '@context': 'https://schema.org', '@graph': [
+  { '@type': 'WebPage', name: legalContent.h1, url: canonical, inLanguage: 'en-SA' },
+  { '@type': 'LegalDocument', name: legalContent.h1, url: canonical, inLanguage: 'en-SA' },
+]};
+---
+<EnglishLayout title="BrightAI Cookie Policy for Saudi Website Users" description="BrightAI explains cookie use for site experience, analytics, and privacy choices so Saudi organizations can evaluate AI governance services with confidence." canonical={canonical} hreflang={getLegalAlternates(route, 'en')} jsonLd={jsonLd} currentPath={route} languageCounterpart={getLanguageCounterpart(route)}>
+  <style is:global>@import '../../../styles/legal-pages.css';</style>
+  <div class="legal-page" set:html={legalContent.html} />
+</EnglishLayout>

@@ -15,6 +15,7 @@ interface Props extends SEOProps {
   lang?: 'ar' | 'en';
   dir?: 'rtl' | 'ltr';
   currentPath?: string;
+  languageCounterpart?: string;
 }
 
 const {
@@ -27,6 +28,7 @@ const {
   ogImage,
   jsonLd,
   currentPath = '/',
+  languageCounterpart,
 } = Astro.props;
 ---
 
@@ -53,6 +55,7 @@ const {
     hreflang={hreflang}
     ogImage={ogImage}
     jsonLd={jsonLd}
+    locale={lang}
   />
 
   <!-- Styles -->
@@ -77,7 +80,7 @@ const {
       <slot />
     </main>
 
-    <Footer lang={lang} currentPath={currentPath} />
+    <Footer lang={lang} currentPath={currentPath} languageCounterpart={languageCounterpart} />
   </div>
 
   <WhatsAppCTA lang={lang} />

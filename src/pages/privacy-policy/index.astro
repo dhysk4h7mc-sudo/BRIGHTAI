@@ -1,0 +1,16 @@
+---
+import ArabicLayout from '../../layouts/ArabicLayout.astro';
+import { getLanguageCounterpart, getLegalAlternates } from '../../data/i18n-pairs';
+import { getLegalContent } from '../../data/legal-content';
+const route = '/privacy-policy/';
+const canonical = `https://brightai.site${route}`;
+const legalContent = getLegalContent('privacy-policy/index.html');
+const jsonLd = { '@context': 'https://schema.org', '@graph': [
+  { '@type': 'WebPage', name: legalContent.h1, url: canonical, inLanguage: 'ar-SA' },
+  { '@type': 'LegalDocument', name: legalContent.h1, url: canonical, inLanguage: 'ar-SA' },
+]};
+---
+<ArabicLayout title="سياسة الخصوصية وحماية بيانات الذكاء الاصطناعي | BrightAI" description="سياسة خصوصية BrightAI توضح كيف نتعامل مع بيانات التواصل، طلبات الديمو، بيانات الأعمال، واستخدام تقنيات الذكاء الاصطناعي مع ضوابط السرية وحماية البيانات." canonical={canonical} hreflang={getLegalAlternates(route, 'ar')} jsonLd={jsonLd} currentPath={route} languageCounterpart={getLanguageCounterpart(route)}>
+  <style is:global>@import '../../styles/legal-pages.css';</style>
+  <div class="legal-page" set:html={legalContent.html} />
+</ArabicLayout>

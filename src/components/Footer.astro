@@ -9,26 +9,14 @@ import { SITE } from '../data/site';
 interface Props {
   lang?: 'ar' | 'en';
   currentPath?: string;
+  languageCounterpart?: string;
 }
 
-const { lang = 'ar', currentPath = '/' } = Astro.props;
+const { lang = 'ar', languageCounterpart } = Astro.props;
 const isAr = lang === 'ar';
 const year = new Date().getFullYear();
 
 const footerSections = Object.values(FOOTER_NAV);
-
-/**
- * Build language switch URL.
- * If current page is Arabic, switch to English equivalent and vice versa.
- */
-function getLangSwitchUrl(): string {
-  if (isAr) {
-    // Arabic → English: prepend /en/ to current path
-    return '/en/' + currentPath.replace(/^\//, '');
-  }
-  // English → Arabic: remove /en/ prefix
-  return currentPath.replace(/^\/en\/?/, '/') || '/';
-}
 ---
 
 <footer class="footer" role="contentinfo">
@@ -65,16 +53,18 @@ function getLangSwitchUrl(): string {
         </a>
 
         <!-- Language Switcher -->
-        <div class="footer__lang">
-          <span class="footer__lang-label">{isAr ? 'اللغة' : 'Language'}:</span>
-          <a
-            href={getLangSwitchUrl()}
-            class="footer__lang-switch"
-            aria-label={isAr ? 'Switch to English' : 'التبديل إلى العربية'}
-          >
-            {isAr ? 'English' : 'العربية'}
-          </a>
-        </div>
+        {languageCounterpart && (
+          <div class="footer__lang">
+            <span class="footer__lang-label">{isAr ? 'اللغة' : 'Language'}:</span>
+            <a
+              href={languageCounterpart}
+              class="footer__lang-switch"
+              aria-label={isAr ? 'Switch to English' : 'التبديل إلى العربية'}
+            >
+              {isAr ? 'English' : 'العربية'}
+            </a>
+          </div>
+        )}
       </div>
 
       <!-- Nav columns -->
