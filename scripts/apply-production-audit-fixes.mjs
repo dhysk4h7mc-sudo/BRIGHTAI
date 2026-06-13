@@ -117,9 +117,46 @@ function orgGraph(brandName) {
     "@id": `${BASE_URL}/#organization`,
     name: brandName,
     url: BASE_URL,
-    logo: `${BASE_URL}/frontend/assets/images/logo.png`,
-    areaServed: "SA",
-    sameAs: []
+    logo: {
+      "@type": "ImageObject",
+      url: `${BASE_URL}/frontend/assets/images/logo.png`,
+      width: 200,
+      height: 55,
+      caption: "شعار BrightAI"
+    },
+    description: "Saudi AI Safety OS — منصة أمان وحوكمة الذكاء الاصطناعي للشركات السعودية. تدعم جاهزية الامتثال ولا تُعدّ استشارة قانونية.",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "6913 المبارك بن فضالة، حي الفيحاء",
+      addressLocality: "الرياض",
+      addressRegion: "منطقة الرياض",
+      postalCode: "14254",
+      addressCountry: "SA"
+    },
+    areaServed: [
+      { "@type": "Country", name: "المملكة العربية السعودية" },
+      { "@type": "City", name: "الرياض" },
+      { "@type": "City", name: "جدة" },
+      { "@type": "City", name: "الدمام" },
+      { "@type": "City", name: "الخبر" }
+    ],
+    contactPoint: [{
+      "@type": "ContactPoint",
+      telephone: "+966538229013",
+      contactType: "customer support",
+      contactOption: "WhatsApp",
+      url: "https://wa.me/966538229013",
+      areaServed: "SA",
+      availableLanguage: ["Arabic", "English"]
+    }],
+    sameAs: [
+      "https://linkedin.com/company/brightai-site",
+      "https://x.com/BrightAISite",
+      "https://www.youtube.com/@BrightAiSaudi",
+      "https://www.tiktok.com/@bright1ai",
+      "https://github.com/brightai-site",
+      "https://wa.me/966538229013"
+    ]
   };
 }
 

@@ -34,7 +34,8 @@ BrightAI is built for Saudi organizations that want to use AI while keeping cont
 - [BrightAI Kernel](https://brightai.site/kernel/): Core runtime layer for AI request inspection, risk classification, policies, approvals, and audit logging.
 - [Demo Hub](https://brightai.site/demo/): Interactive demos and proof-of-concept flows.
 - [Pricing](https://brightai.site/pricing/): Pricing context and next steps for tailored enterprise scoping.
-- [Contact](https://brightai.site/contact/): Demo, consultation, and readiness assessment requests.
+- [Contact](https://brightai.site/contact/): Demo, consultation, and readiness assessment requests — all pricing via contact.
+- [AI Governance Readiness Assessment](https://brightai.site/assessment/ai-governance-readiness/): Structured readiness evaluation for Saudi enterprises.
 - [Sitemap](https://brightai.site/sitemap/): Human-readable site map.
 
 ## Core Solutions
@@ -45,12 +46,17 @@ BrightAI is built for Saudi organizations that want to use AI while keeping cont
 - [AI Evidence File](https://brightai.site/solutions/ai-evidence-file/): Evidence package that documents inputs, policy checks, approvals, risk score, outputs, and review notes for audit readiness.
 
 ## BrightAI Kernel Pages
-- [BrightAI Kernel](https://brightai.site/kernel/): Execution layer between users, business systems, data, and AI models.
-- [AI Firewall / Chat Guard](https://brightai.site/kernel/chat/): Prompt and data inspection surface.
-- [Audit Trail](https://brightai.site/kernel/audit/): Logging and traceability for AI activity.
-- [Human Approvals](https://brightai.site/kernel/approvals/): Approval workflow for sensitive AI actions.
-- [Compliance Packs](https://brightai.site/kernel/compliance/): Operational packs mapped to Saudi regulatory needs.
+- [BrightAI Kernel](https://brightai.site/kernel/): Execution layer between users, business systems, data, and AI models. Supports compliance readiness — not legal advice.
+- [AI Firewall / Chat Guard](https://brightai.site/kernel/chat/): Prompt and data inspection surface — PII redaction and policy enforcement.
+- [Audit Trail](https://brightai.site/kernel/audit/): Tamper-resistant logging and traceability for all AI activity.
+- [Human Approvals](https://brightai.site/kernel/approvals/): Approval workflow for sensitive AI actions — human-in-the-loop enforcement.
+- [Compliance Packs](https://brightai.site/kernel/compliance/): Operational packs supporting PDPL, NCA ECC, SFDA, and SAMA readiness.
 - [Evidence Reports](https://brightai.site/kernel/evidence/): Reviewable evidence outputs for auditors and compliance teams.
+- [Statistics Dashboard](https://brightai.site/kernel/stats/): Operational metrics and usage analytics.
+- [Enterprise Connectors](https://brightai.site/kernel/connectors/): Secure connections to ERP, CRM, HIS, and SharePoint.
+- [Scenarios](https://brightai.site/kernel/scenarios/): Test AI use cases before live deployment.
+- [Policy Editor](https://brightai.site/kernel/policies/): Visual policy editor for governance teams.
+- [Reports](https://brightai.site/kernel/reports/): Periodic governance and compliance reports.
 
 ## Compliance And Legal Pages
 BrightAI content should be interpreted as compliance-readiness and operational-governance support, not as a replacement for legal advice.

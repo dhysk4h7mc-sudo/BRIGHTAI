@@ -163,7 +163,7 @@ hr {
 .skip-to-content {
   position: absolute;
   top: -100%;
-  left: var(--space-4);
+  inset-inline-start: var(--space-4);
   z-index: var(--z-max);
   padding: var(--space-3) var(--space-6);
   background: var(--brand);
@@ -174,4 +174,10 @@ hr {
 
 .skip-to-content:focus {
   top: var(--space-4);
+}
+
+/* Prevent outline cutoff in components with hidden overflow */
+[class*="overflow-hidden"] :focus-visible,
+.overflow-hidden :focus-visible {
+  outline-offset: -2px;
 }

@@ -19,9 +19,100 @@ const faqItems = [
 ];
 
 const jsonLd = [
-  {"@context":"https://schema.org","@type":"Organization","name":"BrightAI","url":"https://brightai.site/","logo":"https://brightai.site/favicon.svg","description":"Saudi AI Safety OS — منصة أمان وحوكمة الذكاء الاصطناعي للشركات السعودية","address":{"@type":"PostalAddress","addressCountry":"SA"},"sameAs":["https://wa.me/966538229013"],"contactPoint":{"@type":"ContactPoint","telephone":"+966538229013","contactLanguage":"Arabic","areaServed":"SA"}},
-  {"@context":"https://schema.org","@type":"SoftwareApplication","name":"BrightAI Kernel","applicationCategory":"BusinessApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"SAR"},"description":"Saudi AI Safety OS — AI Firewall, Audit Trail, Human Approval, Evidence File"},
-  {"@context":"https://schema.org","@type":"FAQPage","mainEntity": faqItems.map(f => ({"@type":"Question","name":f.q,"acceptedAnswer":{"@type":"Answer","text":f.a.replace(/<[^>]*>/g,'')}}))}
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": "https://brightai.site/#organization",
+    "name": "BrightAI",
+    "url": "https://brightai.site/",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://brightai.site/frontend/assets/images/logo.png",
+      "width": 200,
+      "height": 55,
+      "caption": "شعار BrightAI"
+    },
+    "description": "Saudi AI Safety OS — منصة أمان وحوكمة الذكاء الاصطناعي للشركات السعودية. تدعم جاهزية الامتثال ولا تُعدّ استشارة قانونية.",
+    "foundingDate": "2025",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "6913 المبارك بن فضالة، حي الفيحاء",
+      "addressLocality": "الرياض",
+      "addressRegion": "منطقة الرياض",
+      "postalCode": "14254",
+      "addressCountry": "SA"
+    },
+    "areaServed": [
+      {"@type": "Country", "name": "المملكة العربية السعودية"},
+      {"@type": "City", "name": "الرياض"},
+      {"@type": "City", "name": "جدة"},
+      {"@type": "City", "name": "الدمام"},
+      {"@type": "City", "name": "الخبر"},
+      {"@type": "City", "name": "مكة المكرمة"},
+      {"@type": "City", "name": "المدينة المنورة"}
+    ],
+    "contactPoint": [
+      {
+        "@type": "ContactPoint",
+        "telephone": "+966538229013",
+        "contactType": "customer support",
+        "contactOption": "WhatsApp",
+        "url": "https://wa.me/966538229013",
+        "areaServed": "SA",
+        "availableLanguage": ["Arabic", "English"]
+      }
+    ],
+    "sameAs": [
+      "https://linkedin.com/company/brightai-site",
+      "https://x.com/BrightAISite",
+      "https://www.youtube.com/@BrightAiSaudi",
+      "https://www.tiktok.com/@bright1ai",
+      "https://github.com/brightai-site",
+      "https://wa.me/966538229013"
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": ["SoftwareApplication", "WebApplication"],
+    "@id": "https://brightai.site/#product",
+    "name": "BrightAI Kernel",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Cloud, Hybrid, On-Premise",
+    "description": "نواة حوكمة الذكاء الاصطناعي للمنشآت السعودية — تدعم جاهزية الامتثال وتشغيل AI Firewall وسجل التدقيق والموافقات البشرية وملفات الأدلة. ليست استشارة قانونية.",
+    "url": "https://brightai.site/kernel/",
+    "provider": {"@id": "https://brightai.site/#organization"},
+    "featureList": [
+      "AI Firewall — فحص الطلبات ومنع تسريب البيانات",
+      "PII Redaction — إخفاء البيانات الشخصية تلقائياً",
+      "Audit Trail — سجل تدقيق غير قابل للتعديل",
+      "Human Approval Layer — موافقات بشرية للقرارات عالية المخاطر",
+      "AI Evidence File — ملفات أدلة PDF موقّعة رقمياً",
+      "Risk Scoring — تصنيف مخاطر كل طلب",
+      "Compliance Packs — حزم امتثال PDPL وNCA وSFDA وSAMA",
+      "Policy Editor — محرر سياسات بدون تعقيد تقني",
+      "Enterprise Connectors — ربط آمن مع ERP وCRM وHIS"
+    ],
+    "offers": {
+      "@type": "Offer",
+      "priceCurrency": "SAR",
+      "price": 0,
+      "availability": "https://schema.org/InStock",
+      "url": "https://brightai.site/contact/",
+      "description": "تواصل عبر /contact/ للحصول على عرض سعر مخصص لحجم المنشأة"
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqItems.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": f.a.replace(/<[^>]*>/g, '')
+      }
+    }))
+  }
 ];
 ---
 
@@ -428,16 +519,16 @@ const jsonLd = [
         <details class="home-faq-item" open={i === 0}>
           <summary>
             <span class="font-bold text-lg">{item.q}</span>
-            <iconify-icon class="home-faq-chevron" icon="mdi:chevron-down"></iconify-icon>
+            <iconify-icon class="home-faq-chevron" icon="mdi:chevron-down" aria-hidden="true"></iconify-icon>
           </summary>
           <div class="home-faq-answer" set:html={item.a} />
         </details>
       ))}
     </div>
     <div class="mt-8 flex flex-wrap justify-center gap-3">
-      <a href="/docs/" class="home-section-link"><iconify-icon icon="mdi:book"></iconify-icon><span>اقرأ وثائق BrightAI</span></a>
-      <a href="/blog/" class="home-section-link"><iconify-icon icon="mdi:newspaper"></iconify-icon><span>المدونة</span></a>
-      <a href="/privacy-policy/" class="home-section-link"><iconify-icon icon="mdi:account-lock"></iconify-icon><span>سياسة الخصوصية</span></a>
+      <a href="/docs/" class="home-section-link"><iconify-icon icon="mdi:book" aria-hidden="true"></iconify-icon><span>اقرأ وثائق BrightAI</span></a>
+      <a href="/blog/" class="home-section-link"><iconify-icon icon="mdi:newspaper" aria-hidden="true"></iconify-icon><span>المدونة</span></a>
+      <a href="/privacy-policy/" class="home-section-link"><iconify-icon icon="mdi:account-lock" aria-hidden="true"></iconify-icon><span>سياسة الخصوصية</span></a>
     </div>
   </div>
 </section>

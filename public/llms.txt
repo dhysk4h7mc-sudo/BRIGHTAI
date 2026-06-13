@@ -8,7 +8,22 @@ BrightAI is a Saudi enterprise AI safety and governance company based in Riyadh.
 - [من نحن | About BrightAI](https://brightai.site/about/): قصة BrightAI، الرؤية، الرسالة، وخبرة الشركة في AI Governance للسوق السعودي.
 - [الخدمات | Services](https://brightai.site/services/): مسارات تنفيذ Saudi AI Safety OS، من تقييم الجاهزية إلى الربط الآمن مع ERP وCRM وHIS وSharePoint.
 - [BrightAI Kernel](https://brightai.site/kernel/): نواة التشغيل التي تطبق الفحص، تصنيف المخاطر، الموافقات البشرية، وسجلات التدقيق.
-- [التواصل | Contact](https://brightai.site/contact/): طلب ديمو أو جلسة جاهزية امتثال.
+- [التسعير | Pricing](https://brightai.site/pricing/): سياق التسعير وخطوات الحصول على عرض سعر مخصص للمنشأة.
+- [الديمو | Demo Hub](https://brightai.site/demo/): مركز الديموهات التفاعلية وسيناريوهات AI الحقيقية.
+- [التواصل | Contact](https://brightai.site/contact/): طلب ديمو أو جلسة جاهزية امتثال أو عرض سعر.
+- [تقييم الجاهزية](https://brightai.site/assessment/ai-governance-readiness/): تقييم جاهزية حوكمة الذكاء الاصطناعي للمنشأة.
+
+## Kernel Sub-Pages
+- [AI Firewall / Chat Guard](https://brightai.site/kernel/chat/): واجهة المحادثة الآمنة مع فحص الطلبات.
+- [سجل التدقيق](https://brightai.site/kernel/audit/): سجل زمني شامل لكل أحداث الذكاء الاصطناعي.
+- [مراجعة الموافقات](https://brightai.site/kernel/approvals/): قرارات الموافقة البشرية للمخاطر العالية.
+- [الإحصائيات](https://brightai.site/kernel/stats/): مؤشرات وإحصائيات استخدام AI في المنشأة.
+- [الموصلات](https://brightai.site/kernel/connectors/): الربط الآمن مع أنظمة المؤسسة.
+- [السيناريوهات](https://brightai.site/kernel/scenarios/): اختبار استخدامات AI قبل التشغيل الفعلي.
+- [السياسات](https://brightai.site/kernel/policies/): محرر سياسات بصري لضبط الضوابط.
+- [ملفات الأدلة](https://brightai.site/kernel/evidence/): حزم أدلة جاهزة للمدققين.
+- [الامتثال](https://brightai.site/kernel/compliance/): حزم امتثال PDPL وNCA وSFDA وSAMA.
+- [التقارير](https://brightai.site/kernel/reports/): تقارير حوكمة وامتثال دورية.
 
 ## Solutions
 - [AI Governance Platform](https://brightai.site/solutions/ai-governance-platform/): منصة تنظيم سياسات استخدام الذكاء الاصطناعي، الصلاحيات، المخاطر، وسجلات المراجعة.

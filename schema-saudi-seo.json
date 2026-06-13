@@ -62,6 +62,8 @@
                     "@type": "ContactPoint",
                     "telephone": "+966538229013",
                     "contactType": "customer support",
+                    "contactOption": "WhatsApp",
+                    "url": "https://wa.me/966538229013",
                     "areaServed": "SA",
                     "availableLanguage": [
                         "Arabic",
@@ -80,14 +82,13 @@
                 }
             ],
             "sameAs": [
-                "https://brightai.site/",
                 "https://linkedin.com/company/brightai-site",
                 "https://x.com/BrightAISite",
                 "https://www.youtube.com/@BrightAiSaudi",
                 "https://www.tiktok.com/@bright1ai",
                 "https://github.com/brightai-site",
                 "https://crunchbase.com/organization/brightai",
-                "https://api.whatsapp.com/send?phone=966538229013"
+                "https://wa.me/966538229013"
             ],
             "knowsAbout": [
                 "الذكاء الاصطناعي",

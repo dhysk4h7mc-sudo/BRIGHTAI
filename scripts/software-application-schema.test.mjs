@@ -66,7 +66,10 @@ for (const relPath of targetPages) {
     assert.equal(application.offers?.price, 0);
     assert.equal(application.offers?.priceCurrency, "SAR");
     assert.equal(application.offers?.availability, "https://schema.org/InStock");
-    assert.equal(application.offers?.url, "https://brightai.site/kernel/");
+    assert.equal(application.offers?.url, "https://brightai.site/contact/");
+    // featureList must exist and have at least 5 items
+    assert.ok(Array.isArray(application.featureList), `${relPath}: featureList must be an array`);
+    assert.ok(application.featureList.length >= 5, `${relPath}: featureList must have >= 5 items`);
     assert.deepEqual(linkedWebPage?.mainEntity, {
       "@id": "https://brightai.site/#product",
     });
