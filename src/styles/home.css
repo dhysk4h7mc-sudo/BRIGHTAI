@@ -436,6 +436,18 @@
   background: rgba(0,212,255,0.05);
 }
 
+.home-guides-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+@media (min-width: 768px) {
+  .home-guides-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 1024px) {
+  .home-guides-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
 /* ─── Pulse Dot Animation ─── */
 .home-pulse-dot {
   animation: homePulse 2s ease-in-out infinite;
