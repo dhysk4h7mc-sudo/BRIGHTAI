@@ -1,0 +1,6 @@
+---
+interface Props { ctaHref?:string; }
+const { ctaHref='/contact/' }=Astro.props;
+---
+<nav class="legacy-nav" aria-label="التنقل الرئيسي"><a href="/" class="logo"><b>B</b><span><strong>BRIGHTAI</strong><small>AI Governance Platform</small></span></a><ul><li><a href="/solutions/">الحلول</a></li><li><a href="/solutions/ai-governance-platform/">المنصة</a></li><li><a href="/pricing/">الأسعار</a></li><li><a href="/blog/">المدونة</a></li><li><a href="/contact/">تواصل معنا</a></li></ul><a class="cta" href={ctaHref}>جرّب مجاناً</a></nav>
+<style>.legacy-nav{min-height:72px;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:0 1.25rem;border-bottom:1px solid #ffffff12;background:#020617e8}.logo,.legacy-nav ul,.legacy-nav a{display:flex;align-items:center}.legacy-nav a{color:#cbd5e1;text-decoration:none}.logo{gap:.625rem}.logo b{display:grid;place-items:center;width:36px;height:36px;border-radius:8px;background:#6366f1;color:#fff}.logo span small,.logo span strong{display:block}.logo span small{color:#94a3b8;font-size:.6875rem}.legacy-nav ul{gap:.25rem;list-style:none}.legacy-nav ul a{padding:.5rem .875rem}.legacy-nav .cta{padding:.6rem 1rem;border-radius:8px;background:#6366f1;color:#fff}@media(max-width:760px){.legacy-nav ul{display:none}}</style>

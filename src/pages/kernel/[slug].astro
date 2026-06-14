@@ -14,6 +14,7 @@ import {
   getCrossLinks,
   type KernelUnit,
 } from '../../data/kernel';
+import { migratedKernelPages } from '../../data/migratedKernelPages';
 
 export function getStaticPaths() {
   return kernelNavItems.map(unit => ({
@@ -24,6 +25,7 @@ export function getStaticPaths() {
 
 interface Props { unit: KernelUnit }
 const { unit } = Astro.props;
+const migratedPage = migratedKernelPages[unit.slug];
 const cross = getCrossLinks(unit);
 
 // BreadcrumbList JSON-LD
@@ -124,11 +126,11 @@ const isCompliance = unit.slug === 'compliance';
 ---
 
 <KernelLayout
-  title={unit.title}
-  description={unit.description}
-  canonical={unit.canonical}
-  hreflang={unit.hreflang}
-  jsonLd={breadcrumbLd}
+  title={migratedPage?.title ?? unit.title}
+  description={migratedPage?.description ?? unit.description}
+  canonical={migratedPage?.canonical ?? unit.canonical}
+  hreflang={migratedPage?.hreflang ?? unit.hreflang}
+  jsonLd={(migratedPage?.jsonLd ?? breadcrumbLd) as any}
   currentPath={unit.path}
 >
   <style>
@@ -219,6 +221,12 @@ const isCompliance = unit.slug === 'compliance';
     }
   </style>
 
+  {migratedPage ? (
+    <>
+      {!migratedPage.html.includes('<h1') && <h1 class="migrated-page-title">{unit.h1}</h1>}
+      <main class="migrated-legacy-content" set:html={migratedPage.html} />
+    </>
+  ) : (
   <div class="k-page">
     <!-- Breadcrumb -->
     <nav aria-label="التنقل التفصيلي">
@@ -290,4 +298,5 @@ const isCompliance = unit.slug === 'compliance';
       ابدأ تطبيق الحوكمة في منشأتك
     </a>
   </div>
+  )}
 </KernelLayout>

@@ -1,0 +1,14 @@
+---
+import KernelLayout from '../../layouts/KernelLayout.astro';
+import { migratedKernelOffline as page } from '../../data/migratedKernelPages';
+---
+<KernelLayout
+  title={page.title}
+  description={page.description}
+  canonical={page.canonical}
+  hreflang={page.hreflang}
+  jsonLd={page.jsonLd as any}
+  currentPath="/kernel/offline/"
+>
+  <main class="migrated-legacy-content" set:html={page.html} />
+</KernelLayout>

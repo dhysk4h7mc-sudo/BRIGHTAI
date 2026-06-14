@@ -1,0 +1,7 @@
+---
+interface Props { title?:string; message?:string; type?:'success'|'error'|'warning'|'info'; }
+const { title='تم النشر بنجاح',message='تم نشر النموذج "محلل المخاطر v2.1" في بيئة الإنتاج.',type='success' }=Astro.props;
+const icons={success:'lucide:check-circle',error:'lucide:alert-circle',warning:'lucide:alert-triangle',info:'lucide:info'};
+---
+<div class:list={['legacy-toast',`legacy-toast--${type}`]} role="status"><iconify-icon icon={icons[type]} width="20"></iconify-icon><div><strong>{title}</strong><p>{message}</p></div><button aria-label="إغلاق">×</button></div>
+<style>.legacy-toast{display:flex;align-items:flex-start;gap:.75rem;padding:1rem 1.25rem;border:1px solid #ffffff1f;border-inline-start-width:3px;border-radius:8px;background:#0b1220;color:#fff}.legacy-toast div{flex:1}.legacy-toast p{margin:.25rem 0 0;color:#94a3b8;font-size:.75rem}.legacy-toast button{border:0;background:transparent;color:#94a3b8}.legacy-toast--success{border-inline-start-color:#22c55e}.legacy-toast--error{border-inline-start-color:#ef4444}.legacy-toast--warning{border-inline-start-color:#f59e0b}.legacy-toast--info{border-inline-start-color:#38bdf8}</style>

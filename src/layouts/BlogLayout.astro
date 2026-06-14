@@ -52,7 +52,7 @@ const jsonLd = blogPostingLd;
 ---
 
 <ArabicLayout
-  title={`${post.title} | BrightAI`}
+  title={post.metaTitle ?? `${post.title} | BrightAI`}
   description={post.description}
   canonical={post.canonical}
   hreflang={[{ lang: 'ar-SA', href: post.canonical }]}

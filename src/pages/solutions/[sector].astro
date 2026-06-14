@@ -5,11 +5,13 @@ import BackgroundGrid from '../../components/BackgroundGrid.astro';
 import RelatedLinks from '../../components/RelatedLinks.astro';
 import SectorCard from '../../components/SectorCard.astro';
 import { sectors, solutions, getRelatedSectors } from '../../data/solutions';
+import { migratedSectorPages } from '../../data/migratedSolutionPages';
 
 export function getStaticPaths() {
   return sectors.map(s => ({ params: { sector: s.slug }, props: { sector: s } }));
 }
 const { sector } = Astro.props;
+const migratedPage = migratedSectorPages[sector.slug];
 const relatedSols = sector.related.map(r => solutions.find(s => s.slug === r)).filter(Boolean);
 
 const crumbs = [
@@ -40,9 +42,13 @@ const jsonLd = {
   ]
 };
 ---
-<ArabicLayout title={sector.title} description={sector.description} canonical={sector.canonical} hreflang={[{lang:'ar-SA',href:sector.canonical},{lang:'x-default',href:sector.canonical}]} jsonLd={jsonLd as any} currentPath={sector.href}>
+<ArabicLayout title={migratedPage?.title ?? sector.title} description={migratedPage?.description ?? sector.description} canonical={migratedPage?.canonical ?? sector.canonical} hreflang={migratedPage?.hreflang ?? [{lang:'ar-SA',href:sector.canonical},{lang:'x-default',href:sector.canonical}]} jsonLd={(migratedPage?.jsonLd ?? jsonLd) as any} currentPath={sector.href}>
 <style is:global>@import '../../styles/inner-pages.css';</style>
 
+{migratedPage ? (
+  <main class="migrated-legacy-content" set:html={migratedPage.html} />
+) : (
+<>
 <section class="inner-hero" aria-label={sector.h1}>
   <BackgroundGrid />
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
@@ -125,4 +131,6 @@ const jsonLd = {
     } else { reveals.forEach(el => el.classList.add('is-visible')); }
   });
 </script>
+</>
+)}
 </ArabicLayout>

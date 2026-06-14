@@ -1,0 +1,6 @@
+---
+interface Props { title?:string; description?:string; icon?:string; accent?:string; }
+const { title='حوكمة الذكاء الاصطناعي',description='نظام شامل لإدارة ومراقبة تطبيقات الذكاء الاصطناعي وفق أفضل المعايير الدولية واللوائح التنظيمية السعودية.',icon='lucide:shield-check',accent }=Astro.props;
+---
+<article class="legacy-glass-card" style={accent?`border-inline-start:3px solid ${accent}`:undefined}><div class="icon" style={accent?`color:${accent}`:undefined}><iconify-icon icon={icon} width="24"></iconify-icon></div><h3>{title}</h3><p>{description}</p></article>
+<style>.legacy-glass-card{padding:1.5rem;border:1px solid #ffffff1f;border-radius:8px;background:#0f172bb8;backdrop-filter:blur(20px)}.icon{display:grid;place-items:center;width:48px;height:48px;border-radius:8px;background:#ffffff0d;color:#67e8f9}.legacy-glass-card h3{color:#fff}.legacy-glass-card p{color:#94a3b8;line-height:1.7}</style>

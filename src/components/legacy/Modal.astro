@@ -1,0 +1,6 @@
+---
+interface Props { title?:string; open?:boolean; confirmLabel?:string; cancelLabel?:string; }
+const { title='تأكيد النشر',open=true,confirmLabel='نشر الآن',cancelLabel='إلغاء' }=Astro.props;
+---
+<dialog class="legacy-modal" open={open} aria-labelledby="legacy-modal-title"><header><h2 id="legacy-modal-title">{title}</h2><button aria-label="إغلاق" data-modal-close>×</button></header><div class="body"><slot><p>هل أنت متأكد من نشر نموذج الذكاء الاصطناعي "محلل المخاطر v2.1" في بيئة الإنتاج؟</p><p>بمجرد النشر، سيتم تطبيق جميع سياسات الحوكمة تلقائياً على النموذج.</p></slot></div><footer><button data-modal-close>{cancelLabel}</button><button class="confirm">{confirmLabel}</button></footer></dialog>
+<style>.legacy-modal{width:min(100% - 2rem,520px);padding:0;border:1px solid #ffffff1f;border-radius:8px;background:#0b1220;color:#fff}.legacy-modal header,.legacy-modal footer{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.5rem}.legacy-modal header button,.legacy-modal footer button{padding:.6rem 1rem;border:1px solid #ffffff1f;border-radius:8px;background:transparent;color:#fff}.legacy-modal .body{padding:0 1.5rem 1.5rem;color:#94a3b8}.legacy-modal footer{justify-content:flex-end;gap:.75rem;border-top:1px solid #ffffff1f}.legacy-modal .confirm{background:#6366f1}</style>

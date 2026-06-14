@@ -3,17 +3,40 @@ import ArabicLayout from '../../layouts/ArabicLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import BackgroundGrid from '../../components/BackgroundGrid.astro';
 const crumbs = [{ label: 'الرئيسية', href: '/' }, { label: 'تواصل معنا' }];
+const contactScenarios = [
+  {
+    title: 'عندك استخدامات AI غير واضحة داخل المؤسسة',
+    body: 'إذا كانت الفرق تستخدم أدوات مختلفة وما عندك سجل موحد يوضح المستخدمين والبيانات والنماذج، نبدأ بحصر الاستخدامات وتصنيفها. بعدها يتحدد وش يحتاج منع، وش يحتاج تسجيل، وش يحتاج موافقة بشرية.',
+  },
+  {
+    title: 'تتعاملون مع بيانات حساسة أو قرارات عالية الأثر',
+    body: 'لبيانات العملاء والمرضى والموظفين والعمليات المالية، نراجع نقطة دخول البيانات وخروجها ومسار القرار. غالبًا يجمع الحل بين AI Firewall والموافقة البشرية.',
+  },
+  {
+    title: 'تحتاجون دليلًا واضحًا للمراجعة أو التدقيق',
+    body: 'إذا كان السؤال المتكرر هو: من استخدم AI، وش أرسل، وش السياسة اللي طُبقت، ومن وافق؟ نركز على سجل التدقيق وملف الأدلة بدل تقارير يدوية متفرقة.',
+  },
+  {
+    title: 'تبون تربطون الحوكمة بأنظمة العمل الحالية',
+    body: 'إذا عندكم ERP أو CRM أو HIS أو SharePoint أو بوابة داخلية، نحدد نقاط التكامل المطلوبة وحدود الصلاحيات والبيانات. ما نفترض أن كل نظام يحتاج نفس الربط؛ التصميم يعتمد على العملية والمخاطر والبيئة التقنية.',
+  },
+];
+const contactSteps = [
+  { n: '١', title: 'نفهم النطاق', body: 'نراجع القطاع، حالة الاستخدام، حساسية البيانات، والنتيجة اللي تبي تحققها. إذا الطلب يحتاج معلومات إضافية، نحددها بوضوح قبل الاجتماع.' },
+  { n: '٢', title: 'نختار المسار المناسب', body: 'قد تكون الخطوة ديمو مخصص، جلسة تقييم جاهزية، مراجعة معمارية، أو تحديد نطاق تجربة أولية. ما ندفعك لمسار أكبر من حاجتك الحالية.' },
+  { n: '٣', title: 'نحدد مخرجًا قابلًا للقياس', body: 'نتفق على المشكلة، الأطراف المسؤولة، الأدلة المطلوبة، وطريقة قياس النجاح قبل أي تنفيذ. كذا يكون النقاش مرتبطًا بقرار واضح، مو عرض عام فقط.' },
+];
 ---
-<ArabicLayout title="تواصل مع BrightAI — احجز جلسة استشارية أو ديمو | BrightAI" description="تواصل مع فريق BrightAI للاستفسار عن خدمات حوكمة وأمان الذكاء الاصطناعي، احجز جلسة استشارية مجانية أو اطلب عرض سعر خلال 24 ساعة." canonical="https://brightai.site/contact/" hreflang={[{lang:'ar-SA',href:'https://brightai.site/contact/'},{lang:'x-default',href:'https://brightai.site/contact/'}]} jsonLd={{"@context":"https://schema.org","@type":"ContactPage","name":"تواصل مع BrightAI","url":"https://brightai.site/contact/","mainEntity":{"@type":"Organization","name":"BrightAI","telephone":"+966538229013","url":"https://brightai.site"}}} currentPath="/contact/">
+<ArabicLayout title="احجز عرض BrightAI لحوكمة الذكاء الاصطناعي | BrightAI" description="تواصل مع BrightAI لحجز عرض عملي يوضح كيف تساعدك المنصة في حوكمة الذكاء الاصطناعي، حماية البيانات، وتجهيز أدلة امتثال تناسب منشأتك، مع خطوة تالية واضحة." canonical="https://brightai.site/contact/" hreflang={[{lang:'ar-SA',href:'https://brightai.site/contact/'},{lang:'x-default',href:'https://brightai.site/contact/'}]} jsonLd={{"@context":"https://schema.org","@type":"ContactPage","name":"تواصل مع BrightAI","url":"https://brightai.site/contact/","mainEntity":{"@type":"Organization","name":"BrightAI","telephone":"+966538229013","email":"yazeed1job@gmail.com","address":{"@type":"PostalAddress","addressLocality":"الرياض","addressCountry":"SA"},"url":"https://brightai.site"}}} currentPath="/contact/">
 <style is:global>@import '../../styles/inner-pages.css';</style>
 
 <section class="inner-hero" aria-label="تواصل معنا">
   <BackgroundGrid />
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
     <Breadcrumbs crumbs={crumbs} />
-    <div class="inner-hero__badge"><iconify-icon icon="mdi:message-text"></iconify-icon> نحن هنا لمساعدتك</div>
-    <h1>تواصل مع <span class="home-gradient-text">فريق BrightAI</span></h1>
-    <p class="inner-hero__desc">احجز جلسة استشارية مجانية، اطلب عرض سعر خلال 24 ساعة، أو استفسر عن خدمات حوكمة وأمان الذكاء الاصطناعي. فريقنا جاهز لمساعدتك.</p>
+    <div class="inner-hero__badge"><iconify-icon icon="mdi:message-text"></iconify-icon> نرد خلال 24 ساعة</div>
+    <h1><span class="home-gradient-text">كلم فريق الحوكمة</span> مباشرة</h1>
+    <p class="inner-hero__desc">سواء تبي تفهم أكثر عن BrightAI، تطلب ديمو، أو تحتاج استشارة فنية — فريقنا جاهز يرد عليك خلال ٢٤ ساعة.</p>
   </div>
 </section>
 
@@ -27,60 +50,64 @@ const crumbs = [{ label: 'الرئيسية', href: '/' }, { label: 'تواصل �
         <p class="inner-card__text">أسرع طريقة للتواصل. اكتبنا ونجاوبك خلال دقائق.</p>
         <span class="text-cyan-300 font-bold text-sm mt-2 block">+966 538 229 013</span>
       </a>
-      <a href="/contact/" class="inner-card text-center" style="text-decoration:none;">
-        <iconify-icon class="inner-card__icon" icon="mdi:monitor-dashboard" style="font-size:2.5rem;"></iconify-icon>
-        <h3 class="inner-card__title">احجز ديمو</h3>
-        <p class="inner-card__text">شوّف المنصة بعينك في جلسة ديمو مخصصة لشركتك.</p>
-        <span class="text-cyan-300 font-bold text-sm mt-2 block">احجز الآن ←</span>
+      <a href="mailto:yazeed1job@gmail.com" class="inner-card text-center" style="text-decoration:none;">
+        <iconify-icon class="inner-card__icon" icon="mdi:email" style="font-size:2.5rem;"></iconify-icon>
+        <h3 class="inner-card__title">البريد الإلكتروني</h3>
+        <p class="inner-card__text">للاستفسارات التفصيلية والمرفقات.</p>
+        <span class="text-cyan-300 font-bold text-sm mt-2 block">yazeed1job@gmail.com</span>
       </a>
-      <a href="/pricing/" class="inner-card text-center" style="text-decoration:none;">
-        <iconify-icon class="inner-card__icon" icon="mdi:tag-outline" style="font-size:2.5rem;"></iconify-icon>
-        <h3 class="inner-card__title">عرض سعر</h3>
-        <p class="inner-card__text">اطلب عرض سعر مخصص خلال 24 ساعة عبر واتساب.</p>
-        <span class="text-cyan-300 font-bold text-sm mt-2 block">اطلب عرض سعر ←</span>
-      </a>
+      <div class="inner-card text-center">
+        <iconify-icon class="inner-card__icon" icon="mdi:map-marker" style="font-size:2.5rem;"></iconify-icon>
+        <h3 class="inner-card__title">المقر</h3>
+        <p class="inner-card__text">شركة سعودية 100%، مقرنا في الرياض.</p>
+        <span class="text-cyan-300 font-bold text-sm mt-2 block">الرياض، المملكة العربية السعودية</span>
+      </div>
     </div>
   </div>
 </section>
 
 <section class="inner-section inner-section--alt" aria-labelledby="contact-form-sec">
   <div class="max-w-4xl mx-auto px-5 lg:px-8">
-    <h2 id="contact-form-sec" class="inner-section__title text-center">أو أرسل لنا رسالة</h2>
-    <p class="inner-section__lead text-center">املأ النموذج ونتواصل معك خلال 24 ساعة كحد أقصى.</p>
+    <h2 id="contact-form-sec" class="inner-section__title text-center">ابدأ بديمو مخصص لشركتك</h2>
+    <p class="inner-section__lead text-center">عبي النموذج ونتواصل معك خلال 24 ساعة.</p>
+    <p class="inner-section__lead text-center">نستخدم بياناتك للرد على طلبك فقط حسب سياسة الخصوصية.</p>
     <form class="inner-form" action="https://formsubmit.co/info@brightai.site" method="POST">
       <input type="hidden" name="_subject" value="طلب تواصل من موقع BrightAI" />
       <input type="hidden" name="_captcha" value="false" />
       <input type="hidden" name="_next" value="https://brightai.site/contact/" />
       <div class="inner-grid inner-grid--2">
         <div class="inner-form__group">
-          <label class="inner-form__label" for="name">الاسم</label>
-          <input class="inner-form__input" type="text" id="name" name="name" required placeholder="اسمك الكامل" />
+          <label class="inner-form__label" for="name">الاسم الكامل <span class="text-red-400">*</span></label>
+          <input class="inner-form__input" type="text" id="name" name="name" required placeholder="مثال: محمد أحمد" />
         </div>
         <div class="inner-form__group">
-          <label class="inner-form__label" for="email">البريد الإلكتروني</label>
-          <input class="inner-form__input" type="email" id="email" name="email" required placeholder="email@company.sa" />
+          <label class="inner-form__label" for="email">البريد الإلكتروني <span class="text-red-400">*</span></label>
+          <input class="inner-form__input" type="email" id="email" name="email" required placeholder="example@company.sa" />
         </div>
       </div>
       <div class="inner-grid inner-grid--2">
         <div class="inner-form__group">
-          <label class="inner-form__label" for="company">الشركة / الجهة</label>
-          <input class="inner-form__input" type="text" id="company" name="company" placeholder="اسم الشركة" />
+          <label class="inner-form__label" for="phone">رقم الجوال</label>
+          <input class="inner-form__input" type="tel" id="phone" name="phone" placeholder="05X-XXX-XXXX" />
         </div>
         <div class="inner-form__group">
-          <label class="inner-form__label" for="sector">القطاع</label>
-          <select class="inner-form__select" id="sector" name="sector">
-            <option value="">اختر القطاع</option>
-            <option value="government">جهة حكومية</option>
-            <option value="healthcare">رعاية صحية</option>
-            <option value="finance">قطاع مالي</option>
-            <option value="manufacturing">مصانع طبية</option>
-            <option value="other">قطاع آخر</option>
-          </select>
+          <label class="inner-form__label" for="company">اسم الشركة</label>
+          <input class="inner-form__input" type="text" id="company" name="company" placeholder="اسم شركتك أو مؤسستك" />
         </div>
       </div>
       <div class="inner-form__group">
-        <label class="inner-form__label" for="message">الرسالة</label>
-        <textarea class="inner-form__textarea" id="message" name="message" required placeholder="كيف نقدر نساعدك؟"></textarea>
+        <label class="inner-form__label" for="sector">القطاع</label>
+        <select class="inner-form__select" id="sector" name="sector">
+          <option value="">اختر القطاع</option><option>مصانع طبية</option><option>رعاية صحية</option><option>جهة حكومية</option><option>مشتريات ومناقصات</option><option>مالي / بنوك</option><option>تعليم</option><option>طاقة / صناعة</option><option>تقنية / SaaS</option><option>غيره</option>
+        </select>
+      </div>
+      <div class="inner-form__group">
+        <label class="inner-form__label" for="message">رسالتك <span class="text-red-400">*</span></label>
+        <textarea class="inner-form__textarea" id="message" name="message" required placeholder="أخبرنا عن احتياجاتك أو استفسارك..."></textarea>
+      </div>
+      <div class="flex items-start gap-3">
+        <input required id="pdpl_consent" name="pdpl_consent" type="checkbox" />
+        <label for="pdpl_consent" class="text-xs text-white/60">أوافق على معالجة بياناتي الشخصية المدخلة وفقاً لـ <a href="/privacy-policy/">سياسة الخصوصية</a> و <a href="/pdpl-statement/">بيان الامتثال لنظام PDPL السعودي</a>. <span class="text-red-400">*</span></label>
       </div>
       <button class="inner-form__submit" type="submit">
         <iconify-icon icon="mdi:send"></iconify-icon> إرسال الرسالة
@@ -89,15 +116,60 @@ const crumbs = [{ label: 'الرئيسية', href: '/' }, { label: 'تواصل �
   </div>
 </section>
 
-<section class="inner-cta-final">
-  <div class="max-w-7xl mx-auto px-5 lg:px-8">
-    <div class="inner-cta-final__card">
-      <h2 class="inner-cta-final__title">تبي تكلم أحد مباشرة؟</h2>
-      <p class="inner-cta-final__desc">تواصل عبر واتساب الآن ونجاوبك خلال دقائق.</p>
-      <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="home-wa-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white">
-        <iconify-icon icon="mdi:whatsapp"></iconify-icon> تواصل عبر واتساب
-      </a>
+<section class="inner-section" aria-labelledby="contact-details">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8 grid lg:grid-cols-2 gap-6">
+    <div class="inner-card overflow-hidden">
+      <iframe loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="خريطة Google لموقع BrightAI في الرياض" src="https://www.google.com/maps?q=24.71360,46.67530&hl=ar&z=14&output=embed" style="width:100%;min-height:380px;border:0;"></iframe>
+      <a href="https://www.google.com/maps/search/?api=1&query=24.71360,46.67530" target="_blank" rel="noopener noreferrer">افتح الموقع في خرائط Google</a>
     </div>
+    <div class="inner-card">
+      <h2 id="contact-details" class="inner-card__title">وش تتوقع بعد التواصل؟</h2>
+      <ul class="space-y-4 inner-card__text">
+        <li><strong>واتساب (أسرع)</strong><br /><a href="https://wa.me/966538229013">+966 538 229 013</a></li>
+        <li><strong>البريد الإلكتروني</strong><br /><a href="mailto:yazeed1job@gmail.com">yazeed1job@gmail.com</a></li>
+        <li><strong>ساعات العمل</strong><br />الأحد – الخميس: 9 صباحاً – 6 مساءً</li>
+        <li><strong>اللغات المتاحة</strong><br />العربية والإنجليزية</li>
+      </ul>
+      <h2 class="inner-card__title mt-8">القطاعات اللي نخدمها</h2>
+      <p class="inner-card__text">إذا احتياجك مرتبط بحوكمة AI أو حماية البيانات، ابدأ من أحد الحلول وكلمنا.</p>
+      <div class="flex flex-wrap gap-3 mt-4">
+        <a href="/solutions/ai-governance-platform/">AI Governance Platform</a><a href="/solutions/ai-firewall/">AI Firewall</a><a href="/solutions/ai-audit-trail/">AI Audit Trail</a><a href="/solutions/human-approval-layer/">Human Approval Layer</a><a href="/solutions/ai-evidence-file/">AI Evidence File</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="inner-section inner-section--alt" aria-labelledby="contact-guidance-title">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <p class="inner-section__label">قبل ما ترسل الطلب</p>
+    <h2 id="contact-guidance-title" class="inner-section__title">كيف نخلي أول مكالمة مفيدة من البداية؟</h2>
+    <p class="inner-section__lead">ما نحتاج منك ملف طويل أو مواصفات نهائية. يكفينا وصف واضح للمشكلة: وين تستخدمون الذكاء الاصطناعي اليوم، وش نوع البيانات اللي تدخل له، ومين يتخذ القرار بعد خروج النتيجة. إذا كان الاستخدام ما زال تحت الدراسة، اذكر الفريق أو العملية اللي تبون تبدأون منها، مثل خدمة العملاء، الموارد البشرية، المشتريات، الجودة، أو تحليل الوثائق. هذي المعلومات تساعدنا نحدد هل البداية الأنسب هي <a href="/solutions/ai-use-case-discovery/">اكتشاف حالات الاستخدام</a>، أو <a href="/assessment/ai-governance-readiness/">تقييم جاهزية الحوكمة</a>، أو تجربة تقنية محددة.</p>
+    <p class="inner-section__lead">لا ترسل بيانات شخصية، ملفات مرضى، معلومات حسابات، أسرار تجارية، أو مستندات داخلية حساسة عبر نموذج التواصل. في البداية نناقش النطاق بشكل عام، وبعد الاتفاق على قناة مناسبة يمكن تحديد طريقة آمنة لمشاركة العينات والوثائق. الهدف من أول تواصل هو فهم الحاجة وتحديد الخطوة التالية، وليس جمع بيانات تشغيلية من منشأتك.</p>
+  </div>
+</section>
+
+<section class="inner-section" aria-labelledby="contact-scenarios-title">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <h2 id="contact-scenarios-title" class="inner-section__title">متى يكون التواصل معنا هو الخطوة الصح؟</h2>
+    <p class="inner-section__lead">تواصل إذا كان عندك استخدام AI فعلي يحتاج ضبط، أو مشروع جديد تبي تبدأه من البداية بشكل قابل للتدقيق.</p>
+    <div class="inner-grid inner-grid--2">
+      {contactScenarios.map(item => <article class="inner-card"><h3 class="inner-card__title">{item.title}</h3><p class="inner-card__text">{item.body}</p></article>)}
+    </div>
+  </div>
+</section>
+
+<section class="inner-section inner-section--alt" aria-labelledby="contact-process-title">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <h2 id="contact-process-title" class="inner-section__title">وش يصير بعد استلام رسالتك؟</h2>
+    <ol class="inner-grid inner-grid--3">
+      {contactSteps.map(step => <li class="inner-card"><span class="text-cyan-300 font-black text-2xl">{step.n}</span><h3 class="inner-card__title mt-3">{step.title}</h3><p class="inner-card__text">{step.body}</p></li>)}
+    </ol>
+    <p class="inner-section__lead">BrightAI تدعم التشغيل والحوكمة وجاهزية الامتثال، لكنها لا تستبدل المستشار القانوني أو قرار الجهة التنظيمية. إذا كان طلبك متعلقًا بتفسير إلزام قانوني محدد، نساعدك في تحويل المتطلبات المعتمدة عندكم إلى ضوابط وأدلة تشغيلية، مع بقاء الرأي القانوني لدى المختصين المخولين.</p>
+    <h3 class="inner-section__title text-xl">معلومات تساعدنا نجهز الاجتماع بشكل أدق</h3>
+    <p class="inner-section__lead">اذكر عدد الفرق اللي تستخدم AI، وهل الأدوات داخلية أو سحابية، ونوع المخرجات اللي تعتمدون عليها. وضّح إذا كان الاستخدام يقرأ ملفات، يتصل بقاعدة معرفة، يرسل ردًا لعميل، أو يقترح قرارًا لموظف. إذا عندكم سياسات أو ضوابط معتمدة، يكفي ذكر أسمائها بدون إرفاق المستندات في النموذج. ومن المفيد تحديد صاحب القرار داخل المشروع: الأمن السيبراني، البيانات، الامتثال، التحول الرقمي، الجودة، أو الإدارة التشغيلية.</p>
+    <p class="inner-section__lead">للمشاريع القائمة، اذكر المشكلة اللي تظهر اليوم مثل غياب السجل، صعوبة تتبع الموافقات، تسرب بيانات إلى أدوات عامة، أو عدم وضوح مسؤولية المخرجات. وللمشاريع الجديدة، اذكر النتيجة المطلوبة والموعد المتوقع وأي أنظمة لازم تتكامل معها التجربة. هذي التفاصيل تخلي الجلسة تركز على قرار ونطاق واقعي بدل استعراض خصائص عامة.</p>
+    <p class="inner-section__lead">إذا كان عندكم موعد تدقيق أو إطلاق قريب، اذكر التاريخ والاعتماديات اللي ما زالت مفتوحة. بنوضح من البداية وش يمكن إثباته خلال المدة المتاحة، وش يحتاج تغييرًا تشغيليًا أطول. ما نعطي وعد امتثال مطلق، لكن نحدد الأدلة والضوابط والفجوات بطريقة يقدر فريقك يراجعها ويقيسها.</p>
+    <p class="inner-section__lead">تقدر قبل التواصل تراجع المسار الأقرب لموقع فريقك وقطاعه: <a href="/solutions/banking-ai-governance/riyadh/">حوكمة AI للبنوك في الرياض</a>، <a href="/solutions/healthcare-ai-governance/jeddah/">حوكمة AI للمستشفيات في جدة</a>، أو <a href="/solutions/government-ai-governance/dammam/">حوكمة AI للجهات الحكومية في الدمام</a>. هذي الصفحات توضح أمثلة المخاطر والأدلة المتوقعة لكل سياق.</p>
   </div>
 </section>
 </ArabicLayout>

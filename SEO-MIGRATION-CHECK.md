@@ -1,9 +1,9 @@
 # SEO Migration Check
 
-> Generated: 2026-06-13T18:55:41.870Z
+> Generated: 2026-06-14T02:48:30.613Z
 > Sitemap source: `public/sitemap.xml`
-> Routes: 109 | FOUND: 105 | MISSING: 0 | EXTRA: 4
-> Sitemap audit failures: 0 | Extra route findings: 4
+> Routes: 123 | FOUND: 105 | MISSING: 0 | EXTRA: 18
+> Sitemap audit failures: 1 | Extra route findings: 18
 > Mobile CSS constraint audit: PASS
 
 | Page | Status | SEO | Mobile | Schema | Fix |
@@ -39,7 +39,7 @@
 | `/cookie-policy/` | FOUND | PASS | PASS | PASS | None |
 | `/data-processing-agreement/` | FOUND | PASS | PASS | PASS | None |
 | `/demo/` | FOUND | PASS | PASS | PASS | None |
-| `/docs/` | FOUND | PASS | PASS | PASS | None |
+| `/docs/` | FOUND | FAIL | PASS | PASS | BOOKING_CTA_NOT_CONTACT |
 | `/docs/ai-audit-readiness/` | FOUND | PASS | PASS | PASS | None |
 | `/docs/ai-audit-trail/` | FOUND | PASS | PASS | PASS | None |
 | `/docs/ai-evidence-file/` | FOUND | PASS | PASS | PASS | None |
@@ -115,6 +115,20 @@
 | `/trust/` | FOUND | PASS | PASS | PASS | None |
 | `/404.html` | EXTRA | FAIL | PASS | PASS | NOT_IN_SITEMAP, CANONICAL_MISMATCH |
 | `/500.html` | EXTRA | FAIL | PASS | PASS | NOT_IN_SITEMAP, CANONICAL_MISMATCH, WHATSAPP_URL_MISMATCH |
+| `/docs/kernel-accessibility-mobile/` | EXTRA | PASS | PASS | PASS | NOT_IN_SITEMAP |
+| `/docs/kernel-api-client/` | EXTRA | PASS | PASS | PASS | NOT_IN_SITEMAP |
+| `/docs/kernel-architecture/` | EXTRA | PASS | PASS | PASS | NOT_IN_SITEMAP |
+| `/docs/kernel-audit-evidence/` | EXTRA | PASS | PASS | PASS | NOT_IN_SITEMAP |
+| `/docs/kernel-changelog-template/` | EXTRA | FAIL | PASS | PASS | NOT_IN_SITEMAP, BOOKING_CTA_NOT_CONTACT |
+| `/docs/kernel-developer-onboarding/` | EXTRA | PASS | PASS | PASS | NOT_IN_SITEMAP |
+| `/docs/kernel-internal-linking/` | EXTRA | PASS | PASS | PASS | NOT_IN_SITEMAP |
+| `/docs/kernel-nvidia-proxy/` | EXTRA | PASS | PASS | PASS | NOT_IN_SITEMAP |
+| `/docs/kernel-operations-runbook/` | EXTRA | PASS | PASS | PASS | NOT_IN_SITEMAP |
+| `/docs/kernel-pages/` | EXTRA | PASS | PASS | PASS | NOT_IN_SITEMAP |
+| `/docs/kernel-production-vs-demo/` | EXTRA | PASS | PASS | PASS | NOT_IN_SITEMAP |
+| `/docs/kernel-security-model/` | EXTRA | PASS | PASS | PASS | NOT_IN_SITEMAP |
+| `/docs/kernel-testing-checklist/` | EXTRA | FAIL | PASS | PASS | NOT_IN_SITEMAP, BOOKING_CTA_NOT_CONTACT |
+| `/docs/superpowers/` | EXTRA | PASS | PASS | PASS | NOT_IN_SITEMAP |
 | `/offline/` | EXTRA | PASS | PASS | PASS | NOT_IN_SITEMAP |
 | `/report/` | EXTRA | FAIL | PASS | FAIL | NOT_IN_SITEMAP, H1_COUNT_0, DIRECTION_MISMATCH, MISSING_DESCRIPTION, CANONICAL_MISMATCH, NOINDEX, MISSING_GA, MISSING_VIEWPORT, MISSING_JSON_LD, CONTENT_REQUIRES_JS |
 

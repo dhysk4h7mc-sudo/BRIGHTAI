@@ -33,7 +33,7 @@ const jsonLd = {
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
     <h2 id="quick-answer" class="inner-section__title"><iconify-icon icon="mdi:lightning-bolt" class="text-yellow-300"></iconify-icon> الإجابة المختصرة</h2>
     <div class="inner-card p-8" style="border-color:rgba(34,211,238,.25);background:linear-gradient(135deg,rgba(34,211,238,.08),rgba(124,92,255,.05))">
-      <p class="inner-card__text text-base leading-loose">BrightAI تقدم حلول تقنية وقطاعية مترابطة، كل واحد يحل مشكلة محددة في رحلة استخدام AI. <strong>AI Firewall</strong> يحمي البيانات قبل ما توصل للنموذج، <strong>Audit Trail</strong> يوثّق كل شي، <strong>Human Approval</strong> يوقف القرارات الخطرة، و<strong>Evidence File</strong> يعطيك ملف جاهز للمدقق. وكلهم يشتغلون سوا تحت <strong>BrightAI Kernel</strong>.</p>
+      <p class="inner-card__text text-base leading-loose">BrightAI تقدم حلول تقنية وقطاعية مترابطة، كل واحد يحل مشكلة محددة في رحلة استخدام AI. الفكرة بسيطة: <strong>AI Firewall</strong> يحمي البيانات قبل ما توصل للنموذج، <strong>Audit Trail</strong> يوثّق كل شي، <strong>Human Approval</strong> يوقف القرارات الخطرة، و<strong>Evidence File</strong> يعطيك ملف جاهز للمدقق. والصفحات القطاعية تربط نفس الضوابط بسياق المستشفيات والبنوك والجهات الحكومية والمصانع. كلهم يشتغلون سوا تحت <strong>BrightAI Kernel</strong>.</p>
     </div>
   </div>
 </section>
@@ -53,7 +53,7 @@ const jsonLd = {
 
 <section class="inner-section inner-section--alt" aria-labelledby="all-solutions">
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
-    <h2 id="all-solutions" class="inner-section__title">الحلول التقنية</h2>
+    <h2 id="all-solutions" class="inner-section__title">الحلول كلها</h2>
     <div class="inner-grid inner-grid--3">
       {solutions.map(s => <SolutionCard solution={s} />)}
     </div>
@@ -74,10 +74,21 @@ const jsonLd = {
     <h2 id="guide-title" class="inner-section__title">أي حل يناسبني؟ دليل سريع</h2>
     <div class="space-y-4">
       <div class="flex items-start gap-3"><iconify-icon icon="mdi:check-circle" class="text-emerald-400 mt-1 flex-shrink-0"></iconify-icon><p class="text-white/80"><strong class="text-white">شركة صغيرة، AI أساسي:</strong> ابدأ بـ <a href="/solutions/ai-firewall/" class="text-cyan-300 font-bold">AI Firewall</a> + <a href="/solutions/ai-audit-trail/" class="text-cyan-300 font-bold">Audit Trail</a>.</p></div>
-      <div class="flex items-start gap-3"><iconify-icon icon="mdi:check-circle" class="text-emerald-400 mt-1 flex-shrink-0"></iconify-icon><p class="text-white/80"><strong class="text-white">شركة متوسطة، استخدامات متعددة:</strong> <a href="/solutions/ai-governance-platform/" class="text-cyan-300 font-bold">منصة الحوكمة</a> + <a href="/solutions/human-approval-layer/" class="text-cyan-300 font-bold">الموافقات البشرية</a>.</p></div>
-      <div class="flex items-start gap-3"><iconify-icon icon="mdi:check-circle" class="text-emerald-400 mt-1 flex-shrink-0"></iconify-icon><p class="text-white/80"><strong class="text-white">جهة حكومية أو طبية:</strong> الحزمة الكاملة + <a href="/solutions/ai-evidence-file/" class="text-cyan-300 font-bold">Evidence File</a>.</p></div>
-      <div class="flex items-start gap-3"><iconify-icon icon="mdi:check-circle" class="text-emerald-400 mt-1 flex-shrink-0"></iconify-icon><p class="text-white/80"><strong class="text-white">مو متأكد؟</strong> ابدأ بـ <a href="/solutions/ai-use-case-discovery/" class="text-cyan-300 font-bold">اكتشاف الاستخدامات</a>.</p></div>
+      <div class="flex items-start gap-3"><iconify-icon icon="mdi:check-circle" class="text-emerald-400 mt-1 flex-shrink-0"></iconify-icon><p class="text-white/80"><strong class="text-white">شركة متوسطة، استخدامات متعددة:</strong> <a href="/solutions/ai-governance-platform/" class="text-cyan-300 font-bold">منصة الحوكمة الكاملة</a> + <a href="/solutions/human-approval-layer/" class="text-cyan-300 font-bold">الموافقات البشرية</a>.</p></div>
+      <div class="flex items-start gap-3"><iconify-icon icon="mdi:check-circle" class="text-emerald-400 mt-1 flex-shrink-0"></iconify-icon><p class="text-white/80"><strong class="text-white">جهة حكومية أو طبية:</strong> الحزمة الكاملة + <a href="/solutions/ai-evidence-file/" class="text-cyan-300 font-bold">Evidence File</a> + ربط مع <a href="/hub/compliance/" class="text-cyan-300 font-bold">حزم الامتثال</a>.</p></div>
+      <div class="flex items-start gap-3"><iconify-icon icon="mdi:check-circle" class="text-emerald-400 mt-1 flex-shrink-0"></iconify-icon><p class="text-white/80"><strong class="text-white">مو متأكد؟</strong> ابدأ بـ <a href="/solutions/ai-use-case-discovery/" class="text-cyan-300 font-bold">اكتشاف الاستخدامات</a> ومنه نبني الباقي.</p></div>
     </div>
+  </div>
+</section>
+
+<section class="inner-section" aria-labelledby="solution-choice-detail">
+  <div class="max-w-4xl mx-auto px-5 lg:px-8">
+    <h2 id="solution-choice-detail" class="inner-section__title">كيف تختار الحل بدون ما تبدأ بمشروع أكبر من حاجتك؟</h2>
+    <p class="inner-section__lead">ابدأ من الخطر التشغيلي، مو من اسم التقنية. إذا المشكلة هي خروج بيانات حساسة إلى نموذج غير مصرح به، الأولوية تكون لـ <a href="/solutions/ai-firewall/">AI Firewall</a>. إذا البيانات تحت السيطرة لكن ما تقدر تشرح من استخدم النموذج وش صار بعد النتيجة، تحتاج <a href="/solutions/ai-audit-trail/">AI Audit Trail</a>. وإذا النتيجة قد تؤثر على عميل أو مريض أو موظف أو قرار مالي، أضف <a href="/solutions/human-approval-layer/">طبقة الموافقة البشرية</a> قبل التنفيذ.</p>
+    <p class="inner-section__lead">المؤسسات اللي عندها أكثر من إدارة أو أكثر من نموذج تحتاج غالبًا طبقة تجمع الملكية والسياسات والمخاطر في مكان واحد، وهنا تبدأ قيمة <a href="/solutions/ai-governance-platform/">منصة حوكمة الذكاء الاصطناعي</a>. أما إذا ما عندك صورة واضحة للاستخدامات الحالية، فلا تبدأ بسياسات كثيرة؛ ابدأ بـ <a href="/solutions/ai-use-case-discovery/">اكتشاف حالات استخدام AI</a> ثم صنفها عبر <a href="/solutions/ai-risk-classification/">تصنيف المخاطر</a>.</p>
+    <p class="inner-section__lead">القطاع يغيّر شكل الضوابط المطلوبة. الجهات الحكومية تحتاج مسارًا يراعي بيانات المستفيدين والسياسات والمساءلة؛ المصانع تحتاج ربط التوصيات بالجودة والأصول وسلامة التشغيل؛ المستشفيات تحتاج فصلًا واضحًا بين المساعدة الإدارية والقرار السريري؛ والبنوك تحتاج أثرًا تدقيقيًا للقرارات والبيانات المالية. لذلك راجع صفحات <a href="/solutions/government-ai-governance/">الحكومة</a> و<a href="/solutions/manufacturing-ai-governance/">التصنيع</a> و<a href="/solutions/healthcare-ai-governance/">الصحة</a> و<a href="/solutions/banking-ai-governance/">القطاع المالي</a> قبل تحديد نطاق التنفيذ.</p>
+    <p class="inner-section__lead">مخرج الاختيار الصحيح لازم يكون واضحًا: حالة استخدام محددة، مالك مسؤول، بيانات معروفة، مستوى خطر، ضابط قابل للاختبار، ودليل يثبت وش صار. إذا ما قدرت تربط الحل بهذي العناصر، ارجع خطوة وابدأ بالتقييم بدل شراء مكونات متفرقة.</p>
+    <p class="inner-section__lead">للمقارنة المنظمة بين المكونات، افتح <a href="/hub/solutions/">مركز الحلول</a>. وللبدء من العملية التجارية بدل اسم المنتج، استخدم <a href="/hub/use-cases/">مركز حالات الاستخدام</a> عشان تربط كل سيناريو بالسياسة والموافقة والدليل المناسب.</p>
   </div>
 </section>
 
@@ -85,7 +96,7 @@ const jsonLd = {
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
     <div class="inner-cta-final__card">
       <h2 class="inner-cta-final__title">جرّب BrightAI Kernel مجاناً</h2>
-      <p class="inner-cta-final__desc">تجربة تفاعلية كاملة لكل الحلول، بدون التزام.</p>
+      <p class="inner-cta-final__desc">تجربة تفاعلية كاملة لكل الحلول، بدون التزام. شوف كيف يشتغلون مع بعض على بيانات تجريبية.</p>
       <div class="inner-hero__actions" style="justify-content:center;">
         <a href="/kernel/" class="home-glow-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-bold"><iconify-icon icon="mdi:gauge"></iconify-icon> ابدأ التجربة المجانية</a>
         <a href="/contact/" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white border border-white/20"><iconify-icon icon="mdi:calendar-check"></iconify-icon> احجز ديمو مخصص</a>

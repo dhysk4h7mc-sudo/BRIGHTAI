@@ -4,26 +4,68 @@ import ArabicLayout from '../../layouts/ArabicLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
 const docs = await getCollection('docs');
-const categoryOrder = ['Kernel', 'PDPL', 'NCA', 'SDAIA', 'General'] as const;
-const categoryLabels = {
-  Kernel: 'Kernel',
-  PDPL: 'نظام حماية البيانات الشخصية PDPL',
-  NCA: 'ضوابط الهيئة الوطنية للأمن السيبراني NCA',
-  SDAIA: 'إرشادات سدايا',
-  General: 'الحوكمة والتدقيق وإدارة المخاطر',
-};
-
-const grouped = categoryOrder.map((category) => ({
-  category,
-  label: categoryLabels[category],
-  docs: docs
-    .filter((doc) => doc.data.category === category)
-    .sort((a, b) => a.data.title.localeCompare(b.data.title, 'ar')),
-})).filter((group) => group.docs.length > 0);
-
 const title = 'مركز وثائق حوكمة الذكاء الاصطناعي الشامل | Saudi AI Safety OS';
 const description = 'مرجع شامل لحوكمة وأمان الذكاء الاصطناعي في السعودية: 27+ وثيقة تغطي PDPL، NCA ECC، إرشادات سدايا، إدارة المخاطر، التدقيق، والتطبيق التقني - دليلك الكامل لتشغيل AI بأمان.';
 const canonical = 'https://brightai.site/docs/';
+
+const sections = [
+  {
+    id: 'solutions',
+    title: '🏛️ المحور الأول: وثائق الحلول الأساسية',
+    intro: 'الحلول الأساسية التي تشكل نظام Saudi AI Safety OS - من الحوكمة إلى الحماية والتدقيق. كل حل يحل مشكلة محددة في رحلة حوكمة AI.',
+    cards: [
+      ['ai-governance-platform', 'AI Governance Platform', 'منصة شاملة لتشغيل الحوكمة، تصنيف المخاطر، وربط السياسات بضوابط قابلة للتدقيق. المحور المركزي لإدارة AI.'],
+      ['ai-firewall', 'AI Firewall', 'جدار ناري ذكي لحماية البيانات الحساسة وتنقيتها قبل وصولها إلى نماذج الذكاء الاصطناعي. حماية استباقية للبيانات.'],
+      ['ai-audit-trail', 'AI Audit Trail', 'سجل تدقيق شامل يوثق كل طلب وقرار وموافقة في نظام مركزي قابل للمراجعة والتصدير. الأساس لإثبات الامتثال.'],
+      ['human-approval-layer', 'Human Approval Layer', 'طبقة موافقات بشرية تصعد القرارات الحساسة للمراجعة حسب السياسات ومستوى المخاطر. ضمان الرقابة البشرية.'],
+      ['ai-evidence-file', 'AI Evidence File', 'نظام تجميع الأدلة التشغيلية لدعم جاهزية التدقيق والمراجعة الداخلية والخارجية. ملف الأدلة الجاهز.'],
+    ],
+  },
+  {
+    id: 'kernel',
+    title: '⚙️ المحور الثاني: وثائق BrightAI Kernel التقنية',
+    intro: 'دليل تقني شامل للمطورين والمهندسين لتطبيق وتكامل مكونات BrightAI Kernel. من المفهوم إلى الكود الفعلي.',
+    cards: [
+      ['kernel-chat', 'Kernel Chat - المحادثة الآمنة', 'واجهة محادثة ذكية تحمي بيانات شركتك، تصنف المخاطر، وتوثق كل قرار قبل الوصول للنموذج. نقطة البداية التقنية.'],
+      ['kernel-audit-trail', 'Kernel Audit Trail - سجل التدقيق', 'كل طلب، كل قرار، كل موافقة - موثقة بالتفصيل في سجل محمي ضد التعديل والتلاعب. التطبيق التقني لسجل التدقيق.'],
+      ['kernel-approvals', 'Kernel Approvals - الموافقات البشرية', 'نظام موافقات ذكي يصعد الطلبات الحساسة للمراجعة البشرية قبل التنفيذ. تطبيق طبقة الموافقات تقنياً.'],
+      ['kernel-evidence', 'Kernel Evidence - ملفات الأدلة', 'كل طلب يصير له ملف دليل شامل - جاهز للتصدير والمراجعة والتدقيق الداخلي والخارجي. توليد الأدلة تلقائياً.'],
+      ['kernel-stats', 'Kernel Stats - لوحة الإحصائيات', 'تابع مؤشرات استخدام AI، المخاطر، الموافقات، والأقسام في لوحة واحدة واضحة وشاملة. رؤية شاملة للحوكمة.'],
+      ['kernel-reports', 'Kernel Reports - التقارير', 'حوّل بيانات الحوكمة إلى تقارير واضحة جاهزة للإدارة العليا والتدقيق والامتثال. من البيانات إلى القرارات.'],
+      ['kernel-policies', 'Kernel Policies - محرر السياسات', 'أنشئ وعدّل سياسات AI بشكل بصري واربطها بالضوابط والموافقات والإجراءات. إدارة السياسات بصرياً.'],
+      ['kernel-compliance', 'Kernel Compliance - حزم الامتثال', 'تابع حالة الامتثال لـ PDPL وNCA ECC وISO 27001 في لوحة واحدة موحدة. مراقبة الامتثال المستمرة.'],
+      ['kernel-connectors', 'Kernel Connectors - الموصلات', 'اربط Kernel بأنظمة العمل ومصادر البيانات بشكل آمن ومنظم وقابل للتدقيق. التكامل مع الأنظمة الموجودة.'],
+      ['kernel-scenarios', 'Kernel Scenarios - السيناريوهات', 'اختبر سياسات AI والضوابط بسيناريوهات جاهزة قبل التطبيق الفعلي في البيئة الإنتاجية. اختبر قبل التطبيق.'],
+    ],
+  },
+  {
+    id: 'compliance',
+    title: '📋 المحور الثالث: أدلة الامتثال والمعايير',
+    intro: 'أدلة عملية للمواءمة مع المعايير السعودية والدولية. كل دليل يربط المتطلبات التنظيمية بالتطبيق العملي.',
+    cards: [
+      ['pdpl-ai-governance', 'PDPL والذكاء الاصطناعي', 'دليل شامل لإدارة الخصوصية والبيانات الشخصية داخل استخدامات الذكاء الاصطناعي وفق نظام حماية البيانات الشخصية السعودي.'],
+      ['pdpl-chatgpt-data-protection', 'ChatGPT والبيانات الشخصية في السعودية', 'دليل عملي لاستخدام AI بدون تسريب بيانات شخصية أو حساسة - خطوات تطبيقية واضحة لحماية البيانات.'],
+      ['pdpl-ai-complete-guide', 'الدليل الشامل لتطبيق PDPL مع الذكاء الاصطناعي', 'مرجع عميق لتطبيق امتثال PDPL للذكاء الاصطناعي وحماية البيانات الشخصية في AI مع جداول وخطة 90 يوم.'],
+      ['nca-ecc-ai-governance', 'NCA ECC وحوكمة AI', 'ضوابط تشغيلية تساعد فرق الأمن السيبراني والتدقيق على المواءمة مع الضوابط الأساسية للأمن السيبراني.'],
+      ['nca-ecc-ai-controls-mapping', 'مواءمة استخدام الذكاء الاصطناعي مع NCA ECC', 'جدول تنفيذي يربط مخاطر AI بضوابط Saudi AI Safety OS القابلة للمراجعة أمنيًا - خريطة الامتثال الكاملة.'],
+      ['nca-ecc-ai-controls', 'ضوابط الذكاء الاصطناعي وفق NCA ECC', 'سجل تدقيق، تصنيف البيانات، وتفعيل الموافقات البشرية للامتثال الكامل مع الضوابط الأساسية.'],
+      ['nca-ecc-ai-guide', 'ضوابط NCA ECC 2-2024 للذكاء الاصطناعي', 'دليل تطبيق عملي يربط NCA ECC AI controls ببوابة AI، الموردين، السحابة، السجلات، ومركز العمليات الأمنية.'],
+      ['sdaia-generative-ai-guidelines', 'إرشادات سدايا للذكاء الاصطناعي التوليدي', 'شرح عملي لإرشادات سدايا للاستخدام المسؤول للذكاء الاصطناعي التوليدي مع سياسة يومية وتصنيف استخدامات.'],
+    ],
+  },
+  {
+    id: 'implementation',
+    title: '🚀 المحور الرابع: أدلة تنفيذية وإدارة المخاطر',
+    intro: 'خطوات عملية لتطبيق الحوكمة وإدارة المخاطر وتحقيق الجاهزية للتدقيق. من الاستراتيجية إلى التنفيذ.',
+    cards: [
+      ['ai-governance-saudi-arabia', 'حوكمة الذكاء الاصطناعي في السعودية', 'دليل تنفيذي شامل لتحويل سياسات AI إلى ضوابط قابلة للتدقيق والمراجعة والتطبيق. نقطة البداية الاستراتيجية.'],
+      ['ai-risk-management', 'إدارة مخاطر الذكاء الاصطناعي', 'إطار عملي لتصنيف المخاطر وتشغيل الضوابط والموافقات حسب مستوى الخطورة. من التقييم إلى التخفيف.'],
+      ['governance-application', 'تطبيق حوكمة الذكاء الاصطناعي خلال 30 يوم', 'خطة عملية شاملة للشركات السعودية لحصر وتصنيف وحماية استخدامات AI خلال 4 أسابيع. خارطة طريق التنفيذ.'],
+      ['ai-audit-readiness', 'جاهزية تدقيق الذكاء الاصطناعي', 'كيف تثبت السيطرة والجاهزية بالأدلة والسجلات - دليل عملي للتحضير للتدقيق الداخلي والخارجي.'],
+    ],
+  },
+] as const;
+
 const jsonLd = {
   '@context': 'https://schema.org',
   '@graph': [
@@ -31,9 +73,17 @@ const jsonLd = {
       '@type': 'WebPage',
       '@id': `${canonical}#webpage`,
       url: canonical,
-      name: title,
-      description,
+      name: 'وثائق Saudi AI Safety OS لحوكمة وأمان الذكاء الاصطناعي',
+      description: 'مركز وثائق Saudi AI Safety OS لحوكمة وأمان الذكاء الاصطناعي، يشمل وثائق الحلول وأدلة إدارة المخاطر والخصوصية وجاهزية التدقيق.',
       inLanguage: 'ar-SA',
+    },
+    {
+      '@type': 'BreadcrumbList',
+      '@id': `${canonical}#breadcrumb`,
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'الرئيسية', item: 'https://brightai.site/' },
+        { '@type': 'ListItem', position: 2, name: 'الوثائق', item: canonical },
+      ],
     },
     {
       '@type': 'ItemList',
@@ -57,107 +107,110 @@ const jsonLd = {
   currentPath="/docs/"
 >
   <style>
-    .docs-index {
-      width: min(100% - 2rem, 75rem);
-      margin-inline: auto;
-      padding-block: 2rem 5rem;
-    }
-    .docs-index__hero {
-      max-width: 54rem;
-      padding-block: 2rem 3rem;
-    }
-    .docs-index__eyebrow {
-      color: var(--brand, #00d4aa);
-      font-weight: 800;
-    }
-    .docs-index h1 {
-      margin: 0.75rem 0 1rem;
-      color: var(--fg, #f8fafc);
-      font-size: clamp(2rem, 5vw, 3.5rem);
-      line-height: 1.25;
-    }
-    .docs-index__intro,
-    .docs-category__intro {
-      color: var(--fg-muted, #a8b3c7);
-      line-height: 1.9;
-    }
-    .docs-category {
-      margin-block-start: 3rem;
-    }
-    .docs-category h2 {
-      color: var(--fg, #f8fafc);
-      font-size: clamp(1.4rem, 3vw, 2rem);
-    }
-    .docs-index__grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 1rem;
-    }
-    .docs-index__card {
-      display: block;
-      padding: 1.25rem;
-      border: 1px solid rgba(148, 163, 184, 0.18);
-      border-radius: 1rem;
-      color: inherit;
-      text-decoration: none;
-      background: rgba(15, 23, 42, 0.55);
-    }
-    .docs-index__card h3 {
-      margin: 0 0 0.75rem;
-      color: var(--fg, #f8fafc);
-      font-size: 1.05rem;
-      line-height: 1.55;
-    }
-    .docs-index__card p {
-      margin: 0;
-      color: var(--fg-muted, #a8b3c7);
-      font-size: 0.875rem;
-      line-height: 1.75;
-    }
-    @media (max-width: 900px) {
-      .docs-index__grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-    }
+    .docs-index { width: min(100% - 2rem, 75rem); margin-inline: auto; padding-block: 2rem 5rem; }
+    .docs-index__hero { max-width: 58rem; padding-block: 2rem 3rem; }
+    .docs-index__eyebrow { color: var(--brand, #00d4aa); font-weight: 800; }
+    .docs-index h1 { margin: .75rem 0 1rem; color: var(--fg, #f8fafc); font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.25; }
+    .docs-index h2 { margin-block: 3rem 1rem; color: var(--fg, #f8fafc); font-size: clamp(1.4rem, 3vw, 2rem); }
+    .docs-index h3 { color: var(--fg, #f8fafc); font-size: 1.05rem; line-height: 1.55; }
+    .docs-index p, .docs-index li { color: var(--fg-muted, #a8b3c7); line-height: 1.9; }
+    .docs-index a { color: #67e8f9; }
+    .docs-index__intro { font-size: 1.05rem; }
+    .docs-index__panel { padding: 1.5rem; border: 1px solid rgba(148,163,184,.18); border-radius: 8px; background: rgba(15,23,42,.5); }
+    .docs-index__grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 1rem; }
+    .docs-index__card { display: block; padding: 1.25rem; border: 1px solid rgba(148,163,184,.18); border-radius: 8px; color: inherit; text-decoration: none; background: rgba(15,23,42,.55); }
+    .docs-index__card h3, .docs-index__card p { margin-block: 0 .75rem; }
+    .docs-index__cluster { margin-block: 1.25rem; padding: 1rem 1.25rem; border-inline-start: 3px solid #67e8f9; background: rgba(103,232,249,.05); }
+    .docs-index__cluster h3 { margin-block: 0 .4rem; }
+    .docs-index__faq h3 { margin-block: 1.5rem .4rem; }
+    @media (max-width: 900px) { .docs-index__grid { grid-template-columns: repeat(2,minmax(0,1fr)); } }
     @media (max-width: 600px) {
-      .docs-index {
-        width: min(100% - 1.25rem, 75rem);
-      }
-      .docs-index__grid {
-        grid-template-columns: 1fr;
-      }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .docs-index__card {
-        transition: none;
-      }
+      .docs-index { width: min(100% - 1.25rem,75rem); }
+      .docs-index__grid { grid-template-columns: 1fr; }
     }
   </style>
 
   <main class="docs-index">
-    <Breadcrumbs crumbs={[
-      { label: 'الرئيسية', href: '/' },
-      { label: 'الوثائق' },
-    ]} />
+    <Breadcrumbs crumbs={[{ label: 'الرئيسية', href: '/' }, { label: 'الوثائق' }]} />
 
     <header class="docs-index__hero">
       <p class="docs-index__eyebrow">27 وثيقة عملية</p>
       <h1>وثائق تخدم تطبيقك لحوكمة الذكاء الاصطناعي</h1>
-      <p class="docs-index__intro">{description}</p>
+      <p class="docs-index__intro">المرجع العربي الشامل لحوكمة وأمان AI في السعودية — أكثر من ٢٧ وثيقة تغطي الحوكمة، الامتثال، إدارة المخاطر، والتطبيق التقني. من السياسة إلى الكود، كله هنا.</p>
     </header>
 
-    {grouped.map((group) => (
-      <section class="docs-category" aria-labelledby={`category-${group.category.toLowerCase()}`}>
-        <h2 id={`category-${group.category.toLowerCase()}`}>{group.label}</h2>
+    <section class="docs-index__panel">
+      <h2>🎯 لماذا مركز الوثائق هذا؟</h2>
+      <p>Saudi AI Safety OS يقدم مرجعاً عربياً عملياً لحوكمة الذكاء الاصطناعي في السعودية. هذا المركز يجمع:</p>
+      <div class="docs-index__grid">
+        <article><h3>📚 تغطية شاملة لكل جوانب حوكمة AI</h3><p>من السياسات إلى التطبيق التقني - 27 وثيقة مترابطة تغطي الحوكمة، الامتثال، المخاطر، التدقيق، والتطبيق</p></article>
+        <article><h3>🇸🇦 مصمم للسياق السعودي</h3><p>مواءمة كاملة مع <a href="/docs/pdpl-ai-governance/">PDPL</a>، <a href="/docs/nca-ecc-ai-governance/">NCA ECC</a>، ومتطلبات الجهات التنظيمية السعودية</p></article>
+        <article><h3>⚙️ من النظرية إلى التطبيق</h3><p>كل وثيقة تربط المفهوم بالتطبيق العملي - من <a href="/docs/ai-governance-saudi-arabia/">دليل الحوكمة</a> إلى <a href="/docs/kernel-chat/">التطبيق التقني</a></p></article>
+      </div>
+      <p>الجمهور المستهدف: مدراء المخاطر، مسؤولو الامتثال، فرق الأمن السيبراني، مسؤولو حماية البيانات، المطورون، والمهندسون في الشركات السعودية.</p>
+    </section>
+
+    {sections.map((section) => (
+      <section aria-labelledby={`docs-${section.id}`}>
+        <h2 id={`docs-${section.id}`}>{section.title}</h2>
+        <p>{section.intro}</p>
         <div class="docs-index__grid">
-          {group.docs.map((doc) => (
-            <a class="docs-index__card" href={`/docs/${doc.id}/`}>
-              <h3>{doc.data.title}</h3>
-              <p>{doc.data.description}</p>
+          {section.cards.map(([slug, cardTitle, cardDescription]) => (
+            <a class="docs-index__card" href={`/docs/${slug}/`}>
+              <h3>{cardTitle}</h3>
+              <p>{cardDescription}</p>
             </a>
           ))}
         </div>
+        {section.id === 'solutions' && <p>الربط الموضوعي: هذه الحلول تعمل معاً كمنظومة متكاملة - <a href="/docs/ai-governance-platform/">المنصة</a> تدير السياسات، <a href="/docs/ai-firewall/">الجدار الناري</a> يحمي البيانات، <a href="/docs/ai-audit-trail/">سجل التدقيق</a> يوثق كل شيء، <a href="/docs/human-approval-layer/">طبقة الموافقات</a> تضمن الرقابة، و<a href="/docs/ai-evidence-file/">ملف الأدلة</a> يجمع كل شيء للتدقيق.</p>}
+        {section.id === 'kernel' && <p>مسار التطبيق التقني: ابدأ بـ <a href="/docs/kernel-chat/">Kernel Chat</a> للواجهة، ثم <a href="/docs/kernel-audit-trail/">سجل التدقيق</a> للتوثيق، <a href="/docs/kernel-approvals/">الموافقات</a> للرقابة، <a href="/docs/kernel-policies/">السياسات</a> للإدارة، و<a href="/docs/kernel-compliance/">الامتثال</a> للمراقبة المستمرة.</p>}
+        {section.id === 'compliance' && <p>مسار الامتثال: ابدأ بفهم <a href="/docs/pdpl-ai-complete-guide/">متطلبات PDPL العميقة</a> و<a href="/docs/nca-ecc-ai-guide/">NCA ECC 2-2024 للذكاء الاصطناعي</a>، ثم راجع <a href="/docs/sdaia-generative-ai-guidelines/">إرشادات سدايا للاستخدام المسؤول</a>، واستخدم <a href="/docs/nca-ecc-ai-controls-mapping/">خريطة المواءمة</a> لربط المتطلبات بالضوابط.</p>}
+        {section.id === 'implementation' && <p>مسار التنفيذ: ابدأ بـ <a href="/docs/ai-governance-saudi-arabia/">فهم الحوكمة</a>، ثم <a href="/docs/ai-risk-management/">صنّف المخاطر</a>، طبّق <a href="/docs/governance-application/">خطة 30 يوم</a>، وحضّر <a href="/docs/ai-audit-readiness/">جاهزية التدقيق</a>.</p>}
       </section>
     ))}
+
+    <section>
+      <h2>🗺️ خريطة المحتوى: كيف ترتبط الوثائق؟</h2>
+      <p>الوثائق ليست منفصلة - كل وثيقة تكمل الأخرى في منظومة متكاملة:</p>
+      <div class="docs-index__cluster"><h3>المسار الاستراتيجي (للإدارة العليا ومدراء المخاطر)</h3><p><a href="/docs/ai-governance-saudi-arabia/">حوكمة AI في السعودية</a> → <a href="/docs/ai-risk-management/">إدارة المخاطر</a> → <a href="/docs/governance-application/">خطة 30 يوم</a> → <a href="/docs/ai-audit-readiness/">جاهزية التدقيق</a></p></div>
+      <div class="docs-index__cluster"><h3>مسار الامتثال (لمسؤولي الامتثال وحماية البيانات)</h3><p><a href="/docs/pdpl-ai-governance/">PDPL والذكاء الاصطناعي</a> → <a href="/docs/nca-ecc-ai-governance/">NCA ECC وحوكمة AI</a> → <a href="/docs/nca-ecc-ai-controls-mapping/">خريطة المواءمة</a> → <a href="/docs/ai-evidence-file/">ملف الأدلة</a></p></div>
+      <div class="docs-index__cluster"><h3>المسار التقني (للمطورين والمهندسين)</h3><p><a href="/docs/kernel-chat/">Kernel Chat</a> → <a href="/docs/kernel-audit-trail/">سجل التدقيق</a> → <a href="/docs/kernel-approvals/">الموافقات</a> → <a href="/docs/kernel-policies/">السياسات</a> → <a href="/docs/kernel-compliance/">الامتثال</a></p></div>
+      <div class="docs-index__cluster"><h3>مسار الحماية (لفرق الأمن السيبراني)</h3><p><a href="/docs/ai-firewall/">AI Firewall</a> → <a href="/docs/pdpl-chatgpt-data-protection/">حماية البيانات</a> → <a href="/docs/nca-ecc-ai-controls/">ضوابط NCA ECC</a> → <a href="/docs/ai-audit-trail/">سجل التدقيق</a></p></div>
+    </section>
+
+    <section class="docs-index__faq">
+      <h2>❓ الأسئلة الشائعة</h2>
+      <h3>من يستفيد من هذه الوثائق؟</h3>
+      <p>مدراء المخاطر، مسؤولو الامتثال، فرق الأمن السيبراني، مسؤولو حماية البيانات، المطورون، والمهندسون في الشركات السعودية التي تستخدم أو تخطط لاستخدام الذكاء الاصطناعي.</p>
+      <h3>هل هذه الوثائق بديلة للاستشارة القانونية؟</h3>
+      <p>لا. هي أدلة معرفية وتشغيلية تساعد على بناء الضوابط وتجهيز النقاش مع فرق الامتثال والمستشارين القانونيين. يجب دائماً مراجعة المستشار القانوني للتأكد من الامتثال الكامل.</p>
+      <h3>من أين أبدأ؟</h3>
+      <p>حسب دورك:</p>
+      <ul>
+        <li>مدير مخاطر/امتثال: <a href="/docs/governance-application/">دليل تطبيق الحوكمة خلال 30 يوم</a></li>
+        <li>مسؤول أمن سيبراني: <a href="/docs/nca-ecc-ai-governance/">NCA ECC وحوكمة AI</a></li>
+        <li>مسؤول حماية بيانات: <a href="/docs/pdpl-ai-governance/">PDPL والذكاء الاصطناعي</a></li>
+        <li>مطور/مهندس: <a href="/docs/kernel-chat/">Kernel Chat</a></li>
+      </ul>
+      <h3>كيف تختلف هذه الوثائق عن الموارد الأخرى؟</h3>
+      <p>هذه الوثائق مصممة خصيصاً للسياق السعودي، مع تغطية شاملة من الاستراتيجية إلى التطبيق التقني، وربط واضح بين المتطلبات التنظيمية والحلول العملية. كل وثيقة تكمل الأخرى في منظومة متكاملة.</p>
+      <h3>هل يمكنني تطبيق هذه الحلول بدون فريق تقني كبير؟</h3>
+      <p>نعم. الحلول مصممة لتكون قابلة للتطبيق بموارد محدودة، مع أدلة واضحة خطوة بخطوة. يمكن البدء بفريق صغير والتوسع تدريجياً حسب الحاجة.</p>
+      <h3>كم يستغرق تطبيق الحوكمة؟</h3>
+      <p>حسب <a href="/docs/governance-application/">دليل تطبيق الحوكمة خلال 30 يوم</a>، يمكن بناء إطار حوكمة أساسي خلال 4 أسابيع، مع التحسين المستمر بعد ذلك.</p>
+    </section>
+
+    <section class="docs-index__panel">
+      <h2>🎯 الخطوة التالية</h2>
+      <p>اختر المسار المناسب لدورك:</p>
+      <ul>
+        <li>الإدارة العليا: ابدأ بـ <a href="/docs/ai-governance-saudi-arabia/">حوكمة الذكاء الاصطناعي في السعودية</a> لفهم الصورة الكاملة</li>
+        <li>مدير المخاطر/الامتثال: راجع <a href="/docs/governance-application/">دليل تطبيق الحوكمة خلال 30 يوم</a> للبدء الفوري</li>
+        <li>مسؤول الأمن السيبراني: اطلع على <a href="/docs/nca-ecc-ai-governance/">NCA ECC وحوكمة AI</a> للضوابط الأمنية</li>
+        <li>مسؤول حماية البيانات: ابدأ بـ <a href="/docs/pdpl-ai-governance/">PDPL والذكاء الاصطناعي</a> لحماية البيانات</li>
+        <li>مطور/مهندس: راجع <a href="/docs/kernel-chat/">Kernel Chat</a> و<a href="/docs/kernel-audit-trail/">Kernel Audit Trail</a> للتطبيق التقني</li>
+      </ul>
+      <p>تحتاج مساعدة مخصصة؟ <a href="/contact/">تواصل معنا</a> للحصول على استشارة مخصصة وتقييم جاهزية الحوكمة لشركتك، أو جرّب <a href="/demo/">المساعد التجريبي</a> للحصول على إجابات فورية.</p>
+    </section>
   </main>
 </ArabicLayout>

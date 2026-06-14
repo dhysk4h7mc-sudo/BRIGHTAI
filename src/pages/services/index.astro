@@ -4,18 +4,28 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import BackgroundGrid from '../../components/BackgroundGrid.astro';
 const crumbs = [{ label: 'الرئيسية', href: '/' }, { label: 'الخدمات' }];
 const servicePaths = [
-  { icon: 'mdi:shield-half-full', title: 'AI Firewall', desc: 'حماية البيانات الحساسة قبل وصولها للنماذج. PII Redaction تلقائي وفلترة استفسارات ومنع التسريب.', href: '/solutions/ai-firewall/' },
-  { icon: 'mdi:file-sign', title: 'AI Audit Trail', desc: 'سجل غير قابل للتعديل لكل طلب وقرار وموافقة. محمي بـ Hash ومتطابق مع ضوابط NCA ECC.', href: '/solutions/ai-audit-trail/' },
-  { icon: 'mdi:account-check', title: 'Human Approval Layer', desc: 'موافقات بشرية للقرارات عالية المخاطر. مسار Risk-Based ذكي مع إشعارات فورية.', href: '/solutions/human-approval-layer/' },
-  { icon: 'mdi:folder-open', title: 'AI Evidence File', desc: 'ملفات أدلة PDF موقّعة رقمياً جاهزة للمدققين. متوافقة مع PDPL وNCA وSFDA وISO.', href: '/solutions/ai-evidence-file/' },
-  { icon: 'mdi:scale-balance', title: 'AI Governance Platform', desc: 'طبقة تشغيلية مركزية لإدارة استخدامات ومخاطر AI. رؤية شاملة وضوابط موحدة.', href: '/solutions/ai-governance-platform/' },
-  { icon: 'mdi:tune', title: 'محرر السياسات', desc: 'ضبط قواعد الاستخدام والحساسية والتصعيد بدون تعقيد تقني.', href: '/kernel/policies/' },
+  { icon: 'mdi:scale-balance', title: 'AI Governance Platform', desc: 'منصة تنظّم سياسات استخدام الذكاء الاصطناعي، الصلاحيات، المخاطر، وسجلات المراجعة داخل المؤسسة.', href: '/solutions/ai-governance-platform/', cta: 'اعرف أكثر' },
+  { icon: 'mdi:shield-half-full', title: 'AI Firewall & Data Protection', desc: 'طبقة تفحص الطلبات قبل وصولها للنماذج وتساعد في تقليل تسرب البيانات الحساسة أو غير المصرح بها.', href: '/solutions/ai-firewall/', cta: 'استكشف الحماية' },
+  { icon: 'mdi:file-sign', title: 'AI Audit Trail', desc: 'توثيق من استخدم AI، ماذا أرسل، ما الرد، وما الإجراء المتخذ، بطريقة تسهّل المراجعة الداخلية.', href: '/solutions/ai-audit-trail/', cta: 'راجع السجل' },
+  { icon: 'mdi:account-check', title: 'Human Approval Workflow', desc: 'مسارات موافقة بشرية للقرارات العالية المخاطر قبل التنفيذ أو إرسال مخرجات حساسة للعميل النهائي.', href: '/solutions/human-approval-layer/', cta: 'شاهد المسار' },
+  { icon: 'mdi:folder-open', title: 'AI Evidence File', desc: 'ملف أدلة يجمع المدخلات، السياسة المطبقة، نتيجة الفحص، الاعتمادات، والتوصيات للمراجعة والامتثال.', href: '/solutions/ai-evidence-file/', cta: 'افتح الملف' },
+  { icon: 'mdi:account-cog', title: 'Enterprise AI Assistants', desc: 'مساعدون داخليون للموارد البشرية، المبيعات، المشتريات، الجودة، والدعم، مبنيون على بيانات وسياسات الشركة.', href: '/demo/', cta: 'جرّب ديمو' },
+  { icon: 'mdi:robot-industrial', title: 'AI Automation for Operations', desc: 'أتمتة مهام تشغيلية مثل الفرز، التلخيص، التصنيف، متابعة الطلبات، وإعداد التقارير اليومية.', href: '/contact/', cta: 'ابدأ التقييم' },
+  { icon: 'mdi:certificate', title: 'Compliance Packs for Saudi Market', desc: 'حزم تساعد فرقك على رفع جاهزية الخصوصية والأمن والامتثال، دون ادعاء استبدال المستشار القانوني.', href: '/contact/', cta: 'ناقش الحزمة' },
+  { icon: 'mdi:connection', title: 'ERP / CRM / HIS Integrations', desc: 'ربط آمن مع أنظمة المؤسسة وواجهات APIs وقواعد المعرفة الداخلية حسب بيئة العميل ونطاق المشروع.', href: '/contact/', cta: 'خطط التكامل' },
+  { icon: 'mdi:workflow', title: 'Controlled AI Workflows', desc: 'تصميم مسارات AI خاصة بالقطاع لكن داخل نفس طبقة الأمان والحوكمة والتدقيق، بدل بناء حلول منفصلة عن Saudi AI Safety OS.', href: '/contact/', cta: 'صمّم المسار' },
+  { icon: 'mdi:alert-decagram', title: 'تصنيف مخاطر الذكاء الاصطناعي', desc: 'تصنيف تلقائي لمخاطر استخدامات AI حسب نوع البيانات، القرار، والتأثير المحتمل على المؤسسة.', href: '/solutions/ai-risk-classification/', cta: 'استكشف التصنيف' },
+  { icon: 'mdi:lightbulb-search', title: 'اكتشاف حالات استخدام AI', desc: 'تحديد الفرص الحقيقية لتطبيق الذكاء الاصطناعي داخل عمليات المؤسسة بطريقة آمنة وقابلة للقياس.', href: '/solutions/ai-use-case-discovery/', cta: 'اكتشف الفرص' },
+  { icon: 'mdi:sync', title: 'حوكمة مستمرة للذكاء الاصطناعي', desc: 'مراقبة وتحديث مستمر لسياسات وضوابط الذكاء الاصطناعي بناءً على التغيرات التنظيمية والتشغيلية.', href: '/solutions/continuous-ai-governance/', cta: 'تعرف على الحوكمة المستمرة' },
+  { icon: 'mdi:link-variant', title: 'ربط السياسات بالضوابط', desc: 'تحويل سياسات الذكاء الاصطناعي المكتوبة إلى ضوابط تقنية وإجرائية قابلة للتنفيذ والمراجعة.', href: '/solutions/policy-to-control-mapping/', cta: 'شاهد الربط' },
 ];
 const faqItems = [
-  { q: 'وش هو Saudi AI Safety OS؟', a: 'Saudi AI Safety OS هو نظام تشغيل أمان وحوكمة للذكاء الاصطناعي يركّب تحت أي نظام AI في شركتك ويوفّر AI Firewall وسجل تدقيق وموافقات بشرية وملفات أدلة.' },
-  { q: 'كم ياخذ وقت التركيب؟', a: 'الـ Pilot يطلع خلال 30 يوم على قسم واحد. والنشر الكامل من 60 إلى 120 يوم حسب حجم الشركة.' },
-  { q: 'هل ينفع نركّب BrightAI On-Premise؟', a: 'نعم، BrightAI يدعم 3 أوضاع نشر: Cloud مستضاف داخل السعودية، Hybrid هجين، وAir-Gapped معزول بالكامل.' },
-  { q: 'وش الفرق بين BrightAI وشات بوت AI العادي؟', a: 'BrightAI مو شات بوت. هو نظام تشغيل أمان يركّب تحت أي نظام AI ويوفّر حماية بيانات وتدقيق وموافقات وأدلة — كلها متوافقة مع PDPL وNCA.' },
+  { q: 'ما هي Saudi AI Safety OS؟', a: 'Saudi AI Safety OS تشمل حوكمة الذكاء الاصطناعي، AI Firewall، سجلات التدقيق، الموافقات البشرية، ملفات الأدلة، الأتمتة، التكاملات، وبناء مساعدين AI داخليين للشركات.' },
+  { q: 'هل BrightAI مناسب للشركات السعودية؟', a: 'نعم. BrightAI مصمم لاحتياجات الشركات والجهات السعودية، مع دعم العربية وRTL، وتركيز على الخصوصية والأمان وجاهزية الامتثال حسب نطاق المشروع.' },
+  { q: 'هل يمكن ربط BrightAI مع ERP أو CRM؟', a: 'نعم. يمكن ربط BrightAI مع ERP وCRM وHIS وSharePoint والأنظمة الداخلية عبر APIs أو تكاملات مخصصة بعد تقييم البنية الحالية.' },
+  { q: 'هل النظام يحمي البيانات الحساسة؟', a: 'يمكن تطبيق ضوابط مثل AI Firewall، إخفاء PII، صلاحيات الوصول، وسجلات التدقيق حسب طبيعة البيانات واتفاقية المشروع.' },
+  { q: 'هل التنفيذ مخصص لكل شركة؟', a: 'نعم. يتم تخصيص السياسات والتكاملات ومسارات الموافقة حسب القطاع والأنظمة والبيانات، لكن ضمن نفس Saudi AI Safety OS حتى يبقى intent الأمان والحوكمة واضحاً.' },
+  { q: 'كيف أبدأ؟', a: 'ابدأ بتقييم جاهزية الذكاء الاصطناعي أو حجز ديمو. بعدها نحلل الوضع الحالي، نحدد المخاطر، ونقترح نطاق تنفيذ واضح.' },
 ];
 ---
 <ArabicLayout title="خدمات حوكمة وأمان الذكاء الاصطناعي للمؤسسات | BrightAI" description="خدمات BrightAI تساعد الشركات السعودية على تقييم جاهزية الذكاء الاصطناعي، حماية البيانات، بناء سجلات تدقيق، إدارة الموافقات البشرية، وربط الاستخدام بضوابط امتثال واضحة." canonical="https://brightai.site/services/" hreflang={[{lang:'ar-SA',href:'https://brightai.site/services/'},{lang:'x-default',href:'https://brightai.site/services/'}]} jsonLd={{"@context":"https://schema.org","@type":"Service","name":"Saudi AI Safety OS Services","provider":{"@type":"Organization","name":"BrightAI","url":"https://brightai.site"},"areaServed":"SA"}} currentPath="/services/">
@@ -39,15 +49,32 @@ const faqItems = [
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
     <p class="inner-section__label">مسارات التنفيذ</p>
     <h2 id="service-paths" class="inner-section__title">مسارات تنفيذ واضحة لنظام واحد</h2>
-    <p class="inner-section__lead">للفرق التي تحتاج AI قابل للتشغيل لا للاستعراض. مسار تنفيذ واضح من التقييم إلى التشغيل.</p>
+    <p class="inner-section__lead">كل مسار يخدم نفس intent: تشغيل AI داخل المؤسسة بأمان، حوكمة، سجل تدقيق، وموافقة بشرية عند الحاجة.</p>
     <div class="inner-grid inner-grid--3">
       {servicePaths.map(s => (
         <a href={s.href} class="inner-card" style="text-decoration:none;">
           <div class="inner-card__icon"><iconify-icon icon={s.icon}></iconify-icon></div>
           <h3 class="inner-card__title">{s.title}</h3>
           <p class="inner-card__text">{s.desc}</p>
+          <span>{s.cta}</span>
         </a>
       ))}
+    </div>
+  </div>
+</section>
+
+<section class="inner-section" aria-labelledby="teams-title">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <h2 id="teams-title" class="inner-section__title">للفرق التي تحتاج AI قابل للتشغيل لا للاستعراض</h2>
+    <div class="inner-grid inner-grid--4">
+      <a class="inner-card" href="/solutions/government-ai-governance/"><h3 class="inner-card__title">الجهات الحكومية</h3></a>
+      <a class="inner-card" href="/solutions/manufacturing-ai-governance/"><h3 class="inner-card__title">المصانع والقطاع الصناعي</h3></a>
+      <div class="inner-card"><h3 class="inner-card__title">المستشفيات</h3></div>
+      <div class="inner-card"><h3 class="inner-card__title">القطاع المالي</h3></div>
+      <div class="inner-card"><h3 class="inner-card__title">الموارد البشرية</h3></div>
+      <div class="inner-card"><h3 class="inner-card__title">المشتريات والمناقصات</h3></div>
+      <div class="inner-card"><h3 class="inner-card__title">الجودة والامتثال</h3></div>
+      <div class="inner-card"><h3 class="inner-card__title">الشركات المتوسطة والكبيرة</h3></div>
     </div>
   </div>
 </section>
@@ -56,13 +83,32 @@ const faqItems = [
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
     <p class="inner-section__label">كيف نشتغل؟</p>
     <h2 id="impl-steps" class="inner-section__title">مسار تنفيذ واضح من التقييم إلى التشغيل</h2>
-    <p class="inner-section__lead">لأن الشركات ما تحتاج ديمو جميل فقط؛ تحتاج طبقة تشغيل حقيقية.</p>
+    <p class="inner-section__lead">نحوّل الاحتياج من فكرة أو استخدام متفرق إلى نظام واضح ومسؤوليات وأدلة تشغيل.</p>
     <div class="inner-grid inner-grid--4">
-      <div class="inner-card"><div class="text-cyan-400 font-bold text-lg mb-2">١</div><h3 class="inner-card__title">تقييم جاهزية AI</h3><p class="inner-card__text">نقيّم بيئتك الحالية، ونحدد الفجوات الأمنية والتنظيمية في استخدام AI.</p></div>
-      <div class="inner-card"><div class="text-cyan-400 font-bold text-lg mb-2">٢</div><h3 class="inner-card__title">تصميم الضوابط</h3><p class="inner-card__text">نصمّم سياسات الحماية والتدقيق والموافقات حسب قطاعك ومتطلبات الجهات التنظيمية.</p></div>
-      <div class="inner-card"><div class="text-cyan-400 font-bold text-lg mb-2">٣</div><h3 class="inner-card__title">الربط والنشر</h3><p class="inner-card__text">نربط النواة مع أنظمتك (ERP, CRM, HIS) وننفّذ الحل على بيئتك.</p></div>
-      <div class="inner-card"><div class="text-cyan-400 font-bold text-lg mb-2">٤</div><h3 class="inner-card__title">التشغيل والمتابعة</h3><p class="inner-card__text">نشغّل حالات الاستخدام ونراقب الأداء ونقدم تقارير دورية للإدارة والامتثال.</p></div>
+      <div class="inner-card"><h3 class="inner-card__title">تحليل الوضع الحالي</h3><p class="inner-card__text">نفهم الأنظمة، المستخدمين، البيانات، وحالات استخدام AI الموجودة أو المخطط لها.</p></div>
+      <div class="inner-card"><h3 class="inner-card__title">تحديد المخاطر</h3><p class="inner-card__text">نصنّف مخاطر الذكاء الاصطناعي والبيانات والقرارات العالية الحساسية.</p></div>
+      <div class="inner-card"><h3 class="inner-card__title">تصميم الحل</h3><p class="inner-card__text">نحدد الضوابط، مسارات الموافقة، السجلات، والتكاملات المطلوبة.</p></div>
+      <div class="inner-card"><h3 class="inner-card__title">بناء النموذج أو النظام</h3><p class="inner-card__text">نبني طبقة التشغيل أو المساعد الداخلي أو الأتمتة المطلوبة حسب النطاق.</p></div>
+      <div class="inner-card"><h3 class="inner-card__title">التكامل مع الأنظمة</h3><p class="inner-card__text">نربط الحل مع ERP أو CRM أو HIS أو SharePoint أو قواعد المعرفة الداخلية.</p></div>
+      <div class="inner-card"><h3 class="inner-card__title">الاختبار والمراجعة</h3><p class="inner-card__text">نختبر السيناريوهات، الصلاحيات، التجاوب، وسجلات التدقيق قبل الإطلاق.</p></div>
+      <div class="inner-card"><h3 class="inner-card__title">التشغيل والتدريب</h3><p class="inner-card__text">نجهز الفرق على الاستخدام، الاعتماد، والتعامل مع الحالات الاستثنائية.</p></div>
+      <div class="inner-card"><h3 class="inner-card__title">تقارير امتثال ومتابعة</h3><p class="inner-card__text">نرتب تقارير دورية ومخرجات قابلة للمراجعة حسب الاتفاق.</p></div>
     </div>
+  </div>
+</section>
+
+<section class="inner-section" aria-labelledby="real-operation">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <h2 id="real-operation" class="inner-section__title">لأن الشركات ما تحتاج ديمو جميل فقط؛ تحتاج طبقة تشغيل حقيقية</h2>
+    <ul>
+      <li>مبني للسوق السعودي واحتياجات المؤسسات المحلية.</li>
+      <li>يدعم اللغة العربية وبيئات RTL من البداية.</li>
+      <li>يركز على الأمان والامتثال بدون وعود قانونية مطلقة.</li>
+      <li>قابل للتدقيق والمراجعة عبر سجلات وملفات أدلة.</li>
+      <li>مناسب للبيانات الحساسة عند ضبط نطاق الحماية والصلاحيات.</li>
+      <li>قابل للتكامل مع أنظمة المؤسسة الحالية.</li>
+      <li>ينقل AI من تجربة فردية إلى تشغيل مؤسسي منضبط.</li>
+    </ul>
   </div>
 </section>
 
@@ -70,6 +116,8 @@ const faqItems = [
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
     <p class="inner-section__label">القطاعات</p>
     <h2 id="sector-sel" class="inner-section__title">اختر المسار الأقرب لقطاعك وقرارك</h2>
+    <p class="inner-section__lead">راجع مركز اختيار الحلول ومركز حالات الاستخدام، أو انتقل مباشرة إلى الصفحات المحلية للقطاع المالي في الرياض، والقطاع الصحي في جدة، والجهات الحكومية في الدمام.</p>
+    <p><a href="/hub/solutions/">مركز اختيار الحلول</a> · <a href="/hub/use-cases/">مركز حالات الاستخدام</a> · <a href="/solutions/banking-ai-governance/riyadh/">الرياض</a> · <a href="/solutions/healthcare-ai-governance/jeddah/">جدة</a> · <a href="/solutions/government-ai-governance/dammam/">الدمام</a></p>
     <div class="inner-grid inner-grid--4">
       <div class="inner-card"><iconify-icon class="inner-card__icon" icon="mdi:flask"></iconify-icon><h3 class="inner-card__title">المصانع الطبية</h3><p class="inner-card__text">SFDA · ISO 13485 · CAPA · المرفوضات</p></div>
       <div class="inner-card"><iconify-icon class="inner-card__icon" icon="mdi:hospital-building"></iconify-icon><h3 class="inner-card__title">الرعاية الصحية</h3><p class="inner-card__text">أرشفة طبية · حماية بيانات المرضى</p></div>
@@ -98,10 +146,11 @@ const faqItems = [
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
     <div class="inner-cta-final__card">
       <h2 class="inner-cta-final__title">ابدأ تقييم جاهزية الذكاء الاصطناعي في شركتك</h2>
-      <p class="inner-cta-final__desc">كلمنا الآن واحصل على تقييم مجاني خلال 24 ساعة.</p>
+      <p class="inner-cta-final__desc">خلنا نفهم بيئتك الحالية ونحدد أين تحتاج AI آمن، قابل للتدقيق، ومربوط بأنظمة الشركة بدل الاعتماد على استخدامات فردية غير مضبوطة.</p>
       <div class="inner-hero__actions" style="justify-content:center;">
         <a href="/contact/" class="home-glow-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-bold"><iconify-icon icon="mdi:calendar-check"></iconify-icon> احجز جلسة تقييم</a>
         <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="home-wa-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white"><iconify-icon icon="mdi:whatsapp"></iconify-icon> واتساب</a>
+        <a href="/solutions/ai-governance-platform/" class="home-glow-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-bold">استكشاف منصة الحوكمة</a>
       </div>
     </div>
   </div>

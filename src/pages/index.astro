@@ -533,18 +533,69 @@ const jsonLd = [
   </div>
 </section>
 
-{/* ═══════════════ 11. FINAL CTA ═══════════════ */}
-<section class="py-20" aria-label="دعوة للعمل">
-  <div class="max-w-3xl mx-auto px-5 lg:px-8">
+{/* ═══════════════ 11. DEMO REQUEST ═══════════════ */}
+<section id="demo" aria-labelledby="cta-title" class="py-20 lg:py-28">
+  <div class="max-w-5xl mx-auto px-5 lg:px-8">
     <div class="home-cta-card">
-      <h2 class="text-3xl sm:text-4xl font-black relative z-10">جاهز تخلي AI شركتك <span class="home-gradient-text">آمن؟</span></h2>
-      <p class="mt-4 text-white/80 relative z-10">كلمنا الآن عبر الواتساب واحصل على استشارة مجانية خلال 24 ساعة.</p>
+      <span class="home-chip inline-block px-3 py-1 rounded-full text-xs font-bold relative z-10">ابدأ اليوم</span>
+      <h2 id="cta-title" class="mt-4 text-3xl sm:text-5xl font-black leading-tight relative z-10">جاهز تخلي AI شركتك <span class="home-gradient-text">آمن ومتوافق</span> من غدا؟</h2>
+      <p class="mt-4 text-white/80 max-w-2xl mx-auto leading-loose relative z-10">سجّل اهتمامك وفريق BrightAI يتواصل معك خلال 24 ساعة لترتيب ديمو خاص على بيانات شركتك (بسرية كاملة).</p>
       <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="mt-6 home-wa-btn inline-flex items-center gap-2 px-8 py-4 rounded-2xl font-bold text-white text-lg relative z-10">
-        <iconify-icon class="text-2xl" icon="mdi:whatsapp"></iconify-icon> كلمنا عبر واتساب
+        <iconify-icon class="text-2xl" icon="mdi:whatsapp"></iconify-icon> تواصل مباشرة عبر واتساب
       </a>
-      <p class="mt-4 text-xs text-white/50 relative z-10">🔒 جميع البيانات مشفرة بمعيار AES-256</p>
+      <form id="leadForm" class="mt-6 grid sm:grid-cols-2 gap-3 max-w-2xl mx-auto text-right relative z-10">
+        <input required name="name" aria-label="الاسم الكامل" placeholder="الاسم الكامل" class="bg-white/5 border border-white/10 rounded-xl px-4 py-3" />
+        <input required name="company" aria-label="اسم الشركة" placeholder="اسم الشركة" class="bg-white/5 border border-white/10 rounded-xl px-4 py-3" />
+        <input required type="email" name="email" aria-label="البريد الإلكتروني" placeholder="البريد الإلكتروني" class="bg-white/5 border border-white/10 rounded-xl px-4 py-3" />
+        <input required type="tel" name="phone" aria-label="رقم الجوال" placeholder="رقم الجوال" class="bg-white/5 border border-white/10 rounded-xl px-4 py-3" />
+        <select name="sector" aria-label="اختر القطاع" class="sm:col-span-2 bg-white/5 border border-white/10 rounded-xl px-4 py-3">
+          <option value="">القطاع</option><option>مصانع طبية</option><option>رعاية صحية</option><option>جهة حكومية</option><option>مشتريات ومناقصات</option><option>مالي / بنوع</option><option>تعليم</option><option>غيره</option>
+        </select>
+        <button type="submit" class="sm:col-span-2 home-glow-btn rounded-xl py-3.5 font-bold text-white">اطلب ديمو الآن</button>
+        <p id="leadMsg" class="sm:col-span-2 text-sm text-emerald-300 hidden text-center" aria-live="polite">✓ تم استلام طلبك بنجاح! نتواصل معك خلال 24 ساعة.</p>
+      </form>
+      <div class="mt-8 flex flex-wrap justify-center gap-4 text-xs text-white/60 relative z-10">
+        <span>بياناتك مشفّرة AES-256</span><span>ما نشاركها مع أي طرف</span><span>فريق سعودي 100%</span><span>رد خلال ساعات</span>
+      </div>
     </div>
   </div>
 </section>
+
+{/* ═══════════════ 12. FINAL CTA ═══════════════ */}
+<section id="final-cta" aria-labelledby="final-cta-title" class="py-16 text-center">
+  <div class="max-w-4xl mx-auto px-5 lg:px-8">
+    <div class="home-glass rounded-3xl p-8 lg:p-12 border border-white/10">
+      <h2 id="final-cta-title" class="text-2xl sm:text-4xl font-black home-gradient-text">جاهز تطبق حوكمة AI داخل مؤسستك؟</h2>
+      <p class="mt-4 text-white/80 max-w-2xl mx-auto leading-loose">ابدأ بتقييم عملي لاستخدامات الذكاء الاصطناعي، المخاطر، البيانات الحساسة، ومسارات الموافقة والتدقيق.</p>
+      <div class="mt-8 flex justify-center flex-wrap gap-4">
+        <a href="/contact/" class="home-cta-primary"><span>ابدأ ديمو خاص بشركتك</span></a>
+        <a href="/solutions/ai-governance-platform/" class="home-cta-secondary"><span>استكشف حلول الحوكمة</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const form = document.getElementById('leadForm') as HTMLFormElement | null;
+    const msg = document.getElementById('leadMsg');
+    form?.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const data = Object.fromEntries(new FormData(form).entries());
+      try {
+        await fetch('/tables/leads', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ...data, created_at: Date.now() }),
+        });
+      } catch {
+        // The legacy endpoint is optional; preserve the original optimistic UX.
+      }
+      msg?.classList.remove('hidden');
+      form.reset();
+      window.setTimeout(() => msg?.classList.add('hidden'), 6000);
+    }, { once: true });
+  });
+</script>
 
 </BaseLayout>

@@ -4,11 +4,13 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import BackgroundGrid from '../../components/BackgroundGrid.astro';
 import RelatedLinks from '../../components/RelatedLinks.astro';
 import { solutions, getRelatedSolutions, getRelatedSectors } from '../../data/solutions';
+import { migratedSolutionPages } from '../../data/migratedSolutionPages';
 
 export function getStaticPaths() {
   return solutions.map(s => ({ params: { slug: s.slug }, props: { solution: s } }));
 }
 const { solution } = Astro.props;
+const migratedPage = migratedSolutionPages[solution.slug];
 const relSols = getRelatedSolutions(solution.slug);
 const relSectors = getRelatedSectors(solution.slug);
 
@@ -22,26 +24,66 @@ const jsonLd = {
   "@context":"https://schema.org",
   "@graph":[
     {"@type":"Service","@id":solution.canonical+"#service","name":solution.h1,"description":solution.description,"provider":{"@type":"Organization","name":"BrightAI","url":"https://brightai.site"},"url":solution.canonical,"areaServed":"Saudi Arabia"},
-    {"@type":"BreadcrumbList","itemListElement":crumbs.map((c,i)=>({"@type":"ListItem","position":i+1,"name":c.label,"item":c.href?`https://brightai.site${c.href}`:solution.canonical}))}
+    {"@type":"BreadcrumbList","itemListElement":crumbs.map((c,i)=>({"@type":"ListItem","position":i+1,"name":c.label,"item":c.href?`https://brightai.site${c.href}`:solution.canonical}))},
+    ...(solution.content?.faqs ? [{"@type":"FAQPage","mainEntity":solution.content.faqs.map(faq=>({"@type":"Question","name":faq.question,"acceptedAnswer":{"@type":"Answer","text":faq.answer}}))}] : [])
   ]
 };
 ---
-<ArabicLayout title={solution.title} description={solution.description} canonical={solution.canonical} hreflang={[{lang:'ar-SA',href:solution.canonical},{lang:'x-default',href:solution.canonical}]} jsonLd={jsonLd as any} currentPath={solution.href}>
+<ArabicLayout title={migratedPage?.title ?? solution.title} description={migratedPage?.description ?? solution.description} canonical={migratedPage?.canonical ?? solution.canonical} hreflang={migratedPage?.hreflang ?? [{lang:'ar-SA',href:solution.canonical},{lang:'x-default',href:solution.canonical}]} jsonLd={(migratedPage?.jsonLd ?? jsonLd) as any} currentPath={solution.href}>
 <style is:global>@import '../../styles/inner-pages.css';</style>
 
+{migratedPage ? (
+  <main class="migrated-legacy-content" set:html={migratedPage.html} />
+) : (
+<>
 <section class="inner-hero" aria-label={solution.h1}>
   <BackgroundGrid />
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
     <Breadcrumbs crumbs={crumbs} />
     <div class="inner-hero__badge"><iconify-icon icon={solution.icon}></iconify-icon> {solution.chip}</div>
     <h1>{solution.h1}</h1>
-    <p class="inner-hero__desc">{solution.description}</p>
+    {solution.content ? solution.content.lead.map(paragraph => <p class="inner-hero__desc">{paragraph}</p>) : <p class="inner-hero__desc">{solution.description}</p>}
     <div class="inner-hero__actions">
       <a href="/contact/" class="home-glow-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-bold"><iconify-icon icon="mdi:calendar-check"></iconify-icon> اطلب عرض توضيحي</a>
       <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white" style="background:linear-gradient(135deg,#25D366,#128C7E)"><iconify-icon icon="mdi:whatsapp"></iconify-icon> تواصل عبر واتساب</a>
     </div>
   </div>
 </section>
+
+{solution.content && (
+  <>
+    {solution.content.sections.map((section, sectionIndex) => (
+      <section class:list={['inner-section', { 'inner-section--alt': sectionIndex % 2 === 0 }]} aria-labelledby={`content-${sectionIndex}`}>
+        <div class="max-w-7xl mx-auto px-5 lg:px-8">
+          <h2 id={`content-${sectionIndex}`} class="inner-section__title">{section.title}</h2>
+          {section.intro && <p class="inner-section__lead">{section.intro}</p>}
+          {section.cards && (
+            <div class="inner-grid inner-grid--3">
+              {section.cards.map(card => (
+                <article class="inner-card p-6">
+                  <h3 class="inner-card__title">{card.title}</h3>
+                  {card.subtitle && <p>{card.subtitle}</p>}
+                  {card.text && <p class="inner-card__text">{card.text}</p>}
+                  {card.items && <ul>{card.items.map(item => <li>{item}</li>)}</ul>}
+                </article>
+              ))}
+            </div>
+          )}
+          {section.paragraphs?.map(paragraph => <p class="inner-section__lead">{paragraph}</p>)}
+          {section.title === 'جاهز ترى كيف تعمل المنصة في بيئتك؟' && <p><a href="https://wa.me/966538229013">اطلب ديمو تنفيذي عبر واتساب</a> · <a href="/contact/">تحدث مع فريق BrightAI</a></p>}
+        </div>
+      </section>
+    ))}
+    {solution.content.faqs && (
+      <section class="inner-section" aria-labelledby="solution-faqs">
+        <div class="max-w-4xl mx-auto px-5 lg:px-8">
+          <h2 id="solution-faqs" class="inner-section__title">أسئلة تدور في ذهنك؟</h2>
+          <div class="inner-faq">{solution.content.faqs.map(faq => <details><summary>{faq.question}</summary><div class="inner-faq__answer"><p>{faq.answer}</p></div></details>)}</div>
+        </div>
+      </section>
+    )}
+  </>
+)}
 
 <section class="inner-section inner-section--alt" aria-labelledby="problem">
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
@@ -99,8 +141,8 @@ const jsonLd = {
 <section class="inner-cta-final">
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
     <div class="inner-cta-final__card">
-      <h2 class="inner-cta-final__title">ابدأ بـ {solution.h1.split('(')[0].trim()} الآن</h2>
-      <p class="inner-cta-final__desc">تواصل معنا للحصول على عرض توضيحي مخصص لقطاعك.</p>
+      <h2 class="inner-cta-final__title">{solution.content?.finalTitle ?? `ابدأ بـ ${solution.h1.split('(')[0].trim()} الآن`}</h2>
+      <p class="inner-cta-final__desc">{solution.content?.finalText ?? 'تواصل معنا للحصول على عرض توضيحي مخصص لقطاعك.'}</p>
       <div class="inner-hero__actions" style="justify-content:center;">
         <a href="/contact/" class="home-glow-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-bold"><iconify-icon icon="mdi:calendar-check"></iconify-icon> اطلب عرض توضيحي</a>
         <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white" style="background:linear-gradient(135deg,#25D366,#128C7E)"><iconify-icon icon="mdi:whatsapp"></iconify-icon> تواصل عبر واتساب</a>
@@ -118,4 +160,6 @@ const jsonLd = {
     } else { reveals.forEach(el => el.classList.add('is-visible')); }
   });
 </script>
+</>
+)}
 </ArabicLayout>

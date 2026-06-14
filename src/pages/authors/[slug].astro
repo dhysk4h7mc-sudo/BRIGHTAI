@@ -5,7 +5,7 @@
  */
 import ArabicLayout from '../../layouts/ArabicLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
-import { authors, getPostsByAuthor } from '../../data/blog';
+import { authors } from '../../data/blog';
 import { SITE } from '../../data/site';
 
 export function getStaticPaths() {
@@ -16,7 +16,24 @@ export function getStaticPaths() {
 }
 
 const { author } = Astro.props;
-const authorPosts = getPostsByAuthor(author.slug);
+const legacyArticles = [
+  { href: '/blog/what-is-ai-governance-saudi-companies/', label: 'ما هي حوكمة الذكاء الاصطناعي؟ الدليل الكامل للشركات السعودية' },
+  { href: '/blog/hidden-ai-risks-saudi-organizations/', label: '5 مخاطر خفية للذكاء الاصطناعي في المؤسسات السعودية' },
+  { href: '/blog/ai-governance-vs-ai-safety-vs-ai-security/', label: 'الفرق بين AI Governance وAI Safety وAI Security' },
+  { href: '/blog/shadow-ai-discovery-saudi-company/', label: 'Shadow AI: كيف تكتشف الاستخدام الخفي للذكاء الاصطناعي في شركتك' },
+  { href: '/blog/pdpl-ai-compliance-guide/', label: 'دليل PDPL والذكاء الاصطناعي لمسؤول الامتثال' },
+  { href: '/blog/nca-ecc-ai-controls-guide/', label: 'ضوابط NCA ECC للذكاء الاصطناعي خطوة بخطوة' },
+  { href: '/blog/sdaia-generative-ai-guidelines-practical-compliance/', label: 'إرشادات سدايا للذكاء الاصطناعي التوليدي: كيف تتوافق عملياً' },
+  { href: '/blog/iso-42001-saudi-implementation-guide/', label: 'ISO/IEC 42001 للشركات السعودية: دليل التطبيق العملي' },
+  { href: '/blog/ai-firewall-why-you-need-it/', label: 'جدار حماية الذكاء الاصطناعي: ما هو ولماذا تحتاجه' },
+  { href: '/blog/ai-audit-trail-compliance-path/', label: 'سجل تدقيق الذكاء الاصطناعي ومسار الامتثال' },
+  { href: '/blog/healthcare-ai-governance-saudi-hospitals/', label: 'حوكمة الذكاء الاصطناعي في المستشفيات السعودية' },
+  { href: '/blog/banking-ai-governance-sama-requirements/', label: 'حوكمة الذكاء الاصطناعي في البنوك السعودية ومتطلبات SAMA' },
+  { href: '/blog/ai-ethics-saudi-responsible-ai/', label: 'أخلاقيات الذكاء الاصطناعي في السعودية' },
+  { href: '/blog/best-ai-governance-platforms-2026/', label: 'مقارنة أفضل منصات حوكمة الذكاء الاصطناعي في 2026' },
+  { href: '/blog/ai-red-teaming-security-testing/', label: 'AI Red Teaming: اختبار أمان أنظمة الذكاء الاصطناعي' },
+  { href: '/blog/vision-2030-ai-governance-roadmap/', label: 'الذكاء الاصطناعي في رؤية 2030: خريطة طريق الحوكمة' },
+];
 
 const personLd = {
   '@context': 'https://schema.org',
@@ -26,12 +43,22 @@ const personLd = {
   url: author.url,
   jobTitle: author.title,
   description: author.bio,
+  image: `${SITE.url}/frontend/assets/images/authors/nasser-alabdullah.svg`,
   worksFor: {
     '@type': 'Organization',
     name: 'BrightAI',
     url: SITE.url,
   },
   inLanguage: 'ar-SA',
+  knowsAbout: [
+    'AI Governance',
+    'PDPL Compliance',
+    'NCA ECC Controls',
+    'SDAIA AI Guidelines',
+    'AI Safety',
+    'ISO/IEC 42001',
+  ],
+  sameAs: [],
 };
 
 const breadcrumbLd = {
@@ -46,8 +73,8 @@ const breadcrumbLd = {
 ---
 
 <ArabicLayout
-  title={`${author.name} | BrightAI`}
-  description={author.bio}
+  title="م. ناصر العبدالله — مؤسس BrightAI | حوكمة الذكاء الاصطناعي"
+  description="الصفحة التعريفية لم. ناصر العبدالله، مؤلف في BrightAI يكتب عن حوكمة الذكاء الاصطناعي وPDPL وضوابط NCA ECC وإرشادات سدايا."
   canonical={author.url}
   hreflang={[{ lang: 'ar-SA', href: author.url }]}
   jsonLd={personLd}
@@ -60,6 +87,10 @@ const breadcrumbLd = {
       padding-block: 2rem 5rem;
     }
     .author-header {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 10rem;
+      gap: 2rem;
+      align-items: center;
       margin-block-end: 2rem;
       padding-block-end: 2rem;
       border-block-end: 1px solid rgba(148, 163, 184, 0.12);
@@ -91,6 +122,26 @@ const breadcrumbLd = {
       gap: 1rem;
       margin-block-start: 2rem;
     }
+    .author-portrait {
+      margin: 0;
+      text-align: center;
+    }
+    .author-portrait img {
+      width: 9.375rem;
+      height: 9.375rem;
+      margin-inline: auto;
+    }
+    .author-portrait figcaption,
+    .author-identity-note {
+      color: var(--fg-muted, #94a3b8);
+      font-size: 0.8125rem;
+      line-height: 1.7;
+    }
+    .author-section-title {
+      margin: 2rem 0 0;
+      color: var(--fg, #f8fafc);
+      font-size: 1.4rem;
+    }
     .author-post-card {
       display: block;
       padding: 1.25rem;
@@ -110,7 +161,7 @@ const breadcrumbLd = {
       font-size: 0.75rem;
       font-weight: 800;
     }
-    .author-post-card h2 {
+    .author-post-card h3 {
       margin: 0.25rem 0;
       color: var(--fg, #f8fafc);
       font-size: 1.05rem;
@@ -129,6 +180,7 @@ const breadcrumbLd = {
     }
     @media (max-width: 640px) {
       .author-shell { width: min(100% - 1.25rem, 56rem); }
+      .author-header { grid-template-columns: 1fr; }
     }
   </style>
 
@@ -140,21 +192,31 @@ const breadcrumbLd = {
     ]} />
 
     <header class="author-header">
-      <h1>{author.name}</h1>
-      <p class="author-title">{author.title}</p>
-      <p class="author-bio">{author.bio}</p>
-      <p class="author-posts-count">{authorPosts.length} مقال منشور</p>
+      <div>
+        <p class="author-title">صفحة المؤلف</p>
+        <h1>م. ناصر العبدالله — مؤسس BrightAI</h1>
+        <p class="author-bio">{author.bio}</p>
+      </div>
+      <figure class="author-portrait">
+        <img src="/frontend/assets/images/authors/nasser-alabdullah.svg" alt="رسم تعريفي مؤقت لم. ناصر العبدالله" width="150" height="150" decoding="async" loading="lazy" />
+        <figcaption>رسم تعريفي مؤقت لحين توفير صورة شخصية موثقة.</figcaption>
+      </figure>
     </header>
 
+    <h2 class="author-section-title">المقالات</h2>
+    <p class="author-posts-count">16 مقالاً</p>
     <div class="author-posts">
-      {authorPosts.map(post => (
-        <a href={`/blog/${post.slug}/`} class="author-post-card">
-          <span class="author-post-card__cat">{post.category}</span>
-          <h2>{post.title}</h2>
-          <p class="author-post-card__desc">{post.description}</p>
-          <span class="author-post-card__meta">{post.pubDate} · {post.readingTime} دقائق</span>
+      {legacyArticles.map(article => (
+        <a href={article.href} class="author-post-card">
+          <span class="author-post-card__cat">BrightAI</span>
+          <h3>{article.label}</h3>
         </a>
       ))}
     </div>
+
+    <section aria-labelledby="professional-accounts">
+      <h2 id="professional-accounts" class="author-section-title">الحسابات المهنية</h2>
+      <p class="author-identity-note">لا يوجد حالياً رابط LinkedIn شخصي موثّق ومنشور لم. ناصر العبدالله؛ لذلك لم تتم إضافة أي رابط إلى <code>sameAs</code>.</p>
+    </section>
   </div>
 </ArabicLayout>

@@ -1,133 +1,128 @@
 ---
 import ArabicLayout from '../../layouts/ArabicLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
-import BackgroundGrid from '../../components/BackgroundGrid.astro';
-const crumbs = [{ label: 'الرئيسية', href: '/' }, { label: 'مركز الثقة' }];
-const securityBadges = [
-  { icon: 'mdi:lock', title: 'AES-256 Encryption', sub: 'تشفير كامل للبيانات أثناء النقل والتخزين' },
-  { icon: 'mdi:account-check', title: 'فريق سعودي 100%', sub: 'تطوير ودعم محلي بالكامل داخل المملكة' },
-  { icon: 'mdi:file-certificate', title: 'NCA ECC Compliant', sub: 'متوافق مع ضوابط الهيئة الوطنية للأمن السيبراني' },
-  { icon: 'mdi:shield-account', title: 'PDPL Ready', sub: 'حماية بيانات شخصية وفق نظام السعودية' },
-  { icon: 'mdi:certificate', title: 'ISO/IEC 42001', sub: 'معيار حوكمة الذكاء الاصطناعي العالمي' },
-  { icon: 'mdi:bug-outline', title: 'SOC 2 Type II', sub: 'أعلى معايير الأمان والسرية العالمية' },
-  { icon: 'mdi:heart-pulse', title: 'SFDA / ISO 13485', sub: 'متوافق مع متطلبات القطاع الصحي والطبي' },
-  { icon: 'mdi:eye-off', title: 'PII Redaction', sub: 'إخفاء تلقائي للبيانات الشخصية الحساسة' },
+
+const title = 'مركز ثقة BrightAI للأمان والامتثال | BrightAI';
+const description = 'تعرف على ممارسات BrightAI في الأمان والخصوصية والامتثال، وكيف تساعد المنصة الجهات السعودية على تشغيل الذكاء الاصطناعي بثقة ومسؤولية، مع خطوة تالية واضحة.';
+const canonical = 'https://brightai.site/trust/';
+const faqs = [
+  ['هل تملك BrightAI شهادات امتثال رسمية حالياً؟', 'نحن نوفر حلولاً مبنية وفق ممارسات ومعايير الأطر التنظيمية الوطنية والدولية مثل PDPL و NCA ECC و ISO 42001 لدعم جاهزية مؤسستك الفنية والتشغيلية، ولا ندعي الحصول على شهادات رسمية مالم تُنشر وثائق أو براهين تحقق رسمية ومثبتة.'],
+  ['أين يتم تخزين ومعالجة بياناتنا؟', 'يتم تخزين ومعالجة البيانات بالكامل داخل مراكز بيانات موطنة في المملكة العربية السعودية لنسخة النشر السحابي السيادي (SaaS)، أو داخل البنية التحتية الخاصة بمؤسستك بالكامل لنسخ النشر الهجين والمعزول (On-Prem).'],
+  ['كيف يدعم نظام BrightAI الامتثال لنظام PDPL؟', 'يقوم جدار حماية الذكاء الاصطناعي (AI Firewall) برصد وتجهيل البيانات الشخصية (PII) لحظياً قبل عبورها للنماذج الخارجية، بالإضافة إلى الاحتفاظ بسجل تدقيق كامل متوافق فريباً مع اللوائح، مما يمنع حدوث أي تسريبات غير مصرح بها.'],
 ];
-const coreFeatures = [
-  { icon: 'mdi:shield-half-full', title: 'AI Firewall', desc: 'فلترة ذكية تمنع تسريب البيانات الحساسة للنماذج الخارجية. حماية في الوقت الحقيقي.' },
-  { icon: 'mdi:file-sign', title: 'Audit Trail', desc: 'سجل تدقيق غير قابل للتعديل. كل عملية موثقة بـ Hash ومشفرة بالكامل.' },
-  { icon: 'mdi:account-check', title: 'Human Approval', desc: 'موافقات بشرية إلزامية للقرارات عالية المخاطر. مسار Risk-Based ذكي.' },
-  { icon: 'mdi:folder-lock', title: 'Evidence File', desc: 'ملفات أدلة PDF موقّعة رقمياً جاهزة للمدققين والجهات التنظيمية.' },
-];
-const deploymentOptions = [
-  { title: 'Cloud مستضاف', desc: 'مستضاف داخل data centers سعودية. أسرع نشر وأقل تكلفة.' },
-  { title: 'Hybrid هجين', desc: 'جزء Cloud وجزء On-Premise. مرونة مع الحفاظ على التحكم.' },
-  { title: 'Air-Gapped معزول', desc: 'معزول بالكامل عن الإنترنت. أقصى درجات الأمان للبيانات الحساسة.' },
-];
-const trustFaq = [
-  { q: 'كيف تحمون بياناتنا الحساسة؟', a: 'نستخدم AES-256 encryption للبيانات في النقل والتخزين. كل البيانات تبقى داخل المملكة. نطبق PII Redaction تلقائي لإخفاء المعلومات الشخصية قبل وصولها لأي نموذج AI.' },
-  { q: 'هل BrightAI متوافق مع NCA ECC؟', a: 'نعم، منصة BrightAI مصممة لتكون متوافقة بالكامل مع ضوابط الهيئة الوطنية للأمن السيبراني (NCA ECC). نوفر سجلات تدقيق مشفرة ومحمية.' },
-  { q: 'أين تخزنون البيانات؟', a: 'كل البيانات تخزن داخل data centers في المملكة العربية السعودية. لا ننقل أي بيانات خارج المملكة. يدعم النظام أيضاً النشر On-Premise أو Air-Gapped.' },
-  { q: 'هل تقدمون اتفاقية معالجة بيانات (DPA)؟', a: 'نعم، نقدم Data Processing Agreement موقّع لكل عميل Enterprise. يمكنكم الاطلاع على اتفاقية معالجة البيانات في صفحة DPA.' },
-];
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    { '@type': 'WebPage', '@id': `${canonical}#webpage`, url: canonical, name: title, description, inLanguage: 'ar-SA' },
+    { '@type': 'FAQPage', mainEntity: faqs.map(([name,text]) => ({ '@type':'Question', name, acceptedAnswer:{'@type':'Answer',text} })) },
+  ],
+};
 ---
-<ArabicLayout title="مركز ثقة BrightAI للأمان والامتثال | BrightAI" description="تعرف على ممارسات BrightAI في الأمان والخصوصية والامتثال، وكيف تساعد المنصة الجهات السعودية على تشغيل الذكاء الاصطناعي بثقة ومسؤولية." canonical="https://brightai.site/trust/" hreflang={[{lang:'ar-SA',href:'https://brightai.site/trust/'},{lang:'x-default',href:'https://brightai.site/trust/'}]} jsonLd={{"@context":"https://schema.org","@type":"WebPage","name":"مركز ثقة BrightAI","description":"ممارسات الأمان والخصوصية والامتثال","url":"https://brightai.site/trust/"}} currentPath="/trust/">
-<style is:global>@import '../../styles/inner-pages.css';</style>
 
-<section class="inner-hero" aria-label="مركز الثقة">
-  <BackgroundGrid />
-  <div class="max-w-7xl mx-auto px-5 lg:px-8">
-    <Breadcrumbs crumbs={crumbs} />
-    <div class="inner-hero__badge"><iconify-icon icon="mdi:shield-check"></iconify-icon> حماية وامتثال وحوكمة</div>
-    <h1><span class="home-gradient-text">مركز الثقة والأمان</span> — أمان وحوكمة بلا تسويات</h1>
-    <p class="inner-hero__desc">أمان البيانات عندنا مو ميزة ثانوية — هو أساس المنصة. نحمي بياناتك بأعلى معايير التشفير والامتثال المطلوبة في السوق السعودي.</p>
-  </div>
-</section>
+<ArabicLayout title={title} description={description} canonical={canonical} hreflang={[{lang:'ar-SA',href:canonical},{lang:'x-default',href:canonical}]} jsonLd={jsonLd} currentPath="/trust/">
+  <style>
+    .trust-page { width:min(100% - 2rem,75rem); margin-inline:auto; padding-block:2rem 5rem; }
+    .trust-page h1 { color:var(--fg,#f8fafc); font-size:clamp(2rem,5vw,3.5rem); line-height:1.25; }
+    .trust-page h2 { margin-block:3rem 1rem; color:var(--fg,#f8fafc); font-size:clamp(1.4rem,3vw,2rem); }
+    .trust-page h3,.trust-page h4 { color:var(--fg,#f8fafc); }
+    .trust-page p,.trust-page li { color:var(--fg-muted,#a8b3c7); line-height:1.9; }
+    .trust-page a { color:var(--brand,#00d4aa); }
+    .trust-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1rem; }
+    .trust-grid--4 { grid-template-columns:repeat(4,minmax(0,1fr)); }
+    .trust-card,.trust-panel { padding:1.25rem; border:1px solid rgba(148,163,184,.18); border-radius:8px; background:rgba(15,23,42,.5); }
+    .trust-actions,.trust-links { display:flex; flex-wrap:wrap; gap:1rem; }
+    details { padding:1rem 0; border-bottom:1px solid rgba(148,163,184,.18); }
+    summary { color:var(--fg,#f8fafc); font-weight:700; cursor:pointer; }
+    @media(max-width:900px){.trust-grid,.trust-grid--4{grid-template-columns:repeat(2,minmax(0,1fr));}}
+    @media(max-width:600px){.trust-grid,.trust-grid--4{grid-template-columns:1fr;}}
+  </style>
 
-<section class="inner-section" aria-labelledby="security-badges">
-  <div class="max-w-7xl mx-auto px-5 lg:px-8">
-    <h2 id="security-badges" class="inner-section__title text-center">شهادات ومعايير الأمان</h2>
-    <p class="inner-section__lead text-center">فريق سعودي، تشفير AES-256، امتثال كامل للأنظمة المحلية والعالمية.</p>
-    <div class="inner-grid inner-grid--4">
-      {securityBadges.map(b => (
-        <div class="inner-badge">
-          <iconify-icon class="inner-badge__icon" icon={b.icon}></iconify-icon>
-          <div class="inner-badge__text"><strong class="inner-badge__title">{b.title}</strong><span class="inner-badge__sub">{b.sub}</span></div>
-        </div>
-      ))}
-    </div>
-  </div>
-</section>
+  <main class="trust-page">
+    <Breadcrumbs crumbs={[{label:'الرئيسية',href:'/'},{label:'مركز الثقة'}]} />
+    <header>
+      <h1>مركز الثقة والأمان — أمان وحوكمة بلا تسويات</h1>
+      <p>وش يضمن إن بياناتك محمية؟ طبقات حماية متعددة، استضافة سيادية داخل المملكة، وامتثال كامل للأنظمة السعودية. بيئتنا التقنية مصممة للجهات الحكومية والشركات اللي ما تقبل تنازل في الأمان.</p>
+      <p>من خلال طبقات الحماية المتعددة وخيارات النشر المرنة، نضمن الامتثال التام للسياسات الوطنية والمعايير العالمية المعتمدة.</p>
+      <div class="trust-actions"><a href="/contact/">اطلب ملف الأمان المؤسسي</a><a href="/contact/">تواصل مع BrightAI</a></div>
+    </header>
 
-<section class="inner-section inner-section--alt" aria-labelledby="core-features-title">
-  <div class="max-w-7xl mx-auto px-5 lg:px-8">
-    <p class="inner-section__label">البنية التحتية</p>
-    <h2 id="core-features-title" class="inner-section__title">البنية التحتية لحوكمة الذكاء الاصطناعي</h2>
-    <p class="inner-section__lead">أربع طبقات أمان مدمجة في كل عملية AI تمر عبر المنصة.</p>
-    <div class="inner-grid inner-grid--4">
-      {coreFeatures.map(f => (
-        <div class="inner-card">
-          <iconify-icon class="inner-card__icon" icon={f.icon}></iconify-icon>
-          <h3 class="inner-card__title">{f.title}</h3>
-          <p class="inner-card__text">{f.desc}</p>
-        </div>
-      ))}
-    </div>
-  </div>
-</section>
-
-<section class="inner-section" aria-labelledby="deployment-title">
-  <div class="max-w-7xl mx-auto px-5 lg:px-8">
-    <p class="inner-section__label">خيارات النشر</p>
-    <h2 id="deployment-title" class="inner-section__title">خيارات نشر متعددة تناسب متطلبات الأمان لديك</h2>
-    <div class="inner-grid inner-grid--3">
-      {deploymentOptions.map(d => (
-        <div class="inner-card text-center">
-          <h3 class="inner-card__title">{d.title}</h3>
-          <p class="inner-card__text">{d.desc}</p>
-        </div>
-      ))}
-    </div>
-  </div>
-</section>
-
-<section class="inner-section inner-section--alt" aria-labelledby="compliance-title">
-  <div class="max-w-7xl mx-auto px-5 lg:px-8">
-    <p class="inner-section__label">الامتثال</p>
-    <h2 id="compliance-title" class="inner-section__title">الامتثال التشغيلي والمطابقة</h2>
-    <p class="inner-section__lead">منصة BrightAI مصممة لتلبية المتطلبات التنظيمية السعودية التالية:</p>
-    <div class="inner-grid inner-grid--3">
-      <div class="inner-card"><h3 class="inner-card__title">PDPL</h3><p class="inner-card__text">نظام حماية البيانات الشخصية — إخفاء تلقائي للبيانات الحساسة وحق النسيان.</p></div>
-      <div class="inner-card"><h3 class="inner-card__title">NCA ECC</h3><p class="inner-card__text">ضوابط الهيئة الوطنية للأمن السيبراني — سجلات تدقيق مشفرة ومحمية.</p></div>
-      <div class="inner-card"><h3 class="inner-card__title">SDAIA Guidelines</h3><p class="inner-card__text">إرشادات الذكاء الاصطناعي التوليدي — شفافية وعدالة وقابلية للتفسير.</p></div>
-    </div>
-  </div>
-</section>
-
-<section class="inner-section" aria-labelledby="trust-faq">
-  <div class="max-w-4xl mx-auto px-5 lg:px-8">
-    <h2 id="trust-faq" class="inner-section__title text-center">أسئلة شائعة حول مركز الثقة</h2>
-    <div class="inner-faq">
-      {trustFaq.map((item, i) => (
-        <details open={i === 0}>
-          <summary><span>{item.q}</span><iconify-icon icon="mdi:chevron-down"></iconify-icon></summary>
-          <div class="inner-faq__answer"><p>{item.a}</p></div>
-        </details>
-      ))}
-    </div>
-  </div>
-</section>
-
-<section class="inner-cta-final">
-  <div class="max-w-7xl mx-auto px-5 lg:px-8">
-    <div class="inner-cta-final__card">
-      <h2 class="inner-cta-final__title">هل أنت مستعد لتمكين الذكاء الاصطناعي بأمان تام؟</h2>
-      <p class="inner-cta-final__desc">احجز جلسة استشارية مجانية واكتشف كيف نحمي بيانات مؤسستك.</p>
-      <div class="inner-hero__actions" style="justify-content:center;">
-        <a href="/contact/" class="home-glow-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-bold"><iconify-icon icon="mdi:calendar-check"></iconify-icon> احجز جلسة</a>
-        <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="home-wa-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white"><iconify-icon icon="mdi:whatsapp"></iconify-icon> واتساب</a>
+    <section>
+      <h2>كيف نحمي البيانات الحساسة داخل بيئتك؟</h2>
+      <p>تعتمد هندستنا الأمنية على مبدأ "انعدام الثقة" (Zero Trust). لا تمرر BrightAI أي بيانات حساسة أو معرفات شخصية للموديلات الخارجية دون تصفية مشددة، ونوفر آليات تحكم صارمة تمكّن فريق أمن المعلومات لديك من بسط سيطرته الفنية على كامل مجريات استخدام الذكاء الاصطناعي.</p>
+      <ul>
+        <li>تجهيل البيانات الفوري (Anonymization): تصفية المعرفات الشخصية (PII) وسجلات الموظفين في الوقت الحقيقي.</li>
+        <li>تشفير متطور (Encryption): تشفير البيانات في حالة السكون (At-Rest) باستخدام AES-256 وفي حالة الانتقال (In-Transit) عبر TLS 1.3.</li>
+        <li>عزل تام للبيانات: هندسة معمارية متعددة المستأجرين (Multi-tenant) تضمن عزل بيانات كل مؤسسة في مستودع منفصل ومحمي.</li>
+      </ul>
+      <h3>طبقات درع أمان البيانات</h3>
+      <div class="trust-grid">
+        <article class="trust-card"><h4>المدخلات (Prompts)</h4><p>تصفية العبارات، كشف Shadow AI، حجب الهجمات اللفظية والبرمجية.</p></article>
+        <article class="trust-card"><h4>جدار الحماية الفوري (AI Firewall)</h4><p>تصنيف فوري للمخاطر، تصفية المعرفات الفردية، تطبيق سياسات الامتثال.</p></article>
+        <article class="trust-card"><h4>المخرجات (Responses)</h4><p>منع الهلوسة وتسريب معلومات الكود المصدري، والتأكد من مطابقة السياسات.</p></article>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
+
+    <section>
+      <h2>البنية التحتية لحوكمة الذكاء الاصطناعي</h2>
+      <p>تتكامل BrightAI مع تدفقات العمل الحالية لمؤسستك لتوفر لك حوكمة متواصلة وأماناً تقنياً مبنياً على أحدث الممارسات.</p>
+      <div class="trust-grid trust-grid--4">
+        <article class="trust-card"><h3>AI Firewall</h3><p>جدار حماية ذكي يراقب تدفق البيانات من وإلى النماذج اللغوية بشكل لحظي، مانعاً تسرب أي معلومات سرية أو معرفات وطنية.</p><a href="/solutions/ai-firewall/">استكشف جدار حماية الذكاء الاصطناعي لمنع التسريب</a></article>
+        <article class="trust-card"><h3>Audit Trail</h3><p>سجل تدقيق تشغيلي متكامل غير قابل للتلاعب (Immutable) يسجل كل قرار وإدخال ومخرجات للمطابقة والامتثال مع متطلبات التفتيش.</p><a href="/solutions/ai-audit-trail/">استعرض سجل تدقيق الذكاء الاصطناعي بالكامل</a></article>
+        <article class="trust-card"><h3>Human Approval</h3><p>طبقة مراجعة بشرية للقرارات والمدخلات ذات المخاطر العالية، تضمن أن الإنسان يظل مسيطراً ومحاسباً على المخرجات.</p><a href="/solutions/human-approval-layer/">تعرف على طبقة الموافقات البشرية الحساسة</a></article>
+        <article class="trust-card"><h3>Evidence File</h3><p>ملف الأدلة التنظيمية الجاهز للتصدير لدعم جهود الامتثال، وتوضيح تطبيق سياسات الحوكمة الفعالة أمام المفتشين والمنظمين.</p><a href="/solutions/ai-evidence-file/">استكشف نظام حفظ أدلة التدقيق للأعمال</a></article>
+      </div>
+    </section>
+
+    <section>
+      <h2>خيارات نشر متعددة تناسب متطلبات الأمان لديك</h2>
+      <p>تتفهم BrightAI تباين متطلبات الأمان والسيادة للبيانات بين الجهات الحكومية والشركات الخاصة، لذلك نوفر 3 خيارات نشر رئيسية.</p>
+      <div class="trust-grid">
+        <article class="trust-card"><h3>نشر سحابي سيادي (SaaS)</h3><p>استضافة كاملة على خوادم سحابية سيادية وموطنة بالكامل داخل أراضي المملكة العربية السعودية، مع عزل كامل لكل مستخدم.</p><ul><li>استضافة محلية 100%</li><li>تحديثات تلقائية وتوافرية عالية</li><li>إعداد وتشغيل فوري في دقائق</li></ul></article>
+        <article class="trust-card"><h3>نشر هجين (Hybrid Deployment)</h3><p>إبقاء البيانات الحساسة وجدار الحماية داخل بنيتك التحتية الخاصة، مع الاستفادة من التحديثات والتحليلات عبر السحابة الآمنة.</p><ul><li>بقاء البيانات الحساسة داخلياً</li><li>إدارة سهلة ومراقبة مركزية</li><li>توافق تام مع الأنظمة السيادية</li></ul></article>
+        <article class="trust-card"><h3>نشر معزول بالكامل (On-Prem / Air-Gapped)</h3><p>تثبيت النظام بالكامل داخل مراكز بيانات مؤسستك المعزولة عن الإنترنت، الخيار الأمثل للجهات العسكرية والأمنية الحساسة.</p><ul><li>لا يوجد أي تواصل مع الإنترنت</li><li>سيطرة فنية وسيادية مطلقة</li><li>ملائم للمستويات الأكثر حساسية</li></ul></article>
+      </div>
+    </section>
+
+    <section>
+      <h2>الامتثال التشغيلي والمطابقة</h2>
+      <p>تم بناء أنظمتنا وحلولنا الفنية وفقاً لأعلى الممارسات والمعايير الأمنية والتنظيمية الوطنية والدولية لدعم جاهزيتك الكاملة.</p>
+      <div class="trust-grid">
+        <article class="trust-card"><h3>نظام حماية البيانات الشخصية</h3><p>مبني وفق ممارسات ومعايير نظام حماية البيانات الشخصية السعودي (PDPL) لمنع خروج معلومات الهوية الفردية خارج حدود المملكة.</p></article>
+        <article class="trust-card"><h3>ضوابط الأمن السيبراني (ECC)</h3><p>مبني وفق ممارسات ومعايير الهيئة الوطنية للأمن السيبراني (NCA) لضمان أمان الأنظمة الحساسة والبنية التحتية الرقمية الحيوية.</p></article>
+        <article class="trust-card"><h3>ISO/IEC 42001</h3><p>مبني وفق ممارسات ومعايير الحوكمة المعتمدة في نظام إدارة الذكاء الاصطناعي العالمي لإدارة المخاطر والمسؤولية التشغيلية.</p></article>
+        <article class="trust-card"><h3>ISO/IEC 27001</h3><p>مبني وفق ممارسات ومعايير نظم إدارة أمن المعلومات العالمية، لضمان حماية وسرية البيانات بشكل مؤسسي صارم.</p></article>
+        <article class="trust-card"><h3>ISO/IEC 23894</h3><p>مبني وفق ممارسات ومعايير إرشادات إدارة مخاطر الذكاء الاصطناعي العالمية لضمان سلامة اتخاذ القرار وحماية أصول المؤسسة.</p></article>
+        <article class="trust-card"><h3>NIST AI RMF</h3><p>مبني وفق إطار إدارة مخاطر الذكاء الاصطناعي من المعهد الوطني للمعايير والتقنية الأمريكي لزيادة موثوقية وسلامة النظم.</p></article>
+      </div>
+      <h3>معايير أمان التطبيقات والشبكة</h3>
+    </section>
+
+    <section>
+      <h2>Security Headers والسياسات التقنية الصارمة</h2>
+      <p>نطبق في BrightAI حماية شاملة تبدأ من مستوى خادم الويب وحزم البيانات وحتى واجهات الاستخدام. تخضع منصتنا لفحوصات دورية للكشف عن الثغرات وتقييم مستوى الاختراق لضمان بقائها كحصن منيع ضد كافة التهديدات الأمنية المعاصرة.</p>
+    </section>
+
+    <section>
+      <h2>مستندات يمكن توفيرها عند الطلب</h2>
+      <p>نوفر لعملائنا من المؤسسات والجهات المنظمة حزمة كاملة من المستندات لدعم جهود المراجعة والتدقيق والامتثال الداخلي.</p>
+      <div class="trust-grid trust-grid--4">
+        <article class="trust-card"><h3>Security Overview</h3><p>كتيب تقني يستعرض بالتفصيل هندستنا الأمنية، آليات التشفير، وحماية تدفق البيانات.</p><a href="/contact/">طلب المستند ←</a></article>
+        <article class="trust-card"><h3>Data Processing Agreement</h3><p>نموذج اتفاقية معالجة البيانات (DPA) المحدث بما يتوافق بالكامل مع نظام حماية البيانات الشخصية السعودي.</p><a href="/data-processing-agreement/">استعرض الاتفاقية ←</a></article>
+        <article class="trust-card"><h3>AI Governance Controls</h3><p>ملخص كامل للضوابط والمعايير المطبقة لحوكمة نماذج الذكاء الاصطناعي والتحكم بمخاطر الهلوسة.</p><a href="/contact/">طلب المستند ←</a></article>
+        <article class="trust-card"><h3>Deployment Architecture</h3><p>مخططات تفصيلية لهيكل وخيارات النشر والربط بالأنظمة الحالية لمؤسستك (ERP / Cloud).</p><a href="/contact/">طلب المستند ←</a></article>
+      </div>
+    </section>
+
+    <section>
+      <h2>أسئلة شائعة حول مركز الثقة</h2>
+      {faqs.map(([question,answer]) => <details><summary>{question}</summary><p>{answer}</p></details>)}
+    </section>
+
+    <section class="trust-panel">
+      <h2>هل أنت مستعد لتمكين الذكاء الاصطناعي بأمان تام وموثوقية؟</h2>
+      <p>نوفر لك الحماية وحوكمة التشغيل والامتثال الكامل لسياسات أمن المعلومات في المملكة العربية السعودية.</p>
+      <div class="trust-actions"><a href="/contact/">اطلب ملف الأمان المؤسسي</a><a href="/contact/">تواصل مع مهندسينا</a></div>
+      <nav class="trust-links" aria-label="روابط الثقة"><a href="/privacy-policy/">سياسة الخصوصية</a><a href="/privacy-cookies/">إعدادات وخصوصية ملفات الارتباط</a><a href="/data-processing-agreement/">اتفاقية معالجة البيانات</a><a href="/solutions/ai-firewall/">AI Firewall</a><a href="/solutions/ai-audit-trail/">AI Audit Trail</a><a href="/docs/nca-ecc-ai-controls/">ضوابط NCA ECC للـ AI</a><a href="/docs/nca-ecc-ai-guide/">دليل NCA ECC</a><a href="/docs/pdpl-ai-complete-guide/">دليل PDPL الكامل</a><a href="/docs/sdaia-generative-ai-guidelines/">إرشادات SDAIA للذكاء التوليدي</a><a href="/contact/">تواصل معنا</a><a href="/sitemap/">خريطة صفحات الموقع</a></nav>
+    </section>
+  </main>
 </ArabicLayout>

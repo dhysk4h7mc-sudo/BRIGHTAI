@@ -154,6 +154,38 @@ const jsonLd = {
       color: var(--fg, #e2e8f0);
       margin: 2.5rem 0 1rem;
     }
+    .k-section-intro {
+      color: var(--fg-muted, #94a3b8);
+      line-height: 1.8;
+    }
+    .k-actions {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+    }
+    .k-action {
+      display: block;
+      padding: 1rem;
+      border: 1px solid var(--border, rgba(255,255,255,0.08));
+      border-radius: 0.5rem;
+      color: inherit;
+      text-decoration: none;
+      background: rgba(255,255,255,0.03);
+    }
+    .k-action strong { display: block; color: var(--fg, #e2e8f0); margin-bottom: .35rem; }
+    .k-action span { color: var(--fg-muted, #94a3b8); font-size: .8125rem; line-height: 1.6; }
+    .k-runtime-panel {
+      padding: 1rem;
+      border: 1px solid var(--border, rgba(255,255,255,0.08));
+      border-radius: 0.5rem;
+      background: rgba(255,255,255,0.03);
+    }
+    .k-doc-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .75rem;
+    }
+    .k-doc-links a { color: var(--brand, #00D4AA); }
     .k-units {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -241,6 +273,9 @@ const jsonLd = {
       .k-unit-card { transition: none; }
       .gsap-fade { opacity: 1 !important; }
     }
+    @media (max-width: 760px) {
+      .k-actions { grid-template-columns: 1fr; }
+    }
   </style>
 
   <!-- Breadcrumb -->
@@ -254,15 +289,44 @@ const jsonLd = {
 
   <!-- Hero -->
   <section class="k-hero">
+    <p>BrightAI Kernel Dashboard</p>
     <h1>{unit.h1}</h1>
     <p>
       منصة BrightAI Kernel هي غرفة تشغيل مركزية تمنح فرق الحوكمة والامتثال رؤية تنفيذية موحدة على كل أنشطة الذكاء الاصطناعي في المنشأة. تجمع السياسات والموافقات والأدلة والرقابة في لوحة واحدة، وتدعم جاهزية المؤسسة للمراجعات والتدقيق.
     </p>
   </section>
 
+  <section aria-labelledby="kernel-actions">
+    <h2 class="k-section-title" id="kernel-actions">الإجراءات الرئيسية</h2>
+    <p class="k-section-intro">ابدأ من مسارات التشغيل الأكثر استخداماً لفريق الحوكمة.</p>
+    <div class="k-actions">
+      <a class="k-action" href="/kernel/chat/"><strong>تشغيل محادثة آمنة</strong><span>اختبر الطلبات مع فحص PII والمخاطر قبل الإرسال.</span></a>
+      <a class="k-action" href="/kernel/approvals/"><strong>مراجعة الموافقات</strong><span>تعامل مع الطلبات العالية الحساسية قبل التنفيذ.</span></a>
+      <a class="k-action" href="/kernel/audit/"><strong>فتح سجل التدقيق</strong><span>راجع trace والقرار والهاش المرتبط بكل عملية.</span></a>
+      <a class="k-action" href="/kernel/reports/"><strong>إنشاء تقرير</strong><span>تقارير امتثال وتدقيق تنفيذية.</span></a>
+      <a class="k-action" href="/kernel/scenarios/"><strong>اختبار سيناريو</strong><span>اختبر استجابة الحوكمة.</span></a>
+      <a class="k-action" href="/kernel/compliance/"><strong>مراجعة الامتثال</strong><span>حالة حزم الامتثال والفجوات.</span></a>
+    </div>
+  </section>
+
   <!-- Dashboard Metrics -->
-  <h2 class="k-section-title">مؤشرات التشغيل</h2>
+  <h2 class="k-section-title">المؤشرات</h2>
+  <p class="k-section-intro">قراءة سريعة لحالة الطلبات والمخاطر والبيانات الحساسة. <a href="/kernel/stats/">كل الإحصائيات</a></p>
   <LiveDashboardMockup />
+
+  <section aria-labelledby="risk-map">
+    <h2 class="k-section-title" id="risk-map">خريطة المخاطر</h2>
+    <p class="k-section-intro">توزيع المخاطر حسب النوع والحساسية.</p>
+    <div class="k-runtime-panel" aria-label="خريطة المخاطر">
+      يعرض Kernel توزيع الطلبات منخفضة ومتوسطة وعالية المخاطر لتوجيه المراجعة البشرية والسياسات.
+    </div>
+  </section>
+
+  <section aria-labelledby="latest-traces">
+    <h2 class="k-section-title" id="latest-traces">آخر الـ traces</h2>
+    <p class="k-section-intro">أحدث قرارات الجدار الأمني والموافقات من سجل Kernel.</p>
+    <div class="k-runtime-panel"><a href="/kernel/audit/">فتح السجل الكامل</a></div>
+  </section>
 
   <!-- Unit Cards -->
   <h2 class="k-section-title">وحدات Kernel</h2>
@@ -284,6 +348,24 @@ const jsonLd = {
       );
     })}
   </div>
+
+  <section aria-labelledby="kernel-docs">
+    <h2 class="k-section-title" id="kernel-docs">وثائق تشغيل Kernel</h2>
+    <p class="k-section-intro">أدلة مرجعية تشرح إعداد السياسات والموافقات والسجلات والتقارير لكل فريق مسؤول. <a href="/docs/">كل الوثائق</a></p>
+    <p class="k-section-intro">راجع أدلة المحادثة الآمنة، السياسات، الموافقات، سجل التدقيق، الامتثال، الموصلات، الأدلة، التقارير، السيناريوهات، والمؤشرات.</p>
+    <nav class="k-doc-links" aria-label="وثائق تشغيل Kernel">
+      <a href="/docs/kernel-chat/">المحادثة الآمنة</a>
+      <a href="/docs/kernel-policies/">السياسات</a>
+      <a href="/docs/kernel-approvals/">الموافقات</a>
+      <a href="/docs/kernel-audit-trail/">سجل التدقيق</a>
+      <a href="/docs/kernel-compliance/">الامتثال</a>
+      <a href="/docs/kernel-connectors/">الموصلات</a>
+      <a href="/docs/kernel-evidence/">الأدلة</a>
+      <a href="/docs/kernel-reports/">التقارير</a>
+      <a href="/docs/kernel-scenarios/">السيناريوهات</a>
+      <a href="/docs/kernel-stats/">المؤشرات</a>
+    </nav>
+  </section>
 
   <!-- Cross-links to Solutions & Docs -->
   <div class="k-cross-links">

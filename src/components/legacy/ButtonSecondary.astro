@@ -1,0 +1,6 @@
+---
+interface Props { href?:string; label?:string; icon?:string; disabled?:boolean; type?:'button'|'submit'|'reset'; }
+const { href,label='عرض التفاصيل',icon='lucide:eye',disabled=false,type='button' }=Astro.props; const Tag=href?'a':'button';
+---
+<Tag class="legacy-button-secondary" href={href} disabled={!href?disabled:undefined} aria-disabled={href&&disabled?'true':undefined} type={!href?type:undefined}><iconify-icon icon={icon} width="18"></iconify-icon><slot>{label}</slot></Tag>
+<style>.legacy-button-secondary{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.7rem 1rem;border:1px solid #ffffff2e;border-radius:8px;background:#ffffff0d;color:#e2e8f0;font:inherit;font-weight:700;text-decoration:none;cursor:pointer}.legacy-button-secondary:disabled,.legacy-button-secondary[aria-disabled=true]{opacity:.5;pointer-events:none}</style>

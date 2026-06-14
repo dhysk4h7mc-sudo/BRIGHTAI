@@ -12,7 +12,7 @@ const auditPillars = [
   { icon: 'mdi:alert-triangle', color: 'rgba(255,92,92,.15)', border: 'rgba(255,92,92,.25)', iconColor: '#f87171', title: 'فحص وتقييم المخاطر', desc: 'تحليل مخاطر النماذج المستخدمة وتحديد الثغرات الأمنية المحتملة في معالجة المدخلات والمخرجات وتصنيف درجات التهديد.' },
   { icon: 'mdi:shield-alert', color: 'rgba(0,212,255,.15)', border: 'rgba(0,212,255,.25)', iconColor: '#22d3ee', title: 'تسريب وحماية البيانات', desc: 'تتبع حركة البيانات الحساسة (PII) مثل سجلات العملاء والبيانات المالية للتأكد من عدم مشاركتها مع أطراف ثالثة خارجية.' },
   { icon: 'mdi:account-check', color: 'rgba(124,92,255,.15)', border: 'rgba(124,92,255,.25)', iconColor: '#a78bfa', title: 'الموافقات والصلاحيات', desc: 'تقييم هيكل الصلاحيات المعمول به ومسار الموافقات البشرية لضمان أن كل تفاعل مع نماذج الذكاء الاصطناعي معتمد ومراقب.' },
-  { icon: 'mdi:format-list-checks', color: 'rgba(37,211,102,.15)', border: 'rgba(37,211,102,.25)', iconColor: '#4ade80', title: 'سجلات وخطوط التدقيق', desc: 'مراجعة الآليات التقنية لتوثيق وتخزين عمليات الذكاء الاصطناعي في سجل تدقيق محصن ومستدام لمواجهة متطلبات التفتيش.' },
+  { icon: 'mdi:format-list-checks', color: 'rgba(37,211,102,.15)', border: 'rgba(37,211,102,.25)', iconColor: '#4ade80', title: 'سجلات وخطوط التدقيق', desc: 'مراجعة الآليات التقنية لتوثيق وتخزين عمليات الذكاء الاصطناعي في سجل تدقيق محصن ومستدام لمواجهة متطلبات التفتيش الداخلي والخارجي.' },
 ];
 const outputs = [
   { num: '01', border: 'border-cyan-400', title: 'ملف أدلة تشغيلي (Evidence File)', desc: 'ملف توثيقي شامل يحتوي على البراهين الفنية والتشغيلية التي توضح كيفية إدارة ومراقبة عمليات استخدام نماذج الذكاء الاصطناعي وسلوك موظفيك الفعلي.' },
@@ -21,9 +21,9 @@ const outputs = [
 ];
 const steps = [
   { num: '١', title: 'الفحص الفني والاستكشاف الأولي', desc: 'يقوم فريقنا بفحص مسارات تدفق البيانات وتحديد كافة أدوات الذكاء الاصطناعي والشبكات المفتوحة داخل مؤسستك للكشف عن Shadow AI ورصد الثغرات.' },
-  { num: '٢', title: 'تهيئة وهيكلة نظام تصنيف المخاطر', desc: 'بناء وتخصيص مستويات تصنيف المخاطر الأمنية وتحديد القواعد التلقائية التي تفرز البيانات المدخلة والمخرجة بناءً على معايير الحماية الوطنية.' },
+  { num: '٢', title: 'تهيئة وهيكلة نظام تصنيف المخاطر', desc: 'بناء وتخصيص مستويات تصنيف المخاطر الأمنية وتحديد القواعد التلقائية التي تفرز البيانات المدخلة والمخرجة بناءً على معايير الحماية الوطنية الخاصة بك.' },
   { num: '٣', title: 'دمج جدار الحماية (AI Firewall) والتحكم الفعال', desc: 'إدراج طبقة الأمان الذكية لمنع مشاركة البيانات الحساسة أو إرسال المعلومات السرية دون موافقات مسبقة، مع الاحتفاظ بمسار مراجعة بشري مرن.', links: [{ href: '/solutions/ai-firewall/', label: 'اكتشف حلول AI Firewall' }] },
-  { num: '٤', title: 'تشغيل سجل التدقيق وإصدار الأدلة (Evidence)', desc: 'تفعيل Immutable Audit Trail لحفظ قرارات الذكاء الاصطناعي ونشاط الموظفين في سجل تشغيلي مشفر محصن ضد التلاعب، وتوليد تقارير الجاهزية.', links: [{ href: '/solutions/ai-audit-trail/', label: 'اقرأ عن نظام AI Audit Trail' }, { href: '/solutions/ai-governance-platform/', label: 'منصة حوكمة الذكاء الاصطناعي' }] },
+  { num: '٤', title: 'تشغيل سجل التدقيق وإصدار الأدلة (Evidence)', desc: 'تفعيل Immutable Audit Trail لحفظ قرارات الذكاء الاصطناعي ونشاط الموظفين في سجل تشغيلي مشفر محصن ضد التلاعب، وتوليد تقارير الجاهزية الفنية للجهات التنظيمية.', links: [{ href: '/solutions/ai-audit-trail/', label: 'اقرأ عن نظام AI Audit Trail' }, { href: '/solutions/ai-governance-platform/', label: 'منصة حوكمة الذكاء الاصطناعي' }] },
 ];
 const faqItems = [
   { q: 'ما الذي يقدمه تقييم جاهزية حوكمة الذكاء الاصطناعي من BrightAI؟', a: 'يقدم تقييمًا فنيًا وتشغيليًا شاملًا للمؤسسات السعودية للوقوف على مستوى شفافية وأمان استخدام تطبيقات ونماذج الذكاء الاصطناعي، وفحص مدى تسريب البيانات الحساسة وتحديد مواطن القوة والضعف لتوليد أدلة تدقيق تشغيلية متماشية مع الأطر المحلية.' },
@@ -66,6 +66,7 @@ const jsonLd = {
     <p class="inner-section__label">الفئات المستهدفة</p>
     <h2 id="target-audience-title" class="inner-section__title">لمن هذا التقييم؟</h2>
     <p class="inner-section__lead">تم تصميم تقييم الجاهزية خصيصاً للقادة التنفيذيين وصناع القرار في المؤسسات السعودية الكبرى لمساندتهم في إرساء دعائم حوكمة تقنية متكاملة.</p>
+    <p class="inner-section__lead">احصل على خارطة طريق تقنية واضحة تمكنك من بسط سيطرتك الفنية على استخدامات الذكاء الاصطناعي وتطبيق سياساتك الأمنية في الوقت الفعلي.</p>
     <div class="inner-grid inner-grid--3">
       {targetAudience.map(a => (
         <div class="inner-card">
@@ -181,7 +182,7 @@ const jsonLd = {
 <section class="inner-cta-final">
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
     <div class="inner-cta-final__card">
-      <h2 class="inner-cta-final__title">احمِ أصول بياناتك وباشر <span class="home-gradient-text">تقييم جاهزيتك اليوم</span></h2>
+      <h2 class="inner-cta-final__title">احمِ أصول بياناتك وباشر<br /><span class="home-gradient-text">تقييم جاهزيتك اليوم</span></h2>
       <p class="inner-cta-final__desc">فريقنا الهندسي في الرياض جاهز لمساعدتك في رصد وإدارة مخاطر الذكاء الاصطناعي وتطبيق سياسات الأمان السيبراني بفعالية تشغيلية تامة.</p>
       <div class="inner-hero__actions" style="justify-content:center;">
         <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="home-wa-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white"><iconify-icon icon="mdi:whatsapp"></iconify-icon> تحدث مع مهندسينا عبر واتساب</a>

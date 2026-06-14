@@ -13,7 +13,7 @@ const navigationLinks = [
 
 <ArabicLayout
   title="الصفحة غير موجودة | BrightAI"
-  description="تعذر العثور على الصفحة المطلوبة. ارجع للرئيسية أو استكشف حلول BrightAI والنواة والمدونة والوثائق."
+  description="الصفحة المطلوبة غير متوفرة حالياً. يمكنك العودة إلى الصفحة الرئيسية أو استكشاف حلول BrightAI للذكاء الاصطناعي للشركات السعودية."
   canonical="https://brightai.site/404/"
   hreflang={[
     { lang: 'ar-SA', href: 'https://brightai.site/404/' },
@@ -38,10 +38,15 @@ const navigationLinks = [
         <iconify-icon icon="mdi:map-marker-question-outline"></iconify-icon>
         الرابط ما وصل لصفحة
       </div>
-      <h1 id="error-title">الصفحة غير موجودة</h1>
+      <h1 id="error-title">الصفحة مو موجودة</h1>
       <p class="inner-hero__desc mx-auto">
-        يمكن الرابط تغيّر أو الصفحة انتقلت. استخدم المسارات تحت، أو ابحث داخل الحلول
-        والمدونة والوثائق عن الموضوع اللي تحتاجه.
+        الرابط اللي دخلت عليه إما تغيّر أو انحذف. تحت لك روابط مهمة تساعدك توصل للي تبيه.
+      </p>
+      <p class="inner-hero__desc mx-auto">
+        إذا جيت من محرك بحث أو رابط قديم، غالباً المحتوى انتقل لمكان ثاني. نحدّث الموقع باستمرار عشان يكون أوضح وأسهل.
+      </p>
+      <p class="inner-hero__desc mx-auto">
+        أسهل شي ترجع للصفحة الرئيسية وتختار الخدمة اللي تناسبك، أو تتواصل معنا مباشرة.
       </p>
 
       <nav class="error-page__links" aria-label="روابط مقترحة">
@@ -61,6 +66,21 @@ const navigationLinks = [
         <a href="/" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white border border-white/20">
           <iconify-icon icon="mdi:arrow-right"></iconify-icon>
           العودة للرئيسية
+        </a>
+      </div>
+
+      <div class="error-page__legacy-links">
+        <a href="/pricing/" class="inner-card error-page__legacy-link">
+          <h2>الأسعار</h2>
+          <p>شوف الباقات والأسعار</p>
+        </a>
+        <a href="/services/" class="inner-card error-page__legacy-link">
+          <h2>أمثلة من السوق</h2>
+          <p>شركات سعودية استخدمت الحلول</p>
+        </a>
+        <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="inner-card error-page__legacy-link">
+          <h2>تواصل واتساب</h2>
+          <p>كلمنا مباشرة</p>
         </a>
       </div>
     </div>
@@ -114,6 +134,31 @@ const navigationLinks = [
       margin-top: 2rem;
     }
 
+    .error-page__legacy-links {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.75rem;
+      margin-top: 2rem;
+      text-align: right;
+    }
+
+    .error-page__legacy-link {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .error-page__legacy-link h2 {
+      margin: 0 0 0.4rem;
+      color: #fff;
+      font-size: 1.05rem;
+    }
+
+    .error-page__legacy-link p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.58);
+      font-size: 0.875rem;
+    }
+
     @media (max-width: 760px) {
       .error-page__links {
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -121,6 +166,10 @@ const navigationLinks = [
 
       .error-page__link:first-child {
         grid-column: 1 / -1;
+      }
+
+      .error-page__legacy-links {
+        grid-template-columns: 1fr;
       }
     }
   </style>

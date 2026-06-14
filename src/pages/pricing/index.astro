@@ -1,81 +1,176 @@
 ---
 import ArabicLayout from '../../layouts/ArabicLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
-import BackgroundGrid from '../../components/BackgroundGrid.astro';
-const crumbs = [{ label: 'الرئيسية', href: '/' }, { label: 'الأسعار' }];
+
+const title = 'باقات BrightAI لحوكمة الذكاء الاصطناعي | BrightAI';
+const description = 'قارن باقات BrightAI لحوكمة وأمان الذكاء الاصطناعي، واختر مستوى الدعم والضوابط المناسب لحجم منشأتك واحتياج الامتثال في السعودية، مع خطوة تالية واضحة.';
+const canonical = 'https://brightai.site/pricing/';
+const whatsapp = 'https://wa.me/966538229013?text=%D8%A7%D9%84%D8%B3%D8%A7%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D9%85%D9%86%D8%A7%D9%82%D8%B4%D8%A9%20%D8%AA%D8%B3%D8%B9%D9%8A%D8%B1%20%D8%AD%D9%84%D9%88%D9%84%20%D8%A7%D9%84%D8%B0%D9%83%D8%A7%D8%A1%20%D8%A7%D9%84%D8%A7%D8%B5%D8%B7%D9%86%D8%A7%D8%B9%D9%8A%20%D9%84%D9%84%D8%B4%D8%B1%D9%83%D8%A7%D8%AA%20%D9%81%D9%8A%20%D8%A7%D9%84%D8%B3%D8%B9%D9%88%D8%AF%D9%8A%D8%A9%20%D9%85%D8%B9%20Bright%20AI.';
+
 const packages = [
-  { badge: '', name: 'Starter', desc: 'لقسم واحد أو Pilot مشروع أولي. مثالي للشركات اللي تبي تجرب AI Safety.', features: ['AI Firewall أساسي','سجل تدقيق مشفر','دعم فني عبر البريد','تقرير جاهزية مبدئي','PII Redaction تلقائي'] },
-  { badge: 'الأكثر طلباً', name: 'Business', desc: 'نشر على مستوى المؤسسة مع موافقات بشرية وأدلة امتثال كاملة.', features: ['كل مزايا Starter','Human Approval Layer','AI Evidence File PDF','لوحة تحكم مركزية','تكامل ERP/CRM/HIS','ضوابط NCA ECC وPDPL','تقارير امتثال دورية'] },
-  { badge: '', name: 'Enterprise', desc: 'نشر Air-Gapped مخصص مع SLA وSFDA وISO 42001 ودعم 24/7.', features: ['كل مزايا Business','نشر On-Premise / Air-Gapped','امتثال SFDA وISO 13485','ISO/IEC 42001 جاهز','مدير نجاح مخصص','SLA مخصص للشركة'] },
+  {
+    name: 'استشارات الذكاء الاصطناعي',
+    description: 'للشركات التي تحتاج تحديد الاتجاه الصحيح قبل الاستثمار في حلول أكبر.',
+    price: 'من 99 ريال',
+    period: 'لجلسة تشخيصية',
+    features: ['جلسة فهم احتياج لمدة 30-60 دقيقة', 'تحليل أولي للحالات المحتملة', 'توصيات أولية للبداية', 'خطة خطوات مقترحة'],
+  },
+  {
+    name: 'حلول الأتمتة الذكية',
+    description: 'للشركات التي تريد أتمتة عمليات محددة لتوفير الوقت وتقليل الأخطاء.',
+    price: 'سعر مخصص',
+    period: 'حسب نطاق المشروع',
+    features: ['أتمتة عملية واحدة أو أكثر', 'تكامل مع أنظمتك الحالية', 'اختبار شامل قبل الإطلاق', 'تدريب لفريقك على الاستخدام', 'دعم فترة تجريبية'],
+  },
+  {
+    name: 'وكلاء الذكاء الاصطناعي',
+    description: 'للشركات والمؤسسات التي تحتاج وكلاء AI متكاملين للمهام المعقدة.',
+    price: 'سعر مخصص',
+    period: 'حسب التعقيد والتكاملات',
+    features: ['وكيل مخصص لحالة استخدام محددة', 'تكامل عميق مع أنظمة متعددة', 'حوكمة وسجلات تدقيق كاملة', 'قدرة التوسع حسب الحاجة', 'صيانة وتحديثات مستمرة'],
+  },
+  {
+    name: 'شات بوت عربي ذكي',
+    description: 'للشركات التي تريد خدمة عملاء ذكية باللغة العربية على مدار الساعة.',
+    price: 'سعر مخصص',
+    period: 'حسب حجم الاستخدام',
+    features: ['شات بوت مدرب على بيانات شركتك', 'دعم الفصحى واللهجات السعودية', 'تكامل واتساب وتيليجرام وموقع', 'تقارير أداء وتحليلات المحادثات', 'حوكمة وخصوصية البيانات'],
+  },
 ];
+
+const faqs = [
+  ['كيف تحددون أسعار حلول الذكاء الاصطناعي؟', 'نتبع نماذج تسعير مرنة تناسب حجم الشركة: استشارات بسعر ثابت، مشاريع حسب النطاق والمدة، واشتراكات شهرية للخدمات المستمرة. كل سعر يتم تحديده بعد فهم الاحتياج الفعلي وضمن شفافية تامة.'],
+  ['كم تبدأ أسعار استشارات الذكاء الاصطناعي؟', 'تبدأ استشارات الذكاء الاصطناعي من 99 ريال سعودي لجلسة تشخيصية. للاستشارات المتعمقة التي تشمل تحليل البيانات وتقييم الجاهزية وخريطة طريق، يتم تحديد السعر حسب نطاق العمل ومدة الاستشارة بعد فهم الاحتياج.'],
+  ['ما العوامل التي تؤثر في التسعير المخصص؟', 'التسعير المخصص يعتمد على عدة عوامل: حجم المشروع، مستوى التخصيص المطلوب، عدد التكاملات مع الأنظمة الحالية، مستوى الحوكمة والأمان، ومدة المشروع. نبدأ بجلسة فهم احتياج مجانية ثم نقدم عرض سعر مفصل.'],
+  ['ما خيارات وشروط الدفع؟', 'نوفر مرونة في شروط الدفع: دفعة مقدمة مع باقي الدفعات على مراحل المشروع، أو دفعات شهرية للخدمات المستمرة، أو دفعة واحدة بخصم للمشاريع الصغيرة. تقبل التحويلات البنكية وبطاقات الائتمان.'],
+  ['هل تضمنون عائداً محدداً على الاستثمار؟', 'نحدد مؤشرات أداء واضحة (KPIs) في بداية كل مشروع نقيسها بشكل دوري. بينما لا يمكننا ضمان مبلغ نقدي محدد، فإننا نعمل على تحقيق أهداف الجدوى التي تم الاتفاق عليها، ونقدم تقارير دورية توضح القيمة المحققة.'],
+  ['ماذا يشمل سعر الخدمة؟', 'يشمل سعر الخدمة عادة: التصميم والتطوير، التكامل مع الأنظمة، الاختبار الشامل، التدريب لفريقك، الدعم الفني للفترة التجريبية، والتوثيق. للخدمات المستمرة يضاف الدعم الفني وصيانة النظام والتحديثات.'],
+];
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    { '@type': 'WebPage', '@id': `${canonical}#webpage`, url: canonical, name: title, description, inLanguage: 'ar-SA' },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'الرئيسية', item: 'https://brightai.site/' },
+        { '@type': 'ListItem', position: 2, name: 'الأسعار', item: canonical },
+      ],
+    },
+    {
+      '@type': 'FAQPage',
+      mainEntity: faqs.map(([name, text]) => ({ '@type': 'Question', name, acceptedAnswer: { '@type': 'Answer', text } })),
+    },
+  ],
+};
 ---
-<ArabicLayout title="أسعار BrightAI — باقات حوكمة وأمان الذكاء الاصطناعي | BrightAI" description="أسعار BrightAI مصممة حسب حجم شركتك واحتياجك. باقات Starter وBusiness وEnterprise مع عرض سعر مخصص خلال 24 ساعة عبر واتساب." canonical="https://brightai.site/pricing/" hreflang={[{lang:'ar-SA',href:'https://brightai.site/pricing/'},{lang:'x-default',href:'https://brightai.site/pricing/'}]} jsonLd={{"@context":"https://schema.org","@type":"WebPage","name":"أسعار BrightAI","description":"باقات حوكمة وأمان الذكاء الاصطناعي حسب حجم المؤسسة","url":"https://brightai.site/pricing/"} as any} currentPath="/pricing/">
-<style is:global>@import '../../styles/inner-pages.css';</style>
 
-<section class="inner-hero" aria-label="الأسعار">
-  <BackgroundGrid />
-  <div class="max-w-7xl mx-auto px-5 lg:px-8">
-    <Breadcrumbs crumbs={crumbs} />
-    <div class="inner-hero__badge"><iconify-icon icon="mdi:tag-outline"></iconify-icon> باقات حسب حجم شركتك</div>
-    <h1>أسعار <span class="home-gradient-text">Saudi AI Safety OS</span></h1>
-    <p class="inner-hero__desc">باقات مصممة حسب حجم المؤسسة واحتياجك الفعلي. بدون أسعار خيالية — نعطيك عرض سعر مخصص خلال 24 ساعة بعد ما نفهم وضعك بالضبط.</p>
-    <div class="inner-hero__actions">
-      <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="home-glow-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-bold"><iconify-icon icon="mdi:whatsapp"></iconify-icon> اطلب عرض سعر خلال 24 ساعة</a>
-    </div>
-  </div>
-</section>
+<ArabicLayout title={title} description={description} canonical={canonical} hreflang={[{lang:'ar-SA',href:canonical},{lang:'x-default',href:canonical}]} jsonLd={jsonLd} currentPath="/pricing/">
+  <style>
+    .pricing-page { width: min(100% - 2rem, 75rem); margin-inline: auto; padding-block: 2rem 5rem; }
+    .pricing-page h1 { color: var(--fg,#f8fafc); font-size: clamp(2rem,5vw,3.5rem); }
+    .pricing-page h2 { margin-block: 3rem 1rem; color: var(--fg,#f8fafc); font-size: clamp(1.4rem,3vw,2rem); }
+    .pricing-page h3 { color: var(--fg,#f8fafc); }
+    .pricing-page p, .pricing-page li { color: var(--fg-muted,#a8b3c7); line-height: 1.85; }
+    .pricing-page a { color: var(--brand,#00d4aa); }
+    .pricing-actions { display:flex; flex-wrap:wrap; gap:1rem; }
+    .pricing-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; }
+    .pricing-card, .pricing-panel { padding:1.5rem; border:1px solid rgba(148,163,184,.18); border-radius:8px; background:rgba(15,23,42,.5); }
+    .pricing-card__price { color:#67e8f9; font-size:2rem; font-weight:800; }
+    .pricing-columns { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1rem; }
+    .pricing-table-wrap { overflow-x:auto; }
+    .pricing-table { width:100%; border-collapse:collapse; min-width:680px; }
+    .pricing-table th, .pricing-table td { padding:.85rem; border:1px solid rgba(148,163,184,.18); text-align:start; color:var(--fg-muted,#a8b3c7); }
+    .pricing-links { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.75rem; }
+    .pricing-links a { padding:1rem; border:1px solid rgba(148,163,184,.18); border-radius:8px; text-decoration:none; }
+    details { padding:1rem 0; border-bottom:1px solid rgba(148,163,184,.18); }
+    summary { color:var(--fg,#f8fafc); font-weight:700; cursor:pointer; }
+    @media(max-width:760px){ .pricing-grid,.pricing-columns,.pricing-links{grid-template-columns:1fr;} }
+  </style>
 
-<section class="inner-section" aria-labelledby="pricing-plans">
-  <div class="max-w-7xl mx-auto px-5 lg:px-8">
-    <h2 id="pricing-plans" class="inner-section__title text-center">اختر الباقة المناسبة</h2>
-    <p class="inner-section__lead text-center">كل باقة تشمل AI Safety OS Core. الفرق في حجم النشر وعدد المستخدمين ومستوى الامتثال.</p>
-    <div class="inner-grid inner-grid--3">
-      {packages.map((pkg, i) => (
-        <div class:list={['pricing-card', { 'pricing-card--featured': i === 1 }]}>
-          {pkg.badge && <span class="pricing-card__badge">{pkg.badge}</span>}
-          <h3 class="pricing-card__name">{pkg.name}</h3>
-          <p class="pricing-card__desc">{pkg.desc}</p>
-          <ul class="pricing-card__features">
-            {pkg.features.map(f => (
-              <li><iconify-icon icon="mdi:check-circle"></iconify-icon> {f}</li>
-            ))}
-          </ul>
-          <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="inner-form__submit" style="text-decoration:none;">اطلب عرض سعر</a>
-        </div>
-      ))}
-    </div>
-  </div>
-</section>
+  <main class="pricing-page">
+    <Breadcrumbs crumbs={[{label:'الرئيسية',href:'/'},{label:'الأسعار'}]} />
+    <header>
+      <h1>تسعير واضح ومرن يناسب حجم شركتك</h1>
+      <h2>إجابة مختصرة</h2>
+      <p>وش تكلفة حوكمة AI فعلياً؟ نقدم من Saudi AI Safety OS نماذج تسعير شفافة تناسب الشركات السعودية من جميع الأحجام — استشارات تبدأ من ٩٩ ريال، حلول أتمتة، وكلاء AI، وشات بوت عربي — مع مرونة في النطاق والمدة حسب احتياجك.</p>
+      <p>وش تكلفة حوكمة AI فعلياً؟ باقات شفافة تناسب الشركات السعودية — من استشارة تشخيصية تبدأ من ٩٩ ريال، إلى حلول مؤسسية كاملة. نحدد السعر حسب احتياجك الفعلي، بدون مفاجآت.</p>
+      <div class="pricing-actions"><a href={whatsapp}>ناقش التسعير عبر واتساب</a><a href="/contact/">أرسل تفاصيل الاحتياج</a></div>
+    </header>
 
-<section class="inner-section inner-section--alt" aria-labelledby="pricing-faq">
-  <div class="max-w-4xl mx-auto px-5 lg:px-8">
-    <h2 id="pricing-faq" class="inner-section__title text-center">أسئلة شائعة عن الأسعار</h2>
-    <div class="inner-faq">
-      <details open>
-        <summary><span>ليش ما نشرح الأسعار بالتفصيل هنا؟</span><iconify-icon icon="mdi:chevron-down"></iconify-icon></summary>
-        <div class="inner-faq__answer"><p>كل شركة مختلفة: عدد المستخدمين، القطاع، متطلبات الامتثال، نوع النشر (Cloud أو On-Premise). نعطيك عرض سعر دقيق خلال 24 ساعة بعد ما نفهم احتياجك.</p></div>
-      </details>
-      <details>
-        <summary><span>هل في فترة تجريبية مجانية؟</span><iconify-icon icon="mdi:chevron-down"></iconify-icon></summary>
-        <div class="inner-faq__answer"><p>نعم، نقدم Pilot مجاني لمدة 30 يوم على قسم واحد حتى تتأكد إن النظام يناسبك قبل ما تلتزم.</p></div>
-      </details>
-      <details>
-        <summary><span>هل الدفع سنوي أو شهري؟</span><iconify-icon icon="mdi:chevron-down"></iconify-icon></summary>
-        <div class="inner-faq__answer"><p>عندنا خيارات مرنة: سنوي مع خصم، أو شهري. تفاصيل الدفع تكون في عرض السعر المخصص.</p></div>
-      </details>
-    </div>
-  </div>
-</section>
+    <section>
+      <h2>باقات Saudi AI Safety OS: كيف تختار الباقة الأنسب لـ نظام أمان AI للشركات الخاص بمؤسستك؟</h2>
+      <p>تسعير حلول الذكاء الاصطناعي للشركات في السعودية: نماذج تسعير شفافة ومرنة من Saudi AI Safety OS تناسب الشركات الصغيرة والمتوسطة والمؤسسات الكبرى في السعودية. نبدأ بفهم احتياجك الفعلي، ثم نقدم عرض سعر واضح يعتمد على النطاق والتعقيد والمدة. تشمل نماذجنا: استشارات تبدأ من 99 ريال، مشاريع تطوير حسب النطاق، واشتراكات شهرية للخدمات المستمرة. نركز دائماً على القيمة المقدمة والعائد على الاستثمار، مع مرونة في شروط الدفع.</p>
+    </section>
 
-<section class="inner-cta-final">
-  <div class="max-w-7xl mx-auto px-5 lg:px-8">
-    <div class="inner-cta-final__card">
-      <h2 class="inner-cta-final__title">جاهز تعرف كم يكلف حماية AI في شركتك؟</h2>
-      <p class="inner-cta-final__desc">اكتب لنا عبر واتساب وقولنا عن شركتك وقطاعك — نرجع لك بعرض سعر خلال 24 ساعة.</p>
-      <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="home-wa-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white">
-        <iconify-icon icon="mdi:whatsapp"></iconify-icon> تواصل عبر واتساب
-      </a>
-    </div>
-  </div>
-</section>
+    <section>
+      <h2>تفاصيل خطة الامتثال الأساسية للشركات الناشئة والمتوسطة</h2>
+      <ul><li>استشارات تبدأ من 99 ريال سعودي لجلسة تشخيصية.</li><li>حلول مخصصة حسب حجم المشروع والتعقيد والتكاملات.</li><li>مرونة في الدفع: دفعات مرحلية أو اشتراكات شهرية.</li><li>شفافية تامة في العروض ووضوح في ماذا تشمل الخدمة.</li></ul>
+    </section>
+
+    <section>
+      <h2>الباقة المؤسسية الشاملة المخصصة للجهات الحكومية والقطاعات الحيوية</h2>
+      <p>نقدم حزم مرنة تناسب الشركات من جميع الأحجام. كل حزمة يمكن تخصيصها حسب احتياجك الفعلي.</p>
+      <div class="pricing-grid">
+        {packages.map((pkg) => <article class="pricing-card"><h3>{pkg.name}</h3><p>{pkg.description}</p><p class="pricing-card__price">{pkg.price}</p><p>{pkg.period}</p><ul>{pkg.features.map((feature)=><li>{feature}</li>)}</ul><a href="/contact/">{pkg.name === 'استشارات الذكاء الاصطناعي' ? 'احجز استشارة' : 'اطلب عرض سعر'}</a></article>)}
+      </div>
+    </section>
+
+    <section>
+      <h2>العائد على الاستثمار (ROI): كيف يوفر لك نظامنا تكاليف الغرامات والمخاطر السيبرانية؟</h2>
+      <p>للمؤسسات التي تحتاج حلولاً متكاملة مع متطلبات خاصة في الحوكمة والأمان والتكامل.</p>
+      <div class="pricing-columns">
+        <article class="pricing-panel"><h3>التكامل مع الأنظمة</h3><p>دعم متكامل لأنظمة المؤسسات الشائعة في السعودية مع مراعاة بيئات العمل المختلفة.</p><ul><li>تكامل ERP و CRM الحالي</li><li>ربط قواعد البيانات المختلفة</li><li>APIs آمنة وموثقة</li><li>دعم البيئات المحلية والسحابية</li></ul></article>
+        <article class="pricing-panel"><h3>الحوكمة والامتثال</h3><p>حوكمة كاملة تفي بالمتطلبات التنظيمية في السعودية مع سجلات تدقيق وشفافية تامة.</p><ul><li>سجلات تدقيق كاملة لكل عملية</li><li>صلاحيات وصول مفصلة</li><li>امتثال للوائح المحلية</li><li>تشفير البيانات الحساسة</li></ul></article>
+        <article class="pricing-panel"><h3>الدعم والتشغيل</h3><p>دعم مستمر وفريق متاح لضمان استمرارية العمل وأداء مثالي لحلول الذكاء الاصطناعي.</p><ul><li>دعم فني خلال أوقات العمل</li><li>صيانة وتحديثات دورية</li><li>تقارير أداء شهرية</li><li>فريق مخصص للمؤسسات</li></ul></article>
+      </div>
+    </section>
+
+    <section>
+      <h2>الأسئلة الشائعة حول الفوترة، الدعم الفني، وخدمات التخصيص المحلّية</h2>
+      <p>جدول مقارن يساعدك على اختيار الحزمة المناسبة حسب مرحلة شركتك واحتياجك.</p>
+      <div class="pricing-table-wrap"><table class="pricing-table"><thead><tr><th>الميزة</th><th>الاستشارة</th><th>الأتمتة</th><th>وكلاء AI</th><th>الشات بوت</th></tr></thead><tbody>
+        <tr><td>نقاط البداية</td><td>من 99 ريال</td><td>سعر مخصص</td><td>سعر مخصص</td><td>سعر مخصص</td></tr>
+        <tr><td>التكامل مع الأنظمة</td><td>لا</td><td>نعم</td><td>نعم</td><td>نعم</td></tr>
+        <tr><td>الحوكمة والتدقيق</td><td>لا</td><td>أساسي</td><td>متقدم</td><td>أساسي</td></tr>
+        <tr><td>تدريب الفريق</td><td>لا</td><td>نعم</td><td>نعم</td><td>نعم</td></tr>
+        <tr><td>الدعم المستمر</td><td>لا</td><td>فترة تجريبية</td><td>اشتراك</td><td>اشتراك</td></tr>
+        <tr><td>مناسب لـ</td><td>البداية</td><td>الشركات المتوسطة</td><td>المؤسسات</td><td>جميع الأحجام</td></tr>
+      </tbody></table></div>
+    </section>
+
+    <section>
+      <h2>بيانات BrightAI الموحدة في السعودية</h2>
+      <p>نستخدم بيانات NAP نفسها عبر الصفحات حتى تفهم محركات البحث ومحركات الإجابة كيان BrightAI بوضوح.</p>
+      <ul><li>الاسم: BrightAI</li><li>العنوان: 6913 المبارك بن فضالة، حي الفيحاء، الرياض 14254، المملكة العربية السعودية</li><li>الهاتف: <a href="tel:+966538229013">+966538229013</a></li><li>البريد: <a href="mailto:yazeed1job@gmail.com">yazeed1job@gmail.com</a></li></ul>
+    </section>
+
+    <section>
+      <h2>روابط داخلية مرتبطة</h2>
+      <p>هذه الروابط تدعم بناء الكيان الموضوعي حول خدمات الذكاء الاصطناعي في السعودية والمدن المستهدفة.</p>
+      <div class="pricing-links">
+        <a href="/services/"><strong>استشارات الذكاء الاصطناعي في السعودية</strong><br />AI consulting Saudi</a>
+        <a href="/services/"><strong>أتمتة الذكاء الاصطناعي في السعودية</strong><br />AI automation Saudi</a>
+        <a href="/services/"><strong>وكلاء ذكاء اصطناعي في السعودية</strong><br />AI agents Saudi</a>
+        <a href="/services/"><strong>شات بوت عربي للشركات</strong><br />AI chatbot Arabic</a>
+        <a href="/services/"><strong>وكلاء ذكاء اصطناعي للمؤسسات في السعودية</strong><br />Enterprise AI agents Saudi</a>
+        <a href="/services/"><strong>أتمتة الأعمال للشركات السعودية</strong><br />Business automation Saudi</a>
+        <a href="/pricing/"><strong>ديمو التسعير التفاعلي</strong><br />Pricing demo</a>
+        <a href="/contact/"><strong>تواصل مع Saudi AI Safety OS</strong><br />Contact Saudi AI Safety OS</a>
+      </div>
+    </section>
+
+    <section>
+      <h2>الأسئلة الشائعة حول التسعير</h2>
+      <p>إجابات مختصرة وواضحة حول نموذج التسعير، الاستشارات، الدفع، وما يشمله نطاق الخدمة.</p>
+      {faqs.map(([question, answer]) => <details><summary>{question}</summary><p>{answer}</p></details>)}
+    </section>
+
+    <section class="pricing-panel">
+      <h2>احصل على عرض سعر مخصص يناسب احتياج شركتك</h2>
+      <p>أرسل وصفاً مختصراً لاحتياجك وسنقوم بفهمه وتقديم عرض سعر واضح وشفاف خلال وقت قصير.</p>
+      <div class="pricing-actions"><a href={whatsapp}>تواصل عبر واتساب</a><a href="/services/">استعرض خدمات Saudi AI Safety OS</a></div>
+    </section>
+  </main>
 </ArabicLayout>

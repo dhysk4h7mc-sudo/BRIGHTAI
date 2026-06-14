@@ -11,9 +11,9 @@ const { solution } = Astro.props;
     <iconify-icon icon={solution.icon}></iconify-icon>
   </div>
   <span class="inner-hero__badge mb-3" style="font-size:0.7rem;">{solution.chip}</span>
-  <h3 class="inner-card__title text-lg">{solution.h1.split(' ').length > 4 ? solution.h1 : solution.title.split(' | ')[0]}</h3>
+  <h3 class="inner-card__title text-lg">{solution.cardTitle ?? (solution.h1.split(' ').length > 4 ? solution.h1 : solution.title.split(' | ')[0])}</h3>
   <p class="inner-card__text mb-3">{solution.shortDesc}</p>
-  <p class="text-xs text-cyan-300 mt-auto">متى تحتاجه؟ {solution.whenNeeded}</p>
+  <p class="text-xs text-cyan-300 mt-auto">{solution.whenLabel ?? 'متى تحتاجه؟'} {solution.whenNeeded}</p>
 </a>
 <style>
   .solution-icon-wrap {

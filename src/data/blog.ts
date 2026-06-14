@@ -19,6 +19,7 @@ export interface BlogPost {
   ogImage: string;
   draft: boolean;
   readingTime: number;    // minutes
+  metaTitle?: string;
 }
 
 export interface Author {
@@ -42,11 +43,11 @@ export type BlogCategory =
 export const authors: Record<string, Author> = {
   'nasser-alabdullah': {
     slug: 'nasser-alabdullah',
-    name: 'ناصر العبدالله',
+    name: 'م. ناصر العبدالله',
     nameEn: 'Nasser AlAbdullah',
     url: `${SITE.url}/authors/nasser-alabdullah/`,
-    title: 'خبير حوكمة الذكاء الاصطناعي',
-    bio: 'خبير في حوكمة وأمان الذكاء الاصطناعي مع أكثر من 10 سنوات خبرة في الأمن السيبراني والامتثال التنظيمي في المملكة العربية السعودية.',
+    title: 'مستشار حوكمة الذكاء الاصطناعي في BrightAI',
+    bio: 'م. ناصر العبدالله مهندس ومستشار حوكمة ذكاء اصطناعي في BrightAI، ويركز محتواه المنشور على تحويل مبادئ AI Governance ومتطلبات الامتثال السعودية إلى ضوابط تشغيلية قابلة للتطبيق والتدقيق داخل المؤسسات. تغطي مقالاته حماية البيانات الشخصية وفق PDPL، وربط استخدامات الذكاء الاصطناعي بضوابط NCA ECC، والتعامل العملي مع إرشادات سدايا، إلى جانب سلامة الذكاء الاصطناعي وسجلات التدقيق والرقابة البشرية وإدارة المخاطر.',
   },
 };
 
@@ -54,7 +55,7 @@ export const authors: Record<string, Author> = {
 export const posts: BlogPost[] = [
   {
     slug: 'what-is-ai-governance-saudi-companies',
-    title: 'ما هي حوكمة الذكاء الاصطناعي؟ الدليل الكامل للشركات السعودية',
+    title: 'ما هي حوكمة الذكاء الاصطناعي؟ الدليل الكامل للشركات السعودية وAI Governance Saudi Arabia',
     description: 'دليل تنفيذي يشرح معنى حوكمة الذكاء الاصطناعي للشركات السعودية، وكيف تربط السياسات والمخاطر والامتثال بضوابط تشغيلية قابلة للتدقيق.',
     canonical: `${SITE.url}/blog/what-is-ai-governance-saudi-companies/`,
     pubDate: '2026-06-09',
@@ -68,7 +69,7 @@ export const posts: BlogPost[] = [
   },
   {
     slug: 'hidden-ai-risks-saudi-organizations',
-    title: '5 مخاطر خفية للذكاء الاصطناعي في المؤسسات السعودية',
+    title: '5 مخاطر خفية للذكاء الاصطناعي في المؤسسات السعودية: مخاطر الذكاء الاصطناعي وتصنيف مخاطر AI',
     description: 'خمسة مخاطر قد لا تظهر في العروض التجريبية للذكاء الاصطناعي، لكنها تظهر عند التشغيل الحقيقي داخل المؤسسات السعودية.',
     canonical: `${SITE.url}/blog/hidden-ai-risks-saudi-organizations/`,
     pubDate: '2026-06-12',
@@ -82,7 +83,7 @@ export const posts: BlogPost[] = [
   },
   {
     slug: 'ai-governance-vs-ai-safety-vs-ai-security',
-    title: 'الفرق بين AI Governance و AI Safety و AI Security',
+    title: 'الفرق بين AI Governance و AI Safety و AI Security: حوكمة AI وأمان AI وأمن AI',
     description: 'شرح عملي للفروق بين حوكمة AI وأمان AI وأمن AI، وكيف تتكامل الثلاثة داخل برنامج واحد بدلاً من أن تعمل كجزر منفصلة.',
     canonical: `${SITE.url}/blog/ai-governance-vs-ai-safety-vs-ai-security/`,
     pubDate: '2026-06-16',
@@ -110,7 +111,7 @@ export const posts: BlogPost[] = [
   },
   {
     slug: 'pdpl-ai-compliance-guide',
-    title: 'دليل PDPL والذكاء الاصطناعي: امتثال PDPL للذكاء الاصطناعي',
+    title: 'دليل PDPL والذكاء الاصطناعي: امتثال PDPL للذكاء الاصطناعي لمسؤول الامتثال',
     description: 'دليل لمسؤولي الامتثال عن ربط PDPL باستخدامات الذكاء الاصطناعي، من الأساس النظامي إلى سجلات المعالجة والتدقيق.',
     canonical: `${SITE.url}/blog/pdpl-ai-compliance-guide/`,
     pubDate: '2026-06-23',
@@ -124,7 +125,7 @@ export const posts: BlogPost[] = [
   },
   {
     slug: 'nca-ecc-ai-controls-guide',
-    title: 'ضوابط NCA ECC للذكاء الاصطناعي: دليل خطوة بخطوة',
+    title: 'ضوابط NCA ECC للذكاء الاصطناعي: ضوابط NCA للذكاء الاصطناعي خطوة بخطوة',
     description: 'شرح تشغيلي لكيفية قراءة ضوابط NCA ECC عند استخدام AI، وربطها بسياسات الوصول، البيانات، المراقبة، والتدقيق.',
     canonical: `${SITE.url}/blog/nca-ecc-ai-controls-guide/`,
     pubDate: '2026-06-26',
@@ -152,7 +153,7 @@ export const posts: BlogPost[] = [
   },
   {
     slug: 'iso-42001-saudi-implementation-guide',
-    title: 'ISO/IEC 42001 للشركات السعودية: دليل التطبيق العملي',
+    title: 'ISO/IEC 42001 للشركات السعودية: ISO 42001 السعودية دليل التطبيق العملي',
     description: 'كيف تستفيد الشركات السعودية من ISO/IEC 42001 لبناء نظام إدارة ذكاء اصطناعي قابل للتحسين والتدقيق.',
     canonical: `${SITE.url}/blog/iso-42001-saudi-implementation-guide/`,
     pubDate: '2026-07-03',
@@ -180,7 +181,7 @@ export const posts: BlogPost[] = [
   },
   {
     slug: 'ai-audit-trail-compliance-path',
-    title: 'سجل تدقيق الذكاء الاصطناعي: كيف تبني AI Audit Trail',
+    title: 'سجل تدقيق الذكاء الاصطناعي: كيف تبني AI Audit Trail ومسار امتثال واضح',
     description: 'دليل لبناء AI Audit Trail يوضح من استخدم النموذج، ما البيانات التي عولجت، ما القرار، وما الدليل.',
     canonical: `${SITE.url}/blog/ai-audit-trail-compliance-path/`,
     pubDate: '2026-07-10',
@@ -194,7 +195,7 @@ export const posts: BlogPost[] = [
   },
   {
     slug: 'healthcare-ai-governance-saudi-hospitals',
-    title: 'حوكمة الذكاء الاصطناعي في المستشفيات السعودية وامتثال SFDA',
+    title: 'حوكمة الذكاء الاصطناعي في المستشفيات السعودية: حوكمة AI للمستشفيات وامتثال SFDA',
     description: 'دليل للمستشفيات ومقدمي الرعاية حول حوكمة AI، حماية بيانات المرضى، ومتطلبات SFDA عند وجود أجهزة أو برمجيات طبية.',
     canonical: `${SITE.url}/blog/healthcare-ai-governance-saudi-hospitals/`,
     pubDate: '2026-07-14',
@@ -208,7 +209,7 @@ export const posts: BlogPost[] = [
   },
   {
     slug: 'banking-ai-governance-sama-requirements',
-    title: 'حوكمة الذكاء الاصطناعي في البنوك السعودية وامتثال SAMA',
+    title: 'حوكمة الذكاء الاصطناعي في البنوك السعودية: حوكنة AI للبنوك وامتثال SAMA',
     description: 'كيف تبني البنوك السعودية حوكمة AI متوافقة مع توقعات الحوكمة التقنية وإدارة المخاطر والرقابة.',
     canonical: `${SITE.url}/blog/banking-ai-governance-sama-requirements/`,
     pubDate: '2026-07-17',
@@ -222,7 +223,7 @@ export const posts: BlogPost[] = [
   },
   {
     slug: 'ai-ethics-saudi-responsible-ai',
-    title: 'أخلاقيات الذكاء الاصطناعي في السعودية: AI المسؤول',
+    title: 'أخلاقيات الذكاء الاصطناعي في السعودية: AI المسؤول بين الابتكار والمسؤولية',
     description: 'مقال يربط أخلاقيات AI بالحوكمة العملية: العدالة، الشفافية، الخصوصية، المساءلة، والرقابة البشرية.',
     canonical: `${SITE.url}/blog/ai-ethics-saudi-responsible-ai/`,
     pubDate: '2026-07-21',
@@ -236,7 +237,7 @@ export const posts: BlogPost[] = [
   },
   {
     slug: 'best-ai-governance-platforms-2026',
-    title: 'مقارنة: أفضل منصات حوكمة الذكاء الاصطناعي في 2026',
+    title: 'مقارنة: أفضل منصات حوكمة الذكاء الاصطناعي في 2026 وأفضل منصة حوكمة AI: BrightAI vs Credo AI',
     description: 'مقارنة عملية بين معايير اختيار منصات حوكمة AI في 2026، مع توضيح أين تتميز BrightAI للشركات السعودية.',
     canonical: `${SITE.url}/blog/best-ai-governance-platforms-2026/`,
     pubDate: '2026-07-24',
@@ -250,7 +251,7 @@ export const posts: BlogPost[] = [
   },
   {
     slug: 'ai-red-teaming-security-testing',
-    title: 'AI Red Teaming: كيف تختبر أمان أنظمة الذكاء الاصطناعي',
+    title: 'AI Red Teaming: كيف تختبر أمان أنظمة الذكاء الاصطناعي واختبار أمان AI لديك',
     description: 'طريقة منظمة لاختبار أمان AI ضد تسريب البيانات، prompt injection، تجاوز السياسات، والمخرجات الخطرة.',
     canonical: `${SITE.url}/blog/ai-red-teaming-security-testing/`,
     pubDate: '2026-07-28',
@@ -264,7 +265,7 @@ export const posts: BlogPost[] = [
   },
   {
     slug: 'vision-2030-ai-governance-roadmap',
-    title: 'الذكاء الاصطناعي في رؤية 2030: خريطة طريق الحوكمة',
+    title: 'الذكاء الاصطناعي في رؤية 2030: رؤية 2030 الذكاء الاصطناعي والتحول الرقمي السعودي',
     description: 'خريطة طريق تربط توسع الذكاء الاصطناعي في رؤية 2030 بالحوكمة، الثقة، الامتثال، وسلامة التحول الرقمي السعودي.',
     canonical: `${SITE.url}/blog/vision-2030-ai-governance-roadmap/`,
     pubDate: '2026-07-31',
@@ -278,7 +279,7 @@ export const posts: BlogPost[] = [
   },
   {
     slug: 'ai-governance-saudi-arabia',
-    title: 'حوكمة الذكاء الاصطناعي في السعودية: كيف تبدأ الشركات بدون تعقيد؟',
+    title: 'حوكمة الذكاء الاصطناعي في السعودية',
     description: 'دليل عملي لحوكمة الذكاء الاصطناعي في السعودية. ابدأ حوكمة AI في شركتك بدون تعقيد مع حلول BrightAI المتوافقة مع SDAIA وPDPL.',
     canonical: `${SITE.url}/blog/ai-governance-saudi-arabia/`,
     pubDate: '2026-05-31',
@@ -292,8 +293,8 @@ export const posts: BlogPost[] = [
   },
   {
     slug: 'ai-audit-trail-saudi',
-    title: 'سجل تدقيق الذكاء الاصطناعي في السعودية: دليل الامتثال والتوثيق',
-    description: 'دليل شامل لسجلات تدقيق AI في المملكة العربية السعودية. تعرف على متطلبات التوثيق والامتثال لعمليات الذكاء الاصطناعي.',
+    title: 'سجل تدقيق الذكاء الاصطناعي 2026: دليلك الشامل للحوكمة والامتثال في السعودية',
+    description: 'دليلك الشامل لسجل تدقيق الذكاء الاصطناعي في عام AI 2026 السعودي. تعرف على متطلبات SDAIA، NCA، PDPL، غرامات الـ 48 قرار، وإطار الأمن السيبراني للذكاء الاصطناعي التوليدي.',
     canonical: `${SITE.url}/blog/ai-audit-trail-saudi/`,
     pubDate: '2026-06-02',
     updatedDate: '2026-06-02',
@@ -306,8 +307,8 @@ export const posts: BlogPost[] = [
   },
   {
     slug: 'ai-customer-data-protection-saudi',
-    title: 'حماية بيانات العملاء في تطبيقات الذكاء الاصطناعي بالسعودية',
-    description: 'كيف تحمي بيانات عملائك عند استخدام تطبيقات الذكاء الاصطناعي وفقاً لمتطلبات PDPL والأنظمة السعودية.',
+    title: 'حماية بيانات العملاء بالذكاء الاصطناعي في السعودية',
+    description: 'دليل شامل لحماية بيانات العملاء عند استخدام AI في الشركات السعودية. تعلم كيفية منع تسرب البيانات، إخفاء PII، والامتثال لـ PDPL مع حلول BrightAI.',
     canonical: `${SITE.url}/blog/ai-customer-data-protection-saudi/`,
     pubDate: '2026-06-04',
     updatedDate: '2026-06-04',
@@ -320,8 +321,9 @@ export const posts: BlogPost[] = [
   },
   {
     slug: 'ai-governance',
-    title: 'حوكمة الذكاء الاصطناعي: المفهوم الشامل والممارسات العملية',
-    description: 'دليل شامل لمفهوم حوكمة الذكاء الاصطناعي وأهم الممارسات العملية لتطبيقها في المؤسسات.',
+    title: 'الدليل التنفيذي الشامل لتطبيق حوكمة الذكاء الاصطناعي السعودية في المؤسسات',
+    metaTitle: 'حوكمة الذكاء الاصطناعي السعودية: AI Governance | برايت آي',
+    description: 'كيف تقود شركتك بأمان؟ اقرأ الدليل الشامل حول حوكمة الذكاء الاصطناعي السعودية وتعرف على استراتيجيات تأمين البيانات والامتثال. طوّر معرفتك واحمِ عملك الآن!',
     canonical: `${SITE.url}/blog/ai-governance/`,
     pubDate: '2026-06-06',
     updatedDate: '2026-06-06',
@@ -334,8 +336,9 @@ export const posts: BlogPost[] = [
   },
   {
     slug: 'pdpl-ai-safety',
-    title: 'سلامة الذكاء الاصطناعي وفق نظام حماية البيانات الشخصية PDPL',
-    description: 'كيف يرتبط أمان وسلامة الذكاء الاصطناعي بمتطلبات نظام حماية البيانات الشخصية السعودي.',
+    title: 'كيف يساعد نظام PDPL السعودي الشركات على استخدام الذكاء الاصطناعي بأمان؟',
+    metaTitle: 'PDPL وحماية بيانات الذكاء الاصطناعي | BrightAI',
+    description: 'دليل عملي يوضح كيف تستخدم شركتك الذكاء الاصطناعي مع حماية البيانات الشخصية والالتزام بمتطلبات PDPL في السعودية، من جمع البيانات حتى المراجعة، بوضوح.',
     canonical: `${SITE.url}/blog/pdpl-ai-safety/`,
     pubDate: '2026-06-08',
     updatedDate: '2026-06-08',
@@ -348,8 +351,8 @@ export const posts: BlogPost[] = [
   },
   {
     slug: 'pdpl-and-ai-saudi',
-    title: 'PDPL والذكاء الاصطناعي في السعودية: ما تحتاج معرفته',
-    description: 'كل ما تحتاج معرفته عن العلاقة بين نظام حماية البيانات الشخصية والذكاء الاصطناعي في المملكة العربية السعودية.',
+    title: 'PDPL والذكاء الاصطناعي: ما الذي يجب أن تعرفه الشركات السعودية؟',
+    description: 'دليل شامل حول PDPL والذكاء الاصطناعي للشركات السعودية: المخاطر، الامتثال، حماية البيانات الشخصية، ودور AI Firewall و Audit Trail في بناء بيئة AI آمنة وخاضعة للحوكمة.',
     canonical: `${SITE.url}/blog/pdpl-and-ai-saudi/`,
     pubDate: '2026-06-10',
     updatedDate: '2026-06-10',
