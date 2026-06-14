@@ -1,10 +1,10 @@
 ---
 import ArabicLayout from '../../layouts/ArabicLayout.astro';
 import { getLegalAlternates } from '../../data/i18n-pairs';
-import { getLegalContent } from '../../data/legal-content';
+import { legal_privacy_cookies } from '../../data/legal-content-inline';
 const route = '/privacy-cookies/';
 const canonical = `https://brightai.site${route}`;
-const legalContent = getLegalContent('privacy-cookies/index.html', { start: '<header class="hero-section', end: '<footer' });
+const legalContent = legal_privacy_cookies;
 const jsonLd = { '@context': 'https://schema.org', '@graph': [
   { '@type': 'WebPage', name: legalContent.h1, url: canonical, inLanguage: 'ar-SA' },
   { '@type': 'LegalDocument', name: legalContent.h1, url: canonical, inLanguage: 'ar-SA' },

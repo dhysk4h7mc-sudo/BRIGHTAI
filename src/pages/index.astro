@@ -24,6 +24,7 @@ const jsonLd = [
     "@type": "Organization",
     "@id": "https://brightai.site/#organization",
     "name": "BrightAI",
+    "alternateName": "برايت آي",
     "url": "https://brightai.site/",
     "logo": {
       "@type": "ImageObject",
@@ -69,6 +70,14 @@ const jsonLd = [
       "https://www.tiktok.com/@bright1ai",
       "https://github.com/brightai-site",
       "https://wa.me/966538229013"
+    ],
+    "knowsAbout": [
+      "AI Governance",
+      "AI Safety",
+      "PDPL Compliance",
+      "NCA ECC Controls",
+      "ISO/IEC 42001",
+      "حوكمة الذكاء الاصطناعي في السعودية"
     ]
   },
   {
@@ -112,13 +121,68 @@ const jsonLd = [
         "text": f.a.replace(/<[^>]*>/g, '')
       }
     }))
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": "https://brightai.site/#website",
+    "url": "https://brightai.site/",
+    "name": "BrightAI",
+    "publisher": { "@id": "https://brightai.site/#organization" },
+    "inLanguage": ["ar-SA", "en-SA"]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": "https://brightai.site/#webpage",
+    "url": "https://brightai.site/",
+    "name": "منصة حوكمة وأمان الذكاء الاصطناعي في السعودية | BrightAI",
+    "description": "BrightAI توفر Saudi AI Safety OS للمؤسسات السعودية: AI Firewall، سجلات تدقيق، موافقات بشرية، حماية بيانات، وملفات أدلة تساعد على تشغيل الذكاء الاصطناعي بأمان وامتثال.",
+    "isPartOf": { "@id": "https://brightai.site/#website" },
+    "about": { "@id": "https://brightai.site/#organization" },
+    "inLanguage": "ar-SA",
+    "speakable": {
+      "@type": "SpeakableSpecification",
+      "cssSelector": ["h1"]
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "@id": "https://brightai.site/#breadcrumb",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "الرئيسية",
+        "item": "https://brightai.site/"
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "DefinedTermSet",
+    "@id": "https://brightai.site/#technical-ai-governance-terms",
+    "name": "BrightAI technical AI governance terms",
+    "inLanguage": ["en", "ar-SA"],
+    "hasDefinedTerm": [
+      { "@type": "DefinedTerm", "name": "AI Firewall", "alternateName": "جدار حماية الذكاء الاصطناعي" },
+      { "@type": "DefinedTerm", "name": "Audit Trail", "alternateName": "سجل تدقيق الذكاء الاصطناعي" },
+      { "@type": "DefinedTerm", "name": "Human Approval Layer", "alternateName": "طبقة الموافقة البشرية للذكاء الاصطناعي" },
+      { "@type": "DefinedTerm", "name": "Evidence File", "alternateName": "ملف أدلة الامتثال" },
+      { "@type": "DefinedTerm", "name": "Risk Scoring", "alternateName": "تقييم وتصنيف مخاطر الذكاء الاصطناعي" },
+      { "@type": "DefinedTerm", "name": "PII Redaction", "alternateName": "إخفاء البيانات الشخصية في الذكاء الاصطناعي" },
+      { "@type": "DefinedTerm", "name": "Compliance Packs", "alternateName": "حزم الامتثال التنظيمي" },
+      { "@type": "DefinedTerm", "name": "Shadow AI", "alternateName": "الاستخدام الخفي للذكاء الاصطناعي" },
+      { "@type": "DefinedTerm", "name": "Human-in-the-Loop", "alternateName": "الإنسان في الحلقة" }
+    ]
   }
 ];
 ---
 
 <BaseLayout
-  title="BrightAI — منصة أمان وحوكمة الذكاء الاصطناعي للشركات السعودية"
-  description="BrightAI تقدم Saudi AI Safety OS: نواة أمان وتشغيل تدخل بين الموظف والـ AI وبيانات الشركة، وتضمن إن كل طلب ذكاء اصطناعي يكون آمن، موثّق، وقابل للمراجعة."
+  title="منصة حوكمة وأمان الذكاء الاصطناعي في السعودية | BrightAI"
+  description="BrightAI توفر Saudi AI Safety OS للمؤسسات السعودية: AI Firewall، سجلات تدقيق، موافقات بشرية، حماية بيانات، وملفات أدلة تساعد على تشغيل الذكاء الاصطناعي بأمان وامتثال."
   canonical="https://brightai.site/"
   hreflang={[{lang:'ar-SA',href:'https://brightai.site/'},{lang:'en-SA',href:'https://brightai.site/en/'}]}
   jsonLd={jsonLd as any}
@@ -571,6 +635,73 @@ const jsonLd = [
         <a href="/contact/" class="home-cta-primary"><span>ابدأ ديمو خاص بشركتك</span></a>
         <a href="/solutions/ai-governance-platform/" class="home-cta-secondary"><span>استكشف حلول الحوكمة</span></a>
       </div>
+    </div>
+  </div>
+</section>
+
+{/* ═══════════════ IMPORTANT GUIDES ═══════════════ */}
+<section class="py-20 lg:py-28 bg-gradient-to-b from-transparent via-cyan-500/[.03] to-transparent" aria-labelledby="important-guides-title">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <div class="text-center max-w-3xl mx-auto mb-12">
+      <h2 id="important-guides-title" class="text-3xl sm:text-4xl font-black">📚 أدلة مهمة</h2>
+      <p class="mt-3 text-white/70 leading-loose">وثائق شاملة تساعدك على فهم حوكمة الذكاء الاصطناعي والامتثال في السعودية</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <article class="home-feature-card rounded-2xl p-7 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center gap-3 mb-4">
+            <span class="w-12 h-12 rounded-xl home-glow-btn flex items-center justify-center text-xl font-bold shrink-0"><iconify-icon class="text-white" icon="mdi:flag"></iconify-icon></span>
+            <h3 class="text-xl font-bold">دليل حوكمة الذكاء الاصطناعي في السعودية</h3>
+          </div>
+          <p class="text-white/70 leading-loose text-sm mb-4">دليل شامل لفهم متطلبات حوكمة الذكاء الاصطناعي في المملكة العربية السعودية وكيفية تطبيقها داخل المؤسسات.</p>
+        </div>
+        <a href="/docs/ai-governance-saudi-arabia/" class="home-section-link mt-auto"><span>اقرأ الدليل</span><iconify-icon aria-hidden="true" icon="mdi:arrow-left"></iconify-icon></a>
+      </article>
+
+      <article class="home-feature-card rounded-2xl p-7 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center gap-3 mb-4">
+            <span class="w-12 h-12 rounded-xl home-glow-btn flex items-center justify-center text-xl font-bold shrink-0"><iconify-icon class="text-white" icon="mdi:shield-half-full"></iconify-icon></span>
+            <h3 class="text-xl font-bold">PDPL والذكاء الاصطناعي</h3>
+          </div>
+          <p class="text-white/70 leading-loose text-sm mb-4">كيف تطبق نظام حماية البيانات الشخصية السعودي على استخدامات الذكاء الاصطناعي في مؤسستك.</p>
+        </div>
+        <a href="/docs/pdpl-ai-governance/" class="home-section-link mt-auto"><span>اقرأ الدليل</span><iconify-icon aria-hidden="true" icon="mdi:arrow-left"></iconify-icon></a>
+      </article>
+
+      <article class="home-feature-card rounded-2xl p-7 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center gap-3 mb-4">
+            <span class="w-12 h-12 rounded-xl home-glow-btn flex items-center justify-center text-xl font-bold shrink-0"><iconify-icon class="text-white" icon="mdi:lock"></iconify-icon></span>
+            <h3 class="text-xl font-bold">ضوابط NCA ECC للذكاء الاصطناعي</h3>
+          </div>
+          <p class="text-white/70 leading-loose text-sm mb-4">دليل تطبيق ضوابط الأمن السيبراني الأساسية من الهيئة الوطنية للأمن السيبراني على أنظمة AI.</p>
+        </div>
+        <a href="/docs/nca-ecc-ai-governance/" class="home-section-link mt-auto"><span>اقرأ الدليل</span><iconify-icon aria-hidden="true" icon="mdi:arrow-left"></iconify-icon></a>
+      </article>
+
+      <article class="home-feature-card rounded-2xl p-7 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center gap-3 mb-4">
+            <span class="w-12 h-12 rounded-xl home-glow-btn flex items-center justify-center text-xl font-bold shrink-0"><iconify-icon class="text-white" icon="mdi:alert-triangle"></iconify-icon></span>
+            <h3 class="text-xl font-bold">إدارة مخاطر الذكاء الاصطناعي</h3>
+          </div>
+          <p class="text-white/70 leading-loose text-sm mb-4">إطار عملي لتحديد وتقييم وإدارة مخاطر الذكاء الاصطناعي في المؤسسات السعودية.</p>
+        </div>
+        <a href="/docs/ai-risk-management/" class="home-section-link mt-auto"><span>اقرأ الدليل</span><iconify-icon aria-hidden="true" icon="mdi:arrow-left"></iconify-icon></a>
+      </article>
+
+      <article class="home-feature-card rounded-2xl p-7 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center gap-3 mb-4">
+            <span class="w-12 h-12 rounded-xl home-glow-btn flex items-center justify-center text-xl font-bold shrink-0"><iconify-icon class="text-white" icon="mdi:clipboard-check"></iconify-icon></span>
+            <h3 class="text-xl font-bold">جاهزية التدقيق للذكاء الاصطناعي</h3>
+          </div>
+          <p class="text-white/70 leading-loose text-sm mb-4">دليل شامل لإعداد مؤسستك لتدقيق استخدامات الذكاء الاصطناعي وضمان الامتثال المستمر.</p>
+        </div>
+        <a href="/docs/ai-audit-readiness/" class="home-section-link mt-auto"><span>اقرأ الدليل</span><iconify-icon aria-hidden="true" icon="mdi:arrow-left"></iconify-icon></a>
+      </article>
     </div>
   </div>
 </section>

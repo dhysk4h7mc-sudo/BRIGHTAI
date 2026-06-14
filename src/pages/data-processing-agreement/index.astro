@@ -1,10 +1,10 @@
 ---
 import ArabicLayout from '../../layouts/ArabicLayout.astro';
 import { getLanguageCounterpart, getLegalAlternates } from '../../data/i18n-pairs';
-import { getLegalContent } from '../../data/legal-content';
+import { legal_data_processing_agreement } from '../../data/legal-content-inline';
 const route = '/data-processing-agreement/';
 const canonical = `https://brightai.site${route}`;
-const legalContent = getLegalContent('data-processing-agreement/index.html');
+const legalContent = legal_data_processing_agreement;
 const jsonLd = { '@context': 'https://schema.org', '@graph': [
   { '@type': 'WebPage', name: legalContent.h1, url: canonical, inLanguage: 'ar-SA' },
   { '@type': 'LegalDocument', name: legalContent.h1, url: canonical, inLanguage: 'ar-SA' },

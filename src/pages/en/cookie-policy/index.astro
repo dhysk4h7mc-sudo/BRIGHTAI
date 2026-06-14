@@ -1,10 +1,10 @@
 ---
 import EnglishLayout from '../../../layouts/EnglishLayout.astro';
 import { getLanguageCounterpart, getLegalAlternates } from '../../../data/i18n-pairs';
-import { getLegalContent } from '../../../data/legal-content';
+import { legal_en_cookie_policy } from '../../../data/legal-content-en-inline';
 const route = '/en/cookie-policy/';
 const canonical = `https://brightai.site${route}`;
-const legalContent = getLegalContent('en/cookie-policy/index.html');
+const legalContent = legal_en_cookie_policy;
 const jsonLd = { '@context': 'https://schema.org', '@graph': [
   { '@type': 'WebPage', name: legalContent.h1, url: canonical, inLanguage: 'en-SA' },
   { '@type': 'LegalDocument', name: legalContent.h1, url: canonical, inLanguage: 'en-SA' },

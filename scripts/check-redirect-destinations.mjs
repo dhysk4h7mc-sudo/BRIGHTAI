@@ -13,7 +13,12 @@ import {
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
 async function loadRedirects(root) {
-  const netlify = parseRedirects(await fs.readFile(path.join(root, "_redirects"), "utf8"), "_redirects");
+  let netlify = [];
+  try {
+    netlify = parseRedirects(await fs.readFile(path.join(root, "_redirects"), "utf8"), "_redirects");
+  } catch (error) {
+    if (error?.code !== "ENOENT") throw error;
+  }
   const json = JSON.parse(await fs.readFile(path.join(root, "redirects.json"), "utf8"));
   return [...netlify, ...(json.redirects || []).map((entry) => ({
     source: "redirects.json",

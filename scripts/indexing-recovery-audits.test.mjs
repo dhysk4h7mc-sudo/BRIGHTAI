@@ -68,6 +68,21 @@ test("redirect audit reports self redirects, cycles, chains, and missing destina
   assert.equal(result.missingDestinations.length, 1);
 });
 
+test("redirect audit works when the optional _redirects file is absent", async () => {
+  const root = await fixture({
+    "index.html": "<h1>الرئيسية</h1>",
+    "about/index.html": "<h1>عنّا</h1>",
+    "redirects.json": JSON.stringify({
+      redirects: [{ from: "/about.html", to: "/about/", status: 301 }],
+    }),
+  });
+
+  const result = await checkRedirectDestinations({ root });
+
+  assert.equal(result.redirectsScanned, 1);
+  assert.equal(result.missingDestinations.length, 0);
+});
+
 test("word count audit excludes kernel offline and enforces configured targets", async () => {
   const root = await fixture({
     "contact/index.html": "<main>واحد اثنان ثلاثة</main>",

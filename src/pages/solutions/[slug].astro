@@ -11,6 +11,10 @@ export function getStaticPaths() {
 }
 const { solution } = Astro.props;
 const migratedPage = migratedSolutionPages[solution.slug];
+const migratedHtml = migratedPage?.html.replace(
+  /href="https:\/\/wa\.me\/966538229013"\s+target="_blank"\s+rel="noopener noreferrer"(?=[^>]*class="glow-btn)/,
+  'href="/contact/"',
+);
 const relSols = getRelatedSolutions(solution.slug);
 const relSectors = getRelatedSectors(solution.slug);
 
@@ -33,7 +37,7 @@ const jsonLd = {
 <style is:global>@import '../../styles/inner-pages.css';</style>
 
 {migratedPage ? (
-  <main class="migrated-legacy-content" set:html={migratedPage.html} />
+  <main class="migrated-legacy-content" set:html={migratedHtml} />
 ) : (
 <>
 <section class="inner-hero" aria-label={solution.h1}>

@@ -264,6 +264,48 @@ const jsonLd = {
       color: var(--fg, #e2e8f0);
       margin-bottom: 0.25rem;
     }
+    .shortcut-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(8px);
+    }
+    .shortcut-overlay.open { display: flex; }
+    .shortcut-card {
+      width: min(100%, 30rem);
+      padding: 2rem;
+      border: 1px solid var(--border, rgba(255,255,255,0.08));
+      border-radius: 0.75rem;
+      background: var(--card-bg, #111827);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.4);
+    }
+    .shortcut-card h3 {
+      margin: 0 0 1rem;
+      color: var(--fg, #e2e8f0);
+      font-size: 1.125rem;
+    }
+    .shortcut-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.5rem 0;
+      color: var(--fg-muted, #94a3b8);
+      font-size: 0.875rem;
+    }
+    .shortcut-key {
+      padding: 0.125rem 0.5rem;
+      border: 1px solid var(--border, rgba(255,255,255,0.08));
+      border-radius: 0.25rem;
+      background: rgba(255,255,255,0.05);
+      color: var(--fg, #e2e8f0);
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.75rem;
+    }
 
     /* GSAP animation targets — fallback visible without JS */
     .gsap-fade { opacity: 1; }
@@ -277,6 +319,25 @@ const jsonLd = {
       .k-actions { grid-template-columns: 1fr; }
     }
   </style>
+
+  <div
+    class="shortcut-overlay"
+    id="shortcut-overlay"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="shortcut-title"
+    aria-hidden="true"
+  >
+    <div class="shortcut-card">
+      <h3 id="shortcut-title">اختصارات لوحة المفاتيح</h3>
+      <div class="shortcut-row"><span>فتح المحادثة</span><span class="shortcut-key">C</span></div>
+      <div class="shortcut-row"><span>الموافقات</span><span class="shortcut-key">A</span></div>
+      <div class="shortcut-row"><span>التدقيق</span><span class="shortcut-key">T</span></div>
+      <div class="shortcut-row"><span>الإحصائيات</span><span class="shortcut-key">S</span></div>
+      <div class="shortcut-row"><span>تحديث البيانات</span><span class="shortcut-key">R</span></div>
+      <div class="shortcut-row"><span>إغلاق</span><span class="shortcut-key">Esc</span></div>
+    </div>
+  </div>
 
   <!-- Breadcrumb -->
   <nav aria-label="التنقل التفصيلي" style="margin-bottom:1.5rem">
@@ -387,6 +448,49 @@ const jsonLd = {
   <script>
     let gsapCtx: any = null;
 
+    function handleKernelShortcuts(event: KeyboardEvent) {
+      const target = event.target as HTMLElement | null;
+      if (target?.matches('input, textarea, select, [contenteditable="true"]')) return;
+
+      const overlay = document.getElementById('shortcut-overlay');
+      if (event.key === '?' && !event.ctrlKey && !event.metaKey) {
+        const isOpen = overlay?.classList.toggle('open') ?? false;
+        overlay?.setAttribute('aria-hidden', String(!isOpen));
+        return;
+      }
+      if (event.key === 'Escape') {
+        overlay?.classList.remove('open');
+        overlay?.setAttribute('aria-hidden', 'true');
+        return;
+      }
+      if (event.ctrlKey || event.metaKey || event.altKey) return;
+
+      const routes: Record<string, string> = {
+        c: '/kernel/chat/',
+        a: '/kernel/approvals/',
+        t: '/kernel/audit/',
+        s: '/kernel/stats/',
+      };
+      const key = event.key.toLowerCase();
+      if (routes[key]) window.location.href = routes[key];
+      if (key === 'r') window.location.reload();
+    }
+
+    function handleShortcutBackdrop(event: MouseEvent) {
+      const overlay = document.getElementById('shortcut-overlay');
+      if (event.target !== overlay) return;
+      overlay.classList.remove('open');
+      overlay.setAttribute('aria-hidden', 'true');
+    }
+
+    function initKernelShortcuts() {
+      const overlay = document.getElementById('shortcut-overlay');
+      overlay?.removeEventListener('click', handleShortcutBackdrop);
+      overlay?.addEventListener('click', handleShortcutBackdrop);
+      document.removeEventListener('keydown', handleKernelShortcuts);
+      document.addEventListener('keydown', handleKernelShortcuts);
+    }
+
     async function initGSAP() {
       const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
       if (mq.matches) return;
@@ -439,6 +543,7 @@ const jsonLd = {
     // تشغيل التهيئة عند تحميل الصفحة
     document.addEventListener('astro:page-load', () => {
       initGSAP();
+      initKernelShortcuts();
     });
 
     // تنظيف سياقي قبل استبدال الصفحة
@@ -447,6 +552,8 @@ const jsonLd = {
         gsapCtx.revert();
         gsapCtx = null;
       }
+      document.getElementById('shortcut-overlay')?.removeEventListener('click', handleShortcutBackdrop);
+      document.removeEventListener('keydown', handleKernelShortcuts);
     });
   </script>
 </KernelLayout>

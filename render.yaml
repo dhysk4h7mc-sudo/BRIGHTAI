@@ -267,6 +267,9 @@ services:
         source: /about/index.html
         destination: /about/
       - type: redirect
+        source: /authors/nasser-alabdullah/index.html
+        destination: /authors/nasser-alabdullah/
+      - type: redirect
         source: /contact
         destination: /contact/
       - type: redirect
@@ -861,112 +864,40 @@ services:
         destination: /docs/kernel-scenarios/
 
       # ── Kernel Module Redirects ─────────────────────────────────────────────
-      # BrightAI Kernel dashboard rewrites mirrored from _redirects 200 rules.
-      - type: rewrite
-        source: /kernel
-        destination: /kernel/index.html
-      - type: rewrite
-        source: /kernel/
-        destination: /kernel/index.html
+      # Legacy HTML URLs redirect to Astro directory routes.
       - type: redirect
         source: /kernel/index.html
         destination: /kernel/
-      - type: rewrite
-        source: /kernel/chat
-        destination: /kernel/chat.html
-      - type: rewrite
-        source: /kernel/chat/
-        destination: /kernel/chat.html
       - type: redirect
         source: /kernel/chat.html
         destination: /kernel/chat/
-      - type: rewrite
-        source: /kernel/audit
-        destination: /kernel/audit.html
-      - type: rewrite
-        source: /kernel/audit/
-        destination: /kernel/audit.html
       - type: redirect
         source: /kernel/audit.html
         destination: /kernel/audit/
-      - type: rewrite
-        source: /kernel/approvals
-        destination: /kernel/approvals.html
-      - type: rewrite
-        source: /kernel/approvals/
-        destination: /kernel/approvals.html
       - type: redirect
         source: /kernel/approvals.html
         destination: /kernel/approvals/
-      - type: rewrite
-        source: /kernel/stats
-        destination: /kernel/stats.html
-      - type: rewrite
-        source: /kernel/stats/
-        destination: /kernel/stats.html
       - type: redirect
         source: /kernel/stats.html
         destination: /kernel/stats/
-      - type: rewrite
-        source: /kernel/compliance
-        destination: /kernel/compliance.html
-      - type: rewrite
-        source: /kernel/compliance/
-        destination: /kernel/compliance.html
       - type: redirect
         source: /kernel/compliance.html
         destination: /kernel/compliance/
-      - type: rewrite
-        source: /kernel/policies
-        destination: /kernel/policies.html
-      - type: rewrite
-        source: /kernel/policies/
-        destination: /kernel/policies.html
       - type: redirect
         source: /kernel/policies.html
         destination: /kernel/policies/
-      - type: rewrite
-        source: /kernel/connectors
-        destination: /kernel/connectors.html
-      - type: rewrite
-        source: /kernel/connectors/
-        destination: /kernel/connectors.html
       - type: redirect
         source: /kernel/connectors.html
         destination: /kernel/connectors/
-      - type: rewrite
-        source: /kernel/scenarios
-        destination: /kernel/scenarios.html
-      - type: rewrite
-        source: /kernel/scenarios/
-        destination: /kernel/scenarios.html
       - type: redirect
         source: /kernel/scenarios.html
         destination: /kernel/scenarios/
-      - type: rewrite
-        source: /kernel/reports
-        destination: /kernel/reports.html
-      - type: rewrite
-        source: /kernel/reports/
-        destination: /kernel/reports.html
       - type: redirect
         source: /kernel/reports.html
         destination: /kernel/reports/
-      - type: rewrite
-        source: /kernel/evidence
-        destination: /kernel/evidence.html
-      - type: rewrite
-        source: /kernel/evidence/
-        destination: /kernel/evidence.html
       - type: redirect
         source: /kernel/evidence.html
         destination: /kernel/evidence/
-      - type: rewrite
-        source: /kernel/offline
-        destination: /kernel/offline.html
-      - type: rewrite
-        source: /kernel/offline/
-        destination: /kernel/offline.html
       - type: redirect
         source: /kernel/offline.html
         destination: /kernel/offline/
@@ -990,9 +921,6 @@ services:
       - type: redirect
         source: /blog/ai-audit-trail-saudi/index.html
         destination: /blog/ai-audit-trail-saudi/
-      - type: rewrite
-        source: /blog/ai-audit-trail-saudi/
-        destination: /blog/ai-audit-trail-saudi/index.html
       - type: redirect
         source: /blog/ai-governance
         destination: /blog/ai-governance/
@@ -1272,6 +1200,9 @@ services:
         source: /solutions/banking-ai-governance/index.html
         destination: /solutions/banking-ai-governance/
       - type: redirect
+        source: /solutions/banking-ai-governance/riyadh/index.html
+        destination: /solutions/banking-ai-governance/riyadh/
+      - type: redirect
         source: /solutions/government-ai-governance
         destination: /solutions/government-ai-governance/
       - type: redirect
@@ -1281,6 +1212,9 @@ services:
         source: /solutions/government-ai-governance/index.html
         destination: /solutions/government-ai-governance/
       - type: redirect
+        source: /solutions/government-ai-governance/dammam/index.html
+        destination: /solutions/government-ai-governance/dammam/
+      - type: redirect
         source: /solutions/healthcare-ai-governance
         destination: /solutions/healthcare-ai-governance/
       - type: redirect
@@ -1289,6 +1223,9 @@ services:
       - type: redirect
         source: /solutions/healthcare-ai-governance/index.html
         destination: /solutions/healthcare-ai-governance/
+      - type: redirect
+        source: /solutions/healthcare-ai-governance/jeddah/index.html
+        destination: /solutions/healthcare-ai-governance/jeddah/
       - type: redirect
         source: /solutions/manufacturing-ai-governance
         destination: /solutions/manufacturing-ai-governance/

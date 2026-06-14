@@ -6,6 +6,7 @@ import { test } from 'node:test';
 
 import {
   auditCss,
+  auditInternalTargets,
   auditPage,
   discoverDistRoutes,
   parseSitemap,
@@ -152,6 +153,39 @@ test('auditPage reports SEO, schema, links, and raw-content failures', () => {
   assert.ok(result.issues.includes('NON_TRAILING_SLASH_LINK'));
   assert.ok(result.issues.includes('CONTENT_REQUIRES_JS'));
   assert.equal(result.seo, 'FAIL');
+});
+
+test('auditPage leaves API and WebSocket routes outside URL-style enforcement', () => {
+  const html = goodHtml.replace(
+    '</body>',
+    '<a href="/api/health">API</a><a href="/ws/session">WebSocket</a></body>',
+  );
+  const result = auditPage({
+    route: '/about/',
+    html,
+    legalPairs: new Map(),
+  });
+
+  assert.equal(result.status, 'PASS');
+  assert.ok(!result.issues.includes('NON_TRAILING_SLASH_LINK'));
+});
+
+test('auditInternalTargets reports missing Astro routes and accepts special files', () => {
+  const root = mkdtempSync(path.join(tmpdir(), 'brightai-links-'));
+  writeFileSync(path.join(root, 'robots.txt'), 'User-agent: *');
+  const html = `
+    <a href="/about/">About</a>
+    <a href="/missing/">Missing</a>
+    <a href="/robots.txt">Robots</a>
+    <a href="/api/health">API</a>
+    <a href="https://example.com/">External</a>
+  `;
+
+  assert.deepEqual(auditInternalTargets({
+    html,
+    distDir: root,
+    distRoutes: ['/', '/about/'],
+  }), ['BROKEN_INTERNAL_LINK:/missing/']);
 });
 
 test('auditPage requires hreflang only for confirmed legal pairs', () => {

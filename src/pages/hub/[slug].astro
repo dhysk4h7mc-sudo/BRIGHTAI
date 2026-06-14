@@ -4,8 +4,8 @@
  * ai-governance, compliance, solutions, use-cases
  * Reads existing static HTML and wraps in ArabicLayout with CollectionPage JSON-LD.
  */
-import fs from 'node:fs';
-import path from 'node:path';
+import { hubContentMap } from '../../data/hub-content-inline';
+
 import ArabicLayout from '../../layouts/ArabicLayout.astro';
 import { getPublishedPosts } from '../../data/blog';
 import { SITE } from '../../data/site';
@@ -45,16 +45,10 @@ export function getStaticPaths() {
 
 const { page } = Astro.props;
 
-// Read the existing static HTML file
-const htmlPath = path.resolve(`hub/${page.slug}/index.html`);
-let mainContent = '<p>محتوى المركز</p>';
-try {
-  const raw = fs.readFileSync(htmlPath, 'utf-8');
-  const mainMatch = raw.match(/<main[^>]*>([\s\S]*?)<\/main>/i);
-  if (mainMatch) mainContent = mainMatch[1];
-} catch {
-  mainContent = '<p>محتوى المركز قيد التحديث</p>';
-}
+// Get inline content from data file
+const hubContent = hubContentMap[page.slug];
+const mainContent = hubContent?.html ?? '<p>محتوى المركز قيد التحديث</p>';
+const inlineH1 = hubContent?.h1 ?? page.title;
 
 // Get related blog posts by tags
 const allPosts = getPublishedPosts();

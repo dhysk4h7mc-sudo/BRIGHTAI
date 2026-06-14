@@ -4,15 +4,12 @@
  * Reads the existing static hub/index.html and injects the main content
  * into ArabicLayout with proper SEO/JSON-LD.
  */
-import fs from 'node:fs';
-import path from 'node:path';
+import { hub_index } from '../../data/hub-content-inline';
+
 import ArabicLayout from '../../layouts/ArabicLayout.astro';
 import { SITE } from '../../data/site';
 
-const htmlPath = path.resolve('hub/index.html');
-const raw = fs.readFileSync(htmlPath, 'utf-8');
-const mainMatch = raw.match(/<main[^>]*>([\s\S]*?)<\/main>/i);
-const mainContent = mainMatch ? mainMatch[1] : '<p>محتوى مراكز المحتوى</p>';
+const mainContent = hub_index.html;
 
 const collectionLd = {
   '@context': 'https://schema.org',

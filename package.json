@@ -34,7 +34,7 @@
     "seo:legacy-paths": "node scripts/legacy-paths-audit.mjs --strict",
     "seo:link-graph": "node scripts/link-graph-validator.mjs --strict",
     "seo:word-count": "node scripts/check-word-count.mjs",
-    "redirects:check": "node scripts/check-redirect-destinations.mjs",
+    "redirects:check": "node scripts/check-redirect-destinations.mjs && node scripts/check-render-route-hygiene.mjs",
     "sitemap:generate": "node scripts/generate-sitemap-all-pages.mjs",
     "sitemap:all": "npm run sitemap:generate",
     "indexnow:trigger": "node scripts/trigger-indexnow.mjs",

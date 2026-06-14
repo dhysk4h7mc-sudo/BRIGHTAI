@@ -102,6 +102,35 @@ function isInternalNavigationHref(href) {
   return url.origin === SITE_URL;
 }
 
+function isApiRoute(pathname) {
+  return pathname.startsWith('/api/') || pathname.startsWith('/ws/');
+}
+
+export function auditInternalTargets({ html, distDir, distRoutes }) {
+  const $ = load(html);
+  const routeSet = new Set(distRoutes);
+  const issues = [];
+
+  $('a[href]').each((_, element) => {
+    const href = $(element).attr('href');
+    if (!isInternalNavigationHref(href)) return;
+
+    const url = new URL(href, SITE_URL);
+    if (isApiRoute(url.pathname)) return;
+
+    if (path.posix.extname(url.pathname)) {
+      const target = path.join(distDir, url.pathname.replace(/^\/+/, ''));
+      if (!existsSync(target)) issues.push(`BROKEN_INTERNAL_LINK:${url.pathname}`);
+      return;
+    }
+
+    const route = normalizeRoute(url.pathname);
+    if (!routeSet.has(route)) issues.push(`BROKEN_INTERNAL_LINK:${route}`);
+  });
+
+  return [...new Set(issues)];
+}
+
 function auditSchemas($) {
   const schemas = [];
   const issues = [];
@@ -206,6 +235,7 @@ export function auditPage({ route, html, legalPairs = LEGAL_PAIRS }) {
     }
     if (!isInternalNavigationHref(href)) return;
     const url = new URL(href, SITE_URL);
+    if (isApiRoute(url.pathname)) return;
     if (/\.html$/i.test(url.pathname)) issues.push('HTML_INTERNAL_LINK');
     if (
       url.pathname !== '/'
@@ -416,10 +446,16 @@ export function runAudit({
     }
 
     renderedFiles.push(file);
+    const html = readFileSync(file, 'utf8');
     const audit = auditPage({
       route,
-      html: readFileSync(file, 'utf8'),
+      html,
       legalPairs: LEGAL_PAIRS,
+    });
+    const targetIssues = auditInternalTargets({
+      html,
+      distDir,
+      distRoutes,
     });
     rows.push({
       route,
@@ -427,7 +463,7 @@ export function runAudit({
       seo: audit.seo,
       mobile: 'PENDING',
       schema: audit.schema,
-      issues: [...audit.issues],
+      issues: [...audit.issues, ...targetIssues],
     });
   }
 
@@ -442,10 +478,16 @@ export function runAudit({
     const file = route.endsWith('.html')
       ? path.join(distDir, route.slice(1))
       : routeToDistFile(route, distDir);
+    const html = readFileSync(file, 'utf8');
     const audit = auditPage({
       route,
-      html: readFileSync(file, 'utf8'),
+      html,
       legalPairs: LEGAL_PAIRS,
+    });
+    const targetIssues = auditInternalTargets({
+      html,
+      distDir,
+      distRoutes,
     });
     rows.push({
       route,
@@ -453,7 +495,7 @@ export function runAudit({
       seo: audit.seo,
       mobile: cssAudit.status,
       schema: audit.schema,
-      issues: ['NOT_IN_SITEMAP', ...audit.issues],
+      issues: ['NOT_IN_SITEMAP', ...audit.issues, ...targetIssues],
     });
   }
 
@@ -473,7 +515,12 @@ export function runAudit({
   const missing = rows.filter((row) => row.status === 'MISSING');
   const failed = rows.filter((row) => (
     row.status !== 'EXTRA'
-    && (row.seo === 'FAIL' || row.mobile === 'FAIL' || row.schema === 'FAIL')
+    && (
+      row.seo === 'FAIL'
+      || row.mobile === 'FAIL'
+      || row.schema === 'FAIL'
+      || row.issues.some((issue) => issue.startsWith('BROKEN_INTERNAL_LINK:'))
+    )
   ));
 
   return {

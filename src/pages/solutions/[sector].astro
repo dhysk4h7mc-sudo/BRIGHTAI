@@ -46,7 +46,10 @@ const jsonLd = {
 <style is:global>@import '../../styles/inner-pages.css';</style>
 
 {migratedPage ? (
-  <main class="migrated-legacy-content" set:html={migratedPage.html} />
+  <>
+    {!/<h1\b/i.test(migratedPage.html) && <h1 class="sr-only">{sector.h1}</h1>}
+    <main class="migrated-legacy-content" set:html={migratedPage.html} />
+  </>
 ) : (
 <>
 <section class="inner-hero" aria-label={sector.h1}>
