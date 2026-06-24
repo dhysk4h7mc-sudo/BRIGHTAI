@@ -24,9 +24,30 @@ const jsonLd = {
     "url": "https://brightai.site",
     "logo": "https://brightai.site/favicon.svg",
     "description": "Saudi AI Safety OS — منصة أمان وحوكمة الذكاء الاصطناعي للشركات السعودية",
-    "address": { "@type": "PostalAddress", "addressCountry": "SA" }
+    "address": { "@type": "PostalAddress", "addressCountry": "SA", "addressLocality": "الرياض" },
+    "hasCredential": [
+      { "@type": "EducationalOccupationalCredential", "credentialCategory": "PDPL Compliance", "name": "امتثال نظام حماية البيانات الشخصية السعودي" },
+      { "@type": "EducationalOccupationalCredential", "credentialCategory": "NCA ECC Controls", "name": "ضوابط الأمن السيبراني الوطنية" },
+      { "@type": "EducationalOccupationalCredential", "credentialCategory": "ISO/IEC 42001", "name": "نظام إدارة حوكمة الذكاء الاصطناعي" },
+      { "@type": "EducationalOccupationalCredential", "credentialCategory": "SFDA Medical Quality", "name": "نظام الجودة الطبية السعودي" }
+    ],
+    "knowsAbout": ["SDAIA", "NCA", "SFDA", "ZATCA", "SAMA", "PDPL", "ISO/IEC 42001"]
+  },
+  "isPartOf": {
+    "@type": "DefinedTermSet",
+    "name": "المنظومة التنظيمية السعودية للذكاء الاصطناعي",
+    "hasDefinedTerm": [
+      { "@type": "DefinedTerm", "name": "SDAIA", "description": "الهيئة السعودية للبيانات والذكاء الاصطناعي" },
+      { "@type": "DefinedTerm", "name": "NCA", "description": "الهيئة الوطنية للأمن السيبراني" },
+      { "@type": "DefinedTerm", "name": "SFDA", "description": "الهيئة العامة للغذاء والدواء" },
+      { "@type": "DefinedTerm", "name": "ZATCA", "description": "هيئة الزكاة والضريبة والجمارك" },
+      { "@type": "DefinedTerm", "name": "SAMA", "description": "البنك المركزي السعودي" },
+      { "@type": "DefinedTerm", "name": "PDPL", "description": "نظام حماية البيانات الشخصية" }
+    ]
   }
 };
+
+const whatsappMsg = encodeURIComponent('مرحباً، أريد استفسار عن خدمات BrightAI لمعرفة المزيد عن الشركة');
 ---
 
 <ArabicLayout
@@ -56,7 +77,7 @@ const jsonLd = {
       <a href="/contact/" class="glow-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-bold">
         <iconify-icon icon="mdi:calendar-check"></iconify-icon> ابدأ ديمو خاص بشركتك
       </a>
-      <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="wa-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white">
+      <a href={`https://wa.me/966538229013?text=${whatsappMsg}`} target="_blank" rel="noopener noreferrer" class="wa-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white">
         <iconify-icon icon="mdi:whatsapp"></iconify-icon> تواصل عبر واتساب
       </a>
     </div>
@@ -229,7 +250,7 @@ const jsonLd = {
         <a href="/contact/" class="glow-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-bold">
           <iconify-icon icon="mdi:calendar-check"></iconify-icon> احجز ديمو
         </a>
-        <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="wa-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white">
+        <a href={`https://wa.me/966538229013?text=${whatsappMsg}`} target="_blank" rel="noopener noreferrer" class="wa-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white">
           <iconify-icon icon="mdi:whatsapp"></iconify-icon> تواصل عبر واتساب
         </a>
         <a href="/solutions/ai-governance-platform/" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white border border-white/20">اقرأ عن منصة الحوكمة</a>

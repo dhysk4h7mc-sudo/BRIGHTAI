@@ -86,6 +86,7 @@ const footerSections = Object.values(FOOTER_NAV);
     <div class="footer__bottom">
       <p class="footer__copy">
         © {year} {SITE.name}. {isAr ? 'جميع الحقوق محفوظة.' : 'All rights reserved.'}
+        <span class="footer__cr"> · {isAr ? `س.ت: ${SITE.crNumber}` : `CR: ${SITE.crNumber}`}</span>
       </p>
       <div class="footer__bottom-right">
         <span class="footer__made-in">🇸🇦 {isAr ? 'صنع في السعودية' : 'Made in Saudi Arabia'}</span>
@@ -264,5 +265,11 @@ const footerSections = Object.values(FOOTER_NAV);
   .footer__made-in {
     font-size: var(--text-sm);
     color: var(--muted);
+  }
+
+  .footer__cr {
+    font-size: var(--text-sm);
+    color: var(--muted);
+    opacity: 0.8;
   }
 </style>

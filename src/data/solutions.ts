@@ -59,6 +59,8 @@ export interface LocalData {
   cityAr: string;
   cityEn: string;
   areaServed: string;
+  geoLat: number;
+  geoLng: number;
   parentSlug: string;
   parentHref: string;
 }
@@ -268,15 +270,26 @@ export const sectors: SectorData[] = [
     shortDesc:'ضوابط استخدام AI مع بيانات العملاء، امتثال SAMA، NCA ECC، ومكافحة غسل الأموال.',
     whenNeeded:'إذا كان AI يدخل في الائتمان أو AML أو خدمة العملاء.',
     related:['ai-firewall','ai-audit-trail','human-approval-layer','ai-evidence-file'],
-    locals:[{
-      slug:'riyadh', href:'/solutions/banking-ai-governance/riyadh/',
-      title:'حوكمة الذكاء الاصطناعي للبنوك في الرياض | BrightAI',
-      h1:'حوكمة الذكاء الاصطناعي للبنوك والمؤسسات المالية في الرياض',
-      description:'خدمات حوكمة الذكاء الاصطناعي للبنوك والمؤسسات المالية في الرياض. امتثال SAMA وNCA ECC وحماية بيانات العملاء.',
-      canonical:`${S}/solutions/banking-ai-governance/riyadh/`,
-      cityAr:'الرياض', cityEn:'Riyadh', areaServed:'Riyadh',
-      parentSlug:'banking-ai-governance', parentHref:'/solutions/banking-ai-governance/',
-    }],
+    locals:[
+      {
+        slug:'riyadh', href:'/solutions/banking-ai-governance/riyadh/',
+        title:'حوكمة الذكاء الاصطناعي للبنوك في الرياض | BrightAI',
+        h1:'حوكمة الذكاء الاصطناعي للبنوك والمؤسسات المالية في الرياض',
+        description:'خدمات حوكمة الذكاء الاصطناعي للبنوك والمؤسسات المالية في الرياض. امتثال SAMA وNCA ECC وحماية بيانات العملاء.',
+        canonical:`${S}/solutions/banking-ai-governance/riyadh/`,
+        cityAr:'الرياض', cityEn:'Riyadh', areaServed:'Riyadh', geoLat:24.7136, geoLng:46.6753,
+        parentSlug:'banking-ai-governance', parentHref:'/solutions/banking-ai-governance/',
+      },
+      {
+        slug:'khobar', href:'/solutions/banking-ai-governance/khobar/',
+        title:'حوكمة الذكاء الاصطناعي للبنوك في الخبر | BrightAI',
+        h1:'حوكمة الذكاء الاصطناعي للبنوك والمؤسسات المالية في الخبر',
+        description:'خدمات حوكمة الذكاء الاصطناعي للبنوك والمؤسسات المالية في الخبر. امتثال SAMA وNCA ECC وحماية بيانات العملاء.',
+        canonical:`${S}/solutions/banking-ai-governance/khobar/`,
+        cityAr:'الخبر', cityEn:'Khobar', areaServed:'Khobar', geoLat:26.2172, geoLng:50.1971,
+        parentSlug:'banking-ai-governance', parentHref:'/solutions/banking-ai-governance/',
+      },
+    ],
     docs:['/docs/nca-ecc-ai-governance/'], blog:['/blog/banking-ai-governance-sama-requirements/'],
   },
   {
@@ -289,15 +302,26 @@ export const sectors: SectorData[] = [
     shortDesc:'حوكمة استخدامات AI في الخدمات الرقمية مع DGA وPDPL ورؤية 2030 وحماية بيانات المستفيدين.',
     whenNeeded:'إذا كان AI يدعم موظفين أو مستفيدين في جهة حكومية.',
     related:['ai-firewall','ai-audit-trail','ai-evidence-file','policy-to-control-mapping'],
-    locals:[{
-      slug:'dammam', href:'/solutions/government-ai-governance/dammam/',
-      title:'حوكمة الذكاء الاصطناعي للجهات الحكومية في الدمام | BrightAI',
-      h1:'حوكمة الذكاء الاصطناعي للجهات الحكومية في الدمام',
-      description:'خدمات حوكمة الذكاء الاصطناعي للجهات الحكومية في الدمام. امتثال DGA وPDPL وحماية بيانات المستفيدين.',
-      canonical:`${S}/solutions/government-ai-governance/dammam/`,
-      cityAr:'الدمام', cityEn:'Dammam', areaServed:'Dammam',
-      parentSlug:'government-ai-governance', parentHref:'/solutions/government-ai-governance/',
-    }],
+    locals:[
+      {
+        slug:'dammam', href:'/solutions/government-ai-governance/dammam/',
+        title:'حوكمة الذكاء الاصطناعي للجهات الحكومية في الدمام | BrightAI',
+        h1:'حوكمة الذكاء الاصطناعي للجهات الحكومية في الدمام',
+        description:'خدمات حوكمة الذكاء الاصطناعي للجهات الحكومية في الدمام. امتثال DGA وPDPL وحماية بيانات المستفيدين.',
+        canonical:`${S}/solutions/government-ai-governance/dammam/`,
+        cityAr:'الدمام', cityEn:'Dammam', areaServed:'Dammam', geoLat:26.4207, geoLng:50.0888,
+        parentSlug:'government-ai-governance', parentHref:'/solutions/government-ai-governance/',
+      },
+      {
+        slug:'madinah', href:'/solutions/government-ai-governance/madinah/',
+        title:'حوكمة الذكاء الاصطناعي للجهات الحكومية في المدينة المنورة | BrightAI',
+        h1:'حوكمة الذكاء الاصطناعي للجهات الحكومية في المدينة المنورة',
+        description:'خدمات حوكمة الذكاء الاصطناعي للجهات الحكومية في المدينة المنورة. امتثال DGA وPDPL وحماية بيانات المستفيدين.',
+        canonical:`${S}/solutions/government-ai-governance/madinah/`,
+        cityAr:'المدينة المنورة', cityEn:'Madinah', areaServed:'Madinah', geoLat:24.5247, geoLng:39.5692,
+        parentSlug:'government-ai-governance', parentHref:'/solutions/government-ai-governance/',
+      },
+    ],
     docs:['/docs/pdpl-ai-governance/'], blog:['/blog/ai-governance-saudi-arabia/'],
   },
   {
@@ -310,15 +334,26 @@ export const sectors: SectorData[] = [
     shortDesc:'حوكمة استخدامات الذكاء الاصطناعي مع بيانات المرضى، امتثال SFDA، ISO 13485، وسجلات أدلة الجودة.',
     whenNeeded:'إذا كان AI يلامس بيانات صحية أو توصيات سريرية.',
     related:['ai-firewall','ai-audit-trail','human-approval-layer','ai-evidence-file'],
-    locals:[{
-      slug:'jeddah', href:'/solutions/healthcare-ai-governance/jeddah/',
-      title:'حوكمة الذكاء الاصطناعي للمستشفيات في جدة | BrightAI',
-      h1:'حوكمة الذكاء الاصطناعي للمستشفيات والمنشآت الصحية في جدة',
-      description:'خدمات حوكمة الذكاء الاصطناعي للمستشفيات والمنشآت الصحية في جدة. امتثال SFDA وISO 13485 وحماية بيانات المرضى.',
-      canonical:`${S}/solutions/healthcare-ai-governance/jeddah/`,
-      cityAr:'جدة', cityEn:'Jeddah', areaServed:'Jeddah',
-      parentSlug:'healthcare-ai-governance', parentHref:'/solutions/healthcare-ai-governance/',
-    }],
+    locals:[
+      {
+        slug:'jeddah', href:'/solutions/healthcare-ai-governance/jeddah/',
+        title:'حوكمة الذكاء الاصطناعي للمستشفيات في جدة | BrightAI',
+        h1:'حوكمة الذكاء الاصطناعي للمستشفيات والمنشآت الصحية في جدة',
+        description:'خدمات حوكمة الذكاء الاصطناعي للمستشفيات والمنشآت الصحية في جدة. امتثال SFDA وISO 13485 وحماية بيانات المرضى.',
+        canonical:`${S}/solutions/healthcare-ai-governance/jeddah/`,
+        cityAr:'جدة', cityEn:'Jeddah', areaServed:'Jeddah', geoLat:21.4858, geoLng:39.1925,
+        parentSlug:'healthcare-ai-governance', parentHref:'/solutions/healthcare-ai-governance/',
+      },
+      {
+        slug:'mecca', href:'/solutions/healthcare-ai-governance/mecca/',
+        title:'حوكمة الذكاء الاصطناعي للمستشفيات في مكة المكرمة | BrightAI',
+        h1:'حوكمة الذكاء الاصطناعي للمستشفيات والمنشآت الصحية في مكة المكرمة',
+        description:'خدمات حوكمة الذكاء الاصطناعي للمستشفيات والمنشآت الصحية في مكة المكرمة. امتثال SFDA وISO 13485 وحماية بيانات المرضى.',
+        canonical:`${S}/solutions/healthcare-ai-governance/mecca/`,
+        cityAr:'مكة المكرمة', cityEn:'Mecca', areaServed:'Mecca', geoLat:21.3891, geoLng:39.8579,
+        parentSlug:'healthcare-ai-governance', parentHref:'/solutions/healthcare-ai-governance/',
+      },
+    ],
     docs:['/docs/ai-governance-saudi-arabia/'], blog:['/blog/healthcare-ai-governance-saudi-hospitals/'],
   },
   {

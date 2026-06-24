@@ -31,18 +31,46 @@ const crumbs = [
   { label: loc.cityAr }
 ];
 
+const wikiId = loc.cityEn === 'Riyadh' ? 'Q3674'
+  : loc.cityEn === 'Dammam' ? 'Q41630'
+  : loc.cityEn === 'Jeddah' ? 'Q39547'
+  : loc.cityEn === 'Mecca' ? 'Q35484'
+  : loc.cityEn === 'Madinah' ? 'Q35484'
+  : loc.cityEn === 'Khobar' ? 'Q810482'
+  : 'Q3674';
+
+const whatsappMsg = encodeURIComponent(`مرحباً، أريد استفسار عن خدمات حوكمة الذكاء الاصطناعي في ${loc.cityAr} (${sector.chip})`);
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "Service",
-      "@id": loc.canonical + "#service",
-      "name": loc.h1,
+      "@type": ["LocalBusiness", "Service"],
+      "@id": loc.canonical + "#localbusiness",
+      "name": `BrightAI — ${sector.h1}`,
       "description": loc.description,
-      "provider": { "@type": "Organization", "name": "BrightAI", "url": "https://brightai.site" },
       "url": loc.canonical,
-      "areaServed": { "@type": "City", "name": loc.areaServed, "@id": `https://www.wikidata.org/wiki/${loc.cityEn === 'Riyadh' ? 'Q3674' : loc.cityEn === 'Dammam' ? 'Q41630' : 'Q39547'}` },
-      "serviceArea": { "@type": "GeoCircle", "geoMidpoint": { "@type": "GeoCoordinates", "name": loc.cityAr }, "geoRadius": "100 km" }
+      "telephone": "+966538229013",
+      "image": "https://brightai.site/frontend/assets/images/og/og-solutions.png",
+      "priceRange": "$$$",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": loc.cityAr,
+        "addressRegion": loc.cityEn,
+        "addressCountry": "SA"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": loc.geoLat,
+        "longitude": loc.geoLng
+      },
+      "areaServed": { "@type": "City", "name": loc.areaServed, "@id": `https://www.wikidata.org/wiki/${wikiId}` },
+      "provider": { "@type": "Organization", "name": "BrightAI", "url": "https://brightai.site" },
+      "serviceArea": {
+        "@type": "GeoCircle",
+        "geoMidpoint": { "@type": "GeoCoordinates", "latitude": loc.geoLat, "longitude": loc.geoLng },
+        "geoRadius": "100 km"
+      }
     },
     {
       "@type": "BreadcrumbList",
@@ -73,7 +101,7 @@ const jsonLd = {
     <p class="inner-hero__desc">{loc.description}</p>
     <div class="inner-hero__actions">
       <a href="/contact/" class="glow-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-bold"><iconify-icon icon="mdi:calendar-check"></iconify-icon> اطلب عرض توضيحي</a>
-      <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white" style="background:linear-gradient(135deg,#25D366,#128C7E)"><iconify-icon icon="mdi:whatsapp"></iconify-icon> تواصل عبر واتساب</a>
+      <a href={`https://wa.me/966538229013?text=${whatsappMsg}`} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white" style="background:linear-gradient(135deg,#25D366,#128C7E)"><iconify-icon icon="mdi:whatsapp"></iconify-icon> تواصل عبر واتساب</a>
     </div>
   </div>
 </section>
@@ -125,7 +153,7 @@ const jsonLd = {
       <p class="inner-cta-final__desc">فريقنا في {loc.cityAr} جاهز لمساعدتك. تواصل معنا للحصول على عرض توضيحي مخصص.</p>
       <div class="inner-hero__actions" style="justify-content:center;">
         <a href="/contact/" class="glow-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-bold"><iconify-icon icon="mdi:calendar-check"></iconify-icon> اطلب عرض توضيحي</a>
-        <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white" style="background:linear-gradient(135deg,#25D366,#128C7E)"><iconify-icon icon="mdi:whatsapp"></iconify-icon> تواصل عبر واتساب</a>
+        <a href={`https://wa.me/966538229013?text=${whatsappMsg}`} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white" style="background:linear-gradient(135deg,#25D366,#128C7E)"><iconify-icon icon="mdi:whatsapp"></iconify-icon> تواصل عبر واتساب</a>
       </div>
     </div>
   </div>
