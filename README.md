@@ -3,6 +3,12 @@
 
  مشغل عبر render و مستودع github . 
 
+Render Static Site يجب ضبطه على Node 22 LTS:
+
+- في Environment أضف `NODE_VERSION=22.11.0`
+- Build Command: `npm install && npx astro build`
+- بعد تغيير إصدار Node نفذ Clear build cache & deploy من لوحة Render.
+
 
  *cloudflare* nihmuk@mohemil.com 
  مفعل فيه  : 

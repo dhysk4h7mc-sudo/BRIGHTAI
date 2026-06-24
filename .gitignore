@@ -44,6 +44,8 @@ Thumbs.db
 dist/
 build/
 .render-static/
+.astro/
+tsconfig.tsbuildinfo
 # Note: .min.js and .min.css files are now included in git (needed for production)
 
 # Publish surface protection - these should never be published

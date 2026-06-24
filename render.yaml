@@ -99,6 +99,9 @@ services:
     # Astro dist verified 2026-06-13: 105/105 sitemap routes in dist/, special files present (see RENDER-DEPLOYMENT-CHECK.md)
     buildCommand: npm install && npx astro build
     staticPublishPath: dist
+    envVars:
+      - key: NODE_VERSION
+        value: 22.11.0
     headers:
       - path: /*
         name: Strict-Transport-Security
