@@ -1,6 +1,7 @@
 import { useId } from "react";
 import { Particles, ParticlesProvider } from "@tsparticles/react";
 import { motion, useAnimation } from "motion/react";
+import { cn } from "../lib/utils";
 
 type Props = {
   id?: string;
@@ -40,8 +41,7 @@ export const SparklesCore = (props: Props) => {
     >
       <motion.div
         animate={controls}
-        className={className}
-        style={{ opacity: 0, width: "100%", height: "100%" }}
+        className={cn("opacity-0", className)}
       >
         <Particles
           id={id ?? defaultId}
