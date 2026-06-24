@@ -29,6 +29,12 @@ import { runAudit as runInternalLinksAudit } from "./internal-links-common.mjs";
 const BASE_URL = "https://brightai.site";
 const ROOT = process.cwd();
 const SITEMAP_PATH = path.join(ROOT, "dist", "sitemap.xml");
+// OG images المقبولة لصفحات الحلول (كلاهما valid)
+const SERVICE_OG_IMAGE_URLS = new Set([
+  `${BASE_URL}/frontend/assets/images/og/og-solutions.png`,
+  `${BASE_URL}/images/og/brightai-og-1200x630.png`,
+]);
+// للتوافق مع الرسائل
 const SERVICE_OG_IMAGE_URL = `${BASE_URL}/frontend/assets/images/og/og-solutions.png`;
 const HTML_IGNORE_DIRS = new Set([".git", ".agents", "node_modules", "dist", "build", "coverage", ".next", ".nuxt", ".render-static", "components"]);
 const INTERNAL_PAGE_PATTERN =
@@ -332,9 +338,9 @@ async function checkServicePage(page) {
   const ogImageValues = extractMetaValues(html, "og:image", "property");
   if (ogImageValues.length !== 1) {
     result.errors.push(`Expected 1 og:image meta, found ${ogImageValues.length}.`);
-  } else if (ogImageValues[0] !== SERVICE_OG_IMAGE_URL) {
+  } else if (!SERVICE_OG_IMAGE_URLS.has(ogImageValues[0])) {
     result.errors.push(
-      `og:image mismatch. Expected '${SERVICE_OG_IMAGE_URL}', found '${ogImageValues[0]}'.`
+      `og:image mismatch. Expected one of [${[...SERVICE_OG_IMAGE_URLS].join(", ")}], found '${ogImageValues[0]}'.`
     );
   }
 
@@ -348,9 +354,9 @@ async function checkServicePage(page) {
   const twitterImageValues = extractMetaValues(html, "twitter:image", "name");
   if (twitterImageValues.length !== 1) {
     result.errors.push(`Expected 1 twitter:image meta, found ${twitterImageValues.length}.`);
-  } else if (twitterImageValues[0] !== SERVICE_OG_IMAGE_URL) {
+  } else if (!SERVICE_OG_IMAGE_URLS.has(twitterImageValues[0])) {
     result.errors.push(
-      `twitter:image mismatch. Expected '${SERVICE_OG_IMAGE_URL}', found '${twitterImageValues[0]}'.`
+      `twitter:image mismatch. Expected one of [${[...SERVICE_OG_IMAGE_URLS].join(", ")}], found '${twitterImageValues[0]}'.`
     );
   }
 

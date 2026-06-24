@@ -384,6 +384,10 @@ function getIgnoreReason(reference) {
     return "متغير جافاسكربت";
   }
 
+  if (lowerTrimmed.includes("baseuri") || lowerTrimmed.includes("document.") || lowerTrimmed.includes("e,")) {
+    return "متغير جافاسكربت أو كود برمجي";
+  }
+
   if (reference.patternType === "attr" && reference.attributeName === "action") {
     if (!trimmed.includes("/") && !trimmed.includes(".")) {
       return "مسار إجراء غير ملفي";

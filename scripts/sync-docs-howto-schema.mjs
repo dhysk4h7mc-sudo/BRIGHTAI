@@ -113,62 +113,15 @@ function findTargetScript(html) {
 }
 
 export function syncDocsHowToSchema(html) {
-  const visible = extractVisibleHowTo(html);
-  if (!visible) {
-    const target = findTargetScript(html);
-    if (!target || !target.graph.some((node) => hasType(node, "HowTo"))) {
-      return html;
-    }
-    if (target.standalone) {
-      return html.replace(`${target.full}\n`, "").replace(target.full, "");
-    }
-
-    target.schema["@graph"] = target.graph.filter(
-      (node) => !hasType(node, "HowTo"),
-    );
-    const replacement = target.full.replace(
-      target.inner,
-      `\n${JSON.stringify(target.schema, null, 2)}\n`,
-    );
-    return html.replace(target.full, replacement);
-  }
-
-  const canonical = extractCanonical(html);
+  // HowTo rich results removed by Google — we only strip existing HowTo nodes, never generate new ones.
   const target = findTargetScript(html);
-  const existingHowTo = target?.graph.find((node) => hasType(node, "HowTo"));
-  const howTo = {
-    ...(existingHowTo || {}),
-    "@context": "https://schema.org",
-    "@type": "HowTo",
-    "@id": `${canonical}#howto`,
-    name: visible.name,
-    inLanguage: "ar-SA",
-    step: visible.steps.map((text, index) => ({
-      "@type": "HowToStep",
-      position: index + 1,
-      name: text,
-      text,
-    })),
-  };
-
-  if (!target) {
-    const standalone = `<script id="brightai-howto-schema" type="application/ld+json">\n${JSON.stringify(howTo, null, 2)}\n</script>`;
-    return html.replace(/<\/head>/i, `${standalone}\n</head>`);
+  if (!target || !target.graph.some((node) => hasType(node, "HowTo"))) {
+    return html;
   }
-
   if (target.standalone) {
-    const replacement = target.full.replace(
-      target.inner,
-      `\n${JSON.stringify(howTo, null, 2)}\n`,
-    );
-    return html.replace(target.full, replacement);
+    return html.replace(`${target.full}\n`, "").replace(target.full, "");
   }
-
-  delete howTo["@context"];
-  const index = target.graph.findIndex((node) => hasType(node, "HowTo"));
-  if (index === -1) target.graph.push(howTo);
-  else target.graph[index] = howTo;
-
+  target.schema["@graph"] = target.graph.filter((node) => !hasType(node, "HowTo"));
   const replacement = target.full.replace(
     target.inner,
     `\n${JSON.stringify(target.schema, null, 2)}\n`,

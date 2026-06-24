@@ -9,6 +9,7 @@ import type { SEOProps } from '../data/site';
 interface Props extends SEOProps {
   currentPath?: string;
   languageCounterpart?: string;
+  robots?: string;
 }
 
 const {
@@ -21,6 +22,7 @@ const {
   jsonLd,
   currentPath = '/',
   languageCounterpart,
+  robots,
 } = Astro.props;
 ---
 
@@ -36,6 +38,7 @@ const {
   jsonLd={jsonLd}
   currentPath={currentPath}
   languageCounterpart={languageCounterpart}
+  robots={robots}
 >
   <slot />
 </BaseLayout>

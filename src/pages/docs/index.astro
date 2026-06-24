@@ -64,6 +64,21 @@ const sections = [
       ['ai-audit-readiness', 'جاهزية تدقيق الذكاء الاصطناعي', 'كيف تثبت السيطرة والجاهزية بالأدلة والسجلات - دليل عملي للتحضير للتدقيق الداخلي والخارجي.'],
     ],
   },
+  {
+    id: 'advanced-kernel',
+    title: '🛠️ المحور الخامس: أدلة كيرنل المتقدمة وموارد المطورين',
+    intro: 'أدلة تقنية متقدمة وموارد متخصصة للمطورين والمهندسين لتخصيص وإعداد BrightAI Kernel أمنياً وتشغيلياً وثائقياً.',
+    cards: [
+      ['kernel-api-client', 'عميل الـ API لكيرنل', 'كيفية التكامل برمجياً مع واجهات برمجة تطبيقات كيرنل وإجراء طلبات آمنة.'],
+      ['kernel-audit-evidence', 'أدلة تدقيق الكيرنل', 'تفاصيل هيكل أدلة الامتثال والتحقق الفني من نزاهة السجلات.'],
+      ['kernel-nvidia-proxy', 'بروكسي نفيديا لكيرنل', 'إعداد وإدارة بروكسي NVIDIA لتنقية المدخلات والمخرجات على مستوى العتاد.'],
+      ['kernel-accessibility-mobile', 'سهولة الوصول للهاتف', 'تحسين توافق واجهات كيرنل مع معايير الوصول على الهواتف والأجهزة المحمولة.'],
+      ['kernel-production-vs-demo', 'الإنتاجي مقابل التجريبي', 'الفروقات الإعدادية بين بيئة التطوير التجريبية وبيئة التشغيل الإنتاجية.'],
+      ['kernel-changelog-template', 'نموذج سجل التغييرات', 'هيكل تتبع وتوثيق تحديثات كيرنل والامتثال التراكمي.'],
+      ['kernel-internal-linking', 'دليل الربط الداخلي', 'إرشادات المحافظة على ترابط مكونات النظام والتوثيق لمنع الصفحات اليتيمة.'],
+      ['superpowers', 'موارد المطورين الخارقة', 'مجموعة أدوات ومقاييس التطوير السريع وحل المشكلات داخل بيئة BrightAI.'],
+    ],
+  },
 ] as const;
 
 const jsonLd = {
@@ -166,6 +181,7 @@ const jsonLd = {
         {section.id === 'kernel' && <p>مسار التطبيق التقني: ابدأ بـ <a href="/docs/kernel-chat/">Kernel Chat</a> للواجهة، ثم <a href="/docs/kernel-audit-trail/">سجل التدقيق</a> للتوثيق، <a href="/docs/kernel-approvals/">الموافقات</a> للرقابة، <a href="/docs/kernel-policies/">السياسات</a> للإدارة، و<a href="/docs/kernel-compliance/">الامتثال</a> للمراقبة المستمرة.</p>}
         {section.id === 'compliance' && <p>مسار الامتثال: ابدأ بفهم <a href="/docs/pdpl-ai-complete-guide/">متطلبات PDPL العميقة</a> و<a href="/docs/nca-ecc-ai-guide/">NCA ECC 2-2024 للذكاء الاصطناعي</a>، ثم راجع <a href="/docs/sdaia-generative-ai-guidelines/">إرشادات سدايا للاستخدام المسؤول</a>، واستخدم <a href="/docs/nca-ecc-ai-controls-mapping/">خريطة المواءمة</a> لربط المتطلبات بالضوابط.</p>}
         {section.id === 'implementation' && <p>مسار التنفيذ: ابدأ بـ <a href="/docs/ai-governance-saudi-arabia/">فهم الحوكمة</a>، ثم <a href="/docs/ai-risk-management/">صنّف المخاطر</a>، طبّق <a href="/docs/governance-application/">خطة 30 يوم</a>، وحضّر <a href="/docs/ai-audit-readiness/">جاهزية التدقيق</a>.</p>}
+        {section.id === 'advanced-kernel' && <p>الربط التقني المتقدم: للتكامل الفني، راجع <a href="/docs/kernel-api-client/">عميل الـ API لكيرنل</a> و <a href="/docs/kernel-nvidia-proxy/">بروكسي نفيديا لكيرنل</a>، وللإدارة والوصول راجع <a href="/docs/kernel-accessibility-mobile/">سهولة الوصول للهاتف</a> و <a href="/docs/superpowers/">أدوات المطورين الخارقة</a>.</p>}
       </section>
     ))}
 
@@ -175,6 +191,7 @@ const jsonLd = {
       <div class="docs-index__cluster"><h3>المسار الاستراتيجي (للإدارة العليا ومدراء المخاطر)</h3><p><a href="/docs/ai-governance-saudi-arabia/">حوكمة AI في السعودية</a> → <a href="/docs/ai-risk-management/">إدارة المخاطر</a> → <a href="/docs/governance-application/">خطة 30 يوم</a> → <a href="/docs/ai-audit-readiness/">جاهزية التدقيق</a></p></div>
       <div class="docs-index__cluster"><h3>مسار الامتثال (لمسؤولي الامتثال وحماية البيانات)</h3><p><a href="/docs/pdpl-ai-governance/">PDPL والذكاء الاصطناعي</a> → <a href="/docs/nca-ecc-ai-governance/">NCA ECC وحوكمة AI</a> → <a href="/docs/nca-ecc-ai-controls-mapping/">خريطة المواءمة</a> → <a href="/docs/ai-evidence-file/">ملف الأدلة</a></p></div>
       <div class="docs-index__cluster"><h3>المسار التقني (للمطورين والمهندسين)</h3><p><a href="/docs/kernel-chat/">Kernel Chat</a> → <a href="/docs/kernel-audit-trail/">سجل التدقيق</a> → <a href="/docs/kernel-approvals/">الموافقات</a> → <a href="/docs/kernel-policies/">السياسات</a> → <a href="/docs/kernel-compliance/">الامتثال</a></p></div>
+      <div class="docs-index__cluster"><h3>المسار التقني المتقدم (للتطوير والتهيئة المتقدمة)</h3><p><a href="/docs/kernel-api-client/">عميل الـ API لكيرنل</a> → <a href="/docs/kernel-audit-evidence/">أدلة تدقيق الكيرنل</a> → <a href="/docs/kernel-nvidia-proxy/">بروكسي نفيديا</a> → <a href="/docs/kernel-production-vs-demo/">البيئة الإنتاجية مقابل الديمو</a></p></div>
       <div class="docs-index__cluster"><h3>مسار الحماية (لفرق الأمن السيبراني)</h3><p><a href="/docs/ai-firewall/">AI Firewall</a> → <a href="/docs/pdpl-chatgpt-data-protection/">حماية البيانات</a> → <a href="/docs/nca-ecc-ai-controls/">ضوابط NCA ECC</a> → <a href="/docs/ai-audit-trail/">سجل التدقيق</a></p></div>
     </section>
 

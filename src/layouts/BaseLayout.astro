@@ -17,6 +17,7 @@ interface Props extends SEOProps {
   dir?: 'rtl' | 'ltr';
   currentPath?: string;
   languageCounterpart?: string;
+  robots?: string;
 }
 
 const {
@@ -31,6 +32,7 @@ const {
   jsonLd,
   currentPath = '/',
   languageCounterpart,
+  robots,
 } = Astro.props;
 ---
 
@@ -63,6 +65,7 @@ const {
     ogImageAlt={ogImageAlt}
     jsonLd={jsonLd}
     locale={lang}
+    robots={robots}
   />
 
   <ClientRouter />

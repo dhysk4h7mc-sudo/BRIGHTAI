@@ -102,20 +102,9 @@ export function auditHtml(relPath, html) {
   }
 
   if (relPath.startsWith("docs/")) {
-    const visibleHowTo = extractVisibleHowTo(html);
     const howTo = nodes.find((node) => hasType(node, "HowTo"));
-    if (visibleHowTo && !howTo) {
-      errors.push("Missing HowTo schema for visible procedural steps.");
-    } else if (visibleHowTo && howTo) {
-      if (
-        normalizeText(howTo.name) !== visibleHowTo.name ||
-        JSON.stringify(howToSteps(howTo)) !==
-          JSON.stringify(visibleHowTo.steps)
-      ) {
-        errors.push("HowTo schema does not match visible procedural steps.");
-      }
-    } else if (!visibleHowTo && howTo) {
-      errors.push("HowTo schema exists without a supported visible procedure.");
+    if (howTo) {
+      errors.push("HowTo schema should be removed as Google deprecated it.");
     }
   }
 

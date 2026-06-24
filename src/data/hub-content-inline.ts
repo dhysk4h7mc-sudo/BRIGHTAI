@@ -763,11 +763,11 @@ export const hub_compliance: HubInlineContent = {
 };
 
 export const hub_solutions: HubInlineContent = {
-  h1: 'حلول حوكمة وأمان الذكاء الاصطناعي',
+  h1: 'مركز حلول حوكمة وأمان الذكاء الاصطناعي',
   html: `<nav class="text-sm text-white/60 mb-6">
     <a href="/" class="hover:text-white">الرئيسية</a>
     <span class="mx-2">/</span>
-    <span>مراكز المحتوى</span>
+    <a href="/hub/" class="hover:text-white">مراكز المحتوى</a>
     <span class="mx-2">/</span>
     <span class="text-white">الحلول التقنية</span>
   </nav>
@@ -775,7 +775,7 @@ export const hub_solutions: HubInlineContent = {
   <header class="mb-12">
     <span class="chip">مركز محتوى تقني · Solutions Hub</span>
     <h1 class="mt-4 text-3xl sm:text-5xl font-black leading-tight">
-      حلول <span class="gradient-text">حوكمة وأمان</span> الذكاء الاصطناعي
+      مركز حلول <span class="gradient-text">حوكمة وأمان</span> الذكاء الاصطناعي
     </h1>
     <p class="mt-5 text-lg text-white/75 leading-loose max-w-3xl">
       كل حلول BrightAI التقنية في صفحة واحدة. اشرحنا كل حل، متى تستخدمه، كيف يشتغل، ومين يستفيد منه أكثر. مرجعك السريع لاختيار الحل المناسب لشركتك.

@@ -9,6 +9,7 @@ import type { SEOProps } from '../data/site';
 
 interface Props extends SEOProps {
   locale?: 'ar' | 'en';
+  robots?: string;
 }
 
 const {
@@ -20,6 +21,7 @@ const {
   ogImageAlt = 'BrightAI - Saudi AI Safety OS',
   jsonLd,
   locale = 'ar',
+  robots = 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1',
 } = Astro.props;
 
 const fullOgImage = ogImage.startsWith('http') ? ogImage : `${SITE.url}${ogImage}`;
@@ -30,7 +32,7 @@ const hasXDefault = hreflang.some((link) => link.lang === 'x-default');
 <!-- Primary Meta Tags -->
 <title>{title}</title>
 <meta name="description" content={description} />
-<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+<meta name="robots" content={robots} />
 <link rel="canonical" href={canonical} />
 
 <!-- Open Graph / Facebook -->
@@ -55,7 +57,9 @@ const hasXDefault = hreflang.some((link) => link.lang === 'x-default');
 {hreflang.map((link) => (
   <link rel="alternate" hreflang={link.lang} href={link.href} />
 ))}
-{!hasXDefault && <link rel="alternate" hreflang="x-default" href={canonical} />}
+{!hasXDefault && hreflang.length > 0 && !robots.includes('noindex') && (
+  <link rel="alternate" hreflang="x-default" href={canonical} />
+)}
 
 <!-- JSON-LD Structured Data -->
 {jsonLd && (

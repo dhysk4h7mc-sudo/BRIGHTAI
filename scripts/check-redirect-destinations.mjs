@@ -29,8 +29,62 @@ async function loadRedirects(root) {
 }
 
 export async function checkRedirectDestinations({ root = ROOT } = {}) {
-  const htmlFiles = (await walkFiles(root)).filter((file) => file.endsWith(".html"));
-  const routes = buildRouteSet(htmlFiles);
+  // جمع HTML routes من جذر المشروع (public + src)
+  const rootHtmlFiles = (await walkFiles(root)).filter((file) => file.endsWith(".html"));
+  const routes = buildRouteSet(rootHtmlFiles);
+
+  // إضافة وجهات valid إضافية: dist HTML routes
+  const distDir = path.join(root, "dist");
+  try {
+    const distHtmlFiles = (await walkFiles(distDir)).filter((f) => f.endsWith(".html"));
+    for (const f of distHtmlFiles) {
+      const r = canonicalPath("/" + f.replaceAll("\\", "/").replace(/\/index\.html$/, "/").replace(/\.html$/, "/"));
+      if (r) routes.add(r);
+    }
+  } catch {
+    // dist غير موجود - متوقع قبل build
+  }
+
+  // إضافة special root files كـ valid destinations
+  const SPECIAL_DESTINATIONS = new Set([
+    "/404.html",
+    "/500.html",
+    "/blog/feed.xml",
+    "/sitemap.xml",
+    "/llms.txt",
+    "/llms-full.txt",
+    "/ai.txt",
+    "/robots.txt",
+    "/manifest.webmanifest",
+  ]);
+  for (const sp of SPECIAL_DESTINATIONS) {
+    const r = canonicalPath(sp);
+    if (r) routes.add(r);
+    // أضف المسار كما هو أيضاً بدون canonical transform لملفات .xml/.txt
+    routes.add(sp);
+  }
+
+  // إضافة routes من sitemap.xml إذا وُجد
+  const sitemapPath = path.join(root, "public", "sitemap.xml");
+  try {
+    const sitemapXml = await fs.readFile(sitemapPath, "utf8");
+    const locMatches = sitemapXml.matchAll(/<loc>([^<]+)<\/loc>/g);
+    const SITE_ORIGIN = "https://brightai.site";
+    for (const m of locMatches) {
+      try {
+        const u = new URL(m[1].trim());
+        if (u.origin === SITE_ORIGIN) {
+          const r = canonicalPath(u.pathname);
+          if (r) routes.add(r);
+        }
+      } catch {
+        // ignore invalid URLs
+      }
+    }
+  } catch {
+    // sitemap not found
+  }
+
   const redirects = await loadRedirects(root);
   const permanentRedirects = redirects.filter(
     (redirect) => redirect.status >= 300 && redirect.status < 400,

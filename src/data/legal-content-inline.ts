@@ -378,12 +378,12 @@ export const legal_data_processing_agreement: LegalInlineContent = {
 };
 
 export const legal_privacy_cookies: LegalInlineContent = {
-  h1: 'سياسة الخصوصية وملفات الارتباط',
+  h1: 'سياسة الخصوصية وملفات تعريف الارتباط',
   html: `<header class="hero-section relative min-h-[40vh] flex items-center pt-32 pb-16 px-6 overflow-hidden bai-inline-0020">
         <div class="absolute inset-0 gradient-animate opacity-20"></div>
         <div class="max-w-7xl mx-auto w-full relative z-10 text-center">
             <h1 class="text-4xl md:text-5xl font-bold tracking-tight mb-6">
-                سياسة <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500">الخصوصية</span>
+                سياسة <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500">الخصوصية وملفات تعريف الارتباط</span>
             </h1>
             <p class="text-slate-400 text-lg md:text-xl font-light max-w-2xl mx-auto">
                 نلتزم بحماية بياناتك وخصوصيتك وفقاً لأعلى المعايير.
