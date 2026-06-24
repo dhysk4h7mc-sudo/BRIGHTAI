@@ -1,7 +1,12 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
-  content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./lib/**/*.{ts,tsx}"],
+  content: [
+    "./src/**/*.{astro,ts,tsx,js,jsx,md,mdx}",
+    "./app/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./lib/**/*.{ts,tsx}",
+  ],
   theme: {
     extend: {
       colors: {
@@ -13,7 +18,7 @@ const config: Config = {
         }
       },
       fontFamily: {
-        sans: ["var(--font-arabic)", "BrightAI Official", "BrightAI Official", "Arial", "sans-serif"],
+        sans: ["var(--font-arabic)", "BrightAI Official", "Arial", "sans-serif"],
         mono: ["var(--font-mono)", "JetBrains Mono", "ui-monospace", "monospace"]
       },
       boxShadow: {

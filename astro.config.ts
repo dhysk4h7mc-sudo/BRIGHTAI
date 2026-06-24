@@ -1,6 +1,8 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
+import react from '@astrojs/react';
+import tailwind from '@astrojs/tailwind';
 
 export default defineConfig({
   site: 'https://brightai.site',
@@ -16,7 +18,11 @@ export default defineConfig({
   build: {
     format: 'directory',
   },
-  integrations: [sitemap()],
+  integrations: [
+    react(),
+    tailwind({ applyBaseStyles: false }),
+    sitemap(),
+  ],
   vite: {
     build: {
       cssMinify: true,

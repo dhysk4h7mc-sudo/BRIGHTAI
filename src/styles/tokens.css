@@ -125,4 +125,11 @@
   /* ─── Navigation ─── */
   --nav-height: 4.5rem;
   --nav-height-mobile: 3.75rem;
+
+  /* ─── Brand Production Alignment ─── */
+  --brand-500: #00d4ff;
+  --brand-300: #67e8f9;
+  --glow-cyan: 0 0 30px rgba(0,212,255,0.3);
+  --glow-purple: 0 0 30px rgba(124,92,255,0.3);
+  --font-brand: 'BrightAI Official', 'IBM Plex Sans Arabic', Arial, sans-serif;
 }

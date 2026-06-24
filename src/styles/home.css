@@ -16,7 +16,7 @@
 }
 
 /* ─── Gradient Text ─── */
-.home-gradient-text {
+.gradient-text {
   background: linear-gradient(135deg, #00d4ff 0%, #7c5cff 50%, #ff5ca7 100%);
   -webkit-background-clip: text;
   background-clip: text;
@@ -24,7 +24,7 @@
 }
 
 /* ─── Glass Card ─── */
-.home-glass {
+.glass {
   background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.01));
   border: 1px solid rgba(255,255,255,.08);
   backdrop-filter: blur(10px);
@@ -32,30 +32,30 @@
 }
 
 /* ─── Glow Button ─── */
-.home-glow-btn {
+.glow-btn {
   background: linear-gradient(135deg,#00d4ff,#7c5cff);
   box-shadow: 0 10px 40px -10px rgba(0,212,255,.6), inset 0 1px 0 rgba(255,255,255,.25);
   transition: filter 0.2s ease, transform 0.2s ease;
 }
-.home-glow-btn:hover { filter: brightness(1.1) saturate(1.1); transform: translateY(-1px); }
+.glow-btn:hover { filter: brightness(1.1) saturate(1.1); transform: translateY(-1px); }
 
 /* ─── WhatsApp Button ─── */
-.home-wa-btn {
+.wa-btn {
   background: linear-gradient(135deg,#25D366,#128C7E);
   box-shadow: 0 8px 30px -8px rgba(37,211,102,.5), inset 0 1px 0 rgba(255,255,255,.2);
   transition: filter 0.2s ease, transform 0.2s ease;
 }
-.home-wa-btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
+.wa-btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
 
 /* ─── Chip / Badge ─── */
-.home-chip {
+.chip {
   background: rgba(0,212,255,.08);
   border: 1px solid rgba(0,212,255,.25);
   color: #9be5ff;
 }
 
 /* ─── Feature Card (glowing premium) ─── */
-.home-feature-card {
+.feature-card {
   position: relative;
   background: linear-gradient(180deg, rgba(11, 18, 32, 0.45) 0%, rgba(6, 10, 20, 0.45) 100%);
   border: 1px solid rgba(255, 255, 255, 0.06);
@@ -65,7 +65,7 @@
   transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
   overflow: hidden;
 }
-.home-feature-card::before {
+.feature-card::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -79,17 +79,17 @@
   pointer-events: none;
   transition: all 0.4s ease;
 }
-.home-feature-card:hover {
+.feature-card:hover {
   transform: translateY(-8px);
   border-color: rgba(0, 212, 255, 0.25);
   box-shadow: 0 20px 45px -15px rgba(0, 0, 0, 0.5), 0 0 30px -5px rgba(0, 212, 255, 0.18);
 }
-.home-feature-card:hover::before {
+.feature-card:hover::before {
   background: linear-gradient(135deg, rgba(0, 212, 255, 0.4) 0%, rgba(124, 92, 255, 0.3) 50%, rgba(255, 92, 167, 0.2) 100%);
 }
 
 /* ─── Ambient Separator ─── */
-.home-separator {
+.ambient-separator {
   position: relative;
   height: 1px;
   background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.03) 10%, rgba(0,212,255,0.18) 50%, rgba(255,255,255,0.03) 90%, transparent 100%);
@@ -98,7 +98,7 @@
   justify-content: center;
   align-items: center;
 }
-.home-separator::after {
+.ambient-separator::after {
   content: '';
   position: absolute;
   width: 120px;
@@ -107,7 +107,7 @@
   filter: blur(4px);
   pointer-events: none;
 }
-.home-separator-dot {
+.ambient-separator-node {
   width: 6px;
   height: 6px;
   border-radius: 50%;
@@ -120,7 +120,7 @@
   position: relative;
   overflow: hidden;
 }
-.home-hero-bg {
+.bt-hero-bg {
   position: absolute;
   inset: 0;
   overflow: hidden;
@@ -130,8 +130,12 @@
     radial-gradient(900px 500px at 10% 110%, rgba(0,168,212,.15), transparent 60%),
     linear-gradient(180deg, #0b1220 0%, #0a1020 60%, #070c19 100%);
 }
+.bt-hero-bg canvas {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  display: block; will-change: transform; transform: translateZ(0);
+}
 /* CSS dot grid (works without JS) */
-.home-hero-bg::before {
+.bt-hero-bg::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -140,21 +144,21 @@
   mask-image: radial-gradient(ellipse at center, #000 40%, transparent 80%);
   -webkit-mask-image: radial-gradient(ellipse at center, #000 40%, transparent 80%);
   opacity: .5;
-  animation: homeGridMove 22s linear infinite;
+  animation: btGridMove 22s linear infinite;
 }
-@keyframes homeGridMove { to { background-position: 28px 28px; } }
+@keyframes btGridMove { to { background-position: 28px 28px; } }
 
 /* Scanning line */
-.home-hero-bg::after {
+.bt-hero-bg::after {
   content: "";
   position: absolute;
   inset: 0;
   background: linear-gradient(90deg, transparent 0%, rgba(0,212,255,.06) 50%, transparent 100%);
   transform: translateX(-100%);
-  animation: homeScan 7s ease-in-out infinite;
+  animation: btScan 7s ease-in-out infinite;
   pointer-events: none;
 }
-@keyframes homeScan {
+@keyframes btScan {
   0% { transform: translateX(-100%); }
   60% { transform: translateX(100%); }
   100% { transform: translateX(100%); }
@@ -416,7 +420,7 @@
 }
 
 /* ─── Section Mini Link ─── */
-.home-section-link {
+.section-mini-link {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -430,7 +434,7 @@
   text-decoration: none;
   transition: all 0.25s ease;
 }
-.home-section-link:hover {
+.section-mini-link:hover {
   color: #00d4ff;
   border-color: rgba(0,212,255,0.3);
   background: rgba(0,212,255,0.05);
@@ -449,7 +453,7 @@
 }
 
 /* ─── Pulse Dot Animation ─── */
-.home-pulse-dot {
+.pulse-dot {
   animation: homePulse 2s ease-in-out infinite;
 }
 @keyframes homePulse {
@@ -626,23 +630,24 @@
 
 /* ─── Reduced Motion ─── */
 @media (prefers-reduced-motion: reduce) {
-  .home-hero-bg::before,
-  .home-hero-bg::after { animation: none; }
-  .home-pulse-dot { animation: none; }
+  .bt-hero-bg::before,
+  .bt-hero-bg::after { animation: none; }
+  .bt-hero-bg canvas { display: none; }
+  .pulse-dot { animation: none; }
   .home-kernel-svg .kernel-core { animation: none; }
-  .home-feature-card,
+  .feature-card,
   .home-kernel-feature-link,
   .home-kernel-action,
-  .home-glow-btn,
-  .home-wa-btn,
-  .home-section-link {
+  .glow-btn,
+  .wa-btn,
+  .section-mini-link {
     transition: none;
   }
-  .home-feature-card:hover,
+  .feature-card:hover,
   .home-kernel-feature-link:hover,
   .home-kernel-action:hover,
-  .home-glow-btn:hover,
-  .home-wa-btn:hover {
+  .glow-btn:hover,
+  .wa-btn:hover {
     transform: none;
   }
 }

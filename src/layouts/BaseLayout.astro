@@ -46,6 +46,9 @@ const {
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" />
 
+  <!-- Preload custom brand font -->
+  <link rel="preload" href="/frontend/assets/fonts/TheYearofTheCamel-Medium.woff2" as="font" type="font/woff2" crossorigin />
+
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="manifest" href="/manifest.webmanifest" />
@@ -64,7 +67,20 @@ const {
 
   <ClientRouter />
 
-  <!-- Google Analytics Pageview Trigger for SPA transitions -->
+  <!-- Additional production meta tags -->
+  <meta name="theme-color" content="#0b1220" />
+  <meta name="format-detection" content="telephone=no" />
+
+  <!-- Google tag (gtag.js) — loaded directly in head for production parity -->
+  <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-8LLESL207Q"></script>
+  <script is:inline>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-8LLESL207Q');
+  </script>
+
+  <!-- SPA transition pageview trigger -->
   <script>
     document.addEventListener('astro:page-load', () => {
       const w = window as any;
@@ -77,6 +93,29 @@ const {
     });
   </script>
 
+  <!-- Critical inline CSS: brand font-face + heading overrides -->
+  <style is:inline>
+    @font-face {
+      font-family: 'BrightAI Official';
+      src: url('/frontend/assets/fonts/TheYearofTheCamel-Medium.woff2') format('woff2'),
+           url('/frontend/assets/fonts/TheYearofTheCamel-Medium.otf') format('opentype');
+      font-weight: 400 900;
+      font-display: swap;
+    }
+    [dir=rtl] h1, [dir=rtl] h2, [dir=rtl] h3,
+    [dir=rtl] h4, [dir=rtl] h5, [dir=rtl] h6,
+    html[lang=ar] h1, html[lang=ar] h2, html[lang=ar] h3,
+    html[lang=ar] h4, html[lang=ar] h5, html[lang=ar] h6,
+    .gradient-text, .chip, .badge, .font-black, .font-bold,
+    .feature-title, .section-title, .stat-value, .metric-label,
+    .brand-text {
+      font-family: 'BrightAI Official', 'IBM Plex Sans Arabic', Arial, sans-serif !important;
+      font-weight: 700 !important;
+    }
+    /* Production body baseline */
+    body { background: #060914; color: #e6edf7; overflow-x: hidden; }
+  </style>
+
   <!-- Styles -->
   <style is:global>
     @import '../styles/global.css';
@@ -84,6 +123,7 @@ const {
     @import '../styles/components.css';
     @import '../styles/animations.css';
     @import '../styles/mobile.css';
+    @import '../styles/design-system.css';
   </style>
 </head>
 <body>

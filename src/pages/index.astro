@@ -5,6 +5,7 @@
  * Dark Enterprise SaaS design with CSS-only animations.
  */
 import BaseLayout from '../layouts/BaseLayout.astro';
+import SparklesHero from '../components/SparklesHero.astro';
 
 const faqItems = [
   { q: 'وش هي BrightAI؟', a: '<p><strong class="text-white">الجواب:</strong> BrightAI هي <strong>Saudi AI Safety OS</strong> — نظام تشغيل أمان وحوكمة للذكاء الاصطناعي داخل المؤسسات السعودية. تشتغل كطبقة وسيطة بين الموظف والـ AI وبيانات الشركة، وتضمن إن كل طلب ذكاء اصطناعي يكون آمن وموثّق وقابل للمراجعة.</p><p>عكس شات بوت عادي، BrightAI تركّب تحت أي نظام AI في شركتك وتفعّل AI Firewall وإخفاء البيانات الشخصية وسجل التدقيق والموافقات البشرية وملفات الأدلة — كلها متوافقة مع PDPL وNCA وSDAIA.</p>' },
@@ -189,125 +190,32 @@ const jsonLd = [
 >
 <style is:global>@import '../styles/home.css';</style>
 
-{/* ═══════════════ 1. HERO ═══════════════ */}
-<section class="home-hero" aria-label="BrightAI الرئيسية">
-  <div class="home-hero-bg" aria-hidden="true"></div>
-  <div class="home-hero-grid">
-    <div>
-      <span class="home-chip inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold">
-        <span class="w-2 h-2 rounded-full bg-emerald-400 home-pulse-dot"></span>
-        🇸🇦 صنع في السعودية
-      </span>
-      <h1 id="hero-title" class="mt-5 text-3xl sm:text-5xl lg:text-6xl font-black leading-tight" transition:animate="fade">
-        منصة أمان وحوكمة
-        <span class="home-gradient-text">الذكاء الاصطناعي</span>
-        للشركات
-        <span class="home-gradient-text">السعودية</span>
-      </h1>
-      <p class="mt-6 text-lg text-white/75 leading-loose max-w-2xl">
-        <strong>BrightAI</strong> تقدم <strong class="text-white">Saudi AI Safety OS</strong>:
-        <strong class="text-white">نواة أمان وتشغيل</strong> تدخل بين الموظف والـ AI وبيانات الشركة،
-        وتضمن إن كل طلب ذكاء اصطناعي يكون
-        <span class="text-white">آمن، موثّق، وقابل للمراجعة</span>.
-      </p>
-      <div class="home-hero-actions">
-        <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="home-wa-btn">
-          <iconify-icon icon="mdi:whatsapp"></iconify-icon> واتساب
-        </a>
-        <a href="/contact/" class="home-cta-primary">
-          <iconify-icon icon="mdi:calendar-check"></iconify-icon>
-          <span>احجز ديمو</span>
-        </a>
-        <a href="/solutions/ai-governance-platform/" class="home-cta-secondary">
-          <iconify-icon icon="mdi:scale-balance"></iconify-icon>
-          <span>منصة الحوكمة</span>
-        </a>
-        <a href="/kernel/" class="home-cta-secondary">
-          <iconify-icon icon="mdi:gauge"></iconify-icon>
-          <span>BrightAI Kernel</span>
-        </a>
-      </div>
-    </div>
-
-    <aside class="home-kernel-showcase" aria-labelledby="kernel-demo-title">
-      <div class="home-kernel-panel">
-        <div class="home-kernel-bar">
-          <div class="home-kernel-dots"><span style="--dot:#ef4444"></span><span style="--dot:#f59e0b"></span><span style="--dot:#22c55e"></span></div>
-          <span class="home-kernel-path">brightai.site/kernel</span>
-        </div>
-        <div class="home-kernel-body">
-          <span class="home-kernel-badge">
-            <iconify-icon icon="mdi:lock-open-variant"></iconify-icon>
-            نموذج تجريبي مجاني للشركات
-          </span>
-          <h2 class="home-kernel-title" id="kernel-demo-title">جرّب BrightAI Kernel كأنك داخل غرفة تشغيل شركتك</h2>
-          <p class="home-kernel-copy">
-            تدخل التجربة، ترسل طلبات عمل واقعية، وتشوف كيف الـ Kernel يحمي البيانات الحساسة، يطبق السياسات،
-            يوقف القرارات العالية المخاطر للموافقة، ويوثق كل خطوة بدليل واضح يصلح لفريق الأمن والامتثال.
-          </p>
-          <div class="home-kernel-actions">
-            <a href="/kernel/" class="home-kernel-action home-kernel-action--primary">
-              <iconify-icon icon="mdi:gauge"></iconify-icon>
-              <span>ابدأ التجربة المجانية</span>
-            </a>
-            <a href="/kernel/chat/" class="home-kernel-action home-kernel-action--secondary">
-              <iconify-icon icon="mdi:message-text"></iconify-icon>
-              <span>اختبر المحادثة الآمنة</span>
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="home-kernel-features" aria-labelledby="kernel-features-title">
-        <div class="home-kernel-feature-header">
-          <h2 id="kernel-features-title">وش تقدر تجرّب؟</h2>
-          <p>كل مسار هنا يوريك جزء من اللي نقدمه للشركات قبل ربطه بأنظمتها الفعلية.</p>
-          <span class="home-kernel-feature-count">10 مزايا</span>
-        </div>
-        <div class="home-kernel-feature-grid">
-          <a href="/kernel/" class="home-kernel-feature-link"><span class="home-kernel-feature-icon"><iconify-icon icon="mdi:gauge"></iconify-icon></span><span><span class="home-kernel-feature-title">لوحة تشغيل واحدة</span><span class="home-kernel-feature-copy">حالة النواة، الطلبات، المخاطر، وآخر الأحداث من مكان واحد.</span></span></a>
-          <a href="/kernel/chat/" class="home-kernel-feature-link"><span class="home-kernel-feature-icon"><iconify-icon icon="mdi:message-text"></iconify-icon></span><span><span class="home-kernel-feature-title">محادثة آمنة</span><span class="home-kernel-feature-copy">اسأل النموذج، والـ Kernel يفحص البيانات والسياسات قبل الرد.</span></span></a>
-          <a href="/kernel/audit/" class="home-kernel-feature-link"><span class="home-kernel-feature-icon"><iconify-icon icon="mdi:file-lock"></iconify-icon></span><span><span class="home-kernel-feature-title">سجل تدقيق كامل</span><span class="home-kernel-feature-copy">كل طلب وقرار محفوظ بتوقيت، درجة مخاطر، وهاش قابل للمراجعة.</span></span></a>
-          <a href="/kernel/evidence/" class="home-kernel-feature-link"><span class="home-kernel-feature-icon"><iconify-icon icon="mdi:folder-open"></iconify-icon></span><span><span class="home-kernel-feature-title">ملف أدلة</span><span class="home-kernel-feature-copy">اجمع المدخلات والردود وسلسلة التدقيق كدليل واضح للمدقق.</span></span></a>
-          <a href="/kernel/approvals/" class="home-kernel-feature-link"><span class="home-kernel-feature-icon"><iconify-icon icon="mdi:account-check"></iconify-icon></span><span><span class="home-kernel-feature-title">موافقات بشرية</span><span class="home-kernel-feature-copy">أي قرار حساس يتوقف لين يراجعه الشخص المخول داخل الشركة.</span></span></a>
-          <a href="/kernel/compliance/" class="home-kernel-feature-link"><span class="home-kernel-feature-icon"><iconify-icon icon="mdi:scale-balance"></iconify-icon></span><span><span class="home-kernel-feature-title">متابعة الامتثال</span><span class="home-kernel-feature-copy">اربط استخدامات AI بضوابط PDPL وNCA وحزم الحوكمة السعودية.</span></span></a>
-          <a href="/kernel/policies/" class="home-kernel-feature-link"><span class="home-kernel-feature-icon"><iconify-icon icon="mdi:tune"></iconify-icon></span><span><span class="home-kernel-feature-title">محرر السياسات</span><span class="home-kernel-feature-copy">اضبط قواعد الاستخدام، الحساسية، والتصعيد بدون تعقيد تقني.</span></span></a>
-          <a href="/kernel/connectors/" class="home-kernel-feature-link"><span class="home-kernel-feature-icon"><iconify-icon icon="mdi:power-plug"></iconify-icon></span><span><span class="home-kernel-feature-title">موصلات الأنظمة</span><span class="home-kernel-feature-copy">شوف تصور ربط ERP وCRM وHIS وSharePoint بطريقة مضبوطة.</span></span></a>
-          <a href="/kernel/reports/" class="home-kernel-feature-link"><span class="home-kernel-feature-icon"><iconify-icon icon="mdi:chart-bar"></iconify-icon></span><span><span class="home-kernel-feature-title">تقارير تنفيذية</span><span class="home-kernel-feature-copy">حوّل نشاط الذكاء الاصطناعي إلى تقرير يفهمه الأمن والإدارة.</span></span></a>
-          <a href="/kernel/scenarios/" class="home-kernel-feature-link"><span class="home-kernel-feature-icon"><iconify-icon icon="material-symbols:account-tree"></iconify-icon></span><span><span class="home-kernel-feature-title">سيناريوهات واقعية</span><span class="home-kernel-feature-copy">اختبر حالات مالية، موارد بشرية، قانونية، صحية، وأمن كود.</span></span></a>
-        </div>
-        <p class="home-kernel-footnote">
-          <iconify-icon icon="mdi:information"></iconify-icon>
-          التجربة تستخدم بيانات صناعية، وإذا ناسبتكم نركب نفس الفكرة على بياناتكم وأنظمتكم الفعلية.
-        </p>
-      </div>
-    </aside>
-  </div>
-</section>
+{/* ═══════════════ 1. HERO (Aceternity Sparkles) ═══════════════ */}
+<SparklesHero />
 
 {/* ═══════════════ 2. TRUST / COMPLIANCE ═══════════════ */}
 <section id="trust-signals" aria-label="أمن وثقة BrightAI" class="py-12 bg-gradient-to-b from-[#0a1020] to-[#070c19] border-y border-white/5 relative z-10">
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
     <div class="grid lg:grid-cols-12 gap-8 items-center">
       <div class="lg:col-span-5 space-y-4">
-        <span class="home-chip inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold">
+        <span class="chip inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold">
           <iconify-icon icon="mdi:shield-home"></iconify-icon> الامتثال التنظيمي السعودي
         </span>
         <h2 class="text-xl font-bold mb-2">متوافق مع الهيئات السعودية 🇸🇦</h2>
         <p class="text-sm text-white/60 leading-relaxed">نواة BrightAI متوافقة مع ضوابط الأمن السيبراني ولائحة حماية البيانات.</p>
         <div class="flex flex-wrap gap-2 pt-2">
-          <span class="home-glass rounded-xl px-3 py-2 text-xs text-white/80 inline-flex items-center gap-2 border border-white/10"><iconify-icon class="text-cyan-300" icon="mdi:shield-half-full"></iconify-icon> الهيئة الوطنية للأمن السيبراني (NCA)</span>
-          <span class="home-glass rounded-xl px-3 py-2 text-xs text-white/80 inline-flex items-center gap-2 border border-white/10"><iconify-icon class="text-cyan-300" icon="mdi:brain"></iconify-icon> هيئة البيانات والذكاء الاصطناعي (SDAIA)</span>
-          <span class="home-glass rounded-xl px-3 py-2 text-xs text-white/80 inline-flex items-center gap-2 border border-white/10"><iconify-icon class="text-cyan-300" icon="mdi:medical-bag"></iconify-icon> هيئة الغذاء والدواء (SFDA)</span>
-          <span class="home-glass rounded-xl px-3 py-2 text-xs text-white/80 inline-flex items-center gap-2 border border-white/10"><iconify-icon class="text-cyan-300" icon="mdi:file-document-outline"></iconify-icon> هيئة الزكاة والضريبة والجمارك (ZATCA)</span>
+          <span class="glass rounded-xl px-3 py-2 text-xs text-white/80 inline-flex items-center gap-2 border border-white/10"><iconify-icon class="text-cyan-300" icon="mdi:shield-half-full"></iconify-icon> الهيئة الوطنية للأمن السيبراني (NCA)</span>
+          <span class="glass rounded-xl px-3 py-2 text-xs text-white/80 inline-flex items-center gap-2 border border-white/10"><iconify-icon class="text-cyan-300" icon="mdi:brain"></iconify-icon> هيئة البيانات والذكاء الاصطناعي (SDAIA)</span>
+          <span class="glass rounded-xl px-3 py-2 text-xs text-white/80 inline-flex items-center gap-2 border border-white/10"><iconify-icon class="text-cyan-300" icon="mdi:medical-bag"></iconify-icon> هيئة الغذاء والدواء (SFDA)</span>
+          <span class="glass rounded-xl px-3 py-2 text-xs text-white/80 inline-flex items-center gap-2 border border-white/10"><iconify-icon class="text-cyan-300" icon="mdi:file-document-outline"></iconify-icon> هيئة الزكاة والضريبة والجمارك (ZATCA)</span>
         </div>
       </div>
       <div class="lg:col-span-4 grid grid-cols-3 gap-3 text-center">
-        <div class="home-stat-card"><div class="text-2xl sm:text-3xl font-black home-gradient-text" data-counter="15" data-suffix="+">+١٥</div><div class="text-[10px] sm:text-xs text-white/60 mt-1.5 font-medium">عميل مؤسسي وحكومي</div></div>
-        <div class="home-stat-card"><div class="text-2xl sm:text-3xl font-black home-gradient-text" data-counter="365" data-suffix="+">+٣٦٥</div><div class="text-[10px] sm:text-xs text-white/60 mt-1.5 font-medium">يوم تشغيل آمن</div></div>
-        <div class="home-stat-card"><div class="text-2xl sm:text-3xl font-black home-gradient-text" data-counter="12000" data-suffix="+">+١٢K</div><div class="text-[10px] sm:text-xs text-white/60 mt-1.5 font-medium">نقطة تدقيق مفحوصة</div></div>
+        <div class="home-stat-card"><div class="text-2xl sm:text-3xl font-black gradient-text" data-counter="15" data-suffix="+">+١٥</div><div class="text-[10px] sm:text-xs text-white/60 mt-1.5 font-medium">عميل مؤسسي وحكومي</div></div>
+        <div class="home-stat-card"><div class="text-2xl sm:text-3xl font-black gradient-text" data-counter="365" data-suffix="+">+٣٦٥</div><div class="text-[10px] sm:text-xs text-white/60 mt-1.5 font-medium">يوم تشغيل آمن</div></div>
+        <div class="home-stat-card"><div class="text-2xl sm:text-3xl font-black gradient-text" data-counter="12000" data-suffix="+">+١٢K</div><div class="text-[10px] sm:text-xs text-white/60 mt-1.5 font-medium">نقطة تدقيق مفحوصة</div></div>
       </div>
-      <div class="lg:col-span-3 home-glass rounded-2xl p-5 border border-cyan-500/20 bg-cyan-500/[.02] flex flex-col justify-between space-y-4">
+      <div class="lg:col-span-3 glass rounded-2xl p-5 border border-cyan-500/20 bg-cyan-500/[.02] flex flex-col justify-between space-y-4">
         <div class="flex items-start gap-3">
           <span class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-lg shrink-0"><iconify-icon class="text-emerald-400" icon="mdi:check-circle"></iconify-icon></span>
           <div><strong class="block text-white text-sm">حماية بيانات مشفرة</strong><span class="block text-[11px] text-white/50 mt-0.5">AES-256 · ISO 27001 · SOC 2</span></div>
@@ -325,97 +233,97 @@ const jsonLd = [
 <section id="problem" aria-labelledby="problem-title" class="py-20 lg:py-28">
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
     <div class="max-w-3xl">
-      <span class="home-chip inline-block px-3 py-1 rounded-full text-xs font-bold">المشكلة</span>
+      <span class="chip inline-block px-3 py-1 rounded-full text-xs font-bold">المشكلة</span>
       <h2 id="problem-title" class="mt-4 text-3xl sm:text-4xl font-black leading-tight">كل شركة تبي AI… بس كلهم خايفين من نفس الأسئلة</h2>
       <p class="mt-4 text-white/70 leading-loose">السعودية ماشية بسرعة نحو الذكاء الاصطناعي، وفي نفس الوقت <strong>NCA</strong> حدّثت الضوابط، و<strong>SDAIA</strong> أصدرت إرشادات، و<strong>PDPL</strong> صار إلزامي. النتيجة؟ <span class="text-white">الكل يبي AI، بس يبيه آمن.</span></p>
     </div>
     <ul class="mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-      <li class="home-feature-card rounded-2xl p-6"><iconify-icon class="text-2xl text-cyan-400" icon="mdi:incognito"></iconify-icon><h3 class="mt-3 font-bold text-lg">هل الموظف يرفع بيانات حساسة؟</h3><p class="text-white/60 text-sm mt-1">أرقام هويات، ملفات مرضى، عقود، أسعار... تروح وين؟</p></li>
-      <li class="home-feature-card rounded-2xl p-6"><iconify-icon class="text-2xl text-cyan-400" icon="mdi:bug"></iconify-icon><h3 class="mt-3 font-bold text-lg">وش لو الـ AI أعطى جواب غلط؟</h3><p class="text-white/60 text-sm mt-1">خطأ في النموذج يوصل لقرار خاطئ = خسارة فعلية.</p></li>
-      <li class="home-feature-card rounded-2xl p-6"><iconify-icon class="text-2xl text-cyan-400" icon="mdi:clipboard-list"></iconify-icon><h3 class="mt-3 font-bold text-lg">وين سجل التدقيق؟</h3><p class="text-white/60 text-sm mt-1">لما يجي المدقق ويسأل: مين سأل، متى، وش رد؟</p></li>
-      <li class="home-feature-card rounded-2xl p-6"><iconify-icon class="text-2xl text-cyan-400" icon="mdi:scale-balance"></iconify-icon><h3 class="mt-3 font-bold text-lg">هل متوافق مع PDPL؟</h3><p class="text-white/60 text-sm mt-1">نظام حماية البيانات ما يمزح. غرامات تصل لملايين.</p></li>
-      <li class="home-feature-card rounded-2xl p-6"><iconify-icon class="text-2xl text-cyan-400" icon="mdi:database"></iconify-icon><h3 class="mt-3 font-bold text-lg">هل AI يعدّل في الـ ERP بالغلط؟</h3><p class="text-white/60 text-sm mt-1">خصم مخزون، تحديث عقد... بدون موافقة؟</p></li>
-      <li class="home-feature-card rounded-2xl p-6"><iconify-icon class="text-2xl text-cyan-400" icon="mdi:handshake"></iconify-icon><h3 class="mt-3 font-bold text-lg">هل الطبيب/المحاسب يثق فيه؟</h3><p class="text-white/60 text-sm mt-1">بدون شفافية ومصادر، ما حد بيستخدمه.</p></li>
+      <li class="feature-card rounded-2xl p-6"><iconify-icon class="text-2xl text-cyan-400" icon="mdi:incognito"></iconify-icon><h3 class="mt-3 font-bold text-lg">هل الموظف يرفع بيانات حساسة؟</h3><p class="text-white/60 text-sm mt-1">أرقام هويات، ملفات مرضى، عقود، أسعار... تروح وين؟</p></li>
+      <li class="feature-card rounded-2xl p-6"><iconify-icon class="text-2xl text-cyan-400" icon="mdi:bug"></iconify-icon><h3 class="mt-3 font-bold text-lg">وش لو الـ AI أعطى جواب غلط؟</h3><p class="text-white/60 text-sm mt-1">خطأ في النموذج يوصل لقرار خاطئ = خسارة فعلية.</p></li>
+      <li class="feature-card rounded-2xl p-6"><iconify-icon class="text-2xl text-cyan-400" icon="mdi:clipboard-list"></iconify-icon><h3 class="mt-3 font-bold text-lg">وين سجل التدقيق؟</h3><p class="text-white/60 text-sm mt-1">لما يجي المدقق ويسأل: مين سأل، متى، وش رد؟</p></li>
+      <li class="feature-card rounded-2xl p-6"><iconify-icon class="text-2xl text-cyan-400" icon="mdi:scale-balance"></iconify-icon><h3 class="mt-3 font-bold text-lg">هل متوافق مع PDPL؟</h3><p class="text-white/60 text-sm mt-1">نظام حماية البيانات ما يمزح. غرامات تصل لملايين.</p></li>
+      <li class="feature-card rounded-2xl p-6"><iconify-icon class="text-2xl text-cyan-400" icon="mdi:database"></iconify-icon><h3 class="mt-3 font-bold text-lg">هل AI يعدّل في الـ ERP بالغلط؟</h3><p class="text-white/60 text-sm mt-1">خصم مخزون، تحديث عقد... بدون موافقة؟</p></li>
+      <li class="feature-card rounded-2xl p-6"><iconify-icon class="text-2xl text-cyan-400" icon="mdi:handshake"></iconify-icon><h3 class="mt-3 font-bold text-lg">هل الطبيب/المحاسب يثق فيه؟</h3><p class="text-white/60 text-sm mt-1">بدون شفافية ومصادر، ما حد بيستخدمه.</p></li>
     </ul>
   </div>
 </section>
 
-<div class="home-separator" aria-hidden="true"><span class="home-separator-dot"></span></div>
+<div class="ambient-separator" aria-hidden="true"><span class="ambient-separator-node"></span></div>
 
 {/* ═══════════════ GOVERNANCE CENTER ═══════════════ */}
 <section id="ai-governance-center" aria-labelledby="ai-governance-center-title" class="py-16 lg:py-20 bg-gradient-to-b from-transparent via-cyan-500/[.035] to-transparent">
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
-    <div class="home-glass rounded-3xl p-7 lg:p-10">
+    <div class="glass rounded-3xl p-7 lg:p-10">
       <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
         <div class="max-w-3xl">
-          <span class="home-chip inline-block px-3 py-1 rounded-full text-xs font-bold">Saudi AI Safety OS</span>
+          <span class="chip inline-block px-3 py-1 rounded-full text-xs font-bold">Saudi AI Safety OS</span>
           <h2 id="ai-governance-center-title" class="mt-4 text-2xl sm:text-4xl font-black">مركز حوكمة الذكاء الاصطناعي</h2>
           <p class="mt-4 text-white/70 leading-loose">BrightAI تساعد المؤسسات السعودية على تحويل سياسات الذكاء الاصطناعي إلى ضوابط تشغيلية قابلة للتدقيق، عبر طبقة تربط الموظف، بيانات المؤسسة، نموذج AI، والمراجعة البشرية، لتضمن تفعيلاً متكاملاً لـ AI Firewall وسجل تدقيق وموافقات بشرية وملفات أدلة متوافقة.</p>
         </div>
         <div class="flex flex-col sm:flex-row gap-3 shrink-0">
-          <a href="/solutions/ai-governance-platform/" class="home-glow-btn inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl text-white font-bold"><iconify-icon icon="mdi:scale-balance"></iconify-icon> استكشف حلول الحوكمة</a>
-          <a href="/contact/" class="home-glass inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl text-white font-bold hover:border-cyan-500/40 transition-all"><iconify-icon icon="mdi:message-text"></iconify-icon> تحدث مع فريق BrightAI</a>
+          <a href="/solutions/ai-governance-platform/" class="glow-btn inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl text-white font-bold"><iconify-icon icon="mdi:scale-balance"></iconify-icon> استكشف حلول الحوكمة</a>
+          <a href="/contact/" class="glass inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl text-white font-bold hover:border-cyan-500/40 transition-all"><iconify-icon icon="mdi:message-text"></iconify-icon> تحدث مع فريق BrightAI</a>
         </div>
       </div>
       <div class="mt-8 grid sm:grid-cols-2 lg:grid-cols-5 gap-3">
-        <a href="/solutions/ai-governance-platform/" class="home-glass rounded-2xl p-4 hover:border-cyan-500/40 transition-all"><strong class="block text-white text-sm">AI Governance Platform</strong><span class="block mt-2 text-white/55 text-xs leading-relaxed">طبقة تشغيلية لحوكمة استخدامات AI.</span></a>
-        <a href="/solutions/ai-firewall/" class="home-glass rounded-2xl p-4 hover:border-cyan-500/40 transition-all"><strong class="block text-white text-sm">AI Firewall</strong><span class="block mt-2 text-white/55 text-xs leading-relaxed">حماية البيانات قبل وصولها للنماذج.</span></a>
-        <a href="/solutions/ai-audit-trail/" class="home-glass rounded-2xl p-4 hover:border-cyan-500/40 transition-all"><strong class="block text-white text-sm">AI Audit Trail</strong><span class="block mt-2 text-white/55 text-xs leading-relaxed">توثيق كل طلب وقرار وموافقة.</span></a>
-        <a href="/solutions/human-approval-layer/" class="home-glass rounded-2xl p-4 hover:border-cyan-500/40 transition-all"><strong class="block text-white text-sm">Human Approval Layer</strong><span class="block mt-2 text-white/55 text-xs leading-relaxed">موافقات بشرية للقرارات الحساسة.</span></a>
-        <a href="/solutions/ai-evidence-file/" class="home-glass rounded-2xl p-4 hover:border-cyan-500/40 transition-all"><strong class="block text-white text-sm">AI Evidence File</strong><span class="block mt-2 text-white/55 text-xs leading-relaxed">ملفات أدلة لدعم جاهزية التدقيق.</span></a>
+        <a href="/solutions/ai-governance-platform/" class="glass rounded-2xl p-4 hover:border-cyan-500/40 transition-all"><strong class="block text-white text-sm">AI Governance Platform</strong><span class="block mt-2 text-white/55 text-xs leading-relaxed">طبقة تشغيلية لحوكمة استخدامات AI.</span></a>
+        <a href="/solutions/ai-firewall/" class="glass rounded-2xl p-4 hover:border-cyan-500/40 transition-all"><strong class="block text-white text-sm">AI Firewall</strong><span class="block mt-2 text-white/55 text-xs leading-relaxed">حماية البيانات قبل وصولها للنماذج.</span></a>
+        <a href="/solutions/ai-audit-trail/" class="glass rounded-2xl p-4 hover:border-cyan-500/40 transition-all"><strong class="block text-white text-sm">AI Audit Trail</strong><span class="block mt-2 text-white/55 text-xs leading-relaxed">توثيق كل طلب وقرار وموافقة.</span></a>
+        <a href="/solutions/human-approval-layer/" class="glass rounded-2xl p-4 hover:border-cyan-500/40 transition-all"><strong class="block text-white text-sm">Human Approval Layer</strong><span class="block mt-2 text-white/55 text-xs leading-relaxed">موافقات بشرية للقرارات الحساسة.</span></a>
+        <a href="/solutions/ai-evidence-file/" class="glass rounded-2xl p-4 hover:border-cyan-500/40 transition-all"><strong class="block text-white text-sm">AI Evidence File</strong><span class="block mt-2 text-white/55 text-xs leading-relaxed">ملفات أدلة لدعم جاهزية التدقيق.</span></a>
       </div>
       <div class="mt-6 flex flex-wrap gap-3 text-sm">
-        <a href="/services/" class="home-section-link"><iconify-icon icon="mdi:bell-concierge"></iconify-icon><span>استعرض Saudi AI Safety OS</span></a>
-        <a href="/contact/" class="home-section-link"><iconify-icon icon="mdi:account-shield"></iconify-icon><span>احجز جلسة جاهزية الامتثال</span></a>
+        <a href="/services/" class="section-mini-link"><iconify-icon icon="mdi:bell-concierge"></iconify-icon><span>استعرض Saudi AI Safety OS</span></a>
+        <a href="/contact/" class="section-mini-link"><iconify-icon icon="mdi:account-shield"></iconify-icon><span>احجز جلسة جاهزية الامتثال</span></a>
       </div>
     </div>
   </div>
 </section>
 
-<div class="home-separator" aria-hidden="true"><span class="home-separator-dot"></span></div>
+<div class="ambient-separator" aria-hidden="true"><span class="ambient-separator-node"></span></div>
 
 {/* ═══════════════ 4. PRODUCT ═══════════════ */}
 <section id="product" aria-labelledby="product-title" class="py-20 lg:py-28 bg-gradient-to-b from-transparent via-cyan-500/[.04] to-transparent">
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
     <div class="text-center max-w-3xl mx-auto">
-      <span class="home-chip inline-block px-3 py-1 rounded-full text-xs font-bold">المنتج</span>
-      <h2 id="product-title" class="mt-4 text-3xl sm:text-5xl font-black">تخيّل <span class="home-gradient-text">QNX</span> بس للذكاء الاصطناعي</h2>
+      <span class="chip inline-block px-3 py-1 rounded-full text-xs font-bold">المنتج</span>
+      <h2 id="product-title" class="mt-4 text-3xl sm:text-5xl font-black">تخيّل <span class="gradient-text">QNX</span> بس للذكاء الاصطناعي</h2>
       <p class="mt-5 text-white/75 leading-loose">نفس فكرة <strong>QNX</strong> اللي يشتغل تحت كل نظام حساس، <strong>BrightAI Kernel</strong> يقعد <span class="text-white">تحت كل نظام AI</span> في شركتك، ويصير الطبقة الموثوقة اللي تفلتر وتسجّل وتعتمد كل طلب.</p>
     </div>
-    <div class="mt-14 home-glass rounded-3xl p-6 lg:p-10">
+    <div class="mt-14 glass rounded-3xl p-6 lg:p-10">
       <div class="grid lg:grid-cols-5 items-center gap-4 text-center">
-        <div class="home-glass rounded-2xl p-5"><iconify-icon class="text-3xl text-cyan-300" icon="mdi:account-tie"></iconify-icon><div class="mt-2 font-bold">الموظف</div><div class="text-xs text-white/50">طبيب · QAM · محاسب · مشتريات</div></div>
+        <div class="glass rounded-2xl p-5"><iconify-icon class="text-3xl text-cyan-300" icon="mdi:account-tie"></iconify-icon><div class="mt-2 font-bold">الموظف</div><div class="text-xs text-white/50">طبيب · QAM · محاسب · مشتريات</div></div>
         <div class="text-2xl text-white/40 hidden lg:block">←</div>
-        <div class="rounded-2xl p-5 border-2 border-cyan-500/40" style="background:linear-gradient(135deg, rgba(0,212,255,.12), rgba(124,92,255,.12))"><iconify-icon class="text-3xl home-gradient-text" icon="mdi:shield-half-full"></iconify-icon><div class="mt-2 font-black text-lg home-gradient-text">BrightAI Kernel</div><div class="text-xs text-white/70">Firewall · Audit · Approval · Evidence</div></div>
+        <div class="rounded-2xl p-5 border-2 border-cyan-500/40" style="background:linear-gradient(135deg, rgba(0,212,255,.12), rgba(124,92,255,.12))"><iconify-icon class="text-3xl gradient-text" icon="mdi:shield-half-full"></iconify-icon><div class="mt-2 font-black text-lg gradient-text">BrightAI Kernel</div><div class="text-xs text-white/70">Firewall · Audit · Approval · Evidence</div></div>
         <div class="text-2xl text-white/40 hidden lg:block">←</div>
-        <div class="home-glass rounded-2xl p-5"><iconify-icon class="text-3xl text-cyan-300" icon="mdi:brain"></iconify-icon><div class="mt-2 font-bold">نماذج AI</div><div class="text-xs text-white/50">Gemini · GPT · Claude · نماذج محلية</div></div>
+        <div class="glass rounded-2xl p-5"><iconify-icon class="text-3xl text-cyan-300" icon="mdi:brain"></iconify-icon><div class="mt-2 font-bold">نماذج AI</div><div class="text-xs text-white/50">Gemini · GPT · Claude · نماذج محلية</div></div>
       </div>
       <div class="mt-5 grid grid-cols-2 lg:grid-cols-4 gap-3 text-center text-xs">
-        <div class="home-glass rounded-xl p-3"><iconify-icon class="text-cyan-400" icon="mdi:database"></iconify-icon><div class="mt-1 text-white/70">ERP</div></div>
-        <div class="home-glass rounded-xl p-3"><iconify-icon class="text-cyan-400" icon="mdi:hospital-building"></iconify-icon><div class="mt-1 text-white/70">HIS</div></div>
-        <div class="home-glass rounded-xl p-3"><iconify-icon class="text-cyan-400" icon="mdi:account-group"></iconify-icon><div class="mt-1 text-white/70">CRM</div></div>
-        <div class="home-glass rounded-xl p-3"><iconify-icon class="text-cyan-400" icon="mdi:folder-open"></iconify-icon><div class="mt-1 text-white/70">SharePoint · Excel</div></div>
+        <div class="glass rounded-xl p-3"><iconify-icon class="text-cyan-400" icon="mdi:database"></iconify-icon><div class="mt-1 text-white/70">ERP</div></div>
+        <div class="glass rounded-xl p-3"><iconify-icon class="text-cyan-400" icon="mdi:hospital-building"></iconify-icon><div class="mt-1 text-white/70">HIS</div></div>
+        <div class="glass rounded-xl p-3"><iconify-icon class="text-cyan-400" icon="mdi:account-group"></iconify-icon><div class="mt-1 text-white/70">CRM</div></div>
+        <div class="glass rounded-xl p-3"><iconify-icon class="text-cyan-400" icon="mdi:folder-open"></iconify-icon><div class="mt-1 text-white/70">SharePoint · Excel</div></div>
       </div>
     </div>
   </div>
 </section>
 
-<div class="home-separator" aria-hidden="true"><span class="home-separator-dot"></span></div>
+<div class="ambient-separator" aria-hidden="true"><span class="ambient-separator-node"></span></div>
 
 {/* ═══════════════ 5. LAYERS ═══════════════ */}
 <section id="layers" aria-labelledby="layers-title" class="py-20 lg:py-28">
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
     <div class="max-w-2xl">
-      <span class="home-chip inline-block px-3 py-1 rounded-full text-xs font-bold">طبقات Saudi AI Safety OS</span>
+      <span class="chip inline-block px-3 py-1 rounded-full text-xs font-bold">طبقات Saudi AI Safety OS</span>
       <h2 id="layers-title" class="mt-4 text-3xl sm:text-4xl font-black">طبقات تشغيل لحوكمة وأمان الذكاء الاصطناعي</h2>
       <p class="mt-3 text-white/70">Saudi AI Safety OS يجمع الحوكمة، الحماية، سجل التدقيق، الموافقة البشرية، وملفات الأدلة في طبقة واحدة لتشغيل AI داخل المؤسسات السعودية بثقة وقابلية مراجعة.</p>
     </div>
     <div class="mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <div class="home-feature-card rounded-2xl p-7 flex flex-col justify-between"><div><div class="flex items-center gap-3 mb-4"><span class="w-12 h-12 rounded-xl home-glow-btn flex items-center justify-center text-xl font-bold shrink-0"><iconify-icon icon="mdi:scale-balance"></iconify-icon></span><h3 class="text-xl font-bold">منصة حوكمة الذكاء الاصطناعي</h3></div><p class="text-white/70 leading-loose text-sm mb-4">طبقة تشغيلية لإدارة استخدامات ومخاطر AI داخل المؤسسة. توفر رؤية شاملة وضوابط مركزية لضمان الاستخدام الآمن والمسؤول.</p><ul class="space-y-1.5 text-xs text-white/60 mb-6"><li>✓ إدارة وتتبع استخدامات الذكاء الاصطناعي مركزياً</li><li>✓ رصد وتحليل المخاطر الأمنية والتشغيلية</li><li>✓ يدعم جاهزية ضوابط SDAIA و NCA</li></ul></div><a href="/solutions/ai-governance-platform/" class="home-section-link mt-auto"><span>استكشف منصة الحوكمة</span><iconify-icon icon="mdi:arrow-left"></iconify-icon></a></div>
-      <div class="home-feature-card rounded-2xl p-7 flex flex-col justify-between"><div><div class="flex items-center gap-3 mb-4"><span class="w-12 h-12 rounded-xl home-glow-btn flex items-center justify-center text-xl font-bold shrink-0"><iconify-icon icon="mdi:shield-half-full"></iconify-icon></span><h3 class="text-xl font-bold">AI Firewall</h3></div><p class="text-white/70 leading-loose text-sm mb-4">فحص وحماية البيانات الحساسة قبل وصولها للنماذج. يحمي الخصوصية ويمنع تسرب الهويات والملفات الطبية والمالية للنماذج الخارجية.</p><ul class="space-y-1.5 text-xs text-white/60 mb-6"><li>✓ PII/PHI Redaction تلقائي فوري</li><li>✓ فلترة ومنع الاستفسارات غير المصرح بها</li><li>✓ متوافق مع نظام حماية البيانات الشخصية PDPL</li></ul></div><a href="/solutions/ai-firewall/" class="home-section-link mt-auto"><span>استكشف AI Firewall</span><iconify-icon icon="mdi:arrow-left"></iconify-icon></a></div>
-      <div class="home-feature-card rounded-2xl p-7 flex flex-col justify-between"><div><div class="flex items-center gap-3 mb-4"><span class="w-12 h-12 rounded-xl home-glow-btn flex items-center justify-center text-xl font-bold shrink-0"><iconify-icon icon="mdi:file-sign"></iconify-icon></span><h3 class="text-xl font-bold">AI Audit Trail</h3></div><p class="text-white/70 leading-loose text-sm mb-4">سجل غير قابل للتعديل لكل طلب وقرار ومواقف AI. يمنح المدققين والجهات الرقابية رؤية كاملة وتوثيقاً زمنياً دقيقاً لكل عملية.</p><ul class="space-y-1.5 text-xs text-white/60 mb-6"><li>✓ سجل تدقيق Append-only ledger محمي بـ Hash</li><li>✓ ربط رقمي متكامل مع متطلبات NCA ECC 2-2024</li><li>✓ تتبع كامل للمسؤولية والقرارات التلقائية</li></ul></div><a href="/solutions/ai-audit-trail/" class="home-section-link mt-auto"><span>استكشف سجل التدقيق</span><iconify-icon icon="mdi:arrow-left"></iconify-icon></a></div>
-      <div class="home-feature-card rounded-2xl p-7 flex flex-col justify-between"><div><div class="flex items-center gap-3 mb-4"><span class="w-12 h-12 rounded-xl home-glow-btn flex items-center justify-center text-xl font-bold shrink-0"><iconify-icon icon="mdi:account-check"></iconify-icon></span><h3 class="text-xl font-bold">طبقة الموافقة البشرية</h3></div><p class="text-white/70 leading-loose text-sm mb-4">مراجعة بشرية للطلبات والقرارات عالية المخاطر. يضمن بقاء السيطرة في أيدي البشر وعدم تفويض القرارات الحيوية للـ AI بشكل كامل.</p><ul class="space-y-1.5 text-xs text-white/60 mb-6"><li>✓ مسار موافقة Risk-Based ذكي ومرن</li><li>✓ إشعارات وموافقات فورية عبر الواتساب والبريد</li><li>✓ تفويض الصلاحيات وضمان استمرارية العمل</li></ul></div><a href="/solutions/human-approval-layer/" class="home-section-link mt-auto"><span>استكشف الموافقة البشرية</span><iconify-icon icon="mdi:arrow-left"></iconify-icon></a></div>
-      <div class="home-feature-card rounded-2xl p-7 flex flex-col justify-between"><div><div class="flex items-center gap-3 mb-4"><span class="w-12 h-12 rounded-xl home-glow-btn flex items-center justify-center text-xl font-bold shrink-0"><iconify-icon icon="mdi:folder-open"></iconify-icon></span><h3 class="text-xl font-bold">AI Evidence File</h3></div><p class="text-white/70 leading-loose text-sm mb-4">ملف أدلة يدعم التدقيق وجاهزية الامتثال. توليد ملفات PDF موقّعة رقمياً تثبت مطابقة كل استخدام ذكاء اصطناعي للوائح السعودية.</p><ul class="space-y-1.5 text-xs text-white/60 mb-6"><li>✓ تقارير PDF تلقائية موقعة بختم رقمي لمنع التعديل</li><li>✓ جاهز للتصدير والتسليم المباشر للمدققين</li><li>✓ يدعم متطلبات المراجعة المرتبطة بـ SDAIA و SFDA و ISO</li></ul></div><a href="/solutions/ai-evidence-file/" class="home-section-link mt-auto"><span>استكشف ملف الأدلة</span><iconify-icon icon="mdi:arrow-left"></iconify-icon></a></div>
+      <div class="feature-card rounded-2xl p-7 flex flex-col justify-between"><div><div class="flex items-center gap-3 mb-4"><span class="w-12 h-12 rounded-xl glow-btn flex items-center justify-center text-xl font-bold shrink-0"><iconify-icon icon="mdi:scale-balance"></iconify-icon></span><h3 class="text-xl font-bold">منصة حوكمة الذكاء الاصطناعي</h3></div><p class="text-white/70 leading-loose text-sm mb-4">طبقة تشغيلية لإدارة استخدامات ومخاطر AI داخل المؤسسة. توفر رؤية شاملة وضوابط مركزية لضمان الاستخدام الآمن والمسؤول.</p><ul class="space-y-1.5 text-xs text-white/60 mb-6"><li>✓ إدارة وتتبع استخدامات الذكاء الاصطناعي مركزياً</li><li>✓ رصد وتحليل المخاطر الأمنية والتشغيلية</li><li>✓ يدعم جاهزية ضوابط SDAIA و NCA</li></ul></div><a href="/solutions/ai-governance-platform/" class="section-mini-link mt-auto"><span>استكشف منصة الحوكمة</span><iconify-icon icon="mdi:arrow-left"></iconify-icon></a></div>
+      <div class="feature-card rounded-2xl p-7 flex flex-col justify-between"><div><div class="flex items-center gap-3 mb-4"><span class="w-12 h-12 rounded-xl glow-btn flex items-center justify-center text-xl font-bold shrink-0"><iconify-icon icon="mdi:shield-half-full"></iconify-icon></span><h3 class="text-xl font-bold">AI Firewall</h3></div><p class="text-white/70 leading-loose text-sm mb-4">فحص وحماية البيانات الحساسة قبل وصولها للنماذج. يحمي الخصوصية ويمنع تسرب الهويات والملفات الطبية والمالية للنماذج الخارجية.</p><ul class="space-y-1.5 text-xs text-white/60 mb-6"><li>✓ PII/PHI Redaction تلقائي فوري</li><li>✓ فلترة ومنع الاستفسارات غير المصرح بها</li><li>✓ متوافق مع نظام حماية البيانات الشخصية PDPL</li></ul></div><a href="/solutions/ai-firewall/" class="section-mini-link mt-auto"><span>استكشف AI Firewall</span><iconify-icon icon="mdi:arrow-left"></iconify-icon></a></div>
+      <div class="feature-card rounded-2xl p-7 flex flex-col justify-between"><div><div class="flex items-center gap-3 mb-4"><span class="w-12 h-12 rounded-xl glow-btn flex items-center justify-center text-xl font-bold shrink-0"><iconify-icon icon="mdi:file-sign"></iconify-icon></span><h3 class="text-xl font-bold">AI Audit Trail</h3></div><p class="text-white/70 leading-loose text-sm mb-4">سجل غير قابل للتعديل لكل طلب وقرار ومواقف AI. يمنح المدققين والجهات الرقابية رؤية كاملة وتوثيقاً زمنياً دقيقاً لكل عملية.</p><ul class="space-y-1.5 text-xs text-white/60 mb-6"><li>✓ سجل تدقيق Append-only ledger محمي بـ Hash</li><li>✓ ربط رقمي متكامل مع متطلبات NCA ECC 2-2024</li><li>✓ تتبع كامل للمسؤولية والقرارات التلقائية</li></ul></div><a href="/solutions/ai-audit-trail/" class="section-mini-link mt-auto"><span>استكشف سجل التدقيق</span><iconify-icon icon="mdi:arrow-left"></iconify-icon></a></div>
+      <div class="feature-card rounded-2xl p-7 flex flex-col justify-between"><div><div class="flex items-center gap-3 mb-4"><span class="w-12 h-12 rounded-xl glow-btn flex items-center justify-center text-xl font-bold shrink-0"><iconify-icon icon="mdi:account-check"></iconify-icon></span><h3 class="text-xl font-bold">طبقة الموافقة البشرية</h3></div><p class="text-white/70 leading-loose text-sm mb-4">مراجعة بشرية للطلبات والقرارات عالية المخاطر. يضمن بقاء السيطرة في أيدي البشر وعدم تفويض القرارات الحيوية للـ AI بشكل كامل.</p><ul class="space-y-1.5 text-xs text-white/60 mb-6"><li>✓ مسار موافقة Risk-Based ذكي ومرن</li><li>✓ إشعارات وموافقات فورية عبر الواتساب والبريد</li><li>✓ تفويض الصلاحيات وضمان استمرارية العمل</li></ul></div><a href="/solutions/human-approval-layer/" class="section-mini-link mt-auto"><span>استكشف الموافقة البشرية</span><iconify-icon icon="mdi:arrow-left"></iconify-icon></a></div>
+      <div class="feature-card rounded-2xl p-7 flex flex-col justify-between"><div><div class="flex items-center gap-3 mb-4"><span class="w-12 h-12 rounded-xl glow-btn flex items-center justify-center text-xl font-bold shrink-0"><iconify-icon icon="mdi:folder-open"></iconify-icon></span><h3 class="text-xl font-bold">AI Evidence File</h3></div><p class="text-white/70 leading-loose text-sm mb-4">ملف أدلة يدعم التدقيق وجاهزية الامتثال. توليد ملفات PDF موقّعة رقمياً تثبت مطابقة كل استخدام ذكاء اصطناعي للوائح السعودية.</p><ul class="space-y-1.5 text-xs text-white/60 mb-6"><li>✓ تقارير PDF تلقائية موقعة بختم رقمي لمنع التعديل</li><li>✓ جاهز للتصدير والتسليم المباشر للمدققين</li><li>✓ يدعم متطلبات المراجعة المرتبطة بـ SDAIA و SFDA و ISO</li></ul></div><a href="/solutions/ai-evidence-file/" class="section-mini-link mt-auto"><span>استكشف ملف الأدلة</span><iconify-icon icon="mdi:arrow-left"></iconify-icon></a></div>
     </div>
   </div>
 </section>
@@ -428,70 +336,70 @@ const jsonLd = [
       <p class="mt-2 text-xs sm:text-sm text-white/60">ضوابط وحلول سريعة التفعيل تناسب الاحتياجات التنظيمية والأمنية المختلفة لمؤسستك.</p>
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-      <a href="/solutions/ai-firewall/" class="home-glass rounded-2xl p-4 hover:border-cyan-500/40 transition-all flex flex-col justify-between"><div><iconify-icon class="text-cyan-300 text-lg mb-2" icon="mdi:shield-half-full"></iconify-icon><h3 class="text-sm font-bold text-white mb-1">حماية البيانات قبل AI</h3></div><span class="text-xs text-cyan-300 hover:text-white flex items-center gap-1 mt-3"><span>التفاصيل</span><iconify-icon class="text-[10px]" icon="mdi:arrow-left"></iconify-icon></span></a>
-      <a href="/solutions/ai-audit-trail/" class="home-glass rounded-2xl p-4 hover:border-cyan-500/40 transition-all flex flex-col justify-between"><div><iconify-icon class="text-cyan-300 text-lg mb-2" icon="mdi:file-sign"></iconify-icon><h3 class="text-sm font-bold text-white mb-1">توثيق كل طلب وقرار</h3></div><span class="text-xs text-cyan-300 hover:text-white flex items-center gap-1 mt-3"><span>التفاصيل</span><iconify-icon class="text-[10px]" icon="mdi:arrow-left"></iconify-icon></span></a>
-      <a href="/solutions/human-approval-layer/" class="home-glass rounded-2xl p-4 hover:border-cyan-500/40 transition-all flex flex-col justify-between"><div><iconify-icon class="text-cyan-300 text-lg mb-2" icon="mdi:account-check"></iconify-icon><h3 class="text-sm font-bold text-white mb-1">مراجعة بشرية للقرارات</h3></div><span class="text-xs text-cyan-300 hover:text-white flex items-center gap-1 mt-3"><span>التفاصيل</span><iconify-icon class="text-[10px]" icon="mdi:arrow-left"></iconify-icon></span></a>
-      <a href="/solutions/ai-evidence-file/" class="home-glass rounded-2xl p-4 hover:border-cyan-500/40 transition-all flex flex-col justify-between"><div><iconify-icon class="text-cyan-300 text-lg mb-2" icon="mdi:folder-open"></iconify-icon><h3 class="text-sm font-bold text-white mb-1">ملف أدلة جاهز للتدقيق</h3></div><span class="text-xs text-cyan-300 hover:text-white flex items-center gap-1 mt-3"><span>التفاصيل</span><iconify-icon class="text-[10px]" icon="mdi:arrow-left"></iconify-icon></span></a>
+      <a href="/solutions/ai-firewall/" class="glass rounded-2xl p-4 hover:border-cyan-500/40 transition-all flex flex-col justify-between"><div><iconify-icon class="text-cyan-300 text-lg mb-2" icon="mdi:shield-half-full"></iconify-icon><h3 class="text-sm font-bold text-white mb-1">حماية البيانات قبل AI</h3></div><span class="text-xs text-cyan-300 hover:text-white flex items-center gap-1 mt-3"><span>التفاصيل</span><iconify-icon class="text-[10px]" icon="mdi:arrow-left"></iconify-icon></span></a>
+      <a href="/solutions/ai-audit-trail/" class="glass rounded-2xl p-4 hover:border-cyan-500/40 transition-all flex flex-col justify-between"><div><iconify-icon class="text-cyan-300 text-lg mb-2" icon="mdi:file-sign"></iconify-icon><h3 class="text-sm font-bold text-white mb-1">توثيق كل طلب وقرار</h3></div><span class="text-xs text-cyan-300 hover:text-white flex items-center gap-1 mt-3"><span>التفاصيل</span><iconify-icon class="text-[10px]" icon="mdi:arrow-left"></iconify-icon></span></a>
+      <a href="/solutions/human-approval-layer/" class="glass rounded-2xl p-4 hover:border-cyan-500/40 transition-all flex flex-col justify-between"><div><iconify-icon class="text-cyan-300 text-lg mb-2" icon="mdi:account-check"></iconify-icon><h3 class="text-sm font-bold text-white mb-1">مراجعة بشرية للقرارات</h3></div><span class="text-xs text-cyan-300 hover:text-white flex items-center gap-1 mt-3"><span>التفاصيل</span><iconify-icon class="text-[10px]" icon="mdi:arrow-left"></iconify-icon></span></a>
+      <a href="/solutions/ai-evidence-file/" class="glass rounded-2xl p-4 hover:border-cyan-500/40 transition-all flex flex-col justify-between"><div><iconify-icon class="text-cyan-300 text-lg mb-2" icon="mdi:folder-open"></iconify-icon><h3 class="text-sm font-bold text-white mb-1">ملف أدلة جاهز للتدقيق</h3></div><span class="text-xs text-cyan-300 hover:text-white flex items-center gap-1 mt-3"><span>التفاصيل</span><iconify-icon class="text-[10px]" icon="mdi:arrow-left"></iconify-icon></span></a>
     </div>
   </div>
 </section>
 
-<div class="home-separator" aria-hidden="true"><span class="home-separator-dot"></span></div>
+<div class="ambient-separator" aria-hidden="true"><span class="ambient-separator-node"></span></div>
 
 {/* ═══════════════ 6. COMPLIANCE PACKS ═══════════════ */}
 <section id="compliance" aria-labelledby="compliance-title" class="py-20 lg:py-28 bg-gradient-to-b from-transparent via-purple-500/[.04] to-transparent">
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
     <div class="max-w-3xl">
-      <span class="home-chip inline-block px-3 py-1 rounded-full text-xs font-bold">حزم الامتثال</span>
+      <span class="chip inline-block px-3 py-1 rounded-full text-xs font-bold">حزم الامتثال</span>
       <h2 id="compliance-title" class="mt-4 text-3xl sm:text-4xl font-black">حزم جاهزة للسوق السعودي 🇸🇦</h2>
       <p class="mt-3 text-white/70 leading-loose">ركّب الحزمة اللي تناسب قطاعك، وتجيك بكل المتطلبات جاهزة.</p>
       <div class="mt-6 flex flex-wrap gap-3">
-        <a href="/pdpl-statement/" class="home-section-link"><iconify-icon icon="mdi:shield-half-full"></iconify-icon><span>جاهزية PDPL</span></a>
-        <a href="/data-processing-agreement/" class="home-section-link"><iconify-icon icon="mdi:file-document-edit"></iconify-icon><span>اتفاقية معالجة البيانات</span></a>
-        <a href="/contact/" class="home-section-link"><iconify-icon icon="mdi:headset"></iconify-icon><span>تحدث مع فريق الامتثال</span></a>
+        <a href="/pdpl-statement/" class="section-mini-link"><iconify-icon icon="mdi:shield-half-full"></iconify-icon><span>جاهزية PDPL</span></a>
+        <a href="/data-processing-agreement/" class="section-mini-link"><iconify-icon icon="mdi:file-document-edit"></iconify-icon><span>اتفاقية معالجة البيانات</span></a>
+        <a href="/contact/" class="section-mini-link"><iconify-icon icon="mdi:headset"></iconify-icon><span>تحدث مع فريق الامتثال</span></a>
       </div>
     </div>
     <div class="mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-      <article class="home-feature-card rounded-2xl p-6"><div class="flex items-center justify-between"><iconify-icon class="text-2xl text-cyan-400" icon="mdi:lock"></iconify-icon><span class="home-chip text-[10px] px-2 py-0.5 rounded">PDPL</span></div><h3 class="mt-3 text-xl font-bold">PDPL Pack</h3><p class="text-sm text-white/60 mt-1">حماية البيانات الشخصية، إخفاء PII، سجل موافقات، سجل مشاركة البيانات، إشعارات أصحاب البيانات.</p></article>
-      <article class="home-feature-card rounded-2xl p-6"><div class="flex items-center justify-between"><iconify-icon class="text-2xl text-cyan-400" icon="mdi:shield"></iconify-icon><span class="home-chip text-[10px] px-2 py-0.5 rounded">NCA ECC 2-2024</span></div><h3 class="mt-3 text-xl font-bold">NCA ECC Pack</h3><p class="text-sm text-white/60 mt-1">ربط الضوابط الأمنية بالعمليات، سجل وصول، تصنيف بيانات، تقارير أمنية للجهات الوطنية.</p></article>
-      <article class="home-feature-card rounded-2xl p-6"><div class="flex items-center justify-between"><iconify-icon class="text-2xl text-cyan-400" icon="mdi:factory"></iconify-icon><span class="home-chip text-[10px] px-2 py-0.5 rounded">SFDA · ISO 13485</span></div><h3 class="mt-3 text-xl font-bold">SFDA / ISO 13485 Pack</h3><p class="text-sm text-white/60 mt-1">للمصانع الطبية: الجودة، CAPA، المرفوضات، الشكاوى، السجلات، وتتبع الإجراءات.</p></article>
-      <article class="home-feature-card rounded-2xl p-6"><div class="flex items-center justify-between"><iconify-icon class="text-2xl text-cyan-400" icon="mdi:file-document-edit"></iconify-icon><span class="home-chip text-[10px] px-2 py-0.5 rounded">Etimad</span></div><h3 class="mt-3 text-xl font-bold">Procurement & Tenders Pack</h3><p class="text-sm text-white/60 mt-1">تحليل مناقصات، مخاطر عقود، شروط جزائية، تعارضات، التزام الموردين، تكامل اعتماد.</p></article>
-      <article class="home-feature-card rounded-2xl p-6"><div class="flex items-center justify-between"><iconify-icon class="text-2xl text-cyan-400" icon="mdi:heart-pulse"></iconify-icon><span class="home-chip text-[10px] px-2 py-0.5 rounded">Healthcare</span></div><h3 class="mt-3 text-xl font-bold">Healthcare Pack</h3><p class="text-sm text-white/60 mt-1">أرشفة طبية، OCR، تلخيص ملفات، لكن مع حماية بيانات المرضى ومسار موافقة طبية واضح.</p></article>
-      <article class="home-feature-card rounded-2xl p-6"><div class="flex items-center justify-between"><iconify-icon class="text-2xl text-cyan-400" icon="mdi:coins"></iconify-icon><span class="home-chip text-[10px] px-2 py-0.5 rounded">SAMA · ZATCA</span></div><h3 class="mt-3 text-xl font-bold">Finance Pack</h3><p class="text-sm text-white/60 mt-1">ضوابط مالية، توافق مع ساما والزكاة والضريبة، تحليل عقود، كشف الاحتيال، مطابقة AML.</p></article>
+      <article class="feature-card rounded-2xl p-6"><div class="flex items-center justify-between"><iconify-icon class="text-2xl text-cyan-400" icon="mdi:lock"></iconify-icon><span class="chip text-[10px] px-2 py-0.5 rounded">PDPL</span></div><h3 class="mt-3 text-xl font-bold">PDPL Pack</h3><p class="text-sm text-white/60 mt-1">حماية البيانات الشخصية، إخفاء PII، سجل موافقات، سجل مشاركة البيانات، إشعارات أصحاب البيانات.</p></article>
+      <article class="feature-card rounded-2xl p-6"><div class="flex items-center justify-between"><iconify-icon class="text-2xl text-cyan-400" icon="mdi:shield"></iconify-icon><span class="chip text-[10px] px-2 py-0.5 rounded">NCA ECC 2-2024</span></div><h3 class="mt-3 text-xl font-bold">NCA ECC Pack</h3><p class="text-sm text-white/60 mt-1">ربط الضوابط الأمنية بالعمليات، سجل وصول، تصنيف بيانات، تقارير أمنية للجهات الوطنية.</p></article>
+      <article class="feature-card rounded-2xl p-6"><div class="flex items-center justify-between"><iconify-icon class="text-2xl text-cyan-400" icon="mdi:factory"></iconify-icon><span class="chip text-[10px] px-2 py-0.5 rounded">SFDA · ISO 13485</span></div><h3 class="mt-3 text-xl font-bold">SFDA / ISO 13485 Pack</h3><p class="text-sm text-white/60 mt-1">للمصانع الطبية: الجودة، CAPA، المرفوضات، الشكاوى، السجلات، وتتبع الإجراءات.</p></article>
+      <article class="feature-card rounded-2xl p-6"><div class="flex items-center justify-between"><iconify-icon class="text-2xl text-cyan-400" icon="mdi:file-document-edit"></iconify-icon><span class="chip text-[10px] px-2 py-0.5 rounded">Etimad</span></div><h3 class="mt-3 text-xl font-bold">Procurement & Tenders Pack</h3><p class="text-sm text-white/60 mt-1">تحليل مناقصات، مخاطر عقود، شروط جزائية، تعارضات، التزام الموردين، تكامل اعتماد.</p></article>
+      <article class="feature-card rounded-2xl p-6"><div class="flex items-center justify-between"><iconify-icon class="text-2xl text-cyan-400" icon="mdi:heart-pulse"></iconify-icon><span class="chip text-[10px] px-2 py-0.5 rounded">Healthcare</span></div><h3 class="mt-3 text-xl font-bold">Healthcare Pack</h3><p class="text-sm text-white/60 mt-1">أرشفة طبية، OCR، تلخيص ملفات، لكن مع حماية بيانات المرضى ومسار موافقة طبية واضح.</p></article>
+      <article class="feature-card rounded-2xl p-6"><div class="flex items-center justify-between"><iconify-icon class="text-2xl text-cyan-400" icon="mdi:coins"></iconify-icon><span class="chip text-[10px] px-2 py-0.5 rounded">SAMA · ZATCA</span></div><h3 class="mt-3 text-xl font-bold">Finance Pack</h3><p class="text-sm text-white/60 mt-1">ضوابط مالية، توافق مع ساما والزكاة والضريبة، تحليل عقود، كشف الاحتيال، مطابقة AML.</p></article>
     </div>
   </div>
 </section>
 
-<div class="home-separator" aria-hidden="true"><span class="home-separator-dot"></span></div>
+<div class="ambient-separator" aria-hidden="true"><span class="ambient-separator-node"></span></div>
 
 {/* ═══════════════ 7. SECTORS ═══════════════ */}
 <section id="sectors" aria-labelledby="sectors-title" class="py-20 lg:py-28">
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
     <div class="text-center max-w-3xl mx-auto">
-      <span class="home-chip inline-block px-3 py-1 rounded-full text-xs font-bold">القطاعات</span>
-      <h2 id="sectors-title" class="mt-4 text-3xl sm:text-4xl font-black">بدينا من <span class="home-gradient-text">المصانع الطبية</span>، ونتوسع لكل القطاعات</h2>
+      <span class="chip inline-block px-3 py-1 rounded-full text-xs font-bold">القطاعات</span>
+      <h2 id="sectors-title" class="mt-4 text-3xl sm:text-4xl font-black">بدينا من <span class="gradient-text">المصانع الطبية</span>، ونتوسع لكل القطاعات</h2>
     </div>
     <div class="mt-12 grid md:grid-cols-2 lg:grid-cols-4 gap-5">
-      <div class="home-feature-card rounded-2xl p-6"><iconify-icon class="text-3xl text-cyan-400" icon="mdi:flask"></iconify-icon><h3 class="mt-3 text-lg font-bold">المصانع الطبية</h3><p class="text-sm text-white/60 mt-1">BrightAI QMS AI – إدارة المرفوضات وCAPA والتدقيق وفق SFDA و ISO 13485.</p><span class="home-chip text-[10px] px-2 py-0.5 rounded mt-3 inline-block">جاهز · ديمو MAIS</span></div>
-      <div class="home-feature-card rounded-2xl p-6"><iconify-icon class="text-3xl text-cyan-400" icon="mdi:hospital-building"></iconify-icon><h3 class="mt-3 text-lg font-bold">الرعاية الصحية</h3><p class="text-sm text-white/60 mt-1">أرشفة، OCR، تلخيص ملفات طبية مع حماية بيانات المرضى ومسار موافقة.</p></div>
-      <div class="home-feature-card rounded-2xl p-6"><iconify-icon class="text-3xl text-cyan-400" icon="mdi:bank"></iconify-icon><h3 class="mt-3 text-lg font-bold">الجهات الحكومية</h3><p class="text-sm text-white/60 mt-1">ذكاء اصطناعي متوافق مع SDAIA و NCA لتسريع الخدمات بدون مخاطر امتثال.</p></div>
-      <div class="home-feature-card rounded-2xl p-6"><iconify-icon class="text-3xl text-cyan-400" icon="mdi:handshake"></iconify-icon><h3 class="mt-3 text-lg font-bold">المشتريات والمناقصات</h3><p class="text-sm text-white/60 mt-1">تحليل عروض الموردين والعقود واكتشاف المخاطر والشروط الجزائية.</p></div>
-      <div class="home-feature-card rounded-2xl p-6"><iconify-icon class="text-3xl text-cyan-400" icon="mdi:coins"></iconify-icon><h3 class="mt-3 text-lg font-bold">القطاع المالي</h3><p class="text-sm text-white/60 mt-1">توافق مع ساما والزكاة، كشف الاحتيال، مطابقة AML، تدقيق ذكي.</p></div>
-      <div class="home-feature-card rounded-2xl p-6"><iconify-icon class="text-3xl text-cyan-400" icon="mdi:account-switch"></iconify-icon><h3 class="mt-3 text-lg font-bold">الموارد البشرية</h3><p class="text-sm text-white/60 mt-1">فرز سير ذاتية ذكي بدون انحياز ومع حماية بيانات المتقدمين.</p></div>
-      <div class="home-feature-card rounded-2xl p-6"><iconify-icon class="text-3xl text-cyan-400" icon="mdi:truck-fast"></iconify-icon><h3 class="mt-3 text-lg font-bold">سلاسل الإمداد</h3><p class="text-sm text-white/60 mt-1">رصد المخاطر، تحسين مخزون، تنبؤ بالطلب مع ضوابط قرار آمنة.</p></div>
-      <div class="home-feature-card rounded-2xl p-6"><iconify-icon class="text-3xl text-cyan-400" icon="mdi:school"></iconify-icon><h3 class="mt-3 text-lg font-bold">التعليم</h3><p class="text-sm text-white/60 mt-1">أدوات AI للجامعات السعودية مع حماية بيانات الطلاب وضوابط محتوى.</p></div>
+      <div class="feature-card rounded-2xl p-6"><iconify-icon class="text-3xl text-cyan-400" icon="mdi:flask"></iconify-icon><h3 class="mt-3 text-lg font-bold">المصانع الطبية</h3><p class="text-sm text-white/60 mt-1">BrightAI QMS AI – إدارة المرفوضات وCAPA والتدقيق وفق SFDA و ISO 13485.</p><span class="chip text-[10px] px-2 py-0.5 rounded mt-3 inline-block">جاهز · ديمو MAIS</span></div>
+      <div class="feature-card rounded-2xl p-6"><iconify-icon class="text-3xl text-cyan-400" icon="mdi:hospital-building"></iconify-icon><h3 class="mt-3 text-lg font-bold">الرعاية الصحية</h3><p class="text-sm text-white/60 mt-1">أرشفة، OCR، تلخيص ملفات طبية مع حماية بيانات المرضى ومسار موافقة.</p></div>
+      <div class="feature-card rounded-2xl p-6"><iconify-icon class="text-3xl text-cyan-400" icon="mdi:bank"></iconify-icon><h3 class="mt-3 text-lg font-bold">الجهات الحكومية</h3><p class="text-sm text-white/60 mt-1">ذكاء اصطناعي متوافق مع SDAIA و NCA لتسريع الخدمات بدون مخاطر امتثال.</p></div>
+      <div class="feature-card rounded-2xl p-6"><iconify-icon class="text-3xl text-cyan-400" icon="mdi:handshake"></iconify-icon><h3 class="mt-3 text-lg font-bold">المشتريات والمناقصات</h3><p class="text-sm text-white/60 mt-1">تحليل عروض الموردين والعقود واكتشاف المخاطر والشروط الجزائية.</p></div>
+      <div class="feature-card rounded-2xl p-6"><iconify-icon class="text-3xl text-cyan-400" icon="mdi:coins"></iconify-icon><h3 class="mt-3 text-lg font-bold">القطاع المالي</h3><p class="text-sm text-white/60 mt-1">توافق مع ساما والزكاة، كشف الاحتيال، مطابقة AML، تدقيق ذكي.</p></div>
+      <div class="feature-card rounded-2xl p-6"><iconify-icon class="text-3xl text-cyan-400" icon="mdi:account-switch"></iconify-icon><h3 class="mt-3 text-lg font-bold">الموارد البشرية</h3><p class="text-sm text-white/60 mt-1">فرز سير ذاتية ذكي بدون انحياز ومع حماية بيانات المتقدمين.</p></div>
+      <div class="feature-card rounded-2xl p-6"><iconify-icon class="text-3xl text-cyan-400" icon="mdi:truck-fast"></iconify-icon><h3 class="mt-3 text-lg font-bold">سلاسل الإمداد</h3><p class="text-sm text-white/60 mt-1">رصد المخاطر، تحسين مخزون، تنبؤ بالطلب مع ضوابط قرار آمنة.</p></div>
+      <div class="feature-card rounded-2xl p-6"><iconify-icon class="text-3xl text-cyan-400" icon="mdi:school"></iconify-icon><h3 class="mt-3 text-lg font-bold">التعليم</h3><p class="text-sm text-white/60 mt-1">أدوات AI للجامعات السعودية مع حماية بيانات الطلاب وضوابط محتوى.</p></div>
     </div>
   </div>
 </section>
 
-<div class="home-separator" aria-hidden="true"><span class="home-separator-dot"></span></div>
+<div class="ambient-separator" aria-hidden="true"><span class="ambient-separator-node"></span></div>
 
 {/* ═══════════════ 8. EVIDENCE FILE ═══════════════ */}
 <section id="evidence" aria-labelledby="evidence-title" class="py-20 lg:py-28 bg-gradient-to-b from-transparent via-cyan-500/[.05] to-transparent">
   <div class="max-w-7xl mx-auto px-5 lg:px-8 grid lg:grid-cols-2 gap-12 items-center">
     <div>
-      <span class="home-chip inline-block px-3 py-1 rounded-full text-xs font-bold">الميزة العبقرية ⭐</span>
-      <h2 id="evidence-title" class="mt-4 text-3xl sm:text-4xl font-black">AI Evidence File — <span class="home-gradient-text">أنت جاهز للتدقيق دايماً</span></h2>
+      <span class="chip inline-block px-3 py-1 rounded-full text-xs font-bold">الميزة العبقرية ⭐</span>
+      <h2 id="evidence-title" class="mt-4 text-3xl sm:text-4xl font-black">AI Evidence File — <span class="gradient-text">أنت جاهز للتدقيق دايماً</span></h2>
       <p class="mt-4 text-white/75 leading-loose">المدير ما يبي ذكاء اصطناعي ينبهر فيه. هو يبي شيء يقول له: <strong class="text-white">"لو جاء تدقيق، أنا جاهز."</strong></p>
       <p class="mt-3 text-white/70 leading-loose">كل حالة يشتغل عليها الـ AI يطلع لها <strong>ملف تدقيق PDF</strong> فيه:</p>
       <ul class="mt-4 space-y-2 text-sm">
@@ -502,7 +410,7 @@ const jsonLd = [
         <li class="flex gap-2"><iconify-icon class="text-cyan-400 mt-1" icon="mdi:check-circle"></iconify-icon><span>ارتباط مباشر مع: PDPL / NCA / SFDA / ISO 13485</span></li>
         <li class="flex gap-2"><iconify-icon class="text-cyan-400 mt-1" icon="mdi:check-circle"></iconify-icon><span>توقيع رقمي + Hash مضاد للتعديل</span></li>
       </ul>
-      <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="mt-7 home-wa-btn inline-flex items-center gap-2 px-6 py-3 rounded-2xl font-bold text-white">
+      <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="mt-7 wa-btn inline-flex items-center gap-2 px-6 py-3 rounded-2xl font-bold text-white">
         <iconify-icon icon="mdi:whatsapp"></iconify-icon> اطلب عينة عبر واتساب
       </a>
     </div>
@@ -524,25 +432,25 @@ const jsonLd = [
         <div class="home-evidence-row" data-animate="sha"><span class="home-evidence-label">SHA-256 Hash</span><span class="font-mono text-[10px] text-white/40">a8f3...e91c</span></div>
       </div>
       <div class="mt-5 flex gap-2">
-        <button class="flex-1 home-glow-btn rounded-xl py-2.5 text-sm font-bold"><iconify-icon icon="mdi:download"></iconify-icon> تحميل PDF</button>
-        <button class="flex-1 home-glass rounded-xl py-2.5 text-sm font-bold"><iconify-icon icon="mdi:share"></iconify-icon> إرسال للمدقق</button>
+        <button class="flex-1 glow-btn rounded-xl py-2.5 text-sm font-bold"><iconify-icon icon="mdi:download"></iconify-icon> تحميل PDF</button>
+        <button class="flex-1 glass rounded-xl py-2.5 text-sm font-bold"><iconify-icon icon="mdi:share"></iconify-icon> إرسال للمدقق</button>
       </div>
     </div>
   </div>
 </section>
 
-<div class="home-separator" aria-hidden="true"><span class="home-separator-dot"></span></div>
+<div class="ambient-separator" aria-hidden="true"><span class="ambient-separator-node"></span></div>
 
 {/* ═══════════════ 9. COMPARISON ═══════════════ */}
 <section id="why" aria-labelledby="why-title" class="py-20 lg:py-28">
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
     <div class="max-w-3xl">
-      <span class="home-chip inline-block px-3 py-1 rounded-full text-xs font-bold">ليه BrightAI؟</span>
+      <span class="chip inline-block px-3 py-1 rounded-full text-xs font-bold">ليه BrightAI؟</span>
       <h2 id="why-title" class="mt-4 text-3xl sm:text-4xl font-black">Saudi AI Safety OS vs الاستخدامات العامة للـ AI</h2>
     </div>
-    <div class="mt-10 home-comparison-wrap home-glass rounded-2xl">
+    <div class="mt-10 home-comparison-wrap glass rounded-2xl">
       <table class="home-comparison-table">
-        <thead><tr><th class="text-right">المعيار</th><th class="home-gradient-text">BrightAI</th><th class="text-white/60">شات بوت عام</th><th class="text-white/60">منصة AI أجنبية</th><th class="text-white/60">حل محلي تقليدي</th></tr></thead>
+        <thead><tr><th class="text-right">المعيار</th><th class="gradient-text">BrightAI</th><th class="text-white/60">شات بوت عام</th><th class="text-white/60">منصة AI أجنبية</th><th class="text-white/60">حل محلي تقليدي</th></tr></thead>
         <tbody>
           <tr><td>متوافق PDPL/NCA من اليوم الأول</td><td class="text-emerald-400">✓</td><td class="text-red-400">✗</td><td class="text-yellow-300">جزئياً</td><td class="text-yellow-300">جزئياً</td></tr>
           <tr><td>AI Firewall + PII Redaction</td><td class="text-emerald-400">✓</td><td class="text-red-400">✗</td><td class="text-yellow-300">إضافة</td><td class="text-red-400">✗</td></tr>
@@ -557,25 +465,25 @@ const jsonLd = [
   </div>
 </section>
 
-<div class="home-separator" aria-hidden="true"><span class="home-separator-dot"></span></div>
+<div class="ambient-separator" aria-hidden="true"><span class="ambient-separator-node"></span></div>
 
 {/* ═══════════════ 9b. STATS ═══════════════ */}
 <section aria-label="إحصائيات سوق الذكاء الاصطناعي السعودي" class="py-16">
   <div class="max-w-7xl mx-auto px-5 lg:px-8 grid grid-cols-2 md:grid-cols-4 gap-4">
-    <div class="home-stat-card"><div class="text-3xl sm:text-4xl font-black home-gradient-text" data-counter="2030">2030</div><div class="text-xs text-white/60 mt-1">رؤية المملكة لقيادة AI عالمياً</div></div>
-    <div class="home-stat-card"><div class="text-3xl sm:text-4xl font-black home-gradient-text" data-counter="135" data-prefix="$" data-suffix="B">+135B$</div><div class="text-xs text-white/60 mt-1">حجم اقتصاد AI السعودي المتوقع</div></div>
-    <div class="home-stat-card"><div class="text-3xl sm:text-4xl font-black home-gradient-text" data-counter="99.7" data-suffix="%">99.7%</div><div class="text-xs text-white/60 mt-1">نسبة الامتثال في عملاء BrightAI</div></div>
-    <div class="home-stat-card"><div class="text-3xl sm:text-4xl font-black home-gradient-text" data-counter="120" data-prefix="<" data-suffix="ms">{'<'}120ms</div><div class="text-xs text-white/60 mt-1">زمن استجابة طبقة الأمان</div></div>
+    <div class="home-stat-card"><div class="text-3xl sm:text-4xl font-black gradient-text" data-counter="2030">2030</div><div class="text-xs text-white/60 mt-1">رؤية المملكة لقيادة AI عالمياً</div></div>
+    <div class="home-stat-card"><div class="text-3xl sm:text-4xl font-black gradient-text" data-counter="135" data-prefix="$" data-suffix="B">+135B$</div><div class="text-xs text-white/60 mt-1">حجم اقتصاد AI السعودي المتوقع</div></div>
+    <div class="home-stat-card"><div class="text-3xl sm:text-4xl font-black gradient-text" data-counter="99.7" data-suffix="%">99.7%</div><div class="text-xs text-white/60 mt-1">نسبة الامتثال في عملاء BrightAI</div></div>
+    <div class="home-stat-card"><div class="text-3xl sm:text-4xl font-black gradient-text" data-counter="120" data-prefix="<" data-suffix="ms">{'<'}120ms</div><div class="text-xs text-white/60 mt-1">زمن استجابة طبقة الأمان</div></div>
   </div>
 </section>
 
-<div class="home-separator" aria-hidden="true"><span class="home-separator-dot"></span></div>
+<div class="ambient-separator" aria-hidden="true"><span class="ambient-separator-node"></span></div>
 
 {/* ═══════════════ 10. FAQ ═══════════════ */}
 <section id="faq" aria-labelledby="faq-title" class="py-20 lg:py-28">
   <div class="max-w-4xl mx-auto px-5 lg:px-8">
     <div class="text-center">
-      <span class="home-chip inline-block px-3 py-1 rounded-full text-xs font-bold">أسئلة شائعة</span>
+      <span class="chip inline-block px-3 py-1 rounded-full text-xs font-bold">أسئلة شائعة</span>
       <h2 id="faq-title" class="mt-4 text-3xl sm:text-4xl font-black">عندك نفس هالأسئلة؟</h2>
     </div>
     <div class="mt-10 space-y-3">
@@ -590,9 +498,9 @@ const jsonLd = [
       ))}
     </div>
     <div class="mt-8 flex flex-wrap justify-center gap-3">
-      <a href="/docs/" class="home-section-link"><iconify-icon icon="mdi:book" aria-hidden="true"></iconify-icon><span>اقرأ وثائق BrightAI</span></a>
-      <a href="/blog/" class="home-section-link"><iconify-icon icon="mdi:newspaper" aria-hidden="true"></iconify-icon><span>المدونة</span></a>
-      <a href="/privacy-policy/" class="home-section-link"><iconify-icon icon="mdi:account-lock" aria-hidden="true"></iconify-icon><span>سياسة الخصوصية</span></a>
+      <a href="/docs/" class="section-mini-link"><iconify-icon icon="mdi:book" aria-hidden="true"></iconify-icon><span>اقرأ وثائق BrightAI</span></a>
+      <a href="/blog/" class="section-mini-link"><iconify-icon icon="mdi:newspaper" aria-hidden="true"></iconify-icon><span>المدونة</span></a>
+      <a href="/privacy-policy/" class="section-mini-link"><iconify-icon icon="mdi:account-lock" aria-hidden="true"></iconify-icon><span>سياسة الخصوصية</span></a>
     </div>
   </div>
 </section>
@@ -601,10 +509,10 @@ const jsonLd = [
 <section id="demo" aria-labelledby="cta-title" class="py-20 lg:py-28">
   <div class="max-w-5xl mx-auto px-5 lg:px-8">
     <div class="home-cta-card">
-      <span class="home-chip inline-block px-3 py-1 rounded-full text-xs font-bold relative z-10">ابدأ اليوم</span>
-      <h2 id="cta-title" class="mt-4 text-3xl sm:text-5xl font-black leading-tight relative z-10">جاهز تخلي AI شركتك <span class="home-gradient-text">آمن ومتوافق</span> من غدا؟</h2>
+      <span class="chip inline-block px-3 py-1 rounded-full text-xs font-bold relative z-10">ابدأ اليوم</span>
+      <h2 id="cta-title" class="mt-4 text-3xl sm:text-5xl font-black leading-tight relative z-10">جاهز تخلي AI شركتك <span class="gradient-text">آمن ومتوافق</span> من غدا؟</h2>
       <p class="mt-4 text-white/80 max-w-2xl mx-auto leading-loose relative z-10">سجّل اهتمامك وفريق BrightAI يتواصل معك خلال 24 ساعة لترتيب ديمو خاص على بيانات شركتك (بسرية كاملة).</p>
-      <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="mt-6 home-wa-btn inline-flex items-center gap-2 px-8 py-4 rounded-2xl font-bold text-white text-lg relative z-10">
+      <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="mt-6 wa-btn inline-flex items-center gap-2 px-8 py-4 rounded-2xl font-bold text-white text-lg relative z-10">
         <iconify-icon class="text-2xl" icon="mdi:whatsapp"></iconify-icon> تواصل مباشرة عبر واتساب
       </a>
       <form id="leadForm" class="mt-6 grid sm:grid-cols-2 gap-3 max-w-2xl mx-auto text-right relative z-10">
@@ -615,7 +523,7 @@ const jsonLd = [
         <select name="sector" aria-label="اختر القطاع" class="sm:col-span-2 bg-white/5 border border-white/10 rounded-xl px-4 py-3">
           <option value="">القطاع</option><option>مصانع طبية</option><option>رعاية صحية</option><option>جهة حكومية</option><option>مشتريات ومناقصات</option><option>مالي / بنوع</option><option>تعليم</option><option>غيره</option>
         </select>
-        <button type="submit" class="sm:col-span-2 home-glow-btn rounded-xl py-3.5 font-bold text-white">اطلب ديمو الآن</button>
+        <button type="submit" class="sm:col-span-2 glow-btn rounded-xl py-3.5 font-bold text-white">اطلب ديمو الآن</button>
         <p id="leadMsg" class="sm:col-span-2 text-sm text-emerald-300 hidden text-center" aria-live="polite">✓ تم استلام طلبك بنجاح! نتواصل معك خلال 24 ساعة.</p>
       </form>
       <div class="mt-8 flex flex-wrap justify-center gap-4 text-xs text-white/60 relative z-10">
@@ -628,8 +536,8 @@ const jsonLd = [
 {/* ═══════════════ 12. FINAL CTA ═══════════════ */}
 <section id="final-cta" aria-labelledby="final-cta-title" class="py-16 text-center">
   <div class="max-w-4xl mx-auto px-5 lg:px-8">
-    <div class="home-glass rounded-3xl p-8 lg:p-12 border border-white/10">
-      <h2 id="final-cta-title" class="text-2xl sm:text-4xl font-black home-gradient-text">جاهز تطبق حوكمة AI داخل مؤسستك؟</h2>
+    <div class="glass rounded-3xl p-8 lg:p-12 border border-white/10">
+      <h2 id="final-cta-title" class="text-2xl sm:text-4xl font-black gradient-text">جاهز تطبق حوكمة AI داخل مؤسستك؟</h2>
       <p class="mt-4 text-white/80 max-w-2xl mx-auto leading-loose">ابدأ بتقييم عملي لاستخدامات الذكاء الاصطناعي، المخاطر، البيانات الحساسة، ومسارات الموافقة والتدقيق.</p>
       <div class="mt-8 flex justify-center flex-wrap gap-4">
         <a href="/contact/" class="home-cta-primary"><span>ابدأ ديمو خاص بشركتك</span></a>
@@ -648,59 +556,59 @@ const jsonLd = [
     </div>
 
     <div class="home-guides-grid">
-      <article class="home-feature-card rounded-2xl p-7 flex flex-col justify-between">
+      <article class="feature-card rounded-2xl p-7 flex flex-col justify-between">
         <div>
           <div class="flex items-center gap-3 mb-4">
-            <span class="w-12 h-12 rounded-xl home-glow-btn flex items-center justify-center text-xl font-bold shrink-0"><iconify-icon class="text-white" icon="mdi:flag"></iconify-icon></span>
+            <span class="w-12 h-12 rounded-xl glow-btn flex items-center justify-center text-xl font-bold shrink-0"><iconify-icon class="text-white" icon="mdi:flag"></iconify-icon></span>
             <h3 class="text-xl font-bold">دليل حوكمة الذكاء الاصطناعي في السعودية</h3>
           </div>
           <p class="text-white/70 leading-loose text-sm mb-4">دليل شامل لفهم متطلبات حوكمة الذكاء الاصطناعي في المملكة العربية السعودية وكيفية تطبيقها داخل المؤسسات.</p>
         </div>
-        <a href="/docs/ai-governance-saudi-arabia/" class="home-section-link mt-auto"><span>اقرأ الدليل</span><iconify-icon aria-hidden="true" icon="mdi:arrow-left"></iconify-icon></a>
+        <a href="/docs/ai-governance-saudi-arabia/" class="section-mini-link mt-auto"><span>اقرأ الدليل</span><iconify-icon aria-hidden="true" icon="mdi:arrow-left"></iconify-icon></a>
       </article>
 
-      <article class="home-feature-card rounded-2xl p-7 flex flex-col justify-between">
+      <article class="feature-card rounded-2xl p-7 flex flex-col justify-between">
         <div>
           <div class="flex items-center gap-3 mb-4">
-            <span class="w-12 h-12 rounded-xl home-glow-btn flex items-center justify-center text-xl font-bold shrink-0"><iconify-icon class="text-white" icon="mdi:shield-half-full"></iconify-icon></span>
+            <span class="w-12 h-12 rounded-xl glow-btn flex items-center justify-center text-xl font-bold shrink-0"><iconify-icon class="text-white" icon="mdi:shield-half-full"></iconify-icon></span>
             <h3 class="text-xl font-bold">PDPL والذكاء الاصطناعي</h3>
           </div>
           <p class="text-white/70 leading-loose text-sm mb-4">كيف تطبق نظام حماية البيانات الشخصية السعودي على استخدامات الذكاء الاصطناعي في مؤسستك.</p>
         </div>
-        <a href="/docs/pdpl-ai-governance/" class="home-section-link mt-auto"><span>اقرأ الدليل</span><iconify-icon aria-hidden="true" icon="mdi:arrow-left"></iconify-icon></a>
+        <a href="/docs/pdpl-ai-governance/" class="section-mini-link mt-auto"><span>اقرأ الدليل</span><iconify-icon aria-hidden="true" icon="mdi:arrow-left"></iconify-icon></a>
       </article>
 
-      <article class="home-feature-card rounded-2xl p-7 flex flex-col justify-between">
+      <article class="feature-card rounded-2xl p-7 flex flex-col justify-between">
         <div>
           <div class="flex items-center gap-3 mb-4">
-            <span class="w-12 h-12 rounded-xl home-glow-btn flex items-center justify-center text-xl font-bold shrink-0"><iconify-icon class="text-white" icon="mdi:lock"></iconify-icon></span>
+            <span class="w-12 h-12 rounded-xl glow-btn flex items-center justify-center text-xl font-bold shrink-0"><iconify-icon class="text-white" icon="mdi:lock"></iconify-icon></span>
             <h3 class="text-xl font-bold">ضوابط NCA ECC للذكاء الاصطناعي</h3>
           </div>
           <p class="text-white/70 leading-loose text-sm mb-4">دليل تطبيق ضوابط الأمن السيبراني الأساسية من الهيئة الوطنية للأمن السيبراني على أنظمة AI.</p>
         </div>
-        <a href="/docs/nca-ecc-ai-governance/" class="home-section-link mt-auto"><span>اقرأ الدليل</span><iconify-icon aria-hidden="true" icon="mdi:arrow-left"></iconify-icon></a>
+        <a href="/docs/nca-ecc-ai-governance/" class="section-mini-link mt-auto"><span>اقرأ الدليل</span><iconify-icon aria-hidden="true" icon="mdi:arrow-left"></iconify-icon></a>
       </article>
 
-      <article class="home-feature-card rounded-2xl p-7 flex flex-col justify-between">
+      <article class="feature-card rounded-2xl p-7 flex flex-col justify-between">
         <div>
           <div class="flex items-center gap-3 mb-4">
-            <span class="w-12 h-12 rounded-xl home-glow-btn flex items-center justify-center text-xl font-bold shrink-0"><iconify-icon class="text-white" icon="mdi:alert-triangle"></iconify-icon></span>
+            <span class="w-12 h-12 rounded-xl glow-btn flex items-center justify-center text-xl font-bold shrink-0"><iconify-icon class="text-white" icon="mdi:alert-triangle"></iconify-icon></span>
             <h3 class="text-xl font-bold">إدارة مخاطر الذكاء الاصطناعي</h3>
           </div>
           <p class="text-white/70 leading-loose text-sm mb-4">إطار عملي لتحديد وتقييم وإدارة مخاطر الذكاء الاصطناعي في المؤسسات السعودية.</p>
         </div>
-        <a href="/docs/ai-risk-management/" class="home-section-link mt-auto"><span>اقرأ الدليل</span><iconify-icon aria-hidden="true" icon="mdi:arrow-left"></iconify-icon></a>
+        <a href="/docs/ai-risk-management/" class="section-mini-link mt-auto"><span>اقرأ الدليل</span><iconify-icon aria-hidden="true" icon="mdi:arrow-left"></iconify-icon></a>
       </article>
 
-      <article class="home-feature-card rounded-2xl p-7 flex flex-col justify-between">
+      <article class="feature-card rounded-2xl p-7 flex flex-col justify-between">
         <div>
           <div class="flex items-center gap-3 mb-4">
-            <span class="w-12 h-12 rounded-xl home-glow-btn flex items-center justify-center text-xl font-bold shrink-0"><iconify-icon class="text-white" icon="mdi:clipboard-check"></iconify-icon></span>
+            <span class="w-12 h-12 rounded-xl glow-btn flex items-center justify-center text-xl font-bold shrink-0"><iconify-icon class="text-white" icon="mdi:clipboard-check"></iconify-icon></span>
             <h3 class="text-xl font-bold">جاهزية التدقيق للذكاء الاصطناعي</h3>
           </div>
           <p class="text-white/70 leading-loose text-sm mb-4">دليل شامل لإعداد مؤسستك لتدقيق استخدامات الذكاء الاصطناعي وضمان الامتثال المستمر.</p>
         </div>
-        <a href="/docs/ai-audit-readiness/" class="home-section-link mt-auto"><span>اقرأ الدليل</span><iconify-icon aria-hidden="true" icon="mdi:arrow-left"></iconify-icon></a>
+        <a href="/docs/ai-audit-readiness/" class="section-mini-link mt-auto"><span>اقرأ الدليل</span><iconify-icon aria-hidden="true" icon="mdi:arrow-left"></iconify-icon></a>
       </article>
     </div>
   </div>
