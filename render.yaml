@@ -97,7 +97,7 @@ services:
     runtime: static
     name: brightai-site
     # Astro dist verified 2026-06-13: 105/105 sitemap routes in dist/, special files present (see RENDER-DEPLOYMENT-CHECK.md)
-    buildCommand: npm install && npx astro build
+    buildCommand: npm install && npm run build
     staticPublishPath: dist
     envVars:
       - key: NODE_VERSION
