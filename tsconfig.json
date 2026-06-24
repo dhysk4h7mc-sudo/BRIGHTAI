@@ -22,6 +22,6 @@
       "@styles/*": ["src/styles/*"]
     }
   },
-  "include": ["src/**/*.ts", "src/**/*.astro", "astro.config.ts"],
+  "include": ["src/**/*.ts", "src/**/*.astro"],
   "exclude": ["node_modules", "frontend", "plugins", "dist"]
 }
