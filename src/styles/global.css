@@ -27,7 +27,10 @@ html {
 body {
   min-height: 100dvh;
   overflow-x: hidden;
-  background-color: var(--bg);
+  background:
+    radial-gradient(900px 480px at 78% -12%, rgba(34, 211, 238, 0.12), transparent 62%),
+    radial-gradient(760px 420px at 8% 18%, rgba(20, 184, 166, 0.08), transparent 58%),
+    linear-gradient(180deg, var(--bg) 0%, #050814 52%, #040711 100%);
   color: var(--text);
   line-height: var(--leading-normal);
   font-size: var(--text-base);
@@ -53,6 +56,7 @@ h1, h2, h3, h4, h5, h6 {
   line-height: var(--leading-tight);
   color: var(--text);
   text-wrap: balance;
+  letter-spacing: var(--tracking-normal);
 }
 
 h1 { font-size: var(--text-5xl); }
@@ -64,7 +68,7 @@ h6 { font-size: var(--text-lg); }
 
 p {
   line-height: var(--leading-relaxed);
-  color: var(--text-secondary);
+  color: var(--text-soft);
   text-wrap: pretty;
 }
 
@@ -76,6 +80,16 @@ a {
 
 a:hover {
   color: var(--brand-hover);
+}
+
+main :where(section, article, aside) {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 720px;
+}
+
+main :where(section:first-child, .home-hero, .inner-hero, .legal-page) {
+  content-visibility: visible;
+  contain-intrinsic-size: none;
 }
 
 img,
@@ -132,12 +146,13 @@ hr {
 /* ─── Focus Visible ─── */
 :focus-visible {
   outline: 2px solid var(--brand);
-  outline-offset: 2px;
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
 }
 
 /* ─── Selection ─── */
 ::selection {
-  background-color: var(--brand-muted);
+  background-color: rgba(34, 211, 238, 0.24);
   color: var(--text);
 }
 
@@ -168,8 +183,9 @@ hr {
   padding: var(--space-3) var(--space-6);
   background: var(--brand);
   color: var(--text-inverse);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   font-weight: var(--weight-semibold);
+  box-shadow: var(--shadow-glow);
 }
 
 .skip-to-content:focus {
@@ -187,12 +203,12 @@ hr {
 /* Background grid */
 .bg-grid {
   background-image:
-    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(0,212,255,.18), transparent 60%),
-    radial-gradient(ellipse 60% 50% at 90% 20%, rgba(124,92,255,.18), transparent 60%),
-    linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+    radial-gradient(ellipse 80% 60% at 50% -10%, var(--ambient-cyan), transparent 60%),
+    radial-gradient(ellipse 60% 50% at 90% 20%, rgba(20,184,166,.12), transparent 60%),
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
   background-size: auto, auto, 42px 42px, 42px 42px;
-  background-color: #060914;
+  background-color: var(--bg);
 }
 
 /* Counter animation */
@@ -202,16 +218,17 @@ hr {
 /* Premium Footer */
 footer.premium-footer {
   position: relative;
-  background: linear-gradient(180deg, rgba(6, 9, 20, 0.9) 0%, rgba(4, 6, 12, 0.98) 100%);
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  background: linear-gradient(180deg, rgba(6, 9, 20, 0.9) 0%, rgba(4, 7, 17, 0.98) 100%);
+  border-top: 1px solid var(--glass-border);
   backdrop-filter: blur(20px);
 }
 footer.premium-footer::before {
   content: '';
   position: absolute;
-  top: -1px; left: 0; right: 0;
+  inset-block-start: -1px;
+  inset-inline: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent 0%, rgba(0, 212, 255, 0.3) 50%, transparent 100%);
+  background: linear-gradient(90deg, transparent 0%, rgba(34, 211, 238, 0.32) 50%, transparent 100%);
 }
 
 /* Social buttons hover */
@@ -219,9 +236,9 @@ footer.premium-footer::before {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .footer-social-btn:hover {
-  background: linear-gradient(135deg, rgba(0, 212, 255, 0.15) 0%, rgba(124, 92, 255, 0.15) 100%);
-  border-color: rgba(0, 212, 255, 0.3);
-  color: #00d4ff;
+  background: rgba(34, 211, 238, 0.1);
+  border-color: rgba(34, 211, 238, 0.3);
+  color: var(--brand);
   transform: translateY(-4px);
-  box-shadow: 0 10px 20px -10px rgba(0, 212, 255, 0.4);
+  box-shadow: 0 10px 20px -10px rgba(34, 211, 238, 0.4);
 }

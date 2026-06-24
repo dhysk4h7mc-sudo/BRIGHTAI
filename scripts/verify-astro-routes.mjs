@@ -218,7 +218,7 @@ export function auditPage({ route, html, legalPairs = LEGAL_PAIRS }) {
   $('a[href]').each((_, element) => {
     const href = $(element).attr('href');
     const anchorText = $(element).text().replace(/\s+/g, ' ').trim();
-    if (/(?:احجز|حجز|book(?:ing)?|schedule).*(?:demo|عرض|موعد)?/i.test(anchorText)) {
+    if (/(?:احجز|حجز|\bbook(?:ing)?\b|\bschedule\b).*(?:\bdemo\b|عرض|موعد)?/i.test(anchorText)) {
       const bookingUrl = new URL(href, SITE_URL);
       if (bookingUrl.origin !== SITE_URL || bookingUrl.pathname !== '/contact/') {
         issues.push('BOOKING_CTA_NOT_CONTACT');

@@ -14,13 +14,14 @@ const { events = activityEvents } = Astro.props;
   .k-timeline { list-style: none; padding: 0; margin: 0; }
   .k-timeline__item {
     position: relative;
-    padding: 1rem 1.25rem 1rem 2.75rem;
+    padding-block: 1rem;
+    padding-inline: 1.25rem 2.75rem;
     border-bottom: 1px solid var(--border, rgba(255,255,255,0.06));
   }
   .k-timeline__item::before {
     content: '';
     position: absolute;
-    right: 1rem;
+    inset-inline-start: 1rem;
     top: 1.35rem;
     width: 0.5rem;
     height: 0.5rem;

@@ -37,19 +37,19 @@
 
 @keyframes pulse-glow {
   0%, 100% {
-    box-shadow: 0 0 20px rgba(0, 212, 255, 0.15);
+    box-shadow: 0 0 20px rgba(34, 211, 238, 0.15);
   }
   50% {
-    box-shadow: 0 0 40px rgba(0, 212, 255, 0.3);
+    box-shadow: 0 0 40px rgba(34, 211, 238, 0.3);
   }
 }
 
 @keyframes border-glow {
   0%, 100% {
-    border-color: rgba(0, 212, 255, 0.18);
+    border-color: rgba(34, 211, 238, 0.18);
   }
   50% {
-    border-color: rgba(0, 212, 255, 0.5);
+    border-color: rgba(34, 211, 238, 0.5);
   }
 }
 
@@ -204,8 +204,8 @@
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(0, 212, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 212, 255, 0.03) 1px, transparent 1px);
+    linear-gradient(rgba(34, 211, 238, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34, 211, 238, 0.03) 1px, transparent 1px);
   background-size: 60px 60px;
   mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black 20%, transparent 100%);
   -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black 20%, transparent 100%);

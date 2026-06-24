@@ -28,7 +28,7 @@ export const SITE = {
     linkedin: 'https://linkedin.com/company/brightai',
     github: 'https://github.com/YEEEAE/BRIGHTAI',
   },
-  ogImage: '/images/og-default.webp',
+  ogImage: '/images/og/brightai-og-1200x630.png',
 } as const;
 
 export type SupportedLang = 'ar' | 'en';

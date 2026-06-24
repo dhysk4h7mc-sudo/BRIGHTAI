@@ -100,6 +100,21 @@ test('auditPage enforces locale direction, booking CTA, and WhatsApp contracts',
   assert.ok(result.issues.includes('WHATSAPP_URL_MISMATCH'));
 });
 
+test('auditPage does not treat Runbook links as booking CTAs', () => {
+  const html = goodHtml.replace(
+    '<a href="/services/">الخدمات</a>',
+    '<a href="/docs/kernel-operations-runbook/">Kernel Operations Runbook</a>',
+  );
+  const result = auditPage({
+    route: '/about/',
+    html,
+    legalPairs: new Map(),
+  });
+
+  assert.equal(result.status, 'PASS');
+  assert.ok(!result.issues.includes('BOOKING_CTA_NOT_CONTACT'));
+});
+
 test('auditPage accepts an array of valid JSON-LD objects', () => {
   const arraySchema = JSON.stringify([
     { '@context': 'https://schema.org', '@type': 'Organization' },
@@ -119,8 +134,7 @@ test('auditPage accepts an array of valid JSON-LD objects', () => {
   assert.equal(result.schema, 'PASS');
 });
 
-test('pricing keeps legacy HTML and has an Astro route source', () => {
-  assert.ok(existsSync(path.join(process.cwd(), 'pricing/index.html')));
+test('pricing has an Astro route source', () => {
   assert.ok(existsSync(path.join(process.cwd(), 'src/pages/pricing/index.astro')));
 });
 

@@ -197,19 +197,19 @@ import SparklesCore from "./SparklesCore.tsx";
   .sparkles-beam {
     position: absolute;
     top: -0.5rem;
-    left: 50%;
+    inset-inline-start: 50%;
     transform: translateX(-50%);
   }
   .sparkles-beam--indigo-wide-blur {
     width: 75%;
     height: 2px;
-    background: linear-gradient(90deg, transparent, #6366f1, transparent);
+    background: linear-gradient(90deg, transparent, var(--brand-strong, #14b8a6), transparent);
     filter: blur(4px);
   }
   .sparkles-beam--indigo-wide {
     width: 75%;
     height: 1px;
-    background: linear-gradient(90deg, transparent, #6366f1, transparent);
+    background: linear-gradient(90deg, transparent, var(--brand-strong, #14b8a6), transparent);
   }
   .sparkles-beam--sky-narrow-blur {
     width: 25%;
@@ -240,8 +240,7 @@ import SparklesCore from "./SparklesCore.tsx";
     line-height: 2;
     max-width: 42rem;
     text-align: center;
-    margin-left: auto;
-    margin-right: auto;
+    margin-inline: auto;
     color: rgba(255, 255, 255, 0.75);
   }
 

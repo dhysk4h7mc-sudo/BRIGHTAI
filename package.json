@@ -71,7 +71,6 @@
     "@astrojs/sitemap": "^3.7.3",
     "@google/generative-ai": "^0.24.1",
     "@sentry/react": "^10.38.0",
-    "@tailwindcss/postcss": "^4.2.4",
     "@tsparticles/engine": "^4.2.1",
     "@tsparticles/react": "^4.2.1",
     "@tsparticles/slim": "^4.2.1",

@@ -101,7 +101,7 @@ services:
     staticPublishPath: dist
     envVars:
       - key: NODE_VERSION
-        value: 22.11.0
+        value: 22.22.2
     headers:
       - path: /*
         name: Strict-Transport-Security

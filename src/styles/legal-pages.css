@@ -23,12 +23,14 @@
 
 .legal-page :global(p),
 .legal-page :global(li) {
-  color: var(--muted);
+  color: var(--text-soft);
   line-height: 1.9;
 }
 
 .legal-page :global(a) {
   color: var(--brand);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
 }
 
 .legal-page :global(aside),
@@ -38,9 +40,10 @@
 .legal-page :global(.cookie-type-card),
 .legal-page :global(.lp-note) {
   border: 1px solid var(--border);
-  border-radius: var(--radius-xl);
-  background: var(--surface);
+  border-radius: var(--radius-2xl);
+  background: var(--gradient-surface);
   padding: clamp(1.25rem, 3vw, 2rem);
+  box-shadow: 0 20px 50px -34px rgba(34, 211, 238, 0.42);
 }
 
 .legal-page :global(article),
@@ -59,6 +62,11 @@
 .legal-page :global(.grid) {
   display: grid;
   gap: 1.5rem;
+}
+
+.legal-page :global(nav),
+.legal-page :global(aside) {
+  color: var(--text-soft);
 }
 
 @media (min-width: 900px) {

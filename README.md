@@ -5,7 +5,7 @@
 
 Render Static Site يجب ضبطه على Node 22 LTS:
 
-- في Environment أضف `NODE_VERSION=22.11.0`
+- في Environment أضف `NODE_VERSION=22.22.2`
 - Build Command: `npm install && npx astro build`
 - بعد تغيير إصدار Node نفذ Clear build cache & deploy من لوحة Render.
 

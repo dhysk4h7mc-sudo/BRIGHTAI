@@ -1,9 +1,9 @@
 # SEO Migration Check
 
-> Generated: 2026-06-14T02:48:30.613Z
+> Generated: 2026-06-24T20:18:45.172Z
 > Sitemap source: `public/sitemap.xml`
-> Routes: 123 | FOUND: 105 | MISSING: 0 | EXTRA: 18
-> Sitemap audit failures: 1 | Extra route findings: 18
+> Routes: 124 | FOUND: 109 | MISSING: 0 | EXTRA: 15
+> Sitemap audit failures: 0 | Extra route findings: 15
 > Mobile CSS constraint audit: PASS
 
 | Page | Status | SEO | Mobile | Schema | Fix |
@@ -39,7 +39,7 @@
 | `/cookie-policy/` | FOUND | PASS | PASS | PASS | None |
 | `/data-processing-agreement/` | FOUND | PASS | PASS | PASS | None |
 | `/demo/` | FOUND | PASS | PASS | PASS | None |
-| `/docs/` | FOUND | FAIL | PASS | PASS | BOOKING_CTA_NOT_CONTACT |
+| `/docs/` | FOUND | PASS | PASS | PASS | None |
 | `/docs/ai-audit-readiness/` | FOUND | PASS | PASS | PASS | None |
 | `/docs/ai-audit-trail/` | FOUND | PASS | PASS | PASS | None |
 | `/docs/ai-evidence-file/` | FOUND | PASS | PASS | PASS | None |
@@ -49,16 +49,29 @@
 | `/docs/ai-risk-management/` | FOUND | PASS | PASS | PASS | None |
 | `/docs/governance-application/` | FOUND | PASS | PASS | PASS | None |
 | `/docs/human-approval-layer/` | FOUND | PASS | PASS | PASS | None |
+| `/docs/kernel-accessibility-mobile/` | FOUND | PASS | PASS | PASS | None |
+| `/docs/kernel-api-client/` | FOUND | PASS | PASS | PASS | None |
 | `/docs/kernel-approvals/` | FOUND | PASS | PASS | PASS | None |
+| `/docs/kernel-architecture/` | FOUND | PASS | PASS | PASS | None |
+| `/docs/kernel-audit-evidence/` | FOUND | PASS | PASS | PASS | None |
 | `/docs/kernel-audit-trail/` | FOUND | PASS | PASS | PASS | None |
+| `/docs/kernel-changelog-template/` | FOUND | PASS | PASS | PASS | None |
 | `/docs/kernel-chat/` | FOUND | PASS | PASS | PASS | None |
 | `/docs/kernel-compliance/` | FOUND | PASS | PASS | PASS | None |
 | `/docs/kernel-connectors/` | FOUND | PASS | PASS | PASS | None |
+| `/docs/kernel-developer-onboarding/` | FOUND | PASS | PASS | PASS | None |
 | `/docs/kernel-evidence/` | FOUND | PASS | PASS | PASS | None |
+| `/docs/kernel-internal-linking/` | FOUND | PASS | PASS | PASS | None |
+| `/docs/kernel-nvidia-proxy/` | FOUND | PASS | PASS | PASS | None |
+| `/docs/kernel-operations-runbook/` | FOUND | PASS | PASS | PASS | None |
+| `/docs/kernel-pages/` | FOUND | PASS | PASS | PASS | None |
 | `/docs/kernel-policies/` | FOUND | PASS | PASS | PASS | None |
+| `/docs/kernel-production-vs-demo/` | FOUND | PASS | PASS | PASS | None |
 | `/docs/kernel-reports/` | FOUND | PASS | PASS | PASS | None |
 | `/docs/kernel-scenarios/` | FOUND | PASS | PASS | PASS | None |
+| `/docs/kernel-security-model/` | FOUND | PASS | PASS | PASS | None |
 | `/docs/kernel-stats/` | FOUND | PASS | PASS | PASS | None |
+| `/docs/kernel-testing-checklist/` | FOUND | PASS | PASS | PASS | None |
 | `/docs/nca-ecc-ai-controls-mapping/` | FOUND | PASS | PASS | PASS | None |
 | `/docs/nca-ecc-ai-controls/` | FOUND | PASS | PASS | PASS | None |
 | `/docs/nca-ecc-ai-governance/` | FOUND | PASS | PASS | PASS | None |
@@ -67,6 +80,7 @@
 | `/docs/pdpl-ai-governance/` | FOUND | PASS | PASS | PASS | None |
 | `/docs/pdpl-chatgpt-data-protection/` | FOUND | PASS | PASS | PASS | None |
 | `/docs/sdaia-generative-ai-guidelines/` | FOUND | PASS | PASS | PASS | None |
+| `/docs/superpowers/` | FOUND | PASS | PASS | PASS | None |
 | `/en/cookie-policy/` | FOUND | PASS | PASS | PASS | None |
 | `/en/data-processing-agreement/` | FOUND | PASS | PASS | PASS | None |
 | `/en/pdpl-statement/` | FOUND | PASS | PASS | PASS | None |
@@ -78,16 +92,6 @@
 | `/hub/solutions/` | FOUND | PASS | PASS | PASS | None |
 | `/hub/use-cases/` | FOUND | PASS | PASS | PASS | None |
 | `/kernel/` | FOUND | PASS | PASS | PASS | None |
-| `/kernel/approvals/` | FOUND | PASS | PASS | PASS | None |
-| `/kernel/audit/` | FOUND | PASS | PASS | PASS | None |
-| `/kernel/chat/` | FOUND | PASS | PASS | PASS | None |
-| `/kernel/compliance/` | FOUND | PASS | PASS | PASS | None |
-| `/kernel/connectors/` | FOUND | PASS | PASS | PASS | None |
-| `/kernel/evidence/` | FOUND | PASS | PASS | PASS | None |
-| `/kernel/policies/` | FOUND | PASS | PASS | PASS | None |
-| `/kernel/reports/` | FOUND | PASS | PASS | PASS | None |
-| `/kernel/scenarios/` | FOUND | PASS | PASS | PASS | None |
-| `/kernel/stats/` | FOUND | PASS | PASS | PASS | None |
 | `/pdpl-statement/` | FOUND | PASS | PASS | PASS | None |
 | `/pricing/` | FOUND | PASS | PASS | PASS | None |
 | `/privacy-cookies/` | FOUND | PASS | PASS | PASS | None |
@@ -115,20 +119,17 @@
 | `/trust/` | FOUND | PASS | PASS | PASS | None |
 | `/404.html` | EXTRA | FAIL | PASS | PASS | NOT_IN_SITEMAP, CANONICAL_MISMATCH |
 | `/500.html` | EXTRA | FAIL | PASS | PASS | NOT_IN_SITEMAP, CANONICAL_MISMATCH, WHATSAPP_URL_MISMATCH |
-| `/docs/kernel-accessibility-mobile/` | EXTRA | PASS | PASS | PASS | NOT_IN_SITEMAP |
-| `/docs/kernel-api-client/` | EXTRA | PASS | PASS | PASS | NOT_IN_SITEMAP |
-| `/docs/kernel-architecture/` | EXTRA | PASS | PASS | PASS | NOT_IN_SITEMAP |
-| `/docs/kernel-audit-evidence/` | EXTRA | PASS | PASS | PASS | NOT_IN_SITEMAP |
-| `/docs/kernel-changelog-template/` | EXTRA | FAIL | PASS | PASS | NOT_IN_SITEMAP, BOOKING_CTA_NOT_CONTACT |
-| `/docs/kernel-developer-onboarding/` | EXTRA | PASS | PASS | PASS | NOT_IN_SITEMAP |
-| `/docs/kernel-internal-linking/` | EXTRA | PASS | PASS | PASS | NOT_IN_SITEMAP |
-| `/docs/kernel-nvidia-proxy/` | EXTRA | PASS | PASS | PASS | NOT_IN_SITEMAP |
-| `/docs/kernel-operations-runbook/` | EXTRA | PASS | PASS | PASS | NOT_IN_SITEMAP |
-| `/docs/kernel-pages/` | EXTRA | PASS | PASS | PASS | NOT_IN_SITEMAP |
-| `/docs/kernel-production-vs-demo/` | EXTRA | PASS | PASS | PASS | NOT_IN_SITEMAP |
-| `/docs/kernel-security-model/` | EXTRA | PASS | PASS | PASS | NOT_IN_SITEMAP |
-| `/docs/kernel-testing-checklist/` | EXTRA | FAIL | PASS | PASS | NOT_IN_SITEMAP, BOOKING_CTA_NOT_CONTACT |
-| `/docs/superpowers/` | EXTRA | PASS | PASS | PASS | NOT_IN_SITEMAP |
+| `/kernel/approvals/` | EXTRA | PASS | PASS | PASS | NOT_IN_SITEMAP |
+| `/kernel/audit/` | EXTRA | PASS | PASS | PASS | NOT_IN_SITEMAP |
+| `/kernel/chat/` | EXTRA | PASS | PASS | PASS | NOT_IN_SITEMAP |
+| `/kernel/compliance/` | EXTRA | PASS | PASS | PASS | NOT_IN_SITEMAP |
+| `/kernel/connectors/` | EXTRA | PASS | PASS | PASS | NOT_IN_SITEMAP |
+| `/kernel/evidence/` | EXTRA | PASS | PASS | PASS | NOT_IN_SITEMAP |
+| `/kernel/offline/` | EXTRA | PASS | PASS | PASS | NOT_IN_SITEMAP |
+| `/kernel/policies/` | EXTRA | PASS | PASS | PASS | NOT_IN_SITEMAP |
+| `/kernel/reports/` | EXTRA | PASS | PASS | PASS | NOT_IN_SITEMAP |
+| `/kernel/scenarios/` | EXTRA | PASS | PASS | PASS | NOT_IN_SITEMAP |
+| `/kernel/stats/` | EXTRA | PASS | PASS | PASS | NOT_IN_SITEMAP |
 | `/offline/` | EXTRA | PASS | PASS | PASS | NOT_IN_SITEMAP |
 | `/report/` | EXTRA | FAIL | PASS | FAIL | NOT_IN_SITEMAP, H1_COUNT_0, DIRECTION_MISMATCH, MISSING_DESCRIPTION, CANONICAL_MISMATCH, NOINDEX, MISSING_GA, MISSING_VIEWPORT, MISSING_JSON_LD, CONTENT_REQUIRES_JS |
 
