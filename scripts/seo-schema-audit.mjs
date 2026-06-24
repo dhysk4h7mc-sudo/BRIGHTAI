@@ -24,12 +24,21 @@ function parseJsonLd(html, errors) {
   let index = 0;
   let match;
 
+  function processNode(schema) {
+    if (!schema || typeof schema !== "object") return;
+    if (Array.isArray(schema)) {
+      schema.forEach(processNode);
+    } else if (Array.isArray(schema["@graph"])) {
+      schema["@graph"].forEach(processNode);
+    } else {
+      nodes.push(schema);
+    }
+  }
+
   while ((match = pattern.exec(html))) {
     try {
       const schema = JSON.parse(match[1]);
-      if (Array.isArray(schema)) nodes.push(...schema);
-      else if (Array.isArray(schema?.["@graph"])) nodes.push(...schema["@graph"]);
-      else nodes.push(schema);
+      processNode(schema);
     } catch (error) {
       errors.push(`Invalid JSON-LD block ${index}: ${error.message}`);
     }
@@ -127,7 +136,7 @@ export function auditHtml(relPath, html) {
   return errors;
 }
 
-export async function runAudit(root = process.cwd()) {
+export async function runAudit(root = path.join(process.cwd(), "dist")) {
   const files = await glob(
     ["solutions/*/index.html", "docs/*/index.html", "services/index.html"],
     { cwd: root, absolute: true, nodir: true },

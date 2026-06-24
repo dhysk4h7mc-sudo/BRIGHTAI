@@ -197,15 +197,15 @@ NAV.forEach((item, idx) => {
       closeAll();
       trigger.setAttribute('aria-expanded', 'true');
       panel.classList.add('site-header__dropdown-panel--open');
-      overlay.classList.add('site-header__overlay--active');
+      overlay?.classList.add('site-header__overlay--active');
       openDropdown = panel;
-      panel.querySelectorAll<HTMLElement>('[role="menuitem"]').forEach((l) => l.setAttribute('tabindex', '0'));
+      panel.querySelectorAll('[role="menuitem"]').forEach((l) => l.setAttribute('tabindex', '0'));
     }
 
     function closePanel(trigger: HTMLButtonElement, panel: HTMLElement) {
       trigger.setAttribute('aria-expanded', 'false');
       panel.classList.remove('site-header__dropdown-panel--open');
-      overlay.classList.remove('site-header__overlay--active');
+      overlay?.classList.remove('site-header__overlay--active');
       openDropdown = null;
       panel.querySelectorAll<HTMLElement>('[role="menuitem"]').forEach((l) => l.setAttribute('tabindex', '-1'));
     }

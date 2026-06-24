@@ -15,12 +15,32 @@ interface Props {
 
 const { crumbs } = Astro.props;
 
-const schemaItems = crumbs.map((crumb, i) => ({
-  '@type': 'ListItem',
-  position: i + 1,
-  name: crumb.label,
-  ...(crumb.href ? { item: `${SITE.url}${crumb.href}` } : {}),
-}));
+const schemaItems = crumbs.map((crumb, i) => {
+  const isLast = i === crumbs.length - 1;
+  let href = crumb.href;
+  if (!href && isLast) {
+    href = Astro.url.pathname;
+  }
+
+  let itemUrl = '';
+  if (href) {
+    let cleanPath = href;
+    if (!cleanPath.startsWith('/')) {
+      cleanPath = '/' + cleanPath;
+    }
+    if (!cleanPath.endsWith('/')) {
+      cleanPath = cleanPath + '/';
+    }
+    itemUrl = `${SITE.url}${cleanPath}`;
+  }
+
+  return {
+    '@type': 'ListItem',
+    position: i + 1,
+    name: crumb.label,
+    ...(itemUrl ? { item: itemUrl } : {}),
+  };
+});
 
 const breadcrumbSchema = {
   '@context': 'https://schema.org',

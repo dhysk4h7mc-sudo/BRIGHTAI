@@ -44,5 +44,6 @@ export interface SEOProps {
   canonical: string;
   hreflang?: HreflangLink[];
   ogImage?: string;
+  ogImageAlt?: string;
   jsonLd?: Record<string, unknown>;
 }

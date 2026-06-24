@@ -17,6 +17,7 @@ const {
   canonical,
   hreflang = [],
   ogImage = SITE.ogImage,
+  ogImageAlt = 'BrightAI - Saudi AI Safety OS',
   jsonLd,
   locale = 'ar',
 } = Astro.props;
@@ -38,6 +39,7 @@ const hasXDefault = hreflang.some((link) => link.lang === 'x-default');
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:image" content={fullOgImage} />
+<meta property="og:image:alt" content={ogImageAlt} />
 <meta property="og:site_name" content={siteName} />
 <meta property="og:locale" content={locale === 'en' ? 'en_SA' : 'ar_SA'} />
 
@@ -47,6 +49,7 @@ const hasXDefault = hreflang.some((link) => link.lang === 'x-default');
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={fullOgImage} />
+<meta name="twitter:image:alt" content={ogImageAlt} />
 
 <!-- Hreflang -->
 {hreflang.map((link) => (
@@ -56,7 +59,7 @@ const hasXDefault = hreflang.some((link) => link.lang === 'x-default');
 
 <!-- JSON-LD Structured Data -->
 {jsonLd && (
-  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  <script id="brightai-production-schema" type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 )}
 
 <!-- Google Analytics (gtag.js) -->

@@ -37,7 +37,6 @@ function getAllHtmlFiles(dir, fileList = []) {
     '.next',
     '.render-static',
     'reports',
-    'dist',
     'build',
     'coverage',
     'tmp'
@@ -57,7 +56,7 @@ function getAllHtmlFiles(dir, fileList = []) {
   return fileList;
 }
 
-const allHtmlFiles = getAllHtmlFiles(rootDir);
+const allHtmlFiles = getAllHtmlFiles(path.join(rootDir, "dist"));
 
 // 1. فحص الروابط الداخلية
 console.log('--- 1. فحص الروابط الداخلية ---');
@@ -107,7 +106,7 @@ function checkCanonicals(dirPath, urlPrefix) {
     
     const filePath = path.join(dirPath, file);
     const content = fs.readFileSync(filePath, 'utf8');
-    const relPath = normalizeRelPath(path.relative(rootDir, filePath));
+    const relPath = normalizeRelPath(path.relative(path.join(rootDir, "dist"), filePath));
     const expectedCanonical = relPathToCanonical(relPath, 'https://brightai.site');
     if (!expectedCanonical) continue;
     const canonicalRegex = new RegExp(`<link[^>]+rel=["']canonical["'][^>]*href=["']${expectedCanonical.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}["'][^>]*>`, 'i');
@@ -125,7 +124,7 @@ const mainDirs = ['blog', 'kernel', 'demo', 'docs', 'about', 'services', 'pricin
 let allCanonicalsValid = true;
 
 for (const dir of mainDirs) {
-  const dirPath = path.join(rootDir, dir);
+  const dirPath = path.join(rootDir, "dist", dir);
   if (fs.existsSync(dirPath)) {
     const isValid = checkCanonicals(dirPath, dir);
     if (!isValid) allCanonicalsValid = false;
@@ -137,7 +136,7 @@ logStatus(allCanonicalsValid, 'جميع الملفات تحتوي على canonic
 
 // 3. فحص sitemap.xml
 console.log('\n--- 3. فحص sitemap.xml ---');
-const sitemapPath = path.join(rootDir, 'sitemap.xml');
+const sitemapPath = path.join(rootDir, 'dist', 'sitemap.xml');
 let sitemapValid = true;
 if (fs.existsSync(sitemapPath)) {
   const sitemapContent = fs.readFileSync(sitemapPath, 'utf8');
@@ -184,6 +183,7 @@ for (const file of allHtmlFiles) {
   const basename = path.basename(file);
   if (['404.html', '500.html', 'offline.html'].includes(basename)) continue;
   if (file.includes('/components/') || file.includes('/templates/')) continue;
+  if (content.includes('http-equiv="refresh"') || content.includes('Redirecting to:')) continue;
   
   // فحص العناصر الأساسية
   const hasTitle = /<title[^>]*>[\s\S]*?<\/title>/i.test(content);

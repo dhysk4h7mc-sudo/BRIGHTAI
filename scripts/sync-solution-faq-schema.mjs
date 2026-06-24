@@ -76,7 +76,9 @@ function findSchemaScript(html) {
       continue;
     }
 
-    const graph = Array.isArray(schema?.["@graph"])
+    const graph = Array.isArray(schema)
+      ? schema
+      : Array.isArray(schema?.["@graph"])
       ? schema["@graph"]
       : [schema];
     const candidate = {
@@ -110,11 +112,14 @@ export function syncSolutionFaqSchema(html) {
   }
 
   const { schema } = script;
-  if (!Array.isArray(schema["@graph"])) {
-    throw new Error("Managed JSON-LD must contain an @graph array.");
+  let graph;
+  if (Array.isArray(schema)) {
+    graph = schema;
+  } else if (Array.isArray(schema["@graph"])) {
+    graph = schema["@graph"];
+  } else {
+    throw new Error("Managed JSON-LD must be an array or contain an @graph array.");
   }
-
-  const graph = schema["@graph"];
   const faqIndex = graph.findIndex((node) => hasType(node, "FAQPage"));
   const faqNode = {
     "@type": "FAQPage",
@@ -136,7 +141,7 @@ export function syncSolutionFaqSchema(html) {
 }
 
 export async function runSync({
-  root = process.cwd(),
+  root = path.join(process.cwd(), "dist"),
   check = false,
 } = {}) {
   const files = await glob("solutions/**/index.html", {

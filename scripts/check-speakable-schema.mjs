@@ -90,7 +90,7 @@ export function auditSpeakablePage(relPath, html) {
   return { errors, hasSpeakable: speakableNodes.length > 0 };
 }
 
-export async function runSpeakableAudit(root = process.cwd()) {
+export async function runSpeakableAudit(root = path.join(process.cwd(), "dist")) {
   const files = await glob("**/*.html", {
     cwd: root,
     absolute: true,

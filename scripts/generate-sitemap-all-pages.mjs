@@ -22,7 +22,7 @@ const execFileAsync = promisify(execFile);
 const gitLastmodCache = new Map();
 
 // Sitemap Outputs
-const SITEMAP_INDEX = path.join(ROOT, "sitemap.xml");
+const SITEMAP_INDEX = path.join(ROOT, "public", "sitemap.xml");
 const REPORT_OUTPUT = path.join(ROOT, "reports", "sitemap-quality-report.md");
 
 const IGNORED_SCAN_DIRS = new Set([
@@ -332,7 +332,7 @@ function renderXml(entries) {
 }
 
 async function analyzePage(relPath) {
-  const fullPath = path.join(ROOT, relPath);
+  const fullPath = path.join(ROOT, "dist", relPath);
   const expectedCanonical = relPathToCanonical(relPath, BASE_URL);
 
   try {
@@ -374,8 +374,8 @@ async function analyzePage(relPath) {
 }
 
 async function main() {
-  const allFiles = await walkHtmlFiles(ROOT);
-  const normalizedRelPaths = allFiles.map((fullPath) => normalizeRelPath(path.relative(ROOT, fullPath)));
+  const allFiles = await walkHtmlFiles(path.join(ROOT, "dist"));
+  const normalizedRelPaths = allFiles.map((fullPath) => normalizeRelPath(path.relative(path.join(ROOT, "dist"), fullPath)));
   const lowerPathMap = new Map(normalizedRelPaths.map((relPath) => [relPath.toLowerCase(), relPath]));
 
   const pagesList = [];
@@ -431,7 +431,14 @@ async function main() {
     ...finalSolutions,
   ].sort((a, b) => a.loc.localeCompare(b.loc, "en"));
 
-  await fs.writeFile(SITEMAP_INDEX, renderXml(primarySitemapEntries), "utf8");
+  const sitemapXmlContent = renderXml(primarySitemapEntries);
+  await fs.writeFile(SITEMAP_INDEX, sitemapXmlContent, "utf8");
+  try {
+    await fs.writeFile(path.join(ROOT, "sitemap.xml"), sitemapXmlContent, "utf8");
+  } catch {}
+  try {
+    await fs.writeFile(path.join(ROOT, "dist", "sitemap.xml"), sitemapXmlContent, "utf8");
+  } catch {}
   process.stdout.write(`Generated sitemap.xml with ${primarySitemapEntries.length} public URLs\n`);
 
   // Write Quality Report

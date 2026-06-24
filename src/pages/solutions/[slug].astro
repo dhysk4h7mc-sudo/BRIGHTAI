@@ -29,11 +29,21 @@ const jsonLd = {
   "@graph":[
     {"@type":"Service","@id":solution.canonical+"#service","name":solution.h1,"description":solution.description,"provider":{"@type":"Organization","name":"BrightAI","url":"https://brightai.site"},"url":solution.canonical,"areaServed":"Saudi Arabia"},
     {"@type":"BreadcrumbList","itemListElement":crumbs.map((c,i)=>({"@type":"ListItem","position":i+1,"name":c.label,"item":c.href?`https://brightai.site${c.href}`:solution.canonical}))},
+    {"@type":["Organization","LocalBusiness"],"@id":"https://brightai.site/#organization","name":"BrightAI","url":"https://brightai.site","logo":"https://brightai.site/frontend/assets/images/logo.png","areaServed":"SA","sameAs":["https://twitter.com/BrightAISite","https://linkedin.com/company/brightai-site","https://github.com/brightai-site","https://crunchbase.com/organization/brightai"],"knowsAbout":["AI Governance","AI Safety","PDPL Compliance","NCA ECC Controls","ISO/IEC 42001","حوكمة الذكاء الاصطناعي في السعودية"]},
     ...(solution.content?.faqs ? [{"@type":"FAQPage","mainEntity":solution.content.faqs.map(faq=>({"@type":"Question","name":faq.question,"acceptedAnswer":{"@type":"Answer","text":faq.answer}}))}] : [])
   ]
 };
 ---
-<ArabicLayout title={migratedPage?.title ?? solution.title} description={migratedPage?.description ?? solution.description} canonical={migratedPage?.canonical ?? solution.canonical} hreflang={migratedPage?.hreflang ?? [{lang:'ar-SA',href:solution.canonical},{lang:'x-default',href:solution.canonical}]} jsonLd={(migratedPage?.jsonLd ?? jsonLd) as any} currentPath={solution.href}>
+<ArabicLayout
+  title={migratedPage?.title ?? solution.title}
+  description={migratedPage?.description ?? solution.description}
+  canonical={migratedPage?.canonical ?? solution.canonical}
+  hreflang={migratedPage?.hreflang ?? [{lang:'ar-SA',href:solution.canonical},{lang:'x-default',href:solution.canonical}]}
+  jsonLd={(migratedPage?.jsonLd ?? jsonLd) as any}
+  currentPath={solution.href}
+  ogImage="/frontend/assets/images/og/og-solutions.png"
+  ogImageAlt={migratedPage?.title ?? solution.title}
+>
 <style is:global>@import '../../styles/inner-pages.css';</style>
 
 {migratedPage ? (

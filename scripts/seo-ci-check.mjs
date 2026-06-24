@@ -28,7 +28,7 @@ import { runAudit as runInternalLinksAudit } from "./internal-links-common.mjs";
 
 const BASE_URL = "https://brightai.site";
 const ROOT = process.cwd();
-const SITEMAP_PATH = path.join(ROOT, "sitemap.xml");
+const SITEMAP_PATH = path.join(ROOT, "dist", "sitemap.xml");
 const SERVICE_OG_IMAGE_URL = `${BASE_URL}/frontend/assets/images/og/og-solutions.png`;
 const HTML_IGNORE_DIRS = new Set([".git", ".agents", "node_modules", "dist", "build", "coverage", ".next", ".nuxt", ".render-static", "components"]);
 const INTERNAL_PAGE_PATTERN =
@@ -220,7 +220,12 @@ function collectTypesFromJsonLd(node, out = new Set()) {
 
 async function readFileSafe(file) {
   try {
-    const content = await fs.readFile(path.join(ROOT, file), "utf8");
+    let content;
+    try {
+      content = await fs.readFile(path.join(ROOT, "dist", file), "utf8");
+    } catch {
+      content = await fs.readFile(path.join(ROOT, file), "utf8");
+    }
     return { ok: true, content };
   } catch (error) {
     return { ok: false, error };
@@ -396,7 +401,13 @@ async function checkBrokenLinks() {
     },
   };
 
-  const report = await runInternalLinksAudit({ root: ROOT });
+  const report = await runInternalLinksAudit({
+    root: path.join(ROOT, "dist"),
+    ignorePatterns: [
+      "**/node_modules/**",
+      "**/.git/**"
+    ]
+  });
   result.summary = {
     filesScanned: report.filesScanned,
     referencesScanned: report.referencesScanned,
@@ -485,7 +496,7 @@ async function checkSitemap() {
     let resolvedFile = null;
     for (const candidate of localCandidates) {
       try {
-        const stat = await fs.stat(path.join(ROOT, candidate));
+        const stat = await fs.stat(path.join(ROOT, "dist", candidate));
         if (!stat.isFile()) {
           continue;
         }
@@ -504,7 +515,7 @@ async function checkSitemap() {
 
     let html;
     try {
-      html = await fs.readFile(path.join(ROOT, resolvedFile), "utf8");
+      html = await fs.readFile(path.join(ROOT, "dist", resolvedFile), "utf8");
     } catch (error) {
       result.errors.push(`Unable to read sitemap target file: ${loc} -> ${resolvedFile} (${error.message})`);
       continue;
@@ -555,11 +566,11 @@ async function checkHtmlPolicy() {
     },
   };
 
-  const htmlFiles = await walkHtmlFiles(ROOT);
+  const htmlFiles = await walkHtmlFiles(path.join(ROOT, "dist"));
   result.summary.files = htmlFiles.length;
 
   for (const fullPath of htmlFiles) {
-    const relPath = path.relative(ROOT, fullPath).replace(/\\/g, "/");
+    const relPath = path.relative(path.join(ROOT, "dist"), fullPath).replace(/\\/g, "/");
     const html = await fs.readFile(fullPath, "utf8");
     if (!isHtmlDocument(html)) continue;
 

@@ -81,22 +81,31 @@ function findTargetScript(html) {
         standalone: true,
       };
     }
-    if (!Array.isArray(schema?.["@graph"])) continue;
+    let graph;
+    if (Array.isArray(schema)) {
+      graph = schema;
+    } else if (Array.isArray(schema?.["@graph"])) {
+      graph = schema["@graph"];
+    } else {
+      graph = null;
+    }
 
-    const candidate = {
-      full: match[0],
-      inner: match[1],
-      schema,
-      graph: schema["@graph"],
-    };
-    if (candidate.graph.some((node) => hasType(node, "HowTo"))) {
-      return candidate;
-    }
-    if (/\bid=["']brightai-page-schema["']/i.test(match[0])) {
-      pageSchema = candidate;
-    }
-    if (/\bid=["']brightai-production-schema["']/i.test(match[0])) {
-      productionSchema = candidate;
+    if (graph) {
+      const candidate = {
+        full: match[0],
+        inner: match[1],
+        schema,
+        graph,
+      };
+      if (candidate.graph.some((node) => hasType(node, "HowTo"))) {
+        return candidate;
+      }
+      if (/\bid=["']brightai-page-schema["']/i.test(match[0])) {
+        pageSchema = candidate;
+      }
+      if (/\bid=["']brightai-production-schema["']/i.test(match[0])) {
+        productionSchema = candidate;
+      }
     }
   }
 
@@ -168,7 +177,7 @@ export function syncDocsHowToSchema(html) {
 }
 
 export async function runSync({
-  root = process.cwd(),
+  root = path.join(process.cwd(), "dist"),
   check = false,
 } = {}) {
   const files = await glob("docs/*/index.html", {
