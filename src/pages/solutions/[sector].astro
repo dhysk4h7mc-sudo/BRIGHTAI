@@ -42,7 +42,7 @@ const jsonLd = {
   ]
 };
 ---
-<ArabicLayout title={migratedPage?.title ?? sector.title} description={migratedPage?.description ?? sector.description} canonical={migratedPage?.canonical ?? sector.canonical} hreflang={migratedPage?.hreflang ?? [{lang:'ar-SA',href:sector.canonical},{lang:'x-default',href:sector.canonical}]} jsonLd={(migratedPage?.jsonLd ?? jsonLd) as any} currentPath={sector.href}>
+<ArabicLayout title={migratedPage?.title ?? sector.title} description={migratedPage?.description ?? sector.description} canonical={migratedPage?.canonical ?? sector.canonical} hreflang={migratedPage?.hreflang ?? [{lang:'ar-SA',href:sector.canonical},{lang:'x-default',href:sector.canonical}]} jsonLd={(migratedPage?.jsonLd ?? jsonLd) as any} currentPath={sector.href} ogImage="/frontend/assets/images/og/og-solutions.png" ogImageAlt={migratedPage?.title ?? sector.title}>
 <style is:global>@import '../../styles/inner-pages.css';</style>
 
 {migratedPage ? (
