@@ -2,6 +2,8 @@
 import ArabicLayout from '../../../layouts/ArabicLayout.astro';
 import Breadcrumbs from '../../../components/Breadcrumbs.astro';
 import BackgroundGrid from '../../../components/BackgroundGrid.astro';
+
+import Icon from '../../../components/Icon.astro';
 const crumbs = [{ label: 'الرئيسية', href: '/' }, { label: 'تقييم الجاهزية' }];
 const targetAudience = [
   { icon: 'mdi:shield-half-full', bg: 'linear-gradient(135deg,#00d4ff,#7c5cff)', title: 'CISOs', sub: 'مسؤولو أمن المعلومات', desc: 'الذين يرغبون في رصد كافة تطبيقات الذكاء الاصطناعي غير المصرح بها (Shadow AI)، والتحقق من عدم مغادرة البيانات الحساسة لحدود المؤسسة.', tags: ['رصد البنية التحتية','إدارة الثغرات'] },
@@ -50,12 +52,12 @@ const jsonLd = {
   <BackgroundGrid />
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
     <Breadcrumbs crumbs={crumbs} />
-    <div class="inner-hero__badge"><iconify-icon icon="mdi:clipboard-check"></iconify-icon> أدوات وتقنيات مواءمة لنظام PDPL وضوابط NCA</div>
+    <div class="inner-hero__badge"><svg aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-clipboard-check"></use></svg> أدوات وتقنيات مواءمة لنظام PDPL وضوابط NCA</div>
     <h1><span class="gradient-text">تقييم جاهزية حوكمة</span><br/>الذكاء الاصطناعي للشركات السعودية</h1>
     <p class="inner-hero__desc">هل تستخدم مؤسستك أدوات ونماذج الذكاء الاصطناعي بشكل فاعل وآمن بالكامل؟ يقدم تقييم جاهزية حوكمة الذكاء الاصطناعي من BrightAI رؤية تشغيلية شاملة تتيح لك رصد المخاطر، تصنيف البيانات، وهيكلة سجلات التدقيق لدعم كفاءة أعمالك محلياً.</p>
     <div class="inner-hero__actions">
-      <a href="https://wa.me/966538229013?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%D8%8C%20%D8%A3%D8%A8%D8%BA%D9%89%20%D8%A3%D8%B7%D9%84%D8%A8%20%D8%AA%D9%82%D9%8A%D9%8A%D9%85%20%D8%AC%D8%A7%D9%87%D8%B2%D9%8A%D8%A9%20%D8%AD%D9%88%D9%83%D9%85%D8%A9%20AI%20%D9%84%D9%85%D8%A4%D8%B3%D8%B3%D8%AA%D9%8A" target="_blank" rel="noopener noreferrer" class="glow-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-bold"><iconify-icon icon="mdi:play-circle"></iconify-icon> احصل على تقييم فوري لمؤسستك</a>
-      <a href="/contact/" class="wa-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white"><iconify-icon icon="mdi:email"></iconify-icon> تواصل مع مهندسينا</a>
+      <a href="https://wa.me/966538229013?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%D8%8C%20%D8%A3%D8%A8%D8%BA%D9%89%20%D8%A3%D8%B7%D9%84%D8%A8%20%D8%AA%D9%82%D9%8A%D9%8A%D9%85%20%D8%AC%D8%A7%D9%87%D8%B2%D9%8A%D8%A9%20%D8%AD%D9%88%D9%83%D9%85%D8%A9%20AI%20%D9%84%D9%85%D8%A4%D8%B3%D8%B3%D8%AA%D9%8A" target="_blank" rel="noopener noreferrer" class="glow-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-bold"><svg aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-play-circle"></use></svg> احصل على تقييم فوري لمؤسستك</a>
+      <a href="/contact/" class="wa-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white"><svg aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-email"></use></svg> تواصل مع مهندسينا</a>
     </div>
   </div>
 </section>
@@ -71,7 +73,7 @@ const jsonLd = {
       {targetAudience.map(a => (
         <div class="inner-card">
           <div style={`width:56px;height:56px;border-radius:16px;display:grid;place-items:center;background:${a.bg};margin-bottom:1rem;`}>
-            <iconify-icon icon={a.icon} style="font-size:1.5rem;color:#fff;"></iconify-icon>
+            <Icon name={a.icon} class="" style="font-size:1.5rem;color:#fff;" />
           </div>
           <h3 class="inner-card__title">{a.title}</h3>
           <p class="text-cyan-300 font-bold text-sm mb-3">{a.sub}</p>
@@ -95,7 +97,7 @@ const jsonLd = {
       {auditPillars.map(p => (
         <div class="inner-card">
           <div style={`width:48px;height:48px;border-radius:12px;display:grid;place-items:center;background:${p.color};border:1px solid ${p.border};margin-bottom:1rem;`}>
-            <iconify-icon icon={p.icon} style={`font-size:1.25rem;color:${p.iconColor};`}></iconify-icon>
+            <Icon name={p.icon} class="" />
           </div>
           <h3 class="inner-card__title">{p.title}</h3>
           <p class="inner-card__text">{p.desc}</p>
@@ -130,9 +132,9 @@ const jsonLd = {
     <h2 id="why-us-title" class="inner-section__title">لماذا تختار BrightAI لحوكمة الذكاء الاصطناعي؟</h2>
     <p class="inner-section__lead">نحن نوفر لك حلولاً وحوكمة فنية حقيقية مصممة خصيصاً للمؤسسات التي تتطلب مستويات أمان سيبراني صارمة داخل المملكة.</p>
     <div class="inner-grid inner-grid--3">
-      <div class="inner-card"><h3 class="inner-card__title"><iconify-icon class="text-cyan-300" icon="mdi:server"></iconify-icon> استضافة محلية 100%</h3><p class="inner-card__text">تضمن حلولنا بقاء كافة البيانات وعمليات التدقيق والتقارير داخل حدود المملكة العربية السعودية، مما يمنع تسريبها للخارج تماماً.</p></div>
-      <div class="inner-card"><h3 class="inner-card__title"><iconify-icon class="text-cyan-300" icon="mdi:lightning-bolt"></iconify-icon> لا عرقلة للإنتاجية</h3><p class="inner-card__text">تعمل أدواتنا كـ Middleware غير مرئي. يستمر موظفوك باستخدام أدوات الذكاء الاصطناعي المفضلة لديهم دون أي بطء أو تعطيل لمهامهم اليومية.</p></div>
-      <div class="inner-card"><h3 class="inner-card__title"><iconify-icon class="text-cyan-300" icon="mdi:laptop"></iconify-icon> تكامل تقني عميق</h3><p class="inner-card__text">تتكامل أنظمتنا بسلاسة مع أنظمة ERP الشائعة مثل SAP وOracle وMicrosoft 365 لتسجيل الأنشطة وتتبع البيانات الحساسة تلقائياً.</p></div>
+      <div class="inner-card"><h3 class="inner-card__title"><svg class="text-cyan-300" aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-server"></use></svg> استضافة محلية 100%</h3><p class="inner-card__text">تضمن حلولنا بقاء كافة البيانات وعمليات التدقيق والتقارير داخل حدود المملكة العربية السعودية، مما يمنع تسريبها للخارج تماماً.</p></div>
+      <div class="inner-card"><h3 class="inner-card__title"><svg class="text-cyan-300" aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-lightning-bolt"></use></svg> لا عرقلة للإنتاجية</h3><p class="inner-card__text">تعمل أدواتنا كـ Middleware غير مرئي. يستمر موظفوك باستخدام أدوات الذكاء الاصطناعي المفضلة لديهم دون أي بطء أو تعطيل لمهامهم اليومية.</p></div>
+      <div class="inner-card"><h3 class="inner-card__title"><svg class="text-cyan-300" aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-laptop"></use></svg> تكامل تقني عميق</h3><p class="inner-card__text">تتكامل أنظمتنا بسلاسة مع أنظمة ERP الشائعة مثل SAP وOracle وMicrosoft 365 لتسجيل الأنشطة وتتبع البيانات الحساسة تلقائياً.</p></div>
     </div>
   </div>
 </section>
@@ -170,7 +172,7 @@ const jsonLd = {
     <div class="inner-faq">
       {faqItems.map((item, i) => (
         <details open={i === 0}>
-          <summary><span>{item.q}</span><iconify-icon icon="mdi:chevron-down"></iconify-icon></summary>
+          <summary><span>{item.q}</span><svg aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-chevron-down"></use></svg></summary>
           <div class="inner-faq__answer"><p>{item.a}</p></div>
         </details>
       ))}
@@ -185,13 +187,13 @@ const jsonLd = {
       <h2 class="inner-cta-final__title">احمِ أصول بياناتك وباشر<br /><span class="gradient-text">تقييم جاهزيتك اليوم</span></h2>
       <p class="inner-cta-final__desc">فريقنا الهندسي في الرياض جاهز لمساعدتك في رصد وإدارة مخاطر الذكاء الاصطناعي وتطبيق سياسات الأمان السيبراني بفعالية تشغيلية تامة.</p>
       <div class="inner-hero__actions" style="justify-content:center;">
-        <a href="https://wa.me/966538229013?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%D8%8C%20%D8%A3%D8%A8%D8%BA%D9%89%20%D8%A3%D8%AA%D8%AD%D8%AF%D8%AB%20%D9%85%D8%B9%20%D9%85%D9%87%D9%86%D8%AF%D8%B3%D9%8A%20BrightAI%20%D8%B9%D9%86%20%D8%AA%D9%82%D9%8A%D9%8A%D9%85%20%D8%AC%D8%A7%D9%87%D8%B2%D9%8A%D8%A9%20%D8%AD%D9%88%D9%83%D9%85%D8%A9%20AI" target="_blank" rel="noopener noreferrer" class="wa-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white"><iconify-icon icon="mdi:whatsapp"></iconify-icon> تحدث مع مهندسينا عبر واتساب</a>
-        <a href="/contact/" class="glow-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-bold"><iconify-icon icon="mdi:calendar"></iconify-icon> طلب اجتماع فني مخصص</a>
+        <a href="https://wa.me/966538229013?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%D8%8C%20%D8%A3%D8%A8%D8%BA%D9%89%20%D8%A3%D8%AA%D8%AD%D8%AF%D8%AB%20%D9%85%D8%B9%20%D9%85%D9%87%D9%86%D8%AF%D8%B3%D9%8A%20BrightAI%20%D8%B9%D9%86%20%D8%AA%D9%82%D9%8A%D9%8A%D9%85%20%D8%AC%D8%A7%D9%87%D8%B2%D9%8A%D8%A9%20%D8%AD%D9%88%D9%83%D9%85%D8%A9%20AI" target="_blank" rel="noopener noreferrer" class="wa-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white"><svg aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-whatsapp"></use></svg> تحدث مع مهندسينا عبر واتساب</a>
+        <a href="/contact/" class="glow-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-bold"><svg aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-calendar"></use></svg> طلب اجتماع فني مخصص</a>
       </div>
       <div class="flex flex-wrap justify-center gap-6 text-sm text-white/50 mt-6">
-        <span><iconify-icon class="text-cyan-300" icon="mdi:check"></iconify-icon> فحص واستكشاف في غضون أيام</span>
-        <span><iconify-icon class="text-cyan-300" icon="mdi:check"></iconify-icon> استضافة سحابية أو محلية كاملة</span>
-        <span><iconify-icon class="text-cyan-300" icon="mdi:check"></iconify-icon> فريق تقني سعودي متخصص</span>
+        <span><svg class="text-cyan-300" aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-check"></use></svg> فحص واستكشاف في غضون أيام</span>
+        <span><svg class="text-cyan-300" aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-check"></use></svg> استضافة سحابية أو محلية كاملة</span>
+        <span><svg class="text-cyan-300" aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-check"></use></svg> فريق تقني سعودي متخصص</span>
       </div>
     </div>
   </div>

@@ -26,7 +26,7 @@ const hasLinks = relSols.length || relSectors.length || docs.length || blog.leng
     <div class="inner-grid inner-grid--2">
       {relSols.length > 0 && (
         <div class="inner-card p-6">
-          <h3 class="inner-card__title mb-4"><iconify-icon icon="mdi:puzzle" class="text-cyan-300 ml-2"></iconify-icon>حلول مرتبطة</h3>
+          <h3 class="inner-card__title mb-4"><svg class="text-cyan-300 ml-2" aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-puzzle"></use></svg>حلول مرتبطة</h3>
           <ul class="space-y-2">
             {relSols.map(s => (
               <li><a href={s.href} class="text-cyan-300 hover:text-white transition-colors text-sm">{s.h1}</a></li>
@@ -36,7 +36,7 @@ const hasLinks = relSols.length || relSectors.length || docs.length || blog.leng
       )}
       {relSectors.length > 0 && (
         <div class="inner-card p-6">
-          <h3 class="inner-card__title mb-4"><iconify-icon icon="mdi:domain" class="text-cyan-300 ml-2"></iconify-icon>حلول قطاعية</h3>
+          <h3 class="inner-card__title mb-4"><svg class="text-cyan-300 ml-2" aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-domain"></use></svg>حلول قطاعية</h3>
           <ul class="space-y-2">
             {relSectors.map(s => (
               <li><a href={s.href} class="text-cyan-300 hover:text-white transition-colors text-sm">{s.h1}</a></li>
@@ -46,7 +46,7 @@ const hasLinks = relSols.length || relSectors.length || docs.length || blog.leng
       )}
       {(docs.length || kernel.length) > 0 && (
         <div class="inner-card p-6">
-          <h3 class="inner-card__title mb-4"><iconify-icon icon="mdi:file-document" class="text-cyan-300 ml-2"></iconify-icon>الوثائق والمراجع</h3>
+          <h3 class="inner-card__title mb-4"><svg class="text-cyan-300 ml-2" aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-file-document"></use></svg>الوثائق والمراجع</h3>
           <ul class="space-y-2">
             {docs.map(d => <li><a href={d} class="text-cyan-300 hover:text-white transition-colors text-sm">{d.replace('/docs/','').replace('/','').replace(/-/g,' ')}</a></li>)}
             {kernel.map(k => <li><a href={k} class="text-cyan-300 hover:text-white transition-colors text-sm">Kernel: {k.replace('/kernel/','').replace('/','')}</a></li>)}
@@ -55,7 +55,7 @@ const hasLinks = relSols.length || relSectors.length || docs.length || blog.leng
       )}
       {blog.length > 0 && (
         <div class="inner-card p-6">
-          <h3 class="inner-card__title mb-4"><iconify-icon icon="mdi:post" class="text-cyan-300 ml-2"></iconify-icon>من المدونة</h3>
+          <h3 class="inner-card__title mb-4"><svg class="text-cyan-300 ml-2" aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-post"></use></svg>من المدونة</h3>
           <ul class="space-y-2">
             {blog.map(b => <li><a href={b} class="text-cyan-300 hover:text-white transition-colors text-sm">اقرأ المقال</a></li>)}
           </ul>

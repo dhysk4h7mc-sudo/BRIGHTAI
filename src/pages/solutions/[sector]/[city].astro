@@ -6,6 +6,8 @@ import RelatedLinks from '../../../components/RelatedLinks.astro';
 import { sectors, solutions } from '../../../data/solutions';
 import { migratedLocalPages } from '../../../data/migratedSolutionPages';
 
+import Icon from '../../../components/Icon.astro';
+
 export function getStaticPaths() {
   const paths: any[] = [];
   for (const sector of sectors) {
@@ -96,19 +98,19 @@ const jsonLd = {
   <BackgroundGrid />
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
     <Breadcrumbs crumbs={crumbs} />
-    <div class="inner-hero__badge"><iconify-icon icon="mdi:map-marker-radius"></iconify-icon> {loc.cityAr} — {sector.chip}</div>
+    <div class="inner-hero__badge"><svg aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-map-marker-radius"></use></svg> {loc.cityAr} — {sector.chip}</div>
     <h1>{loc.h1}</h1>
     <p class="inner-hero__desc">{loc.description}</p>
     <div class="inner-hero__actions">
-      <a href="/contact/" class="glow-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-bold"><iconify-icon icon="mdi:calendar-check"></iconify-icon> اطلب عرض توضيحي</a>
-      <a href={`https://wa.me/966538229013?text=${whatsappMsg}`} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white" style="background:linear-gradient(135deg,#25D366,#128C7E)"><iconify-icon icon="mdi:whatsapp"></iconify-icon> تواصل عبر واتساب</a>
+      <a href="/contact/" class="glow-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-bold"><svg aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-calendar-check"></use></svg> اطلب عرض توضيحي</a>
+      <a href={`https://wa.me/966538229013?text=${whatsappMsg}`} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white" style="background:linear-gradient(135deg,#25D366,#128C7E)"><svg aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-whatsapp"></use></svg> تواصل عبر واتساب</a>
     </div>
   </div>
 </section>
 
 <section class="inner-section inner-section--alt" aria-labelledby="local-context">
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
-    <h2 id="local-context" class="inner-section__title"><iconify-icon icon="mdi:city" class="text-cyan-300"></iconify-icon> خدمات حوكمة الذكاء الاصطناعي في {loc.cityAr}</h2>
+    <h2 id="local-context" class="inner-section__title"><svg class="text-cyan-300" aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-city"></use></svg> خدمات حوكمة الذكاء الاصطناعي في {loc.cityAr}</h2>
     <div class="inner-card p-8">
       <p class="inner-card__text text-base leading-loose">{sector.shortDesc} نقدم خدماتنا محلياً في {loc.cityAr} مع دعم فني ميداني وتكامل مع الأنظمة المحلية. هذا الحل يدعم جاهزية مؤسستك للضوابط التنظيمية السعودية وليس استشارة قانونية.</p>
     </div>
@@ -117,12 +119,12 @@ const jsonLd = {
 
 <section class="inner-section" aria-labelledby="solutions-local">
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
-    <h2 id="solutions-local" class="inner-section__title"><iconify-icon icon="mdi:puzzle" class="text-cyan-300"></iconify-icon> حلول BrightAI المتاحة في {loc.cityAr}</h2>
+    <h2 id="solutions-local" class="inner-section__title"><svg class="text-cyan-300" aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-puzzle"></use></svg> حلول BrightAI المتاحة في {loc.cityAr}</h2>
     <div class="inner-grid inner-grid--2">
       {relatedSols.map(sol => (
         <a href={sol!.href} class="inner-card p-6" style="text-decoration:none;color:inherit">
           <div class="flex items-center gap-3 mb-3">
-            <div class="text-2xl"><iconify-icon icon={sol!.icon} class="text-cyan-300"></iconify-icon></div>
+            <div class="text-2xl"><Icon name={sol!.icon} class="text-cyan-300" /></div>
             <h3 class="inner-card__title text-base">{sol!.h1.split('(')[0].trim()}</h3>
           </div>
           <p class="inner-card__text text-sm">{sol!.shortDesc}</p>
@@ -135,7 +137,7 @@ const jsonLd = {
 <a href={sector.href} class="block inner-section inner-section--alt" style="text-decoration:none;color:inherit" aria-labelledby="parent-sector">
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
     <div class="inner-card p-8 flex items-center gap-4">
-      <div class="text-4xl"><iconify-icon icon={sector.icon} class="text-cyan-300"></iconify-icon></div>
+      <div class="text-4xl"><Icon name={sector.icon} class="text-cyan-300" /></div>
       <div>
         <h2 id="parent-sector" class="inner-card__title text-lg">الصفحة الرئيسية: {sector.h1}</h2>
         <p class="inner-card__text text-sm mt-1">اطّلع على التفاصيل الكاملة لحوكمة الذكاء الاصطناعي في {sector.chip} ←</p>
@@ -152,8 +154,8 @@ const jsonLd = {
       <h2 class="inner-cta-final__title">ابدأ بحوكمة الذكاء الاصطناعي في {loc.cityAr} الآن</h2>
       <p class="inner-cta-final__desc">فريقنا في {loc.cityAr} جاهز لمساعدتك. تواصل معنا للحصول على عرض توضيحي مخصص.</p>
       <div class="inner-hero__actions" style="justify-content:center;">
-        <a href="/contact/" class="glow-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-bold"><iconify-icon icon="mdi:calendar-check"></iconify-icon> اطلب عرض توضيحي</a>
-        <a href={`https://wa.me/966538229013?text=${whatsappMsg}`} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white" style="background:linear-gradient(135deg,#25D366,#128C7E)"><iconify-icon icon="mdi:whatsapp"></iconify-icon> تواصل عبر واتساب</a>
+        <a href="/contact/" class="glow-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-bold"><svg aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-calendar-check"></use></svg> اطلب عرض توضيحي</a>
+        <a href={`https://wa.me/966538229013?text=${whatsappMsg}`} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white" style="background:linear-gradient(135deg,#25D366,#128C7E)"><svg aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-whatsapp"></use></svg> تواصل عبر واتساب</a>
       </div>
     </div>
   </div>

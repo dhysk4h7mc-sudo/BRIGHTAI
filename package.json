@@ -37,6 +37,8 @@
     "redirects:check": "node scripts/check-redirect-destinations.mjs && node scripts/check-render-route-hygiene.mjs",
     "sitemap:generate": "node scripts/generate-sitemap-all-pages.mjs",
     "sitemap:all": "npm run sitemap:generate",
+    "postbuild:indexnow": "node scripts/trigger-indexnow.mjs --soft-fail",
+    "image-sitemap": "node scripts/generate-image-sitemap.mjs",
     "indexnow:trigger": "node scripts/trigger-indexnow.mjs",
     "indexnow:check": "node scripts/trigger-indexnow.mjs --dry-run",
     "indexnow:deploy": "node scripts/trigger-indexnow.mjs --soft-fail",

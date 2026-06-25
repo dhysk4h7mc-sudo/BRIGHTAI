@@ -1,11 +1,13 @@
 ---
 import type { SectorData } from '../data/solutions';
+
+import Icon from '../components/Icon.astro';
 interface Props { sector: SectorData; }
 const { sector } = Astro.props;
 ---
 <a href={sector.href} class="inner-card solution-index-card" style="display:block;text-decoration:none;color:inherit;height:100%;">
   <div class="solution-icon-wrap">
-    <iconify-icon icon={sector.icon}></iconify-icon>
+    <Icon name={sector.icon} class="" />
   </div>
   <span class="inner-hero__badge mb-3" style="font-size:0.7rem;">{sector.chip}</span>
   <h3 class="inner-card__title text-lg">{sector.h1}</h3>

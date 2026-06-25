@@ -3,12 +3,14 @@
  * SolutionCard — Card for a single solution on the index page
  */
 import type { SolutionData } from '../data/solutions';
+
+import Icon from '../components/Icon.astro';
 interface Props { solution: SolutionData; }
 const { solution } = Astro.props;
 ---
 <a href={solution.href} class="inner-card solution-index-card" style="display:block;text-decoration:none;color:inherit;height:100%;">
   <div class="solution-icon-wrap">
-    <iconify-icon icon={solution.icon}></iconify-icon>
+    <Icon name={solution.icon} class="" />
   </div>
   <span class="inner-hero__badge mb-3" style="font-size:0.7rem;">{solution.chip}</span>
   <h3 class="inner-card__title text-lg">{solution.cardTitle ?? (solution.h1.split(' ').length > 4 ? solution.h1 : solution.title.split(' | ')[0])}</h3>

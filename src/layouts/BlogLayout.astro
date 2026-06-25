@@ -20,21 +20,22 @@ const { post, body, relatedPosts } = Astro.props;
 
 const blogPostingLd = {
   '@context': 'https://schema.org',
-  '@type': 'BlogPosting',
-  '@id': `${post.canonical}#blogposting`,
+  '@type': 'Article',
+  '@id': `${post.canonical}#article`,
   headline: post.title,
   description: post.description,
   image: `${SITE.url}${post.ogImage}`,
   datePublished: post.pubDate,
-  dateModified: post.updatedDate,
+  dateModified: post.updatedDate ?? post.pubDate,
   inLanguage: 'ar-SA',
   author: {
     '@type': 'Person',
     name: post.author.name,
-    url: post.author.url,
+    url: `${SITE.url}/authors/${post.author.slug}/`,
   },
   publisher: {
     '@type': 'Organization',
+    '@id': `${SITE.url}#organization`,
     name: 'BrightAI',
     url: SITE.url,
     logo: { '@type': 'ImageObject', url: `${SITE.url}/logo.png` },

@@ -1,6 +1,7 @@
 ---
-interface Props { badge?:string; badgeIcon?:string; title?:string; description?:string; stats?:{value:string;label:string}[]; tone?:'primary'|'success'; }
+
+import Icon from '../components/Icon.astro';interface Props { badge?:string; badgeIcon?:string; title?:string; description?:string; stats?:{value:string;label:string}[]; tone?:'primary'|'success'; }
 const { badge='الأكثر طلباً',badgeIcon='lucide:zap',title='فحص الامتثال التنظيمي',description='فحص تلقائي شامل لامتثال نماذج الذكاء الاصطناعي للوائح التنظيمية المحلية والدولية مع تقارير مفصلة.',stats=[{value:'98%',label:'دقة الكشف'},{value:'+500',label:'معيار مراجعة'}],tone='primary' }=Astro.props;
 ---
-<article class="legacy-feature-card"><span class:list={['badge',tone]}><iconify-icon icon={badgeIcon} width="14"></iconify-icon>{badge}</span><h3>{title}</h3><p>{description}</p><div class="stats">{stats.map(stat=><div><strong>{stat.value}</strong><span>{stat.label}</span></div>)}</div></article>
+<article class="legacy-feature-card"><span class:list={['badge',tone]}><Icon name={badgeIcon} class="" />{badge}</span><h3>{title}</h3><p>{description}</p><div class="stats">{stats.map(stat=><div><strong>{stat.value}</strong><span>{stat.label}</span></div>)}</div></article>
 <style>.legacy-feature-card{padding:1.5rem;border:1px solid #ffffff1f;border-radius:8px;background:#0f172bb8}.badge{align-self:flex-start;padding:.25rem .75rem;border-radius:999px;color:#818cf8;background:#6366f126}.badge.success{color:#22c55e;background:#22c55e26}.legacy-feature-card h3{color:#fff}.legacy-feature-card p,.stats span{color:#94a3b8}.stats{display:flex;gap:2rem;padding-top:1rem;border-top:1px solid #ffffff1f}.stats strong,.stats span{display:block}.stats strong{color:#67e8f9;font-size:1.5rem}</style>

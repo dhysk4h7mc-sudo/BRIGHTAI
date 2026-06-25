@@ -13,6 +13,7 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "ignoreDeprecations": "6.0",
     "baseUrl": ".",
     "paths": {
       "@/*": ["./*"],
@@ -22,6 +23,6 @@
       "@styles/*": ["src/styles/*"]
     }
   },
-  "include": ["src/**/*.ts", "src/**/*.astro"],
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.astro"],
   "exclude": ["node_modules", "frontend", "plugins", "dist"]
 }

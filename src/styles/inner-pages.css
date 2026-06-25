@@ -205,12 +205,12 @@
   list-style: none;
 }
 .inner-faq summary::-webkit-details-marker { display: none; }
-.inner-faq summary iconify-icon {
+.inner-faq summary svg.icon {
   transition: transform 0.3s;
   flex-shrink: 0;
   margin-inline-start: 0.5rem;
 }
-.inner-faq details[open] summary iconify-icon {
+.inner-faq details[open] summary svg.icon {
   transform: rotate(180deg);
 }
 .inner-faq__answer {
@@ -393,7 +393,7 @@
   color: var(--text-soft);
   line-height: 1.6;
 }
-.pricing-card__features li iconify-icon {
+.pricing-card__features li svg.icon {
   color: var(--brand);
   flex-shrink: 0;
   margin-top: 0.2rem;

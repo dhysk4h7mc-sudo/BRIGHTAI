@@ -1,6 +1,7 @@
 ---
-interface Props { href?:string; label?:string; icon?:string; small?:boolean; type?:'button'|'submit'|'reset'; }
+
+import Icon from '../components/Icon.astro';interface Props { href?:string; label?:string; icon?:string; small?:boolean; type?:'button'|'submit'|'reset'; }
 const { href,label='ابدأ الآن',icon='lucide:arrow-left',small=false,type='button' }=Astro.props; const Tag=href?'a':'button';
 ---
-<Tag class:list={['legacy-button-primary',{'is-small':small}]} href={href} type={!href?type:undefined}><iconify-icon icon={icon} width="18"></iconify-icon><slot>{label}</slot></Tag>
+<Tag class:list={['legacy-button-primary',{'is-small':small}]} href={href} type={!href?type:undefined}><Icon name={icon} class="" /><slot>{label}</slot></Tag>
 <style>.legacy-button-primary{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.75rem 1.1rem;border:0;border-radius:8px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;font:inherit;font-weight:700;text-decoration:none;cursor:pointer}.legacy-button-primary.is-small{padding:.5rem .875rem;font-size:.875rem}</style>

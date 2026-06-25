@@ -2,6 +2,8 @@
 import ArabicLayout from '../../layouts/ArabicLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import BackgroundGrid from '../../components/BackgroundGrid.astro';
+
+import Icon from '../../components/Icon.astro';
 const crumbs = [{ label: 'الرئيسية', href: '/' }, { label: 'الخدمات' }];
 const servicePaths = [
   { icon: 'mdi:scale-balance', title: 'AI Governance Platform', desc: 'منصة تنظّم سياسات استخدام الذكاء الاصطناعي، الصلاحيات، المخاطر، وسجلات المراجعة داخل المؤسسة.', href: '/solutions/ai-governance-platform/', cta: 'اعرف أكثر' },
@@ -35,12 +37,12 @@ const faqItems = [
   <BackgroundGrid />
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
     <Breadcrumbs crumbs={crumbs} />
-    <div class="inner-hero__badge"><iconify-icon icon="mdi:cogs"></iconify-icon> تنفيذ Saudi AI Safety OS للسوق السعودي</div>
+    <div class="inner-hero__badge"><svg aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-cogs"></use></svg> تنفيذ Saudi AI Safety OS للسوق السعودي</div>
     <h1>خدمات تنفيذ <span class="gradient-text">Saudi AI Safety OS</span> داخل شركتك</h1>
     <p class="inner-hero__desc">نركّب لك طبقة حماية وحوكمة تشغيلية متكاملة داخل المؤسسة: من تقييم جاهزية AI، لتصميم ضوابط الحماية والتدقيق والموافقة البشرية، ثم الربط الآمن مع أنظمتك الداخلية وتشغيل حالات الاستخدام.</p>
     <div class="inner-hero__actions">
-      <a href="/contact/" class="glow-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-bold"><iconify-icon icon="mdi:calendar-check"></iconify-icon> ابدأ تقييم مجاني</a>
-      <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="wa-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white"><iconify-icon icon="mdi:whatsapp"></iconify-icon> تواصل عبر واتساب</a>
+      <a href="/contact/" class="glow-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-bold"><svg aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-calendar-check"></use></svg> ابدأ تقييم مجاني</a>
+      <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="wa-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white"><svg aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-whatsapp"></use></svg> تواصل عبر واتساب</a>
     </div>
   </div>
 </section>
@@ -53,7 +55,7 @@ const faqItems = [
     <div class="inner-grid inner-grid--3">
       {servicePaths.map(s => (
         <a href={s.href} class="inner-card" style="text-decoration:none;">
-          <div class="inner-card__icon"><iconify-icon icon={s.icon}></iconify-icon></div>
+          <div class="inner-card__icon"><Icon name={s.icon} class="" /></div>
           <h3 class="inner-card__title">{s.title}</h3>
           <p class="inner-card__text">{s.desc}</p>
           <span>{s.cta}</span>
@@ -119,10 +121,10 @@ const faqItems = [
     <p class="inner-section__lead">راجع مركز اختيار الحلول ومركز حالات الاستخدام، أو انتقل مباشرة إلى الصفحات المحلية للقطاع المالي في الرياض، والقطاع الصحي في جدة، والجهات الحكومية في الدمام.</p>
     <p><a href="/hub/solutions/">مركز اختيار الحلول</a> · <a href="/hub/use-cases/">مركز حالات الاستخدام</a> · <a href="/solutions/banking-ai-governance/riyadh/">الرياض</a> · <a href="/solutions/healthcare-ai-governance/jeddah/">جدة</a> · <a href="/solutions/government-ai-governance/dammam/">الدمام</a></p>
     <div class="inner-grid inner-grid--4">
-      <div class="inner-card"><iconify-icon class="inner-card__icon" icon="mdi:flask"></iconify-icon><h3 class="inner-card__title">المصانع الطبية</h3><p class="inner-card__text">SFDA · ISO 13485 · CAPA · المرفوضات</p></div>
-      <div class="inner-card"><iconify-icon class="inner-card__icon" icon="mdi:hospital-building"></iconify-icon><h3 class="inner-card__title">الرعاية الصحية</h3><p class="inner-card__text">أرشفة طبية · حماية بيانات المرضى</p></div>
-      <div class="inner-card"><iconify-icon class="inner-card__icon" icon="mdi:bank"></iconify-icon><h3 class="inner-card__title">الجهات الحكومية</h3><p class="inner-card__text">SDAIA · NCA · الخدمات الرقمية</p></div>
-      <div class="inner-card"><iconify-icon class="inner-card__icon" icon="mdi:coins"></iconify-icon><h3 class="inner-card__title">القطاع المالي</h3><p class="inner-card__text">SAMA · ZATCA · AML · الاحتيال</p></div>
+      <div class="inner-card"><svg class="inner-card__icon" aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-flask"></use></svg><h3 class="inner-card__title">المصانع الطبية</h3><p class="inner-card__text">SFDA · ISO 13485 · CAPA · المرفوضات</p></div>
+      <div class="inner-card"><svg class="inner-card__icon" aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-hospital-building"></use></svg><h3 class="inner-card__title">الرعاية الصحية</h3><p class="inner-card__text">أرشفة طبية · حماية بيانات المرضى</p></div>
+      <div class="inner-card"><svg class="inner-card__icon" aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-bank"></use></svg><h3 class="inner-card__title">الجهات الحكومية</h3><p class="inner-card__text">SDAIA · NCA · الخدمات الرقمية</p></div>
+      <div class="inner-card"><svg class="inner-card__icon" aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-coins"></use></svg><h3 class="inner-card__title">القطاع المالي</h3><p class="inner-card__text">SAMA · ZATCA · AML · الاحتيال</p></div>
     </div>
   </div>
 </section>
@@ -134,7 +136,7 @@ const faqItems = [
     <div class="inner-faq">
       {faqItems.map((item, i) => (
         <details open={i === 0}>
-          <summary><span>{item.q}</span><iconify-icon icon="mdi:chevron-down"></iconify-icon></summary>
+          <summary><span>{item.q}</span><svg aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-chevron-down"></use></svg></summary>
           <div class="inner-faq__answer"><p>{item.a}</p></div>
         </details>
       ))}
@@ -148,8 +150,8 @@ const faqItems = [
       <h2 class="inner-cta-final__title">ابدأ تقييم جاهزية الذكاء الاصطناعي في شركتك</h2>
       <p class="inner-cta-final__desc">خلنا نفهم بيئتك الحالية ونحدد أين تحتاج AI آمن، قابل للتدقيق، ومربوط بأنظمة الشركة بدل الاعتماد على استخدامات فردية غير مضبوطة.</p>
       <div class="inner-hero__actions" style="justify-content:center;">
-        <a href="/contact/" class="glow-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-bold"><iconify-icon icon="mdi:calendar-check"></iconify-icon> احجز جلسة تقييم</a>
-        <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="wa-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white"><iconify-icon icon="mdi:whatsapp"></iconify-icon> واتساب</a>
+        <a href="/contact/" class="glow-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-bold"><svg aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-calendar-check"></use></svg> احجز جلسة تقييم</a>
+        <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="wa-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white"><svg aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-whatsapp"></use></svg> واتساب</a>
         <a href="/solutions/ai-governance-platform/" class="glow-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-bold">استكشاف منصة الحوكمة</a>
       </div>
     </div>

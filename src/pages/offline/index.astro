@@ -26,10 +26,10 @@ import BackgroundGrid from '../../components/BackgroundGrid.astro';
     <BackgroundGrid />
     <div class="max-w-3xl mx-auto px-5 lg:px-8 text-center">
       <div class="offline-page__icon" aria-hidden="true">
-        <iconify-icon icon="mdi:wifi-off"></iconify-icon>
+        <svg aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-wifi-off"></use></svg>
       </div>
       <div class="inner-hero__badge">
-        <iconify-icon icon="mdi:cloud-off-outline"></iconify-icon>
+        <svg aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-cloud-off-outline"></use></svg>
         وضع عدم الاتصال
       </div>
       <h1 id="offline-title">الاتصال مقطوع</h1>
@@ -38,17 +38,17 @@ import BackgroundGrid from '../../components/BackgroundGrid.astro';
       </p>
 
       <div class="offline-page__note">
-        <iconify-icon icon="mdi:archive-check-outline"></iconify-icon>
+        <svg aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-archive-check-outline"></use></svg>
         <p>الصفحات اللي زرتها سابقًا قد تظل متاحة من الذاكرة المؤقتة.</p>
       </div>
 
       <div class="inner-hero__actions offline-page__actions">
         <button type="button" class="glow-btn offline-page__retry inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-bold">
-          <iconify-icon icon="mdi:refresh"></iconify-icon>
+          <svg aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-refresh"></use></svg>
           حاول الاتصال من جديد
         </button>
         <a href="/" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white border border-white/20">
-          <iconify-icon icon="mdi:home-outline"></iconify-icon>
+          <svg aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-home-outline"></use></svg>
           الرئيسية
         </a>
       </div>
@@ -105,7 +105,7 @@ import BackgroundGrid from '../../components/BackgroundGrid.astro';
       color: rgba(255, 255, 255, 0.72);
     }
 
-    .offline-page__note iconify-icon {
+    .offline-page__note svg.icon {
       flex: 0 0 auto;
       color: #67e8f9;
       font-size: 1.5rem;

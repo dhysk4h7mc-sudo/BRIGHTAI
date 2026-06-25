@@ -6,6 +6,8 @@ import RelatedLinks from '../../components/RelatedLinks.astro';
 import { solutions, getRelatedSolutions, getRelatedSectors } from '../../data/solutions';
 import { migratedSolutionPages } from '../../data/migratedSolutionPages';
 
+import Icon from '../../components/Icon.astro';
+
 export function getStaticPaths() {
   return solutions.map(s => ({ params: { slug: s.slug }, props: { solution: s } }));
 }
@@ -54,12 +56,12 @@ const jsonLd = {
   <BackgroundGrid />
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
     <Breadcrumbs crumbs={crumbs} />
-    <div class="inner-hero__badge"><iconify-icon icon={solution.icon}></iconify-icon> {solution.chip}</div>
+    <div class="inner-hero__badge"><Icon name={solution.icon} class="" /> {solution.chip}</div>
     <h1>{solution.h1}</h1>
     {solution.content ? solution.content.lead.map(paragraph => <p class="inner-hero__desc">{paragraph}</p>) : <p class="inner-hero__desc">{solution.description}</p>}
     <div class="inner-hero__actions">
-      <a href="/contact/" class="glow-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-bold"><iconify-icon icon="mdi:calendar-check"></iconify-icon> اطلب عرض توضيحي</a>
-      <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white" style="background:linear-gradient(135deg,#25D366,#128C7E)"><iconify-icon icon="mdi:whatsapp"></iconify-icon> تواصل عبر واتساب</a>
+      <a href="/contact/" class="glow-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-bold"><svg aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-calendar-check"></use></svg> اطلب عرض توضيحي</a>
+      <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white" style="background:linear-gradient(135deg,#25D366,#128C7E)"><svg aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-whatsapp"></use></svg> تواصل عبر واتساب</a>
     </div>
   </div>
 </section>
@@ -101,7 +103,7 @@ const jsonLd = {
 
 <section class="inner-section inner-section--alt" aria-labelledby="problem">
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
-    <h2 id="problem" class="inner-section__title"><iconify-icon icon="mdi:alert-circle" class="text-red-400"></iconify-icon> المشكلة</h2>
+    <h2 id="problem" class="inner-section__title"><svg class="text-red-400" aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-alert-circle"></use></svg> المشكلة</h2>
     <p class="inner-section__lead">متى تحتاج هذا الحل؟ {solution.whenNeeded}</p>
     <div class="inner-card p-8">
       <p class="inner-card__text text-base leading-loose">{solution.description} هذا الحل يهمك بشكل خاص لو مؤسستك تتعامل مع بيانات حساسة أو تخضع لضوابط تنظيمية سعودية.</p>
@@ -111,10 +113,10 @@ const jsonLd = {
 
 <section class="inner-section" aria-labelledby="how-it-works">
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
-    <h2 id="how-it-works" class="inner-section__title"><iconify-icon icon="mdi:cog" class="text-cyan-300"></iconify-icon> كيف يشتغل داخل BrightAI Kernel</h2>
+    <h2 id="how-it-works" class="inner-section__title"><svg class="text-cyan-300" aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-cog"></use></svg> كيف يشتغل داخل BrightAI Kernel</h2>
     <div class="inner-grid inner-grid--2">
-      <div class="inner-card p-6"><h3 class="inner-card__title"><iconify-icon icon="mdi:check-circle" class="text-emerald-400 ml-2"></iconify-icon>المشكلة اللي يحلها</h3><p class="inner-card__text">{solution.shortDesc}</p></div>
-      <div class="inner-card p-6"><h3 class="inner-card__title"><iconify-icon icon="mdi:shield-check" class="text-cyan-300 ml-2"></iconify-icon>ضوابط الامتثال</h3><p class="inner-card__text">يدعم جاهزية ضوابط NCA/SDAIA/SFDA وليس استشارة قانونية. يوفر طبقة تشغيل وتوثيق تساعد فرق الامتثال.</p></div>
+      <div class="inner-card p-6"><h3 class="inner-card__title"><svg class="text-emerald-400 ml-2" aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-check-circle"></use></svg>المشكلة اللي يحلها</h3><p class="inner-card__text">{solution.shortDesc}</p></div>
+      <div class="inner-card p-6"><h3 class="inner-card__title"><svg class="text-cyan-300 ml-2" aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-shield-check"></use></svg>ضوابط الامتثال</h3><p class="inner-card__text">يدعم جاهزية ضوابط NCA/SDAIA/SFDA وليس استشارة قانونية. يوفر طبقة تشغيل وتوثيق تساعد فرق الامتثال.</p></div>
     </div>
   </div>
 </section>
@@ -125,7 +127,7 @@ const jsonLd = {
     <div class="inner-grid inner-grid--3">
       {relSols.map(s => (
         <a href={s.href} class="inner-card p-6 text-center" style="text-decoration:none;color:inherit">
-          <div class="text-3xl mb-3"><iconify-icon icon={s.icon} class="text-cyan-300"></iconify-icon></div>
+          <div class="text-3xl mb-3"><Icon name={s.icon} class="text-cyan-300" /></div>
           <h3 class="inner-card__title text-sm">{s.h1.split('(')[0].trim()}</h3>
           <p class="inner-card__text text-xs mt-2">{s.shortDesc}</p>
         </a>
@@ -141,7 +143,7 @@ const jsonLd = {
     <div class="inner-grid inner-grid--2">
       {relSectors.map(sec => (
         <a href={sec.href} class="inner-card p-6" style="text-decoration:none;color:inherit">
-          <h3 class="inner-card__title"><iconify-icon icon={sec.icon} class="text-cyan-300 ml-2"></iconify-icon>{sec.h1}</h3>
+          <h3 class="inner-card__title"><Icon name={sec.icon} class="text-cyan-300 ml-2" />{sec.h1}</h3>
           <p class="inner-card__text">{sec.shortDesc}</p>
         </a>
       ))}
@@ -158,8 +160,8 @@ const jsonLd = {
       <h2 class="inner-cta-final__title">{solution.content?.finalTitle ?? `ابدأ بـ ${solution.h1.split('(')[0].trim()} الآن`}</h2>
       <p class="inner-cta-final__desc">{solution.content?.finalText ?? 'تواصل معنا للحصول على عرض توضيحي مخصص لقطاعك.'}</p>
       <div class="inner-hero__actions" style="justify-content:center;">
-        <a href="/contact/" class="glow-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-bold"><iconify-icon icon="mdi:calendar-check"></iconify-icon> اطلب عرض توضيحي</a>
-        <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white" style="background:linear-gradient(135deg,#25D366,#128C7E)"><iconify-icon icon="mdi:whatsapp"></iconify-icon> تواصل عبر واتساب</a>
+        <a href="/contact/" class="glow-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-bold"><svg aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-calendar-check"></use></svg> اطلب عرض توضيحي</a>
+        <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white" style="background:linear-gradient(135deg,#25D366,#128C7E)"><svg aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-whatsapp"></use></svg> تواصل عبر واتساب</a>
       </div>
     </div>
   </div>
