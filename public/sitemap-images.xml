@@ -23,6 +23,41 @@
     </image:image>
   </url>
   <url>
+    <loc>https://brightai.site/frontend/assets/images/og/brightai-og-1200x630.png</loc>
+    <image:image>
+      <image:loc>https://brightai.site/frontend/assets/images/og/brightai-og-1200x630.png</image:loc>
+      <image:title>brightai og 1200x630</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://brightai.site/frontend/assets/images/og/og-blog.png</loc>
+    <image:image>
+      <image:loc>https://brightai.site/frontend/assets/images/og/og-blog.png</image:loc>
+      <image:title>og blog</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://brightai.site/frontend/assets/images/og/og-docs.png</loc>
+    <image:image>
+      <image:loc>https://brightai.site/frontend/assets/images/og/og-docs.png</image:loc>
+      <image:title>og docs</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://brightai.site/frontend/assets/images/og/og-home.png</loc>
+    <image:image>
+      <image:loc>https://brightai.site/frontend/assets/images/og/og-home.png</image:loc>
+      <image:title>og home</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://brightai.site/frontend/assets/images/og/og-kernel.png</loc>
+    <image:image>
+      <image:loc>https://brightai.site/frontend/assets/images/og/og-kernel.png</image:loc>
+      <image:title>og kernel</image:title>
+    </image:image>
+  </url>
+  <url>
     <loc>https://brightai.site/frontend/assets/images/og/og-solutions.png</loc>
     <image:image>
       <image:loc>https://brightai.site/frontend/assets/images/og/og-solutions.png</image:loc>
@@ -139,34 +174,6 @@
     <image:image>
       <image:loc>https://brightai.site/logo.png</image:loc>
       <image:title>logo</image:title>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://brightai.site/frontend/assets/images/og/og-blog.png</loc>
-    <image:image>
-      <image:loc>https://brightai.site/frontend/assets/images/og/og-blog.png</image:loc>
-      <image:title>og blog</image:title>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://brightai.site/frontend/assets/images/og/og-docs.png</loc>
-    <image:image>
-      <image:loc>https://brightai.site/frontend/assets/images/og/og-docs.png</image:loc>
-      <image:title>og docs</image:title>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://brightai.site/frontend/assets/images/og/og-home.png</loc>
-    <image:image>
-      <image:loc>https://brightai.site/frontend/assets/images/og/og-home.png</image:loc>
-      <image:title>og home</image:title>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://brightai.site/frontend/assets/images/og/og-kernel.png</loc>
-    <image:image>
-      <image:loc>https://brightai.site/frontend/assets/images/og/og-kernel.png</image:loc>
-      <image:title>og kernel</image:title>
     </image:image>
   </url>
   <url>

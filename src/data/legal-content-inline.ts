@@ -570,18 +570,38 @@ export const legal_privacy_cookies: LegalInlineContent = {
     </section>
 
     <script>
-        function loadAnimations() {
-            loadScript('/frontend/js/vendor/aos.js', function () {
-                if (typeof AOS !== 'undefined') AOS.init({ duration: 800, once: true, offset: 50 });
-            });
-        }
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', function () {
-                setTimeout(loadAnimations, 300);
-            });
-        } else {
-            setTimeout(loadAnimations, 300);
-        }
+        (function () {
+            function initFadeInAnimations() {
+                var els = document.querySelectorAll('[data-aos]');
+                if (!('IntersectionObserver' in window)) {
+                    els.forEach(function (el) { el.style.opacity = '1'; el.style.transform = 'none'; });
+                    return;
+                }
+                els.forEach(function (el) {
+                    el.style.opacity = '0';
+                    el.style.transform = 'translateY(20px)';
+                    el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+                });
+                var io = new IntersectionObserver(function (entries) {
+                    entries.forEach(function (entry) {
+                        if (entry.isIntersecting) {
+                            var delay = entry.target.getAttribute('data-aos-delay') || 0;
+                            setTimeout(function () {
+                                entry.target.style.opacity = '1';
+                                entry.target.style.transform = 'none';
+                            }, delay);
+                            io.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+                els.forEach(function (el) { io.observe(el); });
+            }
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', function () { setTimeout(initFadeInAnimations, 100); });
+            } else {
+                setTimeout(initFadeInAnimations, 100);
+            }
+        })();
     </script>
 
 <section id="semrush-privacy-cookies-index-html" data-semrush-fix="20260324" style="content-visibility:auto;max-width:1120px;margin:48px auto 0;padding:0 24px;">

@@ -1,5 +1,5 @@
 /* BrightAI Service Worker - production cache routing for repeat visits */
-const CACHE_VERSION = '2026-04-29-2';
+const CACHE_VERSION = '2026-06-26-1';
 const CACHE_PREFIX = 'brightai';
 const STATIC_CACHE = `${CACHE_PREFIX}-static-${CACHE_VERSION}`;
 const HTML_CACHE = `${CACHE_PREFIX}-html-${CACHE_VERSION}`;
@@ -15,12 +15,9 @@ const MAX_RUNTIME_ENTRIES = 80;
 const PRECACHE_URLS = [
   OFFLINE_URL,
   '/manifest.webmanifest',
-  '/frontend/css/bundle-critical.css',
-  '/frontend/css/main.bundle.min.css',
-  '/frontend/js/runtime-config.min.js',
-  '/frontend/js/navigation.min.js',
+  '/frontend/assets/fonts/TheYearofTheCamel-Medium.woff2',
   '/frontend/assets/images/logo.png',
-  '/frontend/images/hero-brain.svg'
+  '/images/hero-brain.svg'
 ];
 
 self.addEventListener('install', (event) => {
