@@ -1,8 +1,6 @@
 import js from "@eslint/js";
-import nextPlugin from "@next/eslint-plugin-next";
 import tsPlugin from "@typescript-eslint/eslint-plugin";
 import tsParser from "@typescript-eslint/parser";
-import reactHooks from "eslint-plugin-react-hooks";
 
 const browserGlobals = {
   AbortController: "readonly",
@@ -24,11 +22,11 @@ const browserGlobals = {
 
 export default [
   {
-    ignores: [".next/**", "node_modules/**", "frontend/**", "backend/**", "plugins/**", "scripts/**"]
+    ignores: [".astro/**", ".next/**", ".agents/**", ".kilo/**", "node_modules/**", "frontend/**", "backend/**", "plugins/**", "scripts/**", "dist/**", "_archive/**", "report/**", "docs/**", "kernel/**", "public/**", "demo/**", "vitest.config.js"]
   },
   js.configs.recommended,
   {
-    files: ["app/**/*.{ts,tsx}", "components/**/*.{ts,tsx}", "lib/**/*.{ts,tsx}"],
+    files: ["src/**/*.{ts,tsx,js,jsx}", "components/**/*.{ts,tsx,js,jsx}"],
     languageOptions: {
       parser: tsParser,
       parserOptions: {
@@ -39,18 +37,15 @@ export default [
       globals: browserGlobals
     },
     plugins: {
-      "@typescript-eslint": tsPlugin,
-      "@next/next": nextPlugin,
-      "react-hooks": reactHooks
+      "@typescript-eslint": tsPlugin
     },
     rules: {
       ...tsPlugin.configs.recommended.rules,
-      ...nextPlugin.configs.recommended.rules,
-      ...nextPlugin.configs["core-web-vitals"].rules,
-      ...reactHooks.configs.recommended.rules,
       "no-console": "off",
       "no-undef": "off",
-      "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }]
+      "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
+      "@typescript-eslint/no-explicit-any": "warn",
+      "@typescript-eslint/triple-slash-reference": "off"
     }
   }
 ];
