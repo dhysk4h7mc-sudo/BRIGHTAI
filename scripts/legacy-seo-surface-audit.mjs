@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import fs from "node:fs/promises";
+import fsSync from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import {
@@ -13,6 +14,7 @@ const SITE_ORIGIN = "https://brightai.site";
 const IGNORED_DIRS = new Set([
   ".git",
   ".agents",
+  ".kilo",
   ".render-static",
   "node_modules",
   "reports",
@@ -22,13 +24,13 @@ const MACHINE_READABLE_FILES = ["robots.txt", "llms.txt", "llms-full.txt", "ai.t
 const LEGACY_PUBLIC_PATH = /\/(?:frontend|demo)\/pages\//i;
 const LEGACY_DESTINATION_PATH = /\/(?:frontend|demo)\/pages\//i;
 
-async function walkFiles(root, current = "", files = []) {
+async function walkFiles(root, current = "", files = [], ignoreSet = IGNORED_DIRS) {
   const entries = await fs.readdir(path.join(root, current), { withFileTypes: true });
   for (const entry of entries) {
-    if (entry.isDirectory() && IGNORED_DIRS.has(entry.name)) continue;
+    if (entry.isDirectory() && ignoreSet.has(entry.name)) continue;
     const relPath = path.posix.join(current, entry.name);
     if (entry.isDirectory()) {
-      await walkFiles(root, relPath, files);
+      await walkFiles(root, relPath, files, ignoreSet);
     } else if (entry.isFile()) {
       files.push(relPath);
     }
@@ -101,6 +103,14 @@ function routeExists(route, routeSet, fileSet) {
   if (fileSet.has(relative)) return true;
   if (fileSet.has(path.posix.join(relative, "index.html"))) return true;
   if (fileSet.has(`${relative}.html`)) return true;
+  // Handle .html targets: /kernel/approvals.html -> check kernel/approvals/index.html
+  if (route.endsWith(".html")) {
+    const noExt = route.replace(/\.html$/, "");
+    const canonicalNoExt = canonicalizeSitePath(noExt);
+    if (routeSet.has(canonicalNoExt) || routeSet.has(canonicalNoExt.replace(/\/$/, ""))) return true;
+    const relativeNoExt = canonicalNoExt.replace(/^\/+/, "");
+    if (fileSet.has(path.posix.join(relativeNoExt, "index.html"))) return true;
+  }
   return false;
 }
 
@@ -122,24 +132,41 @@ function extractBrightAiUrls(content) {
 }
 
 export async function auditLegacySeoSurface({ root = DEFAULT_ROOT } = {}) {
-  const allFiles = await walkFiles(root);
+  const sourceFiles = await walkFiles(root);
+  // Also include dist output for route existence checks (Astro generates pages there)
+  const distDir = path.join(root, "dist");
+  let distFiles = [];
+  try {
+    // When walking dist, only ignore node_modules and .git, not directory names like "reports"
+    distFiles = await walkFiles(distDir, "", [], new Set(["node_modules", ".git"]));
+  } catch {
+    // dist may not exist yet
+  }
+  const allFiles = [...sourceFiles, ...distFiles];
   const fileSet = new Set(allFiles);
-  const htmlFiles = allFiles.filter((file) => file.endsWith(".html"));
+  const htmlFiles = sourceFiles.filter((file) => file.endsWith(".html"));
   const routeSet = new Set(["/"]);
 
-  for (const htmlFile of htmlFiles) {
+  // Build routes from both source HTML and dist HTML
+  for (const htmlFile of allFiles.filter((f) => f.endsWith(".html"))) {
     for (const route of routeVariantsForHtml(htmlFile)) routeSet.add(route);
   }
 
-  const redirectsJson = JSON.parse(await fs.readFile(path.join(root, "redirects.json"), "utf8"));
+  const redirectsJsonPath = fsSync.existsSync(path.join(root, "redirects.json"))
+    ? path.join(root, "redirects.json")
+    : path.join(root, "public", "redirects.json");
+  const redirectsJson = JSON.parse(await fs.readFile(redirectsJsonPath, "utf8"));
   const jsonRedirects = (redirectsJson.redirects || []).map((entry) => ({
     source: "redirects.json",
     from: entry.from,
     to: entry.to,
     status: String(entry.status || 301),
   }));
+  const redirectsPath = fsSync.existsSync(path.join(root, "_redirects"))
+    ? path.join(root, "_redirects")
+    : path.join(root, "public", "_redirects");
   const netlifyRedirects = parseNetlifyRedirects(
-    await fs.readFile(path.join(root, "_redirects"), "utf8"),
+    await fs.readFile(redirectsPath, "utf8"),
   );
   const redirects = [...jsonRedirects, ...netlifyRedirects];
 
@@ -151,11 +178,14 @@ export async function auditLegacySeoSurface({ root = DEFAULT_ROOT } = {}) {
     const to = localPathFromUrl(redirect.to);
     const comparableFrom = comparableRedirectPath(redirect.from);
     const comparableTo = comparableRedirectPath(redirect.to);
+    // Only flag as self-redirect if the paths are identical after canonicalization
+    // AND it's not just a trailing-slash normalization (which is valid)
     if (
       comparableFrom &&
       comparableTo &&
       comparableFrom === comparableTo &&
-      redirect.status !== "200"
+      redirect.status !== "200" &&
+      from !== to // Skip trailing-slash normalizations like /about -> /about/
     ) {
       selfRedirects.push(`${redirect.source}: ${redirect.from} -> ${redirect.to}`);
     }
@@ -172,7 +202,10 @@ export async function auditLegacySeoSurface({ root = DEFAULT_ROOT } = {}) {
 
   const missingMachineReadableUrls = [];
   for (const relPath of MACHINE_READABLE_FILES) {
-    const content = await fs.readFile(path.join(root, relPath), "utf8");
+    const machinePath = fsSync.existsSync(path.join(root, relPath))
+      ? path.join(root, relPath)
+      : path.join(root, "public", relPath);
+    const content = await fs.readFile(machinePath, "utf8");
     for (const url of extractBrightAiUrls(content)) {
       const pathname = new URL(url).pathname;
       if (!routeExists(pathname, routeSet, fileSet)) {

@@ -23,49 +23,49 @@ export const hub_index: HubInlineContent = {
 
     <a href="/hub/ai-governance/" class="hub-card">
       <div class="hub-icon" style="background: linear-gradient(135deg, rgba(0,212,255,.2), rgba(0,212,255,.05)); color:#9be5ff;">
-        <iconify-icon class="icon-scale-balanced" icon="mdi:scale-balance"></iconify-icon>
+        <svg class="icon-scale-balanced" aria-hidden="true"><use href="/icons.svg#mdi-scale-balance"></use></svg>
       </div>
       <span class="chip" style="background: rgba(0,212,255,.1); border:1px solid rgba(0,212,255,.3); color:#9be5ff;">١٠+ مقالات</span>
       <h2 class="text-2xl font-black text-white mt-3 mb-2">حوكمة الذكاء الاصطناعي</h2>
       <p class="text-white/70 leading-loose mb-4">وش هي حوكمة AI، ليش تحتاجها شركتك السعودية، الأنظمة المنطبقة، وخطوات التطبيق العملي.</p>
       <span class="text-cyan-300 font-bold inline-flex items-center gap-2">
-        ادخل المركز <iconify-icon class="text-xs icon-arrow-left" icon="mdi:arrow-left"></iconify-icon>
+        ادخل المركز <svg class="text-xs icon-arrow-left" aria-hidden="true"><use href="/icons.svg#mdi-arrow-left"></use></svg>
       </span>
     </a>
 
     <a href="/hub/compliance/" class="hub-card">
       <div class="hub-icon" style="background: linear-gradient(135deg, rgba(124,92,255,.2), rgba(124,92,255,.05)); color:#c7b8ff;">
-        <iconify-icon class="icon-shield-halved" icon="mdi:shield-half-full"></iconify-icon>
+        <svg class="icon-shield-halved" aria-hidden="true"><use href="/icons.svg#mdi-shield-half-full"></use></svg>
       </div>
       <span class="chip" style="background: rgba(124,92,255,.1); border:1px solid rgba(124,92,255,.3); color:#c7b8ff;">٦ أنظمة سعودية</span>
       <h2 class="text-2xl font-black text-white mt-3 mb-2">الامتثال السعودي</h2>
       <p class="text-white/70 leading-loose mb-4">PDPL، NCA ECC، SDAIA، SFDA، ساما، والزكاة—كل الأنظمة بشرح بسيط، ومتى ينطبق كل واحد.</p>
       <span class="text-purple-300 font-bold inline-flex items-center gap-2">
-        ادخل المركز <iconify-icon class="text-xs icon-arrow-left" icon="mdi:arrow-left"></iconify-icon>
+        ادخل المركز <svg class="text-xs icon-arrow-left" aria-hidden="true"><use href="/icons.svg#mdi-arrow-left"></use></svg>
       </span>
     </a>
 
     <a href="/hub/solutions/" class="hub-card">
       <div class="hub-icon" style="background: linear-gradient(135deg, rgba(94,234,212,.2), rgba(94,234,212,.05)); color:#6ee7b7;">
-        <iconify-icon class="icon-microchip" icon="mdi:chip"></iconify-icon>
+        <svg class="icon-microchip" aria-hidden="true"><use href="/icons.svg#mdi-chip"></use></svg>
       </div>
       <span class="chip" style="background: rgba(94,234,212,.1); border:1px solid rgba(94,234,212,.3); color:#6ee7b7;">٧ حلول</span>
       <h2 class="text-2xl font-black text-white mt-3 mb-2">الحلول التقنية</h2>
       <p class="text-white/70 leading-loose mb-4">AI Firewall، سجل التدقيق، الموافقات البشرية، ملف الأدلة—كل حل، متى تحتاجه، وكيف يشتغل.</p>
       <span class="text-emerald-300 font-bold inline-flex items-center gap-2">
-        ادخل المركز <iconify-icon class="text-xs icon-arrow-left" icon="mdi:arrow-left"></iconify-icon>
+        ادخل المركز <svg class="text-xs icon-arrow-left" aria-hidden="true"><use href="/icons.svg#mdi-arrow-left"></use></svg>
       </span>
     </a>
 
     <a href="/hub/use-cases/" class="hub-card">
       <div class="hub-icon" style="background: linear-gradient(135deg, rgba(255,92,167,.2), rgba(255,92,167,.05)); color:#fda4d4;">
-        <iconify-icon class="icon-industry" icon="mdi:factory"></iconify-icon>
+        <svg class="icon-industry" aria-hidden="true"><use href="/icons.svg#mdi-factory"></use></svg>
       </div>
       <span class="chip" style="background: rgba(255,92,167,.1); border:1px solid rgba(255,92,167,.3); color:#fda4d4;">٨ قطاعات</span>
       <h2 class="text-2xl font-black text-white mt-3 mb-2">حالات الاستخدام</h2>
       <p class="text-white/70 leading-loose mb-4">كيف يشتغل AI في قطاعك بالضبط: المصانع الطبية، المستشفيات، الحكومي، المالي، والمشتريات.</p>
       <span class="text-pink-300 font-bold inline-flex items-center gap-2">
-        ادخل المركز <iconify-icon class="text-xs icon-arrow-left" icon="mdi:arrow-left"></iconify-icon>
+        ادخل المركز <svg class="text-xs icon-arrow-left" aria-hidden="true"><use href="/icons.svg#mdi-arrow-left"></use></svg>
       </span>
     </a>
 
@@ -92,7 +92,7 @@ export const hub_ai_governance: HubInlineContent = {
     </p>
     <div class="mt-5 flex items-center gap-3 flex-wrap">
       <span class="freshness">
-        <iconify-icon class="icon-clock" icon="mdi:clock-outline"></iconify-icon>
+        <svg class="icon-clock" aria-hidden="true"><use href="/icons.svg#mdi-clock-outline"></use></svg>
         آخر تحديث: 7 يونيو 2026
       </span>
       <span class="text-white/50 text-sm">· وقت القراءة: 25 دقيقة · 3000+ كلمة · روابط حلول وخدمات وKernel ومدونة</span>
@@ -101,7 +101,7 @@ export const hub_ai_governance: HubInlineContent = {
 
   <section class="answer-block" aria-label="الإجابة المختصرة">
     <h2 class="text-xl font-black mb-3 flex items-center gap-2">
-      <iconify-icon class="text-yellow-300 icon-bolt" icon="mdi:lightning-bolt"></iconify-icon>
+      <svg class="text-yellow-300 icon-bolt" aria-hidden="true"><use href="/icons.svg#mdi-lightning-bolt"></use></svg>
       الإجابة المختصرة
     </h2>
     <p class="text-white/85 leading-loose">
@@ -509,13 +509,13 @@ export const hub_ai_governance: HubInlineContent = {
         <p class="text-white/75 mb-6 max-w-2xl mx-auto">ابدأ بتقييم الجاهزية، أو افتح خدمات BrightAI، أو تواصل معنا عشان نبني خارطة تطبيق تناسب بياناتك وقطاعك ومستوى المخاطر عندك.</p>
         <div class="flex gap-3 justify-center flex-wrap">
           <a href="/assessment/ai-governance-readiness/" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white" style="background: linear-gradient(135deg,#00d4ff,#7c5cff);">
-            <iconify-icon class="icon-clipboard-check" icon="mdi:clipboard-check"></iconify-icon> قيّم جاهزية الحوكمة
+            <svg class="icon-clipboard-check" aria-hidden="true"><use href="/icons.svg#mdi-clipboard-check"></use></svg> قيّم جاهزية الحوكمة
           </a>
           <a href="/services/" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white border border-white/15">
-            <iconify-icon class="icon-briefcase" icon="mdi:briefcase-outline"></iconify-icon> استعرض الخدمات
+            <svg class="icon-briefcase" aria-hidden="true"><use href="/icons.svg#mdi-briefcase-outline"></use></svg> استعرض الخدمات
           </a>
           <a href="https://wa.me/966538229013" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white" style="background: linear-gradient(135deg,#25D366,#128C7E);">
-            <iconify-icon class="icon-whatsapp" icon="mdi:whatsapp"></iconify-icon> سؤال على واتساب
+            <svg class="icon-whatsapp" aria-hidden="true"><use href="/icons.svg#mdi-whatsapp"></use></svg> سؤال على واتساب
           </a>
         </div>
       </section>
@@ -543,13 +543,13 @@ export const hub_compliance: HubInlineContent = {
       مرجع موحّد لكل الأنظمة السعودية اللي تخص استخدام AI في الشركات. PDPL، NCA، SDAIA، SFDA، ساما، والزكاة—كل واحد بشرح مبسّط، عقوباته، ومتى ينطبق على شركتك.
     </p>
     <div class="mt-5">
-      <span class="freshness"><iconify-icon class="icon-clock" icon="mdi:clock-outline"></iconify-icon> آخر تحديث: 31 مايو 2026</span>
+      <span class="freshness"><svg class="icon-clock" aria-hidden="true"><use href="/icons.svg#mdi-clock-outline"></use></svg> آخر تحديث: 31 مايو 2026</span>
     </div>
   </header>
 
   <section class="answer-block">
     <h2 class="text-xl font-black mb-3 flex items-center gap-2">
-      <iconify-icon class="text-yellow-300 icon-bolt" icon="mdi:lightning-bolt"></iconify-icon>
+      <svg class="text-yellow-300 icon-bolt" aria-hidden="true"><use href="/icons.svg#mdi-lightning-bolt"></use></svg>
       الإجابة المختصرة
     </h2>
     <p class="text-white/85 leading-loose">
@@ -627,7 +627,7 @@ export const hub_compliance: HubInlineContent = {
 
     <article class="reg-card">
       <div class="flex items-start gap-3 mb-3">
-        <iconify-icon class="text-2xl text-cyan-300 icon-shield-halved" icon="mdi:shield-half-full"></iconify-icon>
+        <svg class="text-2xl text-cyan-300 icon-shield-halved" aria-hidden="true"><use href="/icons.svg#mdi-shield-half-full"></use></svg>
         <div>
           <h3 class="text-xl font-black text-white">PDPL · نظام حماية البيانات الشخصية</h3>
           <span class="chip mt-1">صدر ٢٠٢٣ · إلزامي ٢٠٢٤</span>
@@ -652,13 +652,13 @@ export const hub_compliance: HubInlineContent = {
 
       <a href="/docs/pdpl-ai-governance/" class="anchor-link inline-flex items-center gap-2">
         <span>الدليل الكامل لـ PDPL والذكاء الاصطناعي</span>
-        <iconify-icon class="text-xs icon-arrow-left" icon="mdi:arrow-left"></iconify-icon>
+        <svg class="text-xs icon-arrow-left" aria-hidden="true"><use href="/icons.svg#mdi-arrow-left"></use></svg>
       </a>
     </article>
 
     <article class="reg-card">
       <div class="flex items-start gap-3 mb-3">
-        <iconify-icon class="text-2xl text-emerald-300 icon-lock" icon="mdi:lock"></iconify-icon>
+        <svg class="text-2xl text-emerald-300 icon-lock" aria-hidden="true"><use href="/icons.svg#mdi-lock"></use></svg>
         <div>
           <h3 class="text-xl font-black text-white">NCA ECC 2-2024 · ضوابط الأمن السيبراني</h3>
           <span class="chip mt-1">تحديث ٢٠٢٤</span>
@@ -678,13 +678,13 @@ export const hub_compliance: HubInlineContent = {
 
       <a href="/docs/nca-ecc-ai-controls-mapping/" class="anchor-link inline-flex items-center gap-2">
         <span>ربط ضوابط NCA بـ AI Governance</span>
-        <iconify-icon class="text-xs icon-arrow-left" icon="mdi:arrow-left"></iconify-icon>
+        <svg class="text-xs icon-arrow-left" aria-hidden="true"><use href="/icons.svg#mdi-arrow-left"></use></svg>
       </a>
     </article>
 
     <article class="reg-card">
       <div class="flex items-start gap-3 mb-3">
-        <iconify-icon class="text-2xl text-purple-300 icon-brain" icon="mdi:brain"></iconify-icon>
+        <svg class="text-2xl text-purple-300 icon-brain" aria-hidden="true"><use href="/icons.svg#mdi-brain"></use></svg>
         <div>
           <h3 class="text-xl font-black text-white">SDAIA · إرشادات الذكاء الاصطناعي المسؤول</h3>
           <span class="chip mt-1">محدّث دوريّاً</span>
@@ -711,17 +711,17 @@ export const hub_compliance: HubInlineContent = {
 
     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
       <a href="/solutions/ai-governance-platform/" class="reg-card block">
-        <iconify-icon class="text-2xl text-cyan-300 mb-2 icon-shield" icon="mdi:shield"></iconify-icon>
+        <svg class="text-2xl text-cyan-300 mb-2 icon-shield" aria-hidden="true"><use href="/icons.svg#mdi-shield"></use></svg>
         <h3 class="font-bold text-white mb-1">PDPL Pack</h3>
         <p class="text-sm text-white/65">حماية البيانات، PII Redaction، سجل موافقات، إشعارات.</p>
       </a>
       <a href="/solutions/ai-audit-trail/" class="reg-card block">
-        <iconify-icon class="text-2xl text-emerald-300 mb-2 icon-lock" icon="mdi:lock"></iconify-icon>
+        <svg class="text-2xl text-emerald-300 mb-2 icon-lock" aria-hidden="true"><use href="/icons.svg#mdi-lock"></use></svg>
         <h3 class="font-bold text-white mb-1">NCA ECC Pack</h3>
         <p class="text-sm text-white/65">ضوابط أمنية، تصنيف بيانات، سجل وصول، تقارير.</p>
       </a>
       <a href="/solutions/ai-evidence-file/" class="reg-card block">
-        <iconify-icon class="text-2xl text-pink-300 mb-2 icon-kit-medical" icon="mdi:medical-bag"></iconify-icon>
+        <svg class="text-2xl text-pink-300 mb-2 icon-kit-medical" aria-hidden="true"><use href="/icons.svg#mdi-medical-bag"></use></svg>
         <h3 class="font-bold text-white mb-1">SFDA / ISO 13485</h3>
         <p class="text-sm text-white/65">للمصانع الطبية: CAPA، الجودة، الشكاوى، المرفوضات.</p>
       </a>
@@ -753,10 +753,10 @@ export const hub_compliance: HubInlineContent = {
     <p class="text-white/75 mb-6 max-w-2xl mx-auto">احجز جلسة جاهزية امتثال مع فريقنا، نراجع وضع شركتك ونحدد لك الأنظمة المنطبقة والفجوات.</p>
     <div class="flex gap-3 justify-center flex-wrap">
       <a href="/contact/" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white" style="background: linear-gradient(135deg,#7c5cff,#00d4ff);">
-        <iconify-icon class="icon-clipboard-check" icon="mdi:clipboard-check"></iconify-icon> احجز جلسة جاهزية الامتثال
+        <svg class="icon-clipboard-check" aria-hidden="true"><use href="/icons.svg#mdi-clipboard-check"></use></svg> احجز جلسة جاهزية الامتثال
       </a>
       <a href="https://wa.me/966538229013" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white" style="background: linear-gradient(135deg,#25D366,#128C7E);">
-        <iconify-icon class="icon-whatsapp" icon="mdi:whatsapp"></iconify-icon> واتساب فريق الامتثال
+        <svg class="icon-whatsapp" aria-hidden="true"><use href="/icons.svg#mdi-whatsapp"></use></svg> واتساب فريق الامتثال
       </a>
     </div>
   </section>`
@@ -781,13 +781,13 @@ export const hub_solutions: HubInlineContent = {
       كل حلول BrightAI التقنية في صفحة واحدة. اشرحنا كل حل، متى تستخدمه، كيف يشتغل، ومين يستفيد منه أكثر. مرجعك السريع لاختيار الحل المناسب لشركتك.
     </p>
     <div class="mt-5">
-      <span class="freshness"><iconify-icon class="icon-clock" icon="mdi:clock-outline"></iconify-icon> آخر تحديث: 31 مايو 2026</span>
+      <span class="freshness"><svg class="icon-clock" aria-hidden="true"><use href="/icons.svg#mdi-clock-outline"></use></svg> آخر تحديث: 31 مايو 2026</span>
     </div>
   </header>
 
   <section class="answer-block">
     <h2 class="text-xl font-black mb-3 flex items-center gap-2">
-      <iconify-icon class="text-yellow-300 icon-bolt" icon="mdi:lightning-bolt"></iconify-icon>
+      <svg class="text-yellow-300 icon-bolt" aria-hidden="true"><use href="/icons.svg#mdi-lightning-bolt"></use></svg>
       الإجابة المختصرة
     </h2>
     <p class="text-white/85 leading-loose">
@@ -831,7 +831,7 @@ export const hub_solutions: HubInlineContent = {
     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
 
       <a href="/solutions/ai-governance-platform/" class="solution-card">
-        <div class="solution-icon"><iconify-icon class="icon-scale-balanced" icon="mdi:scale-balance"></iconify-icon></div>
+        <div class="solution-icon"><svg class="icon-scale-balanced" aria-hidden="true"><use href="/icons.svg#mdi-scale-balance"></use></svg></div>
         <span class="chip mb-2 text-xs">المنصة الأم</span>
         <h3 class="text-lg font-black text-white mb-2">منصة حوكمة الذكاء الاصطناعي</h3>
         <p class="text-sm text-white/65 mb-3">المنصة الشاملة اللي تجمع كل الحلول. رؤية مركزية لكل استخدامات AI، السياسات، والمخاطر.</p>
@@ -839,7 +839,7 @@ export const hub_solutions: HubInlineContent = {
       </a>
 
       <a href="/solutions/ai-firewall/" class="solution-card">
-        <div class="solution-icon"><iconify-icon class="icon-shield-halved" icon="mdi:shield-half-full"></iconify-icon></div>
+        <div class="solution-icon"><svg class="icon-shield-halved" aria-hidden="true"><use href="/icons.svg#mdi-shield-half-full"></use></svg></div>
         <span class="chip mb-2 text-xs">حماية البيانات</span>
         <h3 class="text-lg font-black text-white mb-2">AI Firewall</h3>
         <p class="text-sm text-white/65 mb-3">يفحص كل طلب AI ويخفي البيانات الشخصية والحساسة قبل وصولها للنموذج. حماية في الزمن الفعلي.</p>
@@ -847,7 +847,7 @@ export const hub_solutions: HubInlineContent = {
       </a>
 
       <a href="/solutions/ai-audit-trail/" class="solution-card">
-        <div class="solution-icon"><iconify-icon class="icon-file-signature" icon="mdi:file-sign"></iconify-icon></div>
+        <div class="solution-icon"><svg class="icon-file-signature" aria-hidden="true"><use href="/icons.svg#mdi-file-sign"></use></svg></div>
         <span class="chip mb-2 text-xs">التوثيق</span>
         <h3 class="text-lg font-black text-white mb-2">AI Audit Trail</h3>
         <p class="text-sm text-white/65 mb-3">سجل تدقيق غير قابل للتعديل (Append-only) محمي بـ SHA-256. كل طلب وقرار محفوظ مدى الحياة.</p>
@@ -855,7 +855,7 @@ export const hub_solutions: HubInlineContent = {
       </a>
 
       <a href="/solutions/human-approval-layer/" class="solution-card">
-        <div class="solution-icon"><iconify-icon class="icon-user-check" icon="mdi:account-check"></iconify-icon></div>
+        <div class="solution-icon"><svg class="icon-user-check" aria-hidden="true"><use href="/icons.svg#mdi-account-check"></use></svg></div>
         <span class="chip mb-2 text-xs">السيطرة</span>
         <h3 class="text-lg font-black text-white mb-2">طبقة الموافقة البشرية</h3>
         <p class="text-sm text-white/65 mb-3">القرارات الحساسة تتوقف لين يراجعها شخص مخوّل. إشعارات فورية، توقيع رقمي، تفويض ذكي.</p>
@@ -863,7 +863,7 @@ export const hub_solutions: HubInlineContent = {
       </a>
 
       <a href="/solutions/ai-evidence-file/" class="solution-card">
-        <div class="solution-icon"><iconify-icon class="icon-folder-open" icon="mdi:folder-open"></iconify-icon></div>
+        <div class="solution-icon"><svg class="icon-folder-open" aria-hidden="true"><use href="/icons.svg#mdi-folder-open"></use></svg></div>
         <span class="chip mb-2 text-xs">الإثبات</span>
         <h3 class="text-lg font-black text-white mb-2">AI Evidence File</h3>
         <p class="text-sm text-white/65 mb-3">ملف PDF موقّع رقمياً يجمع كل البيانات والقرارات والموافقات. جاهز للمدقق أو الجهة التنظيمية.</p>
@@ -871,7 +871,7 @@ export const hub_solutions: HubInlineContent = {
       </a>
 
       <a href="/solutions/ai-risk-classification/" class="solution-card">
-        <div class="solution-icon"><iconify-icon class="icon-triangle-exclamation" icon="mdi:alert-triangle"></iconify-icon></div>
+        <div class="solution-icon"><svg class="icon-triangle-exclamation" aria-hidden="true"><use href="/icons.svg#mdi-alert-triangle"></use></svg></div>
         <span class="chip mb-2 text-xs">تصنيف المخاطر</span>
         <h3 class="text-lg font-black text-white mb-2">تصنيف مخاطر AI</h3>
         <p class="text-sm text-white/65 mb-3">يصنّف كل استخدام AI: عالي، متوسط، منخفض. ويحدد متى يحتاج موافقة بشرية ومتى يمر تلقائياً.</p>
@@ -879,7 +879,7 @@ export const hub_solutions: HubInlineContent = {
       </a>
 
       <a href="/solutions/ai-use-case-discovery/" class="solution-card">
-        <div class="solution-icon"><iconify-icon class="icon-magnifying-glass" icon="mdi:magnify"></iconify-icon></div>
+        <div class="solution-icon"><svg class="icon-magnifying-glass" aria-hidden="true"><use href="/icons.svg#mdi-magnify"></use></svg></div>
         <span class="chip mb-2 text-xs">الاكتشاف</span>
         <h3 class="text-lg font-black text-white mb-2">اكتشاف استخدامات AI</h3>
         <p class="text-sm text-white/65 mb-3">يكتشف الاستخدامات الخفية للذكاء الاصطناعي داخل شركتك (Shadow AI) ويعطيك خريطة كاملة.</p>
@@ -887,7 +887,7 @@ export const hub_solutions: HubInlineContent = {
       </a>
 
       <a href="/solutions/continuous-ai-governance/" class="solution-card">
-        <div class="solution-icon"><iconify-icon class="icon-rotate" icon="mdi:refresh"></iconify-icon></div>
+        <div class="solution-icon"><svg class="icon-rotate" aria-hidden="true"><use href="/icons.svg#mdi-refresh"></use></svg></div>
         <span class="chip mb-2 text-xs">الاستمرارية</span>
         <h3 class="text-lg font-black text-white mb-2">الحوكمة المستمرة</h3>
         <p class="text-sm text-white/65 mb-3">حوكمة AI مو مشروع لمرة. هذا الحل يراقب ويحدّث ويعدّل السياسات تلقائياً مع تغير الأنظمة.</p>
@@ -895,7 +895,7 @@ export const hub_solutions: HubInlineContent = {
       </a>
 
       <a href="/solutions/policy-to-control-mapping/" class="solution-card">
-        <div class="solution-icon"><iconify-icon class="icon-diagram-project" icon="material-symbols:account-tree"></iconify-icon></div>
+        <div class="solution-icon"><svg class="icon-diagram-project" aria-hidden="true"><use href="/icons.svg#material-symbols-account-tree"></use></svg></div>
         <span class="chip mb-2 text-xs">الربط الذكي</span>
         <h3 class="text-lg font-black text-white mb-2">ربط السياسات بالضوابط</h3>
         <p class="text-sm text-white/65 mb-3">يحوّل سياسات الورق إلى ضوابط تقنية تطبق نفسها. من السياسة إلى التنفيذ بكبسة واحدة.</p>
@@ -911,19 +911,19 @@ export const hub_solutions: HubInlineContent = {
 
     <div class="space-y-4">
       <div class="flex items-start gap-3">
-        <iconify-icon class="text-emerald-400 mt-1 icon-circle-check" icon="mdi:check-circle"></iconify-icon>
+        <svg class="text-emerald-400 mt-1 icon-circle-check" aria-hidden="true"><use href="/icons.svg#mdi-check-circle"></use></svg>
         <p class="text-white/80"><strong class="text-white">شركة صغيرة، AI أساسي:</strong> ابدأ بـ <a href="/solutions/ai-firewall/" class="anchor-link">AI Firewall</a> + <a href="/solutions/ai-audit-trail/" class="anchor-link">Audit Trail</a>.</p>
       </div>
       <div class="flex items-start gap-3">
-        <iconify-icon class="text-emerald-400 mt-1 icon-circle-check" icon="mdi:check-circle"></iconify-icon>
+        <svg class="text-emerald-400 mt-1 icon-circle-check" aria-hidden="true"><use href="/icons.svg#mdi-check-circle"></use></svg>
         <p class="text-white/80"><strong class="text-white">شركة متوسطة، استخدامات متعددة:</strong> <a href="/solutions/ai-governance-platform/" class="anchor-link">منصة الحوكمة الكاملة</a> + <a href="/solutions/human-approval-layer/" class="anchor-link">الموافقات البشرية</a>.</p>
       </div>
       <div class="flex items-start gap-3">
-        <iconify-icon class="text-emerald-400 mt-1 icon-circle-check" icon="mdi:check-circle"></iconify-icon>
+        <svg class="text-emerald-400 mt-1 icon-circle-check" aria-hidden="true"><use href="/icons.svg#mdi-check-circle"></use></svg>
         <p class="text-white/80"><strong class="text-white">جهة حكومية أو طبية:</strong> الحزمة الكاملة + <a href="/solutions/ai-evidence-file/" class="anchor-link">Evidence File</a> + ربط مع <a href="/hub/compliance/" class="anchor-link">حزم الامتثال</a>.</p>
       </div>
       <div class="flex items-start gap-3">
-        <iconify-icon class="text-emerald-400 mt-1 icon-circle-check" icon="mdi:check-circle"></iconify-icon>
+        <svg class="text-emerald-400 mt-1 icon-circle-check" aria-hidden="true"><use href="/icons.svg#mdi-check-circle"></use></svg>
         <p class="text-white/80"><strong class="text-white">مو متأكد؟</strong> ابدأ بـ <a href="/solutions/ai-use-case-discovery/" class="anchor-link">اكتشاف الاستخدامات</a> ومنه نبني الباقي.</p>
       </div>
     </div>
@@ -952,10 +952,10 @@ export const hub_solutions: HubInlineContent = {
     <p class="text-white/75 mb-6 max-w-2xl mx-auto">تجربة تفاعلية كاملة لكل الحلول، بدون التزام. شوف كيف يشتغلون مع بعض على بيانات تجريبية.</p>
     <div class="flex gap-3 justify-center flex-wrap">
       <a href="/kernel/" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white" style="background: linear-gradient(135deg,#00d4ff,#7c5cff);">
-        <iconify-icon class="icon-gauge-high" icon="mdi:gauge"></iconify-icon> ابدأ التجربة المجانية
+        <svg class="icon-gauge-high" aria-hidden="true"><use href="/icons.svg#mdi-gauge"></use></svg> ابدأ التجربة المجانية
       </a>
       <a href="/contact/" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold border border-white/20 text-white">
-        <iconify-icon class="icon-calendar-check" icon="mdi:calendar-check"></iconify-icon> احجز ديمو مخصص
+        <svg class="icon-calendar-check" aria-hidden="true"><use href="/icons.svg#mdi-calendar-check"></use></svg> احجز ديمو مخصص
       </a>
     </div>
   </section>`
@@ -980,13 +980,13 @@ export const hub_use_cases: HubInlineContent = {
       ما تبي قراءة نظرية. تبي تشوف كيف الذكاء الاصطناعي يشتغل في قطاعك بالضبط. هنا حالات استخدام واقعية من شركات سعودية، مع التحديات والحلول.
     </p>
     <div class="mt-5">
-      <span class="freshness"><iconify-icon class="icon-clock" icon="mdi:clock-outline"></iconify-icon> آخر تحديث: 31 مايو 2026</span>
+      <span class="freshness"><svg class="icon-clock" aria-hidden="true"><use href="/icons.svg#mdi-clock-outline"></use></svg> آخر تحديث: 31 مايو 2026</span>
     </div>
   </header>
 
   <section class="answer-block">
     <h2 class="text-xl font-black mb-3 flex items-center gap-2">
-      <iconify-icon class="text-yellow-300 icon-bolt" icon="mdi:lightning-bolt"></iconify-icon>
+      <svg class="text-yellow-300 icon-bolt" aria-hidden="true"><use href="/icons.svg#mdi-lightning-bolt"></use></svg>
       الإجابة المختصرة
     </h2>
     <p class="text-white/85 leading-loose">
@@ -1000,7 +1000,7 @@ export const hub_use_cases: HubInlineContent = {
     <!-- المصانع الطبية -->
     <article class="sector-card" id="medical-manufacturing">
       <div class="flex items-start gap-4 mb-4">
-        <iconify-icon class="text-3xl text-pink-300 icon-flask-vial" icon="mdi:flask"></iconify-icon>
+        <svg class="text-3xl text-pink-300 icon-flask-vial" aria-hidden="true"><use href="/icons.svg#mdi-flask"></use></svg>
         <div class="flex-1">
           <h2 class="text-2xl font-black text-white">المصانع الطبية</h2>
           <p class="text-white/70 text-sm mt-1">SFDA · ISO 13485 · MDR · ISO 14971</p>
@@ -1028,7 +1028,7 @@ export const hub_use_cases: HubInlineContent = {
         </div>
       </div>
 
-      <p class="text-cyan-300 text-sm mb-3"><iconify-icon class="icon-circle-check" icon="mdi:check-circle"></iconify-icon> دراسة حالة: شركة MAIS الطبية وفّرت ٤٠% من وقت إعداد CAPA.</p>
+      <p class="text-cyan-300 text-sm mb-3"><svg class="icon-circle-check" aria-hidden="true"><use href="/icons.svg#mdi-check-circle"></use></svg> دراسة حالة: شركة MAIS الطبية وفّرت ٤٠% من وقت إعداد CAPA.</p>
 
       <a href="/solutions/manufacturing-ai-governance/" class="anchor-link">شوف حوكمة AI للمصانع والقطاع الصناعي ←</a>
     </article>
@@ -1036,7 +1036,7 @@ export const hub_use_cases: HubInlineContent = {
     <!-- الرعاية الصحية -->
     <article class="sector-card" id="healthcare">
       <div class="flex items-start gap-4 mb-4">
-        <iconify-icon class="text-3xl text-pink-300 icon-hospital" icon="mdi:hospital-building"></iconify-icon>
+        <svg class="text-3xl text-pink-300 icon-hospital" aria-hidden="true"><use href="/icons.svg#mdi-hospital-building"></use></svg>
         <div class="flex-1">
           <h2 class="text-2xl font-black text-white">الرعاية الصحية والمستشفيات</h2>
           <p class="text-white/70 text-sm mt-1">PDPL · SFDA · حماية بيانات المرضى</p>
@@ -1069,7 +1069,7 @@ export const hub_use_cases: HubInlineContent = {
     <!-- الجهات الحكومية -->
     <article class="sector-card" id="government">
       <div class="flex items-start gap-4 mb-4">
-        <iconify-icon class="text-3xl text-pink-300 icon-building-columns" icon="mdi:bank"></iconify-icon>
+        <svg class="text-3xl text-pink-300 icon-building-columns" aria-hidden="true"><use href="/icons.svg#mdi-bank"></use></svg>
         <div class="flex-1">
           <h2 class="text-2xl font-black text-white">الجهات الحكومية</h2>
           <p class="text-white/70 text-sm mt-1">SDAIA · NCA · رؤية ٢٠٣٠</p>
@@ -1102,7 +1102,7 @@ export const hub_use_cases: HubInlineContent = {
     <!-- القطاع المالي -->
     <article class="sector-card" id="finance">
       <div class="flex items-start gap-4 mb-4">
-        <iconify-icon class="text-3xl text-pink-300 icon-coins" icon="mdi:coins"></iconify-icon>
+        <svg class="text-3xl text-pink-300 icon-coins" aria-hidden="true"><use href="/icons.svg#mdi-coins"></use></svg>
         <div class="flex-1">
           <h2 class="text-2xl font-black text-white">القطاع المالي والمصرفي</h2>
           <p class="text-white/70 text-sm mt-1">ساما · AML · ZATCA</p>
@@ -1135,7 +1135,7 @@ export const hub_use_cases: HubInlineContent = {
     <!-- المشتريات -->
     <article class="sector-card" id="procurement">
       <div class="flex items-start gap-4 mb-4">
-        <iconify-icon class="text-3xl text-pink-300 icon-file-contract" icon="mdi:file-document-edit"></iconify-icon>
+        <svg class="text-3xl text-pink-300 icon-file-contract" aria-hidden="true"><use href="/icons.svg#mdi-file-document-edit"></use></svg>
         <div class="flex-1">
           <h2 class="text-2xl font-black text-white">المشتريات والمناقصات</h2>
           <p class="text-white/70 text-sm mt-1">منصة اعتماد · تكامل مع الجهات</p>
@@ -1166,7 +1166,7 @@ export const hub_use_cases: HubInlineContent = {
     <!-- الموارد البشرية -->
     <article class="sector-card" id="hr">
       <div class="flex items-start gap-4 mb-4">
-        <iconify-icon class="text-3xl text-pink-300 icon-people-arrows" icon="mdi:account-switch"></iconify-icon>
+        <svg class="text-3xl text-pink-300 icon-people-arrows" aria-hidden="true"><use href="/icons.svg#mdi-account-switch"></use></svg>
         <div class="flex-1">
           <h2 class="text-2xl font-black text-white">الموارد البشرية</h2>
           <p class="text-white/70 text-sm mt-1">PDPL · عدم التحيّز · قواعد التوطين</p>
@@ -1198,7 +1198,7 @@ export const hub_use_cases: HubInlineContent = {
     <div class="grid md:grid-cols-2 gap-5">
       <article class="sector-card" id="education">
         <div class="flex items-start gap-3 mb-3">
-          <iconify-icon class="text-2xl text-pink-300 icon-graduation-cap" icon="mdi:school"></iconify-icon>
+          <svg class="text-2xl text-pink-300 icon-graduation-cap" aria-hidden="true"><use href="/icons.svg#mdi-school"></use></svg>
           <h2 class="text-xl font-black text-white">التعليم</h2>
         </div>
         <p class="text-white/75 text-sm leading-relaxed mb-3">جامعات سعودية تستفيد من AI، مع حماية بيانات الطلاب وضوابط محتوى صارمة.</p>
@@ -1211,7 +1211,7 @@ export const hub_use_cases: HubInlineContent = {
 
       <article class="sector-card" id="supply-chain">
         <div class="flex items-start gap-3 mb-3">
-          <iconify-icon class="text-2xl text-pink-300 icon-truck-fast" icon="mdi:truck-fast"></iconify-icon>
+          <svg class="text-2xl text-pink-300 icon-truck-fast" aria-hidden="true"><use href="/icons.svg#mdi-truck-fast"></use></svg>
           <h2 class="text-xl font-black text-white">سلاسل الإمداد</h2>
         </div>
         <p class="text-white/75 text-sm leading-relaxed mb-3">رصد المخاطر وتحسين المخزون والتنبؤ بالطلب، مع موافقات على القرارات المؤثّرة.</p>
@@ -1231,10 +1231,10 @@ export const hub_use_cases: HubInlineContent = {
     <p class="text-white/75 mb-6 max-w-2xl mx-auto">نشتغل مع أي قطاع سعودي. كلّمنا، نراجع تحديات شركتك، ونعطيك حالات استخدام مخصصة.</p>
     <div class="flex gap-3 justify-center flex-wrap">
       <a href="/contact/" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white" style="background: linear-gradient(135deg,#ff5ca7,#7c5cff);">
-        <iconify-icon class="icon-comments" icon="mdi:message-text"></iconify-icon> كلّمنا عن قطاعك
+        <svg class="icon-comments" aria-hidden="true"><use href="/icons.svg#mdi-message-text"></use></svg> كلّمنا عن قطاعك
       </a>
       <a href="https://wa.me/966538229013" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white" style="background: linear-gradient(135deg,#25D366,#128C7E);">
-        <iconify-icon class="icon-whatsapp" icon="mdi:whatsapp"></iconify-icon> واتساب مباشر
+        <svg class="icon-whatsapp" aria-hidden="true"><use href="/icons.svg#mdi-whatsapp"></use></svg> واتساب مباشر
       </a>
     </div>
   </section>`

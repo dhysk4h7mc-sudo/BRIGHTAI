@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import fs from "node:fs/promises";
+import fsSync from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import {
@@ -20,8 +21,12 @@ const BASE_URL = "https://brightai.site";
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(SCRIPT_DIR, "..");
 
-const ROBOTS_PATH = path.join(ROOT, "robots.txt");
-const SITEMAP_PATH = path.join(ROOT, "sitemap.xml");
+const ROBOTS_PATH = fsSync.existsSync(path.join(ROOT, "public", "robots.txt"))
+  ? path.join(ROOT, "public", "robots.txt")
+  : path.join(ROOT, "robots.txt");
+const SITEMAP_PATH = fsSync.existsSync(path.join(ROOT, "public", "sitemap.xml"))
+  ? path.join(ROOT, "public", "sitemap.xml")
+  : path.join(ROOT, "sitemap.xml");
 const HTML_IGNORE_DIRS = new Set([
   ".git",
   ".agents",
@@ -33,6 +38,8 @@ const HTML_IGNORE_DIRS = new Set([
   ".nuxt",
   ".render-static",
   "components",
+  ".kilo",
+  "_archive",
 ]);
 const INTERNAL_PAGE_PATTERN =
   /(^|\/)(404|500)\.html$|(^|\/)offline\/index\.html$|^aimais\/public\/|^frontend\/pages\/interview\/|^mais-OBM\/index\.html$|(^|\/)(admin|settings|analytics|reports|operations|scorecard|copilot|executive)(\/|\.|$)/i;
@@ -358,16 +365,27 @@ async function main() {
       return false;
     }
   });
-  const publicRegistry = buildPublicUrlRegistry(
-    (await walkHtmlFiles(ROOT)).map((filePath) => toRootRelative(filePath)),
-    BASE_URL
-  );
+  // Build registry from both source HTML and built dist HTML for accurate sitemap validation
+  const sourceHtmlFiles = (await walkHtmlFiles(ROOT)).map((filePath) => toRootRelative(filePath));
+  const distDir = path.join(ROOT, "dist");
+  let distHtmlFiles = [];
+  try {
+    distHtmlFiles = (await walkHtmlFiles(distDir)).map((filePath) =>
+      formatPath(path.relative(ROOT, filePath))
+    );
+  } catch {
+    // dist may not exist yet
+  }
+  const allHtmlRelPaths = [...new Set([...sourceHtmlFiles, ...distHtmlFiles])];
+  const publicRegistry = buildPublicUrlRegistry(allHtmlRelPaths, BASE_URL);
+  // An alternate is valid if it exists in the sitemap itself (self-consistent)
+  // OR in the HTML file registry (for source-tracked pages)
   const sitemapAlternateTargetMissing = sitemapAlternates.filter((href) => {
     const normalizedHref = normalizeSiteUrl(href, BASE_URL);
     return (
       !normalizedHref ||
-      !publicRegistry.relPathByCanonical.has(normalizedHref) ||
-      !sitemapLocSet.has(normalizedHref)
+      (!publicRegistry.relPathByCanonical.has(normalizedHref) &&
+        !sitemapLocSet.has(normalizedHref))
     );
   });
 

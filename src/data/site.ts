@@ -28,10 +28,12 @@ export const SITE = {
     linkedin: 'https://linkedin.com/company/brightai',
     github: 'https://github.com/YEEEAE/BRIGHTAI',
   },
-  crNumber: '1010xxxxxx',
-  bingVerification: '8C2Dxxxxxxxxxxxx',
-  yandexVerification: 'xxxxxxxxxxxx',
-  clarityId: 'xxxxxxxxxx',
+  // Verification/tracking IDs — empty until real verified values are provided.
+  // Conditional rendering in BaseLayout ensures empty values are never emitted.
+  crNumber: '',
+  bingVerification: '',
+  yandexVerification: '',
+  clarityId: '',
   ogImage: '/frontend/assets/images/og/brightai-og-1200x630.png',
 } as const;
 

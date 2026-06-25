@@ -7,9 +7,15 @@
 import { SITE } from '../data/site';
 import type { SEOProps } from '../data/site';
 
+interface HreflangLink {
+  lang: string;
+  href: string;
+}
+
 interface Props extends SEOProps {
   locale?: 'ar' | 'en';
   robots?: string;
+  hreflang?: HreflangLink[];
 }
 
 const {
@@ -22,7 +28,7 @@ const {
   jsonLd,
   locale = 'ar',
   robots = 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1',
-} = Astro.props;
+} = Astro.props as Props;
 
 const fullOgImage = ogImage.startsWith('http') ? ogImage : `${SITE.url}${ogImage}`;
 const siteName = SITE.name;
@@ -66,14 +72,4 @@ const hasXDefault = hreflang.some((link) => link.lang === 'x-default');
   <script id="brightai-production-schema" type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 )}
 
-<!-- Google Analytics (gtag.js) -->
-<script is:inline src={`https://www.googletagmanager.com/gtag/js?id=${SITE.googleTagId}`} async></script>
-<script is:inline set:html={`
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', '${SITE.googleTagId}', {
-    page_path: window.location.pathname,
-    anonymize_ip: true
-  });
-`} async></script>
+<!-- Note: Google Analytics (gtag.js) is injected once in BaseLayout.astro to prevent duplicate pageview tracking. -->

@@ -13,7 +13,7 @@
     "dev:old": "echo 'Static site - open index.html in browser'",
     "dev:frontend": "npm run dev:frontend --workspace brightai-frontend",
     "dev:backend": "npm run dev --workspace brightai-frontend",
-    "build": "astro build && npm run schema:solutions:sync && npm run schema:docs:sync",
+    "build": "npm run image-sitemap && astro build && npm run schema:solutions:sync && npm run schema:docs:sync",
     "build:old": "npm run build:assets",
     "build:frontend": "echo 'Static HTML site - no build needed'",
     "build:assets": "node scripts/build-tailwind-purged.mjs && node scripts/build-css-bundle.mjs && node scripts/minify-seo-assets.mjs && node scripts/replace-unminified-refs.mjs && node scripts/apply-css-bundle.mjs && node scripts/apply-production-audit-fixes.mjs && node scripts/sync-solution-faq-schema.mjs && node scripts/sync-docs-howto-schema.mjs",

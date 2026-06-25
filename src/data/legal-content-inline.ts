@@ -10,7 +10,7 @@ export const legal_cookie_policy: LegalInlineContent = {
     </div>
     <h1>كيف تستخدم BrightAI الكوكيز وتقنيات التصفح المشابهة؟</h1>
     <p>نستخدم ملفات الكوكيز وتقنيات مشابهة لتحسين تجربة الموقع، فهم طريقة استخدام الزوار، تحسين الأداء، قياس فعالية المحتوى والحملات، وحماية الموقع من الاستخدام المسيء. نحاول نخلي الشرح واضح وبشري، بدون لغة قانونية معقدة أو وعود مطلقة.</p>
-    <div class="policy-alert"><iconify-icon class="icon-shield-heart" icon="mdi:shield-heart"></iconify-icon> نحن لا نبيع بياناتك الشخصية.</div>
+    <div class="policy-alert"><svg class="icon-shield-heart" aria-hidden="true"><use href="/icons.svg#mdi-shield-heart"></use></svg> نحن لا نبيع بياناتك الشخصية.</div>
   </header>
 
   <div class="policy-layout">
@@ -134,7 +134,7 @@ export const legal_cookie_policy: LegalInlineContent = {
 export const legal_terms: LegalInlineContent = {
   h1: 'الشروط والأحكام',
   html: `<header class="lp-doc-hero lp-container">
-      <span class="lp-eyebrow"><iconify-icon class="icon-scale-balanced" aria-hidden="true" icon="mdi:scale-balance"></iconify-icon> آخر تحديث: 29 مايو 2026</span>
+      <span class="lp-eyebrow"><svg class="icon-scale-balanced" aria-hidden="true"><use href="/icons.svg#mdi-scale-balance"></use></svg> آخر تحديث: 29 مايو 2026</span>
       <h1>الشروط والأحكام</h1>
       <p class="lp-lead">توضح هذه الشروط قواعد استخدام موقع BrightAI، طلب الديمو، والتعامل مع خدمات الذكاء الاصطناعي والبيانات والمحتوى. استخدامك للموقع أو طلب الخدمات يعني قبولك لهذه الشروط.</p>
       <div class="lp-doc-badges" aria-label="ملخص الشروط">
@@ -169,7 +169,7 @@ export const legal_terms: LegalInlineContent = {
 
       <section class="lp-doc-content" aria-label="محتوى الشروط والأحكام">
         <article class="lp-doc-card" id="intro"><h2>1. مقدمة</h2><p>باستخدامك موقع BrightAI أو إرسال طلب ديمو أو التواصل لطلب خدمة، فإنك تقر بقبول هذه الشروط. إذا كانت هناك اتفاقية مكتوبة أو عرض سعر موقع بين BrightAI والعميل، فتكون تلك الاتفاقية هي المرجع الأخص في نطاقها.</p></article>
-        <article class="lp-doc-card" id="definitions"><h2>2. التعريفات</h2><ul class="lp-doc-list"><li><iconify-icon class="icon-building" aria-hidden="true" icon="mdi:office-building"></iconify-icon><span><strong>BrightAI:</strong> الجهة المالكة أو المشغلة للموقع والخدمات المشار إليها.</span></li><li><iconify-icon class="icon-globe" aria-hidden="true" icon="mdi:web"></iconify-icon><span><strong>الموقع:</strong> صفحات brightai.site وما يتبعها من نماذج ومحتوى وروابط.</span></li><li><iconify-icon class="icon-user" aria-hidden="true" icon="mdi:account"></iconify-icon><span><strong>المستخدم:</strong> أي شخص يزور الموقع أو يستخدم نماذجه أو يتصفح محتواه.</span></li><li><iconify-icon class="icon-handshake" aria-hidden="true" icon="mdi:handshake"></iconify-icon><span><strong>العميل:</strong> المنشأة أو ممثلها الذي يطلب ديمو أو عرضاً أو خدمة.</span></li><li><iconify-icon class="icon-layer-group" aria-hidden="true" icon="mdi:layers"></iconify-icon><span><strong>الخدمات والمنصة:</strong> حلول BrightAI التقنية، أدوات الحوكمة، الأتمتة، التكاملات، والمساعدين الداخليين.</span></li><li><iconify-icon class="icon-robot" aria-hidden="true" icon="mdi:robot"></iconify-icon><span><strong>الذكاء الاصطناعي:</strong> النماذج أو الأدوات أو الأنظمة التي تولد أو تحلل أو تساعد في اتخاذ القرار.</span></li><li><iconify-icon class="icon-file-lines" aria-hidden="true" icon="mdi:file-document-outline"></iconify-icon><span><strong>المحتوى:</strong> النصوص، التصميم، الصور، الواجهات، الأكواد، والعروض المنشورة في الموقع.</span></li></ul></article>
+        <article class="lp-doc-card" id="definitions"><h2>2. التعريفات</h2><ul class="lp-doc-list"><li><svg class="icon-building" aria-hidden="true"><use href="/icons.svg#mdi-office-building"></use></svg><span><strong>BrightAI:</strong> الجهة المالكة أو المشغلة للموقع والخدمات المشار إليها.</span></li><li><svg class="icon-globe" aria-hidden="true"><use href="/icons.svg#mdi-web"></use></svg><span><strong>الموقع:</strong> صفحات brightai.site وما يتبعها من نماذج ومحتوى وروابط.</span></li><li><svg class="icon-user" aria-hidden="true"><use href="/icons.svg#mdi-account"></use></svg><span><strong>المستخدم:</strong> أي شخص يزور الموقع أو يستخدم نماذجه أو يتصفح محتواه.</span></li><li><svg class="icon-handshake" aria-hidden="true"><use href="/icons.svg#mdi-handshake"></use></svg><span><strong>العميل:</strong> المنشأة أو ممثلها الذي يطلب ديمو أو عرضاً أو خدمة.</span></li><li><svg class="icon-layer-group" aria-hidden="true"><use href="/icons.svg#mdi-layers"></use></svg><span><strong>الخدمات والمنصة:</strong> حلول BrightAI التقنية، أدوات الحوكمة، الأتمتة، التكاملات، والمساعدين الداخليين.</span></li><li><svg class="icon-robot" aria-hidden="true"><use href="/icons.svg#mdi-robot"></use></svg><span><strong>الذكاء الاصطناعي:</strong> النماذج أو الأدوات أو الأنظمة التي تولد أو تحلل أو تساعد في اتخاذ القرار.</span></li><li><svg class="icon-file-lines" aria-hidden="true"><use href="/icons.svg#mdi-file-document-outline"></use></svg><span><strong>المحتوى:</strong> النصوص، التصميم، الصور، الواجهات، الأكواد، والعروض المنشورة في الموقع.</span></li></ul></article>
         <article class="lp-doc-card" id="site-use"><h2>3. استخدام الموقع</h2><p>يلتزم المستخدم باستخدام الموقع بشكل قانوني، وعدم محاولة الاختراق أو تعطيل الخدمة أو نسخ المحتوى دون إذن أو إساءة استخدام النماذج وأدوات التواصل أو إرسال بيانات لا يملك حق مشاركتها.</p></article>
         <article class="lp-doc-card" id="demo-services"><h2>4. الخدمات والديمو</h2><p>الديمو والمخرجات التجريبية لأغراض تعريفية وتجريبية، ولا تعتبر استشارة قانونية أو أمنية نهائية. أي مشروع فعلي يحتاج عرض سعر أو اتفاقية منفصلة تحدد النطاق، المسؤوليات، التسليمات، والالتزامات.</p><div class="lp-note"><strong>حق الرفض</strong><p>يجوز لـ BrightAI رفض الطلبات غير المناسبة أو عالية المخاطر أو التي تتعارض مع الأنظمة أو سياسات الاستخدام المقبول.</p></div></article>
         <article class="lp-doc-card" id="ai-use"><h2>5. استخدام الذكاء الاصطناعي</h2><p>مخرجات AI قد تحتاج مراجعة بشرية، ولا ينبغي الاعتماد عليها وحدها في قرارات عالية المخاطر. العميل مسؤول عن مراجعة واعتماد القرارات النهائية.</p><p>توفر BrightAI أدوات مساعدة للحوكمة والتدقيق والأمان، وليست بديلاً كاملاً عن الإدارة الداخلية أو المستشار القانوني أو الأمني أو المختص المهني في مجال العميل.</p></article>
@@ -181,7 +181,7 @@ export const legal_terms: LegalInlineContent = {
         <article class="lp-doc-card" id="termination"><h2>11. الإنهاء أو تعليق الوصول</h2><p>يحق لـ BrightAI تعليق أو رفض الوصول إلى الموقع أو الخدمات أو الديمو في حال إساءة الاستخدام، مخالفة الشروط، تهديد أمني، أو طلبات تخالف الأنظمة أو سياسات الاستخدام المقبول.</p></article>
         <article class="lp-doc-card" id="changes"><h2>12. التعديلات</h2><p>يجوز تحديث هذه الشروط من وقت لآخر. يظهر تاريخ آخر تحديث أعلى الصفحة، ويعد استمرار استخدام الموقع بعد التحديث قبولاً بالشروط المحدثة.</p></article>
         <article class="lp-doc-card" id="law"><h2>13. القانون والاختصاص</h2><p>تخضع هذه الشروط للأنظمة المعمول بها في المملكة العربية السعودية، ما لم يتم الاتفاق كتابةً على خلاف ذلك.</p></article>
-        <article class="lp-doc-card" id="contact"><h2>14. التواصل</h2><p>لديك سؤال عن الشروط؟ تواصل معنا عبر <a class="lp-card-link" href="/contact/">صفحة التواصل</a> أو واتساب، أو عبر البريد: <a class="lp-card-link" href="mailto:legal@brightai.site">legal@brightai.site</a>.</p><div class="lp-footer-cta"><a class="lp-btn lp-btn-primary" href="/contact/"><iconify-icon class="icon-envelope-open-text" aria-hidden="true" icon="mdi:email-open"></iconify-icon> لديك سؤال عن الشروط؟ تواصل معنا</a></div></article>
+        <article class="lp-doc-card" id="contact"><h2>14. التواصل</h2><p>لديك سؤال عن الشروط؟ تواصل معنا عبر <a class="lp-card-link" href="/contact/">صفحة التواصل</a> أو واتساب، أو عبر البريد: <a class="lp-card-link" href="mailto:legal@brightai.site">legal@brightai.site</a>.</p><div class="lp-footer-cta"><a class="lp-btn lp-btn-primary" href="/contact/"><svg class="icon-envelope-open-text" aria-hidden="true"><use href="/icons.svg#mdi-email-open"></use></svg> لديك سؤال عن الشروط؟ تواصل معنا</a></div></article>
       </section>
     </div>`
 };
@@ -189,7 +189,7 @@ export const legal_terms: LegalInlineContent = {
 export const legal_privacy_policy: LegalInlineContent = {
   h1: 'سياسة الخصوصية',
   html: `<header class="lp-doc-hero lp-container">
-      <span class="lp-eyebrow"><iconify-icon class="icon-user-shield" aria-hidden="true" icon="mdi:account-shield"></iconify-icon> آخر تحديث: 29 مايو 2026</span>
+      <span class="lp-eyebrow"><svg class="icon-user-shield" aria-hidden="true"><use href="/icons.svg#mdi-account-shield"></use></svg> آخر تحديث: 29 مايو 2026</span>
       <h1>سياسة الخصوصية</h1>
       <p class="lp-lead">نحترم خصوصية المستخدمين والعملاء، وهذه السياسة توضّح كيف تتعامل BrightAI مع البيانات عند استخدام الموقع، التواصل معنا، طلب الديمو، أو استخدام خدمات BrightAI ومنصاتها.</p>
       <div class="lp-doc-badges" aria-label="ملخص سياسة الخصوصية">
@@ -225,18 +225,18 @@ export const legal_privacy_policy: LegalInlineContent = {
       <section class="lp-doc-content" aria-label="محتوى سياسة الخصوصية">
         <article class="lp-doc-card" id="intro"><h2>1. مقدمة</h2><p>توضح هذه السياسة كيف تتعامل BrightAI مع البيانات التي قد تُقدّم لنا عبر الموقع الإلكتروني، نماذج التواصل، طلبات الديمو، المحادثات التجارية، أو عند استخدام الخدمات التجريبية والمنصات التي نقدمها للعملاء.</p><p>نستخدم عبارات حذرة ومحددة لأن معالجة البيانات تختلف حسب طبيعة الخدمة، نطاق المشروع، والاتفاقيات الموقعة مع العميل.</p></article>
         <article class="lp-doc-card" id="scope"><h2>2. نطاق السياسة</h2><p>تغطي هذه السياسة الموقع الإلكتروني، نماذج التواصل، طلبات الديمو، المحادثات التجارية، الخدمات التجريبية، والأنظمة أو المنصات التي تقدمها BrightAI للعملاء متى كانت BrightAI مسؤولة عن تشغيلها أو دعمها وفق الاتفاق.</p></article>
-        <article class="lp-doc-card" id="data-collected"><h2>3. البيانات التي قد نجمعها</h2><ul class="lp-doc-list"><li><iconify-icon class="icon-id-card" aria-hidden="true" icon="mdi:card-account-details"></iconify-icon><span><strong>بيانات الهوية والتواصل:</strong> الاسم، البريد الإلكتروني، رقم الجوال، الشركة، والمسمى الوظيفي.</span></li><li><iconify-icon class="icon-chart-line" aria-hidden="true" icon="mdi:chart-line"></iconify-icon><span><strong>بيانات الاستخدام:</strong> الصفحات التي تمت زيارتها، نوع الجهاز، المتصفح، وعنوان IP لأغراض تقنية وتحليلية.</span></li><li><iconify-icon class="icon-comments" aria-hidden="true" icon="mdi:message-text"></iconify-icon><span><strong>بيانات التواصل:</strong> الرسائل، طلبات الدعم، الاستفسارات، وملاحظات الاجتماعات التجارية.</span></li><li><iconify-icon class="icon-briefcase" aria-hidden="true" icon="mdi:briefcase"></iconify-icon><span><strong>بيانات الأعمال:</strong> نوع الشركة، القطاع، الاحتياج، أنظمة التكامل المطلوبة، ونطاق الحل المقترح.</span></li><li><iconify-icon class="icon-file-arrow-up" aria-hidden="true" icon="mdi:file-upload"></iconify-icon><span><strong>ملفات أو مستندات:</strong> أي ملفات يرسلها العميل طوعاً لغرض التقييم أو إعداد العرض أو تنفيذ الخدمة.</span></li></ul></article>
+        <article class="lp-doc-card" id="data-collected"><h2>3. البيانات التي قد نجمعها</h2><ul class="lp-doc-list"><li><svg class="icon-id-card" aria-hidden="true"><use href="/icons.svg#mdi-card-account-details"></use></svg><span><strong>بيانات الهوية والتواصل:</strong> الاسم، البريد الإلكتروني، رقم الجوال، الشركة، والمسمى الوظيفي.</span></li><li><svg class="icon-chart-line" aria-hidden="true"><use href="/icons.svg#mdi-chart-line"></use></svg><span><strong>بيانات الاستخدام:</strong> الصفحات التي تمت زيارتها، نوع الجهاز، المتصفح، وعنوان IP لأغراض تقنية وتحليلية.</span></li><li><svg class="icon-comments" aria-hidden="true"><use href="/icons.svg#mdi-message-text"></use></svg><span><strong>بيانات التواصل:</strong> الرسائل، طلبات الدعم، الاستفسارات، وملاحظات الاجتماعات التجارية.</span></li><li><svg class="icon-briefcase" aria-hidden="true"><use href="/icons.svg#mdi-briefcase"></use></svg><span><strong>بيانات الأعمال:</strong> نوع الشركة، القطاع، الاحتياج، أنظمة التكامل المطلوبة، ونطاق الحل المقترح.</span></li><li><svg class="icon-file-arrow-up" aria-hidden="true"><use href="/icons.svg#mdi-file-upload"></use></svg><span><strong>ملفات أو مستندات:</strong> أي ملفات يرسلها العميل طوعاً لغرض التقييم أو إعداد العرض أو تنفيذ الخدمة.</span></li></ul></article>
         <article class="lp-doc-card" id="usage"><h2>4. كيف نستخدم البيانات</h2><p>نستخدم البيانات للرد على الاستفسارات، ترتيب الديمو، تقديم الخدمات، تحسين الموقع وتجربة المستخدم، التواصل التجاري، إعداد العروض أو المقترحات، والوفاء بالمتطلبات النظامية والتعاقدية عند وجود علاقة عمل أو اتفاقية موقعة.</p></article>
         <article class="lp-doc-card" id="ai-data"><h2>5. الذكاء الاصطناعي والبيانات</h2><p>قد تستخدم BrightAI تقنيات ذكاء اصطناعي لمعالجة الطلبات، تحليل الاحتياجات، أو تشغيل أنظمة الحوكمة والأمان. لا نستخدم بيانات العميل الحساسة لتدريب نماذج عامة إلا بموافقة صريحة ومكتوبة.</p><p>يتم التعامل مع بيانات العملاء وفق ضوابط السرية والتعاقد. وفي بيئات العملاء، يمكن تطبيق سياسات إخفاء PII، سجلات تدقيق، وضوابط وصول حسب نطاق المشروع.</p><div class="lp-note"><strong>تنبيه مهم</strong><p>BrightAI يساعد العملاء على تحسين جاهزية الامتثال وتطبيق ضوابط حماية مناسبة، ولا يدعي توافقاً قانونياً مطلقاً خارج نطاق الاتفاقيات والمراجعات المتخصصة.</p></div></article>
         <article class="lp-doc-card" id="sharing"><h2>6. مشاركة البيانات</h2><p>لا نبيع البيانات الشخصية. قد نشارك الحد الأدنى اللازم مع مزودي الاستضافة، أدوات التحليلات، أنظمة البريد والتواصل، أو مزودي خدمات ضروريين لتشغيل الموقع أو الخدمة، مع مراعاة السرية وتقليل البيانات قدر الإمكان.</p></article>
         <article class="lp-doc-card" id="retention"><h2>7. الاحتفاظ بالبيانات</h2><p>نحتفظ بالبيانات للمدة اللازمة لأغراض التواصل، تقديم الخدمة، إدارة العلاقة التجارية، أو الالتزام النظامي والتعاقدي. بعد انتهاء الحاجة، يتم حذف البيانات أو أرشفتها بشكل آمن حسب طبيعة البيانات والمتطلبات ذات العلاقة.</p></article>
-        <article class="lp-doc-card" id="security"><h2>8. حماية البيانات</h2><ul class="lp-doc-list"><li><iconify-icon class="icon-lock" aria-hidden="true" icon="mdi:lock"></iconify-icon><span>ضوابط وصول وصلاحيات محددة.</span></li><li><iconify-icon class="icon-key" aria-hidden="true" icon="mdi:key"></iconify-icon><span>تشفير عند الإمكان وحسب بيئة التشغيل.</span></li><li><iconify-icon class="icon-shield-halved" aria-hidden="true" icon="mdi:shield-half-full"></iconify-icon><span>مراقبة أمنية وتقليل للبيانات المتداولة.</span></li><li><iconify-icon class="icon-user-gear" aria-hidden="true" icon="mdi:account-cog"></iconify-icon><span>مراجعة الصلاحيات وسجلات تدقيق عند الحاجة.</span></li></ul></article>
+        <article class="lp-doc-card" id="security"><h2>8. حماية البيانات</h2><ul class="lp-doc-list"><li><svg class="icon-lock" aria-hidden="true"><use href="/icons.svg#mdi-lock"></use></svg><span>ضوابط وصول وصلاحيات محددة.</span></li><li><svg class="icon-key" aria-hidden="true"><use href="/icons.svg#mdi-key"></use></svg><span>تشفير عند الإمكان وحسب بيئة التشغيل.</span></li><li><svg class="icon-shield-halved" aria-hidden="true"><use href="/icons.svg#mdi-shield-half-full"></use></svg><span>مراقبة أمنية وتقليل للبيانات المتداولة.</span></li><li><svg class="icon-user-gear" aria-hidden="true"><use href="/icons.svg#mdi-account-cog"></use></svg><span>مراجعة الصلاحيات وسجلات تدقيق عند الحاجة.</span></li></ul></article>
         <article class="lp-doc-card" id="rights"><h2>9. حقوق المستخدم</h2><p>يمكن للمستخدم أو ممثل العميل طلب الوصول للبيانات، التصحيح، الحذف عند الإمكان، الاعتراض على بعض المعالجات، أو سحب الموافقة عندما تكون المعالجة مبنية على موافقة. قد نحتاج للتحقق من الهوية والصلاحية قبل تنفيذ الطلب.</p></article>
         <article class="lp-doc-card" id="cookies"><h2>10. الكوكيز</h2><p>قد يستخدم الموقع ملفات كوكيز وتقنيات مشابهة لأغراض التحليلات، تحسين التجربة، وقياس أداء الصفحات. للمزيد راجع <a class="lp-card-link" href="/cookie-policy/">سياسة ملفات الارتباط</a>.</p></article>
         <article class="lp-doc-card" id="transfer"><h2>11. نقل البيانات خارج المملكة</h2><p>قد تتم معالجة بعض البيانات عبر مزودي خدمات سحابية أو أدوات تشغيل خارج المملكة بحسب طبيعة الخدمة، مع اتخاذ إجراءات مناسبة للسرية والحماية، ووفق المتطلبات النظامية والتعاقدية ذات العلاقة.</p></article>
         <article class="lp-doc-card" id="children"><h2>12. بيانات الأطفال</h2><p>خدمات BrightAI موجهة للشركات والجهات، وليست موجهة للأطفال. لا نستهدف جمع بيانات الأطفال عبر الموقع أو الخدمات التجارية.</p></article>
         <article class="lp-doc-card" id="updates"><h2>13. التحديثات على السياسة</h2><p>قد يتم تحديث هذه السياسة من وقت لآخر لتعكس تغييرات تشغيلية أو نظامية أو تعاقدية. يظهر تاريخ آخر تحديث أعلى هذه الصفحة.</p></article>
-        <article class="lp-doc-card" id="contact"><h2>14. التواصل</h2><p>لأي سؤال عن الخصوصية أو طلب متعلق بالبيانات، تواصل معنا عبر <a class="lp-card-link" href="/contact/">صفحة التواصل</a> أو واتساب، أو عبر البريد: <a class="lp-card-link" href="mailto:privacy@brightai.site">privacy@brightai.site</a>.</p><div class="lp-footer-cta"><a class="lp-btn lp-btn-whatsapp" href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer"><iconify-icon class="icon-whatsapp" aria-hidden="true" icon="mdi:whatsapp"></iconify-icon> تواصل واتساب</a></div></article>
+        <article class="lp-doc-card" id="contact"><h2>14. التواصل</h2><p>لأي سؤال عن الخصوصية أو طلب متعلق بالبيانات، تواصل معنا عبر <a class="lp-card-link" href="/contact/">صفحة التواصل</a> أو واتساب، أو عبر البريد: <a class="lp-card-link" href="mailto:privacy@brightai.site">privacy@brightai.site</a>.</p><div class="lp-footer-cta"><a class="lp-btn lp-btn-whatsapp" href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer"><svg class="icon-whatsapp" aria-hidden="true"><use href="/icons.svg#mdi-whatsapp"></use></svg> تواصل واتساب</a></div></article>
       </section>
     </div>`
 };
@@ -403,7 +403,7 @@ export const legal_privacy_cookies: LegalInlineContent = {
                     <div class="space-y-8">
                         <section style="content-visibility: auto;">
                             <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                                <iconify-icon icon="lucide:info" class="text-indigo-400"></iconify-icon>
+                                <svg class="text-indigo-400" aria-hidden="true"><use href="/icons.svg#mdi-information"></use></svg>
                                 ما هي ملفات تعريف الارتباط؟
                             </h3>
                             <p>ملفات تعريف الارتباط هي ملفات نصية صغيرة يتم تخزينها على جهازك عند زيارة موقعنا
@@ -413,7 +413,7 @@ export const legal_privacy_cookies: LegalInlineContent = {
 
                         <section style="content-visibility: auto;">
                             <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                                <iconify-icon icon="lucide:list" class="text-indigo-400"></iconify-icon>
+                                <svg class="text-indigo-400" aria-hidden="true"><use href="/icons.svg#mdi-list"></use></svg>
                                 أنواع ملفات تعريف الارتباط التي نستخدمها
                             </h3>
                             <ul class="list-disc list-inside space-y-3 marker:text-indigo-500">
@@ -427,7 +427,7 @@ export const legal_privacy_cookies: LegalInlineContent = {
 
                         <section style="content-visibility: auto;">
                             <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                                <iconify-icon icon="lucide:settings" class="text-indigo-400"></iconify-icon>
+                                <svg class="text-indigo-400" aria-hidden="true"><use href="/icons.svg#mdi-cog"></use></svg>
                                 إدارة ملفات تعريف الارتباط
                             </h3>
                             <p>يمكنك التحكم في ملفات تعريف الارتباط من خلال إعدادات متصفحك. يمكنك حذفها أو منع تخزينها،
@@ -436,13 +436,13 @@ export const legal_privacy_cookies: LegalInlineContent = {
 
                         <section style="content-visibility: auto;">
                             <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                                <iconify-icon icon="lucide:mail" class="text-indigo-400"></iconify-icon>
+                                <svg class="text-indigo-400" aria-hidden="true"><use href="/icons.svg#mdi-email"></use></svg>
                                 تواصل معنا
                             </h3>
                             <p>إذا كان لديك أي أسئلة حول سياسة الخصوصية، يرجى التواصل معنا:</p>
                             <ul class="space-y-2 mt-2">
-                                <li class="flex items-center gap-2"><iconify-icon icon="lucide:mail" class="text-slate-400"></iconify-icon> yazeed1job@gmail.com</li>
-                                <li class="flex items-center gap-2"><iconify-icon icon="lucide:phone" class="text-slate-400"></iconify-icon> +966 53 822 9013</li>
+                                <li class="flex items-center gap-2"><svg class="text-slate-400" aria-hidden="true"><use href="/icons.svg#mdi-email"></use></svg> yazeed1job@gmail.com</li>
+                                <li class="flex items-center gap-2"><svg class="text-slate-400" aria-hidden="true"><use href="/icons.svg#mdi-phone"></use></svg> +966 53 822 9013</li>
                             </ul>
                         </section>
                     </div>

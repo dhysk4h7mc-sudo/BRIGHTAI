@@ -1,0 +1,91 @@
+---
+/**
+ * DottedBackground.astro
+ * Inspired by 21st.dev "efferd/dotted-surface" — a premium dotted surface
+ * rendered with pure CSS radial-gradient mask. Zero JS, GPU-accelerated.
+ *
+ * Performance:
+ *   - 0KB JavaScript
+ *   - Respects prefers-reduced-motion
+ *   - DPR-independent (CSS scales natively)
+ *   - Does not trigger layout (position: fixed)
+ */
+interface Props {
+  class?: string;
+  dotSize?: number;
+  dotColor?: string;
+  dotOpacity?: number;
+}
+
+const {
+  class: className = '',
+  dotSize = 1,
+  dotColor = 'rgba(0, 212, 170, 0.15)',
+  dotOpacity = 1,
+} = Astro.props;
+---
+
+<div class:list={['dotted-bg', className]} aria-hidden="true">
+  <div class="dotted-bg__surface" style={`--dot-size: ${dotSize}px; --dot-color: ${dotColor}; --dot-opacity: ${dotOpacity};`}></div>
+  <div class="dotted-bg__radial-fade"></div>
+</div>
+
+<style>
+  .dotted-bg {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .dotted-bg__surface {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(
+      var(--dot-color, rgba(0, 212, 170, 0.15)) calc(var(--dot-size, 1px) * 0.5),
+      transparent calc(var(--dot-size, 1px) * 0.5)
+    );
+    background-size: calc(var(--dot-size, 1px) * 24) calc(var(--dot-size, 1px) * 24);
+    opacity: var(--dot-opacity, 1);
+  }
+
+  /* Radial fade mask so dots are prominent in center, fade at edges */
+  .dotted-bg__radial-fade {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      ellipse 80% 60% at center,
+      transparent 0%,
+      transparent 40%,
+      var(--bg-solid, #060914) 100%
+    );
+  }
+
+  /* On very small screens, reduce dot density for perf */
+  @media (max-width: 480px) {
+    .dotted-bg__surface {
+      background-size: calc(var(--dot-size, 1px) * 32) calc(var(--dot-size, 1px) * 32);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dotted-bg__surface {
+      animation: none;
+    }
+  }
+
+  /* Subtle drift animation for capable devices only */
+  @media (prefers-reduced-motion: no-preference) and (min-width: 769px) {
+    .dotted-bg__surface {
+      animation: dotted-drift 60s linear infinite;
+    }
+  }
+
+  @keyframes dotted-drift {
+    0% { background-position: 0 0; }
+    100% { background-position: 240px 240px; }
+  }
+</style>

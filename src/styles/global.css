@@ -101,6 +101,18 @@ svg {
   max-width: 100%;
 }
 
+/* Inline SVG sprite icons (replaces iconify-icon) */
+svg.inline-icon,
+.inline-icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.125em;
+  fill: currentColor;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
 img {
   height: auto;
 }

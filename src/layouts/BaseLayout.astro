@@ -75,41 +75,56 @@ const {
   <meta name="theme-color" content="#060914" />
   <meta name="format-detection" content="telephone=no" />
 
-  <!-- Bing Webmaster Verification -->
-  <meta name="msvalidate.01" content={SITE.bingVerification} />
+  {/* Verification meta — only emit when a real verified value exists */}
+  {SITE.bingVerification && (
+    <meta name="msvalidate.01" content={SITE.bingVerification} />
+  )}
+  {SITE.yandexVerification && (
+    <meta name="yandex-verification" content={SITE.yandexVerification} />
+  )}
 
-  <!-- Yandex Webmaster Verification -->
-  <meta name="yandex-verification" content={SITE.yandexVerification} />
-
-  <!-- Google tag (gtag.js) — loaded directly in head for production parity -->
-  <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-8LLESL207Q"></script>
-  <script is:inline>
+  {/* Google tag (gtag.js) — single injection point. Initial pageview on load. */}
+  <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${SITE.googleTagId}`}></script>
+  <script is:inline set:html={`
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', 'G-8LLESL207Q');
-  </script>
-
-  <!-- Microsoft Clarity — important for Saudi market (Edge ~30% share) -->
-  <script is:inline define:vars={{ clarityId: SITE.clarityId }}>
-    (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", clarityId);
-  </script>
-
-  <!-- SPA transition pageview trigger -->
-  <script>
-    document.addEventListener('astro:page-load', () => {
-      const w = window as any;
-      if (w.gtag) {
-        w.gtag('config', 'G-8LLESL207Q', {
-          page_path: window.location.pathname,
-          page_title: document.title
-        });
-      }
+    gtag('config', '${SITE.googleTagId}', {
+      page_path: window.location.pathname,
+      anonymize_ip: true
     });
+  `}></script>
+
+  {/* Microsoft Clarity — only when valid ID exists (not placeholder) */}
+  {SITE.clarityId && (
+    <script is:inline define:vars={{ clarityId: SITE.clarityId }}>
+      (function(c,l,a,r,i,t,y){
+          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+          t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+      })(window, document, "clarity", "script", clarityId);
+    </script>
+  )}
+
+  {/* SPA transition pageview — deduplicated via flag to prevent double-fire */}
+  <script>
+    (function() {
+      let firstPageview = true;
+      document.addEventListener('astro:page-load', () => {
+        if (firstPageview) {
+          firstPageview = false;
+          return; // initial pageview already sent by gtag config above
+        }
+        const w = window as any;
+        if (w.gtag) {
+          w.gtag('event', 'page_view', {
+            page_path: window.location.pathname,
+            page_title: document.title,
+            page_location: window.location.href
+          });
+        }
+      });
+    })();
   </script>
 
   <!-- Critical inline CSS: brand font-face + heading overrides -->

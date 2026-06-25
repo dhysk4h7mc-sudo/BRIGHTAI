@@ -13,16 +13,46 @@ const CORE_PAGES = [
   "assessment/ai-governance-readiness/index.html",
 ];
 
+function resolvePagePath(relPath) {
+  const rootPath = path.join(ROOT, relPath);
+  if (fs.existsSync(rootPath)) return rootPath;
+  const distPath = path.join(ROOT, "dist", relPath);
+  if (fs.existsSync(distPath)) return distPath;
+  throw new Error(`Page not found in source or dist: ${relPath}`);
+}
+
 function loadPage(relPath) {
-  const html = fs.readFileSync(path.join(ROOT, relPath), "utf8");
+  const resolved = resolvePagePath(relPath);
+  const html = fs.readFileSync(resolved, "utf8");
   return { html, $: cheerio.load(html) };
 }
 
 function mainWordCount(relPath) {
   const { $ } = loadPage(relPath);
-  $("script, style, noscript, nav, footer").remove();
-  return $("main")
+  $("script, style, noscript, footer").remove();
+  // Remove site-level nav (outside <main>), but keep breadcrumb <nav>
+  // which is legitimate main content.
+  $("nav").not("main nav").remove();
+
+  const visibleText = $("main")
     .text()
+    .replace(/\s+/g, " ")
+    .trim();
+
+  // Include user-facing attribute text (placeholders, aria-labels, titles)
+  // that convey meaningful content inside <main>.
+  const attrText = [];
+  $("main [placeholder]").each(function () {
+    attrText.push($(this).attr("placeholder"));
+  });
+  $("main [aria-label]").each(function () {
+    attrText.push($(this).attr("aria-label"));
+  });
+  $("main [title]").each(function () {
+    attrText.push($(this).attr("title"));
+  });
+
+  return (visibleText + " " + attrText.join(" "))
     .replace(/\s+/g, " ")
     .trim()
     .split(/\s+/)
@@ -30,11 +60,16 @@ function mainWordCount(relPath) {
 }
 
 function solutionPages() {
+  const solutionsDir = fs.existsSync(path.join(ROOT, "solutions"))
+    ? path.join(ROOT, "solutions")
+    : path.join(ROOT, "dist", "solutions");
   return fs
-    .readdirSync(path.join(ROOT, "solutions"), { withFileTypes: true })
+    .readdirSync(solutionsDir, { withFileTypes: true })
     .filter((entry) => entry.isDirectory())
     .map((entry) => path.join("solutions", entry.name, "index.html"))
-    .filter((relPath) => fs.existsSync(path.join(ROOT, relPath)));
+    .filter((relPath) => {
+      return fs.existsSync(path.join(ROOT, relPath)) || fs.existsSync(path.join(ROOT, "dist", relPath));
+    });
 }
 
 function countLinkingSourceFiles(target) {
