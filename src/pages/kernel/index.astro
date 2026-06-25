@@ -2,7 +2,7 @@
 /**
  * /kernel/ — Index page
  * Overview + cards for all units + LiveDashboardMockup
- * GSAP allowed here (dynamic import, idle, reduced-motion, CSS fallback)
+ * CSS-first reveal animations with IntersectionObserver (no GSAP)
  */
 import KernelLayout from '../../layouts/KernelLayout.astro';
 import LiveDashboardMockup from '../../components/LiveDashboardMockup.astro';
@@ -307,13 +307,24 @@ const jsonLd = {
       font-size: 0.75rem;
     }
 
-    /* GSAP animation targets — fallback visible without JS */
-    .gsap-fade { opacity: 1; }
-    .gsap-fade[data-gsap-ready] { opacity: 0; }
+    /* CSS-first reveal — no JS needed for initial state */
+    .gsap-fade {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    }
+    .gsap-fade[data-revealed] {
+      opacity: 1;
+      transform: translateY(0);
+    }
 
     @media (prefers-reduced-motion: reduce) {
       .k-unit-card { transition: none; }
-      .gsap-fade { opacity: 1 !important; }
+      .gsap-fade {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+      }
     }
     @media (max-width: 760px) {
       .k-actions { grid-template-columns: 1fr; }
@@ -444,9 +455,9 @@ const jsonLd = {
     </a>
   </div>
 
-  <!-- GSAP: dynamic import, idle, reduced-motion, cleanup -->
+  <!-- Lightweight IntersectionObserver reveal (no GSAP) -->
   <script>
-    let gsapCtx: any = null;
+    let revealObserver: IntersectionObserver | null = null;
 
     function handleKernelShortcuts(event: KeyboardEvent) {
       const target = event.target as HTMLElement | null;
@@ -478,7 +489,7 @@ const jsonLd = {
 
     function handleShortcutBackdrop(event: MouseEvent) {
       const overlay = document.getElementById('shortcut-overlay');
-      if (event.target !== overlay) return;
+      if (!overlay || event.target !== overlay) return;
       overlay.classList.remove('open');
       overlay.setAttribute('aria-hidden', 'true');
     }
@@ -491,66 +502,47 @@ const jsonLd = {
       document.addEventListener('keydown', handleKernelShortcuts);
     }
 
-    async function initGSAP() {
+    function initReveal() {
       const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
-      if (mq.matches) return;
+      if (mq.matches) {
+        document.querySelectorAll('.gsap-fade').forEach(el => el.setAttribute('data-revealed', ''));
+        return;
+      }
 
       const cards = document.querySelectorAll('.gsap-fade');
       if (!cards.length) return;
 
-      // تحميل المكتبات ديناميكياً لتسريع تحميل الصفحة الأولي
-      const { default: gsap } = await import('gsap');
-      const { ScrollTrigger } = await import('gsap/ScrollTrigger');
-
-      gsap.registerPlugin(ScrollTrigger);
-
-      // تسجيل مراجع المكتبات عالمياً لضمان عثور سكريبت التنظيف عليها
-      const w = window as any;
-      w.gsap = gsap;
-      w.ScrollTrigger = ScrollTrigger;
-
-      // تدمير السياق القديم إن وجد لمنع التراكم
-      if (gsapCtx) {
-        gsapCtx.revert();
+      // Disconnect previous observer if re-initializing
+      if (revealObserver) {
+        revealObserver.disconnect();
       }
 
-      // إنشاء سياق جديد للحركات
-      gsapCtx = gsap.context(() => {
-        cards.forEach((el) => {
-          el.setAttribute('data-gsap-ready', '');
-          const delay = parseInt((el as HTMLElement).dataset.gsapDelay || '0', 10);
-          gsap.fromTo(el,
-            { opacity: 0, y: 20 },
-            { 
-              opacity: 1, 
-              y: 0, 
-              duration: 0.5, 
-              delay: delay / 1000, 
-              ease: 'power2.out',
-              scrollTrigger: {
-                trigger: el,
-                start: 'top 85%',
-                toggleActions: 'play none none none'
-              }
-            }
-          );
+      revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const delay = parseInt((entry.target as HTMLElement).dataset.gsapDelay || '0', 10);
+            window.setTimeout(() => {
+              entry.target.setAttribute('data-revealed', '');
+            }, delay);
+            revealObserver?.unobserve(entry.target);
+          }
         });
-      });
+      }, { rootMargin: '0px 0px -15% 0px', threshold: 0.1 });
 
-      ScrollTrigger.refresh();
+      cards.forEach((el) => revealObserver!.observe(el));
     }
 
     // تشغيل التهيئة عند تحميل الصفحة
     document.addEventListener('astro:page-load', () => {
-      initGSAP();
+      initReveal();
       initKernelShortcuts();
     });
 
     // تنظيف سياقي قبل استبدال الصفحة
     document.addEventListener('astro:before-swap', () => {
-      if (gsapCtx) {
-        gsapCtx.revert();
-        gsapCtx = null;
+      if (revealObserver) {
+        revealObserver.disconnect();
+        revealObserver = null;
       }
       document.getElementById('shortcut-overlay')?.removeEventListener('click', handleShortcutBackdrop);
       document.removeEventListener('keydown', handleKernelShortcuts);

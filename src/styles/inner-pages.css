@@ -58,10 +58,18 @@
 /* ═══ Section Shared ═══ */
 .inner-section {
   padding: clamp(3rem, 6vw, 5rem) 0;
-  border-top: 1px solid var(--glass-border);
+  border-top: 1px solid transparent;
+  border-image: linear-gradient(90deg, transparent, rgba(34,211,238,0.15) 30%, rgba(129,140,248,0.10) 70%, transparent) 1;
 }
 .inner-section--alt {
   background: linear-gradient(180deg, transparent, rgba(34, 211, 238, 0.035), transparent);
+}
+
+/* Section divider — premium gradient line */
+.inner-section::after {
+  content: '';
+  display: block;
+  height: 0;
 }
 .inner-section__label {
   display: inline-block;
@@ -102,17 +110,54 @@
 
 /* ═══ Inner Card ═══ */
 .inner-card {
+  position: relative;
   border: 1px solid var(--glass-border);
   background: var(--gradient-surface);
   border-radius: var(--radius-2xl);
   padding: 1.5rem;
-  transition: border-color 0.3s, box-shadow 0.3s;
+  transition: transform 0.3s var(--ease-out, ease),
+              border-color 0.3s var(--ease-out, ease),
+              box-shadow 0.3s var(--ease-out, ease);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+  overflow: hidden;
 }
+
+/* Subtle brand glow on top */
+.inner-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  inset-inline: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.15), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+/* Radial accent on hover */
+.inner-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  inset-inline-start: 0;
+  width: 100%;
+  height: 120px;
+  background: radial-gradient(ellipse at top, rgba(34,211,238,0.06), transparent 70%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
 .inner-card:hover {
-  border-color: var(--border-hover);
-  box-shadow: var(--shadow-glow);
+  transform: translateY(-4px);
+  border-color: rgba(34, 211, 238, 0.3);
+  box-shadow: var(--shadow-card-hover, 0 8px 40px -8px rgba(0,0,0,0.6), 0 0 0 1px rgba(34,211,238,0.15));
+}
+
+.inner-card:hover::before,
+.inner-card:hover::after {
+  opacity: 1;
 }
 .inner-card__icon {
   font-size: 1.5rem;

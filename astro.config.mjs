@@ -19,7 +19,19 @@ export default defineConfig({
   },
   integrations: [
     react(),
-    sitemap(),
+    sitemap({
+      i18n: {
+        defaultLocale: 'ar',
+        locales: {
+          ar: 'ar-SA',
+          en: 'en-SA',
+        },
+      },
+      filter: (page) => !page.includes('/404'),
+      changefreq: 'weekly',
+      priority: 0.7,
+      lastmod: new Date(),
+    }),
   ],
   vite: {
     build: {

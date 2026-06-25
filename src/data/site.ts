@@ -33,6 +33,7 @@ export const SITE = {
   crNumber: '',
   bingVerification: '',
   yandexVerification: '',
+  googleVerification: '',
   clarityId: '',
   ogImage: '/frontend/assets/images/og/brightai-og-1200x630.png',
 } as const;

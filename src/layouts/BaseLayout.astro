@@ -9,6 +9,8 @@ import Header from '../components/Header.astro';
 import MobileNav from '../components/MobileNav.astro';
 import Footer from '../components/Footer.astro';
 import WhatsAppCTA from '../components/WhatsAppCTA.astro';
+import DottedBackground from '../components/DottedBackground.astro';
+import CookieConsent from '../components/CookieConsent.astro';
 import { SITE } from '../data/site';
 import type { SEOProps } from '../data/site';
 import { ClientRouter } from 'astro:transitions';
@@ -85,6 +87,9 @@ const {
   {SITE.yandexVerification && (
     <meta name="yandex-verification" content={SITE.yandexVerification} />
   )}
+  {SITE.googleVerification && (
+    <meta name="google-site-verification" content={SITE.googleVerification} />
+  )}
 
   {/* Google tag (gtag.js) — single injection point. Initial pageview on load. */}
   <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${SITE.googleTagId}`}></script>
@@ -146,8 +151,8 @@ const {
     .gradient-text, .chip, .badge, .font-black, .font-bold,
     .feature-title, .section-title, .stat-value, .metric-label,
     .brand-text {
-      font-family: 'BrightAI Official', 'IBM Plex Sans Arabic', Arial, sans-serif !important;
-      font-weight: 700 !important;
+      font-family: 'BrightAI Official', 'IBM Plex Sans Arabic', Arial, sans-serif;
+      font-weight: 700;
     }
     /* Production body baseline */
     body { background: #060914; color: #f8fafc; overflow-x: hidden; }
@@ -164,6 +169,7 @@ const {
   </style>
 </head>
 <body>
+  <DottedBackground />
   <a href="#main-content" class="skip-to-content">
     {lang === 'ar' ? 'تخطي إلى المحتوى' : 'Skip to content'}
   </a>
@@ -180,27 +186,6 @@ const {
   </div>
 
   <WhatsAppCTA lang={lang} />
-
-  <!-- Global Cleanup Script for GSAP & ScrollTrigger -->
-  <script>
-    document.addEventListener('astro:before-swap', () => {
-      const w = window as any;
-      if (w.gsap) {
-        w.gsap.killTweensOf('*');
-        if (w.gsap.globalTimeline) {
-          w.gsap.globalTimeline.clear();
-        }
-      }
-      if (w.ScrollTrigger) {
-        try {
-          w.ScrollTrigger.getAll().forEach((trigger: any) => {
-            trigger.kill(true);
-          });
-        } catch (e) {
-          console.error('Error cleaning ScrollTrigger:', e);
-        }
-      }
-    });
-  </script>
+  <CookieConsent />
 </body>
 </html>

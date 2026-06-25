@@ -1,7 +1,0 @@
----
-interface Crumb { label:string; href?:string; }
-interface Props { crumbs?:Crumb[]; }
-const { crumbs=[{label:'الرئيسية',href:'/'},{label:'الحلول',href:'/solutions/'},{label:'القطاع الصحي',href:'/solutions/healthcare-ai-governance/'},{label:'جدة'}] }=Astro.props;
----
-<nav class="legacy-breadcrumb" aria-label="مسار التنقل"><ol>{crumbs.map((crumb,index)=><li>{crumb.href?<a href={crumb.href}>{index===0&&<svg aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#lucide-home"></use></svg>}{crumb.label}</a>:<span aria-current="page">{crumb.label}</span>}{index<crumbs.length-1&&<b aria-hidden="true">/</b>}</li>)}</ol></nav>
-<style>.legacy-breadcrumb ol{display:flex;flex-wrap:wrap;gap:.5rem;list-style:none;padding:0}.legacy-breadcrumb li,.legacy-breadcrumb a{display:flex;align-items:center;gap:.5rem;color:#94a3b8;text-decoration:none}.legacy-breadcrumb [aria-current=page]{color:#818cf8;font-weight:700}.legacy-breadcrumb b{color:#475569}</style>

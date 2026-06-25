@@ -255,10 +255,10 @@ NAV.forEach((item, idx) => {
     position: sticky;
     top: 0;
     z-index: var(--z-sticky, 100);
-    background: rgba(3, 10, 24, 0.82);
-    backdrop-filter: blur(16px) saturate(1.2);
-    -webkit-backdrop-filter: blur(16px) saturate(1.2);
-    border-bottom: 1px solid var(--border);
+    background: rgba(6, 9, 20, 0.88);
+    backdrop-filter: blur(20px) saturate(1.4);
+    -webkit-backdrop-filter: blur(20px) saturate(1.4);
+    border-bottom: 1px solid rgba(34, 211, 238, 0.08);
     transition: background var(--duration-normal) var(--ease-out);
   }
 
@@ -361,10 +361,12 @@ NAV.forEach((item, idx) => {
     inset-inline-start: 0;
     min-width: 280px;
     max-width: 520px;
-    background: var(--bg-elevated);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-xl);
-    box-shadow: var(--shadow-xl);
+    background: rgba(10, 16, 32, 0.96);
+    backdrop-filter: blur(24px) saturate(1.3);
+    -webkit-backdrop-filter: blur(24px) saturate(1.3);
+    border: 1px solid var(--glass-border, rgba(255,255,255,0.10));
+    border-radius: var(--radius-2xl, 1rem);
+    box-shadow: 0 24px 64px -16px rgba(0, 0, 0, 0.8);
     padding: var(--space-4);
     opacity: 0;
     visibility: hidden;
@@ -373,6 +375,16 @@ NAV.forEach((item, idx) => {
                 transform var(--duration-fast) var(--ease-out),
                 visibility var(--duration-fast) var(--ease-out);
     z-index: var(--z-dropdown, 200);
+  }
+
+  /* Brand glow accent on dropdown top edge */
+  .site-header__dropdown-panel::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    inset-inline: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(34,211,238,0.3), transparent);
   }
 
   .site-header__dropdown-panel--open {

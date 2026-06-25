@@ -15,18 +15,23 @@ interface Props {
   dotSize?: number;
   dotColor?: string;
   dotOpacity?: number;
+  dotSpacing?: number;
 }
 
 const {
   class: className = '',
-  dotSize = 1,
-  dotColor = 'rgba(0, 212, 170, 0.15)',
+  dotSize = 1.5,
+  dotColor = 'rgba(34, 211, 238, 0.12)',
   dotOpacity = 1,
+  dotSpacing = 28,
 } = Astro.props;
 ---
 
 <div class:list={['dotted-bg', className]} aria-hidden="true">
-  <div class="dotted-bg__surface" style={`--dot-size: ${dotSize}px; --dot-color: ${dotColor}; --dot-opacity: ${dotOpacity};`}></div>
+  <div
+    class="dotted-bg__surface"
+    style={`--dot-size: ${dotSize}px; --dot-color: ${dotColor}; --dot-opacity: ${dotOpacity}; --dot-spacing: ${dotSpacing}px;`}
+  ></div>
   <div class="dotted-bg__radial-fade"></div>
 </div>
 
@@ -45,10 +50,10 @@ const {
     width: 100%;
     height: 100%;
     background-image: radial-gradient(
-      var(--dot-color, rgba(0, 212, 170, 0.15)) calc(var(--dot-size, 1px) * 0.5),
-      transparent calc(var(--dot-size, 1px) * 0.5)
+      var(--dot-color, rgba(34, 211, 238, 0.12)) calc(var(--dot-size, 1.5px) * 0.5),
+      transparent calc(var(--dot-size, 1.5px) * 0.5)
     );
-    background-size: calc(var(--dot-size, 1px) * 24) calc(var(--dot-size, 1px) * 24);
+    background-size: var(--dot-spacing, 28px) var(--dot-spacing, 28px);
     opacity: var(--dot-opacity, 1);
   }
 
@@ -60,20 +65,29 @@ const {
       ellipse 80% 60% at center,
       transparent 0%,
       transparent 40%,
-      var(--bg-solid, #060914) 100%
+      var(--bg, #060914) 100%
     );
   }
 
-  /* On very small screens, reduce dot density for perf */
-  @media (max-width: 480px) {
+  /* Mobile: increase spacing 1.3x for performance */
+  @media (max-width: 768px) {
     .dotted-bg__surface {
-      background-size: calc(var(--dot-size, 1px) * 32) calc(var(--dot-size, 1px) * 32);
+      background-size: calc(var(--dot-spacing, 28px) * 1.3) calc(var(--dot-spacing, 28px) * 1.3);
     }
   }
 
-  @media (prefers-reduced-motion: reduce) {
+  /* Very small screens: increase spacing 1.5x */
+  @media (max-width: 480px) {
     .dotted-bg__surface {
-      animation: none;
+      background-size: calc(var(--dot-spacing, 28px) * 1.5) calc(var(--dot-spacing, 28px) * 1.5);
+    }
+  }
+
+  /* Disable animation on mobile and reduced-motion */
+  @media (prefers-reduced-motion: reduce),
+         (max-width: 768px) {
+    .dotted-bg__surface {
+      animation: none !important;
     }
   }
 
@@ -86,6 +100,9 @@ const {
 
   @keyframes dotted-drift {
     0% { background-position: 0 0; }
-    100% { background-position: 240px 240px; }
+    25% { background-position: 7px 14px; }
+    50% { background-position: 28px 7px; }
+    75% { background-position: 14px 0; }
+    100% { background-position: 0 0; }
   }
 </style>

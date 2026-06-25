@@ -20,26 +20,54 @@
   -webkit-backdrop-filter: blur(14px) saturate(1.08);
 }
 
-/* ─── Glow Button ─── */
-.glow-btn {
+/* ─── Glow Button (Primary) ─── */
+.glow-btn, .btn-primary {
   background: var(--gradient-brand);
   color: var(--text-inverse);
-  box-shadow: var(--shadow-glow), inset 0 1px 0 rgba(255,255,255,.25);
-  transition: filter 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 12px 32px -8px rgba(34, 211, 238, 0.5), inset 0 1px 0 rgba(255,255,255,0.25);
+  border-radius: var(--radius-lg);
+  padding: 0.75rem 1.5rem;
+  font-weight: 700;
+  transition: all 0.2s var(--ease-out);
 }
-.glow-btn:hover {
-  filter: brightness(1.06) saturate(1.06);
-  transform: translateY(-1px);
+.glow-btn:hover, .btn-primary:hover {
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+  box-shadow: 0 16px 40px -8px rgba(34, 211, 238, 0.6), inset 0 1px 0 rgba(255,255,255,0.3);
   color: var(--text-inverse);
 }
 
 /* ─── WhatsApp Button ─── */
-.wa-btn {
-  background: linear-gradient(135deg, var(--accent), #128c7e);
-  box-shadow: var(--shadow-glow-gold), inset 0 1px 0 rgba(255,255,255,.2);
-  transition: filter 0.2s ease, transform 0.2s ease;
+.wa-btn, .btn-whatsapp {
+  background: linear-gradient(135deg, #25d366, #128c7e);
+  color: white;
+  box-shadow: 0 12px 32px -8px rgba(37, 211, 102, 0.4);
+  border-radius: var(--radius-lg);
+  padding: 0.75rem 1.5rem;
+  font-weight: 700;
+  transition: all 0.2s var(--ease-out);
 }
-.wa-btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
+.wa-btn:hover, .btn-whatsapp:hover {
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+  box-shadow: 0 16px 40px -8px rgba(37, 211, 102, 0.5);
+}
+
+/* ─── Secondary Button ─── */
+.btn-secondary {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  color: var(--text);
+  border-radius: var(--radius-lg);
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  transition: all 0.2s var(--ease-out);
+}
+.btn-secondary:hover {
+  background: var(--glass-hover);
+  border-color: rgba(34, 211, 238, 0.3);
+  color: var(--brand);
+}
 
 /* ─── Chip / Badge ─── */
 .chip {
@@ -80,6 +108,91 @@
 }
 .feature-card:hover::before {
   background: linear-gradient(135deg, rgba(34, 211, 238, 0.38) 0%, rgba(20, 184, 166, 0.24) 100%);
+}
+
+/* ─── Card Type 1: Glass Standard ─── */
+.card-glass {
+  background: var(--gradient-surface);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(14px) saturate(1.08);
+  -webkit-backdrop-filter: blur(14px) saturate(1.08);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
+  transition: all 0.3s var(--ease-out);
+  position: relative;
+  overflow: hidden;
+}
+.card-glass:hover {
+  border-color: rgba(34, 211, 238, 0.2);
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-4px);
+}
+
+/* ─── Card Type 2: Featured with top accent ─── */
+.card-featured {
+  background: var(--gradient-surface);
+  border: 1px solid var(--glass-border);
+  border-top: 2px solid var(--brand);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-card);
+  transition: all 0.3s var(--ease-out);
+  position: relative;
+  overflow: hidden;
+}
+.card-featured::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  inset-inline-start: 0;
+  width: 100%;
+  height: 120px;
+  background: radial-gradient(ellipse at top, rgba(34,211,238,0.06), transparent 70%);
+  pointer-events: none;
+}
+.card-featured:hover {
+  transform: translateY(-6px);
+  border-color: rgba(34, 211, 238, 0.3);
+  box-shadow: var(--shadow-card-hover);
+}
+
+/* ─── Card Type 3: Gradient Border ─── */
+.card-gradient-border {
+  position: relative;
+  background: var(--gradient-surface);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-card);
+  transition: all 0.3s var(--ease-out);
+}
+.card-gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(34,211,238,0.3), rgba(129,140,248,0.15) 50%, transparent 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+.card-gradient-border:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-card-hover);
+}
+.card-gradient-border:hover::before {
+  background: linear-gradient(135deg, rgba(34,211,238,0.5), rgba(129,140,248,0.3) 100%);
+}
+
+/* ─── Section Divider (new) ─── */
+.section-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(34,211,238,0.15) 30%, rgba(129,140,248,0.10) 70%, transparent);
+  margin: 0;
+  border: none;
 }
 
 /* ─── Section Mini Link ─── */
@@ -160,8 +273,8 @@
 /* ─── Premium Footer ─── */
 footer.premium-footer {
   position: relative;
-  background: linear-gradient(180deg, rgba(6, 9, 20, 0.9) 0%, rgba(4, 6, 12, 0.98) 100%);
-  border-top: 1px solid var(--glass-border);
+  background: linear-gradient(180deg, rgba(6, 9, 20, 0.95), rgba(4, 6, 12, 0.99));
+  border-top: 1px solid rgba(34, 211, 238, 0.08);
   backdrop-filter: blur(20px);
 }
 footer.premium-footer::before {
@@ -170,7 +283,18 @@ footer.premium-footer::before {
   inset-block-start: -1px;
   inset-inline: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent 0%, rgba(34, 211, 238, 0.3) 50%, transparent 100%);
+  background: linear-gradient(90deg, transparent 0%, rgba(34, 211, 238, 0.25) 30%, rgba(129, 140, 248, 0.15) 70%, transparent 100%);
+}
+
+/* ─── Footer Link ─── */
+.footer-link {
+  color: var(--text-soft);
+  transition: color 0.15s ease, padding-inline-start 0.15s ease;
+  text-decoration: none;
+}
+.footer-link:hover {
+  color: var(--brand);
+  padding-inline-start: 0.25rem;
 }
 
 /* ─── Footer Social Button ─── */

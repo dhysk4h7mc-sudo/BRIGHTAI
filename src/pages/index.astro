@@ -6,7 +6,6 @@
  */
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SplitHero from '../components/SplitHero.astro';
-import DottedBackground from '../components/DottedBackground.astro';
 
 const faqItems = [
   { q: 'وش هي BrightAI؟', a: '<p><strong class="text-white">الجواب:</strong> BrightAI هي <strong>Saudi AI Safety OS</strong> — نظام تشغيل أمان وحوكمة للذكاء الاصطناعي داخل المؤسسات السعودية. تشتغل كطبقة وسيطة بين الموظف والـ AI وبيانات الشركة، وتضمن إن كل طلب ذكاء اصطناعي يكون آمن وموثّق وقابل للمراجعة.</p><p>عكس شات بوت عادي، BrightAI تركّب تحت أي نظام AI في شركتك وتفعّل AI Firewall وإخفاء البيانات الشخصية وسجل التدقيق والموافقات البشرية وملفات الأدلة — كلها متوافقة مع PDPL وNCA وSDAIA.</p>' },
@@ -183,7 +182,7 @@ const jsonLd = [
 ---
 
 <BaseLayout
-  title="🇸🇦 BrightAI — منصة حوكمة الذكاء الاصطناعي (+15 عميل مؤسسي)"
+  title="BrightAI | منصة حوكمة وأمان الذكاء الاصطناعي للشركات السعودية"
   description="BrightAI توفر Saudi AI Safety OS للمؤسسات السعودية: AI Firewall، سجلات تدقيق، موافقات بشرية، حماية بيانات، وملفات أدلة تساعد على تشغيل الذكاء الاصطناعي بأمان وامتثال."
   canonical="https://brightai.site/"
   hreflang={[{lang:'ar-SA',href:'https://brightai.site/'}]}
@@ -191,8 +190,7 @@ const jsonLd = [
 >
 <style is:global>@import '../styles/home.css';</style>
 
-{/* ═══════════════ 1. HERO (SplitHero + DottedBackground) ═══════════════ */}
-<DottedBackground />
+{/* ═══════════════ 1. HERO (SplitHero — DottedBackground now in BaseLayout) ═══════════════ */}
 <SplitHero />
 
 {/* ═══════════════ 2. TRUST / COMPLIANCE ═══════════════ */}

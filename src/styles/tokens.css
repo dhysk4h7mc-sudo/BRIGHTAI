@@ -39,14 +39,18 @@
   --text-faint: rgba(248, 250, 252, 0.56);
   --text-inverse: #04111f;
 
-  --glass: rgba(255, 255, 255, 0.055);
-  --glass-hover: rgba(255, 255, 255, 0.09);
+  --glass: rgba(255, 255, 255, 0.06);
+  --glass-hover: rgba(255, 255, 255, 0.10);
   --glass-active: rgba(34, 211, 238, 0.13);
-  --glass-border: rgba(255, 255, 255, 0.095);
+  --glass-border: rgba(255, 255, 255, 0.10);
 
   --border: rgba(148, 163, 184, 0.16);
   --border-hover: rgba(34, 211, 238, 0.34);
   --border-active: rgba(34, 211, 238, 0.46);
+
+  /* ─── Brand Secondary (for visual variety) ─── */
+  --brand-secondary: #818cf8;
+  --brand-secondary-muted: rgba(129, 140, 248, 0.12);
 
   /* ─── Spacing Scale (4px base) ─── */
   --space-0: 0;
@@ -79,6 +83,11 @@
   --shadow-xl: 0 16px 64px rgba(0, 0, 0, 0.7);
   --shadow-glow: 0 18px 44px -26px rgba(34, 211, 238, 0.65);
   --shadow-glow-gold: 0 18px 44px -26px rgba(37, 211, 102, 0.55);
+
+  /* ─── Card Shadows (new) ─── */
+  --shadow-card: 0 4px 24px -4px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  --shadow-card-hover: 0 8px 40px -8px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(34, 211, 238, 0.15);
+  --shadow-elevated: 0 16px 48px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.06);
 
   /* ─── Z-Index Scale ─── */
   --z-base: 0;

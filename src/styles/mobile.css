@@ -13,7 +13,7 @@ body {
   width: 100%;
 }
 
-/* Touch targets minimum 44px */
+/* Touch targets minimum 48px (larger for better mobile UX) */
 @media (pointer: coarse) {
   a,
   button,
@@ -21,16 +21,18 @@ body {
   input[type="checkbox"],
   input[type="radio"],
   select {
-    min-height: 44px;
-    min-width: 44px;
+    min-height: 48px;
+    min-width: 48px;
   }
 
   .btn {
     min-height: 48px;
   }
 
-  .nav__link {
+  .nav__link,
+  .site-header__nav-link {
     min-height: 48px;
+    padding: 0.75rem 1rem;
   }
 }
 
@@ -126,6 +128,73 @@ h3 { font-size: var(--text-2xl); }
   }
 }
 
+/* ─── Hero Mobile Simplification ─── */
+
+@media (max-width: 768px) {
+  .split-hero {
+    min-height: auto !important;
+    padding: 5rem 1rem 3rem !important;
+  }
+
+  .split-hero__visual {
+    display: none;
+  }
+
+  .split-hero__grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .split-hero__h1 {
+    font-size: 2rem !important;
+    line-height: 1.2;
+  }
+
+  .split-hero__lead {
+    font-size: 1rem;
+    line-height: 1.8;
+  }
+
+  .home-hero-actions {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .home-hero-actions a {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* ─── Cards: single column on mobile ─── */
+
+@media (max-width: 640px) {
+  .inner-grid--3,
+  .inner-grid--4,
+  .inner-grid--2 {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ─── Reduce Animations on Mobile ─── */
+
+@media (max-width: 768px) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.15s !important;
+  }
+
+  /* Keep essential animations */
+  .split-hero,
+  .mobile-menu,
+  .cookie-consent {
+    animation-duration: initial !important;
+    transition-duration: initial !important;
+  }
+}
+
 /* ─── Safe Area (notch/gesture bar) ─── */
 
 @supports (padding: env(safe-area-inset-bottom)) {
@@ -139,6 +208,10 @@ h3 { font-size: var(--text-2xl); }
 
   .mobile-menu {
     padding-bottom: calc(var(--space-6) + env(safe-area-inset-bottom));
+  }
+
+  .cookie-consent {
+    bottom: calc(0.5rem + env(safe-area-inset-bottom));
   }
 }
 

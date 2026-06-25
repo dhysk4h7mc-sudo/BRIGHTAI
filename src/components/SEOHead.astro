@@ -33,6 +33,19 @@ const {
 const fullOgImage = ogImage.startsWith('http') ? ogImage : `${SITE.url}${ogImage}`;
 const siteName = SITE.name;
 const hasXDefault = hreflang.some((link) => link.lang === 'x-default');
+
+/* ─── Auto-derive en-SA hreflang for Arabic pages ───
+   If the page is Arabic (locale='ar') and an en-SA alternate isn't
+   already provided, derive it from the canonical URL so search
+   engines can find the English counterpart. */
+const isArabic = locale === 'ar';
+const hasEnSA = hreflang.some((link) => link.lang === 'en-SA');
+const enrichedHreflang = [...hreflang];
+if (isArabic && !hasEnSA && canonical) {
+  const enHref = canonical.replace(`${SITE.url}/`, `${SITE.url}/en/`);
+  enrichedHreflang.push({ lang: 'en-SA', href: enHref });
+}
+const finalHasXDefault = enrichedHreflang.some((link) => link.lang === 'x-default');
 ---
 
 <!-- Primary Meta Tags -->
@@ -60,10 +73,10 @@ const hasXDefault = hreflang.some((link) => link.lang === 'x-default');
 <meta name="twitter:image:alt" content={ogImageAlt} />
 
 <!-- Hreflang -->
-{hreflang.map((link) => (
+{enrichedHreflang.map((link) => (
   <link rel="alternate" hreflang={link.lang} href={link.href} />
 ))}
-{!hasXDefault && hreflang.length > 0 && !robots.includes('noindex') && (
+{!finalHasXDefault && enrichedHreflang.length > 0 && !robots.includes('noindex') && (
   <link rel="alternate" hreflang="x-default" href={canonical} />
 )}
 
