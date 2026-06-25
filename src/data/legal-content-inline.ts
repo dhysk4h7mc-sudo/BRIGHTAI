@@ -394,7 +394,7 @@ export const legal_privacy_cookies: LegalInlineContent = {
 <div id="main-content" tabindex="-1" aria-hidden="true"></div>
 <section class="py-24 px-6 bg-[#020617] relative" style="content-visibility: auto;">
         <div class="max-w-4xl mx-auto relative z-10">
-            <div class="glass-card p-8 md:p-12 mb-10" data-aos="fade-up">
+            <div class="glass-card p-8 md:p-12 mb-10 reveal">
                 <div class="prose prose-invert max-w-none text-slate-300 leading-relaxed">
                     <h2 class="text-2xl font-bold text-white mb-6 border-b border-white/10 pb-4">سياسة ملفات تعريف
                         الارتباط (Cookies)</h2>
@@ -450,7 +450,7 @@ export const legal_privacy_cookies: LegalInlineContent = {
             </div>
 
             <!-- SEO Expanded Content: Privacy & PDPL in Saudi Arabia -->
-            <div class="glass-card p-8 md:p-12" data-aos="fade-up" data-aos-delay="100">
+            <div class="glass-card p-8 md:p-12 reveal reveal--delay-1">
                 <div class="prose prose-invert max-w-none text-slate-300 leading-relaxed">
                     <div class="mb-8 border-b border-indigo-500/20 pb-6">
                         <span class="inline-block px-3 py-1 rounded bg-indigo-500/20 text-indigo-400 text-xs font-bold mb-4">الامتثال
@@ -568,41 +568,6 @@ export const legal_privacy_cookies: LegalInlineContent = {
             </div>
         </div>
     </section>
-
-    <script>
-        (function () {
-            function initFadeInAnimations() {
-                var els = document.querySelectorAll('[data-aos]');
-                if (!('IntersectionObserver' in window)) {
-                    els.forEach(function (el) { el.style.opacity = '1'; el.style.transform = 'none'; });
-                    return;
-                }
-                els.forEach(function (el) {
-                    el.style.opacity = '0';
-                    el.style.transform = 'translateY(20px)';
-                    el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
-                });
-                var io = new IntersectionObserver(function (entries) {
-                    entries.forEach(function (entry) {
-                        if (entry.isIntersecting) {
-                            var delay = entry.target.getAttribute('data-aos-delay') || 0;
-                            setTimeout(function () {
-                                entry.target.style.opacity = '1';
-                                entry.target.style.transform = 'none';
-                            }, delay);
-                            io.unobserve(entry.target);
-                        }
-                    });
-                }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-                els.forEach(function (el) { io.observe(el); });
-            }
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', function () { setTimeout(initFadeInAnimations, 100); });
-            } else {
-                setTimeout(initFadeInAnimations, 100);
-            }
-        })();
-    </script>
 
 <section id="semrush-privacy-cookies-index-html" data-semrush-fix="20260324" style="content-visibility:auto;max-width:1120px;margin:48px auto 0;padding:0 24px;">
   <div style="border:1px solid rgba(255,255,255,.12);border-radius:24px;padding:32px;background:rgba(15,23,42,.52);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 18px 60px rgba(2,6,23,.22);">

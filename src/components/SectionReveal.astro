@@ -1,7 +1,13 @@
 ---
 /**
  * SectionReveal — Wrapper that reveals content on scroll.
- * Uses CSS transition + IntersectionObserver (progressive enhancement).
+ *
+ * Adds the `.reveal` class to its children; the global IntersectionObserver
+ * registered in BaseLayout.astro picks up any `.reveal` element (including
+ * set:html injected content) and toggles `.is-visible` when it enters the viewport.
+ *
+ * CSS transitions are defined in animations.css. prefers-reduced-motion is
+ * handled both in CSS (animations.css) and in the global observer script.
  */
 interface Props {
   delay?: '1' | '2' | '3' | '4';
@@ -15,31 +21,3 @@ const delayClass = delay ? `reveal--delay-${delay}` : '';
 <section class:list={['reveal', delayClass, className]}>
   <slot />
 </section>
-
-<script>
-  // Progressive enhancement: IntersectionObserver for scroll reveal
-  document.addEventListener('astro:page-load', () => {
-    const reveals = document.querySelectorAll('.reveal');
-    if (!reveals.length) return;
-
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) {
-      reveals.forEach((el) => el.classList.add('is-visible'));
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible');
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
-    );
-
-    reveals.forEach((el) => observer.observe(el));
-  });
-</script>

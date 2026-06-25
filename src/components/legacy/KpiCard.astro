@@ -1,0 +1,6 @@
+---
+interface Props { label?:string; value?:string; unit?:string; change?:string; state?:'positive'|'negative'|'neutral'; }
+const { label='النماذج المراقبة',value='247',unit='نموذج',change='+12% هذا الشهر',state='positive' }=Astro.props;
+---
+<article class="legacy-kpi-card"><span>{label}</span><div><strong>{value}</strong> <b>{unit}</b></div><small class={state}>{change}</small></article>
+<style>.legacy-kpi-card{padding:1.5rem;border:1px solid #ffffff33;border-radius:8px;background:#1e293b}.legacy-kpi-card>span{color:#94a3b8}.legacy-kpi-card strong{font-size:2.25rem;color:#fff}.legacy-kpi-card b{color:#fff}.legacy-kpi-card small{display:inline-block;margin-top:.5rem;padding:.25rem .5rem;border-radius:999px}.positive{color:#22c55e;background:#22c55e26}.negative{color:#ef4444;background:#ef444426}.neutral{color:#38bdf8;background:#38bdf826}</style>

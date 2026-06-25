@@ -1,0 +1,12 @@
+---
+
+import Icon from '../components/Icon.astro';interface Props { label?: string; variant?: 'primary'|'success'|'warning'|'danger'|'info'|'gold'|'cyan'|'gradient'; dot?: boolean; outline?: boolean; icon?: string; }
+const { label='مميز', variant='primary', dot=false, outline=false, icon } = Astro.props;
+---
+<span class:list={['legacy-badge',`legacy-badge--${variant}`,{'legacy-badge--dot':dot,'legacy-badge--outline':outline}]}>
+  {icon && <Icon name={icon} class="" />}<slot>{label}</slot>
+</span>
+<style>
+  .legacy-badge{display:inline-flex;align-items:center;gap:.25rem;padding:.25rem .75rem;border-radius:999px;font-size:.75rem;font-weight:700;white-space:nowrap}
+  .legacy-badge--primary{background:#6366f126;color:#818cf8}.legacy-badge--success{background:#22c55e26;color:#22c55e}.legacy-badge--warning{background:#f59e0b26;color:#f59e0b}.legacy-badge--danger{background:#ef444426;color:#ef4444}.legacy-badge--info{background:#38bdf826;color:#38bdf8}.legacy-badge--gold{background:#f7c94826;color:#f7c948}.legacy-badge--cyan{background:#67e8f926;color:#67e8f9}.legacy-badge--gradient{background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff}.legacy-badge--outline{background:transparent;border:1px solid currentColor}.legacy-badge--dot:before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+</style>
