@@ -17,7 +17,7 @@
 }
 
 :root {
-  --brightai-logo: url("/frontend/assets/images/logo.png");
+  --brightai-logo: url("/logo.png");
   --brightai-ink: #08111f;
   --brightai-panel: rgba(15, 23, 42, 0.82);
   --brightai-panel-soft: rgba(255, 255, 255, 0.055);

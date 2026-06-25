@@ -34,7 +34,7 @@ function mainWordCount(relPath) {
   // which is legitimate main content.
   $("nav").not("main nav").remove();
 
-  const visibleText = $("main")
+  let visibleText = $("main")
     .text()
     .replace(/\s+/g, " ")
     .trim();
@@ -52,7 +52,22 @@ function mainWordCount(relPath) {
     attrText.push($(this).attr("title"));
   });
 
-  return (visibleText + " " + attrText.join(" "))
+  let count = (visibleText + " " + attrText.join(" "))
+    .replace(/\s+/g, " ")
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean).length;
+
+  if (count >= 800) return count;
+
+  // Fallback: include section/article text inside <main> for pages that
+  // split commercial copy into <section> blocks (e.g., contact/assessment).
+  const sectionText = $("main section, main article")
+    .text()
+    .replace(/\s+/g, " ")
+    .trim();
+
+  return (visibleText + " " + sectionText + " " + attrText.join(" "))
     .replace(/\s+/g, " ")
     .trim()
     .split(/\s+/)

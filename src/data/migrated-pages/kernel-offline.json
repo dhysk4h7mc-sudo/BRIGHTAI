@@ -3,7 +3,16 @@
   "title": "BrightAI Kernel غير متصل | BrightAI",
   "description": "صفحة offline لنواة BrightAI Kernel عند انقطاع الاتصال، مع روابط للرجوع إلى لوحة التحكم والموافقات بعد عودة الشبكة.",
   "canonical": "https://brightai.site/kernel/offline/",
-  "hreflang": [],
+  "hreflang": [
+    {
+      "lang": "ar-SA",
+      "href": "https://brightai.site/kernel/offline/"
+    },
+    {
+      "lang": "x-default",
+      "href": "https://brightai.site/kernel/offline/"
+    }
+  ],
   "jsonLd": [
     {
       "@context": "https://schema.org",
@@ -73,7 +82,7 @@
           "@id": "https://brightai.site/#organization",
           "name": "Bright AI",
           "url": "https://brightai.site",
-          "logo": "https://brightai.site/frontend/assets/images/logo.png",
+          "logo": "https://brightai.site/logo.png",
           "areaServed": "SA",
           "sameAs": []
         },

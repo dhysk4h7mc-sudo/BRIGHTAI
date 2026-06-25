@@ -51,7 +51,7 @@
           "telephone": "+966-538-229-013",
           "email": "yazeed1job@gmail.com",
           "image": "https://brightai.site/images/og/brightai-og-1200x630.png",
-          "logo": "https://brightai.site/frontend/assets/images/logo.png",
+          "logo": "https://brightai.site/logo.png",
           "priceRange": "SAR 20,000-120,000+",
           "address": {
             "@type": "PostalAddress",
@@ -142,7 +142,7 @@
           "@id": "https://brightai.site/#organization",
           "name": "BrightAI",
           "url": "https://brightai.site",
-          "logo": "https://brightai.site/frontend/assets/images/logo.png",
+          "logo": "https://brightai.site/logo.png",
           "areaServed": "SA",
           "sameAs": []
         },

@@ -33,6 +33,36 @@ const allItems = [
   currentPath={currentPath}
 >
   <style>
+    /* Skip-link */
+    .k-skip-link {
+      position: absolute;
+      top: -100%;
+      inset-inline-start: 0.5rem;
+      z-index: 100;
+      padding: 0.75rem 1.25rem;
+      background: var(--brand, #00D4AA);
+      color: #0a0f1a;
+      font-weight: 700;
+      font-size: 0.875rem;
+      border-radius: 0 0 0.5rem 0.5rem;
+      text-decoration: none;
+      transition: top 0.15s;
+    }
+    .k-skip-link:focus {
+      top: 0;
+    }
+
+    /* Focus visibility */
+    .k-topnav__link:focus-visible,
+    .k-bottomnav__link:focus-visible,
+    .k-drawer__link:focus-visible,
+    .k-drawer-toggle:focus-visible,
+    .k-drawer__close:focus-visible,
+    .k-topnav__brand:focus-visible {
+      outline: 2px solid var(--brand, #00D4AA);
+      outline-offset: 2px;
+    }
+
     .k-topnav {
       position: sticky;
       top: 0;
@@ -243,6 +273,9 @@ const allItems = [
     }
   </style>
 
+  <!-- Skip-link -->
+  <a href="#k-content" class="k-skip-link">تخطّى إلى المحتوى</a>
+
   <!-- Kernel Top Nav -->
   <nav class="k-topnav" aria-label="تنقل Kernel">
     <div class="k-topnav__inner">
@@ -297,7 +330,7 @@ const allItems = [
   </div>
 
   <!-- Main content -->
-  <div class="k-content">
+  <div class="k-content" id="k-content" tabindex="-1">
     <slot />
   </div>
 

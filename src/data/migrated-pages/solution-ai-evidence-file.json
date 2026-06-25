@@ -73,7 +73,7 @@
             "Saudi AI Safety OS"
           ],
           "url": "https://brightai.site/",
-          "logo": "https://brightai.site/frontend/assets/images/logo.png",
+          "logo": "https://brightai.site/logo.png",
           "sameAs": [
             "https://twitter.com/BrightAISite",
             "https://linkedin.com/company/brightai-site",
@@ -115,7 +115,7 @@
           "@id": "https://brightai.site/#organization",
           "name": "BrightAI",
           "url": "https://brightai.site",
-          "logo": "https://brightai.site/frontend/assets/images/logo.png",
+          "logo": "https://brightai.site/logo.png",
           "areaServed": "SA",
           "sameAs": [
             "https://twitter.com/BrightAISite",

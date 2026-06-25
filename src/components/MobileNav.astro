@@ -25,11 +25,7 @@ function isActive(href: string): boolean {
   <!-- Header: close button -->
   <div class="mobile-menu__header">
     <a href="/" class="mobile-menu__logo" aria-label="BrightAI Home">
-      <svg width="28" height="28" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-        <rect width="32" height="32" rx="8" fill="var(--brand)" />
-        <path d="M8 16L14 10L16 12L12 16L16 20L14 22L8 16Z" fill="var(--bg)" />
-        <path d="M24 16L18 22L16 20L20 16L16 12L18 10L24 16Z" fill="var(--bg)" />
-      </svg>
+      <img src="/logo.png" alt="BrightAI" width="32" height="32" class="mobile-menu__logo-img" />
       <span>BrightAI</span>
     </a>
     <button class="mobile-menu__close" aria-label={isAr ? 'إغلاق' : 'Close'} data-mobile-close>
@@ -239,6 +235,13 @@ function isActive(href: string): boolean {
     font-weight: var(--weight-bold);
     font-size: var(--text-lg);
     min-height: 44px;
+  }
+
+  .mobile-menu__logo-img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    flex-shrink: 0;
   }
 
   .mobile-menu__close {

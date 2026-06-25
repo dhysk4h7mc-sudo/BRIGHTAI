@@ -25,11 +25,7 @@ const footerSections = Object.values(FOOTER_NAV);
       <!-- Brand column -->
       <div class="footer__brand">
         <a href="/" class="footer__logo" aria-label="BrightAI Home">
-          <svg width="28" height="28" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-            <rect width="32" height="32" rx="8" fill="var(--brand)" />
-            <path d="M8 16L14 10L16 12L12 16L16 20L14 22L8 16Z" fill="var(--bg)" />
-            <path d="M24 16L18 22L16 20L20 16L16 12L18 10L24 16Z" fill="var(--bg)" />
-          </svg>
+          <img src="/logo.png" alt="BrightAI" width="32" height="32" class="footer__logo-img" />
           <span>BrightAI</span>
         </a>
         <p class="footer__tagline">
@@ -137,6 +133,13 @@ const footerSections = Object.values(FOOTER_NAV);
     color: var(--text);
     font-weight: var(--weight-bold);
     font-size: var(--text-lg);
+  }
+
+  .footer__logo-img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    flex-shrink: 0;
   }
 
   .footer__tagline {

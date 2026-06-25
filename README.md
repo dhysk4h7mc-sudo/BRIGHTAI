@@ -63,3 +63,13 @@ Sequential Thinking = يرتب الخطة قبل التعديلات الكبير
 
 
 *Freebuff *
+
+
+🚀 Commands:
+
+   hermes              Start chatting
+   hermes setup        Configure API keys & settings
+   hermes config       View/edit configuration
+   hermes config edit  Open config in editor
+   hermes gateway install Install gateway service (messaging + cron)
+   hermes update       Update to latest version

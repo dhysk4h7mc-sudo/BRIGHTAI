@@ -63,11 +63,7 @@ NAV.forEach((item, idx) => {
   <div class="site-header__inner">
     <!-- Logo -->
     <a href="/" class="site-header__logo" aria-label={isAr ? 'برايت أيه آي — الصفحة الرئيسية' : 'BrightAI — Home'} transition:animate="fade">
-      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-        <rect width="32" height="32" rx="8" fill="var(--brand)" />
-        <path d="M8 16L14 10L16 12L12 16L16 20L14 22L8 16Z" fill="var(--bg)" />
-        <path d="M24 16L18 22L16 20L20 16L16 12L18 10L24 16Z" fill="var(--bg)" />
-      </svg>
+      <img src="/logo.png" alt="BrightAI" width="36" height="36" class="site-header__logo-img" />
       <span class="site-header__logo-text">BrightAI</span>
     </a>
 
@@ -298,6 +294,13 @@ NAV.forEach((item, idx) => {
   }
 
   .site-header__logo-text { letter-spacing: -0.02em; }
+
+  .site-header__logo-img {
+    width: 36px;
+    height: 36px;
+    object-fit: contain;
+    flex-shrink: 0;
+  }
 
   .site-header__nav { display: none; }
   @media (min-width: 1024px) { .site-header__nav { display: flex; } }
