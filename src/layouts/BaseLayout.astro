@@ -197,12 +197,16 @@ const {
     body { background: #060914; color: #f8fafc; overflow-x: hidden; }
   </style>
 
-  <!-- Styles -->
+  <!-- Styles — V2 Design System Architecture -->
+  <!-- Load order: tokens → global → layout → components → page styles → mobile → design-system (canonical) -->
   <style is:global>
     @import '../styles/global.css';
     @import '../styles/layout.css';
     @import '../styles/components.css';
     @import '../styles/animations.css';
+    @import '../styles/home.css';
+    @import '../styles/inner-pages.css';
+    @import '../styles/legal-pages.css';
     @import '../styles/mobile.css';
     @import '../styles/design-system.css';
   </style>

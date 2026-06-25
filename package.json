@@ -105,6 +105,7 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "fast-check": "^3.15.0",
     "jsdom": "^23.0.0",
+    "playwright": "^1.61.1",
     "prettier": "^3.4.2",
     "typescript": "^5.7.2",
     "vitest": "^1.0.0"

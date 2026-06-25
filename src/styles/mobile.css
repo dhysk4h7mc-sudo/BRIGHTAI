@@ -1,19 +1,20 @@
 /**
- * BrightAI Mobile Styles
- * Mobile-first overrides and touch optimizations.
- * Base styles target 360px+; these refine for larger screens.
+ * BrightAI Mobile Styles V2
+ * Mobile-first enhancements and touch optimizations.
+ * Philosophy: premium experience on small screens first.
+ * No !important overrides — uses cascade properly.
  */
 
-/* ─── Mobile-first Base (360px+) ─── */
+/* ─── Base Mobile Optimizations ─── */
 
-/* Ensure no horizontal overflow */
 html,
 body {
   overflow-x: hidden;
   width: 100%;
 }
 
-/* Touch targets minimum 48px (larger for better mobile UX) */
+/* ─── Touch Target Compliance ─── */
+
 @media (pointer: coarse) {
   a,
   button,
@@ -21,24 +22,28 @@ body {
   input[type="checkbox"],
   input[type="radio"],
   select {
-    min-height: 48px;
-    min-width: 48px;
+    min-height: var(--touch-min);
+    min-width: var(--touch-min);
   }
 
-  .btn {
-    min-height: 48px;
+  .btn,
+  .glow-btn,
+  .wa-btn,
+  .btn-primary,
+  .btn-secondary {
+    min-height: var(--touch-comfortable);
   }
 
   .nav__link,
   .site-header__nav-link {
-    min-height: 48px;
-    padding: 0.75rem 1rem;
+    min-height: var(--touch-comfortable);
+    padding: var(--space-3) var(--space-4);
   }
 }
 
-/* ─── Responsive Typography ─── */
+/* ─── Responsive Typography Scale ─── */
 
-/* Mobile: 360px+ (base) */
+/* Base (mobile-first: 360px+) */
 h1 { font-size: var(--text-4xl); }
 h2 { font-size: var(--text-3xl); }
 h3 { font-size: var(--text-2xl); }
@@ -75,10 +80,11 @@ h3 { font-size: var(--text-2xl); }
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
+  width: var(--touch-min);
+  height: var(--touch-min);
   color: var(--text);
   border-radius: var(--radius-md);
+  transition: background var(--duration-fast) var(--ease-out);
 }
 
 .nav__burger:hover {
@@ -110,7 +116,9 @@ h3 { font-size: var(--text-2xl); }
     margin-bottom: var(--space-8);
   }
 
-  .glass-card {
+  .glass-card,
+  .card-glass,
+  .feature-card {
     padding: var(--space-4);
   }
 
@@ -122,8 +130,13 @@ h3 { font-size: var(--text-2xl); }
     text-align: center;
   }
 
-  /* Stack comparison cards on mobile */
-  .comparison-card {
+  .comparison-card,
+  .pricing-card {
+    padding: var(--space-6);
+  }
+
+  .home-cta-card,
+  .inner-cta-final__card {
     padding: var(--space-6);
   }
 }
@@ -132,8 +145,8 @@ h3 { font-size: var(--text-2xl); }
 
 @media (max-width: 768px) {
   .split-hero {
-    min-height: auto !important;
-    padding: 5rem 1rem 3rem !important;
+    min-height: auto;
+    padding: 5rem 1rem 3rem;
   }
 
   .split-hero__visual {
@@ -141,22 +154,22 @@ h3 { font-size: var(--text-2xl); }
   }
 
   .split-hero__grid {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: 1fr;
   }
 
   .split-hero__h1 {
-    font-size: 2rem !important;
-    line-height: 1.2;
+    font-size: 2rem;
+    line-height: var(--leading-tight);
   }
 
   .split-hero__lead {
-    font-size: 1rem;
-    line-height: 1.8;
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
   }
 
   .home-hero-actions {
     flex-direction: column;
-    gap: 0.75rem;
+    gap: var(--space-3);
   }
 
   .home-hero-actions a {
@@ -168,30 +181,47 @@ h3 { font-size: var(--text-2xl); }
 /* ─── Cards: single column on mobile ─── */
 
 @media (max-width: 640px) {
+  .inner-grid--2,
   .inner-grid--3,
-  .inner-grid--4,
-  .inner-grid--2 {
-    grid-template-columns: 1fr !important;
+  .inner-grid--4 {
+    grid-template-columns: 1fr;
   }
 }
 
-/* ─── Reduce Animations on Mobile ─── */
+/* ─── Motion Reduction on Mobile ─── */
 
 @media (max-width: 768px) {
   *,
   *::before,
   *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.15s !important;
+    animation-duration: var(--duration-fast);
+    animation-iteration-count: 1;
+    transition-duration: var(--duration-fast);
   }
 
   /* Keep essential animations */
   .split-hero,
   .mobile-menu,
   .cookie-consent {
-    animation-duration: initial !important;
-    transition-duration: initial !important;
+    animation-duration: initial;
+    transition-duration: initial;
+  }
+
+  /* Reduce blur effects on mobile for performance */
+  .glass-card,
+  .card-glass,
+  .feature-card,
+  .home-evidence-mockup,
+  .inner-card {
+    backdrop-filter: blur(var(--blur-sm));
+    -webkit-backdrop-filter: blur(var(--blur-sm));
+  }
+
+  /* Reduce shadows on mobile */
+  .feature-card:hover,
+  .glass-card:hover,
+  .card-glass:hover {
+    transform: translateY(-2px);
   }
 }
 
@@ -230,7 +260,7 @@ h3 { font-size: var(--text-2xl); }
   .mobile-menu,
   .whatsapp-cta,
   .bg-grid {
-    display: none !important;
+    display: none;
   }
 
   body {
