@@ -1,26 +1,42 @@
 ---
 /**
- * SplitHero.astro
- * Inspired by 21st.dev "serafim/splite" — a split-layout hero with
- * gradient beam accents and a premium kernel showcase panel.
+ * SplitHero.astro — Premium split-layout hero.
+ *
+ * Design intent: Faithful production-safe adaptation of the
+ * 21st.dev "serafim/splite" split/Spline-inspired hero pattern.
+ *
+ * Architecture:
+ *   - Left column: Server-rendered hero text, CTAs, trust chip (SSR, SEO-safe)
+ *   - Right column: Kernel showcase panel (SSR, interactive links)
+ *   - Background layer: DottedSurface React island (canvas-based interactive
+ *     dotted grid, 21st.dev inspired) hydrated lazily via client:visible
  *
  * Content Preservation Rule:
  *   This component preserves EXACTLY the same hero text, CTAs, links,
- *   and semantic structure as the original SparklesHero. Only the
- *   visual/technical implementation changed.
+ *   trust chip, and semantic structure as the original SparklesHero.
+ *   Only the visual/technical implementation changed.
  *
  * Performance:
- *   - 0KB JavaScript (no Sparkles/TSParticles canvas)
- *   - Pure CSS gradient beams (GPU-accelerated)
- *   - Respects prefers-reduced-motion
- *   - LCP-optimized: hero text is server-rendered, no hydration needed
+ *   - Hero text is 100% server-rendered — no hydration needed for LCP
+ *   - HeroVisual uses client:visible (lazy hydration)
+ *   - Respects prefers-reduced-motion (static poster)
+ *   - Mobile: reduced particle count, no connection lines
+ *   - DPR capped at 2, fps throttled on low-power devices
+ *   - Pauses when off-screen or tab hidden
+ *
+ * RTL: Layout flows naturally with logical properties (inset-inline, etc.)
  */
 
-// No client-side framework imports — this is 100% static SSR.
+import DottedSurface from './hero/DottedSurface.tsx';
 ---
 
 <section class="split-hero" aria-label="BrightAI الرئيسية">
-  {/* ─── Gradient beam accents (pure CSS, no JS) ─── */}
+  {/* ─── Interactive Dotted-Surface (React island, client:visible) ─── */}
+  <div class="split-hero__visual" aria-hidden="true">
+    <DottedSurface client:visible />
+  </div>
+
+  {/* ─── Gradient beam accents (pure CSS, enhanced) ─── */}
   <div class="split-hero__beams" aria-hidden="true">
     <div class="split-hero__beam split-hero__beam--wide-blur"></div>
     <div class="split-hero__beam split-hero__beam--wide"></div>
@@ -28,21 +44,11 @@
     <div class="split-hero__beam split-hero__beam--narrow"></div>
   </div>
 
-  {/* ─── Mouse-following spotlight (desktop only) ─── */}
+  {/* ─── Mouse-following spotlight (desktop only, CSS-driven) ─── */}
   <div class="split-hero__spotlight" aria-hidden="true"></div>
 
-  {/* ─── 3D geometric scene (CSS-only, decorative) ─── */}
-  <div class="hero-3d-scene" aria-hidden="true">
-    <div class="hero-octa-core"></div>
-    <div class="hero-octa-ring hero-octa-ring--1"></div>
-    <div class="hero-octa-ring hero-octa-ring--2"></div>
-    <div class="hero-octa-ring hero-octa-ring--3"></div>
-    <span class="hero-particle hero-particle--1"></span>
-    <span class="hero-particle hero-particle--2"></span>
-    <span class="hero-particle hero-particle--3"></span>
-    <span class="hero-particle hero-particle--4"></span>
-    <span class="hero-particle hero-particle--5"></span>
-  </div>
+  {/* ─── Vignette overlay for text legibility ─── */}
+  <div class="split-hero__vignette" aria-hidden="true"></div>
 
   {/* ─── Hero Content Grid ─── */}
   <div class="split-hero__grid">
@@ -147,7 +153,7 @@
 </section>
 
 <style>
-  /* ─── SplitHero ─── */
+  /* ─── SplitHero Container ─── */
   .split-hero {
     position: relative;
     min-height: 100vh;
@@ -159,14 +165,34 @@
     background: transparent; /* DottedBackground shows through */
   }
 
-  /* ─── Gradient Beams (pure CSS) ─── */
+  /* ─── Premium Canvas Visual Scene ─── */
+  .split-hero__visual {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .dotted-surface-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    will-change: transform;
+    transform: translateZ(0);
+    opacity: 0.9;
+  }
+
+  /* ─── Gradient Beams (pure CSS, enhanced) ─── */
   .split-hero__beams {
     position: absolute;
     top: 15%;
     inset-inline: 0;
     height: 4px;
     pointer-events: none;
-    z-index: 0;
+    z-index: 1;
   }
   .split-hero__beam {
     position: absolute;
@@ -197,25 +223,57 @@
     background: linear-gradient(90deg, transparent, #0ea5e9, transparent);
   }
 
-  /* ─── Grid ─── */
+  /* ─── Spotlight (mouse-follow, desktop only) ─── */
+  .split-hero__spotlight {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    background: transparent;
+    transition: background 0.3s ease;
+  }
+
+  /* ─── Vignette overlay for text legibility ─── */
+  .split-hero__vignette {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 2;
+    background:
+      radial-gradient(ellipse 100% 80% at 30% 50%, rgba(4,7,17,0.5), transparent 70%),
+      linear-gradient(180deg, transparent 0%, rgba(4,7,17,0.2) 100%);
+  }
+  [dir="rtl"] .split-hero__vignette {
+    background:
+      radial-gradient(ellipse 100% 80% at 70% 50%, rgba(4,7,17,0.5), transparent 70%),
+      linear-gradient(180deg, transparent 0%, rgba(4,7,17,0.2) 100%);
+  }
+
+  /* ─── Grid Layout (7fr 5fr split) ─── */
   .split-hero__grid {
     position: relative;
     z-index: 20;
     width: 100%;
+    max-width: 80rem;
+    margin-inline: auto;
+    padding: 3.5rem 1.25rem 5rem;
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 2rem;
-    align-items: start;
+    gap: 2.5rem;
+    align-items: center;
   }
   @media (min-width: 1024px) {
     .split-hero__grid {
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 7fr 5fr;
+      padding-top: 6rem;
+      padding-bottom: 7rem;
     }
   }
 
   /* ─── Main Column ─── */
   .split-hero__main {
     text-align: center;
+    position: relative;
+    z-index: 21;
   }
   @media (min-width: 1024px) {
     .split-hero__main {
@@ -232,6 +290,8 @@
     border-radius: 9999px;
     font-size: 0.75rem;
     font-weight: 700;
+    position: relative;
+    z-index: 21;
   }
   .split-hero__dot {
     width: 0.5rem;
@@ -246,11 +306,13 @@
     position: relative;
     width: 100%;
     margin-top: 1.25rem;
+    z-index: 21;
   }
   .split-hero__h1 {
     font-size: 1.875rem;
     line-height: 1.1;
     font-weight: 900;
+    text-shadow: 0 2px 24px rgba(4,7,17,0.6);
   }
   @media (min-width: 640px) { .split-hero__h1 { font-size: 3rem; } }
   @media (min-width: 1024px) { .split-hero__h1 { font-size: 3.75rem; } }
@@ -262,6 +324,9 @@
     line-height: 2;
     max-width: 42rem;
     color: rgba(255, 255, 255, 0.75);
+    position: relative;
+    z-index: 21;
+    text-shadow: 0 1px 12px rgba(4,7,17,0.4);
   }
   @media (max-width: 1023px) {
     .split-hero__lead {
@@ -272,102 +337,6 @@
 
   .text-white { color: #fff; }
 
-  /* ─── Spotlight (mouse-follow, desktop only) ─── */
-  .split-hero__spotlight {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    z-index: 1;
-    background: transparent;
-    transition: background 0.3s ease;
-  }
-
-  /* ─── 3D Geometric Scene ─── */
-  .hero-3d-scene {
-    position: absolute;
-    top: 50%;
-    inset-inline-start: 50%;
-    width: 240px;
-    height: 240px;
-    transform: translate(-50%, -50%);
-    pointer-events: none;
-    z-index: 1;
-    opacity: 0.55;
-  }
-  [dir="rtl"] .hero-3d-scene {
-    inset-inline-start: 25%;
-  }
-  @media (min-width: 1024px) {
-    [dir="rtl"] .hero-3d-scene {
-      inset-inline-start: 75%;
-    }
-  }
-
-  .hero-octa-core {
-    position: absolute;
-    top: 50%;
-    inset-inline-start: 50%;
-    width: 24px;
-    height: 24px;
-    transform: translate(-50%, -50%);
-    background: radial-gradient(circle, rgba(34,211,238,0.9), rgba(34,211,238,0.2));
-    border-radius: 50%;
-    box-shadow: 0 0 40px 8px rgba(34,211,238,0.4);
-    animation: heroPulse 3s ease-in-out infinite;
-  }
-  @keyframes heroPulse {
-    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-    50% { transform: translate(-50%, -50%) scale(1.3); opacity: 0.7; }
-  }
-
-  .hero-octa-ring {
-    position: absolute;
-    top: 50%;
-    inset-inline-start: 50%;
-    border-radius: 50%;
-    transform: translate(-50%, -50%) rotateX(60deg);
-  }
-  .hero-octa-ring--1 {
-    width: 120px;
-    height: 120px;
-    border: 1px solid rgba(34,211,238,0.25);
-    animation: heroRingSpin 8s linear infinite;
-  }
-  .hero-octa-ring--2 {
-    width: 160px;
-    height: 160px;
-    border: 1px solid rgba(129,140,248,0.2);
-    animation: heroRingSpin 12s linear infinite reverse;
-  }
-  .hero-octa-ring--3 {
-    width: 200px;
-    height: 200px;
-    border: 1px dashed rgba(34,211,238,0.12);
-    animation: heroRingSpin 20s linear infinite;
-  }
-  @keyframes heroRingSpin {
-    from { transform: translate(-50%, -50%) rotateX(60deg) rotateZ(0deg); }
-    to { transform: translate(-50%, -50%) rotateX(60deg) rotateZ(360deg); }
-  }
-
-  .hero-particle {
-    position: absolute;
-    width: 3px;
-    height: 3px;
-    border-radius: 50%;
-    background: rgba(34,211,238,0.6);
-    box-shadow: 0 0 6px rgba(34,211,238,0.4);
-  }
-  .hero-particle--1 { top: 20%; inset-inline-start: 30%; animation: heroParticleFloat 4s ease-in-out infinite; }
-  .hero-particle--2 { top: 70%; inset-inline-start: 20%; animation: heroParticleFloat 5s ease-in-out infinite 0.5s; }
-  .hero-particle--3 { top: 30%; inset-inline-start: 70%; animation: heroParticleFloat 6s ease-in-out infinite 1s; }
-  .hero-particle--4 { top: 80%; inset-inline-start: 60%; animation: heroParticleFloat 4.5s ease-in-out infinite 1.5s; }
-  .hero-particle--5 { top: 50%; inset-inline-start: 85%; animation: heroParticleFloat 5.5s ease-in-out infinite 2s; }
-  @keyframes heroParticleFloat {
-    0%, 100% { transform: translateY(0); opacity: 0.6; }
-    50% { transform: translateY(-20px); opacity: 1; }
-  }
-
   /* ─── Mobile ─── */
   @media (max-width: 768px) {
     .split-hero {
@@ -375,16 +344,26 @@
       padding-top: 6rem;
       padding-bottom: 3rem;
     }
-    .split-hero__visual { display: none; }
-    .hero-octa-ring--3,
-    .hero-particle { display: none; }
-    .hero-3d-scene { opacity: 0.35; transform: translate(-50%, -50%) scale(0.7); }
+    /* Reduce visual complexity on mobile */
+    .dotted-surface-canvas {
+      opacity: 0.6;
+    }
+    .split-hero__vignette {
+      background:
+        radial-gradient(ellipse 100% 60% at 50% 30%, rgba(4,7,17,0.7), transparent 80%),
+        linear-gradient(180deg, rgba(4,7,17,0.3) 0%, transparent 50%);
+    }
   }
 
+  /* ─── Reduced Motion ─── */
   @media (prefers-reduced-motion: reduce) {
-    .hero-octa-core,
-    .hero-octa-ring,
-    .hero-particle { animation: none; }
+    .dotted-surface-canvas {
+      opacity: 0.4;
+    }
+    /* Ensure static frame is visible */
+    .split-hero__visual {
+      opacity: 1;
+    }
   }
 </style>
 
