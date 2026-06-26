@@ -139,8 +139,8 @@
   --text:            #f8fafc;
   --text-primary:    var(--text);
   --text-secondary:  #dbeafe;
-  --text-soft:       rgba(248, 250, 252, 0.72);
-  --text-faint:      rgba(248, 250, 252, 0.56);
+  --text-soft:       #cbd5e1;
+  --text-faint:      #94a3b8;
   --text-muted:      var(--slate-400);
   --muted:           var(--slate-400);
   --text-inverse:    var(--ink-900);
@@ -371,8 +371,8 @@
      17. BRAND PRODUCTION ALIGNMENT (legacy compat)
      ═══════════════════════════════════════════════════ */
 
-  --brand-500: var(--brand);
-  --brand-300: var(--brand-300);
+  --brand-500: #06b6d4;
+  --brand-300: #67e8f9;
 
   /* ═══════════════════════════════════════════════════
      18. TOUCH TARGET SYSTEM

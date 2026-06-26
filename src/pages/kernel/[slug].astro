@@ -27,6 +27,7 @@ interface Props { unit: KernelUnit }
 const { unit } = Astro.props;
 const migratedPage = migratedKernelPages[unit.slug];
 const cross = getCrossLinks(unit);
+const relatedSlugs = unit.relatedSlugs ?? [];
 
 // BreadcrumbList JSON-LD
 const breadcrumbLd = {
@@ -136,40 +137,40 @@ const isCompliance = unit.slug === 'compliance';
   <style>
     .k-breadcrumb {
       display: flex;
-      gap: 0.5rem;
+      gap: var(--space-2);
       list-style: none;
       padding: 0;
       margin: 0 0 1.5rem;
-      font-size: 0.8125rem;
-      color: var(--fg-muted, #94a3b8);
+      font-size: var(--text-xs);
+      color: var(--text-soft);
     }
     .k-breadcrumb a {
-      color: var(--fg-muted, #94a3b8);
+      color: var(--text-soft);
       text-decoration: none;
     }
-    .k-breadcrumb a:hover { color: var(--brand, #00D4AA); }
+    .k-breadcrumb a:hover { color: var(--brand); }
     .k-breadcrumb__current {
-      color: var(--brand, #00D4AA);
-      font-weight: 600;
+      color: var(--brand);
+      font-weight: var(--weight-semibold);
     }
 
     .k-page h1 {
       font-size: clamp(1.375rem, 3.5vw, 2rem);
-      font-weight: 800;
-      color: var(--fg, #e2e8f0);
-      line-height: 1.4;
+      font-weight: var(--weight-extrabold);
+      color: var(--text);
+      line-height: var(--leading-tight);
       margin-bottom: 1.5rem;
     }
     .k-page h2 {
       font-size: 1.125rem;
-      font-weight: 700;
-      color: var(--fg, #e2e8f0);
+      font-weight: var(--weight-bold);
+      color: var(--text);
       margin: 2rem 0 0.75rem;
     }
     .k-page p {
-      font-size: 0.9375rem;
-      color: var(--fg-muted, #94a3b8);
-      line-height: 1.8;
+      font-size: var(--text-sm);
+      color: var(--text-soft);
+      line-height: var(--leading-relaxed);
       max-width: 48rem;
     }
     .k-page__component {
@@ -178,7 +179,7 @@ const isCompliance = unit.slug === 'compliance';
     .k-page__cross {
       margin-top: 2.5rem;
       padding-top: 1.5rem;
-      border-top: 1px solid var(--border, rgba(255,255,255,0.08));
+      border-top: 1px solid var(--border);
       display: flex;
       flex-wrap: wrap;
       gap: 1rem;
@@ -186,47 +187,77 @@ const isCompliance = unit.slug === 'compliance';
     .k-page__cross a {
       display: inline-flex;
       align-items: center;
-      gap: 0.375rem;
-      padding: 0.5rem 1rem;
-      border: 1px solid var(--border, rgba(255,255,255,0.1));
-      border-radius: 0.5rem;
-      color: var(--fg-muted, #94a3b8);
+      gap: var(--space-1-5);
+      padding: var(--space-2) var(--space-4);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      color: var(--text-soft);
       text-decoration: none;
-      font-size: 0.8125rem;
-      transition: color 0.15s, border-color 0.15s;
+      font-size: var(--text-xs);
+      transition: color var(--duration-fast) var(--ease-out), border-color var(--duration-fast) var(--ease-out);
     }
     .k-page__cross a:hover,
     .k-page__cross a:focus-visible {
-      color: var(--brand, #00D4AA);
-      border-color: var(--brand, #00D4AA);
+      color: var(--brand);
+      border-color: var(--brand);
     }
     .k-page__cta {
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
-      padding: 0.75rem 1.5rem;
-      background: var(--brand, #00D4AA);
-      color: #0a0f1a;
-      border-radius: 0.5rem;
+      gap: var(--space-2);
+      padding: var(--space-3) var(--space-6);
+      background: var(--brand);
+      color: var(--text-inverse);
+      border-radius: var(--radius-md);
       text-decoration: none;
-      font-weight: 600;
-      font-size: 0.9375rem;
+      font-weight: var(--weight-semibold);
+      font-size: var(--text-sm);
       margin-top: 2rem;
-      transition: opacity 0.15s;
+      transition: opacity var(--duration-fast) var(--ease-out);
     }
     .k-page__cta:hover { opacity: 0.9; }
+
+    .k-page__disclaimer {
+      margin-top: 1.5rem;
+      padding: var(--space-3) var(--space-4);
+      background: var(--surface-soft);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-md);
+      font-size: var(--text-xs);
+      color: var(--text-faint);
+    }
+
+    .migrated-kernel-content {
+      max-width: 48rem;
+    }
+
+    .migrated-kernel-content h1,
+    .migrated-kernel-content h2,
+    .migrated-kernel-content h3 {
+      color: var(--text);
+      font-weight: var(--weight-bold);
+    }
+    .migrated-kernel-content h1 { font-size: clamp(1.375rem, 3.5vw, 2rem); margin-bottom: 1.5rem; }
+    .migrated-kernel-content h2 { font-size: 1.125rem; margin: 2rem 0 0.75rem; }
+    .migrated-kernel-content h3 { font-size: 1rem; margin: 1.5rem 0 0.5rem; }
+    .migrated-kernel-content p {
+      font-size: var(--text-sm);
+      color: var(--text-soft);
+      line-height: var(--leading-relaxed);
+    }
+    .migrated-kernel-content a {
+      color: var(--brand);
+      text-decoration: underline;
+    }
+    .migrated-kernel-content a:hover {
+      color: var(--brand-hover);
+    }
 
     @media (prefers-reduced-motion: reduce) {
       .k-page__cross a, .k-page__cta { transition: none; }
     }
   </style>
 
-  {migratedPage ? (
-    <>
-      {!migratedPage.html.includes('<h1') && <h1 class="migrated-page-title">{unit.h1}</h1>}
-      <main class="migrated-legacy-content" set:html={migratedPage.html} />
-    </>
-  ) : (
   <div class="k-page">
     <!-- Breadcrumb -->
     <nav aria-label="التنقل التفصيلي">
@@ -239,51 +270,62 @@ const isCompliance = unit.slug === 'compliance';
       </ol>
     </nav>
 
-    <!-- Title -->
-    <h1>{unit.h1}</h1>
+    {migratedPage ? (
+      <>
+        {!migratedPage.html.includes('<h1') && <h1>{unit.h1}</h1>}
+        <div class="migrated-kernel-content" set:html={migratedPage.html} />
+      </>
+    ) : (
+    <>
+      <!-- Title -->
+      <h1>{unit.h1}</h1>
 
-    <!-- Content Sections -->
-    <h2>ما هي {unit.label}؟</h2>
-    <p>{content.what}</p>
+      <!-- Content Sections -->
+      <h2>ما هي {unit.label}؟</h2>
+      <p>{content.what}</p>
 
-    <h2>متى تستخدمها المؤسسة؟</h2>
-    <p>{content.when}</p>
+      <h2>متى تستخدمها المؤسسة؟</h2>
+      <p>{content.when}</p>
 
-    <h2>القيمة التنظيمية</h2>
-    <p>{content.value}</p>
+      <h2>القيمة التنظيمية</h2>
+      <p>{content.value}</p>
 
-    <h2>علاقتها بالحوكمة</h2>
-    <p>{content.governance}</p>
+      <h2>علاقتها بالحوكمة</h2>
+      <p>{content.governance}</p>
 
-    <h2>المخرجات</h2>
-    <p>{content.outputs}</p>
+      <h2>المخرجات</h2>
+      <p>{content.outputs}</p>
 
-    <!-- Page-specific components -->
-    {isAudit && (
-      <div class="k-page__component">
-        <h2>سجل الأنشطة الأخيرة</h2>
-        <ActivityStream />
-      </div>
+      <!-- Page-specific components -->
+      {isAudit && (
+        <div class="k-page__component">
+          <h2>سجل الأنشطة الأخيرة</h2>
+          <ActivityStream />
+        </div>
+      )}
+
+      {isEvidence && (
+        <div class="k-page__component">
+          <h2>سجل الأدلة</h2>
+          <EvidenceFileMockup />
+        </div>
+      )}
+
+      {isCompliance && (
+        <div class="k-page__component">
+          <h2>حالة الامتثال</h2>
+          <ComplianceRadar />
+        </div>
+      )}
+    </>
     )}
 
-    {isEvidence && (
-      <div class="k-page__component">
-        <h2>سجل الأدلة</h2>
-        <EvidenceFileMockup />
-      </div>
-    )}
-
-    {isCompliance && (
-      <div class="k-page__component">
-        <h2>حالة الامتثال</h2>
-        <ComplianceRadar />
-      </div>
-    )}
-
-    <!-- Demo disclaimer -->
-    <div style="margin-top:1.5rem;padding:0.75rem 1rem;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:0.5rem;font-size:0.75rem;color:var(--fg-muted,#94a3b8)">
+    <!-- Demo disclaimer (for non-migrated pages; migrated pages have their own) -->
+    {!migratedPage && (
+    <div class="k-page__disclaimer">
       ℹ️ هذه الصفحة توضيحية تعرّف إمكانات وحدة {unit.label} في BrightAI Kernel. الأرقام والبيانات المعروضة هي بيانات توضيحية (demo) ولا تمثل بيانات حقيقية.
     </div>
+    )}
 
     <!-- Cross-links -->
     <div class="k-page__cross">
@@ -293,10 +335,23 @@ const isCompliance = unit.slug === 'compliance';
       <a href="/contact/">احجز استشارة ←</a>
     </div>
 
+    <!-- Related pages -->
+    {relatedSlugs.length > 0 && (
+    <div class="k-page__cross" style="margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border)">
+      {relatedSlugs.map(slug => {
+        const related = kernelNavItems.find(u => u.slug === slug);
+        return related ? (
+          <a href={related.path}>
+            <span>{related.label}</span>
+          </a>
+        ) : null;
+      })}
+    </div>
+    )}
+
     <!-- CTA -->
     <a href="/contact/" class="k-page__cta">
       ابدأ تطبيق الحوكمة في منشأتك
     </a>
   </div>
-  )}
 </KernelLayout>

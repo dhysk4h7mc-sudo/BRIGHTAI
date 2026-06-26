@@ -20,6 +20,7 @@ export interface KernelUnit {
   solutionSlug: string | null;
   docSlug: string;
   iconSvg: string;
+  relatedSlugs?: string[];
 }
 
 export interface DashboardMetric {
@@ -96,6 +97,7 @@ export const kernelUnits: KernelUnit[] = [
     solutionSlug: 'ai-governance-platform',
     docSlug: 'kernel-architecture',
     iconSvg: icons.kernel,
+    relatedSlugs: ['chat', 'audit', 'approvals', 'stats'],
   },
   {
     slug: 'chat',
@@ -114,6 +116,7 @@ export const kernelUnits: KernelUnit[] = [
     solutionSlug: 'ai-firewall',
     docSlug: 'kernel-chat',
     iconSvg: icons.chat,
+    relatedSlugs: ['policies', 'audit', 'approvals', 'scenarios'],
   },
   {
     slug: 'audit',
@@ -132,6 +135,7 @@ export const kernelUnits: KernelUnit[] = [
     solutionSlug: 'ai-audit-trail',
     docSlug: 'kernel-audit-trail',
     iconSvg: icons.audit,
+    relatedSlugs: ['chat', 'approvals', 'evidence', 'compliance'],
   },
   {
     slug: 'approvals',
@@ -150,6 +154,7 @@ export const kernelUnits: KernelUnit[] = [
     solutionSlug: 'human-approval-layer',
     docSlug: 'kernel-approvals',
     iconSvg: icons.approvals,
+    relatedSlugs: ['chat', 'audit', 'policies', 'reports'],
   },
   {
     slug: 'stats',
@@ -168,6 +173,7 @@ export const kernelUnits: KernelUnit[] = [
     solutionSlug: 'continuous-ai-governance',
     docSlug: 'kernel-stats',
     iconSvg: icons.stats,
+    relatedSlugs: ['reports', 'audit', 'compliance', 'chat'],
   },
   {
     slug: 'connectors',
@@ -186,6 +192,7 @@ export const kernelUnits: KernelUnit[] = [
     solutionSlug: 'ai-governance-platform',
     docSlug: 'kernel-connectors',
     iconSvg: icons.connectors,
+    relatedSlugs: ['chat', 'audit', 'evidence', 'compliance'],
   },
   {
     slug: 'scenarios',
@@ -204,6 +211,7 @@ export const kernelUnits: KernelUnit[] = [
     solutionSlug: 'ai-risk-classification',
     docSlug: 'kernel-scenarios',
     iconSvg: icons.scenarios,
+    relatedSlugs: ['chat', 'policies', 'audit', 'approvals'],
   },
   {
     slug: 'policies',
@@ -222,6 +230,7 @@ export const kernelUnits: KernelUnit[] = [
     solutionSlug: 'ai-firewall',
     docSlug: 'kernel-policies',
     iconSvg: icons.policies,
+    relatedSlugs: ['chat', 'approvals', 'audit', 'compliance'],
   },
   {
     slug: 'evidence',
@@ -240,6 +249,7 @@ export const kernelUnits: KernelUnit[] = [
     solutionSlug: 'ai-evidence-file',
     docSlug: 'kernel-evidence',
     iconSvg: icons.evidence,
+    relatedSlugs: ['audit', 'approvals', 'compliance', 'reports'],
   },
   {
     slug: 'compliance',
@@ -258,6 +268,7 @@ export const kernelUnits: KernelUnit[] = [
     solutionSlug: 'continuous-ai-governance',
     docSlug: 'kernel-compliance',
     iconSvg: icons.compliance,
+    relatedSlugs: ['policies', 'audit', 'evidence', 'reports'],
   },
   {
     slug: 'reports',
@@ -276,6 +287,7 @@ export const kernelUnits: KernelUnit[] = [
     solutionSlug: 'ai-audit-trail',
     docSlug: 'kernel-reports',
     iconSvg: icons.reports,
+    relatedSlugs: ['stats', 'audit', 'compliance', 'evidence'],
   },
 ];
 
