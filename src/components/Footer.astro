@@ -2,6 +2,7 @@
 /**
  * Footer — Site-wide footer with navigation columns, legal links,
  * WhatsApp, language switcher (ar/en), and Saudi branding.
+ * Uses V3 unified design tokens.
  */
 import { FOOTER_NAV } from '../data/navigation';
 import { SITE } from '../data/site';
@@ -141,8 +142,8 @@ const footerSections = Object.values(FOOTER_NAV);
     align-items: center;
     gap: var(--space-2);
     text-decoration: none;
-    color: var(--text);
-    font-weight: var(--weight-bold);
+    color: var(--text-primary);
+    font-weight: var(--font-bold);
     font-size: var(--text-lg);
   }
 
@@ -154,7 +155,7 @@ const footerSections = Object.values(FOOTER_NAV);
   }
 
   .footer__tagline {
-    color: var(--muted);
+    color: var(--text-muted);
     font-size: var(--text-sm);
     max-width: 320px;
     line-height: var(--leading-relaxed);
@@ -165,17 +166,17 @@ const footerSections = Object.values(FOOTER_NAV);
     display: inline-flex;
     align-items: center;
     gap: var(--space-2);
-    color: var(--success);
+    color: var(--status-success);
     text-decoration: none;
     font-size: var(--text-sm);
-    font-weight: var(--weight-medium);
+    font-weight: var(--font-medium);
     padding: var(--space-2) 0;
     min-height: 44px;
     transition: opacity var(--duration-fast) var(--ease-out);
   }
 
   .footer__whatsapp:hover { opacity: 0.85; }
-  .footer__whatsapp:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; border-radius: var(--radius-md); }
+  .footer__whatsapp:focus-visible { outline: 2px solid var(--interactive-primary); outline-offset: 2px; border-radius: var(--radius-md); }
 
   /* Language Switcher */
   .footer__lang {
@@ -187,16 +188,16 @@ const footerSections = Object.values(FOOTER_NAV);
 
   .footer__lang-label {
     font-size: var(--text-sm);
-    color: var(--muted);
+    color: var(--text-muted);
   }
 
   .footer__lang-switch {
     font-size: var(--text-sm);
-    font-weight: var(--weight-semibold);
-    color: var(--brand);
+    font-weight: var(--font-semibold);
+    color: var(--interactive-primary);
     text-decoration: none;
     padding: var(--space-1) var(--space-3);
-    border: 1px solid var(--border);
+    border: 1px solid var(--border-default);
     border-radius: var(--radius-md);
     min-height: 44px;
     display: inline-flex;
@@ -206,12 +207,12 @@ const footerSections = Object.values(FOOTER_NAV);
   }
 
   .footer__lang-switch:hover {
-    border-color: var(--brand);
-    background: var(--brand-subtle);
+    border-color: var(--interactive-primary);
+    background: rgba(6,182,212,0.1);
   }
 
   .footer__lang-switch:focus-visible {
-    outline: 2px solid var(--brand);
+    outline: 2px solid var(--interactive-primary);
     outline-offset: 2px;
   }
 
@@ -224,8 +225,8 @@ const footerSections = Object.values(FOOTER_NAV);
 
   .footer__heading {
     font-size: var(--text-sm);
-    font-weight: var(--weight-semibold);
-    color: var(--text);
+    font-weight: var(--font-semibold);
+    color: var(--text-primary);
     margin: 0 0 var(--space-3) 0;
     text-transform: uppercase;
     letter-spacing: 0.04em;
@@ -234,7 +235,7 @@ const footerSections = Object.values(FOOTER_NAV);
   .footer__link {
     display: flex;
     align-items: center;
-    color: var(--muted);
+    color: var(--text-muted);
     text-decoration: none;
     font-size: var(--text-sm);
     padding-block: var(--space-1);
@@ -244,10 +245,10 @@ const footerSections = Object.values(FOOTER_NAV);
   }
 
   .footer__link:hover {
-    color: var(--brand);
+    color: var(--interactive-primary);
     padding-inline-start: 0.25rem;
   }
-  .footer__link:focus-visible { outline: 2px solid var(--brand); outline-offset: -2px; border-radius: var(--radius-sm); }
+  .footer__link:focus-visible { outline: 2px solid var(--interactive-primary); outline-offset: -2px; border-radius: var(--radius-sm); }
 
   /* Bottom bar */
   .footer__bottom {
@@ -258,7 +259,7 @@ const footerSections = Object.values(FOOTER_NAV);
     justify-content: space-between;
     margin-top: var(--space-12);
     padding-top: var(--space-6);
-    border-top: 1px solid var(--border);
+    border-top: 1px solid var(--border-default);
   }
 
   @media (min-width: 640px) {
@@ -269,7 +270,7 @@ const footerSections = Object.values(FOOTER_NAV);
 
   .footer__copy {
     font-size: var(--text-sm);
-    color: var(--muted);
+    color: var(--text-muted);
     margin: 0;
   }
 
@@ -281,12 +282,12 @@ const footerSections = Object.values(FOOTER_NAV);
 
   .footer__made-in {
     font-size: var(--text-sm);
-    color: var(--muted);
+    color: var(--text-muted);
   }
 
   .footer__cr {
     font-size: var(--text-sm);
-    color: var(--muted);
+    color: var(--text-muted);
     opacity: 0.8;
   }
 </style>

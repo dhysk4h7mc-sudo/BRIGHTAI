@@ -1,6 +1,7 @@
 ---
 /**
- * RelatedLinks — Reusable internal links for solutions/docs
+ * RelatedLinks — Reusable internal links for solutions/docs.
+ * Uses V3 unified design tokens instead of Tailwind.
  */
 import { solutions, sectors } from '../data/solutions';
 import type { SolutionData, SectorData } from '../data/solutions';
@@ -19,45 +20,57 @@ const relSectors = sectorSlugs.map(s => sectors.find(x => x.slug === s)).filter(
 const hasLinks = relSols.length || relSectors.length || docs.length || blog.length || kernel.length;
 ---
 {hasLinks && (
-<section class="inner-section" aria-labelledby="related-links">
-  <div class="max-w-7xl mx-auto px-5 lg:px-8">
-    <p class="inner-section__label">ذات صلة</p>
-    <h2 id="related-links" class="inner-section__title">روابط مفيدة</h2>
-    <div class="inner-grid inner-grid--2">
+<section class="related-links" aria-labelledby="related-links">
+  <div class="related-links__container">
+    <p class="related-links__label">ذات صلة</p>
+    <h2 id="related-links" class="related-links__title">روابط مفيدة</h2>
+    <div class="related-links__grid">
       {relSols.length > 0 && (
-        <div class="inner-card p-6">
-          <h3 class="inner-card__title mb-4"><svg class="text-cyan-300 ml-2" aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-puzzle"></use></svg>حلول مرتبطة</h3>
-          <ul class="space-y-2">
+        <div class="card related-links__card">
+          <h3 class="card__title related-links__card-title">
+            <svg class="related-links__icon" aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-puzzle"></use></svg>
+            حلول مرتبطة
+          </h3>
+          <ul class="related-links__list">
             {relSols.map(s => (
-              <li><a href={s.href} class="text-cyan-300 hover:text-white transition-colors text-sm">{s.h1}</a></li>
+              <li><a href={s.href} class="related-links__link">{s.h1}</a></li>
             ))}
           </ul>
         </div>
       )}
       {relSectors.length > 0 && (
-        <div class="inner-card p-6">
-          <h3 class="inner-card__title mb-4"><svg class="text-cyan-300 ml-2" aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-domain"></use></svg>حلول قطاعية</h3>
-          <ul class="space-y-2">
+        <div class="card related-links__card">
+          <h3 class="card__title related-links__card-title">
+            <svg class="related-links__icon" aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-domain"></use></svg>
+            حلول قطاعية
+          </h3>
+          <ul class="related-links__list">
             {relSectors.map(s => (
-              <li><a href={s.href} class="text-cyan-300 hover:text-white transition-colors text-sm">{s.h1}</a></li>
+              <li><a href={s.href} class="related-links__link">{s.h1}</a></li>
             ))}
           </ul>
         </div>
       )}
       {(docs.length || kernel.length) > 0 && (
-        <div class="inner-card p-6">
-          <h3 class="inner-card__title mb-4"><svg class="text-cyan-300 ml-2" aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-file-document"></use></svg>الوثائق والمراجع</h3>
-          <ul class="space-y-2">
-            {docs.map(d => <li><a href={d} class="text-cyan-300 hover:text-white transition-colors text-sm">{d.replace('/docs/','').replace('/','').replace(/-/g,' ')}</a></li>)}
-            {kernel.map(k => <li><a href={k} class="text-cyan-300 hover:text-white transition-colors text-sm">Kernel: {k.replace('/kernel/','').replace('/','')}</a></li>)}
+        <div class="card related-links__card">
+          <h3 class="card__title related-links__card-title">
+            <svg class="related-links__icon" aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-file-document"></use></svg>
+            الوثائق والمراجع
+          </h3>
+          <ul class="related-links__list">
+            {docs.map(d => <li><a href={d} class="related-links__link">{d.replace('/docs/','').replace('/','').replace(/-/g,' ')}</a></li>)}
+            {kernel.map(k => <li><a href={k} class="related-links__link">Kernel: {k.replace('/kernel/','').replace('/','')}</a></li>)}
           </ul>
         </div>
       )}
       {blog.length > 0 && (
-        <div class="inner-card p-6">
-          <h3 class="inner-card__title mb-4"><svg class="text-cyan-300 ml-2" aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-post"></use></svg>من المدونة</h3>
-          <ul class="space-y-2">
-            {blog.map(b => <li><a href={b} class="text-cyan-300 hover:text-white transition-colors text-sm">اقرأ المقال</a></li>)}
+        <div class="card related-links__card">
+          <h3 class="card__title related-links__card-title">
+            <svg class="related-links__icon" aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-post"></use></svg>
+            من المدونة
+          </h3>
+          <ul class="related-links__list">
+            {blog.map(b => <li><a href={b} class="related-links__link">اقرأ المقال</a></li>)}
           </ul>
         </div>
       )}
@@ -65,3 +78,87 @@ const hasLinks = relSols.length || relSectors.length || docs.length || blog.leng
   </div>
 </section>
 )}
+
+<style>
+  .related-links {
+    padding-block: var(--space-12);
+  }
+
+  .related-links__container {
+    max-width: 80rem;
+    margin-inline: auto;
+    padding-inline: var(--space-5);
+  }
+
+  @media (min-width: 1024px) {
+    .related-links__container {
+      padding-inline: var(--space-8);
+    }
+  }
+
+  .related-links__label {
+    font-size: var(--text-xs);
+    color: var(--interactive-primary);
+    font-weight: var(--font-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: var(--space-2);
+  }
+
+  .related-links__title {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-bold);
+    color: var(--text-primary);
+    margin-bottom: var(--space-8);
+  }
+
+  .related-links__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+    gap: var(--space-6);
+  }
+
+  .related-links__card {
+    padding: var(--space-6);
+  }
+
+  .related-links__card-title {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-bottom: var(--space-4);
+  }
+
+  .related-links__icon {
+    color: var(--brand-300);
+    flex-shrink: 0;
+  }
+
+  .related-links__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .related-links__link {
+    color: var(--brand-300);
+    text-decoration: none;
+    font-size: var(--text-sm);
+    transition: color var(--duration-fast) var(--ease-out);
+    display: inline-block;
+    padding-block: var(--space-1);
+  }
+
+  .related-links__link:hover {
+    color: var(--text-primary);
+  }
+
+  .related-links__link:focus-visible {
+    outline: 2px solid var(--interactive-primary);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+</style>

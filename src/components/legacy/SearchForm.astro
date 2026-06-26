@@ -1,6 +1,0 @@
----
-interface Props { compact?:boolean; placeholder?:string; }
-const { compact=false,placeholder=compact?'بحث...':'ابحث في المنصة...' }=Astro.props;
----
-{compact?<button class="legacy-search compact" type="button" aria-label="فتح البحث"><svg aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#lucide-search"></use></svg><span>{placeholder}</span><kbd>⌘K</kbd></button>:<form class="legacy-search" role="search"><svg aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#lucide-search"></use></svg><input type="search" placeholder={placeholder} aria-label="بحث"/><kbd>⌘K</kbd></form>}
-<style>.legacy-search{display:flex;align-items:center;gap:.75rem;max-width:480px;padding:.7rem 1rem;border:1px solid #ffffff1f;border-radius:999px;background:#ffffff0a;color:#94a3b8}.legacy-search input{flex:1;border:0;background:transparent;color:#fff;outline:0;font:inherit}.legacy-search kbd{font-size:10px}.legacy-search.compact{border-radius:8px;cursor:pointer}</style>

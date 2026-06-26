@@ -1,21 +1,63 @@
 ---
+/**
+ * SectorCard — Card for a single sector on the solutions page.
+ * Uses V3 unified design tokens instead of Tailwind.
+ */
 import type { SectorData } from '../data/solutions';
-
 import Icon from '../components/Icon.astro';
+
 interface Props { sector: SectorData; }
 const { sector } = Astro.props;
 ---
-<a href={sector.href} class="inner-card solution-index-card" style="display:block;text-decoration:none;color:inherit;height:100%;">
-  <div class="solution-icon-wrap">
+
+<a href={sector.href} class="card card--feature solution-card" style="display:block;text-decoration:none;color:inherit;height:100%;">
+  <div class="solution-card__icon">
     <Icon name={sector.icon} class="" />
   </div>
-  <span class="inner-hero__badge mb-3" style="font-size:0.7rem;">{sector.chip}</span>
-  <h3 class="inner-card__title text-lg">{sector.h1}</h3>
-  <p class="inner-card__text mb-3">{sector.shortDesc}</p>
-  <p class="text-xs text-cyan-300 mt-auto">متى تحتاجه؟ {sector.whenNeeded}</p>
+  <span class="badge badge--brand solution-card__chip">{sector.chip}</span>
+  <h3 class="card__title solution-card__title">{sector.h1}</h3>
+  <p class="card__description">{sector.shortDesc}</p>
+  <p class="solution-card__when">متى تحتاجه؟ {sector.whenNeeded}</p>
 </a>
+
 <style>
-  .solution-icon-wrap{width:56px;height:56px;border-radius:1rem;background:linear-gradient(135deg,rgba(34,211,238,.15),rgba(124,92,255,.15));display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:#67e8f9;margin-bottom:1rem}
-  .solution-index-card{display:flex;flex-direction:column;transition:all .3s ease}
-  .solution-index-card:hover{transform:translateY(-4px)}
+  .solution-card {
+    display: flex;
+    flex-direction: column;
+    transition: all var(--duration-base) var(--ease-out);
+  }
+
+  .solution-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .solution-card__icon {
+    width: 56px;
+    height: 56px;
+    border-radius: var(--radius-xl);
+    background: linear-gradient(135deg, rgba(34,211,238,0.15), rgba(124,92,255,0.15));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: var(--brand-300);
+    margin-bottom: var(--space-4);
+  }
+
+  .solution-card__chip {
+    margin-bottom: var(--space-3);
+    align-self: flex-start;
+  }
+
+  .solution-card__title {
+    margin-bottom: var(--space-3);
+  }
+
+  .solution-card__when {
+    font-size: var(--text-xs);
+    color: var(--interactive-primary);
+    margin-top: auto;
+    margin-bottom: 0;
+  }
 </style>

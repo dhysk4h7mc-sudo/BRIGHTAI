@@ -302,27 +302,27 @@ interface ComponentDef {
 4. ✅ توليد تقرير شامل المفقود أو الناقص
 5. ✅ تحديد المحتوى المتبقي مفقود قبل إعادة التصميم
 
-### المرحلة 2: بناء نظام التصميم الجديد
-6. كتابة `DESIGN.md` (توثيق النظام الكامل)
-7. إعادة كتابة `src/styles/tokens.css` (التوكنز الموحدة)
-8. إنشاء `src/styles/base.css` (reset + base + typography)
-9. إنشاء `src/styles/components.css` (كل المكونات المشتركة)
-10. إنشاء `src/styles/pages.css` (أنماط الصفحات)
-11. إنشاء `src/styles/utilities.css` (أدوات مساعدة)
-12. إعادة كتابة `src/styles/animations.css`
-13. إعادة كتابة `src/styles/kernel.css`
-14. حذف ملفات CSS القديمة المدمجة (9 ملفات)
+### ✅ المرحلة 2: بناء نظام التصميم الجديد — مكتملة ✅
+6. ✅ كتابة `DESIGN.md` (توثيق النظام الكامل)
+7. ✅ إعادة كتابة `src/styles/tokens.css` (التوكنز الموحدة)
+8. ✅ إنشاء `src/styles/base.css` (reset + base + typography)
+9. ✅ إنشاء `src/styles/components.css` (كل المكونات المشتركة)
+10. ✅ إنشاء `src/styles/pages.css` (أنماط الصفحات)
+11. ✅ إنشاء `src/styles/utilities.css` (أدوات مساعدة)
+12. ✅ إعادة كتابة `src/styles/animations.css`
+13. ✅ إعادة كتابة `src/styles/kernel.css`
+14. ✅ حذف ملفات CSS القديمة المدمجة (9 ملفات)
 
-### المرحلة 3: إعادة بناء المكونات المشتركة
-15. إعادة بناء `BaseLayout.astro` (تحديث استيراد CSS)
-16. إعادة بناء `Header.astro` + `MobileNav.astro`
-17. إعادة بناء `Footer.astro`
-18. إعادة بناء `SplitHero.astro`
-19. إعادة بناء `SolutionCard.astro` + `SectorCard.astro` + `RelatedLinks.astro`
-20. إعادة بناء `WhatsAppCTA.astro` + `CookieConsent.astro` + `DottedBackground.astro`
-21. إعادة بناء مكونات kernel (8 مكونات)
-22. إعادة بناء مكونات mockup (4 مكونات)
-23. حذف `src/components/legacy/`
+### ✅ المرحلة 3: إعادة بناء المكونات المشتركة — مكتملة ✅
+15. ✅ إعادة بناء `BaseLayout.astro` (تحديث استيراد CSS)
+16. ✅ إعادة بناء `Header.astro` + `MobileNav.astro`
+17. ✅ إعادة بناء `Footer.astro`
+18. ✅ إعادة بناء `SplitHero.astro`
+19. ✅ إعادة بناء `SolutionCard.astro` + `SectorCard.astro` + `RelatedLinks.astro`
+20. ✅ إعادة بناء `WhatsAppCTA.astro` + `CookieConsent.astro` + `DottedBackground.astro`
+21. ✅ إعادة بناء مكونات kernel (8 مكونات)
+22. ✅ إعادة بناء مكونات mockup (4 مكونات)
+23. ✅ حذف `src/components/legacy/`
 
 ### المرحلة 4: إعادة بناء الصفحات
 24. إعادة بناء `src/pages/index.astro` (الصفحة الرئيسية — الأهم)

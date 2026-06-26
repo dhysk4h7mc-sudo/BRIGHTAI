@@ -1,8 +1,0 @@
----
-
-import Icon from '../components/Icon.astro';interface Props { href?:string; label?:string; icon?:string; danger?:boolean; type?:'button'|'submit'|'reset'; }
-const { href, label='اقرأ المزيد', icon='lucide:book-open', danger=false, type='button' }=Astro.props;
-const Tag=href?'a':'button';
----
-<Tag class:list={['legacy-button-ghost',{'is-danger':danger}]} href={href} type={!href?type:undefined}><Icon name={icon} class="" /><slot>{label}</slot></Tag>
-<style>.legacy-button-ghost{display:inline-flex;align-items:center;gap:.5rem;padding:.65rem 1rem;border:1px solid #ffffff24;border-radius:8px;background:transparent;color:#e2e8f0;font:inherit;text-decoration:none;cursor:pointer}.legacy-button-ghost.is-danger{color:#ef4444;border-color:#ef44444d}</style>
