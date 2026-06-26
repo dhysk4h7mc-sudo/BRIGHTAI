@@ -3,6 +3,7 @@
  * LiveDashboardMockup — Static demo metrics for /kernel/ index.
  * All data visible without JS. Numbers are demo labels.
  */
+import KernelMetric from './kernel/KernelMetric.astro';
 import { dashboardMetrics, type DashboardMetric } from '../data/kernel';
 
 interface Props {
@@ -15,50 +16,14 @@ const { metrics = dashboardMetrics } = Astro.props;
   .k-metrics {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1rem;
-  }
-  .k-metric {
-    background: var(--card-bg, rgba(255,255,255,0.03));
-    border: 1px solid var(--border, rgba(255,255,255,0.08));
-    border-radius: 0.75rem;
-    padding: 1.25rem;
-  }
-  .k-metric__label {
-    font-size: 0.8125rem;
-    color: var(--fg-muted, #94a3b8);
-    margin-bottom: 0.5rem;
-  }
-  .k-metric__value {
-    font-size: 1.75rem;
-    font-weight: 700;
-    color: var(--fg, #e2e8f0);
-    line-height: 1.2;
-  }
-  .k-metric__trend {
-    font-size: 0.75rem;
-    color: var(--fg-muted, #94a3b8);
-    margin-top: 0.375rem;
-  }
-  .k-metric__demo {
-    display: inline-block;
-    font-size: 0.625rem;
-    color: var(--fg-muted, #94a3b8);
-    background: rgba(255,255,255,0.05);
-    border-radius: 0.25rem;
-    padding: 0.125rem 0.375rem;
-    margin-top: 0.5rem;
+    gap: var(--space-4);
   }
 </style>
 
 <section aria-label="مؤشرات لوحة التشغيل">
   <div class="k-metrics">
     {metrics.map(m => (
-      <article class="k-metric">
-        <div class="k-metric__label">{m.label}</div>
-        <div class="k-metric__value">{m.value}</div>
-        <div class="k-metric__trend">{m.trend}</div>
-        {m.demo && <span class="k-metric__demo">بيانات توضيحية</span>}
-      </article>
+      <KernelMetric label={m.label} value={m.value} trend={m.trend} demo={m.demo} />
     ))}
   </div>
 </section>

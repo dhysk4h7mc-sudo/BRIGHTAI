@@ -335,6 +335,27 @@ const allItems = [
     </div>
   </div>
 
+  <!-- No-JS drawer fallback -->
+  <noscript>
+    <style>
+      .k-drawer { display: block; position: static; background: var(--ink-950, #040711); border-bottom: 1px solid var(--border); padding: var(--space-4); }
+      .k-drawer__backdrop { display: none; }
+      .k-drawer__panel { position: static; width: 100%; background: transparent; border: none; padding: 0; }
+      .k-drawer__close { display: none; }
+      .k-drawer__link { display: block; padding: var(--space-3) var(--space-4); color: var(--text-soft); text-decoration: none; border-radius: var(--radius-lg); }
+      .k-drawer__link:hover, .k-drawer__link:focus-visible { background: var(--surface-soft); color: var(--text); }
+      .k-drawer__link[aria-current="page"] { background: var(--brand-subtle); color: var(--brand); font-weight: var(--weight-semibold); }
+    </style>
+    <div class="k-drawer" id="k-drawer-noscript">
+      <h3>وحدات Kernel</h3>
+      {allItems.map(item => (
+        <a href={item.path} class="k-drawer__link" aria-current={currentPath === item.path ? 'page' : undefined}>
+          {item.label}
+        </a>
+      ))}
+    </div>
+  </noscript>
+
   <!-- Main content -->
   <div class="k-content" id="k-content" tabindex="-1">
     <slot />

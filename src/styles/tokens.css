@@ -368,11 +368,10 @@
   --grid-line:      rgba(148, 163, 184, 0.055);
 
   /* ═══════════════════════════════════════════════════
-     17. BRAND PRODUCTION ALIGNMENT (legacy compat)
-     ═══════════════════════════════════════════════════ */
+      17. BRAND PRODUCTION ALIGNMENT (legacy compat)
+      ═══════════════════════════════════════════════════ */
 
-  --brand-500: #06b6d4;
-  --brand-300: #67e8f9;
+  /* Removed legacy redefinitions to avoid circular reference with semantic tokens above. */
 
   /* ═══════════════════════════════════════════════════
      18. TOUCH TARGET SYSTEM
