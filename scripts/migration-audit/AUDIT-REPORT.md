@@ -32,7 +32,7 @@
 - **Status:** ✅ Complete
 - **Coverage:** 100%
 - **HTML Size:** 133.6KB
-- **Astro Size:** 61.4KB
+- **Astro Size:** 61.3KB
 - ⚠️ قسم footer موجود في HTML لكن غير موجود في Astro
 - ⚠️ قسم features موجود في HTML لكن غير موجود في Astro
 - ⚠️ قسم pricing موجود في HTML لكن غير موجود في Astro
@@ -41,7 +41,7 @@
 - **Status:** ✅ Complete
 - **Coverage:** 100%
 - **HTML Size:** 62.7KB
-- **Astro Size:** 20.0KB
+- **Astro Size:** 19.9KB
 - ⚠️ قسم footer موجود في HTML لكن غير موجود في Astro
 - ⚠️ قسم pricing موجود في HTML لكن غير موجود في Astro
 
@@ -66,7 +66,7 @@
 - **Status:** ✅ Complete
 - **Coverage:** 100%
 - **HTML Size:** 40.7KB
-- **Astro Size:** 12.5KB
+- **Astro Size:** 10.9KB
 - ⚠️ قسم hero موجود في HTML لكن غير موجود في Astro
 - ⚠️ قسم cta موجود في HTML لكن غير موجود في Astro
 - ⚠️ قسم footer موجود في HTML لكن غير موجود في Astro
@@ -76,7 +76,7 @@
 - **Status:** ✅ Complete
 - **Coverage:** 100%
 - **HTML Size:** 50.5KB
-- **Astro Size:** 14.8KB
+- **Astro Size:** 14.7KB
 - ⚠️ قسم footer موجود في HTML لكن غير موجود في Astro
 - ⚠️ قسم pricing موجود في HTML لكن غير موجود في Astro
 - ⚠️ قسم stats موجود في HTML لكن غير موجود في Astro
@@ -85,7 +85,7 @@
 - **Status:** ✅ Complete
 - **Coverage:** 100%
 - **HTML Size:** 65.9KB
-- **Astro Size:** 11.4KB
+- **Astro Size:** 10.2KB
 - ⚠️ قسم hero موجود في HTML لكن غير موجود في Astro
 - ⚠️ قسم footer موجود في HTML لكن غير موجود في Astro
 - ⚠️ قسم features موجود في HTML لكن غير موجود في Astro
@@ -96,7 +96,7 @@
 - **Status:** ✅ Complete
 - **Coverage:** 100%
 - **HTML Size:** 56.5KB
-- **Astro Size:** 16.8KB
+- **Astro Size:** 16.7KB
 - ⚠️ قسم footer موجود في HTML لكن غير موجود في Astro
 - ⚠️ قسم pricing موجود في HTML لكن غير موجود في Astro
 - ⚠️ قسم stats موجود في HTML لكن غير موجود في Astro
@@ -105,7 +105,7 @@
 - **Status:** ✅ Complete
 - **Coverage:** 100%
 - **HTML Size:** 60.6KB
-- **Astro Size:** 11.0KB
+- **Astro Size:** 7.5KB
 - ⚠️ قسم footer موجود في HTML لكن غير موجود في Astro
 - ⚠️ قسم pricing موجود في HTML لكن غير موجود في Astro
 - ⚠️ قسم stats موجود في HTML لكن غير موجود في Astro
@@ -114,7 +114,7 @@
 - **Status:** ✅ Complete
 - **Coverage:** 100%
 - **HTML Size:** 40.5KB
-- **Astro Size:** 18.4KB
+- **Astro Size:** 13.7KB
 - ⚠️ قسم footer موجود في HTML لكن غير موجود في Astro
 - ⚠️ قسم pricing موجود في HTML لكن غير موجود في Astro
 
@@ -122,7 +122,7 @@
 - **Status:** ✅ Complete
 - **Coverage:** 100%
 - **HTML Size:** 34.2KB
-- **Astro Size:** 1.1KB
+- **Astro Size:** 1.0KB
 - ⚠️ قسم hero موجود في HTML لكن غير موجود في Astro
 - ⚠️ قسم cta موجود في HTML لكن غير موجود في Astro
 - ⚠️ قسم footer موجود في HTML لكن غير موجود في Astro
@@ -133,7 +133,7 @@
 - **Status:** ✅ Complete
 - **Coverage:** 100%
 - **HTML Size:** 34.9KB
-- **Astro Size:** 1.1KB
+- **Astro Size:** 1.0KB
 - ⚠️ قسم hero موجود في HTML لكن غير موجود في Astro
 - ⚠️ قسم cta موجود في HTML لكن غير موجود في Astro
 - ⚠️ قسم footer موجود في HTML لكن غير موجود في Astro
@@ -144,7 +144,7 @@
 - **Status:** ✅ Complete
 - **Coverage:** 100%
 - **HTML Size:** 39.2KB
-- **Astro Size:** 1.1KB
+- **Astro Size:** 1.0KB
 - ⚠️ قسم hero موجود في HTML لكن غير موجود في Astro
 - ⚠️ قسم cta موجود في HTML لكن غير موجود في Astro
 - ⚠️ قسم footer موجود في HTML لكن غير موجود في Astro
@@ -164,7 +164,7 @@
 - **Status:** ✅ Complete
 - **Coverage:** 100%
 - **HTML Size:** 29.3KB
-- **Astro Size:** 1.1KB
+- **Astro Size:** 1.0KB
 - ⚠️ قسم footer موجود في HTML لكن غير موجود في Astro
 - ⚠️ قسم pricing موجود في HTML لكن غير موجود في Astro
 - ⚠️ قسم stats موجود في HTML لكن غير موجود في Astro
@@ -586,7 +586,7 @@
 - **Status:** ⚠️ Partial
 - **Coverage:** 83%
 - **HTML Size:** 23.7KB
-- **Astro Size:** 5.3KB
+- **Astro Size:** 3.4KB
 - **Missing Samples:**
   - `للذكاء الاصطناعي، ملف أدلة الامتثال، تقييم وتصنيف مخاطر الذكاء الاصطنا...`
 - ⚠️ قسم cta موجود في HTML لكن غير موجود في Astro
@@ -616,7 +616,7 @@
 - **Status:** ⚠️ Partial
 - **Coverage:** 61%
 - **HTML Size:** 40.7KB
-- **Astro Size:** 19.8KB
+- **Astro Size:** 16.5KB
 - **Missing Samples:**
   - `للذكاء الاصطناعي، ملف أدلة الامتثال، تقييم وتصنيف مخاطر الذكاء الاصطنا...`
   - `🏛️ المحور الأول: وثائق الحلول الأساسية الحلول الأساسية التي تشكل نظام...`
@@ -626,7 +626,7 @@
 - **Status:** ⚠️ Partial
 - **Coverage:** 50%
 - **HTML Size:** 23.6KB
-- **Astro Size:** 4.1KB
+- **Astro Size:** 2.8KB
 - **Missing Samples:**
   - `للذكاء الاصطناعي، ملف أدلة الامتثال، تقييم وتصنيف مخاطر الذكاء الاصطنا...`
 - ⚠️ قسم pricing موجود في HTML لكن غير موجود في Astro
@@ -636,7 +636,7 @@
 - **Status:** 🔶 Low
 - **Coverage:** 33%
 - **HTML Size:** 13.3KB
-- **Astro Size:** 7.5KB
+- **Astro Size:** 4.9KB
 - **Broken Links:** 1
   - `/frontend/assets/images/authors/nasser-alabdullah.svg` → missing_astro_target
 - **Missing Samples:**
@@ -802,7 +802,7 @@
 - **Status:** ❌ Missing
 - **Coverage:** 13%
 - **HTML Size:** 44.9KB
-- **Astro Size:** 11.3KB
+- **Astro Size:** 11.2KB
 - **Missing Samples:**
   - `للذكاء الاصطناعي، ملف أدلة الامتثال، تقييم وتصنيف مخاطر الذكاء الاصطنا...`
   - `العودة إلى الرئيسية Sitemap XML English Version Saudi AI Safety OS وال...`
@@ -819,7 +819,7 @@
 ### ❌ hub/index.html
 - **Status:** ❌ Missing
 - **HTML Size:** 26.5KB
-- **Astro Size:** 3.4KB
+- **Astro Size:** 1.5KB
 - **Missing Samples:**
   - `للذكاء الاصطناعي، ملف أدلة الامتثال، تقييم وتصنيف مخاطر الذكاء الاصطنا...`
   - `اختصر وقتك وابدأ من المركز اللي يخص سؤالك بالضبط...`
@@ -880,7 +880,7 @@
 ### ❌ en/data-processing-agreement/index.html
 - **Status:** ❌ Missing
 - **HTML Size:** 28.5KB
-- **Astro Size:** 1.2KB
+- **Astro Size:** 1.1KB
 - **Missing Samples:**
   - `للذكاء الاصطناعي، ملف أدلة الامتثال، تقييم وتصنيف مخاطر الذكاء الاصطنا...`
   - `Parties and Structural Definitions This agreement defines the security...`
