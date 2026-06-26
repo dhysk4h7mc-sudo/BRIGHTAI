@@ -46,8 +46,6 @@ const jsonLd = {
   ogImage="/frontend/assets/images/og/og-solutions.png"
   ogImageAlt={migratedPage?.title ?? solution.title}
 >
-<style is:global>@import '../../styles/inner-pages.css';</style>
-
 {migratedPage ? (
   <main class="migrated-legacy-content" set:html={migratedHtml} />
 ) : (

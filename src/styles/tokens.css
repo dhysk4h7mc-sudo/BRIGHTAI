@@ -1,19 +1,11 @@
-/**
- * BrightAI Design Tokens V2 — Premium Enterprise AI Platform
- * ═══════════════════════════════════════════════════════
- * Source of truth for the entire visual system.
- * Architecture: Primitive → Semantic → Component tokens
- * RTL-native, mobile-first, performance-safe.
- */
+/* ========================================
+   Saudi AI Safety OS - Design Tokens
+   نظام التوكنز الموحد
+   ======================================== */
 
+/* 1. ألوان أساسية - Cyan */
 :root {
-  /* ═══════════════════════════════════════════════════
-     1. PRIMITIVE PALETTE
-     Raw color values — never used directly in components.
-     ═══════════════════════════════════════════════════ */
-
-  /* — Brand Primitives (Cyan/Teal — trust + tech) — */
-  --brand-50:  #ecfeff;
+  --brand-50: #ecfeff;
   --brand-100: #cffafe;
   --brand-200: #a5f3fc;
   --brand-300: #67e8f9;
@@ -24,8 +16,8 @@
   --brand-800: #155e75;
   --brand-900: #164e63;
 
-  /* — Accent Primitives (Green/Saudi trust) — */
-  --accent-50:  #f0fdf4;
+  /* 2. ألوان أساسية - Green */
+  --accent-50: #f0fdf4;
   --accent-100: #dcfce7;
   --accent-200: #bbf7d0;
   --accent-300: #86efac;
@@ -33,358 +25,111 @@
   --accent-500: #22c55e;
   --accent-600: #16a34a;
   --accent-700: #15803d;
+  --accent-800: #166534;
+  --accent-900: #14532d;
 
-  /* — Secondary Brand (Indigo — depth + intelligence) — */
+  /* 3. ألوان أساسية - Indigo */
+  --indigo-50: #eef2ff;
+  --indigo-100: #e0e7ff;
+  --indigo-200: #c7d2fe;
   --indigo-300: #a5b4fc;
   --indigo-400: #818cf8;
   --indigo-500: #6366f1;
   --indigo-600: #4f46e5;
+  --indigo-700: #4338ca;
+  --indigo-800: #3730a3;
+  --indigo-900: #312e81;
 
-  /* — Surface Primitives (Deep navy-black) — */
-  --ink-950: #040711;
-  --ink-900: #060914;
-  --ink-850: #080d1a;
-  --ink-800: #0a1020;
-  --ink-750: #0d1424;
-  --ink-700: #0e172a;
-  --ink-600: #152038;
+  /* 4. ألوان دلالية موحدة */
+  --bg-base: #0a0e1a;
+  --bg-surface: #0f1525;
+  --bg-elevated: #151c30;
+  --bg-overlay: rgba(10,14,26,0.8);
 
-  /* — Neutral Primitives — */
-  --slate-100: #f1f5f9;
-  --slate-200: #e2e8f0;
-  --slate-300: #cbd5e1;
-  --slate-400: #94a3b8;
-  --slate-500: #64748b;
-  --slate-600: #475569;
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --text-inverse: #0a0e1a;
 
-  /* — Status Primitives — */
-  --green-400: #4ade80;
-  --green-500: #22c55e;
-  --green-600: #16a34a;
-  --amber-400: #fbbf24;
-  --amber-500: #f59e0b;
-  --red-400:   #f87171;
-  --red-500:   #ef4444;
-  --blue-400:  #60a5fa;
-  --blue-500:  #3b82f6;
+  --border-subtle: rgba(148,163,184,0.1);
+  --border-default: rgba(148,163,184,0.2);
+  --border-strong: rgba(148,163,184,0.35);
 
-  /* ═══════════════════════════════════════════════════
-     2. SEMANTIC SURFACE SYSTEM
-     Layered depth hierarchy — 5 levels of elevation.
-     ═══════════════════════════════════════════════════ */
+  --interactive-primary: #06b6d4;
+  --interactive-hover: #0891b2;
+  --interactive-active: #0e7490;
 
-  /* — Base backgrounds — */
-  --bg:           var(--ink-900);
-  --bg-2:         var(--ink-800);
-  --bg-3:         var(--ink-700);
-  --bg-elevated:  var(--ink-750);
+  --status-success: #22c55e;
+  --status-warning: #f59e0b;
+  --status-danger: #ef4444;
+  --status-info: #6366f1;
 
-  /* — Surface tokens (for cards, panels) — */
-  --surface:           rgba(13, 20, 36, 0.78);
-  --surface-strong:    rgba(15, 23, 42, 0.92);
-  --surface-soft:      rgba(255, 255, 255, 0.045);
-  --surface-elevated:  rgba(20, 30, 52, 0.88);
+  /* 5. تباعد موحد */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
 
-  /* — Glass system (controlled blur layers) — */
-  --glass:           rgba(255, 255, 255, 0.06);
-  --glass-hover:     rgba(255, 255, 255, 0.10);
-  --glass-active:    rgba(34, 211, 238, 0.13);
-  --glass-border:    rgba(255, 255, 255, 0.10);
-  --glass-strong:    rgba(255, 255, 255, 0.14);
+  /* 6. خطوط */
+  --font-sans: 'IBM Plex Sans Arabic', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'IBM Plex Mono', 'Fira Code', monospace;
+  --font-display: 'IBM Plex Sans Arabic', system-ui, sans-serif;
 
-  /* ═══════════════════════════════════════════════════
-     3. SEMANTIC BRAND ROLES
-     Component-level color assignments.
-     ═══════════════════════════════════════════════════ */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+  --text-6xl: 3.75rem;
 
-  /* — Primary brand — */
-  --brand:           var(--brand-400);
-  --brand-hover:     var(--brand-300);
-  --brand-strong:    var(--brand-500);
-  --brand-pressed:   var(--brand-600);
-  --brand-muted:     rgba(34, 211, 238, 0.16);
-  --brand-subtle:    rgba(34, 211, 238, 0.08);
-  --brand-faint:     rgba(34, 211, 238, 0.04);
+  /* 7. سماكة الخط */
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+  --font-extrabold: 800;
 
-  /* — Accent (Saudi green) — */
-  --accent:          var(--accent-500);
-  --accent-hover:    var(--accent-400);
-  --accent-muted:    rgba(34, 197, 94, 0.16);
-  --accent-subtle:   rgba(34, 197, 94, 0.08);
+  /* 8. ارتفاع السطر */
+  --leading-tight: 1.2;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.75;
 
-  /* — Legacy aliases (maintain backward compat) — */
-  --gold:            var(--accent);
-  --gold-hover:      var(--accent-hover);
-  --gold-muted:      var(--accent-muted);
+  /* 9. زوايا */
+  --radius-none: 0;
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  --radius-full: 9999px;
 
-  /* — Secondary brand — */
-  --brand-secondary:        var(--indigo-400);
-  --brand-secondary-muted:  rgba(129, 140, 248, 0.12);
-  --brand-secondary-subtle: rgba(129, 140, 248, 0.06);
+  /* 10. ظلال */
+  --shadow-sm: 0 1px 2px 0 rgba(0,0,0,0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.3), 0 2px 4px -2px rgba(0,0,0,0.3);
+  --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.3), 0 4px 6px -4px rgba(0,0,0,0.3);
+  --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.3), 0 8px 10px -6px rgba(0,0,0,0.3);
+  --shadow-2xl: 0 25px 50px -12px rgba(0,0,0,0.5);
+  --shadow-glow: 0 0 20px rgba(6,182,212,0.3);
+  --shadow-glow-lg: 0 0 40px rgba(6,182,212,0.4);
 
-  /* — Status — */
-  --success:    var(--green-500);
-  --success-soft: rgba(16, 185, 129, 0.15);
-  --warning:    var(--amber-500);
-  --warning-soft: rgba(245, 158, 11, 0.15);
-  --error:      var(--red-500);
-  --error-soft: rgba(239, 68, 68, 0.15);
-  --info:       var(--blue-500);
-  --info-soft:  rgba(59, 130, 246, 0.15);
+  /* 11. حركات - مدد */
+  --duration-fast: 150ms;
+  --duration-base: 250ms;
+  --duration-slow: 400ms;
+  --duration-slower: 600ms;
 
-  /* ═══════════════════════════════════════════════════
-     4. TEXT COLOR ROLES
-     ═══════════════════════════════════════════════════ */
-
-  --text:            #f8fafc;
-  --text-primary:    var(--text);
-  --text-secondary:  #dbeafe;
-  --text-soft:       #cbd5e1;
-  --text-faint:      #94a3b8;
-  --text-muted:      var(--slate-400);
-  --muted:           var(--slate-400);
-  --text-inverse:    var(--ink-900);
-
-  /* ═══════════════════════════════════════════════════
-     5. BORDER SYSTEM
-     ═══════════════════════════════════════════════════ */
-
-  --border:          rgba(148, 163, 184, 0.16);
-  --border-soft:     rgba(148, 163, 184, 0.08);
-  --border-strong:   rgba(148, 163, 184, 0.24);
-  --border-hover:    rgba(34, 211, 238, 0.34);
-  --border-active:   rgba(34, 211, 238, 0.46);
-  --border-brand:    rgba(34, 211, 238, 0.25);
-
-  /* ═══════════════════════════════════════════════════
-     6. SPACING SCALE (4px base)
-     ═══════════════════════════════════════════════════ */
-
-  --space-0:   0;
-  --space-px:  1px;
-  --space-0-5: 0.125rem;  /* 2px */
-  --space-1:   0.25rem;   /* 4px */
-  --space-1-5: 0.375rem;  /* 6px */
-  --space-2:   0.5rem;    /* 8px */
-  --space-2-5: 0.625rem;  /* 10px */
-  --space-3:   0.75rem;   /* 12px */
-  --space-3-5: 0.875rem;  /* 14px */
-  --space-4:   1rem;      /* 16px */
-  --space-5:   1.25rem;   /* 20px */
-  --space-6:   1.5rem;    /* 24px */
-  --space-7:   1.75rem;   /* 28px */
-  --space-8:   2rem;      /* 32px */
-  --space-10:  2.5rem;    /* 40px */
-  --space-12:  3rem;      /* 48px */
-  --space-14:  3.5rem;    /* 56px */
-  --space-16:  4rem;      /* 64px */
-  --space-20:  5rem;      /* 80px */
-  --space-24:  6rem;      /* 96px */
-  --space-28:  7rem;      /* 112px */
-  --space-32:  8rem;      /* 128px */
-
-  /* — Section spacing — */
-  --section-y-sm:   clamp(2.5rem, 5vw, 3.5rem);
-  --section-y:      clamp(3.5rem, 7vw, 5rem);
-  --section-y-lg:   clamp(5rem, 9vw, 7rem);
-  --section-y-xl:   clamp(6rem, 12vw, 9rem);
-
-  /* ═══════════════════════════════════════════════════
-     7. BORDER RADIUS SCALE
-     ═══════════════════════════════════════════════════ */
-
-  --radius-xs:    0.25rem;    /* 4px */
-  --radius-sm:    0.375rem;   /* 6px */
-  --radius-md:    0.5rem;     /* 8px */
-  --radius-lg:    0.625rem;   /* 10px */
-  --radius-xl:    0.75rem;    /* 12px */
-  --radius-2xl:   1rem;       /* 16px */
-  --radius-3xl:   1.25rem;    /* 20px */
-  --radius-4xl:   1.75rem;    /* 28px */
-  --radius-full:  9999px;
-
-  /* ═══════════════════════════════════════════════════
-     8. SHADOW SYSTEM — Layered Depth
-     ═══════════════════════════════════════════════════ */
-
-  /* — Elevation shadows — */
-  --shadow-xs:    0 1px 2px rgba(0, 0, 0, 0.3);
-  --shadow-sm:    0 1px 3px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.2);
-  --shadow-md:    0 4px 12px rgba(0, 0, 0, 0.5), 0 2px 4px rgba(0, 0, 0, 0.3);
-  --shadow-lg:    0 8px 32px rgba(0, 0, 0, 0.6), 0 4px 8px rgba(0, 0, 0, 0.3);
-  --shadow-xl:    0 16px 64px rgba(0, 0, 0, 0.7), 0 8px 16px rgba(0, 0, 0, 0.4);
-  --shadow-2xl:   0 24px 80px rgba(0, 0, 0, 0.8), 0 12px 24px rgba(0, 0, 0, 0.4);
-
-  /* — Glow shadows — */
-  --shadow-glow:        0 18px 44px -26px rgba(34, 211, 238, 0.65);
-  --shadow-glow-soft:   0 12px 32px -20px rgba(34, 211, 238, 0.45);
-  --shadow-glow-gold:   0 18px 44px -26px rgba(37, 211, 102, 0.55);
-  --shadow-glow-strong: 0 0 30px rgba(34, 211, 238, 0.35);
-  --glow-cyan:          0 0 30px rgba(34, 211, 238, 0.28);
-
-  /* — Card shadows — */
-  --shadow-card:        0 4px 24px -4px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05);
-  --shadow-card-hover:  0 8px 40px -8px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(34, 211, 238, 0.15);
-  --shadow-elevated:    0 16px 48px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.06);
-
-  /* ═══════════════════════════════════════════════════
-     9. BLUR POLICY — Controlled Glass Effects
-     ═══════════════════════════════════════════════════ */
-
-  --blur-xs:    4px;
-  --blur-sm:    8px;
-  --blur-md:    12px;
-  --blur-lg:    16px;
-  --blur-xl:    20px;
-  --blur-2xl:   24px;
-  --blur-glass: 14px;  /* Standard glass blur */
-  --blur-saturate: 1.08; /* Saturation boost for glass */
-
-  /* ═══════════════════════════════════════════════════
-     10. Z-INDEX SCALE
-     ═══════════════════════════════════════════════════ */
-
-  --z-base:      0;
-  --z-dropdown:  100;
-  --z-sticky:    200;
-  --z-overlay:   300;
-  --z-modal:     400;
-  --z-toast:     500;
-  --z-tooltip:   600;
-  --z-max:       9999;
-
-  /* ═══════════════════════════════════════════════════
-     11. TYPOGRAPHY SYSTEM
-     ═══════════════════════════════════════════════════ */
-
-  /* — Font families — */
-  --font-ar:       'BrightAI Official', 'IBM Plex Sans Arabic', sans-serif;
-  --font-en:       'Inter', system-ui, -apple-system, sans-serif;
-  --font-mono:     'IBM Plex Mono', 'Fira Code', ui-monospace, monospace;
-  --font-brand:    'BrightAI Official', 'IBM Plex Sans Arabic', Arial, sans-serif;
-
-  /* — Fluid type scale (clamp-based, mobile-first) — */
-  --text-xs:    0.8125rem;    /* 13px */
-  --text-sm:    0.9375rem;    /* 15px */
-  --text-base:  1.0625rem;    /* 17px */
-  --text-lg:    1.1875rem;    /* 19px */
-  --text-xl:    1.3125rem;    /* 21px */
-  --text-2xl:   1.5625rem;    /* 25px */
-  --text-3xl:   1.875rem;     /* 30px */
-  --text-4xl:   2.25rem;      /* 36px */
-  --text-5xl:   3rem;         /* 48px */
-  --text-6xl:   3.75rem;      /* 60px */
-
-  /* — Fluid display sizes (premium hero scale) — */
-  --text-display-sm:  clamp(1.75rem, 5vw, 3rem);
-  --text-display:     clamp(2.25rem, 6vw, 4rem);
-  --text-display-lg:  clamp(2.5rem, 7vw, 4.5rem);
-
-  /* — Line height — */
-  --leading-tight:    1.2;
-  --leading-snug:     1.35;
-  --leading-normal:   1.6;
-  --leading-relaxed:  1.75;
-  --leading-loose:    2;
-
-  /* — Letter spacing — */
-  --tracking-tighter: -0.02em;
-  --tracking-tight:   -0.01em;
-  --tracking-normal:  0;
-  --tracking-wide:    0.02em;
-  --tracking-wider:   0.04em;
-
-  /* — Font weights — */
-  --weight-normal:    400;
-  --weight-medium:    500;
-  --weight-semibold:  600;
-  --weight-bold:      700;
-  --weight-extrabold: 800;
-  --weight-black:     900;
-
-  /* ═══════════════════════════════════════════════════
-     12. MOTION SYSTEM — Performance-safe
-     ═══════════════════════════════════════════════════ */
-
-  /* — Duration — */
-  --duration-instant: 0ms;
-  --duration-fast:    150ms;
-  --duration-normal:  250ms;
-  --duration-slow:    400ms;
-  --duration-slower:  600ms;
-
-  /* — Easing functions — */
-  --ease-out:       cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-in-out:    cubic-bezier(0.45, 0, 0.55, 1);
-  --ease-spring:    cubic-bezier(0.25, 0.8, 0.25, 1);
-  --ease-premium:   cubic-bezier(0.25, 0.46, 0.45, 0.94);
-
-  /* — Stagger delays — */
-  --stagger-1: 60ms;
-  --stagger-2: 120ms;
-  --stagger-3: 180ms;
-  --stagger-4: 240ms;
-  --stagger-5: 300ms;
-  --stagger-6: 360ms;
-
-  /* ═══════════════════════════════════════════════════
-     13. CONTAINER SYSTEM
-     ═══════════════════════════════════════════════════ */
-
-  --container-max:     1280px;
-  --container-narrow:  960px;
-  --container-wide:    1440px;
-  --container-padding: var(--space-4);
-
-  /* ═══════════════════════════════════════════════════
-     14. NAVIGATION SYSTEM
-     ═══════════════════════════════════════════════════ */
-
-  --nav-height:        4.5rem;
-  --nav-height-mobile: 3.75rem;
-
-  /* ═══════════════════════════════════════════════════
-     15. GRADIENT SYSTEM
-     ═══════════════════════════════════════════════════ */
-
-  --gradient-brand:    linear-gradient(135deg, #5eead4 0%, #22d3ee 52%, #67e8f9 100%);
-  --gradient-surface:  linear-gradient(180deg, rgba(15, 23, 42, 0.82), rgba(6, 9, 20, 0.62));
-  --gradient-accent:   linear-gradient(135deg, var(--accent-500), #128c7e);
-  --gradient-indigo:   linear-gradient(135deg, var(--brand-400), var(--indigo-400));
-  --gradient-mesh:     radial-gradient(ellipse 80% 60% at 50% -10%, var(--ambient-cyan), transparent 60%),
-                       radial-gradient(ellipse 60% 50% at 90% 20%, rgba(20, 184, 166, 0.12), transparent 60%);
-
-  /* — Border gradients — */
-  --gradient-border-brand: linear-gradient(135deg, rgba(34, 211, 238, 0.3), rgba(129, 140, 248, 0.15) 50%, transparent 100%);
-  --gradient-border-hover: linear-gradient(135deg, rgba(34, 211, 238, 0.5), rgba(129, 140, 248, 0.3) 100%);
-
-  /* ═══════════════════════════════════════════════════
-     16. AMBIENT SYSTEM
-     ═══════════════════════════════════════════════════ */
-
-  --ambient-cyan:   rgba(34, 211, 238, 0.16);
-  --ambient-teal:   rgba(20, 184, 166, 0.12);
-  --ambient-indigo: rgba(129, 140, 248, 0.10);
-  --grid-line:      rgba(148, 163, 184, 0.055);
-
-  /* ═══════════════════════════════════════════════════
-      17. BRAND PRODUCTION ALIGNMENT (legacy compat)
-      ═══════════════════════════════════════════════════ */
-
-  /* Removed legacy redefinitions to avoid circular reference with semantic tokens above. */
-
-  /* ═══════════════════════════════════════════════════
-     18. TOUCH TARGET SYSTEM
-     ═══════════════════════════════════════════════════ */
-
-  --touch-min: 44px;
-  --touch-comfortable: 48px;
-}
-
-/* ═══════════════════════════════════════════════════
-   DARK THEME: Root body background
-   ═══════════════════════════════════════════════════ */
-
-:root {
-  color-scheme: dark;
+  /* 12. حركات - دوال */
+  --ease-linear: linear;
+  --ease-in: cubic-bezier(0.4,0,1,1);
+  --ease-out: cubic-bezier(0,0,0.2,1);
+  --ease-in-out: cubic-bezier(0.4,0,0.2,1);
+  --ease-spring: cubic-bezier(0.34,1.56,0.64,1);
 }

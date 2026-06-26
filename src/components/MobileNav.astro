@@ -201,11 +201,11 @@ function isActive(href: string): boolean {
   .mobile-menu {
     position: fixed;
     inset: 0;
-    z-index: var(--z-modal, 300);
-    background: var(--bg);
+    z-index: 900;
+    background: var(--bg-base);
     overflow-y: auto;
     transform: translateX(100%);
-    transition: transform var(--duration-normal) var(--ease-out);
+    transition: transform var(--duration-base) var(--ease-out);
     padding: var(--space-4);
     display: flex;
     flex-direction: column;
@@ -231,8 +231,8 @@ function isActive(href: string): boolean {
     align-items: center;
     gap: var(--space-2);
     text-decoration: none;
-    color: var(--text);
-    font-weight: var(--weight-bold);
+    color: var(--text-primary);
+    font-weight: var(--font-bold);
     font-size: var(--text-lg);
     min-height: 44px;
   }
@@ -251,15 +251,15 @@ function isActive(href: string): boolean {
     width: 44px;
     height: 44px;
     border: none;
-    background: var(--glass);
-    color: var(--text);
+    background: var(--bg-elevated);
+    color: var(--text-primary);
     border-radius: var(--radius-md);
     cursor: pointer;
     transition: background var(--duration-fast) var(--ease-out);
   }
 
-  .mobile-menu__close:hover { background: var(--glass-hover); }
-  .mobile-menu__close:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+  .mobile-menu__close:hover { background: var(--bg-surface); }
+  .mobile-menu__close:focus-visible { outline: 2px solid var(--interactive-primary); outline-offset: 2px; }
 
   /* Nav */
   .mobile-menu__nav {
@@ -269,7 +269,7 @@ function isActive(href: string): boolean {
   }
 
   .mobile-menu__item {
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid var(--border-subtle);
   }
 
   /* Top-level link (no children) */
@@ -282,17 +282,17 @@ function isActive(href: string): boolean {
     color: var(--text-secondary);
     text-decoration: none;
     font-size: var(--text-lg);
-    font-weight: var(--weight-medium);
+    font-weight: var(--font-medium);
     transition: color var(--duration-fast) var(--ease-out);
   }
 
   .mobile-menu__link:hover,
   .mobile-menu__link:focus-visible {
-    color: var(--text);
+    color: var(--text-primary);
   }
 
-  .mobile-menu__link--active { color: var(--brand); }
-  .mobile-menu__link:focus-visible { outline: 2px solid var(--brand); outline-offset: -2px; }
+  .mobile-menu__link--active { color: var(--interactive-primary); }
+  .mobile-menu__link:focus-visible { outline: 2px solid var(--interactive-primary); outline-offset: -2px; }
 
   /* Accordion trigger */
   .mobile-menu__accordion-trigger {
@@ -306,7 +306,7 @@ function isActive(href: string): boolean {
     border: none;
     color: var(--text-secondary);
     font-size: var(--text-lg);
-    font-weight: var(--weight-medium);
+    font-weight: var(--font-medium);
     font-family: inherit;
     cursor: pointer;
     transition: color var(--duration-fast) var(--ease-out);
@@ -314,11 +314,11 @@ function isActive(href: string): boolean {
 
   .mobile-menu__accordion-trigger:hover,
   .mobile-menu__accordion-trigger:focus-visible {
-    color: var(--text);
+    color: var(--text-primary);
   }
 
-  .mobile-menu__accordion-trigger--active { color: var(--brand); }
-  .mobile-menu__accordion-trigger:focus-visible { outline: 2px solid var(--brand); outline-offset: -2px; }
+  .mobile-menu__accordion-trigger--active { color: var(--interactive-primary); }
+  .mobile-menu__accordion-trigger:focus-visible { outline: 2px solid var(--interactive-primary); outline-offset: -2px; }
 
   .mobile-menu__accordion-chevron {
     transition: transform var(--duration-fast) var(--ease-out);
@@ -333,7 +333,7 @@ function isActive(href: string): boolean {
   .mobile-menu__accordion-panel {
     max-height: 0;
     overflow: hidden;
-    transition: max-height var(--duration-normal) var(--ease-out);
+    transition: max-height var(--duration-base) var(--ease-out);
   }
 
   .mobile-menu__sub-link {
@@ -342,7 +342,7 @@ function isActive(href: string): boolean {
     min-height: 48px;
     padding-block: var(--space-2);
     padding-inline: var(--space-6);
-    color: var(--muted);
+    color: var(--text-muted);
     text-decoration: none;
     font-size: var(--text-base);
     transition: color var(--duration-fast) var(--ease-out);
@@ -350,19 +350,19 @@ function isActive(href: string): boolean {
 
   .mobile-menu__sub-link:hover,
   .mobile-menu__sub-link:focus-visible {
-    color: var(--text);
+    color: var(--text-primary);
   }
 
-  .mobile-menu__sub-link--active { color: var(--brand); }
+  .mobile-menu__sub-link--active { color: var(--interactive-primary); }
   .mobile-menu__sub-link--overview {
-    font-weight: var(--weight-semibold);
+    font-weight: var(--font-semibold);
     color: var(--text-secondary);
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid var(--border-subtle);
     margin-bottom: var(--space-1);
   }
 
   .mobile-menu__sub-link:focus-visible {
-    outline: 2px solid var(--brand);
+    outline: 2px solid var(--interactive-primary);
     outline-offset: -2px;
   }
 

@@ -188,28 +188,23 @@ const {
     html[lang=ar] h1, html[lang=ar] h2, html[lang=ar] h3,
     html[lang=ar] h4, html[lang=ar] h5, html[lang=ar] h6,
     .gradient-text, .chip, .badge, .font-black, .font-bold,
-    .feature-title, .section-title, .stat-value, .metric-label,
-    .brand-text {
+    .feature-title, .section-title, .metric-label, .brand-text {
       font-family: 'BrightAI Official', 'IBM Plex Sans Arabic', Arial, sans-serif;
       font-weight: 700;
     }
     /* Production body baseline */
-    body { background: #060914; color: #f8fafc; overflow-x: hidden; }
+    body { background: var(--bg-base); color: var(--text-primary); overflow-x: hidden; }
   </style>
 
-  <!-- Styles — V2 Design System Architecture -->
-  <!-- Load order: tokens → global → layout → components → page styles → mobile → content-pages → design-system (canonical) -->
+  <!-- Styles — V3 Unified Design System -->
+  <!-- Load order: tokens → base → components → pages → utilities → animations → kernel -->
   <style is:global>
-    @import '../styles/global.css';
-    @import '../styles/layout.css';
+    @import '../styles/tokens.css';
+    @import '../styles/base.css';
     @import '../styles/components.css';
+    @import '../styles/pages.css';
+    @import '../styles/utilities.css';
     @import '../styles/animations.css';
-    @import '../styles/home.css';
-    @import '../styles/inner-pages.css';
-    @import '../styles/legal-pages.css';
-    @import '../styles/mobile.css';
-    @import '../styles/content-pages.css';
-    @import '../styles/design-system.css';
     @import '../styles/kernel.css';
   </style>
 
