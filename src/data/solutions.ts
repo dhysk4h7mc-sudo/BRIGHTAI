@@ -70,9 +70,9 @@ const S = 'https://brightai.site';
 export const solutions: SolutionData[] = [
   {
     slug:'ai-governance-platform', href:'/solutions/ai-governance-platform/',
-    title:'منصة حوكمة الذكاء الاصطناعي للشركات السعودية | BrightAI',
+    title:'منصة حوكمة الذكاء الاصطناعي للشركات السعودية | امتثال PDPL & NCA',
     h1:'منصة حوكمة الذكاء الاصطناعي للمؤسسات السعودية',
-    description:'منصة BrightAI لحوكمة الذكاء الاصطناعي تمنح المؤسسات رؤية مركزية على استخدام AI، الصلاحيات، المخاطر، السياسات، وسجلات المراجعة.',
+    description:'منصة BrightAI لحوكمة الذكاء الاصطناعي تمنح المؤسسات رؤية مركزية على استخدام AI، متوافقة مع نظام حماية البيانات الشخصية PDPL وضوابط الأمن السيبراني NCA.',
     canonical:`${S}/solutions/ai-governance-platform/`,
     icon:'mdi:scale-balance', chip:'المنصة الأم',
     shortDesc:'المنصة الشاملة اللي تجمع كل الحلول. رؤية مركزية لكل استخدامات AI، السياسات، والمخاطر.',
@@ -159,9 +159,9 @@ export const solutions: SolutionData[] = [
   },
   {
     slug:'ai-firewall', href:'/solutions/ai-firewall/',
-    title:'AI Firewall لحماية بيانات الشركات من مخاطر الذكاء الاصطناعي | BrightAI',
+    title:'AI Firewall لحماية بيانات الشركات | منع تسريب البيانات الشخصية',
     h1:'AI Firewall لحماية البيانات الحساسة قبل وصولها للنماذج',
-    description:'AI Firewall من BrightAI يفحص مدخلات ومخرجات الذكاء الاصطناعي، يقلل تسريب البيانات الحساسة، ويدعم ضوابط الاستخدام الآمن داخل المؤسسات السعودية.',
+    description:'جدار حماية الذكاء الاصطناعي (AI Firewall) يفحص مدخلات ومخرجات LLM ويمنع تسريب البيانات الحساسة للمؤسسات السعودية متوافقاً مع ضوابط الأمن السيبراني NCA.',
     canonical:`${S}/solutions/ai-firewall/`,
     icon:'mdi:shield-half-full', chip:'حماية البيانات',
     shortDesc:'يفحص كل طلب AI ويخفي البيانات الشخصية والحساسة قبل وصولها للنموذج. حماية في الزمن الفعلي.',
@@ -171,9 +171,9 @@ export const solutions: SolutionData[] = [
   },
   {
     slug:'ai-audit-trail', href:'/solutions/ai-audit-trail/',
-    title:'سجل تدقيق الذكاء الاصطناعي | AI Audit Trail | BrightAI',
+    title:'سجل تدقيق الذكاء الاصطناعي (AI Audit Trail) | امتثال NCA و PDPL',
     h1:'سجل تدقيق الذكاء الاصطناعي (AI Audit Trail)',
-    description:'سجل تدقيق غير قابل للتعديل لكل عمليات الذكاء الاصطناعي. كل طلب ورد وقرار موثق ومشفّر بـ SHA-256.',
+    description:'سجل تدقيق مشفر وغير قابل للتعديل لكافة عمليات الذكاء الاصطناعي داخل المؤسسة. يوثق طلبات وردود نماذج الذكاء الاصطناعي لضمان الامتثال التام للجهات التنظيمية.',
     canonical:`${S}/solutions/ai-audit-trail/`,
     icon:'mdi:file-sign', chip:'التوثيق',
     shortDesc:'سجل تدقيق غير قابل للتعديل (Append-only) محمي بـ SHA-256. كل طلب وقرار محفوظ مدى الحياة.',
@@ -183,9 +183,9 @@ export const solutions: SolutionData[] = [
   },
   {
     slug:'ai-evidence-file', href:'/solutions/ai-evidence-file/',
-    title:'ملف أدلة امتثال الذكاء الاصطناعي | AI Evidence File | BrightAI',
+    title:'ملف أدلة امتثال الذكاء الاصطناعي (AI Evidence File) | جاهز للتدقيق',
     h1:'ملف أدلة الامتثال للذكاء الاصطناعي (AI Evidence File)',
-    description:'ملف PDF موقّع رقمياً يجمع كل البيانات والقرارات والموافقات المتعلقة بالذكاء الاصطناعي. جاهز للمدقق أو الجهة التنظيمية.',
+    description:'توليد ملفات أدلة الامتثال والتقارير الموقعة رقمياً لتقديمها للمدققين والجهات التنظيمية السعودية مثل سدايا (SDAIA) وهيئة الأمن السيبراني (NCA).',
     canonical:`${S}/solutions/ai-evidence-file/`,
     icon:'mdi:folder-open', chip:'الإثبات',
     shortDesc:'ملف PDF موقّع رقمياً يجمع كل البيانات والقرارات والموافقات. جاهز للمدقق أو الجهة التنظيمية.',

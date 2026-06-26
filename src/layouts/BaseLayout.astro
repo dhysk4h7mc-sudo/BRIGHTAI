@@ -211,6 +211,32 @@ const {
     @import '../styles/content-pages.css';
     @import '../styles/design-system.css';
   </style>
+
+  {/* Unregister old Service Workers and clear caches */}
+  <script is:inline>
+    (function() {
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(function(registrations) {
+          for (let registration of registrations) {
+            registration.unregister().then(function() {
+              console.log('Old Service Worker unregistered successfully.');
+            });
+          }
+        }).catch(function(err) {
+          console.error('Error unregistering service workers:', err);
+        });
+      }
+      if ('caches' in window) {
+        caches.keys().then(function(names) {
+          for (let name of names) {
+            caches.delete(name);
+          }
+        }).catch(function(err) {
+          console.error('Error clearing caches:', err);
+        });
+      }
+    })();
+  </script>
 </head>
 <body>
   <DottedBackground />

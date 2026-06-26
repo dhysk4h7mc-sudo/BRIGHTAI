@@ -6,6 +6,7 @@
  */
 import { SITE } from '../data/site';
 import type { SEOProps } from '../data/site';
+import { LEGAL_I18N_PAIRS } from '../data/i18n-pairs';
 
 interface HreflangLink {
   lang: string;
@@ -32,16 +33,25 @@ const {
 
 const fullOgImage = ogImage.startsWith('http') ? ogImage : `${SITE.url}${ogImage}`;
 const siteName = SITE.name;
-const hasXDefault = hreflang.some((link) => link.lang === 'x-default');
 
-/* ─── Auto-derive en-SA hreflang for Arabic pages ───
-   If the page is Arabic (locale='ar') and an en-SA alternate isn't
-   already provided, derive it from the canonical URL so search
-   engines can find the English counterpart. */
 const isArabic = locale === 'ar';
 const hasEnSA = hreflang.some((link) => link.lang === 'en-SA');
 const enrichedHreflang = [...hreflang];
-if (isArabic && !hasEnSA && canonical) {
+
+let currentPathname = '';
+try {
+  currentPathname = canonical ? new URL(canonical).pathname : Astro.url.pathname;
+} catch (e) {
+  currentPathname = Astro.url.pathname;
+}
+const normalizedPath = currentPathname.endsWith('/') ? currentPathname : `${currentPathname}/`;
+
+// التحقق من أن المسار الحالي يحتوي على ترجمة إنجليزية معتمدة في LEGAL_I18N_PAIRS
+const hasEnglishCounterpart = LEGAL_I18N_PAIRS.some(
+  (pair) => pair.arabic === normalizedPath || pair.english === normalizedPath
+);
+
+if (isArabic && !hasEnSA && canonical && hasEnglishCounterpart) {
   const enHref = canonical.replace(`${SITE.url}/`, `${SITE.url}/en/`);
   enrichedHreflang.push({ lang: 'en-SA', href: enHref });
 }
