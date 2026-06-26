@@ -1,0 +1,68 @@
+---
+/**
+ * KernelSeoSection — SEO content section for Kernel pages.
+ * Renders h2 + paragraphs with internal cross-links.
+ * Takes a slot for custom content or an `items` array for structured content.
+ * Uses V2 design tokens. CSS-only, no JS.
+ */
+interface SeoItem {
+  heading?: string;
+  text: string;
+}
+
+interface Props {
+  id?: string;
+  heading?: string;
+  items?: SeoItem[];
+}
+
+const { id = 'kernel-seo-content', heading, items = [] } = Astro.props;
+const headingId = `${id}-heading`;
+---
+
+<style>
+  .k-seo {
+    margin-top: 2.5rem;
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--border);
+  }
+  .k-seo h2 {
+    font-size: var(--text-lg);
+    font-weight: var(--weight-bold);
+    color: var(--text);
+    margin-bottom: var(--space-4);
+  }
+  .k-seo h3 {
+    font-size: 1rem;
+    font-weight: var(--weight-bold);
+    color: var(--text);
+    margin: 1.5rem 0 0.5rem;
+  }
+  .k-seo p {
+    font-size: var(--text-sm);
+    color: var(--text-soft);
+    line-height: var(--leading-relaxed);
+    max-width: 48rem;
+    margin-bottom: var(--space-3);
+  }
+  .k-seo a {
+    color: var(--brand);
+    text-decoration: underline;
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+  .k-seo a:hover,
+  .k-seo a:focus-visible {
+    color: var(--brand-hover);
+  }
+</style>
+
+<section class="k-seo" aria-labelledby={heading ? headingId : undefined}>
+  {heading && <h2 id={headingId}>{heading}</h2>}
+  {items.map(item => (
+    <div>
+      {item.heading && <h3>{item.heading}</h3>}
+      <p set:html={item.text} />
+    </div>
+  ))}
+  <slot />
+</section>
