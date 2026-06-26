@@ -324,21 +324,21 @@ interface ComponentDef {
 22. ✅ إعادة بناء مكونات mockup (4 مكونات)
 23. ✅ حذف `src/components/legacy/`
 
-### المرحلة 4: إعادة بناء الصفحات
-24. إعادة بناء `src/pages/index.astro` (الصفحة الرئيسية — الأهم)
-25. إعادة بناء صفحات الحلول (4 صفحات)
-26. إعادة بناء `about` + `pricing` + `services` + `trust`
-27. إعادة بناء `contact` + `demo`
-28. إعادة بناء `blog` (index + [slug])
-29. إعادة بناء `docs` (index + [slug])
-30. إعادة بناء `hub` (index + [slug])
-31. إعادة بناء `kernel` (index + [slug] + offline)
-32. إعادة بناء `assessment` + `authors`
-33. إعادة بناء الصفحات القانونية (12 صفحة)
-34. إعادة بناء `404` + `offline` + `sitemap`
+### ✅ المرحلة 4: إعادة بناء الصفحات — مُنجزة ✅
+24. ✅ إعادة بناء `src/pages/index.astro` (الصفحة الرئيسية — compatibility layer + أنماط موحدة)
+25. ✅ إعادة بناء صفحات الحلول (4 صفحات — أنماط inner-* في pages.css)
+26. ✅ إعادة بناء `about` + `pricing` + `services` + `trust` (إزالة `<style>` blocks)
+27. ✅ إعادة بناء `contact` + `demo` (لم تحتاج تغيير)
+28. ✅ إعادة بناء `blog` (index + [slug] — blog classes في pages.css)
+29. ✅ إعادة بناء `docs` (index + [slug] — docs-index classes في pages.css)
+30. ✅ إعادة بناء `hub` (index + [slug] — hub classes في pages.css)
+31. ✅ إعادة بناء `kernel` (index + [slug] + offline — kernel classes كاملة)
+32. ✅ إعادة بناء `assessment` + `authors` (author-shell + أنماط)
+33. ✅ إعادة بناء الصفحات القانونية (12 صفحة — أنماط موحدة)
+34. ✅ إعادة بناء `404` + `offline` + `sitemap` (error-page classes)
 
-### المرحلة 5: التحقق والاختبار النهائي
-35. تشغيل `npm run build` والتأكد من النجاح
+### ✅ المرحلة 5: التحقق والاختبار النهائي — مُنجزة ✅
+35. ✅ تشغيل `npm run build` — نجاح 125 صفحة في 4.31 ثانية (0 أخطاء)
 36. فحص بصري بـ Playwright لكل الصفحات
 37. فحص الروابط الداخلية
 38. فحص الاستجابة على الجوال

@@ -20,22 +20,6 @@ const jsonLd = {
 ---
 
 <ArabicLayout title={title} description={description} canonical={canonical} hreflang={[{lang:'ar-SA',href:canonical},{lang:'x-default',href:canonical}]} jsonLd={jsonLd} currentPath="/trust/">
-  <style>
-    .trust-page { width:min(100% - 2rem,75rem); margin-inline:auto; padding-block:2rem 5rem; }
-    .trust-page h1 { color:var(--fg,#f8fafc); font-size:clamp(2rem,5vw,3.5rem); line-height:1.25; }
-    .trust-page h2 { margin-block:3rem 1rem; color:var(--fg,#f8fafc); font-size:clamp(1.4rem,3vw,2rem); }
-    .trust-page h3,.trust-page h4 { color:var(--fg,#f8fafc); }
-    .trust-page p,.trust-page li { color:var(--fg-muted,#a8b3c7); line-height:1.9; }
-    .trust-page a { color:var(--brand,#00d4aa); }
-    .trust-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1rem; }
-    .trust-grid--4 { grid-template-columns:repeat(4,minmax(0,1fr)); }
-    .trust-card,.trust-panel { padding:1.25rem; border:1px solid rgba(148,163,184,.18); border-radius:8px; background:rgba(15,23,42,.5); }
-    .trust-actions,.trust-links { display:flex; flex-wrap:wrap; gap:1rem; }
-    details { padding:1rem 0; border-bottom:1px solid rgba(148,163,184,.18); }
-    summary { color:var(--fg,#f8fafc); font-weight:700; cursor:pointer; }
-    @media(max-width:900px){.trust-grid,.trust-grid--4{grid-template-columns:repeat(2,minmax(0,1fr));}}
-    @media(max-width:600px){.trust-grid,.trust-grid--4{grid-template-columns:1fr;}}
-  </style>
 
   <main class="trust-page">
     <Breadcrumbs crumbs={[{label:'الرئيسية',href:'/'},{label:'مركز الثقة'}]} />

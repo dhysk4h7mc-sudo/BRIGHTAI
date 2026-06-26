@@ -54,58 +54,6 @@ const isCompliance = unit.slug === 'compliance';
   jsonLd={(migratedPage?.jsonLd ?? breadcrumbLd) as any}
   currentPath={unit.path}
 >
-  <style>
-    .k-breadcrumb {
-      display: flex;
-      gap: var(--space-2);
-      list-style: none;
-      padding: 0;
-      margin: 0 0 1.5rem;
-      font-size: var(--text-xs);
-      color: var(--text-soft);
-    }
-    .k-breadcrumb a { color: var(--text-soft); text-decoration: none; }
-    .k-breadcrumb a:hover { color: var(--brand); }
-    .k-breadcrumb__current { color: var(--brand); font-weight: var(--weight-semibold); }
-
-    .k-page h1 {
-      font-size: clamp(1.375rem, 3.5vw, 2rem);
-      font-weight: var(--weight-extrabold);
-      color: var(--text);
-      line-height: var(--leading-tight);
-      margin-bottom: 1.5rem;
-    }
-    .k-page h2 {
-      font-size: var(--text-lg);
-      font-weight: var(--weight-bold);
-      color: var(--text);
-      margin: 2rem 0 var(--space-3);
-    }
-    .k-page p {
-      font-size: var(--text-sm);
-      color: var(--text-soft);
-      line-height: var(--leading-relaxed);
-      max-width: 48rem;
-    }
-    .k-page__component { margin: 1.5rem 0; }
-    .migrated-kernel-content { max-width: 48rem; }
-    .migrated-kernel-content h1,
-    .migrated-kernel-content h2,
-    .migrated-kernel-content h3 {
-      color: var(--text);
-      font-weight: var(--weight-bold);
-    }
-    .migrated-kernel-content h1 { font-size: clamp(1.375rem, 3.5vw, 2rem); margin-bottom: 1.5rem; }
-    .migrated-kernel-content h2 { font-size: 1.125rem; margin: 2rem 0 0.75rem; }
-    .migrated-kernel-content h3 { font-size: 1rem; margin: 1.5rem 0 0.5rem; }
-    .migrated-kernel-content p {
-      font-size: var(--text-sm);
-      color: var(--text-soft);
-      line-height: var(--leading-relaxed);
-    }
-    .migrated-kernel-content a { color: var(--brand); text-decoration: underline; }
-    .migrated-kernel-content a:hover { color: var(--brand-hover); }
-  </style>
 
   <div class="k-page">
     <!-- Breadcrumb -->
@@ -184,33 +132,4 @@ const isCompliance = unit.slug === 'compliance';
   </div>
 </KernelLayout>
 
-<style>
-  .k-page__disclaimer {
-    margin-top: 1.5rem;
-    padding: var(--space-3) var(--space-4);
-    background: var(--surface-soft);
-    border: 1px solid var(--border-soft);
-    border-radius: var(--radius-md);
-    font-size: var(--text-xs);
-    color: var(--text-faint);
-  }
-  .k-page__cta {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-2);
-    padding: var(--space-3) var(--space-6);
-    background: var(--brand);
-    color: var(--text-inverse);
-    border-radius: var(--radius-md);
-    text-decoration: none;
-    font-weight: var(--weight-semibold);
-    font-size: var(--text-sm);
-    margin-top: 2rem;
-    transition: opacity var(--duration-fast) var(--ease-out);
-  }
-  .k-page__cta:hover { opacity: 0.9; }
-  @media (prefers-reduced-motion: reduce) {
-    .k-page__cta { transition: none; }
-  }
-</style>
 </write_to_file>
