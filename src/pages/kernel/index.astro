@@ -5,6 +5,8 @@
  * CSS-first reveal animations with IntersectionObserver (no GSAP)
  */
 import KernelLayout from '../../layouts/KernelLayout.astro';
+import KernelPageHeader from '../../components/kernel/KernelPageHeader.astro';
+import KernelContextLinks from '../../components/kernel/KernelContextLinks.astro';
 import LiveDashboardMockup from '../../components/LiveDashboardMockup.astro';
 import { kernelNavItems, getCrossLinks } from '../../data/kernel';
 
@@ -134,20 +136,22 @@ const jsonLd = {
   currentPath="/kernel/"
 >
   <style>
-    .k-hero { margin-bottom: var(--space-8); }
-    .k-hero h1 {
-      font-size: clamp(1.5rem, 4vw, 2.25rem);
-      font-weight: var(--weight-extrabold);
-      color: var(--text);
-      line-height: var(--leading-tight);
-      margin-bottom: var(--space-4);
+    .k-breadcrumb {
+      margin-bottom: 1.5rem;
     }
-    .k-hero p {
-      font-size: var(--text-base);
+    .k-breadcrumb ol {
+      display: flex;
+      gap: var(--space-2);
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      font-size: var(--text-xs);
       color: var(--text-soft);
-      line-height: var(--leading-relaxed);
-      max-width: 48rem;
     }
+    .k-breadcrumb a { color: var(--text-soft); text-decoration: none; }
+    .k-breadcrumb a:hover { color: var(--brand); }
+    .k-breadcrumb__current { color: var(--brand); font-weight: var(--weight-semibold); }
+
     .k-section-title {
       font-size: var(--text-xl);
       font-weight: var(--weight-bold);
@@ -235,35 +239,6 @@ const jsonLd = {
     }
     .k-unit-card__link:hover { text-decoration: underline; }
 
-    .k-cross-links {
-      margin-top: var(--space-12);
-      padding-top: var(--space-8);
-      border-top: 1px solid var(--border);
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: var(--space-4);
-    }
-    .k-cross-links a {
-      display: block;
-      padding: var(--space-4);
-      background: var(--surface-soft);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      color: var(--text-soft);
-      text-decoration: none;
-      font-size: var(--text-xs);
-      line-height: var(--leading-normal);
-    }
-    .k-cross-links a:hover,
-    .k-cross-links a:focus-visible {
-      color: var(--brand);
-      border-color: var(--brand);
-    }
-    .k-cross-links a strong {
-      display: block;
-      color: var(--text);
-      margin-bottom: var(--space-1);
-    }
     .shortcut-overlay {
       display: none;
       position: fixed;
@@ -351,22 +326,19 @@ const jsonLd = {
   </div>
 
   <!-- Breadcrumb -->
-  <nav aria-label="التنقل التفصيلي" style="margin-bottom:1.5rem">
-    <ol style="display:flex;gap:var(--space-2);list-style:none;padding:0;margin:0;font-size:var(--text-xs);color:var(--text-soft)">
-      <li><a href="/" style="color:var(--text-soft);text-decoration:none">الرئيسية</a></li>
+  <nav aria-label="التنقل التفصيلي" class="k-breadcrumb">
+    <ol>
+      <li><a href="/">الرئيسية</a></li>
       <li aria-hidden="true">/</li>
-      <li><a href="/kernel/" style="color:var(--brand);text-decoration:none;font-weight:var(--weight-semibold)">Kernel</a></li>
+      <li class="k-breadcrumb__current">Kernel</li>
     </ol>
   </nav>
 
-  <!-- Hero -->
-  <section class="k-hero">
-    <p>BrightAI Kernel Dashboard</p>
-    <h1>{unit.h1}</h1>
-    <p>
-      منصة BrightAI Kernel هي غرفة تشغيل مركزية تمنح فرق الحوكمة والامتثال رؤية تنفيذية موحدة على كل أنشطة الذكاء الاصطناعي في المنشأة. تجمع السياسات والموافقات والأدلة والرقابة في لوحة واحدة، وتدعم جاهزية المؤسسة للمراجعات والتدقيق.
-    </p>
-  </section>
+  <!-- Hero — using shared KernelPageHeader -->
+  <KernelPageHeader
+    h1={unit.h1}
+    description="منصة BrightAI Kernel هي غرفة تشغيل مركزية تمنح فرق الحوكمة والامتثال رؤية تنفيذية موحدة على كل أنشطة الذكاء الاصطناعي في المنشأة. تجمع السياسات والموافقات والأدلة والرقابة في لوحة واحدة، وتدعم جاهزية المؤسسة للمراجعات والتدقيق."
+  />
 
   <section aria-labelledby="kernel-actions">
     <h2 class="k-section-title" id="kernel-actions">الإجراءات الرئيسية</h2>
@@ -439,21 +411,13 @@ const jsonLd = {
     </nav>
   </section>
 
-  <!-- Cross-links to Solutions & Docs -->
-  <div class="k-cross-links">
-    <a href="/solutions/ai-governance-platform/">
-      <strong>حلول الحوكمة</strong>
-      تعرّف على حلول BrightAI لإدارة حوكمة الذكاء الاصطناعي
-    </a>
-    <a href="/docs/kernel-architecture/">
-      <strong>توثيق Kernel</strong>
-      الدليل التقني لمعمارية Kernel وإعدادها وتشغيلها
-    </a>
-    <a href="/contact/">
-      <strong>احجز استشارة</strong>
-      تحدث مع فريق BrightAI عن متطلبات حوكمة الذكاء الاصطناعي
-    </a>
-  </div>
+  <!-- Cross-links — using shared KernelContextLinks -->
+  <KernelContextLinks
+    currentPath="/kernel/"
+    solutionPath="/solutions/ai-governance-platform/"
+    solutionLabel="حلول الحوكمة"
+    docPath="/docs/kernel-architecture/"
+  />
 
   <!-- Lightweight IntersectionObserver reveal (no GSAP) -->
   <script>
