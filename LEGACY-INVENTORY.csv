@@ -1,0 +1,207 @@
+File Path,Category,Type,Size (Lines),Usage Count,Used By,Risk Level,Notes
+src/components/ActivityStream.astro,Active,Component,81,1,src/pages/kernel/[slug].astro,Low,Actively used in pages
+src/components/BackgroundGrid.astro,Active,Component,7,9,src/pages/404.astro; src/pages/contact/index.astro; src/pages/solutions/[slug].astro; src/pages/about/index.astro; src/pages/services/index.astro; src/pages/offline/index.astro; src/pages/demo/index.astro; src/pages/sitemap/index.astro; src/pages/assessment/ai-governance-readiness/index.astro,Low,Actively used in pages
+src/components/Breadcrumbs.astro,Active,Component,63,17,src/layouts/BlogLayout.astro; src/layouts/DocsLayout.astro; src/pages/about/index.astro; src/pages/contact/index.astro; src/pages/services/index.astro; src/pages/solutions/index.astro; src/pages/solutions/[sector].astro; src/pages/solutions/[slug].astro; src/pages/solutions/[sector]/[city].astro; src/pages/blog/index.astro; src/pages/docs/index.astro; src/pages/kernel/index.astro; src/pages/kernel/[slug].astro; src/pages/trust/index.astro; src/pages/pricing/index.astro; src/pages/hub/index.astro; src/pages/hub/[slug].astro,Low,Actively used in pages
+src/components/ComplianceRadar.astro,Active,Component,112,1,src/pages/kernel/[slug].astro,Low,Actively used in pages
+src/components/CookieConsent.astro,Internal,Component,93,1,src/layouts/BaseLayout.astro,Medium,"Only used by other components, not directly by pages"
+src/components/DocsRelatedLinks.astro,Internal,Component,28,1,src/layouts/DocsLayout.astro,Medium,"Only used by other components, not directly by pages"
+src/components/DottedBackground.astro,Internal,Component,200,1,src/layouts/BaseLayout.astro,Medium,"Only used by other components, not directly by pages"
+src/components/EvidenceFileMockup.astro,Active,Component,122,1,src/pages/kernel/[slug].astro,Low,Actively used in pages
+src/components/Footer.astro,Internal,Component,292,2,src/layouts/BaseLayout.astro; src/layouts/KernelLayout.astro,Medium,"Only used by other components, not directly by pages"
+src/components/Header.astro,Internal,Component,507,1,src/layouts/BaseLayout.astro,Medium,"Only used by other components, not directly by pages"
+src/components/Icon.astro,Active,Component,31,9,src/components/SolutionCard.astro; src/components/SectorCard.astro; src/data/kernel.ts; src/pages/404.astro; src/pages/solutions/[sector]/[city].astro; src/pages/solutions/[slug].astro; src/pages/solutions/[sector].astro; src/pages/assessment/ai-governance-readiness/index.astro; src/pages/services/index.astro,Low,Actively used in pages
+src/components/LiveDashboardMockup.astro,Active,Component,28,1,src/pages/kernel/index.astro,Low,Actively used in pages
+src/components/MobileNav.astro,Internal,Component,393,1,src/layouts/BaseLayout.astro,Medium,"Only used by other components, not directly by pages"
+src/components/RelatedLinks.astro,Active,Component,163,1,src/pages/solutions/[slug].astro,Low,Actively used in pages
+src/components/RelatedPosts.astro,Internal,Component,91,1,src/layouts/BlogLayout.astro,Medium,"Only used by other components, not directly by pages"
+src/components/SEOHead.astro,Internal,Component,98,1,src/layouts/BaseLayout.astro,Medium,"Only used by other components, not directly by pages"
+src/components/SectionReveal.astro,Dead Code,Component,22,0,NONE,High,Component is not imported anywhere in the project
+src/components/SectorCard.astro,Active,Component,0,2,src/pages/solutions/index.astro; src/pages/solutions/[sector].astro,Low,Actively used in pages
+src/components/SolutionCard.astro,Active,Component,62,1,src/pages/solutions/index.astro,Low,Actively used in pages
+src/components/SparklesCore.tsx,Dead Code,Component,180,0,NONE,High,Component is not imported anywhere in the project
+src/components/SparklesHero.astro,Dead Code,Component,257,0,NONE,High,Component is not imported anywhere in the project
+src/components/SplitHero.astro,Active,Component,419,1,src/pages/index.astro,Low,Actively used in pages
+src/components/TableOfContents.astro,Internal,Component,26,1,src/layouts/DocsLayout.astro,Medium,"Only used by other components, not directly by pages"
+src/components/WhatsAppCTA.astro,Internal,Component,86,1,src/layouts/BaseLayout.astro,Medium,"Only used by other components, not directly by pages"
+src/components/KernelBadge.astro,Internal,Component,0,4,src/components/ActivityStream.astro; src/components/ComplianceRadar.astro; src/components/EvidenceFileMockup.astro; src/components/kernel/KernelPageHeader.astro,Medium,"Only used by other components, not directly by pages"
+src/components/KernelContextLinks.astro,Active,Component,0,2,src/pages/kernel/index.astro; src/pages/kernel/[slug].astro,Low,Actively used in pages
+src/components/KernelLoadingState.astro,Dead Code,Component,0,0,NONE,High,Component is not imported anywhere in the project
+src/components/KernelMetric.astro,Internal,Component,0,1,src/components/LiveDashboardMockup.astro,Medium,"Only used by other components, not directly by pages"
+src/components/KernelPageHeader.astro,Active,Component,0,2,src/pages/kernel/index.astro; src/pages/kernel/[slug].astro,Low,Actively used in pages
+src/components/KernelSeoSection.astro,Active,Component,0,1,src/pages/kernel/[slug].astro,Low,Actively used in pages
+src/components/KernelStatCard.astro,Dead Code,Component,0,0,NONE,High,Component is not imported anywhere in the project
+src/components/KernelTable.astro,Dead Code,Component,0,0,NONE,High,Component is not imported anywhere in the project
+src/components/DottedSurface.tsx,Internal,Component,0,1,src/components/SplitHero.astro,Medium,"Only used by other components, not directly by pages"
+src/components/HeroVisual.tsx,Internal,Component,0,1,src/components/SplitHero.astro,Medium,"Only used by other components, not directly by pages"
+src/layouts/ArabicLayout.astro,Active,Layout,0,2,src/layouts/BlogLayout.astro; src/layouts/DocsLayout.astro,Low,Actively used as page layout
+src/layouts/BaseLayout.astro,Active,Layout,0,34,src/layouts/ArabicLayout.astro; src/layouts/EnglishLayout.astro; src/layouts/KernelLayout.astro; src/pages/404.astro; src/pages/about/index.astro; src/pages/assessment/ai-governance-readiness/index.astro; src/pages/authors/[slug].astro; src/pages/blog/index.astro; src/pages/contact/index.astro; src/pages/cookie-policy/index.astro; src/pages/data-processing-agreement/index.astro; src/pages/demo/index.astro; src/pages/docs/index.astro; src/pages/en/cookie-policy/index.astro; src/pages/en/data-processing-agreement/index.astro; src/pages/en/pdpl-statement/index.astro; src/pages/en/privacy-policy/index.astro; src/pages/en/terms/index.astro; src/pages/hub/index.astro; src/pages/hub/[slug].astro; src/pages/index.astro; src/pages/offline/index.astro; src/pages/pdpl-statement/index.astro; src/pages/pricing/index.astro; src/pages/privacy-cookies/index.astro; src/pages/privacy-policy/index.astro; src/pages/services/index.astro; src/pages/sitemap/index.astro; src/pages/solutions/index.astro; src/pages/solutions/[sector].astro; src/pages/solutions/[slug].astro; src/pages/solutions/[sector]/[city].astro; src/pages/terms/index.astro; src/pages/trust/index.astro,Low,Actively used as page layout
+src/layouts/BlogLayout.astro,Active,Layout,0,1,src/pages/blog/[...slug].astro,Low,Actively used as page layout
+src/layouts/DocsLayout.astro,Active,Layout,0,1,src/pages/docs/[...slug].astro,Low,Actively used as page layout
+src/layouts/EnglishLayout.astro,Active,Layout,0,5,src/pages/en/cookie-policy/index.astro; src/pages/en/data-processing-agreement/index.astro; src/pages/en/pdpl-statement/index.astro; src/pages/en/privacy-policy/index.astro; src/pages/en/terms/index.astro,Low,Actively used as page layout
+src/layouts/KernelLayout.astro,Active,Layout,0,3,src/pages/kernel/index.astro; src/pages/kernel/[slug].astro; src/pages/kernel/offline.astro,Low,Actively used as page layout
+src/styles/animations.css,Active,Style,0,1,src/layouts/BaseLayout.astro,Low,"Animation styles, imported by BaseLayout"
+src/styles/base.css,Active,Style,0,1,src/layouts/BaseLayout.astro,Low,"Base styles, imported by BaseLayout"
+src/styles/components.css,Active,Style,0,1,src/layouts/BaseLayout.astro,Low,"Component styles, imported by BaseLayout"
+src/styles/kernel.css,Active,Style,0,1,src/layouts/BaseLayout.astro,Low,"Kernel-specific styles, imported by BaseLayout"
+src/styles/pages.css,Active,Style,0,1,src/layouts/BaseLayout.astro,Low,"Page-specific styles, imported by BaseLayout"
+src/styles/tokens.css,Active,Style,0,1,src/layouts/BaseLayout.astro,Low,"Core design tokens, imported by BaseLayout"
+src/styles/utilities.css,Active,Style,0,1,src/layouts/BaseLayout.astro,Low,"Utility classes, imported by BaseLayout"
+src/pages/404.astro,Active,Page,0,1,Route,Low,Astro page route
+src/pages/about/index.astro,Active,Page,0,1,Route,Low,Astro page route
+src/pages/assessment/ai-governance-readiness/index.astro,Active,Page,0,1,Route,Low,Astro page route
+src/pages/authors/[slug].astro,Active,Page,0,1,Route,Low,Astro page route
+src/pages/blog/[...slug].astro,Active,Page,0,1,Route,Low,Astro page route
+src/pages/blog/feed.xml.ts,Active,Page,0,1,Route,Low,Astro page route
+src/pages/blog/index.astro,Active,Page,0,1,Route,Low,Astro page route
+src/pages/contact/index.astro,Active,Page,0,1,Route,Low,Astro page route
+src/pages/cookie-policy/index.astro,Active,Page,0,1,Route,Low,Astro page route
+src/pages/data-processing-agreement/index.astro,Active,Page,0,1,Route,Low,Astro page route
+src/pages/demo/index.astro,Active,Page,0,1,Route,Low,Astro page route
+src/pages/docs/[...slug].astro,Active,Page,0,1,Route,Low,Astro page route
+src/pages/docs/index.astro,Active,Page,0,1,Route,Low,Astro page route
+src/pages/en/cookie-policy/index.astro,Active,Page,0,1,Route,Low,Astro page route
+src/pages/en/data-processing-agreement/index.astro,Active,Page,0,1,Route,Low,Astro page route
+src/pages/en/pdpl-statement/index.astro,Active,Page,0,1,Route,Low,Astro page route
+src/pages/en/privacy-policy/index.astro,Active,Page,0,1,Route,Low,Astro page route
+src/pages/en/terms/index.astro,Active,Page,0,1,Route,Low,Astro page route
+src/pages/hub/[slug].astro,Active,Page,0,1,Route,Low,Astro page route
+src/pages/hub/index.astro,Active,Page,0,1,Route,Low,Astro page route
+src/pages/index.astro,Active,Page,0,1,Route,Low,Astro page route
+src/pages/kernel/[slug].astro,Active,Page,0,1,Route,Low,Astro page route
+src/pages/kernel/index.astro,Active,Page,0,1,Route,Low,Astro page route
+src/pages/kernel/offline.astro,Active,Page,0,1,Route,Low,Astro page route
+src/pages/offline/index.astro,Active,Page,0,1,Route,Low,Astro page route
+src/pages/pdpl-statement/index.astro,Active,Page,0,1,Route,Low,Astro page route
+src/pages/pricing/index.astro,Active,Page,0,1,Route,Low,Astro page route
+src/pages/privacy-cookies/index.astro,Active,Page,0,1,Route,Low,Astro page route
+src/pages/privacy-policy/index.astro,Active,Page,0,1,Route,Low,Astro page route
+src/pages/services/index.astro,Active,Page,0,1,Route,Low,Astro page route
+src/pages/sitemap/index.astro,Active,Page,0,1,Route,Low,Astro page route
+src/pages/solutions/[sector].astro,Active,Page,0,1,Route,Low,Astro page route
+src/pages/solutions/[sector]/[city].astro,Active,Page,0,1,Route,Low,Astro page route
+src/pages/solutions/[slug].astro,Active,Page,0,1,Route,Low,Astro page route
+src/pages/solutions/index.astro,Active,Page,0,1,Route,Low,Astro page route
+src/pages/terms/index.astro,Active,Page,0,1,Route,Low,Astro page route
+src/pages/trust/index.astro,Active,Page,0,1,Route,Low,Astro page route
+src/data/blog.ts,Active,Data,0,1,Multiple,Low,Data module
+src/data/hub-content-inline.ts,Active,Data,0,1,Multiple,Low,Data module
+src/data/i18n-pairs.ts,Active,Data,0,1,Multiple,Low,Data module
+src/data/kernel.ts,Active,Data,0,1,Multiple,Low,Data module
+src/data/legal-content-en-inline.ts,Active,Data,0,1,Multiple,Low,Data module
+src/data/legal-content-inline.ts,Active,Data,0,1,Multiple,Low,Data module
+src/data/migratedKernelPages.ts,Active,Data,0,1,Multiple,Low,Data module
+src/data/migratedSolutionPages.ts,Active,Data,0,1,Multiple,Low,Data module
+src/data/navigation.ts,Active,Data,0,1,Multiple,Low,Data module
+src/data/site.ts,Active,Data,0,1,Multiple,Low,Data module
+src/data/solutions.ts,Active,Data,0,1,Multiple,Low,Data module
+_archive/docx/ai-audit-readiness.md,Archive,Archive,0,0,NONE,Low,Archived legacy file
+_archive/docx/ai-governance-saudi-arabia.md,Archive,Archive,0,0,NONE,Low,Archived legacy file
+_archive/docx/ai-risk-management.md,Archive,Archive,0,0,NONE,Low,Archived legacy file
+_archive/docx/nca-ecc-ai-governance.md,Archive,Archive,0,0,NONE,Low,Archived legacy file
+_archive/docx/pdpl-ai-governance.md,Archive,Archive,0,0,NONE,Low,Archived legacy file
+_archive/legacy-public-frontend/css/bundle-core.min.css,Archive,Archive,0,0,NONE,Low,Archived legacy file
+_archive/legacy-public-frontend/css/production-fixes.v20260427.css,Archive,Archive,0,0,NONE,Low,Archived legacy file
+_archive/legacy-public-frontend/css/unified-nav-search.css,Archive,Archive,0,0,NONE,Low,Archived legacy file
+_archive/legacy-public-frontend/html/404.html,Archive,Archive,0,0,NONE,Low,Archived legacy file
+_archive/legacy-public-frontend/html/error.html,Archive,Archive,0,0,NONE,Low,Archived legacy file
+_archive/legacy-public-frontend/js/accessibility.min.js,Archive,Archive,0,0,NONE,Low,Archived legacy file
+_archive/legacy-public-frontend/js/analytics-events.js,Archive,Archive,0,0,NONE,Low,Archived legacy file
+_archive/legacy-public-frontend/js/brightai-logo-replace.js,Archive,Archive,0,0,NONE,Low,Archived legacy file
+_archive/legacy-public-frontend/js/clarity-events.js,Archive,Archive,0,0,NONE,Low,Archived legacy file
+_archive/legacy-public-frontend/js/iconify-preload.js,Archive,Archive,0,0,NONE,Low,Archived legacy file
+_archive/legacy-public-frontend/js/production-runtime.v20260427.js,Archive,Archive,0,0,NONE,Low,Archived legacy file
+_archive/legacy-public-frontend/js/runtime-config.min.js,Archive,Archive,0,0,NONE,Low,Archived legacy file
+_archive/legacy-public-frontend/js/sitewide-modernization.js,Archive,Archive,0,0,NONE,Low,Archived legacy file
+_archive/legacy-public-frontend/js/unified-header.js,Archive,Archive,0,0,NONE,Low,Archived legacy file
+_archive/legacy-public-frontend/js/vendor/aos.js,Archive,Archive,0,0,NONE,Low,Archived legacy file
+_archive/scratch/css_analysis.sh,Archive,Archive,0,0,NONE,Low,Archived legacy file
+_archive/scratch/css_analysis_report.txt,Archive,Archive,0,0,NONE,Low,Archived legacy file
+frontend/demoGeminiApp.js,Legacy,Frontend,0,0,NONE,Medium,Legacy frontend file
+frontend/package.json,Legacy,Frontend,0,0,NONE,Medium,Legacy frontend file
+frontend/rag-search.functional.test.js,Legacy,Frontend,0,0,NONE,Medium,Legacy frontend file
+frontend/server.js,Legacy,Frontend,0,0,NONE,Medium,Legacy frontend file
+frontend/static-seo-headers.e2e.test.js,Legacy,Frontend,0,0,NONE,Medium,Legacy frontend file
+frontend/stream-routes.e2e.test.js,Legacy,Frontend,0,0,NONE,Medium,Legacy frontend file
+frontend/vitest.config.mjs,Legacy,Frontend,0,0,NONE,Medium,Legacy frontend file
+scripts/.scripts-manifest.json,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/README.md,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/_check-kernel.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/add-cross-links.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/add-hub-backlinks.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/apply-css-bundle.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/apply-production-audit-fixes.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/apply-speakable-schema.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/astro-error-pages.test.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/build-css-bundle.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/build-icon-sprite.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/build-tailwind-purged.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/check-performance-budget.js,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/check-redirect-destinations.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/check-render-readiness.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/check-render-route-hygiene.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/check-speakable-schema.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/check-word-count.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/compare-blog-posts.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/content-acceptance.test.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/critical-css.json,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/extract-blog-articles.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/extract-one-legacy-page.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/fix-blog-content-artifacts.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/fix-docs-schema.py,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/fix-iconify-json.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/fix-internal-links.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/fix-resource-paths.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/generate-ai-governance-blog-series.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/generate-image-sitemap.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/generate-inventory.py,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/generate-sitemap-all-pages.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/high-confidence-sitemap-config.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/home-kernel-astro-parity.test.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/indexing-recovery-audits.test.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/indexing-recovery-utils.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/internal-linking-architecture.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/internal-links-audit.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/internal-links-common.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/legacy-paths-audit.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/legacy-seo-surface-audit.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/legacy-seo-surface.test.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/legal-astro-migration.test.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/link-graph-validator.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/migrate-blog-html-to-md.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/migrate-docs-html-to-md.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/migrate-partial-posts.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/migration-audit/AUDIT-REPORT.md,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/migration-audit/audit.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/minify-seo-assets.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/normalize-legacy-redirects.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/orphan-pages-audit.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/performance-budget.config.json,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/render-route-hygiene.test.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/replace-iconify-with-svg.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/replace-one-content-body.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/replace-unminified-refs.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/resource-paths-audit.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/resource-paths-common.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/seo-ci-check.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/seo-data.json,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/seo-extract.py,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/seo-extract.sh,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/seo-health-check.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/seo-production-guard.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/seo-scan-scope.test.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/seo-schema-audit.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/seo-schema-audit.test.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/sitemap-audit-utils.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/software-application-schema.test.mjs.scripts/sync-docs-howto-schema.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/sync-docs-howto-schema.test.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/sync-solution-faq-schema.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/sync-solution-faq-schema.test.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/temp_audit.js,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/test_chat_function.js,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/trigger-indexnow.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/trigger-indexnow.test.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/update-section-og-meta.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/update-section-og-meta.test.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/verify-all.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/verify-astro-routes.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
+scripts/verify-astro-routes.test.mjs,Tool,Script,0,0,Manual/CI,Low,Build/audit script
