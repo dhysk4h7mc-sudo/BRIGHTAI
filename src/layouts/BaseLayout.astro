@@ -52,7 +52,7 @@ const {
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" />
 
   <!-- Preload custom brand font -->
-  <link rel="preload" href="/frontend/assets/fonts/TheYearofTheCamel-Medium.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="/assets/fonts/TheYearofTheCamel-Medium.woff2" as="font" type="font/woff2" crossorigin />
 
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -75,6 +75,15 @@ const {
   />
 
   <ClientRouter />
+
+  <!-- Service Worker registration -->
+  <script is:inline>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/sw.js');
+      });
+    }
+  </script>
 
   <!-- Additional production meta tags -->
   <meta name="theme-color" content="#060914" />
@@ -178,8 +187,8 @@ const {
   <style is:inline>
     @font-face {
       font-family: 'BrightAI Official';
-      src: url('/frontend/assets/fonts/TheYearofTheCamel-Medium.woff2') format('woff2'),
-           url('/frontend/assets/fonts/TheYearofTheCamel-Medium.otf') format('opentype');
+      src: url('/assets/fonts/TheYearofTheCamel-Medium.woff2') format('woff2'),
+           url('/assets/fonts/TheYearofTheCamel-Medium.otf') format('opentype');
       font-weight: 400 900;
       font-display: swap;
     }
@@ -207,32 +216,6 @@ const {
     @import '../styles/animations.css';
     @import '../styles/kernel.css';
   </style>
-
-  {/* Unregister old Service Workers and clear caches */}
-  <script is:inline>
-    (function() {
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.getRegistrations().then(function(registrations) {
-          for (let registration of registrations) {
-            registration.unregister().then(function() {
-              console.log('Old Service Worker unregistered successfully.');
-            });
-          }
-        }).catch(function(err) {
-          console.error('Error unregistering service workers:', err);
-        });
-      }
-      if ('caches' in window) {
-        caches.keys().then(function(names) {
-          for (let name of names) {
-            caches.delete(name);
-          }
-        }).catch(function(err) {
-          console.error('Error clearing caches:', err);
-        });
-      }
-    })();
-  </script>
 </head>
 <body>
   <DottedBackground />

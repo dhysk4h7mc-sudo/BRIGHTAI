@@ -269,7 +269,7 @@ def build_clean_graph(slug, name, description, breadcrumb_label, faq):
             "@id": f"{BASE}/#organization",
             "name": "Bright AI",
             "url": BASE,
-            "logo": f"{BASE}/frontend/assets/images/logo.png",
+            "logo": f"{BASE}/assets/images/logo.png",
             "areaServed": "SA",
             "sameAs": []
         },

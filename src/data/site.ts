@@ -35,7 +35,7 @@ export const SITE = {
   yandexVerification: '',
   googleVerification: '',
   clarityId: '',
-  ogImage: '/frontend/assets/images/og/brightai-og-1200x630.png',
+  ogImage: '/assets/images/og/brightai-og-1200x630.png',
 } as const;
 
 export type SupportedLang = 'ar' | 'en';

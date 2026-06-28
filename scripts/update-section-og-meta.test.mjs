@@ -24,7 +24,7 @@ test("assigns the blog OG image and upgrades the Twitter card", () => {
 <title>مقال تجريبي</title>
 <meta name="description" content="وصف المقال">
 <link rel="canonical" href="https://brightai.site/blog/example/">
-<meta property="og:image" content="https://brightai.site/frontend/assets/images/logo.png">
+<meta property="og:image" content="https://brightai.site/assets/images/logo.png">
 <meta name="twitter:card" content="summary">
 </head><body><h1>مقال تجريبي</h1></body></html>`,
   );

@@ -119,7 +119,7 @@ function orgGraph(brandName) {
     url: BASE_URL,
     logo: {
       "@type": "ImageObject",
-      url: `${BASE_URL}/frontend/assets/images/logo.png`,
+      url: `${BASE_URL}/assets/images/logo.png`,
       width: 200,
       height: 55,
       caption: "شعار BrightAI"
@@ -295,8 +295,8 @@ function ensureRobots(html) {
 }
 
 function ensureAssetTags(html) {
-  const fontPreload = '<link rel="preload" href="/frontend/assets/fonts/TheYearofTheCamel-Medium.woff2" as="font" type="font/woff2" crossorigin />';
-  if (!html.includes('/frontend/assets/fonts/TheYearofTheCamel-Medium.woff2')) {
+  const fontPreload = '<link rel="preload" href="/assets/fonts/TheYearofTheCamel-Medium.woff2" as="font" type="font/woff2" crossorigin />';
+  if (!html.includes('/assets/fonts/TheYearofTheCamel-Medium.woff2')) {
     html = html.replace(/<\/head>/i, `  ${fontPreload}\n</head>`);
   }
   if (!html.includes(CSS_HREF)) {

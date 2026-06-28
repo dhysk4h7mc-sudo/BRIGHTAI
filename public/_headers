@@ -30,6 +30,41 @@
 /service-worker.js
   Cache-Control: public, max-age=0, must-revalidate
 
+# ──────────────────────────────────────────────────────────────────────────────
+# Astro fingerprinted assets (built to /dist/_astro/*.HASH.ext)
+# These get unique hashes on each build, so they are safe to cache forever
+# ──────────────────────────────────────────────────────────────────────────────
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Non-fingerprinted CSS/JS — medium cache since they may change
+# ──────────────────────────────────────────────────────────────────────────────
+/*.css
+  Cache-Control: public, max-age=86400
+
+/**/*.css
+  Cache-Control: public, max-age=86400
+
+/*.js
+  Cache-Control: public, max-age=86400
+
+/**/*.js
+  Cache-Control: public, max-age=86400
+
+# Fingerprinted CSS/JS (legacy v-pattern — keep for backward compat)
+/*.v*.css
+  Cache-Control: public, max-age=31536000, immutable
+
+/**/*.v*.css
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.v*.js
+  Cache-Control: public, max-age=31536000, immutable
+
+/**/*.v*.js
+  Cache-Control: public, max-age=31536000, immutable
+
 # التخزين المؤقت الطويل والأبدي لملفات أصول التصميم والخطوط ذات البصمة الزمنية أو غير المتغيرة
 /*.woff
   Cache-Control: public, max-age=31536000, immutable
@@ -55,7 +90,7 @@
 /**/*.otf
   Cache-Control: public, max-age=31536000, immutable
 
-# ترويسات التخزين المؤقت الطويل والمتوسط لملفات الصور والأيقونات المحدثة
+# التخزين المؤقت الطويل والمتوسط لملفات الصور والأيقونات المحدثة
 /*.png
   Cache-Control: public, max-age=7776000, stale-while-revalidate=2592000
 
@@ -97,19 +132,6 @@
 
 /**/*.ico
   Cache-Control: public, max-age=7776000, stale-while-revalidate=2592000
-
-# التخزين المؤقت الطويل لملفات التنسيقات والبرمجيات ذات البصمة الزمنية
-/*.v*.css
-  Cache-Control: public, max-age=31536000, immutable
-
-/**/*.v*.css
-  Cache-Control: public, max-age=31536000, immutable
-
-/*.v*.js
-  Cache-Control: public, max-age=31536000, immutable
-
-/**/*.v*.js
-  Cache-Control: public, max-age=31536000, immutable
 
 # ترويسات التخزين لملفات النصوص العامة وملحقات السيو والبحث
 /llms.txt

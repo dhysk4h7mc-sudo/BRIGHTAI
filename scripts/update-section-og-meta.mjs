@@ -99,7 +99,7 @@ function removePlaceholderProfileUrls(html) {
 }
 
 export function transformHtml(html, relPath) {
-  const imageUrl = `${SITE}/frontend/assets/images/og/${sectionImage(relPath)}`;
+  const imageUrl = `${SITE}/assets/images/og/${sectionImage(relPath)}`;
   const title = extract(html, /<title[^>]*>([\s\S]*?)<\/title>/i);
   const description = extract(
     html,

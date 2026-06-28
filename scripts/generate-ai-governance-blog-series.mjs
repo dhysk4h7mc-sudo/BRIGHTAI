@@ -6,7 +6,7 @@ const site = 'https://brightai.site';
 const author = {
   name: 'م. ناصر العبدالله',
   role: 'مستشار حوكمة الذكاء الاصطناعي في BrightAI',
-  image: '/frontend/assets/images/authors/nasser-alabdullah.svg',
+  image: '/assets/images/authors/nasser-alabdullah.svg',
   bio: 'مهندس ومستشار حوكمة ذكاء اصطناعي يركز على تحويل متطلبات الامتثال السعودية إلى ضوابط تشغيلية قابلة للتدقيق داخل المؤسسات.',
 };
 
@@ -460,7 +460,7 @@ function schema(article) {
         '@id': `${site}/#organization`,
         name: 'BrightAI',
         url: site,
-        logo: `${site}/frontend/assets/images/logo.png`,
+        logo: `${site}/assets/images/logo.png`,
         areaServed: 'SA',
       },
       {
@@ -477,7 +477,7 @@ function schema(article) {
         '@id': `${url}#article`,
         headline: article.title,
         description: article.summary,
-        image: `${site}/frontend/assets/images/og/og-blog.png`,
+        image: `${site}/assets/images/og/og-blog.png`,
         author: { '@id': `${site}/authors/nasser-alabdullah/#person` },
         publisher: { '@id': `${site}/#organization` },
         datePublished: article.date,
@@ -532,7 +532,7 @@ function page(article, i) {
   <meta property="og:title" content="${esc(article.title)}">
   <meta property="og:description" content="${esc(article.summary)}">
   <meta property="og:url" content="${site}/blog/${article.slug}/">
-  <meta property="og:image" content="${site}/frontend/assets/images/og/og-blog.png">
+  <meta property="og:image" content="${site}/assets/images/og/og-blog.png">
   <meta property="og:site_name" content="BrightAI">
   <meta property="og:locale" content="ar_SA">
   <meta property="article:published_time" content="${article.date}T08:00:00+03:00">
@@ -543,8 +543,8 @@ function page(article, i) {
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="${esc(article.title)}">
   <meta name="twitter:description" content="${esc(article.summary)}">
-  <meta name="twitter:image" content="${site}/frontend/assets/images/og/og-blog.png">
-  <link rel="icon" href="/frontend/assets/images/logo.png" type="image/png">
+  <meta name="twitter:image" content="${site}/assets/images/og/og-blog.png">
+  <link rel="icon" href="/assets/images/logo.png" type="image/png">
   <link rel="stylesheet" href="/frontend/css/sitewide-modernization.css">
   <link rel="stylesheet" href="/frontend/css/unified-header.css?v=20260529-nav-v1">
   <script type="application/ld+json">${schema(article)}</script>

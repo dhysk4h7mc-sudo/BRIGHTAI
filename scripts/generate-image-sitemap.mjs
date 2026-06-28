@@ -5,7 +5,7 @@
  *
  * Collects from:
  *   - public/** (images served as-is)
- *   - frontend/assets/images/** (logo, og, screenshots)
+ *   - public/assets/images/** (logo, og, screenshots)
  *   - dist/images/** (generated/processed images if dist exists)
  *
  * Output: public/sitemap-images.xml
@@ -18,13 +18,16 @@ const OUTPUT = 'public/sitemap-images.xml';
 const IMAGE_EXTS = new Set(['.png', '.jpg', '.jpeg', '.gif', '.webp', '.svg', '.avif', '.ico']);
 const SKIP_DIRS = new Set(['node_modules', '.git', '.agents', 'report', '.kilo', 'tests']);
 
-function walkDir(dir, results = []) {
+function walkDir(dir, results = [], rootDir = null) {
   if (!existsSync(dir)) return results;
+  const base = rootDir || dir;
   for (const entry of readdirSync(dir, { withFileTypes: true })) {
     if (SKIP_DIRS.has(entry.name)) continue;
     const full = join(dir, entry.name);
+    // Skip public/frontend/ entirely — legacy path pending deletion
+    if (full.startsWith('public/frontend/') || full === 'public/frontend') continue;
     if (entry.isDirectory()) {
-      walkDir(full, results);
+      walkDir(full, results, base);
     } else if (IMAGE_EXTS.has(extname(entry.name).toLowerCase())) {
       results.push(full);
     }
@@ -35,7 +38,7 @@ function walkDir(dir, results = []) {
 // Collect all image paths
 const allImages = [];
 walkDir('public', allImages);
-walkDir('frontend/assets/images', allImages);
+walkDir('public/assets/images', allImages);
 walkDir('dist/images', allImages);
 
 // Build URL entries
@@ -47,8 +50,8 @@ for (const filePath of allImages) {
 
   if (filePath.startsWith('public/')) {
     relPath = '/' + relative('public', filePath).replace(/\\/g, '/');
-  } else if (filePath.startsWith('frontend/assets/images/')) {
-    relPath = '/frontend/assets/images/' + relative('frontend/assets/images', filePath).replace(/\\/g, '/');
+  } else if (filePath.startsWith('public/assets/images/')) {
+    relPath = '/assets/images/' + relative('public/assets/images', filePath).replace(/\\/g, '/');
   } else if (filePath.startsWith('dist/images/')) {
     relPath = '/' + relative('dist/images', filePath).replace(/\\/g, '/');
   } else {

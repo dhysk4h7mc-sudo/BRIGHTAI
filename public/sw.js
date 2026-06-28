@@ -1,5 +1,5 @@
-/* BrightAI Service Worker - production cache routing for repeat visits */
-const CACHE_VERSION = '2026-06-26-1';
+/* BrightAI Service Worker — Cache-first for assets, network-first for HTML, instant updates */
+const CACHE_VERSION = '2026-06-29-1';
 const CACHE_PREFIX = 'brightai';
 const STATIC_CACHE = `${CACHE_PREFIX}-static-${CACHE_VERSION}`;
 const HTML_CACHE = `${CACHE_PREFIX}-html-${CACHE_VERSION}`;
@@ -15,11 +15,12 @@ const MAX_RUNTIME_ENTRIES = 80;
 const PRECACHE_URLS = [
   OFFLINE_URL,
   '/manifest.webmanifest',
-  '/frontend/assets/fonts/TheYearofTheCamel-Medium.woff2',
-  '/frontend/assets/images/logo.png',
+  '/assets/fonts/TheYearofTheCamel-Medium.woff2',
+  '/assets/images/logo.png',
   '/images/hero-brain.svg'
 ];
 
+/* Install: precache + skip waiting for immediate activation */
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(STATIC_CACHE)
@@ -30,6 +31,7 @@ self.addEventListener('install', (event) => {
   );
 });
 
+/* Activate: purge old caches + claim all clients immediately */
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys()
@@ -42,6 +44,7 @@ self.addEventListener('activate', (event) => {
   );
 });
 
+/* Fetch: network-first for HTML, cache-first for fingerprinted assets/fonts, stale-while-revalidate for images */
 self.addEventListener('fetch', (event) => {
   const req = event.request;
   if (req.method !== 'GET') return;
@@ -50,26 +53,31 @@ self.addEventListener('fetch', (event) => {
   if (url.origin !== self.location.origin) return;
   if (shouldBypass(req, url)) return;
 
+  /* HTML: network-first → /offline/ fallback → no stale HTML */
   if (isHtmlRequest(req, url)) {
     event.respondWith(networkFirstHtml(req));
     return;
   }
 
+  /* CSS/JS: cache-first if fingerprinted (immutable), stale-while-revalidate otherwise */
   if (isCssOrJsRequest(req)) {
     event.respondWith(isHashedAsset(url) ? cacheFirst(req, IMMUTABLE_CACHE) : staleWhileRevalidate(req, RUNTIME_CACHE, MAX_RUNTIME_ENTRIES));
     return;
   }
 
+  /* Images: stale-while-revalidate (always show cached, update in background) */
   if (req.destination === 'image') {
     event.respondWith(staleWhileRevalidate(req, IMAGE_CACHE, MAX_IMAGE_ENTRIES));
     return;
   }
 
+  /* Fonts: cache-first (rarely change, no offline fallback duplication) */
   if (req.destination === 'font') {
     event.respondWith(cacheFirst(req, FONT_CACHE, MAX_FONT_ENTRIES));
     return;
   }
 
+  /* Everything else: stale-while-revalidate */
   event.respondWith(staleWhileRevalidate(req, RUNTIME_CACHE, MAX_RUNTIME_ENTRIES));
 });
 
@@ -80,6 +88,7 @@ function currentCaches() {
 function shouldBypass(req, url) {
   if (url.pathname.startsWith('/api/')) return true;
   if (url.pathname.startsWith('/backend/')) return true;
+  if (url.pathname.startsWith('/_astro/')) return false; /* Astro build output — cache aggressively */
   if (url.pathname === '/robots.txt' || url.pathname === '/sitemap.xml' || url.pathname.endsWith('.xml')) return true;
   if (req.headers.get('accept')?.includes('text/event-stream')) return true;
   return false;
@@ -98,7 +107,11 @@ function isCssOrJsRequest(req) {
 function isHashedAsset(url) {
   const pathname = url.pathname;
   if (!/\.(css|js)$/i.test(pathname)) return false;
+  /* Astro fingerprinted assets: _astro/*.HASH.css or _astro/*.HASH.js */
+  if (/\/_astro\/.*\.[a-f0-9]{8,}\.(css|js)$/i.test(pathname)) return true;
+  /* URL query param versioning */
   if (url.searchParams.has('v') || url.searchParams.has('ver') || url.searchParams.has('hash')) return true;
+  /* Generic hash pattern in filename */
   return /(?:^|[./-])(?:v?\d{8,}|[a-f0-9]{8,})(?:[./-]|$)/i.test(pathname);
 }
 
@@ -106,6 +119,7 @@ function fetchFresh(req) {
   return fetch(new Request(req, { cache: 'reload' }));
 }
 
+/* Network-first for HTML — always fetch latest, fall back to cache + /offline/ */
 async function networkFirstHtml(req) {
   try {
     const res = await fetchFresh(req);
@@ -115,10 +129,16 @@ async function networkFirstHtml(req) {
     }
     return res;
   } catch (err) {
+    /* Network failed — serve cached HTML (if any), else offline page */
     const cached = await caches.match(req);
     if (cached) return cached;
     const fallback = await caches.match(OFFLINE_URL);
-    return fallback || Response.error();
+    if (fallback) return fallback;
+    /* Last resort: 408 Timeout */
+    return new Response('Offline — برجاء التحقق من اتصالك بالإنترنت', {
+      status: 408,
+      headers: { 'Content-Type': 'text/plain' }
+    });
   }
 }
 

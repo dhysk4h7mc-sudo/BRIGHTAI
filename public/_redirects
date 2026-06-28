@@ -268,6 +268,9 @@ https://www.brightai.site/*    https://brightai.site/:splat  301
 /kernel/offline/              /kernel/offline.html          200
 /kernel/offline.html          /kernel/offline/              301
 
+# ── Legacy Assets Migration (frontend/assets → assets) ───────────────────────
+/frontend/assets/*   /assets/:splat  301
+
 # ── API and WebSocket Backend Connectivity ───────────────────────────────────
 /api/*                        https://brightai-api.onrender.com/api/:splat  200
 /ws/*                         https://brightai-api.onrender.com/ws/:splat   200

@@ -27,7 +27,7 @@ readingTime: 12
     <div class="shell layout">
       <article class="article">
         <div class="author">
-          <img src="/frontend/assets/images/authors/nasser-alabdullah.svg" alt="صورة م. ناصر العبدالله" width="76" height="76" decoding="async" loading="lazy">
+          <img src="/assets/images/authors/nasser-alabdullah.svg" alt="صورة م. ناصر العبدالله" width="76" height="76" decoding="async" loading="lazy">
           <div>
             <strong>م. ناصر العبدالله</strong>
             <p>مستشار حوكمة الذكاء الاصطناعي في BrightAI. مهندس ومستشار حوكمة ذكاء اصطناعي يركز على تحويل متطلبات الامتثال السعودية إلى ضوابط تشغيلية قابلة للتدقيق داخل المؤسسات.</p>

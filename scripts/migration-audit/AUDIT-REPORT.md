@@ -638,7 +638,7 @@
 - **HTML Size:** 13.3KB
 - **Astro Size:** 4.9KB
 - **Broken Links:** 1
-  - `/frontend/assets/images/authors/nasser-alabdullah.svg` → missing_astro_target
+  - `/assets/images/authors/nasser-alabdullah.svg` → missing_astro_target
 - **Missing Samples:**
   - `BrightAI عن BrightAI المدونة الحلول تواصل معنا صفحة المؤلف م...`
   - `ناصر العبدالله مهندس ومستشار حوكمة ذكاء اصطناعي في BrightAI، ويركز محت...`
