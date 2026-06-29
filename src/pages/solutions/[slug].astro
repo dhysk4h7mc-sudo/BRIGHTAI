@@ -165,15 +165,7 @@ const jsonLd = {
   </div>
 </section>
 
-<script>
-  document.addEventListener('astro:page-load', () => {
-    const reveals = document.querySelectorAll('.inner-reveal');
-    if (reveals.length && 'IntersectionObserver' in window) {
-      const obs = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-visible'); obs.unobserve(e.target); } }); }, { threshold: 0.1 });
-      reveals.forEach(el => obs.observe(el));
-    } else { reveals.forEach(el => el.classList.add('is-visible')); }
-  });
-</script>
+{/* Scroll Reveal: centralized in BaseLayout.astro (DEC-015). */}
 </>
 )}
 </ArabicLayout>

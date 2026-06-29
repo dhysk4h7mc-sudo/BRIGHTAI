@@ -89,20 +89,12 @@
 
 /* .wa-btn moved to src/styles/components.css (.btn--whatsapp) */
 
-/* Evidence Mockup (Home) */
+/* Evidence Mockup (Home) — entry state animation lives in components.css (DEC-015) */
 .home-evidence-mockup {
   background: var(--bg-surface);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-2xl);
   padding: var(--space-6);
-  opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
-}
-
-.home-evidence-mockup.is-visible {
-  opacity: 1;
-  transform: translateY(0);
 }
 
 .home-evidence-row {
@@ -124,17 +116,9 @@
   font-weight: var(--font-medium);
 }
 
-/* Comparison Table (Home) */
+/* Comparison Table (Home) — entry state animation lives in components.css (DEC-015) */
 .home-comparison-wrap {
   overflow-x: auto;
-  opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
-}
-
-.home-comparison-wrap.is-visible {
-  opacity: 1;
-  transform: translateY(0);
 }
 
 .home-comparison-table {
@@ -175,11 +159,7 @@
 
 /* Form Inputs (Home) — moved to src/styles/components.css (.field) */
 
-/* Scroll Reveal Base */
-.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
+/* Scroll Reveal Base — centralized in components.css (DEC-015) */
 
 /* Responsive Stat Grid on Mobile */
 @media (max-width: 767px) {

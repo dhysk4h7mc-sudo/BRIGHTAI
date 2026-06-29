@@ -281,15 +281,20 @@ import DottedSurface from './hero/DottedSurface.tsx';
     }
   }
 
-  /* Chip */
+  /* Chip — refined for SaaS polish */
   .split-hero__chip {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.375rem 0.75rem;
+    padding: 0.4375rem 0.875rem;
     border-radius: 9999px;
     font-size: 0.75rem;
     font-weight: 700;
+    letter-spacing: 0.01em;
+    background: rgba(6, 182, 212, 0.08);
+    border: 1px solid rgba(34, 211, 238, 0.25);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     position: relative;
     z-index: 21;
   }
@@ -310,24 +315,31 @@ import DottedSurface from './hero/DottedSurface.tsx';
   }
   .split-hero__h1 {
     font-size: 1.875rem;
-    line-height: 1.1;
+    line-height: 1.18;             /* bumped 1.1 → 1.18 for Arabic diacritics baseline */
     font-weight: 900;
+    letter-spacing: -0.012em;       /* optical tightening for Arabic display sizes */
+    text-wrap: balance;             /* prevents orphaned trailing word */
     text-shadow: 0 2px 24px rgba(4,7,17,0.6);
   }
-  @media (min-width: 640px) { .split-hero__h1 { font-size: 3rem; } }
-  @media (min-width: 1024px) { .split-hero__h1 { font-size: 3.75rem; } }
+  @media (min-width: 640px) { .split-hero__h1 { font-size: 3rem; line-height: 1.15; } }
+  @media (min-width: 1024px) {
+    .split-hero__h1 { font-size: 3.5rem; line-height: 1.12; letter-spacing: -0.018em; }
+  }
 
   /* Lead */
   .split-hero__lead {
     margin-top: 1.5rem;
-    font-size: 1.125rem;
-    line-height: 2;
+    font-size: 1.0625rem;            /* slightly lighter weight felt */
+    line-height: 1.85;
     max-width: 42rem;
-    color: rgba(255, 255, 255, 0.75);
+    color: rgba(241, 245, 249, 0.82);
+    font-weight: 400;                /* explicit regular weight vs headline 900 */
+    text-wrap: pretty;               /* avoid orphans on multi-line Arabic */
     position: relative;
     z-index: 21;
     text-shadow: 0 1px 12px rgba(4,7,17,0.4);
   }
+  .split-hero__lead strong { font-weight: 700; }
   @media (max-width: 1023px) {
     .split-hero__lead {
       margin-inline: auto;
@@ -336,6 +348,337 @@ import DottedSurface from './hero/DottedSurface.tsx';
   }
 
   .text-white { color: #fff; }
+
+  /* ─── Hero CTA Actions Row (was previously unstyled) ─── */
+  .home-hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-3);
+    margin-top: 2rem;
+    position: relative;
+    z-index: 21;
+  }
+  @media (min-width: 1024px) {
+    .home-hero-actions {
+      justify-content: flex-start;   /* RTL-aware: starts from reading-start edge */
+      gap: var(--space-3);
+      margin-top: 2.5rem;
+    }
+  }
+
+  /* ─── CTA micro-interactions (hero-scoped polish on canonical buttons) ─── */
+  .home-hero-actions .wa-btn,
+  .home-hero-actions .home-cta-primary,
+  .home-hero-actions .home-cta-secondary {
+    position: relative;
+    transform: translateZ(0);           /* isolate compositing layer */
+    will-change: transform;
+  }
+  /* Brief pulse halo on the primary CTA — subtle, doesn't harm LCP */
+  .home-hero-actions .home-cta-primary::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    background: linear-gradient(135deg, var(--brand-400), var(--indigo-400));
+    opacity: 0;
+    z-index: -1;
+    filter: blur(12px);
+    transition: opacity var(--duration-base) var(--ease-out);
+  }
+  .home-hero-actions .home-cta-primary:hover::before { opacity: 0.55; }
+  .home-hero-actions .home-cta-primary:active::before { opacity: 0.2; }
+
+  /* ─── Kernel Showcase Panel (was unstyled) ─── */
+  .home-kernel-showcase {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    perspective: 1100px;               /* enables 3D tilt of children */
+    perspective-origin: 50% 30%;
+    position: relative;
+  }
+
+  /* The showcase panel — browser-mockup card with 3D transform host */
+  .home-kernel-panel {
+    position: relative;
+    border-radius: var(--radius-2xl);
+    border: 1px solid var(--border-default);
+    background:
+      linear-gradient(180deg, rgba(34, 211, 238, 0.04), transparent 40%),
+      linear-gradient(180deg, var(--bg-elevated), var(--bg-surface));
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.02) inset,
+      var(--shadow-2xl);
+    overflow: hidden;
+    transform-style: preserve-3d;       /* tilt target */
+    transform:
+      perspective(1100px)
+      rotateX(calc(var(--tilt-y, 0) * 6deg))
+      rotateY(calc(var(--tilt-x, 0) * -6deg));
+    transition: transform 0.6s var(--ease-out);
+    will-change: transform;
+  }
+  /* Subtle inner sheen on the panel */
+  .home-kernel-panel::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(
+      120% 80% at 50% -10%,
+      rgba(34, 211, 238, 0.08),
+      transparent 55%
+    );
+    z-index: 0;
+  }
+  .home-kernel-panel > * { position: relative; z-index: 1; }
+
+  /* Browser-chrome bar */
+  .home-kernel-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    background: rgba(4, 7, 17, 0.55);
+    border-bottom: 1px solid var(--border-subtle);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+  .home-kernel-dots {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .home-kernel-dots span {
+    width: 10px;
+    height: 10px;
+    border-radius: 9999px;
+    background: var(--dot, #888);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3);
+  }
+  .home-kernel-path {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    direction: ltr;                    /* path reads left-to-right regardless of page */
+  }
+
+  /* Body of the showcase */
+  .home-kernel-body {
+    padding: var(--space-6);
+    display: flex;
+    flex-direction: column;
+  }
+  .home-kernel-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    align-self: flex-start;
+    padding: 0.375rem 0.75rem;
+    background: rgba(6, 182, 212, 0.08);
+    border: 1px solid rgba(34, 211, 238, 0.28);
+    color: var(--brand-300);
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+  .home-kernel-title {
+    margin-top: var(--space-4);
+    font-size: 1.125rem;
+    line-height: 1.5;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.005em;
+    text-wrap: balance;
+  }
+  @media (min-width: 640px) { .home-kernel-title { font-size: 1.25rem; } }
+
+  .home-kernel-copy {
+    margin-top: var(--space-3);
+    font-size: 0.9375rem;
+    line-height: 1.75;
+    color: var(--text-secondary);
+    text-wrap: pretty;
+  }
+
+  /* Kernel CTAs (separate from hero actions — distinct visual rhythm) */
+  .home-kernel-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-5);
+  }
+  .home-kernel-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.125rem;
+    border-radius: var(--radius-lg);
+    font-weight: 700;
+    font-size: 0.9375rem;
+    text-decoration: none;
+    transition: transform var(--duration-base) var(--ease-out),
+                box-shadow var(--duration-base) var(--ease-out),
+                background var(--duration-base) var(--ease-out);
+    will-change: transform;
+  }
+  .home-kernel-action--primary {
+    background: linear-gradient(135deg, var(--brand-500), var(--brand-600));
+    color: white;
+    box-shadow: 0 0 20px rgba(6, 182, 212, 0.25);
+  }
+  .home-kernel-action--primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 32px rgba(6, 182, 212, 0.5);
+    color: white;
+    text-decoration: none;
+  }
+  .home-kernel-action--primary:active { transform: translateY(0); }
+
+  .home-kernel-action--secondary {
+    background: var(--bg-elevated);
+    color: var(--text-primary);
+    border: 1px solid var(--border-default);
+  }
+  .home-kernel-action--secondary:hover {
+    background: var(--bg-surface);
+    border-color: var(--border-strong);
+    color: var(--text-primary);
+    text-decoration: none;
+    transform: translateY(-1px);
+  }
+  .home-kernel-action--secondary:active { transform: translateY(0); }
+
+  /* ─── Kernel Features Grid (was unstyled) ─── */
+  .home-kernel-features {
+    background: rgba(15, 21, 37, 0.45);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-2xl);
+    padding: var(--space-5);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .home-kernel-feature-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .home-kernel-feature-header h2 {
+    font-size: 1.0625rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+    line-height: 1.4;
+    text-wrap: balance;
+  }
+  .home-kernel-feature-header > h2 + p {
+    margin: 0;
+    flex: 1 1 100%;
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+  .home-kernel-feature-count {
+    margin-inline-start: auto;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    padding: 2px 8px;
+    border-radius: 9999px;
+    background: var(--bg-base);
+    border: 1px solid var(--border-subtle);
+    letter-spacing: 0.04em;
+  }
+
+  .home-kernel-feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+    gap: var(--space-3);
+  }
+  .home-kernel-feature-link {
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    background: rgba(15, 21, 37, 0.5);
+    text-decoration: none;
+    color: var(--text-primary);
+    transition: transform var(--duration-base) var(--ease-out),
+                background var(--duration-base) var(--ease-out),
+                border-color var(--duration-base) var(--ease-out),
+                box-shadow var(--duration-base) var(--ease-out);
+  }
+  .home-kernel-feature-link:hover {
+    background: rgba(15, 21, 37, 0.85);
+    border-color: rgba(34, 211, 238, 0.5);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md), 0 0 16px rgba(6, 182, 212, 0.12);
+    text-decoration: none;
+    color: var(--text-primary);
+  }
+  .home-kernel-feature-link:active { transform: translateY(0); }
+  .home-kernel-feature-link:focus-visible {
+    outline: 2px solid var(--interactive-primary);
+    outline-offset: 2px;
+  }
+  .home-kernel-feature-icon {
+    width: 36px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(6, 182, 212, 0.1);
+    color: var(--brand-300);
+    border-radius: var(--radius-md);
+    font-size: 1.125rem;
+    transition: background var(--duration-fast) var(--ease-out);
+  }
+  .home-kernel-feature-link:hover .home-kernel-feature-icon {
+    background: rgba(6, 182, 212, 0.22);
+  }
+  .home-kernel-feature-title {
+    display: block;
+    font-weight: 700;
+    font-size: 0.875rem;
+    line-height: 1.4;
+    color: var(--text-primary);
+  }
+  .home-kernel-feature-copy {
+    display: block;
+    margin-top: 2px;
+    font-size: 0.75rem;
+    line-height: 1.55;
+    color: var(--text-muted);
+  }
+
+  .home-kernel-footnote {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin-top: var(--space-4);
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--border-subtle);
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+    line-height: 1.65;
+  }
+  .home-kernel-footnote svg {
+    color: var(--text-secondary);
+    flex-shrink: 0;
+    margin-top: 2px;
+    font-size: 1rem;
+  }
 
   /* ─── Mobile ─── */
   @media (max-width: 768px) {
@@ -352,6 +695,65 @@ import DottedSurface from './hero/DottedSurface.tsx';
       background:
         radial-gradient(ellipse 100% 60% at 50% 30%, rgba(4,7,17,0.7), transparent 80%),
         linear-gradient(180deg, rgba(4,7,17,0.3) 0%, transparent 50%);
+    }
+    /* Hide decorative panel sheen on mobile (one less compositing layer) */
+    .home-kernel-panel::after { display: none; }
+    /* Tighten showcase spacing on small screens */
+    .home-kernel-body { padding: var(--space-4); }
+    .home-kernel-features { padding: var(--space-4); }
+    .home-kernel-feature-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-2);
+    }
+    .home-kernel-feature-link {
+      padding: var(--space-2) var(--space-3);
+    }
+    /* Disable 3D tilt on touch devices (no hover, would lock tilted state) */
+    .home-kernel-panel {
+      transform: none !important;
+      transition: none;
+    }
+  }
+  @media (max-width: 420px) {
+    .home-kernel-feature-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  /* Tablet-only refinement */
+  @media (min-width: 769px) and (max-width: 1023px) {
+    .home-kernel-feature-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  /* ─── Reduced Motion ─── */
+  @media (prefers-reduced-motion: reduce) {
+    .dotted-surface-canvas {
+      opacity: 0.4;
+    }
+    /* Ensure static frame is visible */
+    .split-hero__visual {
+      opacity: 1;
+    }
+    /* Kill 3D tilt entirely under reduced motion */
+    .home-kernel-panel {
+      transform: none !important;
+      transition: none;
+    }
+    .home-hero-actions .home-cta-primary::before { display: none; }
+    .home-hero-actions .wa-btn,
+    .home-hero-actions .home-cta-primary,
+    .home-hero-actions .home-cta-secondary,
+    .home-kernel-action,
+    .home-kernel-feature-link {
+      transition: none;
+    }
+    .home-kernel-feature-link:hover,
+    .home-kernel-action:hover,
+    .home-hero-actions .wa-btn:hover,
+    .home-hero-actions .home-cta-primary:hover,
+    .home-hero-actions .home-cta-secondary:hover {
+      transform: none;
     }
   }
 
@@ -412,6 +814,68 @@ import DottedSurface from './hero/DottedSurface.tsx';
       raf = 0;
       hero = null;
       spotlight = null;
+    }
+
+    document.addEventListener('astro:page-load', init);
+    document.addEventListener('astro:before-swap', destroy);
+  })();
+</script>
+
+<script>
+  // Kernel panel 3D tilt — vanilla JS, max 6deg, respects prefers-reduced-motion.
+  // ~0.4KB minified. Skipped entirely on touch devices.
+  (function setupTilt() {
+    let panel: HTMLElement | null = null;
+    let raf = 0;
+    let tx = 0, ty = 0;
+
+    function apply() {
+      if (panel) {
+        panel.style.setProperty('--tilt-x', tx.toFixed(3));
+        panel.style.setProperty('--tilt-y', ty.toFixed(3));
+      }
+      raf = 0;
+    }
+    function onMove(e: MouseEvent) {
+      if (!panel) return;
+      const r = panel.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width;
+      const y = (e.clientY - r.top) / r.height;
+      // clamp to [-1, 1], multiply by 6deg in CSS
+      tx = Math.max(-1, Math.min(1, (x - 0.5) * 2));
+      ty = Math.max(-1, Math.min(1, (y - 0.5) * 2));
+      if (!raf) raf = requestAnimationFrame(apply);
+    }
+    function reset() {
+      tx = 0; ty = 0;
+      if (!raf) raf = requestAnimationFrame(apply);
+    }
+
+    function init() {
+      // Gate 1 — reduced motion: no tilt at all
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      // Gate 2 — coarse pointer (touch): no hover, skip
+      if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+      // Gate 3 — narrow viewports: skip (mobile CSS already disables via transform)
+      if (!window.matchMedia('(min-width: 768px)').matches) return;
+
+      panel = document.querySelector('.home-kernel-panel');
+      if (!panel) return;
+      const el = panel;
+      el.addEventListener('mousemove', onMove, { passive: true });
+      el.addEventListener('mouseleave', reset, { passive: true });
+    }
+
+    function destroy() {
+      if (raf) cancelAnimationFrame(raf);
+      raf = 0;
+      if (panel) {
+        panel.removeEventListener('mousemove', onMove);
+        panel.removeEventListener('mouseleave', reset);
+        panel.style.removeProperty('--tilt-x');
+        panel.style.removeProperty('--tilt-y');
+      }
+      panel = null;
     }
 
     document.addEventListener('astro:page-load', init);

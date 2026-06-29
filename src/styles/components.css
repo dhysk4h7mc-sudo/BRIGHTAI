@@ -166,26 +166,66 @@
   border-radius: var(--radius-xl);
   font-weight: var(--font-bold);
   cursor: pointer;
-  transition: all var(--duration-base) var(--ease-out);
+  transition:
+    transform var(--duration-base) var(--ease-out),
+    box-shadow var(--duration-base) var(--ease-out),
+    background var(--duration-base) var(--ease-out),
+    filter var(--duration-base) var(--ease-out);
   box-shadow: 0 0 20px rgba(6, 182, 212, 0.3);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--space-2);
+  position: relative;
+}
+
+/* Subtle attention pulse — only when not focused/hovered/active. Honors reduced motion. */
+@keyframes glow-breathe {
+  0%, 100% {
+    box-shadow:
+      0 0 20px rgba(6, 182, 212, 0.30),
+      0 0 0 0 rgba(6, 182, 212, 0.18);
+  }
+  50% {
+    box-shadow:
+      0 0 26px rgba(6, 182, 212, 0.45),
+      0 0 0 6px rgba(6, 182, 212, 0.05);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .btn--glow,
+  .glow-btn,
+  .home-cta-primary {
+    animation: glow-breathe 3.6s var(--ease-in-out) infinite;
+  }
 }
 
 .btn--glow:hover,
 .glow-btn:hover,
 .home-cta-primary:hover {
-  box-shadow: 0 0 30px rgba(6, 182, 212, 0.5);
+  box-shadow:
+    0 0 32px rgba(6, 182, 212, 0.55),
+    0 0 0 1px rgba(255, 255, 255, 0.08) inset;
   transform: translateY(-2px);
-  background: linear-gradient(135deg, var(--brand-500), var(--brand-600)); /* keep gradient on hover */
+  background: linear-gradient(135deg, var(--brand-500), var(--brand-700));
+  filter: brightness(1.08);
+  animation: none;
+}
+
+.btn--glow:focus-visible,
+.glow-btn:focus-visible,
+.home-cta-primary:focus-visible {
+  outline: 2px solid var(--brand-300);
+  outline-offset: 3px;
+  animation: none;
 }
 
 .btn--glow:active,
 .glow-btn:active,
 .home-cta-primary:active {
   transform: translateY(0);
+  animation: none;
 }
 
 /* Secondary — elevated + border */
@@ -379,14 +419,25 @@
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-xl);
   padding: var(--space-6);
-  transition: all var(--duration-base) var(--ease-out);
+  transition:
+    transform var(--duration-base) var(--ease-out) var(--reveal-delay, 0ms),
+    border-color var(--duration-base) var(--ease-out) var(--reveal-delay, 0ms),
+    box-shadow var(--duration-base) var(--ease-out) var(--reveal-delay, 0ms),
+    background var(--duration-base) var(--ease-out) var(--reveal-delay, 0ms),
+    opacity 0.55s var(--ease-out) var(--reveal-delay, 0ms);
+  will-change: transform;
 }
 
 .card--feature:hover,
 .feature-card:hover,
 .inner-card:hover {
-  border-color: var(--border-default);
-  box-shadow: var(--shadow-lg);
+  border-color: rgba(34, 211, 238, 0.35);
+  box-shadow:
+    var(--shadow-lg),
+    0 0 0 1px rgba(34, 211, 238, 0.08),
+    0 0 28px -8px rgba(34, 211, 238, 0.18);
+  transform: translateY(-3px);
+  background: linear-gradient(180deg, var(--bg-elevated) 0%, var(--bg-surface) 100%);
 }
 
 /* Reveal animation: applies to .card--feature and the legacy .feature-card */
@@ -396,22 +447,24 @@
   /* Same default state as before */
 }
 
+/* Entry state — opacity 0 + small upward offset. The .is-visible class added by the
+   centralized BaseLayout observer (DEC-015) reveals them with a smooth transition that
+   respects --reveal-delay (set by .reveal-stagger containers for grid staggering). */
+.feature-card,
+.card--feature,
+.inner-card {
+  opacity: 0;
+  transform: translateY(16px);
+}
+
 .feature-card.is-visible,
 .card--feature.is-visible,
 .inner-card.is-visible {
   opacity: 1;
   transform: translateY(0);
-  transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
 }
 
-/* Entry animation defaults (will be hidden until .is-visible is added by JS) */
-.feature-card,
-.card--feature {
-  opacity: 0;
-  transform: translateY(16px);
-}
-
-/* If JS is disabled, reveal immediately */
+/* If JS is disabled or the user prefers reduced motion, show everything immediately */
 @media (prefers-reduced-motion: reduce) {
   .feature-card,
   .card--feature,
@@ -1298,6 +1351,25 @@
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
+  background-size: 200% 100%;
+  background-position: 0% 50%;
+}
+
+/* Subtle shimmer animation on gradient text — only on hover inside cards, so it
+   reads as a deliberate polish detail rather than static decoration. Pauses on
+   reduced-motion for accessibility. */
+@media (prefers-reduced-motion: no-preference) {
+  .card:hover .gradient-text,
+  .feature-card:hover .gradient-text,
+  .card--feature:hover .gradient-text,
+  .inner-card:hover .gradient-text {
+    animation: gradient-shimmer 2.4s var(--ease-in-out) infinite;
+  }
+}
+
+@keyframes gradient-shimmer {
+  0%, 100% { background-position: 0% 50%; }
+  50%      { background-position: 100% 50%; }
 }
 
 /* Section Mini Link — small CTA inside cards (e.g. "explore →") */
@@ -1342,7 +1414,11 @@
    14. ANIMATIONS / REVEAL
    ============================================================ */
 
-/* Scroll Reveal Base — toggled by IntersectionObserver JS */
+/* Scroll Reveal Base — toggled by centralized IntersectionObserver JS in BaseLayout (DEC-015).
+   Every reveal-able class (.feature-card, .inner-reveal, .home-stat-card, .home-faq-item, etc.)
+   shares the same transition shape so visual rhythm stays consistent across all 14 pages.
+   The .reveal-stagger container adds --reveal-delay per child (60ms stagger) for a graceful
+   multi-card entrance. */
 .is-visible {
   opacity: 1;
   transform: translateY(0);
@@ -1352,10 +1428,32 @@
 .inner-reveal {
   opacity: 0;
   transform: translateY(16px);
-  transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
+  transition:
+    opacity 0.55s var(--ease-out) var(--reveal-delay, 0ms),
+    transform 0.55s var(--ease-out) var(--reveal-delay, 0ms);
 }
 
 .inner-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Home stat card + FAQ + evidence mockup + comparison wrap — same shared animation */
+.home-stat-card,
+.home-faq-item,
+.home-evidence-mockup,
+.home-comparison-wrap {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.55s var(--ease-out) var(--reveal-delay, 0ms),
+    transform 0.55s var(--ease-out) var(--reveal-delay, 0ms);
+}
+
+.home-stat-card.is-visible,
+.home-faq-item.is-visible,
+.home-evidence-mockup.is-visible,
+.home-comparison-wrap.is-visible {
   opacity: 1;
   transform: translateY(0);
 }

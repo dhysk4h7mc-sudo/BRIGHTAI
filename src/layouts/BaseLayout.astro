@@ -144,25 +144,51 @@ const {
     })();
   </script>
 
-  {/* Global scroll-reveal observer — activates .reveal elements anywhere on the page,
-      including set:html injected content. Consolidates all reveal logic in one place.
-      Respects prefers-reduced-motion and degrades gracefully without IntersectionObserver. */}
+  {/* Global centralized scroll-reveal observer — activates the unified Polish 2026 reveal
+      system across every page. Replaces 7 per-page duplicate IntersectionObservers with a
+      single observer that handles every reveal-able element. SSR-safe (script is bundled and
+      only runs in the browser). Respects prefers-reduced-motion + degrades gracefully
+      without IntersectionObserver support. */}
   <script>
     (function() {
+      // The union of every class that previously had its own per-page observer. Each one
+      // already has CSS that toggles reveal between opacity:0 / translateY(16px) and the
+      // visible state once `.is-visible` is appended. See DEC-015 in brain.md.
+      // Note: sections themselves are NOT in this list — only elements with explicit
+      // entry-state CSS. Sections always remain visible even if JS is disabled (safe for
+      // SEO crawlers and no-JS users).
+      const REVEAL_SELECTOR = [
+        '.reveal',
+        '.feature-card',
+        '.card--feature',
+        '.inner-card',
+        '.home-stat-card',
+        '.home-faq-item',
+        '.home-evidence-mockup',
+        '.home-comparison-wrap',
+        '.inner-reveal',
+      ].join(',');
+
       function initReveal() {
-        const reveals = document.querySelectorAll('.reveal:not(.is-visible)');
-        if (!reveals.length) return;
+        const nodes = document.querySelectorAll(REVEAL_SELECTOR + ':not(.is-visible)');
+        if (!nodes.length) return;
 
+        // Honor user / system reduced-motion preference: skip the animation, show final state.
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        if (prefersReducedMotion) {
-          reveals.forEach((el) => el.classList.add('is-visible'));
+        if (prefersReducedMotion || !('IntersectionObserver' in window)) {
+          nodes.forEach((el) => el.classList.add('is-visible'));
           return;
         }
 
-        if (!('IntersectionObserver' in window)) {
-          reveals.forEach((el) => el.classList.add('is-visible'));
-          return;
-        }
+        // Stagger child reveals inside a grid by .reveal-stagger so multi-card sections
+        // enter with a graceful rhythm instead of one-by-one on the same scroll tick.
+        const staggerContainers = document.querySelectorAll('.reveal-stagger');
+        staggerContainers.forEach((container) => {
+          const children = container.querySelectorAll(REVEAL_SELECTOR);
+          children.forEach((child, idx) => {
+            child.style.setProperty('--reveal-delay', (idx * 60) + 'ms');
+          });
+        });
 
         const observer = new IntersectionObserver(
           (entries) => {
@@ -173,13 +199,19 @@ const {
               }
             });
           },
-          { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+          { threshold: 0.08, rootMargin: '0px 0px -8% 0px' }
         );
 
-        reveals.forEach((el) => observer.observe(el));
+        nodes.forEach((el) => observer.observe(el));
       }
 
+      // Run once when the layout's <script> executes (initial page), then again on every
+      // astro view-transition page swap. astro:page-load fires both for first paint and
+      // for subsequent navigations.
       document.addEventListener('astro:page-load', initReveal);
+      // Also run immediately in case the event already fired before this listener attached
+      // (rare but possible with bundler order edge cases).
+      if (document.readyState === 'complete') initReveal();
     })();
   </script>
 

@@ -116,7 +116,13 @@
     opacity: calc(0.7 * var(--dot-intensity, 1));
   }
 
-  /* ─── Radial fade mask ─── */
+  /* ─── Radial fade mask ───
+       Center of attention is where reading starts.
+       RTL (Arabic): reading starts on the right → keep that area lit, dim the left.
+       LTR (English): reading starts on the left → keep that area lit, dim the right.
+       This is achieved by overlaying an asymmetric horizontal gradient in the
+       appropriate direction. The radial vignette stays symmetric for vertical
+       legibility (top/bottom anchors already cover the rest). */
   .dotted-bg__fade {
     position: absolute;
     inset: 0;
@@ -127,6 +133,42 @@
       rgba(6, 9, 20, 0.4) 75%,
       rgba(6, 9, 20, 0.85) 100%
     );
+  }
+  /* RTL (Arabic) — fade more on the left edge (reading-end).
+       The :global() wrapping is required because <html dir="rtl"> is a
+       different element than .dotted-bg itself; without unwrapping,
+       Astro's scoping would tighten [dir="rtl"] to also require
+       data-astro-cid-zcul7klc on the same element, which never matches. */
+  :global([dir="rtl"]) .dotted-bg__fade {
+    background:
+      radial-gradient(
+        ellipse 85% 65% at 50% 45%,
+        transparent 0%,
+        transparent 38%,
+        rgba(6, 9, 20, 0.4) 75%,
+        rgba(6, 9, 20, 0.85) 100%
+      ),
+      linear-gradient(
+        270deg,
+        transparent 35%,
+        rgba(6, 9, 20, 0.45) 95%
+      );
+  }
+  /* LTR (English) — fade more on the right edge (reading-end) */
+  :global([dir="ltr"]) .dotted-bg__fade {
+    background:
+      radial-gradient(
+        ellipse 85% 65% at 50% 45%,
+        transparent 0%,
+        transparent 38%,
+        rgba(6, 9, 20, 0.4) 75%,
+        rgba(6, 9, 20, 0.85) 100%
+      ),
+      linear-gradient(
+        90deg,
+        transparent 35%,
+        rgba(6, 9, 20, 0.45) 95%
+      );
   }
 
   /* ─── Anchor gradients (top/bottom legibility) ─── */
@@ -145,23 +187,30 @@
     background: linear-gradient(0deg, rgba(4, 7, 17, 0.5), transparent);
   }
 
-  /* ─── Mobile: single layer + wider spacing (perf) ─── */
+  /* ─── Mobile: single layer + wider spacing + lower intensity (perf) ─── */
   @media (max-width: 768px) {
     .dotted-bg__layer--fine {
       background-size: 34px 34px;
+      /* lighter overall — reduces visual noise + saves GPU on mid-range phones */
+      opacity: calc(0.7 * var(--dot-intensity, 1));
     }
     /* Hide coarse layer on mobile — fewer layers = smoother */
     .dotted-bg__layer--coarse {
       display: none;
     }
     .dotted-bg__ambient {
-      opacity: calc(0.7 * var(--dot-intensity, 1));
+      opacity: calc(0.6 * var(--dot-intensity, 1));
+    }
+    /* Bottom anchor gets stronger on mobile so footer text stays readable */
+    .dotted-bg__anchor--bottom {
+      background: linear-gradient(0deg, rgba(4, 7, 17, 0.7), transparent);
     }
   }
 
   @media (max-width: 480px) {
     .dotted-bg__layer--fine {
       background-size: 42px 42px;
+      opacity: calc(0.55 * var(--dot-intensity, 1));
     }
   }
 
