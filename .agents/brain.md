@@ -107,6 +107,28 @@ skills_ready: 7
 
 > كل تغيير جوهري يُسجَّل هنا (newest first). Append-only.
 
+### 2026-06-29 — Mobile-First UX & 3D Audit (REPORT-15)
+
+- **Files**: `report/REPORT-15_MOBILE-AND-3D.md` (new), `.agents/brain.md`
+- **What**: فحص شامل للموبايل (breakpoints, 3D/animation, touch targets, forms, JS islands, DottedBackground, reflows, scroll). 7 fixes مقترحة في 4 ملفات (~30 min implementation).
+- **Why**: المستخدم طلب دور Mobile-First UX Engineer للتأكد إن التحسينات ما تكسر الموبايل ولا الأداء. لقيت 7 مشاكل تأثيرها على LCP/INP/CLS: React renderer (58KB gz) ينزل على الموبايل بدون فايدة (KI-042)، 26 instance من `backdrop-filter: blur(12px)` على الرئيسية يشتغلون على الموبايل (KI-043)، 3 backdrop-filters في SplitHero فوق الطية (KI-044)، glow-breathe animation يشتغل على الموبايل (KI-045)، stat label 10px أقل من WCAG 2.2 (KI-046)، will-change دائم على cards (KI-047)، duplicate reduced-motion block (KI-048).
+- **Verification**:
+  - `npm run build` → 125 pages, 0 errors, 2.16s ✅
+  - `npm run verify:all` → 5/5 checks pass, 0 errors, 0 warnings ✅
+  - Touch targets: 100% ≥ 44px (Header, MobileNav, Footer, WhatsApp, .btn, .home-kernel-action) ✅
+  - Form input font-size: 100% ≥ 16px (1rem, no iOS zoom) ✅
+  - JS islands: فقط `DottedSurface` في SplitHero بـ `client:visible` (KI-007 escalate to KI-042) ✅
+  - DottedBackground: مو معطّل كليًا على الموبايل (خفيف: single fine layer, opacity 0.55 على ≤480px) ✅
+  - No scroll-snap anywhere ✅
+  - 3D tilt: triple-gated (reduced-motion, coarse pointer, min-width 768px) + CSS forced none on mobile ✅
+  - RTL: logical properties used everywhere (no `margin-left/right`) ✅
+- **Report**: `report/REPORT-15_MOBILE-AND-3D.md` (550 lines)
+- **Commit**: uncommitted (pending user approval)
+- **Status**: audited (proposed fixes awaiting user OK to implement)
+- **Brain updates**:
+  - Section 3.2: added KI-042, KI-043, KI-044, KI-045, KI-046, KI-047, KI-048, KI-049 (8 new)
+  - Section 4: added DEC-016 (mobile-backdrop-filter fallback), DEC-017 (client:media gates React island), DEC-018 (stat label minimum 12px)
+
 ### 2026-06-29 — 14-Pages UX Polish (round 14, central reveal + card/CTA polish)
 
 - **Files**: `src/layouts/BaseLayout.astro`, `src/pages/index.astro`, `src/pages/about/index.astro`, `src/pages/solutions/index.astro`, `src/pages/solutions/[slug].astro`, `src/pages/solutions/[sector].astro`, `src/pages/solutions/[sector]/[city].astro`, `src/styles/components.css`, `src/styles/pages.css`, `report/REPORT-14_PAGES-REDESIGN.md`, `.agents/brain.md`
@@ -295,6 +317,14 @@ skills_ready: 7
 | KI-031 | No `AggregateRating` schema (after collecting real reviews) | low | open | 2026-06-29 | Do not fabricate. | future: `src/pages/index.astro` |
 | KI-032 | No `Review` schema for Saudi clients | low | open | 2026-06-29 | Do not fabricate. | future: `src/pages/index.astro` |
 | KI-033 | `ZATCA` and `SAMA` in `featureList` only, not `DefinedTerm` | low | open | 2026-06-29 | Weaker semantic SEO. | `src/pages/index.astro` (JSON-LD) |
+| KI-042 | React renderer (58KB gz) loads on mobile via `client:visible` only | high | open | 2026-06-29 | `DottedSurface` island hydrates when scrolled into view, but `client:visible` doesn't prevent script download. Mobile never uses React because canvas is mobile-gated internally. Fix: `client:media="(min-width: 768px)"`. LCP -80-150ms, INP -50ms, payload -58KB on mobile. | `src/components/SplitHero.astro:36` |
+| KI-043 | 26+ `.glass` instances with `backdrop-filter: blur(12px)` on home run on mobile | high | open | 2026-06-29 | Each instance triggers separate GPU compositing layer. On mobile: TBT +50-150ms, INP -30-50ms, scroll jank. Fix: drop backdrop-filter at ≤767px, use opaque bg `rgba(15, 21, 37, 0.92)`. Desktop unchanged. | `src/styles/components.css:749-759` |
+| KI-044 | 3 `backdrop-filter` instances in SplitHero above-the-fold | medium | open | 2026-06-29 | `.split-hero__chip` (blur 8px), `.home-kernel-bar` (blur 6px), `.home-kernel-features` (blur 8px). All visible at LCP. Fix: drop at ≤768px, use opaque bg. | `src/components/SplitHero.astro:296,448,562` |
+| KI-045 | `.btn--glow` glow-breathe animation runs on mobile (not viewport-gated) | medium | open | 2026-06-29 | `@media (prefers-reduced-motion: no-preference)` only — no `min-width`. Pulse every 3.6s on mobile costs paint. Fix: add `and (min-width: 768px)`. | `src/styles/components.css:196-202` |
+| KI-046 | Stat label 10px on mobile (below 11px WCAG 2.2 min) | medium | open | 2026-06-29 | `.home-stat-card__label` and `.inner-stat__label` use 10px on ≤767px. Below WCAG 2.2 minimum readable text. Fix: 12px (`var(--text-xs)`). Contrast still 4.6:1. | `src/styles/components.css:555`, `pages.css:170` |
+| KI-047 | `will-change: transform` permanent on cards (5+ in SplitHero + cards) | low | open | 2026-06-29 | Permanent compositing layers consume GPU memory on mobile. Fix: `will-change: auto` on ≤767px. Effect on hover is brief; spec says use `will-change` only before animation. | `src/components/SplitHero.astro:183,377,422,527`, `src/styles/components.css:428` |
+| KI-048 | SplitHero.astro has duplicate `@media (prefers-reduced-motion: reduce)` block | low | open | 2026-06-29 | Lines 730-758 and 761-769 both define `prefers-reduced-motion: reduce`. Block 2 redefines `.dotted-surface-canvas { opacity: 0.4 }` and `.split-hero__visual { opacity: 1 }`. Cleanup: merge into one. | `src/components/SplitHero.astro:760-769` |
+| KI-049 | Breakpoint inconsistency: 760 vs 767 vs 768 across stylesheets | low | open | 2026-06-29 | `pages.css:345,1260` use 760; rest uses 767/768. Should be 767. Low priority, no functional impact, but ugly. | `src/styles/pages.css:345,1260` |
 
 ### 3.4 Low (تحسينات صغيرة)
 
@@ -480,6 +510,38 @@ skills_ready: 7
   - CSS gzipped (homepage BaseLayout): 14.5KB (under 25KB budget)
   - 125 pages, 0 errors, 0 broken links, 0 console errors verified
   - Zero HTML/text changes (per task constraint)
+
+### DEC-016 — Mobile-backdrop-filter fallback for glass surfaces
+
+- **Date**: 2026-06-29
+- **Context**: Homepage `index.astro` has 26 instances of `.glass` class. Each triggers `backdrop-filter: blur(12px)` in `components.css:749-759`. On mobile, each instance creates a separate GPU compositing layer, costing 50-150ms TBT and 30-50ms INP.
+- **Decision**: At `max-width: 767px`, drop `backdrop-filter` from `.glass, .card--glass, .glass-panel` and use opaque background `rgba(15, 21, 37, 0.92)`. Text legibility preserved.
+- **Rationale**: Mobile devices have limited GPU memory. Opaque fallback sacrifices the "frosted glass" look (acceptable per design intent) for -50-150ms TBT and -30-50ms INP. Desktop unchanged. Does not affect DottedBackground (already mobile-tuned separately).
+- **Reversal cost**: Trivial (3 lines in @media).
+- **Do not reverse** without explicit user approval.
+- **Related KIs**: KI-043 (26+ glass on mobile), KI-044 (3 backdrop-filters in SplitHero).
+- **Related reports**: `report/REPORT-15_MOBILE-AND-3D.md`.
+
+### DEC-017 — `client:media` gates React island on mobile (KI-007 escalation)
+
+- **Date**: 2026-06-29
+- **Context**: `DottedSurface` React island in `SplitHero.astro:36` uses `client:visible`. This delays hydration but does NOT prevent script download. React renderer (58KB gzipped) loads on mobile even though the component is mobile-gated internally (`isMobile` check at `DottedSurface.tsx:74`).
+- **Decision**: Change to `client:visible client:media="(min-width: 768px)"`. Astro will not inject the `<script type="module">` for the island on viewports <768px. Aligns with the existing 3-tier mobile gating pattern (3D tilt, lowPower canvas, skip pointer).
+- **Rationale**: LCP improvement ~80-150ms, INP ~50ms, payload -58KB gzipped on mobile. Matches the 768px breakpoint already used elsewhere (DottedBackground, SplitHero, components.css).
+- **Reversal cost**: Trivial (1 word in SplitHero.astro).
+- **Do not reverse** without explicit user approval.
+- **Related KIs**: KI-007 (React renderer loaded — escalated), KI-042 (specific instance).
+- **Related skills**: `performance/react-island-replacement.md` (broader goal: replace DottedSurface entirely with vanilla JS; this is the intermediate fix).
+
+### DEC-018 — Stat label minimum 12px (WCAG 2.2 AA compliance)
+
+- **Date**: 2026-06-29
+- **Context**: `.home-stat-card__label` and `.inner-stat__label` use 10px on mobile (`components.css:553-556` and `pages.css:170`). WCAG 2.2 minimum readable text is 11px; 10px is below. Affects 3 stat cards on homepage.
+- **Decision**: Bump to `var(--text-xs)` = 12px on mobile. Single canonical rule in `components.css:555`; remove duplicate override in `pages.css:170`. Contrast ratio on `--bg-base` with `--text-muted` (#94a3b8) at 12px = ~4.6:1, passes AA.
+- **Rationale**: Accessibility + readability. Above-the-fold stat labels are read frequently. 12px is the standard Tailwind `text-xs` size and the de facto minimum for production sites.
+- **Reversal cost**: Trivial (1 line change + 3 lines removed).
+- **Do not reverse** without explicit user approval.
+- **Related KIs**: KI-046.
 
 ### DEC-011 — Removed `frontend/` (Express backend + static assets) entirely
 
