@@ -7,6 +7,7 @@ import ArabicLayout from '../../layouts/ArabicLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import { getPublishedPosts, getCategories, type BlogCategory } from '../../data/blog';
 import { SITE } from '../../data/site';
+import { ORGANIZATION } from '../../data/schema-helpers';
 
 const allPosts = getPublishedPosts();
 const categories = getCategories();
@@ -23,19 +24,33 @@ const breadcrumbLd = {
 const collectionLd = {
   '@context': 'https://schema.org',
   '@type': 'CollectionPage',
-  name: 'مدونة BrightAI',
-  description: 'مقالات وخبرات حول حوكمة الذكاء الاصطناعي في السعودية والامتثال والأنظمة',
+  name: 'مدونة BrightAI | 22 مقال عن حوكمة AI',
+  description: '22 مقال عملي من BrightAI عن حوكمة AI وPDPL وNCA ECC وسدايا وISO 42001 وAI Firewall وسجلات التدقيق. مقالات مخصصة للسوق السعودي بأكمله وقطاعاته.',
   url: `${SITE.url}/blog/`,
   inLanguage: 'ar-SA',
+  // SCHEMA-ENHANCEMENT (REPORT-23): wrap into @graph so we can add Organization + BreadcrumbList
+  // alongside the existing CollectionPage node. Original fields above are preserved.
+  isPartOf: { '@id': 'https://brightai.site/#website' },
+  publisher: { '@id': 'https://brightai.site/#organization' },
+};
+
+// SCHEMA-ENHANCEMENT (REPORT-23): @graph container for CollectionPage + Organization + BreadcrumbList.
+const blogJsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    collectionLd,
+    ORGANIZATION,
+    breadcrumbLd,
+  ],
 };
 ---
 
 <ArabicLayout
-  title="مدونة BrightAI لحوكمة الذكاء الاصطناعي في السعودية | BrightAI"
-  description="22 مقالاً عملياً من BrightAI عن حوكمة الذكاء الاصطناعي، PDPL، NCA ECC، سدايا، ISO 42001، AI Firewall، وسجلات التدقيق للشركات السعودية."
+  title="مدونة BrightAI | 22 مقال عن حوكمة AI"
+  description="22 مقال عملي من BrightAI عن حوكمة AI وPDPL وNCA ECC وسدايا وISO 42001 وAI Firewall وسجلات التدقيق. مقالات مخصصة للسوق السعودي بأكمله وقطاعاته."
   canonical={`${SITE.url}/blog/`}
   hreflang={[{ lang: 'ar-SA', href: `${SITE.url}/blog/` }]}
-  jsonLd={collectionLd}
+  jsonLd={blogJsonLd as any}
   currentPath="/blog/"
 >
   <div class="article-shell article-shell--wide">

@@ -7,6 +7,7 @@ import { sectors, solutions } from '../../../data/solutions';
 import { migratedLocalPages } from '../../../data/migratedSolutionPages';
 
 import Icon from '../../../components/Icon.astro';
+import { ORGANIZATION } from '../../../data/schema-helpers';
 
 export function getStaticPaths() {
   const paths: any[] = [];
@@ -80,11 +81,13 @@ const jsonLd = {
         "@type": "ListItem", "position": i + 1, "name": c.label,
         "item": c.href ? `https://brightai.site${c.href}` : loc.canonical
       }))
-    }
+    },
+    // SCHEMA-ENHANCEMENT (REPORT-23): canonical Organization node added.
+    ORGANIZATION,
   ]
 };
 ---
-<ArabicLayout title={migratedPage?.title ?? loc.title} description={migratedPage?.description ?? loc.description} canonical={migratedPage?.canonical ?? loc.canonical} hreflang={migratedPage?.hreflang ?? [{lang:'ar-SA',href:loc.canonical},{lang:'x-default',href:loc.canonical}]} jsonLd={(migratedPage?.jsonLd ?? jsonLd) as any} currentPath={loc.href} ogImage="/assets/images/og/og-solutions.png" ogImageAlt={migratedPage?.title ?? loc.title}>
+<ArabicLayout title={migratedPage?.title ?? loc.title} description={migratedPage?.description ?? loc.description} canonical={migratedPage?.canonical ?? loc.canonical} hreflang={migratedPage?.hreflang ?? [{lang:'ar-SA',href:loc.canonical},{lang:'x-default',href:loc.canonical}]} jsonLd={migratedPage?.jsonLd ? { '@context': 'https://schema.org', '@graph': [...(Array.isArray(migratedPage.jsonLd) ? migratedPage.jsonLd : [migratedPage.jsonLd]), ORGANIZATION] } : (jsonLd as any)} currentPath={loc.href} ogImage="/assets/images/og/og-solutions.png" ogImageAlt={migratedPage?.title ?? loc.title}>
 {migratedPage ? (
   <>
     {!/<h1\b/i.test(migratedPage.html) && <h1 class="sr-only">{loc.h1}</h1>}

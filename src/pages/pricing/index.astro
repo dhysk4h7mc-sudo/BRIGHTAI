@@ -1,9 +1,10 @@
 ---
 import ArabicLayout from '../../layouts/ArabicLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { ORGANIZATION, getBreadcrumbLd } from '../../data/schema-helpers';
 
-const title = 'باقات BrightAI لحوكمة الذكاء الاصطناعي | BrightAI';
-const description = 'قارن باقات BrightAI لحوكمة وأمان الذكاء الاصطناعي، واختر مستوى الدعم والضوابط المناسب لحجم منشأتك واحتياج الامتثال في السعودية، مع خطوة تالية واضحة.';
+const title = 'باقات وأسعار حوكمة AI | 4 مستويات للشركات';
+const description = '4 باقات واضحة من BrightAI لحوكمة AI: استشارية، أتمتة، وكلاء، وخدمة عملاء. اختر المستوى المناسب لحجم منشأتك وامتثالها وفق PDPL بالسعودية والنظام المحلي.';
 const canonical = 'https://brightai.site/pricing/';
 const whatsapp = 'https://wa.me/966538229013?text=%D8%A7%D9%84%D8%B3%D8%A7%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D9%85%D9%86%D8%A7%D9%82%D8%B4%D8%A9%20%D8%AA%D8%B3%D8%B9%D9%8A%D8%B1%20%D8%AD%D9%84%D9%88%D9%84%20%D8%A7%D9%84%D8%B0%D9%83%D8%A7%D8%A1%20%D8%A7%D9%84%D8%A7%D8%B5%D8%B7%D9%86%D8%A7%D8%B9%D9%8A%20%D9%84%D9%84%D8%B4%D8%B1%D9%83%D8%A7%D8%AA%20%D9%81%D9%8A%20%D8%A7%D9%84%D8%B3%D8%B9%D9%88%D8%AF%D9%8A%D8%A9%20%D9%85%D8%B9%20Bright%20AI.';
 
@@ -62,6 +63,13 @@ const jsonLd = {
       '@type': 'FAQPage',
       mainEntity: faqs.map(([name, text]) => ({ '@type': 'Question', name, acceptedAnswer: { '@type': 'Answer', text } })),
     },
+    // SCHEMA-ENHANCEMENT (REPORT-23): canonical Organization node added.
+    ORGANIZATION,
+    // SCHEMA-ENHANCEMENT (REPORT-23): explicit BreadcrumbList helper (parallel to inline one for cross-page resolution).
+    getBreadcrumbLd([
+      { name: 'الرئيسية', href: '/' },
+      { name: 'الأسعار', href: '/pricing/' },
+    ]),
   ],
 };
 ---

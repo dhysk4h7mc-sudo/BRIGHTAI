@@ -8,6 +8,7 @@ import { sectors, solutions, getRelatedSectors } from '../../data/solutions';
 import { migratedSectorPages } from '../../data/migratedSolutionPages';
 
 import Icon from '../../components/Icon.astro';
+import { ORGANIZATION } from '../../data/schema-helpers';
 
 export function getStaticPaths() {
   return sectors.map(s => ({ params: { sector: s.slug }, props: { sector: s } }));
@@ -40,7 +41,9 @@ const jsonLd = {
         "@type": "ListItem", "position": i + 1, "name": c.label,
         "item": c.href ? `https://brightai.site${c.href}` : sector.canonical
       }))
-    }
+    },
+    // SCHEMA-ENHANCEMENT (REPORT-23): canonical Organization node added.
+    ORGANIZATION,
   ]
 };
 ---

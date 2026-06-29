@@ -9,6 +9,7 @@ import Breadcrumbs from '../components/Breadcrumbs.astro';
 import RelatedPosts from '../components/RelatedPosts.astro';
 import { SITE } from '../data/site';
 import type { BlogPost } from '../data/blog';
+import { ORGANIZATION } from '../data/schema-helpers';
 
 interface Props {
   post: BlogPost;
@@ -49,7 +50,12 @@ const blogPostingLd = {
 };
 
 // Combine with any additional JSON-LD
-const jsonLd = blogPostingLd;
+// SCHEMA-ENHANCEMENT (REPORT-23): wrap original Article schema into @graph + canonical Organization node.
+// Original Article fields (headline, description, image, author, publisher, dates) are preserved exactly.
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [blogPostingLd, ORGANIZATION],
+};
 ---
 
 <ArabicLayout

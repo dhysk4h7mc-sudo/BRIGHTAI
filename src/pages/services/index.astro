@@ -4,6 +4,11 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import BackgroundGrid from '../../components/BackgroundGrid.astro';
 
 import Icon from '../../components/Icon.astro';
+import {
+  ORGANIZATION,
+  getBreadcrumbLd,
+  getFaqLd,
+} from '../../data/schema-helpers';
 const crumbs = [{ label: 'الرئيسية', href: '/' }, { label: 'الخدمات' }];
 const servicePaths = [
   { icon: 'mdi:scale-balance', title: 'AI Governance Platform', desc: 'منصة تنظّم سياسات استخدام الذكاء الاصطناعي، الصلاحيات، المخاطر، وسجلات المراجعة داخل المؤسسة.', href: '/solutions/ai-governance-platform/', cta: 'اعرف أكثر' },
@@ -29,8 +34,31 @@ const faqItems = [
   { q: 'هل التنفيذ مخصص لكل شركة؟', a: 'نعم. يتم تخصيص السياسات والتكاملات ومسارات الموافقة حسب القطاع والأنظمة والبيانات، لكن ضمن نفس Saudi AI Safety OS حتى يبقى intent الأمان والحوكمة واضحاً.' },
   { q: 'كيف أبدأ؟', a: 'ابدأ بتقييم جاهزية الذكاء الاصطناعي أو حجز ديمو. بعدها نحلل الوضع الحالي، نحدد المخاطر، ونقترح نطاق تنفيذ واضح.' },
 ];
+
+// SCHEMA-ENHANCEMENT (REPORT-23): wrap original Service schema + Organization + FAQPage (extracted from faqItems) + BreadcrumbList.
+// Original inline JSON-LD fields (Service.name, Service.description, provider, areaServed) are preserved exactly.
+const servicesJsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Service',
+      name: 'خدمات حوكمة AI | تقييم، حماية، تدقيق — BrightAI',
+      description: 'خدمات BrightAI الـ 15 تغطي تقييم جاهزية AI، حماية البيانات، سجلات التدقيق، والموافقات البشرية. خدمات مخصصة للسوق السعودي وفق PDPL وNCA ECC بكل احترافية.',
+      provider: { '@type': 'Organization', name: 'BrightAI', url: 'https://brightai.site' },
+      url: 'https://brightai.site/services/',
+      areaServed: 'SA',
+    },
+    ORGANIZATION,
+    getFaqLd(faqItems),
+    getBreadcrumbLd([
+      { name: 'الرئيسية', href: '/' },
+      { name: 'الخدمات', href: '/services/' },
+    ]),
+  ].filter((n): n is Record<string, unknown> => Boolean(n)),
+};
 ---
-<ArabicLayout title="خدمات حوكمة وأمان الذكاء الاصطناعي للمؤسسات | BrightAI" description="خدمات BrightAI تساعد الشركات السعودية على تقييم جاهزية الذكاء الاصطناعي، حماية البيانات، بناء سجلات تدقيق، إدارة الموافقات البشرية، وربط الاستخدام بضوابط امتثال واضحة." canonical="https://brightai.site/services/" hreflang={[{lang:'ar-SA',href:'https://brightai.site/services/'},{lang:'x-default',href:'https://brightai.site/services/'}]} jsonLd={{"@context":"https://schema.org","@type":"Service","name":"Saudi AI Safety OS Services","description":"خدمات BrightAI تساعد الشركات السعودية على تقييم جاهزية الذكاء الاصطناعي، حماية البيانات، بناء سجلات تدقيق، إدارة الموافقات البشرية، وربط الاستخدام بضوابط امتثال واضحة.","provider":{"@type":"Organization","name":"BrightAI","url":"https://brightai.site"},"url":"https://brightai.site/services/","areaServed":"SA"}} currentPath="/services/">
+
+<ArabicLayout title="خدمات حوكمة AI | تقييم، حماية، تدقيق — BrightAI" description="خدمات BrightAI الـ 15 تغطي تقييم جاهزية AI، حماية البيانات، سجلات التدقيق، والموافقات البشرية. خدمات مخصصة للسوق السعودي وفق PDPL وNCA ECC بكل احترافية." canonical="https://brightai.site/services/" hreflang={[{lang:'ar-SA',href:'https://brightai.site/services/'},{lang:'x-default',href:'https://brightai.site/services/'}]} jsonLd={servicesJsonLd as any} currentPath="/services/">
 <section class="inner-hero" aria-label="خدمات BrightAI">
   <BackgroundGrid />
   <div class="max-w-7xl mx-auto px-5 lg:px-8">

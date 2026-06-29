@@ -2,10 +2,16 @@
 import { getCollection } from 'astro:content';
 import ArabicLayout from '../../layouts/ArabicLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import {
+  ORGANIZATION,
+  getHowToLd,
+  getBreadcrumbLd,
+  getFaqLd,
+} from '../../data/schema-helpers';
 
 const docs = await getCollection('docs');
-const title = 'مركز وثائق حوكمة الذكاء الاصطناعي الشامل | Saudi AI Safety OS';
-const description = 'مرجع شامل لحوكمة وأمان الذكاء الاصطناعي في السعودية: 27+ وثيقة تغطي PDPL، NCA ECC، إرشادات سدايا، إدارة المخاطر، التدقيق، والتطبيق التقني - دليلك الكامل لتشغيل AI بأمان.';
+const title = 'مركز الوثائق | 30+ دليل حوكمة AI';
+const description = '30+ وثيقة شاملة من BrightAI: PDPL وNCA ECC وإرشادات سدايا وإدارة المخاطر والتدقيق والتطبيق التقني. دليلك الكامل لتشغيل AI بالسعودية بأمان وثقة.';
 const canonical = 'https://brightai.site/docs/';
 
 const sections = [
@@ -109,6 +115,54 @@ const jsonLd = {
         url: doc.data.canonical,
       })),
     },
+    // SCHEMA-ENHANCEMENT (REPORT-23): canonical Organization + canonical BreadcrumbList
+    // for cross-page resolution. Original WebPage/BreadcrumbList/ItemList are preserved above.
+    ORGANIZATION,
+    getBreadcrumbLd([
+      { name: 'الرئيسية', href: '/' },
+      { name: 'الوثائق', href: '/docs/' },
+    ]),
+    // SCHEMA-ENHANCEMENT (REPORT-23): HowTo for the most-searched starter path
+    // (مقالات متعلقة بفريقك → خطة 30 يوم) so the docs hub qualifies for HowTo rich result.
+    getHowToLd({
+      canonical,
+      name: 'كيف تبدأ حوكمة AI في شركتك خلال 30 يوم',
+      description:
+        'خطوات عملية من BrightAI لبناء برنامج حوكمة ذكاء اصطناعي خلال شهر: حصر الاستخدامات، تصنيف المخاطر، السياسات، الموافقات، السجلات، والأدلة.',
+      totalTime: 'P30D',
+      steps: [
+        {
+          name: 'حصر استخدامات AI',
+          text: 'اكتشاف وتصنيف كل الاستخدامات الحالية للذكاء الاصطناعي داخل الإدارات (اكتشاف حالات استخدام AI).',
+          url: 'https://brightai.site/solutions/ai-use-case-discovery/',
+        },
+        {
+          name: 'تصنيف المخاطر',
+          text: 'تقييم كل استخدام وفق حساسية البيانات، نوع القرار، والأثر المحتمل (تصنيف مخاطر AI).',
+          url: 'https://brightai.site/solutions/ai-risk-classification/',
+        },
+        {
+          name: 'تفعيل AI Firewall',
+          text: 'تركيب جدار حماية يمنع تسريب البيانات الحساسة قبل وصولها للنماذج.',
+          url: 'https://brightai.site/solutions/ai-firewall/',
+        },
+        {
+          name: 'تفعيل سجل التدقيق',
+          text: 'تسجيل كل طلب وقرار وموافقة في سجل غير قابل للتعديل.',
+          url: 'https://brightai.site/solutions/ai-audit-trail/',
+        },
+        {
+          name: 'ربط الموافقات البشرية',
+          text: 'مسار موافقة بشرية للقرارات عالية المخاطر.',
+          url: 'https://brightai.site/solutions/human-approval-layer/',
+        },
+        {
+          name: 'إصدار ملف الأدلة',
+          text: 'توليد ملف PDF موقّع رقمياً جاهز للمدققين.',
+          url: 'https://brightai.site/solutions/ai-evidence-file/',
+        },
+      ],
+    }),
   ],
 };
 ---

@@ -8,6 +8,7 @@ import { hub_index } from '../../data/hub-content-inline';
 
 import ArabicLayout from '../../layouts/ArabicLayout.astro';
 import { SITE } from '../../data/site';
+import { ORGANIZATION, getBreadcrumbLd } from '../../data/schema-helpers';
 
 const mainContent = hub_index.html;
 
@@ -15,8 +16,8 @@ const collectionLd = {
   '@context': 'https://schema.org',
   '@type': 'CollectionPage',
   url: `${SITE.url}/hub/`,
-  name: 'مراكز المحتوى المرجعية | BrightAI',
-  description: '٤ مراكز محتوى تغطي حوكمة وأمان الذكاء الاصطناعي في السعودية.',
+  name: 'مراكز محتوى AI | 4 محاور مرجعية',
+  description: '4 مراكز محتوى مرجعية من BrightAI: حوكمة AI وامتثال سعودي وحلول تقنية وحالات استخدام. مرجعك الكامل والشامل في مكان واحد للسوق السعودي بأكمله.',
   inLanguage: 'ar-SA',
   hasPart: [
     { '@type': 'WebPage', url: `${SITE.url}/hub/ai-governance/`, name: 'حوكمة الذكاء الاصطناعي' },
@@ -25,14 +26,27 @@ const collectionLd = {
     { '@type': 'WebPage', url: `${SITE.url}/hub/use-cases/`, name: 'حالات الاستخدام' },
   ],
 };
+
+// SCHEMA-ENHANCEMENT (REPORT-23): wrap into @graph with canonical Organization + BreadcrumbList.
+const hubJsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    collectionLd,
+    ORGANIZATION,
+    getBreadcrumbLd([
+      { name: 'الرئيسية', href: '/' },
+      { name: 'مراكز المحتوى', href: '/hub/' },
+    ]),
+  ],
+};
 ---
 
 <ArabicLayout
-  title="مراكز المحتوى المرجعية | BrightAI"
-  description="٤ مراكز محتوى مرجعية تغطي كل ما يخص حوكمة وأمان الذكاء الاصطناعي في السعودية: الحوكمة، الامتثال، الحلول التقنية، وحالات الاستخدام."
+  title="مراكز محتوى AI | 4 محاور مرجعية"
+  description="4 مراكز محتوى مرجعية من BrightAI: حوكمة AI وامتثال سعودي وحلول تقنية وحالات استخدام. مرجعك الكامل والشامل في مكان واحد للسوق السعودي بأكمله."
   canonical={`${SITE.url}/hub/`}
   hreflang={[{ lang: 'ar-SA', href: `${SITE.url}/hub/` }]}
-  jsonLd={collectionLd}
+  jsonLd={hubJsonLd as any}
   currentPath="/hub/"
 >
   <main id="main" class="max-w-7xl mx-auto px-5 lg:px-8" style="padding-block: var(--space-8) var(--space-20);" set:html={mainContent} />

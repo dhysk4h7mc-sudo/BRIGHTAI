@@ -9,31 +9,32 @@ import { hubContentMap } from '../../data/hub-content-inline';
 import ArabicLayout from '../../layouts/ArabicLayout.astro';
 import { getPublishedPosts } from '../../data/blog';
 import { SITE } from '../../data/site';
+import { ORGANIZATION } from '../../data/schema-helpers';
 
 export function getStaticPaths() {
   const hubPages = [
     {
       slug: 'ai-governance',
-      title: 'حوكمة الذكاء الاصطناعي | مركز محتوى BrightAI',
-      description: 'الدليل الشامل لحوكمة الذكاء الاصطناعي في المؤسسات السعودية: التعريف، الأنظمة، خطوات التطبيق، وتقييم النضج.',
+      title: 'حوكمة AI | مركز محتوى BrightAI',
+      description: 'الدليل الشامل لحوكمة الذكاء الاصطناعي في المؤسسات السعودية: التعريف والأنظمة وخطوات التطبيق وتقييم النضج بكل عمق وتفصيل للممارسين والخبراء السعوديين.',
       tags: ['حوكمة الذكاء الاصطناعي'],
     },
     {
       slug: 'compliance',
-      title: 'الامتثال السعودي للذكاء الاصطناعي | مركز محتوى BrightAI',
-      description: 'شرح عملي للأنظمة السعودية المطبقة على الذكاء الاصطناعي: PDPL، NCA ECC، SDAIA، ساما، والزكاة.',
+      title: 'الامتثال السعودي للذكاء الاصطناعي | BrightAI',
+      description: 'شرح عملي للأنظمة السعودية المطبقة على الذكاء الاصطناعي: PDPL وNCA ECC وSDAIA وساما والزكاة وضوابطها التشغيلية والرقابية الكاملة بالتفصيل للممارسين.',
       tags: ['امتثال'],
     },
     {
       slug: 'solutions',
       title: 'الحلول التقنية لحوكمة AI | مركز محتوى BrightAI',
-      description: 'AI Firewall، سجل التدقيق، الموافقات البشرية، ملف الأدلة — كل حل، متى تحتاجه، وكيف يشتغل.',
+      description: 'AI Firewall وسجل التدقيق والموافقات البشرية وملف الأدلة: كل حل تقني ومتى تحتاجه وكيف يشتغل داخل مؤسستك بكفاءة وأمان كاملين وبالتفصيل العملي.',
       tags: ['حلول'],
     },
     {
       slug: 'use-cases',
-      title: 'حالات استخدام AI بالقطاعات السعودية | مركز محتوى BrightAI',
-      description: 'كيف يشتغل AI في قطاعك: الصحة، البنوك، الحكومي، التعليم، المشتريات، والموارد البشرية.',
+      title: 'حالات استخدام AI بالقطاعات السعودية | BrightAI',
+      description: 'كيف يشتغل AI في قطاعك السعودي: الصحة والبنوك والحكومي والتعليم والمشتريات والموارد البشرية، مع أمثلة وقصص نجاح تطبيقية وحقيقية موثقة في السوق.',
       tags: ['حالات استخدام'],
     },
   ];
@@ -77,6 +78,12 @@ const breadcrumbLd = {
     { '@type': 'ListItem', position: 3, name: page.title, item: canonicalUrl },
   ],
 };
+
+// SCHEMA-ENHANCEMENT (REPORT-23): wrap into @graph with canonical Organization.
+const hubSlugJsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [collectionLd, breadcrumbLd, ORGANIZATION],
+};
 ---
 
 <ArabicLayout
@@ -84,7 +91,7 @@ const breadcrumbLd = {
   description={page.description}
   canonical={canonicalUrl}
   hreflang={[{ lang: 'ar-SA', href: canonicalUrl }]}
-  jsonLd={collectionLd}
+  jsonLd={hubSlugJsonLd as any}
   currentPath={`/hub/${page.slug}/`}
 >
   <style is:global>

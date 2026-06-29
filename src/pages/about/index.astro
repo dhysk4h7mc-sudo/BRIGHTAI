@@ -6,6 +6,11 @@
 import ArabicLayout from '../../layouts/ArabicLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import BackgroundGrid from '../../components/BackgroundGrid.astro';
+import {
+  ORGANIZATION,
+  LOCAL_BUSINESS_BY_CITY,
+  getBreadcrumbLd,
+} from '../../data/schema-helpers';
 
 const crumbs = [
   { label: 'الرئيسية', href: '/' },
@@ -15,8 +20,8 @@ const crumbs = [
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "AboutPage",
-  "name": "عن BrightAI — شركة سعودية متخصصة في أمان وحوكمة الذكاء الاصطناعي",
-  "description": "تعرف على BrightAI ومنهجيتها في مساعدة الجهات السعودية على تشغيل الذكاء الاصطناعي بثقة، مع حوكمة واضحة، حماية بيانات، وأدلة امتثال قابلة للمراجعة.",
+  "name": "من نحن | حوكمة AI للشركات السعودية — BrightAI",
+  "description": "تعرّف على BrightAI ومنهجيتنا في حوكمة AI بالسعودية: حوكمة واضحة، حماية بيانات، وأدلة امتثال جاهزة للمدقق وفق نظام PDPL وNCA ECC المعتمد محلياً.",
   "url": "https://brightai.site/about/",
   "mainEntity": {
     "@type": "Organization",
@@ -47,15 +52,36 @@ const jsonLd = {
   }
 };
 
+// SCHEMA-ENHANCEMENT (REPORT-23): keep original AboutPage + add canonical Organization,
+// founder (Person), 6 LocalBusiness nodes for Saudi cities, and BreadcrumbList.
+// See /BRIGHTAI/.agents/brain.md Section 5.8 for the schema-helpers contract.
+const enhancedJsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    jsonLd,
+    ORGANIZATION,
+    LOCAL_BUSINESS_BY_CITY.riyadh,
+    LOCAL_BUSINESS_BY_CITY.jeddah,
+    LOCAL_BUSINESS_BY_CITY.dammam,
+    LOCAL_BUSINESS_BY_CITY.khobar,
+    LOCAL_BUSINESS_BY_CITY.mecca,
+    LOCAL_BUSINESS_BY_CITY.madinah,
+    getBreadcrumbLd([
+      { name: 'الرئيسية', href: '/' },
+      { name: 'من نحن', href: '/about/' },
+    ]),
+  ],
+};
+
 const whatsappMsg = encodeURIComponent('مرحباً، أريد استفسار عن خدمات BrightAI لمعرفة المزيد عن الشركة');
 ---
 
 <ArabicLayout
-  title="BrightAI لحوكمة الذكاء الاصطناعي في السعودية | BrightAI"
-  description="تعرف على BrightAI ومنهجيتها في مساعدة الجهات السعودية على تشغيل الذكاء الاصطناعي بثقة، مع حوكمة واضحة، حماية بيانات، وأدلة امتثال قابلة للمراجعة."
+  title="من نحن | حوكمة AI للشركات السعودية — BrightAI"
+  description="تعرّف على BrightAI ومنهجيتنا في حوكمة AI بالسعودية: حوكمة واضحة، حماية بيانات، وأدلة امتثال جاهزة للمدقق وفق نظام PDPL وNCA ECC المعتمد محلياً."
   canonical="https://brightai.site/about/"
   hreflang={[{lang:'ar-SA',href:'https://brightai.site/about/'},{lang:'x-default',href:'https://brightai.site/about/'}]}
-  jsonLd={jsonLd as any}
+  jsonLd={enhancedJsonLd as any}
   currentPath="/about/"
 >
 {/* Hero */}

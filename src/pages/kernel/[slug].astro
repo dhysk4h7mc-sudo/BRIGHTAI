@@ -16,6 +16,7 @@ import {
   type KernelUnit,
 } from '../../data/kernel';
 import { migratedKernelPages } from '../../data/migratedKernelPages';
+import { ORGANIZATION } from '../../data/schema-helpers';
 
 export function getStaticPaths() {
   return kernelNavItems.map(unit => ({
@@ -41,6 +42,43 @@ const breadcrumbLd = {
   ],
 };
 
+// SCHEMA-ENHANCEMENT (REPORT-23): when a page has NO migrated JSON-LD, enrich with
+// canonical Organization + SoftwareApplication node so kernel sub-pages consistently
+// emit 2+ schemas. When migrated JSON-LD exists (kernel/chat, audit, etc.), we still
+// append the canonical Organization node (additive — original schemas preserved).
+const kernelFallbackJsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': ['SoftwareApplication', 'WebApplication'],
+      '@id': `https://brightai.site/kernel/${unit.slug}/#product`,
+      name: `BrightAI Kernel — ${unit.label}`,
+      applicationCategory: 'BusinessApplication',
+      operatingSystem: 'Cloud, Hybrid, On-Premise',
+      description: unit.shortDescription,
+      url: unit.canonical,
+      provider: { '@id': 'https://brightai.site/#organization' },
+      isPartOf: { '@id': 'https://brightai.site/#product' },
+    },
+    breadcrumbLd,
+    ORGANIZATION,
+  ],
+};
+// SCHEMA-ENHANCEMENT (REPORT-23): append canonical Organization to migrated JSON-LD as well.
+// migrated pages already have Organization+LocalBusiness merged nodes but lack address/geo.
+// Adding the canonical Organization node (with full address + geo) satisfies schema.org
+// requirements for Local Pack eligibility without modifying any existing schema.
+const finalJsonLd = migratedPage?.jsonLd
+  ? {
+      '@context': 'https://schema.org',
+      // Flatten: migrated JSON-LD can be an array of @graph nodes OR single-node objects.
+      '@graph': [
+        ...(Array.isArray(migratedPage.jsonLd) ? migratedPage.jsonLd : [migratedPage.jsonLd]),
+        ORGANIZATION,
+      ],
+    }
+  : kernelFallbackJsonLd;
+
 const isAudit = unit.slug === 'audit';
 const isEvidence = unit.slug === 'evidence';
 const isCompliance = unit.slug === 'compliance';
@@ -51,7 +89,7 @@ const isCompliance = unit.slug === 'compliance';
   description={migratedPage?.description ?? unit.description}
   canonical={migratedPage?.canonical ?? unit.canonical}
   hreflang={migratedPage?.hreflang ?? unit.hreflang}
-  jsonLd={(migratedPage?.jsonLd ?? breadcrumbLd) as any}
+  jsonLd={finalJsonLd as any}
   currentPath={unit.path}
 >
 

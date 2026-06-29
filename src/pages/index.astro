@@ -6,6 +6,12 @@
  */
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SplitHero from '../components/SplitHero.astro';
+import {
+  ORGANIZATION,
+  LOCAL_BUSINESS_BY_CITY,
+  appendLd,
+  getBreadcrumbLd,
+} from '../data/schema-helpers';
 
 const faqItems = [
   { q: 'وش هي BrightAI؟', a: '<p><strong class="text-white">الجواب:</strong> BrightAI هي <strong>Saudi AI Safety OS</strong> — نظام تشغيل أمان وحوكمة للذكاء الاصطناعي داخل المؤسسات السعودية. تشتغل كطبقة وسيطة بين الموظف والـ AI وبيانات الشركة، وتضمن إن كل طلب ذكاء اصطناعي يكون آمن وموثّق وقابل للمراجعة.</p><p>عكس شات بوت عادي، BrightAI تركّب تحت أي نظام AI في شركتك وتفعّل AI Firewall وإخفاء البيانات الشخصية وسجل التدقيق والموافقات البشرية وملفات الأدلة — كلها متوافقة مع PDPL وNCA وSDAIA.</p>' },
@@ -137,8 +143,8 @@ const jsonLd = [
     "@type": "WebPage",
     "@id": "https://brightai.site/#webpage",
     "url": "https://brightai.site/",
-    "name": "منصة حوكمة وأمان الذكاء الاصطناعي في السعودية | BrightAI",
-    "description": "BrightAI توفر Saudi AI Safety OS للمؤسسات السعودية: AI Firewall، سجلات تدقيق، موافقات بشرية، حماية بيانات، وملفات أدلة تساعد على تشغيل الذكاء الاصطناعي بأمان وامتثال.",
+    "name": "BrightAI | حوكمة وأمان AI للشركات السعودية — PDPL",
+    "description": "منصة سعودية متكاملة لحوكمة وأمان AI. تجمع AI Firewall، سجلات التدقيق، والموافقات البشرية في نظام واحد متوافق مع PDPL وNCA ECC لتأمين مؤسستك اليوم.",
     "isPartOf": { "@id": "https://brightai.site/#website" },
     "about": { "@id": "https://brightai.site/#organization" },
     "inLanguage": "ar-SA",
@@ -179,14 +185,29 @@ const jsonLd = [
     ]
   }
 ];
+
+// SCHEMA-ENHANCEMENT (REPORT-23): append canonical Organization node + LocalBusiness
+// for each of the six Saudi cities mentioned on the homepage, plus a top-level
+// breadcrumb. Original 7 schema nodes above are PRESERVED exactly as-is.
+// See /BRIGHTAI/.agents/brain.md Section 5.8 for the schema-helpers contract.
+const enhancedJsonLd = appendLd(jsonLd, [
+  ORGANIZATION,
+  LOCAL_BUSINESS_BY_CITY.riyadh,
+  LOCAL_BUSINESS_BY_CITY.jeddah,
+  LOCAL_BUSINESS_BY_CITY.dammam,
+  LOCAL_BUSINESS_BY_CITY.khobar,
+  LOCAL_BUSINESS_BY_CITY.mecca,
+  LOCAL_BUSINESS_BY_CITY.madinah,
+  getBreadcrumbLd([{ name: 'الرئيسية', href: 'https://brightai.site/' }]),
+]);
 ---
 
 <BaseLayout
-  title="BrightAI | منصة حوكمة وأمان الذكاء الاصطناعي للشركات السعودية"
-  description="BrightAI توفر Saudi AI Safety OS للمؤسسات السعودية: AI Firewall، سجلات تدقيق، موافقات بشرية، حماية بيانات، وملفات أدلة تساعد على تشغيل الذكاء الاصطناعي بأمان وامتثال."
+  title="BrightAI | حوكمة وأمان AI للشركات السعودية — PDPL"
+  description="منصة سعودية متكاملة لحوكمة وأمان AI. تجمع AI Firewall، سجلات التدقيق، والموافقات البشرية في نظام واحد متوافق مع PDPL وNCA ECC لتأمين مؤسستك اليوم."
   canonical="https://brightai.site/"
   hreflang={[{lang:'ar-SA',href:'https://brightai.site/'}]}
-  jsonLd={jsonLd as any}
+  jsonLd={enhancedJsonLd as any}
 >
 {/* ═══════════════ 1. HERO (SplitHero — DottedBackground now in BaseLayout) ═══════════════ */}
 <SplitHero />

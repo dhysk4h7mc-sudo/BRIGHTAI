@@ -2,6 +2,7 @@
 import ArabicLayout from '../../layouts/ArabicLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import BackgroundGrid from '../../components/BackgroundGrid.astro';
+import { ORGANIZATION, LOCAL_BUSINESS_BY_CITY, getBreadcrumbLd } from '../../data/schema-helpers';
 const crumbs = [{ label: 'الرئيسية', href: '/' }, { label: 'الديموهات' }];
 
 const demoJsonLd = [
@@ -28,8 +29,8 @@ const demoJsonLd = [
     "@type": "WebPage",
     "@id": "https://brightai.site/demo/#webpage",
     "url": "https://brightai.site/demo/",
-    "name": "جميع ديموهات BrightAI للذكاء الاصطناعي في السعودية",
-    "description": "مركز ديموهات BrightAI: أكثر من 30 ديمو تفاعلي بالعربية للمبيعات، التوظيف، خدمة العملاء، تحليل البيانات، OCR، الرعاية الصحية، التعليم، والمناقصات.",
+    "name": "30+ ديمو AI تفاعلي | مبيعات، توظيف، صحة",
+    "description": "أكثر من 30 ديمو AI تفاعلي بالعربية: مبيعات، توظيف، خدمة عملاء، تحليل بيانات، OCR، صحة، تعليم. جرّب BrightAI مجاناً قبل قرار الشراء بدون أي التزام.",
     "inLanguage": "ar-SA"
   },
   {
@@ -41,24 +42,36 @@ const demoJsonLd = [
       {"@type":"ListItem","position":2,"name":"جميع ديموهات BrightAI للذكاء الاصطناعي في السعودية","item":"https://brightai.site/demo/"}
     ]
   },
-  {
+{
     "@context": "https://schema.org",
     "@type": "FAQPage",
     "@id": "https://brightai.site/demo/#faq",
     "mainEntity": [
-      {"@type":"Question","name":"كم عدد الديموهات المتاحة؟","acceptedAnswer":{"@type":"Answer","text":"حالياً أكثر من ٣٠ ديمو تفاعلي موزعة على ٨ تصنيفات تجارية، وكلها مجانية ومتاحة فوراً."}},
+      {"@type":"Question","name":"كم عدد الديموهات المتاحة؟","acceptedAnswer":{"@type":"Answer","text":"حالياً أكثر من ٣٠ ديمو تفاعلي موزعة على ８ تصنيفات تجارية، وكلها مجانية ومتاحة فوراً."}},
       {"@type":"Question","name":"هل الديموهات مجانية؟","acceptedAnswer":{"@type":"Answer","text":"إيوه، كل الديموهات مجانية بالكامل. تقدر تجرب أي ديمو ببيانات وهمية وتشوف شكل التقرير قبل ما تقرر تطلب نسخة مخصصة."}},
       {"@type":"Question","name":"هل تدعم العربية؟","acceptedAnswer":{"@type":"Answer","text":"أكيد. كل الديموهات مبنية للعربية أولاً، مع دعم كامل للواجهة والمخرجات والنصوص المختلطة عربي-إنجليزي."}},
       {"@type":"Question","name":"وش وضع البيانات؟","acceptedAnswer":{"@type":"Answer","text":"بياناتك تبقى عندك. لا تستخدم إلا بيانات وهمية أو منزوعة الحساسية في النسخة العامة. النسخة المخصصة تنبني بصلاحيات وصول وسجل تدقيق."}},
       {"@type":"Question","name":"وش الفرق بين الديمو والنسخة المخصصة؟","acceptedAnswer":{"@type":"Answer","text":"الديمو يوريك الفكرة بعينات مبسطة، والنسخة المخصصة نضبطها على بيانات شركتك وتتكامل مع أنظمتك."}}
     ]
-  }
+  },
+// SCHEMA-ENHANCEMENT (REPORT-23): canonical Organization node added (with full address + geo)
+// to complement the existing Organization/LocalBusiness hybrid node (which intentionally
+// stays minimal for the demo page). Original schemas above are preserved exactly.
+  ORGANIZATION,
+  // SCHEMA-ENHANCEMENT (REPORT-23): explicit LocalBusiness node with proper address + geo
+  // for cross-page Local Pack eligibility. Complements the minimal existing merged node.
+  LOCAL_BUSINESS_BY_CITY.riyadh,
+  // SCHEMA-ENHANCEMENT (REPORT-23): explicit BreadcrumbList helper for cross-page resolution.
+  getBreadcrumbLd([
+    { name: 'الرئيسية', href: '/' },
+    { name: 'الديموهات', href: '/demo/' },
+  ]),
 ];
 ---
 
 <ArabicLayout
-  title="جميع ديموهات BrightAI للذكاء الاصطناعي في السعودية"
-  description="مركز ديموهات BrightAI: أكثر من 30 ديمو تفاعلي بالعربية للمبيعات، التوظيف، خدمة العملاء، تحليل البيانات، OCR، الرعاية الصحية، التعليم، والمناقصات."
+  title="30+ ديمو AI تفاعلي | مبيعات، توظيف، صحة"
+  description="أكثر من 30 ديمو AI تفاعلي بالعربية: مبيعات، توظيف، خدمة عملاء، تحليل بيانات، OCR، صحة، تعليم. جرّب BrightAI مجاناً قبل قرار الشراء بدون أي التزام."
   canonical="https://brightai.site/demo/"
   hreflang={[{lang:'ar-SA',href:'https://brightai.site/demo/'},{lang:'x-default',href:'https://brightai.site/demo/'}]}
   jsonLd={demoJsonLd as any}

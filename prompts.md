@@ -1,878 +1,865 @@
-ممتاز. هذه **سلسلة برومبتات تنفيذية مقسّمة لأجزاء صغيرة جدًا** يستطيع أي وكيل ذكي (Claude/GPT/GLM) تنفيذها بإتقان، خطوة بخطوة، **بدون كسر شيء**.
-
-كل برومبت **مستقل قابل للنسخ مباشرة**، يبدأ بـ Role، وينتهي بـ Acceptance Criteria + اسم تقرير.
+ممتاز! عندي صورة دقيقة جداً للحالة الحقيقية الآن. خلصت من التحليل ولا أحتاج فحص إضافي.
 
 ---
 
-# 🧭 الخريطة الكلية للبرومبتات
+# 📊 خلاصة فحص المشروع المحدّث
+
+## التقدم المحقق (Before → After)
+
+| المؤشر | الإصدار 10 | الإصدار 11 | التحسن |
+|---|---|---|---|
+| الحجم الكلي | 16MB | 10MB | **-37%** ✅ |
+| `frontend/` legacy | 9.1MB موجود | **محذوف** | ✅ |
+| `_archive/` | 552K موجود | **محذوف** | ✅ |
+| SparklesHero/Core | موجودة | **محذوفة** | ✅ |
+| ملفات SEO=100 | جزئي | **12/12 صفحة** | ✅ |
+| Desktop Perf | غير مُقاس | **93-99** | ✅ |
+| **Mobile LCP** | غير مُقاس | **8.0-8.6 ثانية** | 🔴 |
+| **Mobile Perf** | غير مُقاس | **63-65** | 🔴 |
+| A11y `/kernel/audit/` h1×2 | bug | **bug ثابت** | ⚠️ |
+| روابط بدون `rel="noopener"` | — | **3 روابط** | ⚠️ |
+| Reports 17-19 | غير منفّذة | **غير منفّذة** | ⏳ |
+
+## التقييم بالنسب
+- **بنية المشروع:** 92% ✅ (ممتاز)
+- **نظافة المعمارية:** 88% ✅ (قفزة كبيرة من 58%)
+- **SEO تقني:** 95% ✅
+- **Desktop Performance:** 96% ✅
+- **Mobile Performance:** 62% 🔴 (المشكلة الكبرى)
+- **Accessibility متوسط:** 94% ⚠️
+
+## المشاكل المتبقية الحرجة (يجب حلّها قبل النشر)
+1. 🔴 **Mobile LCP = 8 ثوانٍ** (المعيار: <2.5s) — أكبر blocker
+2. ⚠️ `/kernel/audit/` فيها h1 مكرّر
+3. ⚠️ 3 روابط خارجية بدون `rel="noopener"`
+4. ⏳ Reports 17, 18, 19 لم تُنفّذ بعد
+5. ❌ لا توجد استراتيجية محتوى/SEO تسويقي
+6. ❌ لا يوجد "نجم العرض" البصري الواضح
+7. ❌ لا يوجد Visual Rhyming موثّق
+
+---
+
+# 🎯 الخطة الكاملة — الاستراتيجية + التكتيكات + النشر
+
+## الخريطة الكلية
 
 ```
-المرحلة 1 — Cleanup معماري محكوم      → 4 برومبتات (1.1 → 1.4)
-المرحلة 2 — حسم الأصول والمسارات       → 3 برومبتات (2.1 → 2.3)
-المرحلة 3 — إغلاق النشر والكاش         → 3 برومبتات (3.1 → 3.3)
-المرحلة 4 — Redesign System-Wide       → 5 برومبتات (4.1 → 4.5)
-المرحلة 5 — QA + Perf + SEO Final      → 4 برومبتات (5.1 → 5.4)
-                       الإجمالي = 19 برومبت
+═══════════════════════════════════════════════════════════════
+المرحلة 6 — استراتيجية المحتوى المستدام (Evergreen + SEO)
+   6.1 → 6.4  (4 برومبتات)
+═══════════════════════════════════════════════════════════════
+المرحلة 7 — التكتيكات الأربعة (Keyword + Intent + Backlinks + IL)
+   7.1 → 7.4  (4 برومبتات)
+═══════════════════════════════════════════════════════════════
+المرحلة 8 — التحسين البصري العميق (Star + Rhyming + Depth + Opacity)
+   8.1 → 8.4  (4 برومبتات)
+═══════════════════════════════════════════════════════════════
+المرحلة 9 — التسلسل الهرمي البصري (Visual Hierarchy)
+   9.1 → 9.2  (2 برومبتات)
+═══════════════════════════════════════════════════════════════
+المرحلة 10 — البوابة النهائية ثم النشر (Pre-Launch + Launch)
+   10.1 → 10.4  (4 برومبتات)
+═══════════════════════════════════════════════════════════════
+                       الإجمالي = 18 برومبت
 ```
 
 ---
 
-# ⛔ القيود الصارمة المشتركة لكل البرومبتات
-
-> ينسخها الوكيل في أول كل خطوة
+# ⛔ القيود الصارمة الجديدة (لكل برومبت)
 
 ```text
-NON-NEGOTIABLE CONSTRAINTS (apply to EVERY task):
+ULTRA-STRICT CONSTRAINTS (apply to EVERY task):
 
-1. لا تحذف أي section من أي صفحة.
-2. لا تغيّر أي نص أو محتوى موجود في أي صفحة Astro.
-3. لا تعدّل: sitemap.xml, robots.txt, canonical, hreflang,
-   schema/JSON-LD, redirects.json, astro.config redirects,
-   .well-known/*, manifest.webmanifest, ai.txt, llms.txt.
-4. لا تكسر RTL ولا العربية.
-5. لا تنشر مباشرة على main — كل تغيير في فرع منفصل + PR.
-6. لا تستخدم npm install عشوائي — احترم نسخ package.json.
-7. كل خطوة لازم تنتج تقريرًا .md بالاسم المحدد في البرومبت.
-8. ممنوع “refactor شامل” داخل برومبت تنظيف.
-9. ممنوع لمس src/pages/**/*.astro في مرحلة Cleanup.
-10. لو وجدت أي ملف "غير واضح هل هو legacy"، صنّفه
-    كـ Needs-Verification ولا تحذفه.
+1. ❌ ممنوع حذف أي نص أو علامة تنصيص أو فاصلة أو اسم.
+2. ❌ ممنوع حذف أي قسم أو CTA أو رابط داخلي.
+3. ✅ مسموح التعديل البصري والتنسيقي والـ semantic فقط.
+4. ✅ مسموح إعادة صياغة meta titles/descriptions
+   (هذه ليست محتوى الصفحة، بل SEO surface).
+5. ✅ مسموح إضافة محتوى جديد (لا حذف).
+6. ❌ ممنوع كسر RTL، canonical، hreflang، JSON-LD.
+7. ❌ ممنوع تنفيذ مرحلتين في PR واحد.
+8. ✅ كل برومبت ينتج REPORT-XX.md.
+9. ✅ كل تعديل في فرع feat/<phase>/<task>.
+10. ❌ ممنوع تجاوز Mobile Perf < 85 بعد المعالجة.
 ```
 
 ---
 
-# المرحلة 1 — Cleanup معماري محكوم
+# 🌱 المرحلة 6 — استراتيجية المحتوى المستدام (Evergreen + SEO Foundation)
 
-## 🧹 Prompt 1.1 — جرد آمن للبقايا (Inventory Only — No Deletion)
+
+
+---
+
+```
+
+---
+
+## 📝 Prompt 6.4 — تحسين Schema لـ Saudi Local + AI Authority
 
 ```text
 ROLE:
-أنت Senior Astro Project Auditor. مهمتك جرد فقط، بدون أي حذف.
+Schema/Structured Data Engineer.
 
 OBJECTIVE:
-بناء جرد كامل ودقيق لكل بقايا HTML/Legacy داخل مشروع Astro.
-
-SCOPE:
-- مجلد frontend/
-- مجلد _archive/
-- مجلد scripts/
-- ملفات الجذر المشبوهة (package-lock 2.json, seo_gate_log.txt,
-  .htaccess, critical-css.json, …)
-- ملفات داخل src/components غير المستوردة
-- ملفات داخل src/styles المكرّرة أو الميتة
-- ملفات داخل public/ غير المستخدمة
+تعزيز JSON-LD لتقوية إشارات السلطة + التوطين السعودي
+دون كسر أي schema موجود.
 
 TASKS:
-1) امسح المشروع بالكامل ولا تحذف أي شيء.
-2) أنتج قائمة CSV/Markdown بالأعمدة التالية:
-   - path
-   - size
-   - type (file/dir)
-   - category: core | legacy | dead-code | uncertain | seo-critical | deployment-critical
-   - is-imported-anywhere (yes/no/maybe)
-   - last-related-commit (إن أمكن)
-   - recommended-action: keep | move-to-legacy/ | delete | needs-verification
-   - risk-level: low | medium | high
+1) راجع JSON-LD في كل الصفحات الرئيسية.
+2) أضف بدون حذف:
+   - Organization schema موسّع (founders, awards if real)
+   - LocalBusiness schema لكل مدينة سعودية مذكورة
+     (الرياض، جدة، الدمام، الخبر، مكة، المدينة).
+   - FAQPage schema لكل صفحة فيها FAQ (إن لم يكن مفعّلًا).
+   - HowTo schema للأدلة في /docs.
+   - BreadcrumbList schema لكل صفحة عميقة.
+   - SoftwareApplication schema للمنتجات.
+   - Article schema للمقالات.
 
-3) ابحث صراحة عن:
-   - أي ملف JS/CSS قديم لم يعد مرتبطًا بـ src/
-   - أي مكون Astro غير مستخدم (مثل SparklesHero, SparklesCore)
-   - أي script في scripts/ غير مذكور في package.json أو CI
-   - أي ملف داخل public/frontend/ غير مرجوع له من src/
-
-4) أنتج خريطة الاعتمادات (dependency map) بشكل مبسّط:
-   - ماذا يستورد ماذا
-   - ما الذي يبدو معزولاً
-   - ما الذي يستخدم مسارات قديمة
+3) تحقق من validator.schema.org و Google Rich Results Test.
 
 FORBIDDEN:
-- ممنوع حذف أو نقل أي ملف.
-- ممنوع تعديل أي ملف.
-- ممنوع كتابة كود.
+- ممنوع تعديل أو حذف schema موجود.
+- ممنوع إنشاء schema لمعلومات غير حقيقية.
 
 ACCEPTANCE CRITERIA:
-- جدول كامل لا يقل عن 95% تغطية لمحتوى المجلدات المذكورة.
-- كل ملف مصنّف.
-- كل ملف uncertain له سبب مكتوب.
+- 0 أخطاء في Google Rich Results Test.
+- كل صفحة فيها ≥2 schemas مناسبة.
 
 DELIVERABLES:
-- REPORT-01_LEGACY-INVENTORY.md
-- LEGACY-INVENTORY.csv
+- REPORT-23_SCHEMA-ENHANCEMENT.md
 ```
 
 ---
 
-## 🧹 Prompt 1.2 — عزل آمن للـ legacy (Move, Do NOT Delete)
+# 🎯 المرحلة 7 — التكتيكات الأربعة (Keyword + Intent + Backlinks + IL)
+
+## 🔍 Prompt 7.1 — Keyword Research موجّه للسوق السعودي
 
 ```text
 ROLE:
-Senior Astro Refactor Engineer — safety-first.
+Saudi B2B Keyword Research Specialist.
+
+OBJECTIVE:
+بناء قائمة كلمات مفتاحية ذات قيمة تجارية ومنافسة مناسبة
+لمستوى السلطة الحالية للموقع.
+
+TASKS:
+1) ابحث/استنتج (باستخدام أدوات أو دلائل عامة) كلمات:
+   - حول AI governance بالعربي والإنجليزي.
+   - حول PDPL، NCA، SFDA.
+   - حول AI safety enterprise Saudi.
+   - حول compliance + Saudi enterprise pain points.
+
+2) لكل كلمة:
+   - estimated-volume (high/med/low)
+   - difficulty-estimate (low/med/high — حسب SERP)
+   - intent: informational | commercial | transactional
+   - business-value-for-brightai: H/M/L
+   - target-page-on-site: existing or "to-create" (لا تنشئ الآن)
+   - recommended-position-in-content: title | h2 | body | meta
+
+3) ركّز على long-tail keywords:
+   - "نظام حماية البيانات السعودي PDPL"
+   - "حوكمة الذكاء الاصطناعي في السعودية"
+   - "AI compliance Saudi enterprise"
+   - "AI Firewall PDPL compliance"
+   - وأمثالها (حسب الواقع).
+
+4) لا تنشئ صفحات الآن. اربط الكلمات بصفحات موجودة فقط.
+
+FORBIDDEN:
+- ممنوع إنشاء صفحات جديدة في هذه الخطوة.
+- ممنوع تعديل محتوى الصفحات.
+
+ACCEPTANCE CRITERIA:
+- 80+ كلمة مفتاحية مصنّفة.
+- كل كلمة مرتبطة بصفحة هدف.
+
+DELIVERABLES:
+- REPORT-24_KEYWORD-RESEARCH.md
+- KEYWORDS-MAP.csv
+```
+
+---
+
+## 🎯 Prompt 7.2 — Search Intent Matching (Direct Answer + Deep Coverage)
+
+```text
+ROLE:
+Search Intent Engineer.
 
 PRECONDITION:
-يجب أن يكون تقرير REPORT-01_LEGACY-INVENTORY.md جاهزًا ومراجَعًا.
+REPORT-24 جاهز.
 
 OBJECTIVE:
-نقل (مو حذف) كل ما صنّف legacy/dead-code من 1.1
-إلى مجلد آمن واحد اسمه:
-/_legacy-removed-2026/
-
-SCOPE (نقل فقط):
-- frontend/  → /_legacy-removed-2026/frontend/
-- _archive/  → /_legacy-removed-2026/_archive/
-- ملفات scripts/ المُصنفة dead-code أو unused-only
-- ملفات الجذر المكررة (مثل: package-lock 2.json)
-- مكونات src/components غير المستخدمة (SparklesHero.*, SparklesCore.*)
-  بشرط التأكد عبر grep أنها غير مستوردة في كل src/ بالكامل.
-
-RULES:
-1) لا تنقل أي ملف uncertain حتى يُصنّف يدويًا.
-2) لا تنقل أي ملف seo-critical أو deployment-critical.
-3) قبل النقل: أضف ملف /_legacy-removed-2026/README.md
-   فيه: التاريخ، السبب، خطة الحذف المستقبلية.
-4) أضف /_legacy-removed-2026/ إلى:
-   - astro build ignore (إن لزم)
-   - tailwind.config content paths (تأكد ألا يقرأها)
-   - tsconfig exclude
-   - .gitignore فقط إن طلب المستخدم لاحقًا
-   (الافتراضي: يبقى مُتعقّبًا بـ git للحفظ).
-
-VERIFY:
-- شغّل `astro check` بدون أخطاء.
-- شغّل `astro build` ولا يجب أن يكسر.
-- تحقق من السايت بصريًا dev mode.
-
-FORBIDDEN:
-- ممنوع الحذف النهائي.
-- ممنوع نقل أي شيء غير مذكور أعلاه.
-
-ACCEPTANCE CRITERIA:
-- البناء ينجح.
-- لا توجد import errors.
-- لا تختفي أي صفحة.
-- 0 تغيير في صفحات src/pages.
-
-DELIVERABLES:
-- REPORT-02_LEGACY-ISOLATION.md
-  (يحتوي قائمة كل ملف تم نقله + قبل/بعد)
-```
-
----
-
-## 🧹 Prompt 1.3 — تنظيف package.json scripts من سكربتات الحقبة القديمة
-
-```text
-ROLE:
-Build Pipeline Hygiene Engineer.
-
-OBJECTIVE:
-تنظيف scripts غير المستخدمة من package.json لكن بدون كسر أي build
-لا داخل المشروع ولا داخل CI.
+ضمان أن كل صفحة تقدّم:
+- إجابة مباشرة سريعة في أول 100 كلمة.
+- ثم تغطية عميقة لكل التساؤلات الفرعية.
 
 TASKS:
-1) قارن سكربتات package.json مقابل:
-   - .github/workflows/*.yml
-   - render.yaml
-   - أي ملف CI آخر
-2) صنّف كل script إلى:
-   - active (مستخدم في dev أو build أو CI)
-   - related-to-legacy (مرتبط بـ HTML أو frontend القديم)
-   - dead (غير مستخدم في أي مكان)
-
-3) حدّث package.json:
-   - أبقِ active كما هي
-   - علّق على related-to-legacy بكومنت `// legacy` لكن أبقِها مؤقتًا
-   - احذف dead فقط
-4) لا تلمس dependencies أو devDependencies.
+1) لكل صفحة هدف من 36 صفحة:
+   - حدّد سؤال البحث الرئيسي.
+   - تحقق من وجود إجابة مباشرة في أول fold.
+   - إذا غير موجودة، اقترح إعادة ترتيب بصري فقط
+     (دون حذف نص) لإبراز الإجابة المباشرة.
+2) أضف TL;DR block (مكوّن جديد) لكل صفحة pillar إن لم يوجد.
+3) لكل صفحة، تحقق من وجود:
+   - تعريف واضح للمصطلح
+   - مثال عملي
+   - متى/لمن
+   - مقارنة مع البدائل
+   - الخطوة التالية (CTA)
+4) المحتوى الناقص يُضاف، لا يُستبدل.
 
 FORBIDDEN:
-- ممنوع تغيير astro, react, tailwind إصدارات.
-- ممنوع لمس workspaces.
-
-VERIFY:
-- npm run dev يعمل.
-- npm run build ينجح.
-- CI لا يتعطل (راجع render.yaml + GH actions).
+- ممنوع حذف أي فقرة موجودة.
+- ممنوع تبديل ترتيب section كاملة بدون موافقة مكتوبة.
 
 ACCEPTANCE CRITERIA:
-- package.json أصغر، أوضح، بدون كسر شيء.
-- كل script مفهوم.
+- كل صفحة pillar فيها direct answer في أول 100 كلمة.
+- كل صفحة تغطي الأسئلة الفرعية المتوقعة.
 
 DELIVERABLES:
-- REPORT-03_BUILD-SCRIPTS-CLEANUP.md
+- REPORT-25_INTENT-MATCHING.md
 ```
 
 ---
 
-## 🧹 Prompt 1.4 — تنظيف tailwind/tsconfig/astro config من المسارات القديمة
+## 🔗 Prompt 7.3 — استراتيجية Backlinks (Outreach Plan, Not Execution)
 
 ```text
 ROLE:
-Astro + Tailwind Config Engineer.
+Digital PR / Link Building Strategist (Saudi market).
 
 OBJECTIVE:
-تنظيف الإعدادات من إشارات المسارات القديمة.
+بناء خطة عملية للحصول على روابط خلفية.
+لا تنفّذ outreach الآن، فقط جهّز الأرضية.
 
 TASKS:
-1) tailwind.config.ts:
-   - أزل './components/**/*.{ts,tsx}' لو لم يعد المجلد فعّالًا.
-   - أبقِ فقط مسارات src/* الحقيقية.
-2) tsconfig.json:
-   - تأكد أن exclude يشمل /_legacy-removed-2026/.
-   - تأكد أن paths مضبوطة فقط لـ src/.
-3) astro.config.mjs:
-   - لا تلمس redirects.
-   - لا تلمس site.
-   - فقط أزل أي تكامل غير مستخدم (إن وجد بعد التحقق).
+1) حدّد على الأقل:
+   - 15 بودكاست سعودي/خليجي/عربي في تقنية/أعمال.
+   - 20 موقع تقني عربي يقبل ضيف post أو listicles.
+   - 25 منافس مباشر/غير مباشر (لتحليل روابطهم).
+   - 10 مبادرة سعودية (SDAIA, NCA, Vision 2030 events).
+2) لكل هدف:
+   - الاسم
+   - الرابط
+   - نوع الفرصة (podcast/article/listicle/PR)
+   - الـ angle المقترح
+   - أولوية H/M/L
+3) جهّز قوالب رسائل outreach (ar + en).
+4) جهّز "linkable assets" قائمة:
+   - أي محتوى على الموقع يستحق أن يُربط به
+   - مثال: AI Governance Checklist PDF، Compliance Calculator، etc.
 
 FORBIDDEN:
-- ممنوع تغيير compressHTML, trailingSlash, output, integrations الأساسية.
-- ممنوع لمس i18n locales.
-
-VERIFY:
-- astro check
-- astro build
-- لا تغيّر شكل أي صفحة.
+- ممنوع إرسال أي outreach من الوكيل.
+- ممنوع تعديل المحتوى.
 
 ACCEPTANCE CRITERIA:
-- إعدادات أنظف، مرتبطة فقط بـ Astro core.
-- لا تأثير بصري على الموقع.
+- خطة عمل قابلة للتنفيذ من قبل فريق التسويق.
+- 70+ هدف موثّق.
 
 DELIVERABLES:
-- REPORT-04_CONFIG-CLEANUP.md
+- REPORT-26_BACKLINKS-STRATEGY.md
+- OUTREACH-TARGETS.csv
+- OUTREACH-TEMPLATES.md
 ```
 
 ---
 
-# المرحلة 2 — حسم الأصول والمسارات
-
-## 📦 Prompt 2.1 — جرد الأصول (Assets Inventory)
+## 🕸️ Prompt 7.4 — Internal Linking Implementation (PageRank Flow)
 
 ```text
 ROLE:
-Static Assets Auditor.
-
-OBJECTIVE:
-جرد كامل لكل الأصول داخل public/ مع تصنيف مرجعيتها.
-
-TASKS:
-1) امسح كل /public.
-2) لكل ملف:
-   - referenced-by: قائمة الملفات في src/ التي تستخدمه
-   - is-orphan: yes/no
-   - is-seo-critical: (logo, favicon, og images, sitemap, robots, manifest)
-   - is-font: yes/no
-   - is-legacy-path: yes/no (مثلاً يبدأ بـ /frontend/assets/)
-3) ركّز على:
-   - public/frontend/assets/
-   - public/images/
-   - public/fonts/
-   - public/resources/
-
-FORBIDDEN:
-- ممنوع نقل أو حذف أي شيء.
-- ممنوع تعديل أي مرجع في src/.
-
-ACCEPTANCE CRITERIA:
-- جدول كامل + 100% من الأصول مصنّفة.
-
-DELIVERABLES:
-- REPORT-05_ASSETS-INVENTORY.md
-- ASSETS-INVENTORY.csv
-```
-
----
-
-## 📦 Prompt 2.2 — إعادة هيكلة الأصول إلى /public/assets/ مع 301
-
-```text
-ROLE:
-Static Assets Migration Engineer (zero-downtime).
+Internal Linking Engineer.
 
 PRECONDITION:
-يجب أن يكون REPORT-05 جاهزًا.
+CLUSTER-LINKING-PLAN.csv جاهز.
 
 OBJECTIVE:
-نقل أصول /public/frontend/assets/ إلى /public/assets/ بدون كسر أي شيء.
+تنفيذ شبكة الروابط الداخلية المخطّطة من 6.2
+دون لمس النصوص الأصلية.
 
 TASKS:
-1) أنشئ /public/assets/ بنفس هيكل /public/frontend/assets/.
-2) انسخ (مع git mv) كل الملفات.
-3) حدّث في src/ كل المراجع من:
-   /frontend/assets/...
-   إلى:
-   /assets/...
-4) لا تلمس JSON-LD URLs المطلقة إلا إذا كانت تستخدم
-   https://brightai.site/frontend/assets/... وفي هذه الحالة
-   حدّثها أيضًا.
-5) أضف 301 redirects:
-   - في public/_redirects (Netlify-style):
-     /frontend/assets/*    /assets/:splat    301
-   - في render.yaml إن لزم redirects rules.
-6) أبقِ /public/frontend/assets/ موجودة مؤقتًا حتى يتم
-   التحقق ثم احذفها في برومبت لاحق.
+1) لكل علاقة في CLUSTER-LINKING-PLAN.csv:
+   - أضف رابطًا داخليًا من الصفحة المصدر إلى الهدف.
+   - الـ anchor يجب أن يكون:
+     * موجود فعليًا في النص الأصلي (لا تضف كلمات)
+     * كلمة مفتاحية ذات صلة
+     * طبيعي في السياق
+2) كل صفحة pillar:
+   - تستقبل روابط من كل cluster pages.
+   - تربط لكل cluster pages.
+3) كل cluster:
+   - يربط بصفحة pillar.
+   - يربط بـ 2-3 cluster siblings.
+4) أضف "Related Articles" block في نهاية كل صفحة blog/docs
+   باستخدام مكوّن RelatedLinks/RelatedPosts الموجود.
 
 FORBIDDEN:
-- ممنوع تغيير محتوى أي صورة أو فونت.
-- ممنوع حذف /public/frontend/ في هذه الخطوة.
-
-VERIFY:
-- 0 broken images في dev/build.
-- لا تغيّر hash أصول SEO.
-- جميع الصفحات تفتح.
-- اختبر OG images.
+- ممنوع إضافة كلمات جديدة في النص.
+- ممنوع كسر anchor الموجود.
+- ممنوع تكرار نفس anchor 3+ مرات في صفحة واحدة.
 
 ACCEPTANCE CRITERIA:
-- كل /frontend/assets/ في src أصبح /assets/.
-- 301 يعمل.
-- الموقع يبدو نفس الشيء بالضبط.
+- internal-links-audit ينجح.
+- 0 orphan pages.
+- كل pillar فيه ≥10 incoming links.
 
 DELIVERABLES:
-- REPORT-06_ASSETS-MIGRATION.md
+- REPORT-27_INTERNAL-LINKING.md
+- INTERNAL-LINKS-MAP.md
 ```
 
 ---
 
-## 📦 Prompt 2.3 — تأكيد سلامة الأصول بعد النقل + حذف القديم
+# ✨ المرحلة 8 — التحسين البصري العميق (4 مبادئ)
+
+## ⭐ Prompt 8.1 — نجم العرض (The Star of the Show)
 
 ```text
 ROLE:
-Migration Verifier.
-
-PRECONDITION:
-REPORT-06 منفّذ + الموقع شغّال على staging.
+Senior Visual Designer + Brand Storyteller.
 
 OBJECTIVE:
-التحقق النهائي ثم حذف /public/frontend/assets/.
+إنشاء عنصر بصري واحد قوي يجسّد قصة BrightAI:
+"نواة أمان تقف بين الموظف والـ AI وبيانات الشركة"
 
 TASKS:
-1) شغّل crawler داخلي على build output dist/:
-   - تأكد 0 broken links.
-   - تأكد 0 references متبقية لـ /frontend/assets/.
-2) شغّل lighthouse على 5 صفحات أساسية.
-3) تأكد من ظهور:
-   - logo
-   - OG images
-   - favicon
-   - fonts
-4) عندها فقط: احذف /public/frontend/assets/.
-5) أبقِ 301 redirects (لا تحذفها أبدًا).
+1) صمّم عنصرًا بصريًا واحدًا في hero الصفحة الرئيسية يكون
+   "The Star":
+   - خيارات (الوكيل يقرّر الأفضل بصريًا):
+     A) رسم isometric للنواة بين 3 طبقات (Employee / Kernel / AI+Data)
+     B) Animated SVG diagram يوضّح تدفق الحماية
+     C) صورة 3D خفيفة لـ "shield core" مع gradient brand
+   - يجب أن:
+     * يكون SVG أو WebP محسّن (max 80KB)
+     * يدعم RTL
+     * lazy-loaded
+     * متجاوب 100%
+     * يحفظ التركيز على CTA
+
+2) ضعه بجانب hero النص (ليس خلفه)، بحيث:
+   - desktop: نصف-نصف
+   - mobile: فوق النص أو تحته حسب الأولوية البصرية
+
+3) كرّر "echoes" بسيطة لهذا الرمز في:
+   - footer
+   - 404 page
+   - loading states
 
 FORBIDDEN:
-- ممنوع حذف الـ 301.
-- ممنوع حذف /public/frontend/ إن كان فيها ملفات أخرى غير assets.
+- ممنوع تعديل نصوص hero.
+- ممنوع كسر LCP.
+- ممنوع استخدام صور stock generic.
 
 ACCEPTANCE CRITERIA:
-- موقع نظيف.
-- 0 broken assets.
-- 301 شغّال.
+- العنصر يُحكى عنه في 5 ثوانٍ.
+- لا يكسر mobile perf.
+- يعكس قيمة المنتج فورًا.
 
 DELIVERABLES:
-- REPORT-07_ASSETS-VERIFICATION.md
+- REPORT-28_STAR-VISUAL.md
+- assets/star/* (SVGs / images)
 ```
 
 ---
 
-# المرحلة 3 — إغلاق النشر والكاش
-
-## 🚀 Prompt 3.1 — تشخيص فجوة النشر (Why “fixed but not visible”)
+## 🔁 Prompt 8.2 — التناغم البصري (Visual Rhyming)
 
 ```text
 ROLE:
-Deployment Forensics Engineer.
+Design Systems Polisher.
 
 OBJECTIVE:
-تحديد لماذا أحيانًا يتم تطبيق تعديلات ولا تظهر بعد النشر.
+خلق تناغم بصري عبر تكرار تفاصيل صغيرة في كل العناصر.
 
 TASKS:
-1) قارن:
-   - محتوى dist/ بعد build
-   - محتوى الموقع المنشور https://brightai.site
-   اكتب ما الذي يظهر في local ولا يظهر منشورًا.
-2) راجع:
-   - render.yaml
-   - .github/workflows/deploy.yml
-3) راجع public/sw.js:
-   - ما الذي يخزّنه
-   - ما الذي يلغي تسجيله
-   - هل يتعارض مع نشر جديد
-4) راجع public/_headers و public/_redirects.
-5) راجع CDN cache (إن وُجد).
-6) ابحث عن ملفات stale build artifacts.
+1) حدّد "الـ shape language" الموحّد:
+   - زاوية البطاقات: 16px (مثلاً)
+   - زاوية الأزرار: 12px
+   - زاوية chips: 9999px
+   - شكل arrow في CTAs: نفسه دائمًا
+
+2) كرّر:
+   - نفس نمط الـ glow عند hover في كل: buttons, cards, links.
+   - نفس انحناء الـ corner highlight.
+   - نفس angle للأيقونات الزخرفية (مثال: 12° tilt للـ corner shapes).
+   - نفس icon family في كل مكان (تأكد icons.svg موحد).
+
+3) أنشئ "rhyming patterns":
+   - نمط من 3 نقاط في كل قسم رئيسي.
+   - subtle dotted texture يتكرر في:
+     * card edges
+     * section dividers
+     * footer
+
+4) راجع كل الصفحات للتأكد من التناغم.
 
 FORBIDDEN:
-- ممنوع تعديل أي شيء في هذه الخطوة. تشخيص فقط.
+- ممنوع تغيير محتوى أو نصوص.
+- ممنوع إضافة "نمط" يضر بالقراءة.
 
 ACCEPTANCE CRITERIA:
-- تقرير سببي مرتب.
-- تحديد على الأقل 3 احتمالات + أيها الأرجح.
+- مستخدم يفتح أي 3 صفحات يحس أنها نفس النظام.
+- 0 تنافر في shapes.
 
 DELIVERABLES:
-- REPORT-08_DEPLOYMENT-DIAGNOSIS.md
+- REPORT-29_VISUAL-RHYMING.md
+- RHYMING-PATTERNS.md
 ```
 
 ---
 
-## 🚀 Prompt 3.2 — إصلاح Service Worker وسياسة الكاش
+## 🌑 Prompt 8.3 — العمق (Depth: Textures + Noise + Glass)
 
 ```text
 ROLE:
-PWA / Service Worker Engineer.
+Depth & Material Designer (UI 3D minimalist).
 
 OBJECTIVE:
-ضبط public/sw.js بحيث:
-- لا يخزن صفحات HTML بشكل عدواني.
-- لا يتسبب في ظهور نسخ قديمة بعد النشر.
-- يدعم تحديث فوري.
+جعل الموقع يبدو ملموسًا أكثر دون التأثير على الوضوح.
 
 TASKS:
-1) راجع CACHE_VERSION ورفعه عند كل deploy عبر متغير من CI.
-2) استراتيجية:
-   - HTML: network-first (مع fallback لـ /offline/)
-   - Assets immutable (fingerprinted): cache-first
-   - Fonts: cache-first
-   - Images: stale-while-revalidate
-3) أضف skipWaiting + clients.claim بشكل آمن.
-4) حدّث precache list لإزالة مراجع /frontend/assets/
-   واستبدلها بـ /assets/.
-5) أبقِ منطق unregister إن كان يهدف لتنظيف SW قديم،
-   لكن لا تجعله يعمل بشكل دائم.
+1) أضف noise texture خفيف (1-2% opacity) إلى:
+   - body background
+   - card backgrounds
+   - hero panels
+   استخدم SVG noise inline (يوفّر HTTP request).
+
+2) أضف glass effect على:
+   - header (موجود؟ حسّنه)
+   - dropdown menus
+   - modals (إن وجدت)
+   - mobile nav drawer
+   باستخدام:
+     backdrop-filter: blur(16px) saturate(180%)
+     background: rgba(...,0.6)
+     border: 1px subtle highlight
+
+3) أضف subtle gradients للعمق:
+   - inner-shadow على cards (top edge highlight)
+   - outer-glow ناعم على CTAs
+   - radial gradients على section backgrounds
+
+4) كل depth effect يحترم prefers-reduced-transparency.
 
 FORBIDDEN:
-- ممنوع كسر offline page.
-- ممنوع تعطيل SW كليًا إذا كان مذكورًا في manifest.
-
-VERIFY:
-- افتح الموقع في tab جديد.
-- انشر تعديلًا.
-- يجب أن يظهر التعديل خلال refresh واحدة على الأكثر.
+- ممنوع depth يكسر contrast.
+- ممنوع تخفيض A11y عن 95.
+- ممنوع زيادة CSS size بـ +20KB.
 
 ACCEPTANCE CRITERIA:
-- لا يوجد stale HTML.
-- لا يوجد crash للأوفلاين.
-- ترقية CACHE_VERSION واضحة.
+- contrast AAA حيث ممكن، AA كحد أدنى.
+- A11y ≥ 95.
+- Mobile perf لم ينخفض.
 
 DELIVERABLES:
-- REPORT-09_SW-CACHE-FIX.md
+- REPORT-30_DEPTH-MATERIAL.md
 ```
 
 ---
 
-## 🚀 Prompt 3.3 — تثبيت headers + redirects + التحقق النهائي للنشر
+## 🌫️ Prompt 8.4 — التسلسل عبر الشفافية (Opacity Hierarchy)
 
 ```text
 ROLE:
-Hosting Configuration Engineer.
+Typography Hierarchy Engineer.
 
 OBJECTIVE:
-ضمان أن كل نشر يصل للمستخدم النهائي بسرعة وبدون cache غش.
+استخدام مستويات opacity موحّدة للنصوص لتمييز الأهمية.
 
 TASKS:
-1) public/_headers:
-   - HTML: Cache-Control: public, max-age=0, must-revalidate
-   - Fingerprinted assets: immutable, max-age=31536000
-   - Fonts: long cache
-   - Images: medium cache
-2) public/_redirects:
-   - الإبقاء على /frontend/assets/* → /assets/:splat 301
-   - عدم لمس redirects.json الموجودة.
-3) راجع render.yaml لو يحتوي rewrites قديمة.
-4) بعد النشر:
-   - افتح الموقع
-   - hard reload
-   - تأكد headers صحيحة
-   - تأكد 0 stale.
+1) عرّف سلّم opacity للنصوص داخل tokens.css:
+   --text-primary-opacity: 1
+   --text-secondary-opacity: 0.78
+   --text-tertiary-opacity: 0.58
+   --text-disabled-opacity: 0.38
+   --text-decorative-opacity: 0.22
+
+2) طبّق على:
+   - h1/h2: primary
+   - h3/h4: primary
+   - body: primary
+   - secondary descriptions: secondary
+   - captions/meta: tertiary
+   - decorative labels: decorative
+   - timestamps/version numbers: tertiary
+
+3) كل opacity مرتبط بـ token، ليس قيمة hardcoded.
+
+4) تحقق من contrast بعد التطبيق:
+   - kept-text أبداً ما ينزل تحت WCAG AA.
+   - decorative فقط مسموح بتباين أقل.
 
 FORBIDDEN:
-- ممنوع تعديل canonical/hreflang/schema.
-- ممنوع حذف أي redirect قديم بدون سبب موثّق.
+- ممنوع جعل أي نص أساسي opacity < 0.85.
+- ممنوع تطبيق opacity على روابط تفاعلية.
 
 ACCEPTANCE CRITERIA:
-- النشر يصل فوريًا.
-- لا يحدث “fixed but not visible” مرة أخرى.
+- نظام opacity متّسق.
+- A11y ≥ 95.
 
 DELIVERABLES:
-- REPORT-10_DEPLOY-HEADERS.md
+- REPORT-31_OPACITY-HIERARCHY.md
 ```
 
 ---
 
-# المرحلة 4 — Redesign System-Wide (بدون لمس النصوص)
+# 👁️ المرحلة 9 — التسلسل الهرمي البصري (Visual Hierarchy)
 
-## 🎨 Prompt 4.1 — توحيد Design Tokens
-
-```text
-ROLE:
-Senior Design System Engineer.
-
-OBJECTIVE:
-توحيد src/styles/tokens.css بحيث يكون المصدر الأوحد للحقيقة
-لكل الألوان، التايبوغرافي، الظلال، الزوايا، وanimation curves.
-
-TASKS:
-1) راجع كل ملفات src/styles/.
-2) استخرج التوكنز المكررة في base/components/pages.
-3) ثبّتها داخل tokens.css.
-4) أنشئ طبقات:
-   - color tokens
-   - typography tokens
-   - spacing scale
-   - radii
-   - shadows
-   - motion curves
-   - layering/z-index
-   - elevation/3D depth (خفيف)
-5) لا تغيّر القيم النهائية للون أو الخط الحالي إلا
-   لتوحيد التسميات.
-
-FORBIDDEN:
-- ممنوع تغيير شكل أي صفحة.
-- ممنوع حذف فئة CSS مستخدمة.
-
-ACCEPTANCE CRITERIA:
-- tokens.css هو المصدر.
-- باقي الملفات تستهلك المتغيرات فقط.
-
-DELIVERABLES:
-- REPORT-11_DESIGN-TOKENS.md
-```
-
----
-
-## 🎨 Prompt 4.2 — توحيد Components Layer
+## 🏛️ Prompt 9.1 — تطبيق Visual Hierarchy على كل الصفحات
 
 ```text
 ROLE:
-Component System Architect.
+Visual Hierarchy Specialist (eye-flow engineering).
 
 OBJECTIVE:
-توحيد مكونات UI المشتركة عبر كل الصفحات:
-- buttons
-- cards
-- chips/badges
-- inputs
-- sections wrappers
-- table component
-- pricing tiles
-- testimonial/stat blocks
-- FAQ block
+توجيه عين المستخدم بدقة في كل صفحة عبر:
+- size
+- weight
+- color contrast
+- spacing
+- position
+- direction (F-pattern / Z-pattern)
 
 TASKS:
-1) في src/styles/components.css، وحّد:
-   - .btn, .btn-primary, .btn-secondary, .btn-ghost
-   - .card, .card--feature, .card--metric
-   - .chip, .badge
-   - .section, .section--alt
-2) أزل التضارب بين utility-heavy و bespoke CSS.
-3) لا تلمس بنية HTML داخل الصفحات.
-4) عدّل ClassNames في صفحات Astro فقط إذا لزم
-   لتوحيد semantics، ولكن دون تغيير نص.
+1) لكل صفحة، حدّد:
+   - "العنصر الأول" الذي يجب أن تراه العين.
+   - "العنصر الثاني".
+   - "العنصر الثالث".
+   - CTA الأساسي (يجب أن يكون أحدها).
+
+2) لكل عنصر في الترتيب:
+   - حجم خط أكبر من ما بعده.
+   - weight أعلى.
+   - color contrast أقوى.
+   - spacing حوله أكبر.
+
+3) راجع كل sections وتأكد:
+   - h2 أبرز من h3.
+   - h3 أبرز من body.
+   - primary CTA أبرز من secondary.
+   - decorative elements في opacity أخفض.
+
+4) F-pattern للنص الطويل، Z-pattern للـ landing.
 
 FORBIDDEN:
-- ممنوع تغيير أي text node.
-- ممنوع حذف أي عنصر بصري.
-
-ACCEPTANCE CRITERIA:
-- اتساق بصري واضح بين الصفحات.
-- نفس الزر يبدو متطابقًا في كل مكان.
-
-DELIVERABLES:
-- REPORT-12_COMPONENTS-UNIFY.md
-```
-
----
-
-## 🎨 Prompt 4.3 — صقل Hero + Background على مستوى الموقع
-
-```text
-ROLE:
-Senior Motion + Hero Designer.
-
-OBJECTIVE:
-رفع جودة SplitHero و DottedBackground إلى مستوى enterprise polished،
-دون استبدالهما، ودون كسر الـ semantic HTML.
-
-TASKS:
-1) SplitHero.astro:
-   - حسّن hierarchy (chip → h1 → lead → CTAs).
-   - حسّن tracking/leading للعربية.
-   - أضف micro-interaction خفيف على CTA hover.
-   - أضف 3D tilt خفيف على الـ kernel showcase (max 6deg).
-   - تأكد من LCP < 2.5s mobile.
-2) DottedBackground.astro:
-   - حسّن depth مع layer parallax خفيف.
-   - حسّن fade vignette للقراءة العربية RTL.
-   - reduce intensity تلقائيًا على mobile.
-3) احترم prefers-reduced-motion دائمًا.
-4) ممنوع كسر النصوص أو ترتيب CTAs.
-
-FORBIDDEN:
-- ممنوع تغيير النصوص.
-- ممنوع تغيير الروابط.
-- ممنوع رفع تكلفة الـ JS bundle بأكثر من +5KB gz.
-
-ACCEPTANCE CRITERIA:
-- Hero يبدو أنظف وأكثر احترافًا.
-- Background موحد في كل الصفحات.
-- mobile perf لم تنخفض.
-
-DELIVERABLES:
-- REPORT-13_HERO-BG-POLISH.md
-```
-
----
-
-## 🎨 Prompt 4.4 — Redesign الأقسام داخل الصفحات (بدون تعديل النص)
-
-```text
-ROLE:
-UX Polishing Engineer.
-
-OBJECTIVE:
-رفع جودة كل sections في:
-- /index
-- /about
-- /services
-- /pricing
-- /contact
-- /solutions
-- /docs
-- /blog
-- /kernel
-- /demo
-- /trust
-- /hub
-
-TASKS:
-1) لكل section:
-   - حسّن spacing rhythm
-   - حسّن hierarchy
-   - حسّن alignment
-   - حسّن RTL polish
-   - حسّن micro-animations (subtle reveal)
-   - حسّن card layouts
-   - حسّن CTA emphasis
-2) لا تضيف ولا تحذف ولا تستبدل أي نص.
-3) لا تحذف أي section.
-4) ضمن كل صفحة، تحقق أن الـ visual rhythm متّسق.
-
-FORBIDDEN:
-- ممنوع تغيير ترتيب الـ sections.
-- ممنوع تغيير نسخة العنوان أو الجملة الترويجية.
+- ممنوع تغيير ترتيب النص.
+- ممنوع تغيير الكلمات.
 - ممنوع كسر RTL.
 
 ACCEPTANCE CRITERIA:
-- كل الصفحات بنفس النضج البصري.
-- اتساق كامل في cards/CTAs/typography.
+- heatmap test (visual) يُظهر العين تتبع المسار المخطّط.
+- كل صفحة فيها CTA واحد واضح وأساسي.
 
 DELIVERABLES:
-- REPORT-14_PAGES-REDESIGN.md (مع before/after thumbnails)
+- REPORT-32_VISUAL-HIERARCHY.md
+- HIERARCHY-MAPS-PER-PAGE.md
 ```
 
 ---
 
-## 🎨 Prompt 4.5 — موبايل أولاً + 3D خفيف + احترام الأداء
+## 🏛️ Prompt 9.2 — Hierarchy على Mobile (Critical)
 
 ```text
 ROLE:
-Mobile-First UX Engineer.
+Mobile UX Engineer.
 
 OBJECTIVE:
-ضمان أن كل التحسينات لا تكسر الموبايل ولا الأداء.
+ضمان أن نفس الـ hierarchy تشتغل ممتاز على شاشات صغيرة
+حيث القرارات الـ B2B السعودية تحصل أيضًا.
 
 TASKS:
-1) راجع كل breakpoint:
-   - <= 480px
-   - <= 768px
-   - <= 1024px
-2) خفّض شدة 3D/animation تلقائيًا على mobile.
-3) تأكد touch targets ≥ 44px.
-4) تأكد forms لا تستخدم font-size < 16px.
-5) قلل عدد الـ reflow على الموبايل.
-6) لا تضف أي WebGL ثقيل.
-7) ابقِ JS islands فقط على Hero.
+1) كل breakpoint < 768px:
+   - h1 يجب أن يكون أكبر عنصر مرئي.
+   - CTA الأساسي يجب أن يكون above fold.
+   - النص الثانوي opacity أقل.
+   - lazy load أي صورة ليست critical.
+
+2) ابتعد عن:
+   - text in image
+   - زرين بنفس البروز
+   - cards مكدّسة بدون stagger.
+
+3) أضف "tap targets" 44px+ حتى للروابط النصية.
 
 FORBIDDEN:
-- ممنوع تعطيل dotted background على الموبايل كليًا
-  (خفّفه فقط).
-- ممنوع كسر السكرول.
+- ممنوع إخفاء محتوى على mobile (display:none للنص).
+- ممنوع تصغير أزرار CTA الأساسية تحت 44px.
 
 ACCEPTANCE CRITERIA:
-- mobile LCP < 2.5s
-- INP < 200ms
-- CLS < 0.05
+- mobile UX score ≥ 95.
+- Tap targets pass.
 
 DELIVERABLES:
-- REPORT-15_MOBILE-AND-3D.md
+- REPORT-33_MOBILE-HIERARCHY.md
 ```
 
 ---
 
-# المرحلة 5 — QA + Perf + SEO Verification
+# 🚀 المرحلة 10 — البوابة النهائية ثم النشر
 
-## ✅ Prompt 5.1 — QA بصري شامل + Visual Regression
+## ⚡ Prompt 10.1 — معالجة Mobile LCP (8s → <2.5s) — Critical Blocker
 
 ```text
 ROLE:
-Visual QA Engineer.
+Senior Web Performance Engineer.
 
 OBJECTIVE:
-التأكد أن أي قسم لم يتغير نصيًا، وأن البصر متّسق.
+خفض Mobile LCP من ~8.6s إلى < 2.5s
+هذا أهم blocker قبل النشر.
 
 TASKS:
-1) التقط screenshots قبل/بعد لكل صفحة.
-2) قارن النصوص قبل/بعد باستخدام diff نصي قاسي.
-3) أي اختلاف نصي = bug فوري.
-4) قارن بصريًا واطلب موافقة.
+1) شخّص LCP element على كل صفحة (Lighthouse details).
+2) إذا كان hero text/image:
+   - preload الخط الأساسي.
+   - inline critical CSS (above-the-fold).
+   - LCP image: preload + fetchpriority="high" + width/height set.
+3) إذا كان hero canvas (DottedSurface):
+   - أجّل client:visible إلى client:idle.
+   - أو ألغِ التحميل على mobile.
+4) قلل JS:
+   - audit kBs of JS shipped.
+   - أزل أي bundle غير ضروري.
+5) راجع fonts:
+   - استخدم font-display: swap.
+   - subset الخط العربي.
+   - preconnect لـ fonts.googleapis.com.
+6) Service worker:
+   - precache صفحة hero فقط.
+7) Images:
+   - كل صورة WebP/AVIF.
+   - srcset/sizes.
+   - native lazy loading.
 
 FORBIDDEN:
-- ممنوع تجاوز أي اختلاف نصي حتى لو “يبدو لا يضر”.
+- ممنوع إخفاء عنصر بصري للتحايل على LCP.
+- ممنوع تعطيل DottedBackground على desktop.
 
 ACCEPTANCE CRITERIA:
-- 0 اختلاف نصي.
-- اختلاف بصري فقط: تحسين، لا تغيير.
+- Mobile LCP < 2.5s على 6 صفحات أساسية.
+- Mobile Perf ≥ 85 (هدف 90).
+- Desktop Perf لم ينخفض.
 
 DELIVERABLES:
-- REPORT-16_VISUAL-QA.md
+- REPORT-34_MOBILE-LCP-FIX.md
+- BEFORE-AFTER-LIGHTHOUSE.csv
 ```
 
 ---
 
-## ✅ Prompt 5.2 — Performance Verification (Mobile + Desktop)
+## 🔧 Prompt 10.2 — إصلاح Bugs المتبقية (h1 ×2 + rel=noopener)
 
 ```text
 ROLE:
-Performance Verification Engineer.
+Quality Bug Fixer.
 
 OBJECTIVE:
-إثبات أن إعادة التصميم لم تضر الأداء.
+إصلاح bugs المعروفة من REPORT-16:
+1) /kernel/audit/ فيها h1 مكرّر.
+2) 3 روابط بدون rel="noopener noreferrer":
+   - /pricing/ (×2)
+   - /contact/ (×1)
 
 TASKS:
-1) Lighthouse mobile + desktop على:
-   - /
-   - /pricing/
-   - /solutions/
-   - /kernel/
-   - /docs/
-   - /blog/
-2) معايير الحد الأدنى:
-   - Performance ≥ 90 mobile
-   - Performance ≥ 95 desktop
-   - A11y ≥ 95
-   - SEO = 100
-   - Best Practices ≥ 95
-3) Core Web Vitals:
-   - LCP < 2.5s
-   - INP < 200ms
-   - CLS < 0.05
+1) /kernel/audit/:
+   - حدّد h1 المكرّر.
+   - حوّل الثاني إلى h2 (بدون تغيير النص).
+   - تحقق أن semantic structure سليم.
+2) لكل رابط external:
+   - أضف rel="noopener noreferrer".
+   - أضف target="_blank" إن لم يكن موجود.
 
 FORBIDDEN:
-- ممنوع الاحتفاظ بأي تحسين يكسر هذه الأرقام.
+- ممنوع تغيير النص.
+- ممنوع إزالة الروابط.
 
 ACCEPTANCE CRITERIA:
-- كل الأرقام مطابقة أو أفضل.
+- 14/14 صفحة: h1 count = 1.
+- 0 external link بدون rel="noopener".
 
 DELIVERABLES:
-- REPORT-17_PERFORMANCE.md
+- REPORT-35_BUG-FIXES.md
 ```
 
 ---
 
-## ✅ Prompt 5.3 — SEO + Indexing Verification
-
-```text
-ROLE:
-Technical SEO Verifier.
-
-OBJECTIVE:
-ضمان أن الفهرسة وعناصر SEO لم تتأثر.
-
-TASKS:
-1) راجع:
-   - sitemap.xml
-   - robots.txt
-   - canonical على كل صفحة
-   - hreflang
-   - JSON-LD schemas
-   - OG/twitter meta
-   - structured data validator
-2) تأكد أن:
-   - لا توجد صفحات noindex جديدة.
-   - 0 broken internal links.
-   - 0 duplicate canonicals.
-   - 0 mixed-language hreflang.
-3) شغّل internal-links-audit.
-4) راجع 301 من /frontend/assets/ تعمل.
-5) تأكد من schemas الخاصة بـ Saudi market.
-
-FORBIDDEN:
-- ممنوع تعديل أي نص schema.
-- ممنوع لمس redirects بدون سبب.
-
-ACCEPTANCE CRITERIA:
-- جميع pages: SEO=100.
-- جميع canonicals صحيحة.
-
-DELIVERABLES:
-- REPORT-18_SEO-INDEXING.md
-```
-
----
-
-## ✅ Prompt 5.4 — Final Production Readiness Gate
+## ✅ Prompt 10.3 — البوابة النهائية (Pre-Launch Final Gate)
 
 ```text
 ROLE:
 Production Readiness Auditor (CTO-level).
 
 OBJECTIVE:
-البوابة النهائية قبل الإفراج الكامل.
+بوابة شاملة قبل النشر. لا يمر أي شيء بدون ✅.
 
-CHECKLIST:
-- [ ] جميع التقارير 01–18 موجودة.
-- [ ] 0 broken links.
-- [ ] 0 missing assets.
-- [ ] 0 stale cache.
-- [ ] 0 changes to page text.
-- [ ] 0 changes to sections order.
-- [ ] 0 changes to canonical/hreflang/schema.
-- [ ] Lighthouse mobile ≥ 90.
-- [ ] A11y ≥ 95.
-- [ ] SEO = 100.
-- [ ] Visual QA = no regression.
-- [ ] Service Worker سياسة جديدة شغّالة.
-- [ ] 301 /frontend/assets → /assets شغّال.
-- [ ] Dotted background موحّد عبر كل الصفحات.
-- [ ] Split hero مصقول.
+CHECKLIST (يجب 100%):
+
+🟢 المحتوى:
+- [ ] 0 نص محذوف عبر كل المراحل.
+- [ ] 0 قسم محذوف.
+- [ ] 0 رابط داخلي مكسور.
+- [ ] كل التقارير 20-35 موجودة.
+
+🟢 الأداء:
+- [ ] Mobile LCP < 2.5s (كل الصفحات الأساسية).
+- [ ] Mobile Perf ≥ 85.
+- [ ] Desktop Perf ≥ 95.
+- [ ] A11y ≥ 95 (كل الصفحات).
+- [ ] SEO = 100 (كل الصفحات).
+- [ ] CLS < 0.05.
+- [ ] INP < 200ms.
+
+🟢 SEO:
+- [ ] sitemap.xml يحتوي كل الصفحات.
+- [ ] robots.txt صحيح.
+- [ ] 36/36 canonical صحيح.
+- [ ] 36/36 hreflang صحيح.
+- [ ] JSON-LD يمر Google Rich Results.
+- [ ] meta titles محسّنة.
+- [ ] internal links audit ✅.
+
+🟢 التصميم:
+- [ ] Star visual موجود.
+- [ ] Visual rhyming متّسق.
+- [ ] Depth/material مطبّق.
+- [ ] Opacity hierarchy موحّد.
+- [ ] Visual hierarchy واضح في كل صفحة.
+
+🟢 النشر:
+- [ ] Service Worker محدّث.
+- [ ] Headers صحيحة.
+- [ ] 301 redirects تعمل.
+- [ ] Build ينجح بدون أخطاء.
+- [ ] 0 console errors في dev/prod.
 
 OUTPUT:
-تقرير نهائي يقول:
 ✅ READY FOR PRODUCTION
 أو
-❌ BLOCKERS: [list]
+❌ BLOCKERS: [list with severity]
 
 FORBIDDEN:
 - ممنوع تخطّي أي بند.
-- ممنوع تمرير حالة “almost good”.
+- ممنوع "almost ready" — إما 100% أو blocker.
 
 DELIVERABLES:
-- REPORT-19_PRODUCTION-READY.md
+- REPORT-36_FINAL-GATE.md
 ```
 
 ---
 
-# 📌 ملاحظات تشغيلية مهمة جدًا
+## 🚢 Prompt 10.4 — النشر الفعلي + IndexNow + Search Console
 
-1. **شغّل البرومبتات بنفس الترتيب**. كل برومبت يفترض إنجاز اللي قبله.  
-2. **كل برومبت ينتج تقريرًا**. هذه التقارير تصير دليلك التنفيذي وسجلك الموثّق.  
-3. **ممنوع دمج برومبتين في خطوة واحدة**. الفصل = أمان.  
-4. **لا تنفّذ Cleanup و Redesign في نفس PR**. كل مرحلة PR مستقل.  
-5. **الاسم الإلزامي للتقارير**: `REPORT-XX_TITLE.md` — هذا يسهّل الأرشفة والمراجعة لاحقًا.  
+```text
+ROLE:
+Release Manager + SEO Submitter.
+
+PRECONDITION:
+REPORT-36 = ✅ READY FOR PRODUCTION.
+
+OBJECTIVE:
+نشر المشروع على production + إعلام محركات البحث.
+
+TASKS:
+1) Merge فرع feat/* إلى main.
+2) Verify deploy على Render/host.
+3) Hard refresh + smoke test 10 صفحات.
+4) شغّل:
+   - npm run indexnow:deploy
+   - submit sitemap إلى Google Search Console.
+   - submit sitemap إلى Bing Webmaster Tools.
+5) راقب 24 ساعة:
+   - GSC coverage
+   - Crawl errors
+   - Mobile usability
+6) Smoke test:
+   - WhatsApp link works
+   - Forms submit
+   - Cookie consent يظهر
+   - 404 page تعمل
+7) أنشئ "post-launch monitoring plan" لـ 30 يوم.
+
+FORBIDDEN:
+- ممنوع النشر بدون REPORT-36 ✅.
+- ممنوع تخطّي smoke test.
+
+ACCEPTANCE CRITERIA:
+- الموقع منشور.
+- IndexNow أرسلت.
+- GSC تستقبل.
+- 0 errors في الـ 24 ساعة الأولى.
+
+DELIVERABLES:
+- REPORT-37_LAUNCH.md
+- POST-LAUNCH-MONITORING-30DAYS.md
+- LAUNCH-CHECKLIST-SIGNED.md
+```
 
 ---
 
-لو تحب، في الرد التالي أقدر أعمل لك:
-- **نسخة “GLM 5.2 Optimized”** بصياغة موجّهة لـ GLM تحديدًا.  
-- أو **نسخة Markdown جاهزة للتصدير كملف واحد**.  
-- أو **نسخة JSON إلى Workflow Agent** للتشغيل بشكل آلي خطوة بخطوة.  
+# 📊 ملخص التسلسل الكامل
 
-أي نسخة تبيها؟
+```text
+المرحلة 6 — Evergreen + SEO Foundation
+  6.1 → REPORT-20_CONTENT-AUDIT
+  6.2 → REPORT-21_PILLAR-ARCHITECTURE
+  6.3 → REPORT-22_META-OPTIMIZATION
+  6.4 → REPORT-23_SCHEMA-ENHANCEMENT
+
+المرحلة 7 — التكتيكات الأربعة
+  7.1 → REPORT-24_KEYWORD-RESEARCH
+  7.2 → REPORT-25_INTENT-MATCHING
+  7.3 → REPORT-26_BACKLINKS-STRATEGY
+  7.4 → REPORT-27_INTERNAL-LINKING
+
+المرحلة 8 — التحسين البصري العميق
+  8.1 → REPORT-28_STAR-VISUAL
+  8.2 → REPORT-29_VISUAL-RHYMING
+  8.3 → REPORT-30_DEPTH-MATERIAL
+  8.4 → REPORT-31_OPACITY-HIERARCHY
+
+المرحلة 9 — Visual Hierarchy
+  9.1 → REPORT-32_VISUAL-HIERARCHY
+  9.2 → REPORT-33_MOBILE-HIERARCHY
+
+المرحلة 10 — البوابة + النشر
+  10.1 → REPORT-34_MOBILE-LCP-FIX  ⭐ Critical
+  10.2 → REPORT-35_BUG-FIXES
+  10.3 → REPORT-36_FINAL-GATE
+  10.4 → REPORT-37_LAUNCH 🚀
+```
+
+---
+
+# 🎯 الترتيب الإلزامي للتنفيذ
+
+> **مهم جداً:** نفّذ بالترتيب أدناه، **لا تقفز خطوة**.
+
+1. **ابدأ بـ 10.1 (Mobile LCP) فورًا** — هذا blocker. لا داعي للانتظار.
+2. ثم 10.2 (Bug fixes).
+3. ثم 6.1 → 6.4 (المحتوى).
+4. ثم 7.1 → 7.4 (التكتيكات).
+5. ثم 8.1 → 8.4 (البصري العميق).
+6. ثم 9.1 → 9.2 (Hierarchy).
+7. ثم 10.3 (Final Gate).
+8. ثم 10.4 (Launch). 🚀
+
+---
+
+# 💡 نقاط احترافية إضافية
+
+1. **بعد كل برومبت:** اطلب من الوكيل **screenshot قبل/بعد** + **before/after Lighthouse** عند أي تعديل CSS/JS كبير.
+2. **استخدم branch منفصل لكل برومبت** — يسهّل rollback لو شيء انكسر.
+3. **احتفظ بكل التقارير في مجلد `/report/`** بحيث يكون عندك ذاكرة مؤسسية كاملة.
+4. **بعد النشر، شغّل دورة شهرية:** keyword tracking + GSC review + backlinks check.
+
+---
+
+هل تريد:
+1. أحوّلها لـ **ملف Markdown واحد جاهز للتصدير**؟
+2. أم أبدأ معك **بأول برومبت (10.1 — Mobile LCP)** بصياغة GLM 5.2 مخصّصة؟
+3. أم أكتب **نسخة JSON workflow** للتشغيل الآلي؟

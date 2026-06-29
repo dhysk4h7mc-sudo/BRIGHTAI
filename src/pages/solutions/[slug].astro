@@ -7,6 +7,7 @@ import { solutions, getRelatedSolutions, getRelatedSectors } from '../../data/so
 import { migratedSolutionPages } from '../../data/migratedSolutionPages';
 
 import Icon from '../../components/Icon.astro';
+import { ORGANIZATION } from '../../data/schema-helpers';
 
 export function getStaticPaths() {
   return solutions.map(s => ({ params: { slug: s.slug }, props: { solution: s } }));
@@ -32,7 +33,10 @@ const jsonLd = {
     {"@type":"Service","@id":solution.canonical+"#service","name":solution.h1,"description":solution.description,"provider":{"@type":"Organization","name":"BrightAI","url":"https://brightai.site"},"url":solution.canonical,"areaServed":"Saudi Arabia"},
     {"@type":"BreadcrumbList","itemListElement":crumbs.map((c,i)=>({"@type":"ListItem","position":i+1,"name":c.label,"item":c.href?`https://brightai.site${c.href}`:solution.canonical}))},
     {"@type":["Organization","LocalBusiness"],"@id":"https://brightai.site/#organization","name":"BrightAI","url":"https://brightai.site","logo":"https://brightai.site/assets/images/logo.png","areaServed":"SA","sameAs":["https://twitter.com/BrightAISite","https://linkedin.com/company/brightai-site","https://github.com/brightai-site","https://crunchbase.com/organization/brightai"],"knowsAbout":["AI Governance","AI Safety","PDPL Compliance","NCA ECC Controls","ISO/IEC 42001","حوكمة الذكاء الاصطناعي في السعودية"]},
-    ...(solution.content?.faqs ? [{"@type":"FAQPage","mainEntity":solution.content.faqs.map(faq=>({"@type":"Question","name":faq.question,"acceptedAnswer":{"@type":"Answer","text":faq.answer}}))}] : [])
+    ...(solution.content?.faqs ? [{"@type":"FAQPage","mainEntity":solution.content.faqs.map(faq=>({"@type":"Question","name":faq.question,"acceptedAnswer":{"@type":"Answer","text":faq.answer}}))}] : []),
+    // SCHEMA-ENHANCEMENT (REPORT-23): canonical Organization node added for cross-page resolution.
+    // The legacy inline [Organization, LocalBusiness] above is preserved as-is for backward compatibility.
+    ORGANIZATION,
   ]
 };
 ---
@@ -41,7 +45,7 @@ const jsonLd = {
   description={migratedPage?.description ?? solution.description}
   canonical={migratedPage?.canonical ?? solution.canonical}
   hreflang={migratedPage?.hreflang ?? [{lang:'ar-SA',href:solution.canonical},{lang:'x-default',href:solution.canonical}]}
-  jsonLd={(migratedPage?.jsonLd ?? jsonLd) as any}
+  jsonLd={migratedPage?.jsonLd ? { '@context': 'https://schema.org', '@graph': [...(Array.isArray(migratedPage.jsonLd) ? migratedPage.jsonLd : [migratedPage.jsonLd]), ORGANIZATION] } : (jsonLd as any)}
   currentPath={solution.href}
   ogImage="/assets/images/og/og-solutions.png"
   ogImageAlt={migratedPage?.title ?? solution.title}

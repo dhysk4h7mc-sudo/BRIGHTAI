@@ -7,6 +7,7 @@ import ArabicLayout from '../../layouts/ArabicLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import { authors } from '../../data/blog';
 import { SITE } from '../../data/site';
+import { ORGANIZATION } from '../../data/schema-helpers';
 
 export function getStaticPaths() {
   return Object.keys(authors).map(slug => ({
@@ -70,14 +71,20 @@ const breadcrumbLd = {
     { '@type': 'ListItem', position: 3, name: author.name, item: author.url },
   ],
 };
+
+// SCHEMA-ENHANCEMENT (REPORT-23): wrap into @graph with canonical Organization + BreadcrumbList.
+const authorJsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [personLd, breadcrumbLd, ORGANIZATION],
+};
 ---
 
 <ArabicLayout
-  title="م. ناصر العبدالله — مؤسس BrightAI | حوكمة الذكاء الاصطناعي"
-  description="الصفحة التعريفية لم. ناصر العبدالله، مؤلف في BrightAI يكتب عن حوكمة الذكاء الاصطناعي وPDPL وضوابط NCA ECC وإرشادات سدايا."
+  title="م. ناصر العبدالله | مؤسس BrightAI وخبير AI"
+  description="م. ناصر العبدالله مؤسس BrightAI يكتب عن حوكمة الذكاء الاصطناعي وPDPL وNCA ECC وإرشادات سدايا. السيرة الكاملة والمقالات المهنية على الموقع الرسمي."
   canonical={author.url}
   hreflang={[{ lang: 'ar-SA', href: author.url }]}
-  jsonLd={personLd}
+  jsonLd={authorJsonLd as any}
   currentPath={`/authors/${author.slug}/`}
 >
 

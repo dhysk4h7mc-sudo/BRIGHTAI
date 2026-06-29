@@ -2,6 +2,7 @@
 import ArabicLayout from '../../layouts/ArabicLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import BackgroundGrid from '../../components/BackgroundGrid.astro';
+import { ORGANIZATION, getBreadcrumbLd } from '../../data/schema-helpers';
 const crumbs = [{ label: 'الرئيسية', href: '/' }, { label: 'تواصل معنا' }];
 const contactScenarios = [
   {
@@ -26,8 +27,35 @@ const contactSteps = [
   { n: '٢', title: 'نختار المسار المناسب', body: 'قد تكون الخطوة ديمو مخصص، جلسة تقييم جاهزية، مراجعة معمارية، أو تحديد نطاق تجربة أولية. ما ندفعك لمسار أكبر من حاجتك الحالية.' },
   { n: '٣', title: 'نحدد مخرجًا قابلًا للقياس', body: 'نتفق على المشكلة، الأطراف المسؤولة، الأدلة المطلوبة، وطريقة قياس النجاح قبل أي تنفيذ. كذا يكون النقاش مرتبطًا بقرار واضح، مو عرض عام فقط.' },
 ];
+
+// SCHEMA-ENHANCEMENT (REPORT-23): wrap original ContactPage + Organization + BreadcrumbList.
+// Original inline JSON-LD above is preserved unchanged.
+const contactJsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'ContactPage',
+      name: 'تواصل معنا | احجز عرض حوكمة AI بالسعودية',
+      description: 'احجز عرض عملي مع BrightAI لحوكمة AI وحماية البيانات وأدلة امتثال تناسب منشأتك. متاح عبر واتساب +966538229013 والبريد الإلكتروني على مدار الأسبوع.',
+      url: 'https://brightai.site/contact/',
+      mainEntity: {
+        '@type': 'Organization',
+        name: 'BrightAI',
+        telephone: '+966538229013',
+        email: 'yazeed1job@gmail.com',
+        address: { '@type': 'PostalAddress', addressLocality: 'الرياض', addressCountry: 'SA' },
+        url: 'https://brightai.site',
+      },
+    },
+    ORGANIZATION,
+    getBreadcrumbLd([
+      { name: 'الرئيسية', href: '/' },
+      { name: 'تواصل معنا', href: '/contact/' },
+    ]),
+  ],
+};
 ---
-<ArabicLayout title="احجز عرض BrightAI لحوكمة الذكاء الاصطناعي | BrightAI" description="تواصل مع BrightAI لحجز عرض عملي يوضح كيف تساعدك المنصة في حوكمة الذكاء الاصطناعي، حماية البيانات، وتجهيز أدلة امتثال تناسب منشأتك، مع خطوة تالية واضحة." canonical="https://brightai.site/contact/" hreflang={[{lang:'ar-SA',href:'https://brightai.site/contact/'},{lang:'x-default',href:'https://brightai.site/contact/'}]} jsonLd={{"@context":"https://schema.org","@type":"ContactPage","name":"تواصل مع BrightAI","url":"https://brightai.site/contact/","mainEntity":{"@type":"Organization","name":"BrightAI","telephone":"+966538229013","email":"yazeed1job@gmail.com","address":{"@type":"PostalAddress","addressLocality":"الرياض","addressCountry":"SA"},"url":"https://brightai.site"}}} currentPath="/contact/">
+<ArabicLayout title="تواصل معنا | احجز عرض حوكمة AI بالسعودية" description="احجز عرض عملي مع BrightAI لحوكمة AI وحماية البيانات وأدلة امتثال تناسب منشأتك. متاح عبر واتساب +966538229013 والبريد الإلكتروني على مدار الأسبوع." canonical="https://brightai.site/contact/" hreflang={[{lang:'ar-SA',href:'https://brightai.site/contact/'},{lang:'x-default',href:'https://brightai.site/contact/'}]} jsonLd={contactJsonLd as any} currentPath="/contact/">
 <section class="inner-hero" aria-label="تواصل معنا">
   <BackgroundGrid />
   <div class="max-w-7xl mx-auto px-5 lg:px-8">

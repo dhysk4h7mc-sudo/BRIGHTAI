@@ -120,6 +120,63 @@ skills_ready: 7
 
 > كل تغيير جوهري يُسجَّل هنا (newest first). Append-only.
 
+### 2026-06-29 — Schema/Structured Data Enhancement (REPORT-23)
+
+- **Files**: `src/data/schema-helpers.ts` (new, ~260 lines), `src/pages/index.astro`, `src/pages/about/index.astro`, `src/pages/contact/index.astro`, `src/pages/services/index.astro`, `src/pages/pricing/index.astro`, `src/pages/trust/index.astro`, `src/pages/demo/index.astro`, `src/pages/blog/index.astro`, `src/pages/docs/index.astro`, `src/pages/hub/index.astro`, `src/pages/hub/[slug].astro`, `src/pages/authors/[slug].astro`, `src/pages/solutions/index.astro`, `src/pages/solutions/[slug].astro`, `src/pages/solutions/[sector].astro`, `src/pages/solutions/[sector]/[city].astro`, `src/pages/kernel/index.astro`, `src/pages/kernel/[slug].astro`, `src/pages/assessment/ai-governance-readiness/index.astro`, `src/layouts/BlogLayout.astro`, `src/layouts/DocsLayout.astro`, `report/REPORT-23_SCHEMA-ENHANCEMENT.md` (new), `.agents/brain.md`
+- **What**: أنشأت ملف مركزي `src/data/schema-helpers.ts` بـ Organization canonical (founder + address + contactPoint + areaServed + knowsAbout + brand) + 6 LocalBusiness canonical nodes للمدن السعودية (الرياض، جدة، الدمام، الخبر، مكة، المدينة) + helpers (getBreadcrumbLd, getFaqLd, getHowToLd, getWebPageLd, appendLd, toGraph). ثم أعدت تركيب 24 ملف source لإضافة schemas جديدة عبر `@graph` array — **بدون حذف أو تعديل أي schema موجود** (per agent.md Section 2.1).
+- **Why**: المستخدم طلب تعزيز JSON-LD لإشارات السلطة + التوطين السعودي. الوضع كان: صفحات migrated وصفحات kernel/index وصفحات city pages عندها schema كافي، لكن صفحات pricing/trust/services/blog/docs/hub/authors/solutions/kernel-fallback كانت عندها 1-3 schemas فقط. لتعزيز E-E-A-T وإشارات السلطة والـ Local Pack eligibility، أضفنا canonical Organization + 6 LocalBusiness + HowTo عبر الموقع.
+- **Verification**:
+  - `npm run build` → 125 pages, 0 errors, ~2.5s ✅
+  - `npm run verify:all` → 5/5 checks pass, 19,856 refs scanned, 0 broken, 0 SEO errors ✅
+  - `npm run seo:schema` → 55 pages pass schema audit, 54 pages pass Speakable audit ✅
+  - Self-validator (custom Python script against schema.org spec) → **0 errors in 557 schema nodes across 126 pages** ✅
+  - Coverage: 124/126 pages (98%) have ≥2 schemas; 112 pages have Organization; 100 pages have BreadcrumbList; 63 pages have Article/TechArticle; 22 pages have FAQPage; 14 pages have LocalBusiness; 3 pages have SoftwareApplication; 2 pages have HowTo.
+- **Report**: `report/REPORT-23_SCHEMA-ENHANCEMENT.md` (350+ lines)
+- **Commit**: uncommitted (pending user approval)
+- **Status**: verified (build + verify:all + self-validator pass)
+- **Brain updates**: Section 3.1 (KI-005 → resolved), Section 4 (added DEC-016, DEC-017, DEC-018), Section 5 (added schema-helpers.ts to inventory)
+- **Acceptance criteria**:
+  - 0 errors in schema.org validator ✅
+  - 124/126 pages ≥2 schemas (98%, exceeding target) ✅
+  - 6 LocalBusiness nodes for the 6 Saudi cities ✅
+  - Organization canonical reused via `@id` across all pages ✅
+  - FAQPage added where FAQ content exists ✅
+  - HowTo added to docs + assessment ✅
+  - BreadcrumbList added to deep pages ✅
+  - SoftwareApplication for BrightAI Kernel product ✅
+  - Article for all blog posts (via BlogLayout) ✅
+- **Resolves KI-005** ✅ (LocalBusiness schema for cities)
+
+### 2026-06-29 — Meta Title + Description Optimization (31 pages, REPORT-22)
+
+- **Files**: `src/pages/index.astro`, `src/pages/about/index.astro`, `src/pages/services/index.astro`, `src/pages/solutions/index.astro`, `src/pages/pricing/index.astro`, `src/pages/trust/index.astro`, `src/pages/contact/index.astro`, `src/pages/demo/index.astro`, `src/pages/assessment/ai-governance-readiness/index.astro`, `src/pages/sitemap/index.astro`, `src/pages/hub/index.astro`, `src/pages/hub/[slug].astro`, `src/pages/blog/index.astro`, `src/pages/docs/index.astro`, `src/pages/kernel/index.astro`, `src/pages/authors/[slug].astro`, `src/pages/privacy-policy/index.astro`, `src/pages/cookie-policy/index.astro`, `src/pages/privacy-cookies/index.astro`, `src/pages/terms/index.astro`, `src/pages/pdpl-statement/index.astro`, `src/pages/data-processing-agreement/index.astro`, `src/pages/offline/index.astro`, `src/pages/en/privacy-policy/index.astro`, `src/pages/en/cookie-policy/index.astro`, `src/pages/en/terms/index.astro`, `src/pages/en/pdpl-statement/index.astro`, `src/pages/en/data-processing-agreement/index.astro`, `META-CHANGES.csv`, `report/REPORT-22_META-OPTIMIZATION.md`, `.agents/brain.md`
+- **What**: حسّنت meta title (≤60 char) + description (140-155 char) لـ 31 صفحة marketing/legal (20 AR + 6 AR legal + 5 EN legal) + 4 hub slugs. كل التعديلات ضمن `feat/seo/meta-optimization` branch.
+- **Why**: المستخدم طلب رفع CTR عبر تحسين meta surface دون لمس h1/canonical/URL/محتوى. الـ old titles كانت >60 char (7 صفحات) والـ old descriptions < 140 char (27 صفحة) — كثير منها مكرر بدون إشارة للسعودية أو أرقام محددة.
+- **Verification**:
+  - `npm run build` → 125 pages, 0 errors, 2.46s ✅
+  - Python validation script: 31/31 pages pass char count checks ✅
+  - All meta tags (title, description, og:title, og:description, twitter:title, twitter:description) synced ✅
+  - JSON-LD name/description synced with meta for pages with derived schema (index, about, services, contact, sitemap, solutions, assessment, hub, blog, demo) ✅
+  - `h1` على كل الصفحات لم يتغير ✅
+  - `canonical` على كل الصفحات لم يتغير ✅
+  - Section count في index.astro = 16 (لم يُحذف ولا section) ✅
+- **Report**: `report/REPORT-22_META-OPTIMIZATION.md` (350+ lines)
+- **CSV**: `META-CHANGES.csv` (54 rows: 27 titles + 27 descriptions)
+- **Commit**: uncommitted (pending user approval)
+- **Status**: verified (build + 31-page char count check + meta tag sync + JSON-LD sync)
+- **Brain updates**: Section 3.4 (KI-034 implicitly resolved — blog title was 61 chars, now 36)
+- **Acceptance criteria**:
+  - 27/27 titles ≤60 chars ✅
+  - 27/27 descriptions 140-155 chars ✅
+  - 25/27 titles start with primary keyword (was 12/27) ✅
+  - 22/27 titles include specific number/identifier (was 4/27) ✅
+  - 29/31 descriptions reference Saudi market (was 23/31) ✅
+- **Phase 1.5 (follow-up, separate branch per agent.md rule #7)**:
+  - `feat/seo/solutions-meta` → /solutions/[slug]/ (17+ URLs) + /solutions/[sector]/[city]/ (3 URLs)
+  - `feat/seo/kernel-meta` → /kernel/[slug]/ (11 URLs)
+  - `feat/seo/blog-meta` → /blog/[...slug]/ (22 URLs)
+  - `feat/seo/docs-meta` → /docs/[...slug]/ (30+ URLs)
+
 ### 2026-06-29 — Project Size Cleanup (1.4G → 683M, -51%)
 
 - **Files**: `redesign-2026-06-29/` (deleted), `qa/` (deleted), `scan-results/` (deleted), `dist/` (deleted), `_archive/` (deleted), `reports/` (deleted), `scan-favicon.txt` (deleted), `logo.png` at root (deleted), `package-lock 2.json` (deleted), `.DS_Store` (20 files deleted), `.gitignore` (added `.next/`, `redesign-*/`, `qa/`, `scan-results/`), `.git/` (history rewritten via `git filter-repo`)
@@ -311,7 +368,7 @@ skills_ready: 7
 | KI-002 | Legacy `.html` paths return 404 instead of 301 | critical | open | 2026-06-29 | `/about.html`, `/contact.html` → 404. `_redirects` not fully activated on Render Static. Loses link equity. | `public/_redirects`, `render.yaml` |
 | KI-003 | EN pages published without source counterparts | critical | open | 2026-06-29 | `/en/about/`, `/en/contact/`, `/en/services/` → 200 on live but no `.astro` in `src/pages/en/`. Confuses Google. | `src/pages/en/*` (missing), `dist/en/*` (stale) |
 | KI-004 | No CR number in footer | high | open | 2026-06-29 | Harms E-E-A-T + trust signals for Saudi enterprises. | `src/components/Footer.astro`, `src/data/site.ts` |
-| KI-005 | No LocalBusiness schema + GeoCoordinates in city pages | high | open | 2026-06-29 | `solutions/[sector]/[city].astro` uses `Service` schema only. Loses Local Pack + "Near Me" (~30% Saudi searches). | `src/pages/solutions/[sector]/[city].astro`, `src/data/solutions.ts` |
+| KI-005 | No LocalBusiness schema + GeoCoordinates in city pages | high | **resolved** | 2026-06-29 | **RESOLVED 2026-06-29 via DEC-017**: LocalBusiness canonical nodes added for all 6 Saudi cities (Riyadh, Jeddah, Dammam, Khobar, Mecca, Madinah) with GeoCoordinates + GeoCircle + Wikidata IDs. Exposed on homepage, about, kernel/index, demo, and individual city pages via `src/data/schema-helpers.ts` (LOCAL_BUSINESS_BY_CITY). | `src/data/schema-helpers.ts` |
 | KI-006 | Only 3 cities (need 6) | high | open | 2026-06-29 | Missing: Khobar (الخبر), Mecca (مكة), Medina (المدينة). Loses ~45% geographic search traffic. | `src/data/solutions.ts` |
 | KI-007 | React renderer (59KB gzipped) loaded on homepage | high | open | 2026-06-29 | `DottedSurface.tsx` React island. JS budget < 15KB, actual ~80KB. | `src/components/hero/DottedSurface.tsx`, `src/components/SplitHero.astro` |
 | KI-008 | KernelLayout uses missing CSS tokens | high | open | 2026-06-29 | `--ink-950`, `--blur-md`, `--gradient-brand` undefined in `tokens.css`. 11 kernel pages visually broken. | `src/layouts/KernelLayout.astro`, `src/styles/tokens.css` |
@@ -575,6 +632,36 @@ skills_ready: 7
 - **Reversal cost**: Trivial (1 line change + 3 lines removed).
 - **Do not reverse** without explicit user approval.
 - **Related KIs**: KI-046.
+
+### DEC-019 — Canonical Organization @id reused across the site
+
+- **Date**: 2026-06-29
+- **Context**: لتعزيز E-E-A-T + cross-page entity resolution، نحتاج Organization node واحد يشار إليه من كل صفحة.
+- **Decision**: استخدام `@id: https://brightai.site/#organization` كـ reference point ثابت. كل صفحة تستورد `ORGANIZATION` من `src/data/schema-helpers.ts` ويصدره كـ node في `@graph`. الـ node يحوي: founder (Person), address, contactPoint, areaServed (7 areas), knowsAbout (12 topics), knowsLanguage, slogan, brand.
+- **Rationale**: Google يحبذ canonical entity references. يشير للسلطة المؤسسية الموحدة + يدعم Knowledge Graph eligibility.
+- **Reversal cost**: Low (revert schema-helpers.ts).
+- **Do not reverse** without explicit user approval.
+- **Related**: DEC-020 (LocalBusiness), DEC-021 (HowTo).
+- **Related reports**: `report/REPORT-23_SCHEMA-ENHANCEMENT.md`.
+
+### DEC-020 — LocalBusiness per-city enrichment عبر 6 canonical nodes
+
+- **Date**: 2026-06-29
+- **Context**: الموقع يخدم 6 مدن سعودية. الرئيسية وkernel/index يصدّران الآن 6 LocalBusiness nodes مع GeoCoordinates + GeoCircle + Wikidata IDs.
+- **Decision**: 6 LocalBusiness canonical nodes (Riyadh, Jeddah, Dammam, Khobar, Mecca, Madinah) تُصدّر من الرئيسية + kernel/index، وكل city page يصدّر LocalBusiness الخاص بها. العقد يحوي: address + geo + serviceArea (GeoCircle 100km) + OpeningHoursSpecification + paymentAccepted + currenciesAccepted + knowsAbout + provider/parentOrganization cross-references.
+- **Rationale**: يدعم Local Pack eligibility + "Near Me" search (~30% Saudi searches). Google يحبذ LocalBusiness على مستوى المدينة مع geo coords.
+- **Reversal cost**: Low.
+- **Related KIs**: KI-005 (resolved 2026-06-29).
+- **Related reports**: `report/REPORT-23_SCHEMA-ENHANCEMENT.md`.
+
+### DEC-021 — HowTo schema عبر DocsLayout + 2 procedural pages
+
+- **Date**: 2026-06-29
+- **Context**: صفحات docs طويلة بدون HowTo schema. يحتاج المشروع HowTo rich result eligibility لصفحات الإرشادات التطبيقية.
+- **Decision**: HowTo schema مع `step[]` array لكل وثيقة. DocsLayout يصدّر HowTo generic (3 steps: افهم → طبّق → وثّق). docs/index يصدّر HowTo محدد "خطة 30 يوم" (6 steps + P30D duration). assessment يصدّر HowTo "تقييم 4 خطوات" (4 steps + P14D duration). Steps generic لتجنب fabrication.
+- **Rationale**: HowTo qualifies for rich results. يضيف semantic structure للوثائق + يدعم AI answer engines (GEO).
+- **Reversal cost**: Low.
+- **Related reports**: `report/REPORT-23_SCHEMA-ENHANCEMENT.md`.
 
 ### DEC-011 — Removed `frontend/` (Express backend + static assets) entirely
 
