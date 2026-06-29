@@ -7,7 +7,7 @@ import * as cheerio from "cheerio";
 import { glob } from "glob";
 
 const FAQ_PATTERN = /"@type"\s*:\s*"FAQPage"/;
-const EXCLUDED_PATH_PREFIXES = ["kernel/", "components/", "frontend/"];
+const EXCLUDED_PATH_PREFIXES = ["kernel/", "components/"];
 const EXCLUDED_PAGES = new Set(["demo/index.html", "report/index.html"]);
 
 function extractCanonical(html) {

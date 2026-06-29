@@ -158,20 +158,6 @@ export function buildLocalFileCandidates(decodedPath) {
 
   if (/^interview$/i.test(trimmed)) {
     add(path.posix.join(trimmed, "index.html"));
-    add(path.posix.join("frontend/pages", trimmed, "index.html"));
-  }
-
-  if (/^(ai-workflows|ai-scolecs|job\.MAISco|terms|sitemap|offline|demo|try)$/i.test(trimmed)) {
-    add(path.posix.join("frontend/pages", trimmed, "index.html"));
-  }
-
-  if (/^interview\/.+/i.test(trimmed)) {
-    add(path.posix.join("frontend/pages", `${trimmed}.html`));
-    add(path.posix.join("frontend/pages", trimmed, "index.html"));
-  }
-
-  if (/^blog\/automation\/[^/]+$/i.test(trimmed) || /^blog\/data-analytics\/[^/]+$/i.test(trimmed)) {
-    add(path.posix.join("frontend/pages", `${trimmed}.html`));
   }
 
   if (/^blog\/ai-audit-trail-saudi$/i.test(trimmed)) {
@@ -180,12 +166,6 @@ export function buildLocalFileCandidates(decodedPath) {
 
   if (/^sectors\/[^/]+$/i.test(trimmed)) {
     add(`${trimmed}.html`);
-    add(path.posix.join("frontend/pages", `${trimmed}.html`));
-  }
-
-  if (/^(ai-bots|try|demo)\/.+/i.test(trimmed)) {
-    add(path.posix.join("frontend/pages", trimmed, "index.html"));
-    add(path.posix.join("frontend/pages", `${trimmed}.html`));
   }
 
   if (isDirectoryPath) {

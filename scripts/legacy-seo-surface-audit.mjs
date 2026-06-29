@@ -21,8 +21,8 @@ const IGNORED_DIRS = new Set([
   "components",
 ]);
 const MACHINE_READABLE_FILES = ["robots.txt", "llms.txt", "llms-full.txt", "ai.txt"];
-const LEGACY_PUBLIC_PATH = /\/(?:frontend|demo)\/pages\//i;
-const LEGACY_DESTINATION_PATH = /\/(?:frontend|demo)\/pages\//i;
+const LEGACY_PUBLIC_PATH = /\/(?:demo)\/pages\//i;
+const LEGACY_DESTINATION_PATH = /\/(?:demo)\/pages\//i;
 
 async function walkFiles(root, current = "", files = [], ignoreSet = IGNORED_DIRS) {
   const entries = await fs.readdir(path.join(root, current), { withFileTypes: true });
@@ -220,7 +220,7 @@ export async function auditLegacySeoSurface({ root = DEFAULT_ROOT } = {}) {
   })) {
     if (relPath === "redirects.json" || relPath === "scripts/normalize-legacy-redirects.mjs") continue;
     const content = await fs.readFile(path.join(root, relPath), "utf8");
-    for (const match of content.matchAll(/["'`]([^"'`]*\/(?:frontend|demo)\/pages\/[^"'`]*)["'`]/gi)) {
+    for (const match of content.matchAll(/["'`]([^"'`]*\/(?:demo)\/pages\/[^"'`]*)["'`]/gi)) {
       if (LEGACY_DESTINATION_PATH.test(match[1])) {
         legacyRuntimeDestinations.push(`${relPath}: ${match[1]}`);
       }

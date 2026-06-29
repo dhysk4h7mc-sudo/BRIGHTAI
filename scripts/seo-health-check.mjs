@@ -42,7 +42,7 @@ const HTML_IGNORE_DIRS = new Set([
   "_archive",
 ]);
 const INTERNAL_PAGE_PATTERN =
-  /(^|\/)(404|500)\.html$|(^|\/)offline\/index\.html$|^aimais\/public\/|^frontend\/pages\/interview\/|^mais-OBM\/index\.html$|(^|\/)(admin|settings|analytics|reports|operations|scorecard|copilot|executive)(\/|\.|$)/i;
+  /(^|\/)(404|500)\.html$|(^|\/)offline\/index\.html$|^aimais\/public\/|^mais-OBM\/index\.html$|(^|\/)(admin|settings|analytics|reports|operations|scorecard|copilot|executive)(\/|\.|$)/i;
 function icon(ok) {
   return ok ? "✅" : "❌";
 }
@@ -114,7 +114,7 @@ function isHtmlDocument(html) {
 }
 
 function hasFrontendPagesLinks(html) {
-  return /\/frontend\/pages\//i.test(html);
+  return false;
 }
 
 function isInternalPage(relPath) {
@@ -256,7 +256,6 @@ async function auditHtmlFile(filePath, publicRegistry) {
   const publicDocument = isPublicIndexableRelPath(relPath) && Boolean(expectedCanonical) && !internal;
   const hasNoindex = hasNoindexDirective(html);
   const hreflangLinks = extractAlternateHreflangLinks(html);
-  const frontendPagesLink = hasFrontendPagesLinks(html);
   const onrenderRefs = findOnrenderReferences(html);
   const hasHtmlRedirect = hasHtmlRedirectSignals(html);
   const hreflangGhostTargets = [];
@@ -293,10 +292,6 @@ async function auditHtmlFile(filePath, publicRegistry) {
 
   if (publicDocument && h1Count !== 1) {
     issues.push("h1_invalid");
-  }
-
-  if (publicDocument && frontendPagesLink) {
-    issues.push("frontend_pages_link");
   }
 
   if (onrenderRefs.length > 0) {
@@ -406,7 +401,6 @@ async function main() {
   const titleMissing = summarizeIssue(documentAudits, "title_missing");
   const descriptionMissing = summarizeIssue(documentAudits, "description_missing");
   const h1Invalid = summarizeIssue(documentAudits, "h1_invalid");
-  const frontendPagesLinks = summarizeIssue(documentAudits, "frontend_pages_link");
   const onrenderReferences = summarizeIssue(
     documentAudits,
     "onrender_reference",
@@ -503,11 +497,6 @@ async function main() {
   );
   console.log("✅ سياسة النماذج التجريبية: لا يتم فرض noindex على صفحات العملاء قبل الشراء.");
   printResult(
-    frontendPagesLinks.length === 0,
-    "عدم وجود روابط إلى /frontend/pages/",
-    frontendPagesLinks.length === 0 ? "" : takeSample(frontendPagesLinks).join(" | ")
-  );
-  printResult(
     onrenderReferences.length === 0,
     "عدم وجود أي مراجع إلى onrender.com داخل HTML",
     onrenderReferences.length === 0 ? "" : takeSample(onrenderReferences, 8).join(" | ")
@@ -551,7 +540,6 @@ async function main() {
     Number(titleMissing.length > 0) +
     Number(descriptionMissing.length > 0) +
     Number(h1Invalid.length > 0) +
-    Number(frontendPagesLinks.length > 0) +
     Number(onrenderReferences.length > 0) +
     Number(noindexHreflang.length > 0) +
     Number(hreflangGhostPages.length > 0) +

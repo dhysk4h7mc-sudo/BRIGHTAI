@@ -1,102 +1,11 @@
-# BrightAI Render Blueprint — cleaned against the current project files
-# Generated after auditing the uploaded BRIGHTAI-main project and removing routes to pages that are not present.
+# BrightAI Render Blueprint — Astro static site only
+# Generated after removing the frontend/ Express backend service and all
+# related routes. The site is now pure static (output: 'static').
 
 services:
   - type: web
-    runtime: node
-    name: brightai-api
-    rootDir: frontend
-    buildCommand: npm ci --include=dev --no-audit --no-fund
-    startCommand: npm start
-    plan: starter
-    healthCheckPath: /api/health
-    autoDeploy: true
-    envVars:
-      - key: NODE_ENV
-        value: production
-      - key: NODE_VERSION
-        value: 22
-      - key: JWT_SECRET
-        sync: false
-      - key: SESSION_SECRET
-        sync: false
-      - key: DATABASE_URL
-        fromDatabase:
-          name: brightai-db
-          property: connectionString
-      - key: GEMINI_API_KEY
-        sync: false
-      - key: GOOGLE_API_KEY
-        sync: false
-      - key: GEMINI_MODEL
-        value: gemini-2.5-flash
-      - key: GROQ_API_KEY
-        sync: false
-      - key: GROQ_BASE_URL
-        value: https://api.groq.com/openai/v1
-      - key: GROQ_ENDPOINT
-        value: https://api.groq.com/openai/v1/chat/completions
-      - key: GROQ_MODEL
-        value: llama-3.3-70b-versatile
-      - key: GROQ_VISION_MODEL
-        value: llama-3.2-11b-vision-preview
-      - key: GROQ_TRANSCRIBE_MODEL
-        value: whisper-large-v3-turbo
-      - key: GROQ_STREAM_TIMEOUT_MS
-        value: 30000
-      - key: NVIDIA_API_KEY
-        sync: false
-      - key: NVIDIA_MODEL
-        value: minimaxai/minimax-m2.7
-      - key: NVIDIA_URL
-        value: https://integrate.api.nvidia.com/v1
-      - key: NVIDIA_ENDPOINT
-        value: https://integrate.api.nvidia.com/v1/chat/completions
-      - key: OPENAI_API_KEY
-        sync: false
-      - key: OPENAI_MODEL
-        value: gpt-4.1-mini
-      - key: OPENAI_ENDPOINT
-        value: https://api.openai.com/v1/chat/completions
-      - key: DEEPSEEK_API_KEY
-        sync: false
-      - key: DEEPSEEK_MODEL
-        value: deepseek-chat
-      - key: DEEPSEEK_ENDPOINT
-        value: https://api.deepseek.com/v1/chat/completions
-      - key: GA4_MEASUREMENT_ID
-        sync: false
-      - key: GA4_API_SECRET
-        sync: false
-      - key: ANALYTICS_WEBHOOK_KEY
-        sync: false
-      - key: AI_GATEWAY_MOCK_MODE
-        value: 0
-      - key: AI_GATEWAY_TIMEOUT_MS
-        value: 30000
-      - key: RATE_LIMIT_REQUESTS_PER_MINUTE
-        value: 30
-      - key: RATE_LIMIT_STORAGE
-        value: memory
-      - key: MAX_BODY_BYTES
-        value: 10240
-      - key: OCR_MAX_BODY_BYTES
-        value: 8388608
-      - key: MAX_UPLOAD_BODY_BYTES
-        value: 41943040
-      - key: DEMO_RATE_LIMIT_IP_MAX
-        value: 30
-      - key: DEMO_RATE_LIMIT_DEMO_MAX
-        value: 10
-      - key: DEMO_RATE_LIMIT_BURST_MAX
-        value: 5
-      - key: CACHE_ENABLED
-        value: true
-
-  - type: web
     runtime: static
     name: brightai-site
-    # Astro dist verified 2026-06-13: 105/105 sitemap routes in dist/, special files present (see RENDER-DEPLOYMENT-CHECK.md)
     buildCommand: npm install --include=dev && npm run build
     staticPublishPath: dist
     envVars:
@@ -120,17 +29,11 @@ services:
         value: camera=(), microphone=(), geolocation=()
       - path: /*
         name: Content-Security-Policy
-        value: "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; form-action 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://js.sentry-cdn.com https://www.clarity.ms https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://tovik.app; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; connect-src 'self' https://brightai-api.onrender.com wss://brightai-api.onrender.com https://o4510966719840256.ingest.us.sentry.io https://*.sentry.io https://www.google-analytics.com https://region1.google-analytics.com https://www.clarity.ms https://api.contractai.sa https://tovik.app; frame-src 'self' https://tovik.app; worker-src 'self' blob:; manifest-src 'self'"
+        value: "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; form-action 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://js.sentry-cdn.com https://www.clarity.ms https://*.clarity.ms https://cdnjs.cloudflare.com; script-src-elem 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://js.sentry-cdn.com https://www.clarity.ms https://*.clarity.ms https://cdnjs.cloudflare.com; script-src-attr 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; style-src-elem 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; style-src-attr 'unsafe-inline'; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com https://cdnjs.cloudflare.com; connect-src 'self' https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://stats.g.doubleclick.net https://o4510966719840256.ingest.us.sentry.io https://*.sentry.io https://www.clarity.ms https://*.clarity.ms https://c.bing.com; frame-src 'self' https://www.googletagmanager.com; worker-src 'self' blob:; manifest-src 'self'; media-src 'self' data: blob: https:; upgrade-insecure-requests"
       - path: /*
         name: Cache-Control
         value: public, max-age=0, must-revalidate
-      - path: /api/*
-        name: Cache-Control
-        value: no-store
       - path: /*.html
-        name: Cache-Control
-        value: public, max-age=0, must-revalidate
-      - path: /frontend/assets/css/global-fonts.css
         name: Cache-Control
         value: public, max-age=0, must-revalidate
       - path: /_astro/*
@@ -250,25 +153,20 @@ services:
       - path: /manifest.webmanifest
         name: Content-Type
         value: application/manifest+json; charset=utf-8
+      # ── Hard block: frontend/ (Express backend code) is NOT published ──
+      # Safety net in case any stale cache or accidental file ends up under
+      # /frontend/*. Tells crawlers + browsers to never index or cache it.
+      - path: /frontend/*
+        name: X-Robots-Tag
+        value: noindex, nofollow, noarchive, nosnippet
+      - path: /frontend/*
+        name: Cache-Control
+        value: no-store, no-cache, must-revalidate, max-age=0
+      - path: /frontend/*
+        name: Content-Security-Policy
+        value: "default-src 'none'; frame-ancestors 'none'"
     routes:
-      # API proxy routes
-      - type: rewrite
-        source: /api/*
-        destination: https://brightai-api.onrender.com/api/*
-      - type: rewrite
-        source: /ws/*
-        destination: https://brightai-api.onrender.com/ws/*
-
-      # ── Standard Redirects for Clean Trailing Slashes ───────────────────────
-      - type: redirect
-        source: /assessment/ai-governance-readiness
-        destination: /assessment/ai-governance-readiness/
-      - type: redirect
-        source: /assessment/ai-governance-readiness.html
-        destination: /assessment/ai-governance-readiness/
-      - type: redirect
-        source: /assessment/ai-governance-readiness/index.html
-        destination: /assessment/ai-governance-readiness/
+      # ── Trailing-slash redirects (legacy HTML → Astro) ─────────────────
       - type: redirect
         source: /index.html
         destination: /
@@ -401,17 +299,8 @@ services:
       - type: redirect
         source: /sitemap/index.html
         destination: /sitemap/
-      - type: redirect
-        source: /report
-        destination: /trust/
-      - type: redirect
-        source: /report.html
-        destination: /trust/
-      - type: redirect
-        source: /report/index.html
-        destination: /trust/
 
-      # ── Solutions Module Redirects ──────────────────────────────────────────
+      # ── Solutions Module Redirects ──────────────────────────────────────
       - type: redirect
         source: /solutions
         destination: /solutions/
@@ -421,8 +310,6 @@ services:
       - type: redirect
         source: /solutions/index.html
         destination: /solutions/
-
-      # 1. ai-governance-platform
       - type: redirect
         source: /solutions/ai-governance-platform
         destination: /solutions/ai-governance-platform/
@@ -432,8 +319,6 @@ services:
       - type: redirect
         source: /solutions/ai-governance-platform/index.html
         destination: /solutions/ai-governance-platform/
-
-      # 2. ai-use-case-discovery
       - type: redirect
         source: /solutions/ai-use-case-discovery
         destination: /solutions/ai-use-case-discovery/
@@ -443,8 +328,6 @@ services:
       - type: redirect
         source: /solutions/ai-use-case-discovery/index.html
         destination: /solutions/ai-use-case-discovery/
-
-      # 3. ai-risk-classification
       - type: redirect
         source: /solutions/ai-risk-classification
         destination: /solutions/ai-risk-classification/
@@ -454,8 +337,6 @@ services:
       - type: redirect
         source: /solutions/ai-risk-classification/index.html
         destination: /solutions/ai-risk-classification/
-
-      # 4. policy-to-control-mapping
       - type: redirect
         source: /solutions/policy-to-control-mapping
         destination: /solutions/policy-to-control-mapping/
@@ -465,8 +346,6 @@ services:
       - type: redirect
         source: /solutions/policy-to-control-mapping/index.html
         destination: /solutions/policy-to-control-mapping/
-
-      # 5. ai-firewall
       - type: redirect
         source: /solutions/ai-firewall
         destination: /solutions/ai-firewall/
@@ -476,8 +355,6 @@ services:
       - type: redirect
         source: /solutions/ai-firewall/index.html
         destination: /solutions/ai-firewall/
-
-      # 6. ai-audit-trail
       - type: redirect
         source: /solutions/ai-audit-trail
         destination: /solutions/ai-audit-trail/
@@ -487,8 +364,6 @@ services:
       - type: redirect
         source: /solutions/ai-audit-trail/index.html
         destination: /solutions/ai-audit-trail/
-
-      # 7. human-approval-layer
       - type: redirect
         source: /solutions/human-approval-layer
         destination: /solutions/human-approval-layer/
@@ -498,8 +373,6 @@ services:
       - type: redirect
         source: /solutions/human-approval-layer/index.html
         destination: /solutions/human-approval-layer/
-
-      # 8. ai-evidence-file
       - type: redirect
         source: /solutions/ai-evidence-file
         destination: /solutions/ai-evidence-file/
@@ -509,8 +382,6 @@ services:
       - type: redirect
         source: /solutions/ai-evidence-file/index.html
         destination: /solutions/ai-evidence-file/
-
-      # 9. continuous-ai-governance
       - type: redirect
         source: /solutions/continuous-ai-governance
         destination: /solutions/continuous-ai-governance/
@@ -521,8 +392,7 @@ services:
         source: /solutions/continuous-ai-governance/index.html
         destination: /solutions/continuous-ai-governance/
 
-      # ── English Legal Redirects ─────────────────────────────────────────────
-      # English legal pages that exist in the repository
+      # ── EN Legal Redirects ─────────────────────────────────────────────
       - type: redirect
         source: /en/privacy-policy
         destination: /en/privacy-policy/
@@ -569,8 +439,7 @@ services:
         source: /en/data-processing-agreement/index.html
         destination: /en/data-processing-agreement/
 
-      # ── Docs Module Redirects ───────────────────────────────────────────────
-      # Docs root → landing index
+      # ── Docs Redirects ─────────────────────────────────────────────────
       - type: redirect
         source: /docs
         destination: /docs/
@@ -592,8 +461,6 @@ services:
       - type: redirect
         source: /docs/index.html
         destination: /docs/
-
-      # 1. ai-governance-platform (docs)
       - type: redirect
         source: /docs/ai-governance-platform
         destination: /docs/ai-governance-platform/
@@ -603,8 +470,6 @@ services:
       - type: redirect
         source: /docs/ai-governance-platform/index.html
         destination: /docs/ai-governance-platform/
-
-      # 2. ai-firewall (docs)
       - type: redirect
         source: /docs/ai-firewall
         destination: /docs/ai-firewall/
@@ -614,8 +479,6 @@ services:
       - type: redirect
         source: /docs/ai-firewall/index.html
         destination: /docs/ai-firewall/
-
-      # 3. ai-audit-trail (docs)
       - type: redirect
         source: /docs/ai-audit-trail
         destination: /docs/ai-audit-trail/
@@ -625,8 +488,6 @@ services:
       - type: redirect
         source: /docs/ai-audit-trail/index.html
         destination: /docs/ai-audit-trail/
-
-      # 4. human-approval-layer (docs)
       - type: redirect
         source: /docs/human-approval-layer
         destination: /docs/human-approval-layer/
@@ -636,8 +497,6 @@ services:
       - type: redirect
         source: /docs/human-approval-layer/index.html
         destination: /docs/human-approval-layer/
-
-      # 5. ai-evidence-file (docs)
       - type: redirect
         source: /docs/ai-evidence-file
         destination: /docs/ai-evidence-file/
@@ -647,8 +506,6 @@ services:
       - type: redirect
         source: /docs/ai-evidence-file/index.html
         destination: /docs/ai-evidence-file/
-
-      # 6. ai-governance-saudi-arabia (docs)
       - type: redirect
         source: /docs/ai-governance-saudi-arabia
         destination: /docs/ai-governance-saudi-arabia/
@@ -658,8 +515,6 @@ services:
       - type: redirect
         source: /docs/ai-governance-saudi-arabia/index.html
         destination: /docs/ai-governance-saudi-arabia/
-
-      # 7. ai-risk-management (docs)
       - type: redirect
         source: /docs/ai-risk-management
         destination: /docs/ai-risk-management/
@@ -669,8 +524,6 @@ services:
       - type: redirect
         source: /docs/ai-risk-management/index.html
         destination: /docs/ai-risk-management/
-
-      # 8. pdpl-ai-governance (docs)
       - type: redirect
         source: /docs/pdpl-ai-governance
         destination: /docs/pdpl-ai-governance/
@@ -680,8 +533,6 @@ services:
       - type: redirect
         source: /docs/pdpl-ai-governance/index.html
         destination: /docs/pdpl-ai-governance/
-
-      # 9. pdpl-chatgpt-data-protection (docs)
       - type: redirect
         source: /docs/pdpl-chatgpt-data-protection
         destination: /docs/pdpl-chatgpt-data-protection/
@@ -691,8 +542,6 @@ services:
       - type: redirect
         source: /docs/pdpl-chatgpt-data-protection/index.html
         destination: /docs/pdpl-chatgpt-data-protection/
-
-      # 10. nca-ecc-ai-governance (docs)
       - type: redirect
         source: /docs/nca-ecc-ai-governance
         destination: /docs/nca-ecc-ai-governance/
@@ -702,8 +551,6 @@ services:
       - type: redirect
         source: /docs/nca-ecc-ai-governance/index.html
         destination: /docs/nca-ecc-ai-governance/
-
-      # 11. nca-ecc-ai-controls-mapping (docs)
       - type: redirect
         source: /docs/nca-ecc-ai-controls-mapping
         destination: /docs/nca-ecc-ai-controls-mapping/
@@ -713,8 +560,6 @@ services:
       - type: redirect
         source: /docs/nca-ecc-ai-controls-mapping/index.html
         destination: /docs/nca-ecc-ai-controls-mapping/
-
-      # 12. ai-audit-readiness (docs)
       - type: redirect
         source: /docs/ai-audit-readiness
         destination: /docs/ai-audit-readiness/
@@ -724,8 +569,6 @@ services:
       - type: redirect
         source: /docs/ai-audit-readiness/index.html
         destination: /docs/ai-audit-readiness/
-
-      # 13. nca-ecc-ai-controls (docs)
       - type: redirect
         source: /docs/nca-ecc-ai-controls
         destination: /docs/nca-ecc-ai-controls/
@@ -735,8 +578,6 @@ services:
       - type: redirect
         source: /docs/nca-ecc-ai-controls/index.html
         destination: /docs/nca-ecc-ai-controls/
-
-      # 14. Governance-application (docs)
       - type: redirect
         source: /docs/Governanceـapplication
         destination: /docs/governance-application/
@@ -765,10 +606,7 @@ services:
         source: /docs/governance-application/index.html
         destination: /docs/governance-application/
 
-      # ── Kernel Docs Redirects ───────────────────────────────────────────────
-      # BrightAI Kernel documentation pages under /docs/kernel-*
-
-      # kernel-chat
+      # ── Docs Kernel Redirects ──────────────────────────────────────────
       - type: redirect
         source: /docs/kernel-chat
         destination: /docs/kernel-chat/
@@ -778,8 +616,6 @@ services:
       - type: redirect
         source: /docs/kernel-chat/index.html
         destination: /docs/kernel-chat/
-
-      # kernel-audit-trail
       - type: redirect
         source: /docs/kernel-audit-trail
         destination: /docs/kernel-audit-trail/
@@ -789,8 +625,6 @@ services:
       - type: redirect
         source: /docs/kernel-audit-trail/index.html
         destination: /docs/kernel-audit-trail/
-
-      # kernel-approvals
       - type: redirect
         source: /docs/kernel-approvals
         destination: /docs/kernel-approvals/
@@ -800,8 +634,6 @@ services:
       - type: redirect
         source: /docs/kernel-approvals/index.html
         destination: /docs/kernel-approvals/
-
-      # kernel-evidence
       - type: redirect
         source: /docs/kernel-evidence
         destination: /docs/kernel-evidence/
@@ -811,8 +643,6 @@ services:
       - type: redirect
         source: /docs/kernel-evidence/index.html
         destination: /docs/kernel-evidence/
-
-      # kernel-stats
       - type: redirect
         source: /docs/kernel-stats
         destination: /docs/kernel-stats/
@@ -822,8 +652,6 @@ services:
       - type: redirect
         source: /docs/kernel-stats/index.html
         destination: /docs/kernel-stats/
-
-      # kernel-reports
       - type: redirect
         source: /docs/kernel-reports
         destination: /docs/kernel-reports/
@@ -833,8 +661,6 @@ services:
       - type: redirect
         source: /docs/kernel-reports/index.html
         destination: /docs/kernel-reports/
-
-      # kernel-policies
       - type: redirect
         source: /docs/kernel-policies
         destination: /docs/kernel-policies/
@@ -844,8 +670,6 @@ services:
       - type: redirect
         source: /docs/kernel-policies/index.html
         destination: /docs/kernel-policies/
-
-      # kernel-compliance
       - type: redirect
         source: /docs/kernel-compliance
         destination: /docs/kernel-compliance/
@@ -855,8 +679,6 @@ services:
       - type: redirect
         source: /docs/kernel-compliance/index.html
         destination: /docs/kernel-compliance/
-
-      # kernel-connectors
       - type: redirect
         source: /docs/kernel-connectors
         destination: /docs/kernel-connectors/
@@ -866,8 +688,6 @@ services:
       - type: redirect
         source: /docs/kernel-connectors/index.html
         destination: /docs/kernel-connectors/
-
-      # kernel-scenarios
       - type: redirect
         source: /docs/kernel-scenarios
         destination: /docs/kernel-scenarios/
@@ -878,8 +698,7 @@ services:
         source: /docs/kernel-scenarios/index.html
         destination: /docs/kernel-scenarios/
 
-      # ── Kernel Module Redirects ─────────────────────────────────────────────
-      # Legacy HTML URLs redirect to Astro directory routes.
+      # ── Kernel Module Redirects ─────────────────────────────────────────
       - type: redirect
         source: /kernel/index.html
         destination: /kernel/
@@ -917,7 +736,7 @@ services:
         source: /kernel/offline.html
         destination: /kernel/offline/
 
-      # ── Blog Module Redirects ────────────────────────────────────────────────
+      # ── Blog Module Redirects ───────────────────────────────────────────
       - type: redirect
         source: /blog
         destination: /blog/
@@ -981,8 +800,6 @@ services:
       - type: redirect
         source: /blog/pdpl-and-ai-saudi/index.html
         destination: /blog/pdpl-and-ai-saudi/
-
-      # ── Additional Blog Redirects ──────────────────────────────────────────
       - type: redirect
         source: /blog/ai-audit-trail-compliance-path
         destination: /blog/ai-audit-trail-compliance-path/
@@ -1128,7 +945,7 @@ services:
         source: /blog/what-is-ai-governance-saudi-companies/index.html
         destination: /blog/what-is-ai-governance-saudi-companies/
 
-      # ── Additional Docs Redirects ──────────────────────────────────────────
+      # ── Additional Docs Redirects ──────────────────────────────────────
       - type: redirect
         source: /docs/nca-ecc-ai-guide
         destination: /docs/nca-ecc-ai-guide/
@@ -1157,7 +974,7 @@ services:
         source: /docs/sdaia-generative-ai-guidelines/index.html
         destination: /docs/sdaia-generative-ai-guidelines/
 
-      # ── Hub Redirects ──────────────────────────────────────────────────────
+      # ── Hub Redirects ──────────────────────────────────────────────────
       - type: redirect
         source: /hub
         destination: /hub/
@@ -1204,7 +1021,7 @@ services:
         source: /hub/use-cases/index.html
         destination: /hub/use-cases/
 
-      # ── Additional Solution Redirects ──────────────────────────────────────
+      # ── Additional Solution Redirects ──────────────────────────────────
       - type: redirect
         source: /solutions/banking-ai-governance
         destination: /solutions/banking-ai-governance/
@@ -1251,8 +1068,15 @@ services:
         source: /solutions/manufacturing-ai-governance/index.html
         destination: /solutions/manufacturing-ai-governance/
 
-databases:
-  - name: brightai-db
-    databaseName: brightai
-    user: brightai
-    plan: starter
+      # ── Hard block: /frontend/* should never be served ────────────────
+      # Frontend (Express backend) was removed. Any cached request to
+      # /frontend/* should fall through to the 404 page.
+      - type: redirect
+        source: /frontend
+        destination: /404/
+      - type: redirect
+        source: /frontend/
+        destination: /404/
+      - type: redirect
+        source: /frontend/*
+        destination: /404/

@@ -56,11 +56,9 @@ const NON_INDEXABLE_REL_PATH_PATTERNS = [
   /^offline\/index\.html$/i,
   /^kernel\/offline\.html$/i,
   /^report\/index\.html$/i,
-  /^frontend\/font-demo\.html$/i,
   /^en\/docs\/docs\.html$/i,
   /^blog\/(ai-automation-project-analysis|digital-transformation-automation|financial-hr-automation|industrial-automation-productivity|machine-learning-computer-vision|process-automation-ai-efficiency)\.html$/i,
   /^aimais\/public\//i,
-  /^frontend\/pages\//i,
   /^mais-OBM\/index\.html$/i,
   /^interview\/pages\/supportAI\/index\.html$/i,
   /^blog\/atou\.doc\.html$/i,
@@ -151,10 +149,6 @@ export function relPathToSitePath(relPath) {
     return relPathToSitePath(aliasedPath);
   }
 
-  if (normalized === "frontend/pages/blogger/Generative-artificial-intelligence.html") {
-    return "/blog/generative-artificial-intelligence";
-  }
-
   if (normalized === "index.html") return "/";
   if (normalized === "docs/index.html") return "/docs/";
   if (normalized === "docs.html") return "/docs/";
@@ -164,26 +158,8 @@ export function relPathToSitePath(relPath) {
 
     if (dir.startsWith("docs/")) return `/${dir}/`;
     if (ROOT_INDEX_DIRS.has(dir)) return `/${dir}/`;
-    if (dir === "frontend/pages/ai-workflows") return "/ai-workflows/";
-    if (dir === "frontend/pages/ai-scolecs") return "/ai-scolecs/";
     if (dir === "smart-medical-archive") return "/smart-medical-archive/";
     if (dir === "privacy-cookies") return "/privacy-cookies/";
-    if (dir === "frontend/pages/job.MAISco") return "/job.MAISco/";
-    if (dir === "frontend/pages/interview") return "/demo/smart-hiring-system/";
-    if (dir === "frontend/pages/terms") return "/terms/";
-    if (dir === "frontend/pages/sitemap") return "/sitemap/";
-    if (dir === "frontend/pages/offline") return "/offline/";
-    if (
-      dir.startsWith("frontend/pages/ai-bots/") ||
-      dir.startsWith("frontend/pages/try/") ||
-      dir.startsWith("frontend/pages/demo/")
-    ) {
-      return `/${dir.replace(/^frontend\/pages\//, "")}/`;
-    }
-
-    if (dir.startsWith("frontend/pages/")) {
-      return `/${dir.replace(/^frontend\/pages\//, "")}/`;
-    }
 
     return `/${dir}/`;
   }
@@ -192,36 +168,12 @@ export function relPathToSitePath(relPath) {
     return `/docs/${path.basename(normalized, ".html")}/`;
   }
 
-  if (normalized.startsWith("frontend/pages/blogger/") && normalized.endsWith(".html")) {
-    return `/blog/${path.basename(normalized, ".html")}/`;
-  }
-
-  if (normalized.startsWith("frontend/pages/botAI/") && normalized.endsWith(".html")) {
-    return `/ai-bots/${path.basename(normalized, ".html")}/`;
-  }
-
-  if (normalized.startsWith("frontend/pages/blog/workplace-automation-guide/mation/") && normalized.endsWith(".html")) {
-    return `/blog/workplace-automation-guide/mation/${path.basename(normalized, ".html")}/`;
-  }
-
-  if (normalized.startsWith("frontend/pages/blog/data-analytics/") && normalized.endsWith(".html")) {
-    return `/blog/data-analytics/${path.basename(normalized, ".html")}/`;
-  }
-
-  if (normalized.startsWith("frontend/pages/sectors/") && normalized.endsWith(".html")) {
-    return `/sectors/${path.basename(normalized, ".html")}/`;
-  }
-
   if (normalized.startsWith("blog/") && normalized.endsWith(".html")) {
     return `/blog/${path.basename(normalized, ".html")}/`;
   }
 
   if (normalized.startsWith("sectors/") && normalized.endsWith(".html")) {
     return `/sectors/${path.basename(normalized, ".html")}/`;
-  }
-
-  if (normalized.startsWith("frontend/pages/") && normalized.endsWith(".html")) {
-    return `/${normalized.replace(/^frontend\/pages\//, "").replace(/\.html$/, "")}/`;
   }
 
   if (normalized.endsWith(".html")) {

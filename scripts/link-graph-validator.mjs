@@ -27,7 +27,7 @@ export async function validateLinkGraph({ root = ROOT } = {}) {
       const normalized = canonicalPath(href);
       if (!normalized) continue;
       const finding = { relPath, originalHref: href, normalized };
-      if (/\/(?:frontend|demo)\/pages\//i.test(href)) legacyPaths.push(finding);
+      if (/\/(?:demo)\/pages\//i.test(href)) legacyPaths.push(finding);
       if (/\.html(?:[?#]|$)/i.test(href) && !/(?:404|500|error)\.html/i.test(href)) {
         htmlSuffixes.push(finding);
       }

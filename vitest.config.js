@@ -11,6 +11,6 @@ export default defineConfig({
     environment: 'node',
     globals: true,
     setupFiles: [],
-    include: ['kernel/tests/**/*.test.js', 'frontend/tests/**/*.test.{js,ts}'],
+    include: ['kernel/tests/**/*.test.js'],
   },
 });

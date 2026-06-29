@@ -2,9 +2,9 @@
 file: brain.md
 project: BrightAI — Saudi AI Safety OS
 site: https://brightai.site
-last_updated: 2026-06-29 02:50 +03:00
+last_updated: 2026-06-29 05:35 +03:00
 maintained_by: BrightAI Workspace Agent
-version: 1.2.0
+version: 1.4.0
 agent_version: v2.3
 skills_ready: 7
 ---
@@ -107,6 +107,54 @@ skills_ready: 7
 
 > كل تغيير جوهري يُسجَّل هنا (newest first). Append-only.
 
+### 2026-06-29 — Unified Component System v4 (canonical + legacy aliases)
+
+- **Files**: `src/styles/components.css` (rewritten 585→1430 lines), `src/styles/pages.css` (cleaned 2243→1482 lines, -761 duplicate rules removed)
+- **What**: وحّدت 9 categories من المكونات (buttons, cards, chips, sections, forms, tables, faq, stats, decorative) في canonical BEM واحد. كل الـ legacy class names (`.glow-btn`, `.wa-btn`, `.feature-card`, `.inner-card`, `.home-stat-card`, `.home-cta-card`, `.pricing-card`, `.trust-card`, `.inner-faq`, `.home-faq-item`, `.inner-section`, `.chip`, `.badge`, `.inner-form__*`, `.home-form-input`, `.pricing-table`, etc.) تشتغل كـ aliases في `components.css`.
+- **Why**: كان عندنا 5 patterns مختلفة لنفس الزر، 8 patterns لنفس البطاقة، 4 patterns لنفس الـ input — كلها تحقق نفس الشي بدون معيار واضح. النتيجة: نفس الزر يظهر بـ 4 ستايلات مختلفة عبر الموقع. التوحيد يخلينا نقدر نضمن visual consistency + صيانة أسهل.
+- **Verification**:
+  - `npm run build` → 125 pages, 0 errors, 2.14s
+  - `npm run verify:all` → exit 0, 0 broken links, 0 warnings
+  - `npm run seo:gate` → 6/6 hreflang, 5/5 service, 19855 refs scanned, 0 broken
+  - Playwright (6 pages: home, pricing, about, contact, demo, solutions) → 0 console errors
+  - Visual screenshots: identical to pre-change (no text changed, no visual element removed)
+  - CSS gzipped (BaseLayout): 14.5KB (under 25KB budget)
+- **Report**: `report/REPORT-12_COMPONENTS-UNIFY.md`
+- **Commit**: uncommitted (pending user approval)
+- **Status**: verified (build + verify + seo + playwright all pass)
+- **Brain updates**:
+  - Section 5.8 (Styles table — updated components.css from 585 to 1430, pages.css from 2243 to 1482)
+  - Section 4 (added DEC-012 — Unified Component System v4)
+  - Section 10 (Maintenance Log)
+- **Canonical → Alias mapping**:
+  - Buttons: `.btn--primary` ← [`.btn-primary`]; `.btn--glow` ← [`.glow-btn`, `.home-cta-primary`]; `.btn--secondary` ← [`.btn-secondary`, `.home-cta-secondary`]; `.btn--ghost` ← [`.btn-ghost`]; `.btn--whatsapp` ← [`.wa-btn`]
+  - Cards: `.card` ← [`.inner-card`]; `.card--feature` ← [`.feature-card`, `.inner-card`]; `.card--metric` ← [`.home-stat-card`, `.inner-stat`]; `.card--pricing` ← [`.pricing-card`]; `.card--cta` ← [`.home-cta-card`, `.inner-cta-final`]; `.card--glass` ← [`.glass`]
+  - Chips/Badges: `.chip` ← [`.badge`]; `.chip--brand` ← [`.badge--brand`]; etc.
+  - Sections: `.section--inner` ← [`.inner-section`]; etc.
+  - Forms: `.field` ← [`.home-form-input`, `.inner-form__input/textarea/select`, `.form__input/textarea/select`]
+  - Tables: `.table--pricing` ← [`.pricing-table`]
+  - FAQ: `.faq` ← [`.inner-faq`]; `.faq__item` ← [`.home-faq-item`]; `.faq__answer` ← [`.inner-faq__answer`, `.home-faq-answer`]
+
+### 2026-06-29 — Removed frontend/ entirely (Express backend + static assets)
+
+- **Files**: `frontend/` (deleted, 1.1MB), `dist/frontend/` (deleted, empty), `public/frontend/` (deleted, empty), `package.json`, `render.yaml`, `public/_redirects`, `tsconfig.json`, `eslint.config.mjs`, `vitest.config.js`, `scripts/apply-css-bundle.mjs` (deleted), `scripts/apply-production-audit-fixes.mjs` (deleted), `scripts/build-tailwind-purged.mjs` (deleted), `scripts/build-css-bundle.mjs` (deleted), `scripts/minify-seo-assets.mjs` (deleted), `scripts/replace-unminified-refs.mjs` (deleted), `scripts/check-render-readiness.mjs` (deleted), `scripts/update-section-og-meta.test.mjs` (deleted), `scripts/seo-production-guard.mjs` (deleted), `scripts/seo-ci-check.mjs`, `scripts/seo-url-map.mjs`, `scripts/seo-health-check.mjs`, `scripts/link-graph-validator.mjs`, `scripts/legacy-seo-surface-audit.mjs`, `scripts/verify-all.mjs`, `scripts/orphan-pages-audit.mjs`, `scripts/internal-links-common.mjs`, `scripts/resource-paths-common.mjs`, `scripts/legacy-paths-audit.mjs`, `scripts/sitemap-audit-utils.mjs`, `scripts/generate-image-sitemap.mjs`, `.agents/brain.md`
+- **What**: حذف مجلد `frontend/` بالكامل مع كل الـ backend deps والـ scripts والـ render services. تنظيف كل الـ frontend refs من 17 source/scripts/config files.
+- **Why**: المستخدم قرر إنهاء فصل الـ frontend عن الـ Astro site لأن الموقع هاجر بالكامل إلى Astro static. الـ Express backend كان بقايا من فترة الـ HTML static. الـ dist/ الجديد ينتج بدون أي frontend/ directory.
+- **Verification**:
+  - `npm run build` → 125 pages, 0 errors, no `dist/frontend/` produced
+  - `npm run verify:all` → 5/5 checks, 0 errors, 0 warnings
+  - `npm run seo:all` → 0 errors, 0 warnings, 19855 refs scanned, 0 broken
+  - Local preview `curl /frontend/server.js` → 404 (was 200)
+  - Local preview `curl /frontend/css/main.bundle.min.css` → 404 (was 200)
+- **Report**: `report/REPORT-FRONTEND-REMOVAL-2026-06-29.md`
+- **Commit**: uncommitted (pending user approval)
+- **Status**: verified (build + verify + seo all pass; local preview confirms 404)
+- **Brain updates**:
+  - Section 3.1 (KI-001 → resolved)
+  - Section 4 (added DEC-011 — Removed frontend/)
+  - Section 10 (Maintenance Log)
+- **Resolves KI-001** ✅
+
 ### 2026-06-29 — Created 5 additional ready skills covering all immediate work
 
 - **Files**: `.agents/skills/cleanup/frontend-leakage-fix.md` (new), `.agents/skills/seo/localbusiness-schema-add.md` (new), `.agents/skills/seo/city-page-expansion.md` (new), `.agents/skills/design-system/kernel-token-fix.md` (new), `.agents/skills/seo/redirect-audit.md` (new), `.agents/skills/README.md` (updated to v1.1.0)
@@ -161,7 +209,7 @@ skills_ready: 7
 
 | ID | Issue | Priority | Status | Since | Notes | Affected Files |
 |---|---|---|---|---|---|---|
-| KI-001 | `frontend/` leaked as static on `brightai.site` | critical | open | 2026-06-29 | `curl -I https://brightai.site/frontend/server.js` → 200 (Express code exposed). Security + compliance risk. | `render.yaml`, `astro.config.mjs`, `public/_headers` |
+| KI-001 | `frontend/` leaked as static on `brightai.site` | critical | **resolved** | 2026-06-29 | **RESOLVED 2026-06-29 via DEC-011**: `frontend/` directory deleted entirely. `dist/frontend/` no longer produced. `/frontend/*` returns 404 on preview (was 200). Cloudflare CDN cache purge still required post-deploy. | `frontend/`, `render.yaml`, `public/_redirects` |
 | KI-002 | Legacy `.html` paths return 404 instead of 301 | critical | open | 2026-06-29 | `/about.html`, `/contact.html` → 404. `_redirects` not fully activated on Render Static. Loses link equity. | `public/_redirects`, `render.yaml` |
 | KI-003 | EN pages published without source counterparts | critical | open | 2026-06-29 | `/en/about/`, `/en/contact/`, `/en/services/` → 200 on live but no `.astro` in `src/pages/en/`. Confuses Google. | `src/pages/en/*` (missing), `dist/en/*` (stale) |
 | KI-004 | No CR number in footer | high | open | 2026-06-29 | Harms E-E-A-T + trust signals for Saudi enterprises. | `src/components/Footer.astro`, `src/data/site.ts` |
@@ -319,13 +367,53 @@ skills_ready: 7
 - **Related skills**: `seo/redirect-audit.md` (planned).
 
 ### DEC-010 — Brain file at `/BRIGHTAI/.agents/brain.md`
-
-- **Date**: 2026-06-29
-- **Context**: Agent needed persistent cross-session memory to avoid repeating mistakes and to reconstruct project state.
 - **Decision**: Single Markdown file at `/BRIGHTAI/.agents/brain.md`. Structure: state snapshot + change ledger + known issues + decisions log + inventory + glossary.
 - **Rationale**: Simple, version-controlled (git), human-readable, no external dependencies.
 - **Reversal cost**: Low (could switch to JSON or database, but Markdown is sufficient).
 - **Related rules**: agent.md Section 0.6 (Brain File protocol).
+
+### DEC-012 — Unified Component System v4 in `components.css` (canonical + legacy aliases)
+
+- **Date**: 2026-06-29
+- **Context**: Project had 5 different button patterns (`.btn`, `.glow-btn`, `.wa-btn`, `.home-cta-primary`, `.home-cta-secondary`), 8 different card patterns (`.card`, `.feature-card`, `.inner-card`, `.home-stat-card`, `.home-cta-card`, `.pricing-card`, `.trust-card`, `.inner-stat`), 4 different input patterns (`.home-form-input`, `.inner-form__input`, `.form__input`, base `input`), and 3 different FAQ patterns — all achieving the same visual result with no clear standard. Same button would render in 4 different styles depending on which page.
+- **Decision**: Adopt canonical BEM naming in `src/styles/components.css`:
+  - Buttons: `.btn`, `.btn--primary`, `.btn--secondary`, `.btn--ghost`, `.btn--outline`, `.btn--accent`, `.btn--danger`, `.btn--glow`, `.btn--whatsapp`, `.btn--icon`, `.btn--sm`, `.btn--lg`, `.btn--block`
+  - Cards: `.card`, `.card--feature`, `.card--metric`, `.card--stat`, `.card--pricing`, `.card--cta`, `.card--glass`, `.card--solid`
+  - Chips/Badges: `.chip` (canonical), `.chip--brand`, `.chip--accent`, `.chip--info`, `.chip--neutral`, `.chip--success`, `.chip--warning`, `.chip--danger`
+  - Sections: `.section`, `.section--alt`, `.section--dark`, `.section--inner`
+  - Forms: `.field`, `.field--input`, `.field--textarea`, `.field--select`, `.field-group`, `.field-label`, `.field-help`, `.field-error`
+  - Tables: `.table`, `.table--pricing`
+  - FAQ: `.faq`, `.faq__item`, `.faq__answer`, `.faq__chevron`
+  - Stats: `.stats`, `.stat`, `.testimonial`
+  - Decorative: `.dotted-bg`, `.gradient-text`, `.section-mini-link`, `.ambient-separator`, `.glass-panel`
+  - Animations: `.is-visible`, `.inner-reveal`, `.gsap-fade`
+
+  Every legacy class name (`.glow-btn`, `.wa-btn`, `.feature-card`, `.inner-card`, etc.) is preserved as an alias using grouped selectors — same visual, no HTML changes needed.
+
+- **Rationale**: Visual consistency across all 125 pages. Single source of truth for component styling. Easier maintenance. Future Astro components can use canonical names; legacy HTML keeps working.
+- **Reversal cost**: Low (~5 min via `git revert`). Components.css and pages.css revert-safe; no downstream migration needed since aliases preserve all legacy class names.
+- **Do not reverse** without explicit user approval. The aliases ensure zero breakage.
+- **Related reports**: `report/REPORT-12_COMPONENTS-UNIFY.md`.
+- **Implementation details**:
+  - `components.css`: 585 → 1430 lines (+845)
+  - `pages.css`: 2243 → 1482 lines (-761, -34%)
+  - CSS gzipped (homepage BaseLayout): 14.5KB (under 25KB budget)
+  - 125 pages, 0 errors, 0 broken links, 0 console errors verified
+  - Zero HTML/text changes (per task constraint)
+
+### DEC-011 — Removed `frontend/` (Express backend + static assets) entirely
+
+- **Date**: 2026-06-29
+- **Context**: User decided to drop the `frontend/` directory entirely because the site fully migrated from HTML to Astro. The `frontend/` contained both an Express backend (`server.js`, routes, controllers, services, middleware, db, kernel logic) AND static assets (CSS, JS, fonts, images) that the static HTML site used to reference.
+- **Decision**: Delete `frontend/` completely. Remove backend deps from `package.json`. Remove `brightai-api` web service and `brightai-db` database from `render.yaml`. Remove `/api/*` and `/ws/*` rewrites. Add hard block headers + redirect for `/frontend/*` as defense in depth.
+- **Rationale**: Astro static site no longer needs the Express backend. The HTML in `dist/` does not reference `/frontend/*` paths (verified via grep on `dist/`). All static assets are now produced by Astro into `dist/_astro/`, `dist/assets/`, and `dist/fonts/`.
+- **Reversal cost**: Medium (~15 minutes via `git revert` of all related commits + restore `frontend/` from git history + `npm install`).
+- **Do not reverse** without explicit user approval and a feature requirement (e.g. needing AI gateway, kernel backend, or database-driven features).
+- **Related KIs**: KI-001 (frontend/ leakage → RESOLVED by this decision).
+- **Related reports**: `report/REPORT-FRONTEND-REMOVAL-2026-06-29.md`.
+- **Related risks**:
+  - Cloudflare CDN cache may serve stale `/frontend/*` files for TTL after deploy. Mitigation: post-deploy manual purge.
+  - `/kernel/*` pages that previously fetched from `/api/*` will now fail. Follow-up ticket needed to refactor or remove kernel API calls.
 
 ---
 
@@ -541,8 +629,8 @@ skills_ready: 7
 |---|---|---|---|
 | `tokens.css` | 182 | Design tokens V3 | ✅ canonical |
 | `base.css` | 188 | Reset + typography | ✅ canonical |
-| `components.css` | 585 | General components | ✅ canonical |
-| `pages.css` | 2243 | Page-specific styles | ⚠️ too large (KI-018) — split candidate |
+| `components.css` | 1430 | **Unified Component System v4** (canonical BEM + legacy aliases per DEC-012) | ✅ canonical |
+| `pages.css` | 1482 | Page-specific styles ONLY (duplicates removed) | ✅ cleaned |
 | `utilities.css` | 327 | Hand-written utilities (Tailwind compat) | ⚠️ candidate for cleanup |
 | `animations.css` | 219 | Keyframes | ✅ canonical |
 | `kernel.css` | 475 | Kernel styles | ✅ canonical |
@@ -719,6 +807,8 @@ npm run indexnow:trigger  # notifies Bing/Yandex
 ## 10. Maintenance Log
 
 > سجل صيانة هذا الملف.
+
+- **v1.4.0** (2026-06-29 05:35 +03:00): Added DEC-012 (Unified Component System v4). Added change ledger entry for REPORT-12 (components unification). Updated Section 5.8 (components.css 585→1430, pages.css 2243→1482). Updated frontmatter (version 1.3.0 → 1.4.0).
 
 - **v1.1.0** (2026-06-29 23:15 +03:00): Updated Pending Work (Section 8) to reflect 7 ready skills covering 100% of immediate work. Added skill coverage indicators (✅/📋) to each pending task. Added Section 8.5 (Coverage Summary). Added new change ledger entry for 5 additional skills creation. Updated Section 5.2 notes (missing tokens now have a ready skill: `design-system/kernel-token-fix.md`). Updated frontmatter (version 1.0.0 → 1.1.0, added `skills_ready: 7`).
 

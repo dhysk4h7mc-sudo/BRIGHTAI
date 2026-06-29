@@ -22,7 +22,7 @@ const browserGlobals = {
 
 export default [
   {
-    ignores: [".astro/**", ".next/**", ".agents/**", ".kilo/**", "node_modules/**", "frontend/**", "backend/**", "plugins/**", "scripts/**", "dist/**", "_archive/**", "report/**", "docs/**", "kernel/**", "public/**", "demo/**", "vitest.config.js"]
+    ignores: [".astro/**", ".next/**", ".agents/**", ".kilo/**", "node_modules/**", "backend/**", "plugins/**", "scripts/**", "dist/**", "_archive/**", "report/**", "docs/**", "kernel/**", "public/**", "demo/**", "vitest.config.js"]
   },
   js.configs.recommended,
   {

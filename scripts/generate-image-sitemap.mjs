@@ -24,8 +24,6 @@ function walkDir(dir, results = [], rootDir = null) {
   for (const entry of readdirSync(dir, { withFileTypes: true })) {
     if (SKIP_DIRS.has(entry.name)) continue;
     const full = join(dir, entry.name);
-    // Skip public/frontend/ entirely — legacy path pending deletion
-    if (full.startsWith('public/frontend/') || full === 'public/frontend') continue;
     if (entry.isDirectory()) {
       walkDir(full, results, base);
     } else if (IMAGE_EXTS.has(extname(entry.name).toLowerCase())) {

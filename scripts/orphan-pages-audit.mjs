@@ -12,7 +12,7 @@ const ROOT = path.resolve(__dirname, '..');
 // Find all HTML files
 const htmlFiles = glob.sync('**/*.html', {
   cwd: ROOT,
-  ignore: ['node_modules/**', 'frontend/**', '.git/**', 'reports/**']
+  ignore: ['node_modules/**', '.git/**', 'reports/**']
 });
 
 // Extract all internal links from all pages

@@ -66,7 +66,6 @@ for (const file of allHtmlFiles) {
   const content = fs.readFileSync(file, 'utf8');
   // فحص الروابط المكسورة أو القديمة
   const brokenPatterns = [
-    /href=["']\/frontend\/pages\//gi,
     /href=["']\/backend\//gi,
     /href=["'].*\.onrender\.com/gi
   ];

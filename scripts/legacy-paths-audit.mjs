@@ -9,7 +9,7 @@ const LEGACY_PATHS = [
   "/tenders/", "/ai-scolecs/", "/smart-medical-archive/", "/smart-automation/",
   "/data-analysis/", "/ai-workflows/", "/ai-agent/", "/ai-bots/", "/tools/",
   "/consultation/", "/try/", "/docs-en.html", "/blog/ai-governance.html",
-  "/en/services/", "/en/interview/", "/demo/pages/", "/frontend/pages/",
+  "/en/services/", "/en/interview/", "/demo/pages/",
 ];
 const SCANNED_EXTENSIONS = /\.(?:html|xml|json|txt|mjs|js)$/i;
 const EXCLUDED_FILES = new Set([
