@@ -59,6 +59,12 @@
   --interactive-hover: #1f6f64;
   --interactive-active: #19574f;
 
+  /* DEC-2026-033: Brand soft tints — used by chips, badges, tinted backgrounds.
+     Defined here so components.css stays token-only (no raw rgba). */
+  --brand-soft: rgba(42, 138, 126, 0.12);     /* chip base background */
+  --brand-soft-border: rgba(42, 138, 126, 0.15); /* chip base border */
+  --brand-soft-strong: rgba(42, 138, 126, 0.18); /* chip hover / featured */
+
   --status-success: #22c55e;
   --status-warning: #f59e0b;
   --status-danger: #ef4444;

@@ -225,24 +225,27 @@
   outline-offset: 2px;
 }
 
-/* Primary — solid cyan (flat, no glow) */
+/* Primary — solid brand (Deep Teal #2a8a7e per DEC-SovB-001).
+   DEC-2026-033: explicit brand-500/600/700 tokens (no alias indirection)
+   so the source reads as a brand surface. Hover goes DARKER (depth, not
+   lightness) per DEC-SovB-001 — visual depth convention. */
 .btn--primary,
 .btn-primary {                                     /* legacy single-dash alias */
-  background: var(--interactive-primary);
+  background: var(--brand-500);
   color: var(--text-inverse);
-  border-color: var(--interactive-primary);
+  border-color: var(--brand-500);
 }
 
 .btn--primary:hover,
 .btn-primary:hover {
-  background: var(--interactive-hover);
-  border-color: var(--interactive-hover);
+  background: var(--brand-600);                  /* DEC-SovB-001: darker on hover (depth) */
+  border-color: var(--brand-600);
 }
 
 .btn--primary:active,
 .btn-primary:active {
-  background: var(--interactive-active);
-  border-color: var(--interactive-active);
+  background: var(--brand-700);                  /* pressed/active = darker still */
+  border-color: var(--brand-700);
 }
 
 /* Glow — gradient + box-shadow (marketing CTA style) */
@@ -533,18 +536,32 @@
    4. CARDS — Canonical BEM
    ============================================================ */
 
-/* Base card */
+/* Base card — uses v3.1 surface scale (DEC-2026-033) */
 .card {
-  background: var(--bg-surface);
-  border: 1px solid var(--border-subtle);
+  background: var(--surface-2);                /* aliased to --bg-surface */
+  border: 1px solid var(--border-soft);        /* aliased to --border-subtle */
   border-radius: var(--radius-lg);
   padding: var(--space-6);
-  transition: all var(--duration-base) var(--ease-out);
+  transition:
+    background var(--duration-base) var(--ease-out),
+    border-color var(--duration-base) var(--ease-out),
+    box-shadow var(--duration-base) var(--ease-out);
 }
 
 .card:hover {
-  border-color: var(--border-default);
-  box-shadow: var(--shadow-lg);
+  background: var(--surface-3);                /* elevated on hover */
+  border-color: var(--border-strong);          /* rgba(148,163,184,0.2) — DEC-2026-033 */
+  box-shadow: var(--shadow-elevated);
+}
+
+/* Focus ring (a11y) — brand color outline (DEC-2026-033) */
+.card:focus-visible,
+.card--feature:focus-visible,
+.feature-card:focus-visible,
+.inner-card:focus-visible {
+  outline: 2px solid var(--interactive-primary);
+  outline-offset: 2px;
+  border-color: var(--border-brand);           /* Teal accent ring */
 }
 
 /* Card noise overlay + top-edge highlight — gives surface tangible depth without breaking flatness.
@@ -734,13 +751,13 @@
 .card--feature:hover,
 .feature-card:hover,
 .inner-card:hover {
-  border-color: rgba(34, 211, 238, 0.35);
+  border-color: var(--border-strong);                         /* DEC-2026-033: cyan rgba → token */
   box-shadow:
-    var(--shadow-lg),
-    0 0 0 1px rgba(34, 211, 238, 0.08),
-    0 0 28px -8px rgba(34, 211, 238, 0.18);
+    var(--shadow-elevated),
+    var(--shadow-glow-brand),                                  /* Teal-tinted glow */
+    var(--highlight-inner-strong);
   transform: translateY(-3px);
-  background: linear-gradient(180deg, var(--bg-elevated) 0%, var(--bg-surface) 100%);
+  background: linear-gradient(180deg, var(--surface-3) 0%, var(--surface-2) 100%);
 }
 
 /* Reveal animation: applies to .card--feature and the legacy .feature-card */
@@ -1093,7 +1110,9 @@
    5. CHIPS / BADGES
    ============================================================ */
 
-/* Canonical: .chip (pill badge for tags, filters, statuses) */
+/* Canonical: .chip (pill badge for tags, filters, statuses)
+   DEC-2026-033: chip uses --brand-soft tokens (no raw rgba in components).
+   Color text uses --brand-300 (Deep Teal light, contrast AA on dark backgrounds). */
 .chip,
 .badge {
   display: inline-flex;
@@ -1104,15 +1123,16 @@
   font-size: var(--text-xs);
   font-weight: var(--font-bold);
   line-height: var(--leading-tight);
-  background: rgba(42,138,126,0.12);
+  background: var(--brand-soft);
   color: var(--brand-300);
-  border: 1px solid rgba(42,138,126,0.15);
+  border: 1px solid var(--brand-soft-border);
 }
 
 .chip--brand,
 .badge--brand {
-  background: rgba(42,138,126,0.15);
+  background: var(--brand-soft-strong);
   color: var(--brand-300);
+  border-color: var(--brand-soft-border);
 }
 
 .chip--accent,
