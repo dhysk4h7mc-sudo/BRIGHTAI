@@ -1588,76 +1588,366 @@
 }
 
 /* ============================================================
-   12. FOOTER
+   12. FOOTER  (BrightAI Footer Redesign v1 — 2026-06-30)
+   --------------------------------------------------------------
+   Layout:
+     - Mobile:  1 column (brand full-width, nav stacked)
+     - Tablet:  2 columns (brand full-width row 1, nav 2×2 row 2)
+     - Desktop: 5 columns (brand 2fr + 4×1fr nav)
+
+   Tokens used (see src/styles/tokens.css):
+     --space-*, --touch-min, --tracking-wide, --duration-*,
+     --radius-*, --border-*, --interactive-primary,
+     --status-success, --text-*, --ease-out, --shadow-glow-success
+
+   Constraints honored:
+     - All FOOTER_NAV.items still rendered (driven from src/data/navigation.ts)
+     - WhatsApp CTA + language pill preserved
+     - Logo, tagline, copyright intact
+     - Social icons added (Twitter / LinkedIn / GitHub from SITE.social)
    ============================================================ */
 
 .footer {
-  background: var(--bg-surface);
-  border-top: 1px solid var(--border-subtle);
-  padding-block: var(--space-12);
+  position: relative;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 0%, rgba(42, 138, 126, 0.04), transparent 70%),
+    linear-gradient(180deg, rgba(6, 9, 20, 0.95), rgba(4, 6, 12, 0.99));
+  margin-top: auto;
+  padding-block: var(--space-12) var(--space-8);
+  isolation: isolate;
 }
+
+/* Desktop: 80px top padding (DEC: premium spacing) */
+@media (min-width: 1024px) {
+  .footer {
+    padding-block: var(--space-20) var(--space-8);
+  }
+}
+
+/* Mobile: 48px top padding */
+@media (max-width: 767px) {
+  .footer {
+    padding-block: var(--space-12) var(--space-6);
+  }
+}
+
+/* Top gradient line — cyan → indigo → transparent (preserves brand edge) */
+.footer__topline {
+  position: absolute;
+  top: 0;
+  inset-inline: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(34, 211, 238, 0.25) 30%,
+    rgba(129, 140, 248, 0.15) 70%,
+    transparent 100%
+  );
+  z-index: 1;
+}
+
+/* ── Grid ─────────────────────────────────────────────────── */
 
 .footer__grid {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: var(--space-8);
 }
 
-@media (max-width: 767px) {
-  .footer__grid { grid-template-columns: 1fr 1fr; }
+/* Tablet: 2 columns — brand full-width on row 1, nav splits 2×2 */
+@media (min-width: 640px) {
+  .footer__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-8);
+  }
+  .footer__brand {
+    grid-column: 1 / -1;
+  }
 }
 
-@media (max-width: 480px) {
-  .footer__grid { grid-template-columns: 1fr; }
+/* Desktop: 5 columns — brand 2fr + 4×1fr nav */
+@media (min-width: 1024px) {
+  .footer__grid {
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+    gap: var(--space-10);
+  }
+  .footer__brand {
+    grid-column: auto;
+  }
 }
+
+/* ── Brand Column ─────────────────────────────────────────── */
 
 .footer__brand {
-  font-size: var(--text-xl);
-  font-weight: var(--font-bold);
-  color: var(--text-primary);
-  margin-bottom: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
 }
 
-.footer__description {
+.footer__logo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  text-decoration: none;
+  color: var(--text-primary);
+  font-weight: var(--font-bold);
+  font-size: var(--text-xl);
+  letter-spacing: var(--tracking-tight);
+  min-height: var(--touch-min);
+}
+
+.footer__logo-img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.footer__tagline {
+  color: var(--text-muted);
   font-size: var(--text-sm);
-  color: var(--text-secondary);
+  max-width: 32ch;
   line-height: var(--leading-relaxed);
+  margin: 0;
+  /* Cap at 2 lines so the brand column never balloons vertically */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* WhatsApp CTA — outline button with green icon */
+.footer__whatsapp {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  align-self: flex-start;
+  color: var(--status-success);
+  background: transparent;
+  text-decoration: none;
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--status-success);
+  border-radius: var(--radius-md);
+  min-height: var(--touch-min);
+  transition:
+    background var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out),
+    transform var(--duration-fast) var(--ease-out);
+}
+
+.footer__whatsapp:hover {
+  background: rgba(34, 197, 94, 0.1);
+  color: var(--status-success);
+  transform: translateY(-1px);
+}
+
+.footer__whatsapp:focus-visible {
+  outline: 2px solid var(--status-success);
+  outline-offset: 2px;
+}
+
+/* Language switcher — pill toggle */
+.footer__lang {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  align-self: flex-start;
+  color: var(--text-secondary);
+  background: rgba(148, 163, 184, 0.06);
+  text-decoration: none;
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-full);
+  min-height: var(--touch-min);
+  transition:
+    background var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
+}
+
+.footer__lang:hover {
+  color: var(--text-primary);
+  background: rgba(148, 163, 184, 0.1);
+  border-color: var(--border-default);
+}
+
+.footer__lang:focus-visible {
+  outline: 2px solid var(--interactive-primary);
+  outline-offset: 2px;
+}
+
+/* ── Nav Columns ──────────────────────────────────────────── */
+
+.footer__col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-width: 0; /* prevent grid blowout on long Arabic labels */
 }
 
 .footer__heading {
   font-size: var(--text-sm);
   font-weight: var(--font-semibold);
-  color: var(--text-primary);
-  margin-bottom: var(--space-4);
+  color: var(--text-secondary);
+  margin: 0;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: var(--tracking-wide);
+  line-height: var(--leading-tight);
 }
 
 .footer__links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
+  gap: var(--space-3); /* 12px between links */
 }
 
 .footer__link {
-  font-size: var(--text-sm);
-  color: var(--text-secondary);
+  display: inline-flex;
+  align-items: center;
+  color: var(--text-muted);
   text-decoration: none;
-  transition: color var(--duration-fast) var(--ease-out);
+  font-size: var(--text-sm);
+  line-height: var(--leading-snug);
+  min-height: var(--touch-min);
+  /* Underline animation baseline (transparent → visible on hover) */
+  text-decoration: underline transparent;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+  transition:
+    color var(--duration-fast) var(--ease-out),
+    text-decoration-color var(--duration-fast) var(--ease-out);
 }
 
 .footer__link:hover {
-  color: var(--text-primary);
-  text-decoration: none;
+  color: var(--interactive-primary);
+  text-decoration-color: var(--interactive-primary);
 }
 
+.footer__link:focus-visible {
+  outline: 2px solid var(--interactive-primary);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+  color: var(--interactive-primary);
+}
+
+/* ── Bottom Bar ───────────────────────────────────────────── */
+
 .footer__bottom {
-  margin-top: var(--space-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  align-items: center;
+  justify-content: space-between;
+  margin-top: var(--space-12);
   padding-top: var(--space-6);
   border-top: 1px solid var(--border-subtle);
   text-align: center;
+}
+
+/* Desktop: split layout */
+@media (min-width: 768px) {
+  .footer__bottom {
+    flex-direction: row;
+    text-align: start;
+    gap: var(--space-6);
+  }
+}
+
+.footer__bottom-left,
+.footer__bottom-right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+@media (min-width: 768px) {
+  .footer__bottom-left,
+  .footer__bottom-right {
+    justify-content: flex-start;
+  }
+  .footer__bottom-right {
+    justify-content: flex-end;
+  }
+}
+
+.footer__copy {
   font-size: var(--text-sm);
   color: var(--text-muted);
+  margin: 0;
+}
+
+.footer__cr {
+  color: var(--text-muted);
+  opacity: 0.7;
+}
+
+/* Social icon group */
+.footer__social {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.footer__social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--touch-min);
+  height: var(--touch-min);
+  color: var(--text-muted);
+  background: transparent;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  transition:
+    color var(--duration-fast) var(--ease-out),
+    background var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out),
+    transform var(--duration-fast) var(--ease-out);
+}
+
+.footer__social-link:hover {
+  color: var(--text-primary);
+  background: rgba(148, 163, 184, 0.08);
+  border-color: var(--border-default);
+  transform: translateY(-1px);
+}
+
+.footer__social-link:focus-visible {
+  outline: 2px solid var(--interactive-primary);
+  outline-offset: 2px;
+}
+
+.footer__made-in {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+/* ── Reduced Motion ───────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .footer__whatsapp,
+  .footer__social-link {
+    transition-duration: 0.01ms;
+    transform: none !important;
+  }
+  .footer__whatsapp:hover,
+  .footer__social-link:hover {
+    transform: none;
+  }
 }
 
 /* ============================================================
