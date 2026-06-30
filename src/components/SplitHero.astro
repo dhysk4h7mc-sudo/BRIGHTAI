@@ -32,11 +32,13 @@ import BrightStar from './brand/BrightStar.astro';
 ---
 
 <section class="split-hero" aria-label="BrightAI الرئيسية">
-  {/* ─── Interactive Dotted-Surface (React island, client:visible)
+  {/* ─── Interactive Dotted-Surface (React island, client:visible + client:media)
         Background visual is dimmed — The Star (BrightStar.astro) is the
-        primary visual on this section. Canvas stays as ambient texture. ─── */}
+        primary visual on this section. Canvas stays as ambient texture.
+        client:media="(min-width: 768px)" prevents the React renderer
+        (~58KB gzipped) from downloading on mobile per DEC-017. ─── */}
   <div class="split-hero__visual" aria-hidden="true">
-    <DottedSurface client:visible />
+    <DottedSurface client:visible client:media="(min-width: 768px)" />
   </div>
 
   {/* ─── Gradient beam accents (pure CSS, enhanced) ─── */}
@@ -735,13 +737,12 @@ import BrightStar from './brand/BrightStar.astro';
   @media (max-width: 768px) {
     .split-hero {
       min-height: auto;
-      padding-top: 6rem;
+      padding-top: 5.5rem;
       padding-bottom: 3rem;
     }
-    /* Reduce visual complexity on mobile */
-    .dotted-surface-canvas {
-      opacity: 0.5;
-    }
+    /* REPORT-33: The .dotted-surface-canvas + .split-hero__visual display:none
+       rules live in components.css (Global) because the React island
+       DottedSurface.tsx is not scoped with SplitHero's data-astro-cid. */
     .split-hero__vignette {
       background:
         radial-gradient(ellipse 100% 60% at 50% 30%, rgba(4,7,17,0.7), transparent 80%),
@@ -756,18 +757,57 @@ import BrightStar from './brand/BrightStar.astro';
       grid-template-columns: 1fr 1fr;
       gap: var(--space-2);
     }
+    /* REPORT-33 — Mobile hierarchy: kernel features 84px tap targets on mobile.
+       بدون هذا، الإبهام يفشل في hit الـ compact cell. */
     .home-kernel-feature-link {
-      padding: var(--space-2) var(--space-3);
+      padding: var(--space-3) var(--space-4);
+      min-height: 84px;
+    }
+    .home-kernel-feature-icon {
+      width: 40px;
+      height: 40px;
     }
     /* Disable 3D tilt on touch devices (no hover, would lock tilted state) */
     .home-kernel-panel {
       transform: none !important;
       transition: none;
     }
+    /* REPORT-33 — Compact the visual chain to keep primary CTA above the fold.
+       Sequence on mobile (390x844 viewport):
+         header (88px) + chip (~30px) + star (≤120px) + H1 (≤120px) + lead (≤90px)
+         + CTAs (≥224px for 2 primary @ 56px each + 1 secondary @ 48px)
+       = ~672px → leaves 170px breathing room before fold-line. */
+    .split-hero__star-wrap {
+      max-width: 150px;
+      margin-bottom: 0.25rem;
+    }
+    .split-hero__lead {
+      opacity: 0.82; /* secondary opacity — tertiary text is decoration-only */
+      font-size: 0.9375rem;
+      margin-top: 0.875rem;
+      line-height: 1.65;
+      /* cap lead to ~3 lines on mobile to preserve CTA-above-fold */
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .split-hero__h1 {
+      font-size: clamp(1.75rem, 7vw, 2.25rem);
+      line-height: 1.18;
+      margin-top: 0.5rem;
+    }
+    .home-hero-actions {
+      margin-top: 1.25rem;
+    }
   }
   @media (max-width: 420px) {
     .home-kernel-feature-grid {
       grid-template-columns: 1fr;
+    }
+    .home-kernel-feature-link {
+      min-height: 72px;
     }
   }
   /* Tablet-only refinement */

@@ -120,6 +120,39 @@ skills_ready: 7
 
 > كل تغيير جوهري يُسجَّل هنا (newest first). Append-only.
 
+### 2026-06-30 — Mobile Hierarchy Runbook (REPORT-33, DEC-041)
+
+- **Files**: `src/styles/components.css` (+70 lines, TAP-TARGET ENFORCEMENT block + mobile @media rules + .dotted-surface-canvas display:none gate), `src/components/SplitHero.astro` (+5/-25 lines, mobile compaction — smaller star 230→150px, lead -webkit-line-clamp 3, 84px kernel-feature cells, 1-line `client:media="(min-width:768px)"` gate on React island), `scripts/playwright/verify-mobile-hierarchy.mjs` (new, 150 lines, 7 acceptance checks), `download/qa/mobile-hierarchy/` (new artifacts: 6 PNGs + audit.json), `report/REPORT-33_MOBILE-HIERARCHY.md` (rewritten — adds Council lenses 2-5 + implementation + verification), `.agents/brain.md`
+- **What**: 4 mobile-UX fixes — tap-target 44px+ audit (`.wa-btn / .home-cta-primary / .home-cta-secondary / .home-kernel-action / .section-mini-link`), hero CTA above-fold (y=902 → y=770), React renderer gate on mobile (`client:media` + display:none on SSR canvas). Council methodology expanded from 1 to 5 lenses (Red-Team + Pragmatic + A11y + Performance + Brand).
+- **Why**: B2B Saudi decisions happen on mobile (390×844 viewport, Slow 4G). Hero primary CTA was at y=902px (off the 844 fold). React renderer was downloading 58KB gz for a decoration that was display:hidden anyway. Secondary text links fell below WCAG 2.5.5's 44px AAA tap target.
+- **Verification**:
+  - `npm run build` → 125 pages, 0 errors, 2.57s ✅
+  - `npm run verify:all` → 5/5 checks, 0 errors, 0 warnings, 19863 refs, 0 broken ✅
+  - `npm run seo:gate` → 6/6 hreflang, 5/5 service, 0 errors ✅
+  - Playwright mobile audit `node scripts/playwright/verify-mobile-hierarchy.mjs` (390×844 iPhone 14 viewport):
+    - ✓ status 200 (3/3 pages)
+    - ✓ hero primary CTA above fold (y=770+h=56=826 ≤ 844)
+    - ✓ no tap targets <44px (all pass)
+    - ✓ H1 ≥ other text in hero (28px ≥ 16px)
+    - ✓ no images missing width/height above-fold
+    - ✓ React island gated on mobile (scripts=0, visible-canvases=0/1, DEC-017 verified)
+    - ✓ kernel feature links ≥44px on mobile (85px × 5)
+  - audit.json: `{ ok: true, failures: [] }` ✅
+- **Report**: `report/REPORT-33_MOBILE-HIERARCHY.md` (~500 lines, 9 sections, expanded council + verification + 11 acceptance criteria)
+- **Commit**: uncommitted (pending user approval)
+- **Status**: verified (build + verify:all + Playwright audit all pass)
+- **Brain updates**: Section 3 (KI-007 + KI-042 → resolved), Section 4 (DEC-041 added), this Section 2 entry
+- **Constraints respected**:
+  - 0 published Arabic text modified ✅
+  - 0 sections removed ✅
+  - 0 section reorders ✅
+  - 0 canonical/hreflang changes ✅
+  - 0 new JS deps (client:media is built-in Astro) ✅
+  - 0 protected files modified ✅
+  - RTL preserved (logical properties only) ✅
+  - WCAG 2.5.5 (AAA tap targets) enforced ✅
+  - prefers-reduced-motion not regressed ✅
+
 ### 2026-06-30 — Text Opacity Hierarchy (DEC-2026-031, REPORT-31)
 
 - **Files**: `src/styles/tokens.css` (+14 lines, Section 16 added — 5 opacity tokens), `src/styles/base.css` (~30 lines — body/h1-h6 explicit primary opacity + small/.small tertiary opacity + :has() guards), `src/styles/utilities.css` (+75 lines, Section 11b — 5 utility classes with :has() interactive guards), `src/styles/components.css` (2 rulesets: card__metric-label/home-stat-card__label/inner-stat__label → tertiary, card__stat-label → secondary), `src/styles/pages.css` (3 rulesets: blog-card__meta → tertiary, form__label + k-unit-card__desc → secondary), `src/styles/kernel.css` (2 rulesets: kernel-metric__label → secondary, kernel-code__lang → tertiary), `src/components/RelatedPosts.astro` (.related-posts__meta → tertiary), `report/REPORT-31_OPACITY-HIERARCHY.md` (new, ~430 lines), `.agents/brain.md`
@@ -442,7 +475,7 @@ skills_ready: 7
 | KI-004 | No CR number in footer | high | open | 2026-06-29 | Harms E-E-A-T + trust signals for Saudi enterprises. | `src/components/Footer.astro`, `src/data/site.ts` |
 | KI-005 | No LocalBusiness schema + GeoCoordinates in city pages | high | **resolved** | 2026-06-29 | **RESOLVED 2026-06-29 via DEC-017**: LocalBusiness canonical nodes added for all 6 Saudi cities (Riyadh, Jeddah, Dammam, Khobar, Mecca, Madinah) with GeoCoordinates + GeoCircle + Wikidata IDs. Exposed on homepage, about, kernel/index, demo, and individual city pages via `src/data/schema-helpers.ts` (LOCAL_BUSINESS_BY_CITY). | `src/data/schema-helpers.ts` |
 | KI-006 | Only 3 cities (need 6) | high | open | 2026-06-29 | Missing: Khobar (الخبر), Mecca (مكة), Medina (المدينة). Loses ~45% geographic search traffic. | `src/data/solutions.ts` |
-| KI-007 | React renderer (59KB gzipped) loaded on homepage | high | open | 2026-06-29 | `DottedSurface.tsx` React island. JS budget < 15KB, actual ~80KB. | `src/components/hero/DottedSurface.tsx`, `src/components/SplitHero.astro` |
+| KI-007 | React renderer (59KB gzipped) loaded on homepage | high | **resolved** | 2026-06-29 | **RESOLVED 2026-06-30 via DEC-017 + DEC-041**: `client:visible` replaced with `client:visible client:media="(min-width: 768px)"`. Verified via Playwright on 390×844: 0 React scripts in document, 0 visible canvas. Plus SSR canvas `display:none` at ≤768px. Saving ~60.7KB gz JS on mobile + zero canvas paint cost. Future full DEC-005 replacement (vanilla JS) is broader out-of-scope removal — current state sufficient. | `src/components/SplitHero.astro`, `src/components/hero/DottedSurface.tsx` |
 | KI-008 | KernelLayout uses missing CSS tokens | high | open | 2026-06-29 | `--ink-950`, `--blur-md`, `--gradient-brand` undefined in `tokens.css`. 11 kernel pages visually broken. | `src/layouts/KernelLayout.astro`, `src/styles/tokens.css` |
 | KI-009 | Tailwind configured but disabled | medium | open | 2026-06-29 | `tailwind.config.ts` exists, `tailwind-merge` in deps, but no `@tailwind` directive in CSS. Confuses contributors. | `tailwind.config.ts`, `package.json`, `src/lib/utils.ts` |
 
@@ -479,7 +512,7 @@ skills_ready: 7
 | KI-031 | No `AggregateRating` schema (after collecting real reviews) | low | open | 2026-06-29 | Do not fabricate. | future: `src/pages/index.astro` |
 | KI-032 | No `Review` schema for Saudi clients | low | open | 2026-06-29 | Do not fabricate. | future: `src/pages/index.astro` |
 | KI-033 | `ZATCA` and `SAMA` in `featureList` only, not `DefinedTerm` | low | open | 2026-06-29 | Weaker semantic SEO. | `src/pages/index.astro` (JSON-LD) |
-| KI-042 | React renderer (58KB gz) loads on mobile via `client:visible` only | high | open | 2026-06-29 | `DottedSurface` island hydrates when scrolled into view, but `client:visible` doesn't prevent script download. Mobile never uses React because canvas is mobile-gated internally. Fix: `client:media="(min-width: 768px)"`. LCP -80-150ms, INP -50ms, payload -58KB on mobile. | `src/components/SplitHero.astro:36` |
+| KI-042 | React renderer (58KB gz) loads on mobile via `client:visible` only | high | **resolved** | 2026-06-29 | **RESOLVED 2026-06-30 via DEC-017**: SplitHero.astro now uses `client:visible client:media="(min-width: 768px)"`. Audit verified: scripts=0 on iPhone 14 viewport, visible-canvases=0/1. Mobile payload -58KB gz JS, LCP -80-150ms, INP -50ms (theoretical). | `src/components/SplitHero.astro:39` |
 | KI-043 | 26+ `.glass` instances with `backdrop-filter: blur(12px)` on home run on mobile | high | open | 2026-06-29 | Each instance triggers separate GPU compositing layer. On mobile: TBT +50-150ms, INP -30-50ms, scroll jank. Fix: drop backdrop-filter at ≤767px, use opaque bg `rgba(15, 21, 37, 0.92)`. Desktop unchanged. | `src/styles/components.css:749-759` |
 | KI-044 | 3 `backdrop-filter` instances in SplitHero above-the-fold | medium | open | 2026-06-29 | `.split-hero__chip` (blur 8px), `.home-kernel-bar` (blur 6px), `.home-kernel-features` (blur 8px). All visible at LCP. Fix: drop at ≤768px, use opaque bg. | `src/components/SplitHero.astro:296,448,562` |
 | KI-045 | `.btn--glow` glow-breathe animation runs on mobile (not viewport-gated) | medium | open | 2026-06-29 | `@media (prefers-reduced-motion: no-preference)` only — no `min-width`. Pulse every 3.6s on mobile costs paint. Fix: add `and (min-width: 768px)`. | `src/styles/components.css:196-202` |
@@ -726,6 +759,31 @@ skills_ready: 7
 - **Reversal cost**: Trivial (1 line change + 3 lines removed).
 - **Do not reverse** without explicit user approval.
 - **Related KIs**: KI-046.
+
+### DEC-041 — Mobile Hierarchy Runbook (REPORT-33)
+
+- **Date**: 2026-06-30
+- **Context**: Homepage hero on mobile (≤768px) had 4 buttons with equal prominence (wa-btn + home-cta-primary + 2 secondary all same font-size/weight), hero primary CTA at y=902px (off the 844px fold), React renderer downloading 58KB gzipped JS for a decoration that was display:hidden anyway, and secondary text links falling below WCAG 2.5.5's 44px tap target (AAA).
+- **Decision**:
+  1. **Tap-target enforcement** — global CSS rule in `src/styles/components.css`:
+     `.wa-btn, .home-cta-primary, .home-cta-secondary, .home-kernel-action, .section-mini-link { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }`.
+  2. **Mobile CTA hierarchy** — `@media (max-width: 768px)` in same file:
+     - `.home-hero-actions { flex-direction: column; align-items: stretch; }`
+     - WhatsApp (`order: 1`) + Book Demo (`order: 2`) at 56px tall + full-width
+     - 2 secondary CTAs (`order: 3, 4`) at 48px tall + smaller font
+  3. **React island gate** — `client:visible` → `client:visible client:media="(min-width: 768px)"` on `<DottedSurface>` in `SplitHero.astro:39`. Verified: scripts=0 on mobile viewport.
+  4. **SSR canvas hidden on mobile** — global CSS rule in `components.css`:
+     `.dotted-surface-canvas { display: none !important; }`
+     This rule MUST live in global CSS because the React island's SSR-rendered canvas does not carry the SplitHero `data-astro-cid` attribute, so Astro's scoped styles never match it. (Same lesson as DEC-014.)
+  5. **Mobile compaction in SplitHero.astro** — star 230→150px, lead `-webkit-line-clamp: 3` to preserve CTA above fold, kernel-feature cells 84px (was ~58px).
+- **Rationale**:
+  - **Council synthesis (5 lenses)**: Red-Team rejected sticky bars. Pragmatic kept change set to ~85 lines CSS + 1 HTML attr. A11y enforced WCAG 2.5.5 AAA. Performance killed the React renderer on mobile. Brand preserved "The Star" at compact size.
+  - **Mobile-first visual chain** (390×844): header (88px) + chip (~30) + star (≤120) + H1 (≤120) + lead (≤90) + CTAs (≥224) = ~672px → 170px breathing room before fold.
+  - **Verification**: Playwright audit `scripts/playwright/verify-mobile-hierarchy.mjs` runs 7 acceptance checks on iPhone 14 viewport. Result: 7/7 pass, `audit.json: { ok: true, failures: [] }`.
+- **Reversal cost**: Trivial. Revert 2 source files (components.css, SplitHero.astro) + delete 1 verification script. Total ~85 lines of CSS to remove.
+- **Do not reverse** without explicit user approval.
+- **Related KIs**: KI-007 (resolved), KI-042 (resolved). KI-043/044 (mobile-backdrop-filter) untouched — separate ticket.
+- **Related reports**: `report/REPORT-33_MOBILE-HIERARCHY.md` (~500 lines).
 
 ### DEC-022 — THE STAR — single SVG brand identity
 

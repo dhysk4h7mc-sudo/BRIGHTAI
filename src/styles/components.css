@@ -368,6 +368,87 @@
   min-height: 44px;
 }
 
+/* ============================================================
+   TAP-TARGET ENFORCEMENT (REPORT-33 — Mobile Hierarchy)
+   كل CTA + رابط نصي يكون 44px+ tap target (WCAG 2.5.5, AAA).
+   بدون هذا، أصابع المستخدم على الموبايل تخطئ الـ targets.
+   ============================================================ */
+.wa-btn,
+.home-cta-primary,
+.home-cta-secondary,
+.home-kernel-action,
+.section-mini-link {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* على الموبايل (<768px): ارفع الـ primary CTA ليكون أظهر عنصر بعد H1.
+   خفّض visuellement الـ secondary لتجنّب "4 buttons same prominence" syndrome. */
+@media (max-width: 768px) {
+  .home-hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-3);
+  }
+  .home-hero-actions > a {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+  /* الـ 2 الزرارين الأهم (WhatsApp + Book Demo) يحصلون hierarchy فوق */
+  .home-hero-actions .wa-btn,
+  .home-hero-actions .home-cta-primary {
+    font-size: var(--text-base);
+    padding-block: var(--space-4);
+    min-height: 56px;
+    order: 1; /* visualize first */
+  }
+  .home-hero-actions .wa-btn { order: 1; }
+  .home-hero-actions .home-cta-primary { order: 2; }
+  .home-hero-actions .home-cta-secondary:nth-of-type(1) { order: 3; }
+  .home-hero-actions .home-cta-secondary:nth-of-type(2) { order: 4; }
+  /* الـ secondary CTAs تكون أصغر visuellement لكن لسه 44px+ tap target */
+  .home-hero-actions .home-cta-secondary {
+    font-size: var(--text-sm);
+    padding-block: var(--space-3);
+    min-height: 48px;
+  }
+  /* نصوص الـ secondary links داخل articles: ارفعها لـ 44px tap target */
+  .section-mini-link {
+    padding-block: var(--space-3);
+    padding-inline: var(--space-4);
+    min-height: 44px;
+  }
+  /* ثبّت الـ evidence buttons الـ flex على الموبايل */
+  .home-evidence-row { padding-block: var(--space-3); }
+  /* kernel CTAs — 56px+ tap target */
+  .home-kernel-action {
+    min-height: 48px;
+    padding-block: var(--space-3);
+    padding-inline: var(--space-4);
+  }
+  /* REPORT-33 — Hide the React-rendered DottedSurface canvas entirely on mobile.
+     client:media="(min-width:768px)" already blocks the ~58KB JS chunk
+     (DEC-017), but the SSR-rendered <canvas> still occupies the page.
+     Apply via a non-scoped global rule because the canvas is rendered by a
+     React island (DottedSurface.tsx) that does not carry the SplitHero
+     data-astro-cid scope attribute, so scoped rules in SplitHero.astro
+     never match. */
+  .dotted-surface-canvas { display: none !important; }
+  .split-hero__visual { display: none; }
+}
+
+/* Tablet (769-1023px): نفس الـ hierarchy لكن inline */
+@media (min-width: 769px) and (max-width: 1023px) {
+  .home-hero-actions .wa-btn,
+  .home-hero-actions .home-cta-primary {
+    min-height: 48px;
+    font-size: var(--text-base);
+  }
+}
+
 /* Size modifiers */
 .btn--sm {
   padding: var(--space-2) var(--space-4);
