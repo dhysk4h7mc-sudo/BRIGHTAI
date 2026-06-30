@@ -2,10 +2,19 @@
 /**
  * Blog listing page — /blog/
  * Lists all published posts with category filter.
+ *
+ * REPORT-12: Visual refresh — page-hero canonical pattern, featured
+ * listing card with image area, chip-style category pills, paginated
+ * filter UI, no inline styles.
+ *
+ * Content Preservation Rule:
+ *   post.title / post.description / post.category / post.tags are read
+ *   from the canonical src/data/blog.ts and rendered verbatim. We never
+ *   "correct" Saudi-dialect words to MSA.
  */
 import ArabicLayout from '../../layouts/ArabicLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
-import { getPublishedPosts, getCategories, type BlogCategory } from '../../data/blog';
+import { getPublishedPosts, getCategories, type BlogPost, type BlogCategory } from '../../data/blog';
 import { SITE } from '../../data/site';
 import { ORGANIZATION } from '../../data/schema-helpers';
 
@@ -28,13 +37,10 @@ const collectionLd = {
   description: '22 مقال عملي من BrightAI عن حوكمة AI وPDPL وNCA ECC وسدايا وISO 42001 وAI Firewall وسجلات التدقيق. مقالات مخصصة للسوق السعودي بأكمله وقطاعاته.',
   url: `${SITE.url}/blog/`,
   inLanguage: 'ar-SA',
-  // SCHEMA-ENHANCEMENT (REPORT-23): wrap into @graph so we can add Organization + BreadcrumbList
-  // alongside the existing CollectionPage node. Original fields above are preserved.
   isPartOf: { '@id': 'https://brightai.site/#website' },
   publisher: { '@id': 'https://brightai.site/#organization' },
 };
 
-// SCHEMA-ENHANCEMENT (REPORT-23): @graph container for CollectionPage + Organization + BreadcrumbList.
 const blogJsonLd = {
   '@context': 'https://schema.org',
   '@graph': [
@@ -43,6 +49,45 @@ const blogJsonLd = {
     breadcrumbLd,
   ],
 };
+
+// Pick 3 most-tag-shared posts as the featured cluster (excluding drafts).
+// Falls back to most-recent if tag overlap is low.
+const featured: BlogPost[] = (() => {
+  if (allPosts.length === 0) return [];
+  const seed = allPosts[0];
+  const scored = allPosts
+    .filter((p) => p.slug !== seed.slug && !p.draft)
+    .map((p) => ({
+      post: p,
+      score: p.tags.filter((t) => seed.tags.includes(t)).length
+        + (p.category === seed.category ? 2 : 0),
+    }))
+    .sort((a, b) => b.score - a.score || b.post.pubDate.localeCompare(a.post.pubDate))
+    .slice(0, 2)
+    .map((r) => r.post);
+  return [seed, ...scored];
+})();
+
+// Map category → color tint for the listing card image area.
+// Stays token-friendly (only brand/indigo/amber accents) so the page
+// stays visually consistent across categories.
+const categoryTint: Record<BlogCategory, string> = {
+  'حوكمة الذكاء الاصطناعي': 'teal',
+  'الامتثال والأنظمة': 'indigo',
+  'الأمن والسلامة': 'amber',
+  'قطاعات': 'teal-indigo',
+  'منصات وأدوات': 'indigo',
+  'رؤية 2030': 'amber-teal',
+};
+
+const featuredPost = featured[0] ?? null;
+const remaining = allPosts.filter((p) => !featured.some((f) => f.slug === p.slug));
+
+// Counts for filter chips
+const categoryCounts: Record<string, number> = { all: allPosts.length };
+for (const cat of categories) {
+  categoryCounts[cat] = allPosts.filter((p) => p.category === cat).length;
+}
 ---
 
 <ArabicLayout
@@ -53,119 +98,268 @@ const blogJsonLd = {
   jsonLd={blogJsonLd as any}
   currentPath="/blog/"
 >
-  <div class="article-shell article-shell--wide">
-    <div class="article-breadcrumbs">
-      <Breadcrumbs crumbs={[
-        { label: 'الرئيسية', href: '/' },
-        { label: 'المدونة' },
-      ]} />
+  <header class="blog-index__hero">
+    <span class="chip chip--brand blog-index__eyebrow">
+      <svg aria-hidden="true" width="14" height="14"><use href="/icons.svg#mdi-post"></use></svg>
+      المدونة
+    </span>
+    <h1 class="blog-index__title">مقالات تخدم قرارك في حوكمة الذكاء الاصطناعي</h1>
+    <p class="blog-index__lead">وش تبي تعرف عن حوكمة AI في السعودية؟ مدوّنتنا تجمع أدلة تنفيذية مختصرة — من السياسات إلى التطبيق — تساعدك تتخذ قرار أفضل لشركتك في الحوكمة، حماية البيانات، والامتثال.</p>
+    <p class="blog-index__count">
+      <strong>{allPosts.length}</strong>
+      مقال منشور، محدث بصفة مستمرة
+    </p>
+    <div class="blog-index__hero-actions">
+      <a href="/authors/nasser-alabdullah/">
+        <svg aria-hidden="true" width="16" height="16"><use href="/icons.svg#mdi-account"></use></svg>
+        ملف المؤلف ومقالاته
+      </a>
+      <a href="/blog/feed.xml" target="_blank" rel="noopener noreferrer">
+        <svg aria-hidden="true" width="16" height="16"><use href="/icons.svg#mdi-share"></use></svg>
+        اشترك عبر RSS
+      </a>
     </div>
+  </header>
 
-    <header class="listing-hero">
-      <h1>مقالات تخدم قرارك في حوكمة الذكاء الاصطناعي</h1>
-      <p class="listing-hero__desc">وش تبي تعرف عن حوكمة AI في السعودية؟ مدوّنتنا تجمع أدلة تنفيذية مختصرة — من السياسات إلى التطبيق — تساعدك تتخذ قرار أفضل لشركتك في الحوكمة، حماية البيانات، والامتثال.</p>
-      <p class="blog-listing__count" style="margin-top:var(--space-3);color:var(--text-faint);font-size:var(--text-xs);">{allPosts.length} مقال</p>
-      <div style="display:flex;flex-wrap:wrap;gap:var(--space-4);justify-content:center;margin-top:var(--space-4);">
-        <a href="/authors/nasser-alabdullah/" style="color:var(--brand-hover);font-size:var(--text-sm);text-decoration:none;">ملف المؤلف ومقالاته</a>
-        <a href="/blog/feed.xml" style="color:var(--brand-hover);font-size:var(--text-sm);text-decoration:none;" target="_blank" rel="noopener">
-          📡 اشترك عبر RSS
+  <section class="blog-section" aria-labelledby="reading-paths">
+    <h2 id="reading-paths">ابدأ حسب سؤال فريقك</h2>
+    <p>اختر مسار القراءة الأقرب لقرارك الحالي، ثم انتقل للتفاصيل من شبكة المقالات الكاملة.</p>
+    <ol class="blog-paths">
+      <li>
+        <a class="blog-path" href="/blog/what-is-ai-governance-saudi-companies/">
+          <span class="blog-path__step">01 — تأسيس</span>
+          <strong>تأسيس الحوكمة</strong>
+          <span>فهم المفاهيم، المخاطر، والفروق بين governance وsafety وsecurity.</span>
         </a>
-      </div>
-    </header>
+      </li>
+      <li>
+        <a class="blog-path" href="/blog/pdpl-ai-compliance-guide/">
+          <span class="blog-path__step">02 — امتثال</span>
+          <strong>الامتثال والبيانات</strong>
+          <span>PDPL وNCA ECC وسدايا وISO 42001 بلغة قابلة للتطبيق.</span>
+        </a>
+      </li>
+      <li>
+        <a class="blog-path" href="/blog/ai-firewall-why-you-need-it/">
+          <span class="blog-path__step">03 — سلامة</span>
+          <strong>سلامة التشغيل</strong>
+          <span>AI Firewall وسجلات التدقيق وRed Teaming والاستخدام الخفي للذكاء الاصطناعي.</span>
+        </a>
+      </li>
+    </ol>
+  </section>
 
-    <section class="blog-section" aria-labelledby="reading-paths">
-      <h2 id="reading-paths">ابدأ حسب سؤال فريقك</h2>
-      <p>اختر مسار القراءة الأقرب لقرارك الحالي، ثم انتقل للتفاصيل من شبكة المقالات الكاملة.</p>
-      <ol class="blog-paths">
-        <li><a class="blog-path" href="/blog/what-is-ai-governance-saudi-companies/"><strong>1 تأسيس الحوكمة</strong><span>فهم المفاهيم، المخاطر، والفروق بين governance وsafety وsecurity.</span></a></li>
-        <li><a class="blog-path" href="/blog/pdpl-ai-compliance-guide/"><strong>2 الامتثال والبيانات</strong><span>PDPL وNCA ECC وسدايا وISO 42001 بلغة قابلة للتطبيق.</span></a></li>
-        <li><a class="blog-path" href="/blog/ai-firewall-why-you-need-it/"><strong>3 سلامة التشغيل</strong><span>AI Firewall وسجلات التدقيق وRed Teaming والاستخدام الخفي للذكاء الاصطناعي.</span></a></li>
-      </ol>
-    </section>
+  <section class="blog-section" aria-labelledby="quick-topics">
+    <h2 id="quick-topics">مواضيع سريعة</h2>
+    <p>روابط مباشرة لأكثر المواضيع ارتباطاً بقرارات التقنية والمخاطر والامتثال.</p>
+    <nav class="blog-topics" aria-label="مواضيع المدونة">
+      <a href="/blog/ai-governance-saudi-arabia/">حوكمة AI</a>
+      <a href="/blog/pdpl-and-ai-saudi/">PDPL</a>
+      <a href="/blog/nca-ecc-ai-controls-guide/">NCA ECC</a>
+      <a href="/blog/sdaia-generative-ai-guidelines-practical-compliance/">سدايا</a>
+      <a href="/blog/iso-42001-saudi-implementation-guide/">ISO 42001</a>
+      <a href="/blog/ai-audit-trail-compliance-path/">Audit Trail</a>
+      <a href="/blog/ai-red-teaming-security-testing/">Red Teaming</a>
+      <a href="/blog/shadow-ai-discovery-saudi-company/">Shadow AI</a>
+    </nav>
+  </section>
 
-    <section class="blog-section" aria-labelledby="quick-topics">
-      <h2 id="quick-topics">مواضيع سريعة</h2>
-      <p>روابط مباشرة لأكثر المواضيع ارتباطاً بقرارات التقنية والمخاطر والامتثال.</p>
-      <nav class="blog-topics" aria-label="مواضيع المدونة">
-        <a href="/blog/ai-governance-saudi-arabia/">حوكمة AI</a>
-        <a href="/blog/pdpl-and-ai-saudi/">PDPL</a>
-        <a href="/blog/nca-ecc-ai-controls-guide/">NCA ECC</a>
-        <a href="/blog/sdaia-generative-ai-guidelines-practical-compliance/">سدايا</a>
-        <a href="/blog/iso-42001-saudi-implementation-guide/">ISO 42001</a>
-        <a href="/blog/ai-audit-trail-compliance-path/">Audit Trail</a>
-        <a href="/blog/ai-red-teaming-security-testing/">Red Teaming</a>
-        <a href="/blog/shadow-ai-discovery-saudi-company/">Shadow AI</a>
-      </nav>
-    </section>
+  <section class="blog-section" aria-labelledby="featured-posts">
+    <h2 id="featured-posts">مقالات مختارة</h2>
+    <p>أفضل نقطة بداية لو كنت تبني برنامج حوكمة أو تراجع جاهزية استخدام AI داخل المؤسسة.</p>
+    <div class="blog-featured">
+      {featured.map((post, i) => (
+        <a href={`/blog/${post.slug}/`}>
+          <span class="blog-featured__tag">
+            {i === 0 ? '⭐ مقال مميز' : `مقال ${i + 1}`}
+          </span>
+          <h3>{post.title}</h3>
+          <p>{post.description}</p>
+        </a>
+      ))}
+    </div>
+  </section>
 
-    <section class="blog-section" aria-labelledby="featured-posts">
-      <h2 id="featured-posts">مقالات مختارة</h2>
-      <p>أفضل نقطة بداية لو كنت تبني برنامج حوكمة أو تراجع جاهزية استخدام AI داخل المؤسسة.</p>
-      <div class="blog-featured">
-        <a href="/blog/what-is-ai-governance-saudi-companies/"><strong>مدخل الحوكمة</strong><h3>ما هي حوكمة الذكاء الاصطناعي؟ الدليل الكامل للشركات السعودية</h3><p>ابدأ من هنا إذا تحتاج إطار واضح يربط السياسات، المخاطر، الامتثال، وسجلات التشغيل.</p></a>
-        <a href="/blog/pdpl-ai-compliance-guide/"><strong>الامتثال والبيانات</strong><h3>دليل PDPL والذكاء الاصطناعي لمسؤول الامتثال</h3></a>
-        <a href="/blog/ai-firewall-why-you-need-it/"><strong>سلامة التشغيل</strong><h3>جدار حماية الذكاء الاصطناعي: ما هو ولماذا تحتاجه</h3></a>
-      </div>
-    </section>
-
-    <section class="blog-section" aria-labelledby="all-posts">
-      <h2 id="all-posts">كل المقالات</h2>
-      <p>مجموعة مرتبة من الأدلة والمقالات العملية المنشورة على BrightAI.</p>
-    </section>
+  <section class="blog-section" aria-labelledby="all-posts">
+    <h2 id="all-posts">كل المقالات</h2>
+    <p>مجموعة مرتبة من الأدلة والمقالات العملية المنشورة على BrightAI. فلتر بالفئة لو تبي تركيز أسرع.</p>
 
     <nav class="blog-filters" aria-label="تصفية بالفئة">
-      <button class="blog-filter-btn is-active" data-category="all">الكل</button>
-      {categories.map(cat => (
-        <button class="blog-filter-btn" data-category={cat}>{cat}</button>
+      <button
+        type="button"
+        class="blog-filters__btn is-active"
+        data-category="all"
+      >
+        الكل
+        <span class="blog-filters__count">{categoryCounts.all}</span>
+      </button>
+      {categories.map((cat) => (
+        <button
+          type="button"
+          class="blog-filters__btn"
+          data-category={cat}
+        >
+          {cat}
+          <span class="blog-filters__count">{categoryCounts[cat] ?? 0}</span>
+        </button>
       ))}
     </nav>
+  </section>
 
-    <div class="listing-grid" id="blog-grid">
-      {allPosts.map(post => (
-        <a href={`/blog/${post.slug}/`} class="listing-card blog-card" data-category={post.category}>
-          <span class="listing-card__category">{post.category}</span>
-          <h2>{post.title}</h2>
-          <p class="listing-card__desc">{post.description}</p>
-          <div class="listing-card__meta">
-            <span>{post.pubDate}</span>
-            <span>{post.readingTime} دقائق</span>
+  <div class="blog-section" style="padding-block-start:0;">
+    {featuredPost && (
+      <article class="listing-grid" id="blog-grid">
+        <a href={`/blog/${featuredPost.slug}/`} class="listing-card listing-card--featured" data-category={featuredPost.category} data-tint={categoryTint[featuredPost.category]}>
+          <span class="listing-card__featured-badge">⭐ مقال مميز</span>
+          <div class="listing-card__image" aria-hidden="true"></div>
+          <div class="listing-card__body">
+            <span class="listing-card__category">{featuredPost.category}</span>
+            <h2>{featuredPost.title}</h2>
+            <p class="listing-card__desc">{featuredPost.description}</p>
+            <div class="listing-card__meta">
+              <span>
+                <svg aria-hidden="true" width="14" height="14"><use href="/icons.svg#mdi-calendar"></use></svg>
+                {featuredPost.pubDate}
+              </span>
+              <span>
+                <svg aria-hidden="true" width="14" height="14"><use href="/icons.svg#mdi-clock-outline"></use></svg>
+                {featuredPost.readingTime} دقائق
+              </span>
+            </div>
           </div>
         </a>
-      ))}
-    </div>
 
-    <section class="blog-final-cta" aria-labelledby="blog-cta">
-      <h2 id="blog-cta">تبي تحوّل القراءة لخطة حوكمة قابلة للتنفيذ؟</h2>
-      <p>ابدأ بتقييم جاهزية حوكمة الذكاء الاصطناعي أو تواصل مع الفريق لترتيب جلسة تشخيص قصيرة.</p>
-      <div style="display:flex;flex-wrap:wrap;gap:var(--space-4);margin-top:var(--space-4);">
-        <a href="/assessment/ai-governance-readiness/" style="color:var(--brand);font-weight:var(--weight-bold);text-decoration:none;">تقييم الجاهزية ←</a>
-        <a href="/contact/" style="color:var(--brand);font-weight:var(--weight-bold);text-decoration:none;">تواصل معنا ←</a>
+        {remaining.map((post) => (
+          <a href={`/blog/${post.slug}/`} class="listing-card" data-category={post.category} data-tint={categoryTint[post.category]}>
+            <div class="listing-card__image" aria-hidden="true"></div>
+            <div class="listing-card__body">
+              <span class="listing-card__category">{post.category}</span>
+              <h2>{post.title}</h2>
+              <p class="listing-card__desc">{post.description}</p>
+              <div class="listing-card__meta">
+                <span>
+                  <svg aria-hidden="true" width="14" height="14"><use href="/icons.svg#mdi-calendar"></use></svg>
+                  {post.pubDate}
+                </span>
+                <span>
+                  <svg aria-hidden="true" width="14" height="14"><use href="/icons.svg#mdi-clock-outline"></use></svg>
+                  {post.readingTime} دقائق
+                </span>
+              </div>
+            </div>
+          </a>
+        ))}
+      </article>
+    )}
+
+    <nav class="blog-pagination" aria-label="تصفح المقالات">
+      <span class="blog-pagination__info">
+        عرض <strong>{allPosts.length}</strong> مقال
+      </span>
+      <div class="blog-pagination__actions">
+        <button type="button" class="blog-pagination__btn" disabled aria-label="الصفحة السابقة">
+          <svg aria-hidden="true" width="16" height="16"><use href="/icons.svg#mdi-arrow-right"></use></svg>
+          السابق
+        </button>
+        <button type="button" class="blog-pagination__btn" aria-label="الصفحة التالية">
+          التالي
+          <svg aria-hidden="true" width="16" height="16"><use href="/icons.svg#mdi-arrow-left"></use></svg>
+        </button>
       </div>
-    </section>
+    </nav>
   </div>
 
+  <section class="blog-final-cta" aria-labelledby="blog-cta">
+    <div class="card card--cta">
+      <h2 id="blog-cta">تبي تحوّل القراءة لخطة حوكمة قابلة للتنفيذ؟</h2>
+      <p>ابدأ بتقييم جاهزية حوكمة الذكاء الاصطناعي أو تواصل مع الفريق لترتيب جلسة تشخيص قصيرة.</p>
+      <div class="blog-final-cta__actions">
+        <a href="/assessment/ai-governance-readiness/" class="btn btn--primary">
+          <svg aria-hidden="true" width="20" height="20"><use href="/icons.svg#mdi-gauge"></use></svg>
+          تقييم الجاهزية
+        </a>
+        <a href="/contact/" class="btn btn--outline">
+          <svg aria-hidden="true" width="20" height="20"><use href="/icons.svg#mdi-email"></use></svg>
+          تواصل مع الفريق
+        </a>
+      </div>
+    </div>
+  </section>
+
   <script>
-    // Client-side category filter
+    // REPORT-12: Client-side category filter.
+    // Toggles visibility of .listing-card via inline display="" / display="none".
+    // Falls back to a no-op when a category has no cards (matches the chip count).
     function initBlogFilters() {
       const container = document.querySelector('.blog-filters');
       if (!container || container.hasAttribute('data-filters-initialized')) return;
+      container.setAttribute('data-filters-initialized', 'true');
 
-      const buttons = container.querySelectorAll('.blog-filter-btn');
-      buttons.forEach(btn => {
+      const buttons = Array.from(container.querySelectorAll('.blog-filters__btn'));
+      const cards = Array.from(document.querySelectorAll('.listing-card'));
+
+      buttons.forEach((btn) => {
         btn.addEventListener('click', () => {
           const cat = (btn as HTMLElement).dataset.category;
-          buttons.forEach(b => b.classList.remove('is-active'));
+          buttons.forEach((b) => b.classList.remove('is-active'));
           btn.classList.add('is-active');
-          document.querySelectorAll('.blog-card').forEach(card => {
+          cards.forEach((card) => {
             const cardCat = (card as HTMLElement).dataset.category;
-            (card as HTMLElement).style.display = (cat === 'all' || cardCat === cat) ? '' : 'none';
+            (card as HTMLElement).style.display =
+              cat === 'all' || cardCat === cat ? '' : 'none';
           });
         });
       });
-
-      container.setAttribute('data-filters-initialized', 'true');
     }
 
     document.addEventListener('astro:page-load', initBlogFilters);
   </script>
+
+  <style is:global>
+    /* REPORT-12: Per-category gradient tints for the listing-card image area.
+       Tints applied via [data-tint] attribute set in markup. Pure CSS — keeps
+       page weight low and avoids per-post image assets. */
+    .listing-card__image[data-tint='teal'] {
+      background:
+        radial-gradient(ellipse at top, rgba(42, 138, 126, 0.30), transparent 65%),
+        radial-gradient(ellipse at bottom right, rgba(34, 211, 238, 0.18), transparent 65%),
+        linear-gradient(135deg, var(--bg-elevated), var(--bg-surface));
+    }
+    .listing-card__image[data-tint='indigo'] {
+      background:
+        radial-gradient(ellipse at top, rgba(99, 102, 241, 0.30), transparent 65%),
+        radial-gradient(ellipse at bottom right, rgba(42, 138, 126, 0.18), transparent 65%),
+        linear-gradient(135deg, var(--bg-elevated), var(--bg-surface));
+    }
+    .listing-card__image[data-tint='amber'] {
+      background:
+        radial-gradient(ellipse at top, rgba(192, 138, 90, 0.30), transparent 65%),
+        radial-gradient(ellipse at bottom right, rgba(245, 158, 11, 0.18), transparent 65%),
+        linear-gradient(135deg, var(--bg-elevated), var(--bg-surface));
+    }
+    .listing-card__image[data-tint='teal-indigo'] {
+      background:
+        radial-gradient(ellipse at left, rgba(42, 138, 126, 0.25), transparent 60%),
+        radial-gradient(ellipse at right, rgba(99, 102, 241, 0.30), transparent 60%),
+        linear-gradient(135deg, var(--bg-elevated), var(--bg-surface));
+    }
+    .listing-card__image[data-tint='amber-teal'] {
+      background:
+        radial-gradient(ellipse at top, rgba(192, 138, 90, 0.25), transparent 60%),
+        radial-gradient(ellipse at bottom, rgba(42, 138, 126, 0.30), transparent 60%),
+        linear-gradient(135deg, var(--bg-elevated), var(--bg-surface));
+    }
+
+    /* Watermark icon centered in the image area for visual texture */
+    .listing-card__image::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: var(--noise-svg);
+      background-size: 200px 200px;
+      opacity: var(--noise-card);
+      mix-blend-mode: overlay;
+      pointer-events: none;
+    }
+  </style>
 </ArabicLayout>

@@ -3,6 +3,12 @@
  * BlogLayout — Blog article page layout.
  * Used by src/pages/blog/[slug].astro
  * Injects BlogPosting + BreadcrumbList JSON-LD.
+ *
+ * REPORT-12: Visual refresh — chip category, code copies, prose styling,
+ * tags as numbered tokens, author bio, links grid, final CTA.
+ * Content Preservation Rule:
+ *   Published Arabic titles + descriptions + author bios are not changed.
+ *   Only markup + visual treatment updated.
  */
 import ArabicLayout from './ArabicLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
@@ -49,13 +55,23 @@ const blogPostingLd = {
   keywords: post.tags.join(', '),
 };
 
-// Combine with any additional JSON-LD
-// SCHEMA-ENHANCEMENT (REPORT-23): wrap original Article schema into @graph + canonical Organization node.
-// Original Article fields (headline, description, image, author, publisher, dates) are preserved exactly.
 const jsonLd = {
   '@context': 'https://schema.org',
   '@graph': [blogPostingLd, ORGANIZATION],
 };
+
+// Tag count keeps the meta tidy. Saudi-dialect-friendly: 4 is the max we want
+// before they crowd the hero on mobile.
+const visibleTags = (post.tags || []).slice(0, 4);
+
+// Author initials for the .author-bio__avatar gradient circle.
+const authorInitials = post.author.name
+  .replace(/^م\.\s*/, '')
+  .split(' ')
+  .filter(Boolean)
+  .slice(0, 2)
+  .map((part) => part[0] ?? '')
+  .join('');
 ---
 
 <ArabicLayout
@@ -67,53 +83,134 @@ const jsonLd = {
   jsonLd={jsonLd}
   currentPath={`/blog/${post.slug}/`}
 >
-  <div class="article-shell">
-    <div class="article-breadcrumbs">
-      <Breadcrumbs crumbs={[
-        { label: 'الرئيسية', href: '/' },
-        { label: 'المدونة', href: '/blog/' },
-        { label: post.title },
-      ]} />
-    </div>
+  <div class="reading-progress" hidden aria-hidden="true"></div>
 
-    <header class="article-hero">
-      <p class="article-hero__category">{post.category}</p>
+  <div class="article-shell">
+    <Breadcrumbs crumbs={[
+      { label: 'الرئيسية', href: '/' },
+      { label: 'المدونة', href: '/blog/' },
+      { label: post.title },
+    ]} />
+
+    <header class="article-hero" data-speakable>
+      <span class="chip chip--brand article-hero__category">{post.category}</span>
       <h1>{post.title}</h1>
-      <div class="article-hero__meta">
-        <span>✍️ <a href={`/authors/${post.author.slug}/`}>{post.author.name}</a></span>
-        <span>📅 {post.pubDate}</span>
-        <span>⏱ {post.readingTime} دقائق قراءة</span>
+      <p class="article-hero__desc">{post.description}</p>
+      <div class="article-hero__meta" aria-label="معلومات المقال">
+        <span>
+          <svg aria-hidden="true" width="16" height="16"><use href="/icons.svg#mdi-account"></use></svg>
+          <a href={`/authors/${post.author.slug}/`}>{post.author.name}</a>
+        </span>
+        <span>
+          <svg aria-hidden="true" width="16" height="16"><use href="/icons.svg#mdi-calendar"></use></svg>
+          <time datetime={post.pubDate}>{post.pubDate}</time>
+        </span>
+        <span>
+          <svg aria-hidden="true" width="16" height="16"><use href="/icons.svg#mdi-clock-outline"></use></svg>
+          {post.readingTime} دقائق قراءة
+        </span>
       </div>
-      <div class="article-hero__tags">
-        {post.tags.map(tag => <span class="article-hero__tag">{tag}</span>)}
-      </div>
+      {visibleTags.length > 0 && (
+        <div class="article-hero__tags" aria-label="الوسوم">
+          {visibleTags.map((tag) => <span class="article-hero__tag">{tag}</span>)}
+        </div>
+      )}
     </header>
 
     {post.updatedDate !== post.pubDate && (
       <div class="article-updated">
-        🔄 آخر تحديث: {post.updatedDate}
+        🔄 آخر تحديث: <time datetime={post.updatedDate}>{post.updatedDate}</time>
       </div>
     )}
 
-    <article class="article-content" set:html={body} />
+    <article class="article-content article-content--reading" set:html={body} />
 
-    <!-- Internal links: related posts, solution, doc -->
+    <!-- Author bio (canonical .author-bio card) -->
+    <aside class="author-bio" aria-labelledby="author-bio-name">
+      <div class="author-bio__avatar" aria-hidden="true">{authorInitials}</div>
+      <div class="author-bio__body">
+        <p class="author-bio__role">كاتب المقال</p>
+        <h2 id="author-bio-name" class="author-bio__name">
+          <a href={`/authors/${post.author.slug}/`}>{post.author.name}</a>
+        </h2>
+        <p class="author-bio__text">{post.author.bio}</p>
+      </div>
+    </aside>
+
+    <!-- Related posts (canonical .related-posts) -->
     <RelatedPosts posts={relatedPosts} />
 
-    <div class="article-links">
-      <h2>🔗 محتوى ذو صلة</h2>
+    <!-- Internal links grid (canonical .article-links) -->
+    <section class="article-links" aria-labelledby="article-related-links">
+      <p class="article-links__label">استكشف أعمق</p>
+      <h2 id="article-related-links">محتوى ذو صلة</h2>
       <div class="article-links__grid">
-        <a href="/solutions/ai-governance-platform/">حل حوكمة AI ←</a>
-        <a href="/docs/ai-audit-trail/">توثيق سجل التدقيق ←</a>
-        <a href="/hub/ai-governance/">مركز حوكمة AI ←</a>
-        <a href="/hub/compliance/">مركز الامتثال ←</a>
+        <a href="/solutions/ai-governance-platform/">حل حوكمة AI</a>
+        <a href="/docs/ai-audit-trail/">توثيق سجل التدقيق</a>
+        <a href="/hub/ai-governance/">مركز حوكمة AI</a>
+        <a href="/hub/compliance/">مركز الامتثال</a>
       </div>
-    </div>
+    </section>
 
+    <!-- Final CTA (canonical card--cta + .article-demo-cta) -->
     <section class="article-demo-cta" aria-labelledby="blog-demo-title">
-      <h2 id="blog-demo-title">شاهد حوكمة AI وهي تعمل على حالاتك الفعلية</h2>
-      <p>احجز جلسة تعريفية لمراجعة احتياج منشأتك ومسار التطبيق المناسب.</p>
-      <a href="/contact/">احجز ديمو</a>
+      <div class="card card--cta article-demo-cta__card">
+        <h2 id="blog-demo-title">شاهد حوكمة AI وهي تعمل على حالاتك الفعلية</h2>
+        <p>احجز جلسة تعريفية لمراجعة احتياج منشأتك ومسار التطبيق المناسب.</p>
+        <a href="/contact/" class="btn btn--glow">
+          <svg aria-hidden="true" width="20" height="20"><use href="/icons.svg#mdi-calendar-check"></use></svg>
+          احجز ديمو
+        </a>
+      </div>
     </section>
   </div>
+
+  <script>
+    // REPORT-12: Reading progress bar.
+    // Anchors a thin .reading-progress bar to the top of the page; width
+    // is the % of the article scrolled past. Hides itself when at top.
+    function initReadingProgress() {
+      const article = document.querySelector('.article-content');
+      const bar = document.querySelector('.reading-progress');
+      if (!article || !bar || bar.hasAttribute('data-progress-initialized')) return;
+      bar.removeAttribute('hidden');
+      bar.setAttribute('data-progress-initialized', 'true');
+
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let raf = 0;
+
+      const update = () => {
+        raf = 0;
+        const rect = (article as HTMLElement).getBoundingClientRect();
+        const viewportH = window.innerHeight;
+        const scrolled = Math.min(Math.max(-rect.top / Math.max(rect.height - viewportH, 1), 0), 1);
+        const percent = Math.round(scrolled * 100);
+        (bar as HTMLElement).style.setProperty('--progress', `${percent}%`);
+        if (percent > 4 && percent < 96) {
+          bar.removeAttribute('hidden');
+        } else {
+          bar.setAttribute('hidden', '');
+        }
+      };
+
+      const onScroll = () => {
+        if (raf) return;
+        raf = window.requestAnimationFrame(update);
+      };
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll, { passive: true });
+      if (reduceMotion) {
+        bar.style.transition = 'none';
+      }
+      update();
+    }
+
+    document.addEventListener('astro:page-load', initReadingProgress);
+    document.addEventListener('astro:before-swap', () => {
+      document.querySelectorAll('.reading-progress[data-progress-initialized]').forEach((el) => {
+        el.removeAttribute('data-progress-initialized');
+      });
+    });
+  </script>
 </ArabicLayout>

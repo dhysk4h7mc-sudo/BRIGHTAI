@@ -2,9 +2,9 @@
 file: brain.md
 project: BrightAI — Saudi AI Safety OS
 site: https://brightai.site
-last_updated: 2026-06-30 23:00 +03:00
+last_updated: 2026-06-30 23:25 +03:00
 maintained_by: BrightAI Workspace Agent
-version: 2.4.0
+version: 2.5.0
 agent_version: v2.3
 skills_ready: 7
 ---
@@ -119,6 +119,70 @@ skills_ready: 7
 ## 2. Change Ledger (newest first)
 
 > كل تغيير جوهري يُسجَّل هنا (newest first). Append-only.
+
+### 2026-06-30 — Pricing Page Visual Refresh (REPORT-12)
+
+- **Files**: `src/pages/pricing/index.astro` (rewritten 163 → 191 سطر، canonical markup)، `src/styles/pages.css` (+260 سطر "REPORT-11 Pricing block extension": `.pricing-hero*` + `.pricing-section` rhythm + `.pricing-grid--4col/--3col` responsive + `.card__pricing-period/divider/check/cta` + enhanced `.card--pricing--featured` بـ border gradient + glow + `.pricing-faq*` open-state + `.inner-cta-final__actions`)، `scripts/playwright/screenshot-pricing.mjs` (new, ~110 سطر، acceptance gate)، `download/qa/pricing/*.png` (8 new screenshots: desktop full/fold/hero/cards/faq/final-cta + mobile full/fold)، `reports/11-pricing.md` (new, ~400 سطر Saudi dialect)، `.agents/brain.md`
+- **What**: إعادة تصميم بصري شامل لـ `/pricing/` باستخدام canonical patterns من النظام. (1) Hero: `.page-hero` مع breadcrumb centered + H1 clamp(2.25→4rem) extrabold + lead paragraph clamp(text-base→text-xl) + 2 CTAs (`.btn.btn--glow` WhatsApp + `.btn.btn--outline` Contact) + radial gradient teal+indigo wash + noise grain. (2) 4 pricing cards في `.pricing-grid--4col` responsive (4 desktop → 2 tablet → 1 mobile)، كل card يستخدم canonical `.card--pricing` anatomy: name + description + price + period (جديد: muted, smaller) + divider (gradient line) + features list مع SVG checkmark icons (بدل ✓ glyph) + full-width CTA button (anchored bottom). (3) Featured card: الباقة 3 (وكلاء الذكاء الاصطناعي) بـ border linear-gradient(135deg, brand-500 → indigo-400) padding-box+border-box mask trick + layered shadow (shadow-lg + brand-tinted ring + brand glow) + translateY(-4px) + badge "الأكثر طلباً" positioned absolutely فوق الـ border. Hover: translateY(-6px) + shadow-xl + brighter glow. (4) Other sections preserved verbatim: intro lead + compliance bullets + ROI 3 panels + comparison table + NAP + internal links — كل النصوص سليمة. (5) FAQ: canonical `.home-faq-item` (glass card) + `.home-faq-chevron` rotate 180deg on open + NEW open-state highlight (linear-gradient brand-tinted + brand-300 summary color) + first FAQ open by default. (6) Final CTA: `.inner-cta-final` + `.card--cta` (gradient + radial halo + noise grain) + 2 CTAs (glow + outline) في `.inner-cta-final__actions`.
+- **Why**: الـ pricing page كانت تستخدم markup قديم بدون canonical anatomy — بطاقات بدون period text أو divider أو featured variant، FAQ بدون styling مخصص، hero بدون CTAs موحدة، Final CTA بدون banner treatment. الـ design system فيه كل الـ patterns اللازمة (page-hero + card--pricing + home-faq-item + inner-cta-final) بس الـ pricing page ما كانت تستخدمها.
+- **Verification**:
+  - `npm run build` → 130 pages, 0 errors, 2.80s ✅
+  - `npm run verify:all` → 6/6 hreflang, 5/5 service, 0 broken, 0 errors, 0 warnings, 20944 refs scanned ✅
+  - `npm run seo:gate` → 6/6 hreflang، 5/5 service، 112 sitemap URLs (unchanged)، 0 broken ✅
+  - Pricing card count: 4/4 (desktop + mobile) ✅
+  - Featured cards: 1 (الباقة 3 - وكلاء الذكاء الاصطناعي) ✅
+  - Badge count: 1 (الأكثر طلباً) ✅
+  - FAQ items: 6/6 (desktop + mobile) ✅
+  - FAQ open by default: 1 (first) ✅
+  - Hero CTAs: 2 (WhatsApp + Contact) ✅
+  - Final CTA buttons: 2 (WhatsApp + Contact) ✅
+  - Comparison table rows: 6 ✅
+  - Pricing sections: 8 (preserved) ✅
+  - Console errors: 0 ✅
+  - Page errors: 0 ✅
+  - TTFB: 5-7ms (preview server) ✅
+  - DOMContentLoaded: 508-692ms ✅
+  - Load complete: 1465-1477ms ✅
+  - 8 Playwright screenshots captured (Desktop: full/fold/hero/cards/faq/final-cta، Mobile: full/fold) ✅
+- **Constraints respected**:
+  - ✅ 0 published Arabic text modified (4 packages + 6 FAQs + Final CTA title all preserved verbatim via grep على dist HTML)
+  - ✅ 0 sections removed or reordered (all 8 original sections preserved)
+  - ✅ 0 canonical/hreflang changes
+  - ✅ 0 JSON-LD removed (WebPage + BreadcrumbList ×2 + FAQPage + Organization canonical preserved)
+  - ✅ 0 new JS dependencies (vanilla CSS only)
+  - ✅ 0 Tailwind utility classes
+  - ✅ 0 inline styles in production .astro files (scoped <style> only)
+  - ✅ 0 `<iconify-icon>` added (SVG sprite `mdi-*` only)
+  - ✅ 0 console.log added
+  - ✅ 0 protected files modified
+  - ✅ DEC-SovB-001 honored (Deep Teal brand, hover darker = brand-600)
+  - ✅ DEC-2026-032 honored (heading clamp() + line-height 1.85 Arabic + letter-spacing -0.02em)
+  - ✅ DEC-2026-033 honored (token-based colors, raw rgba only in FAQ open-state highlight — transparency-aware)
+  - ✅ DEC-2026-034 honored (.card card--pricing canonical anatomy across all 4 cards)
+  - ✅ DEC-2026-035 honored (.btn btn--primary/glow/outline canonical buttons, 44-60px heights)
+  - ✅ DEC-2026-036 honored (ambient helpers from homepage: .bg-ambient-* patterns referenced in CSS)
+  - ✅ DEC-2026-037 honored (Solutions Page Pattern: .pricing-section rhythm + featured card)
+  - ✅ prefers-reduced-motion respected (open-state highlight + featured card lift + badge shadow all gated)
+  - ✅ prefers-reduced-transparency respected (open-state gradient killed, fallback to solid bg-surface)
+  - ✅ RTL preserved (logical properties only: margin-inline, padding-inline, inset-inline-start)
+  - ✅ WCAG 2.5.5 AAA tap targets preserved (44-60px button heights)
+  - ✅ WCAG 1.4.11 non-text contrast (brand-tinted badge + featured border على dark surface = AA+)
+- **Risks remaining**:
+  - Featured card selected as الباقة 3 (وكلاء الذكاء الاصطناعي). لو المستخدم يبي غيرها، 1-line change في `featured: true/false` flag.
+  - Comparison table styling untouched (per brief "اختياري — لو يضيف قيمة بصرية"). عنده styling جاهز في components.css line 2069-2107.
+  - 8 internal links + NAP sections preserved verbatim بدون تعديل بصري (للـ SEO).
+  - CSS bundle delta ~+2KB raw (~+0.6KB gzipped estimated) — well under 25KB budget.
+  - Open-state highlight uses raw rgba(42, 138, 126, 0.06). لو المستخدم يبي strict token-only، ممكن يضاف token جديد في tokens.css في follow-up pass.
+- **Acceptance criteria** (all met):
+  - ✅ الـ 4 باقات معروضة بنفس البيانات
+  - ✅ كل الـ FAQs قابلة للفتح والإغلاق
+  - ✅ كل الـ links/CTAs تشتغل
+  - ✅ JSON-LD FAQPage محفوظ كما هو
+- **Report**: `reports/11-pricing.md` (~400 سطر، 13 قسم، Saudi dialect، full breakdown + verification + risks + commit message + files & artifacts)
+- **Decision**: DEC-2026-039 added — Pricing Page Canonical Pattern (page-hero + card--pricing--featured + pricing-faq open-state + inner-cta-final). Reusable for any future pricing/plan/tier page.
+- **Commit**: uncommitted (pending user approval)
+- **Status**: verified (build + verify:all + seo:gate + Playwright acceptance gate + 0 console errors + 8 screenshots + content preservation grep all pass)
+- **Brain updates**: Section 1 (no changes to baseline — 130 pages preserved)، Section 2 (this entry)، Section 4 (DEC-2026-039 added)، Section 5 (canonical pricing patterns added to inventory)
 
 ### 2026-06-30 — Solutions Extracted Content + Full Coverage (REPORT-11)
 
@@ -1707,11 +1771,43 @@ npm run indexnow:trigger  # notifies Bing/Yandex
   - `.home-cta-primary` → `.btn--primary.btn--glow` (homepage hero)
   - `.home-cta-secondary` → `.btn--secondary` (homepage hero)
 
+### DEC-2026-039 — Pricing Page Canonical Pattern (REPORT-12)
+
+- **Date**: 2026-06-30
+- **Context**: الـ `/pricing/` page تستخدم markup قديم بدون canonical anatomy — بطاقات بدون period text أو divider أو featured variant، FAQ بدون styling مخصص أو chevron rotation أو open-state highlight، hero بدون CTAs موحدة، Final CTA بدون banner treatment. كل الـ canonical patterns موجودة في النظام (`.page-hero` / `.card--pricing` / `.home-faq-item` / `.inner-cta-final`) بس الـ pricing page ما كانت تستخدمها.
+- **Decision**: وحّدنا الصفحة تحت canonical patterns مع extensions صغيرة:
+  - **Hero**: `.page-hero` (radial teal+indigo wash + noise grain) + `.pricing-hero__inner` (52rem max-width centered container) + breadcrumb centered + H1 clamp(2.25→4rem) extrabold + lead paragraph + 2 CTAs (`.btn--glow` WhatsApp + `.btn--outline` Contact).
+  - **Pricing cards**: 4 بطاقات في `.pricing-grid--4col` (responsive: 4 desktop → 2 tablet → 1 mobile). كل بطاقة تستخدم canonical `.card--pricing` anatomy + new sub-elements: `.card__pricing-period` (muted, smaller، تحت السعر) + `.card__pricing-divider` (gradient line، بين السعر والـ features) + `.card__pricing-check` (SVG `mdi-check-circle` بدل `✓` glyph) + `.card__pricing-cta` (full-width، anchored bottom via `margin-top: auto`).
+  - **Featured card** (الباقة 3 - وكلاء الذكاء الاصطناعي): `.card--pricing--featured` بـ border linear-gradient(135deg, brand-500 → indigo-400) باستخدام padding-box + border-box mask trick + layered shadow (shadow-lg + brand-tinted ring + brand glow) + translateY(-4px) + `.card__pricing-badge` "الأكثر طلباً" positioned absolutely فوق الـ border.
+  - **Hover**: translateY(-6px) + shadow-xl + brighter brand glow على الـ featured card، translateY(-4px) + shadow-lg على الـ others.
+  - **FAQ**: canonical `.home-faq-item` (glass card) + `.home-faq-chevron` rotate 180deg on `[open]` + new open-state highlight (linear-gradient brand-tinted 0% → solid 60% + brand-300 summary color) + first FAQ open by default.
+  - **Final CTA**: `.inner-cta-final` + `.card--cta` (gradient + radial halo + noise grain) + 2 CTAs (`.btn--glow` + `.btn--outline`) في `.inner-cta-final__actions`.
+  - **Section rhythm**: `.pricing-section` (max-width 75rem، padding-block var(--space-12)) يطبق على كل section داخل الصفحة.
+  - **Mobile overrides**: pricing-hero padding يصغر على ≤640px، grid ينتقل لـ 1fr.
+- **Rationale**:
+  - **Reuse over rebuild**: كل الـ visual building blocks موجودة في النظام (page-hero، card--pricing، home-faq-item، inner-cta-final) — لا داعي لإنشاء components جديدة. الـ pricing page كانت الـ outlier.
+  - **Featured card via padding-box+border-box mask trick**: يحقق gradient border على dark surface بدون box-shadow bleed. Standard pattern.
+  - **`margin-top: auto` على CTA**: يدفع الـ button لأسفل البطاقة بغض النظر عن عدد الـ features — يحقق equal-height cards بدون explicit height.
+  - **Open-state highlight via linear-gradient + brand-300 text**: subtle visual cue (بدون border change قوي) يحافظ على الـ glass-card aesthetic + يدل على الـ "current focus".
+  - **No new tokens**: extensions على canonical classes، لا حاجة لإضافة tokens جديدة في tokens.css.
+  - **All 4 packages + 6 FAQs preserved verbatim** + كل الـ 8 sections الأصلية محفوظة بدون حذف أو إعادة ترتيب (قاعدة 2.1).
+- **Reversal cost**: Low. كل الـ classes الجديدة في pages.css block منفصل ("REPORT-11 Pricing block extension") — حذفه يعيد الصفحة للـ state القديم. الـ .astro file rewrite قابل لـ git revert.
+- **Do not reverse** without explicit user approval + plan for restoring old markup + verifying canonical patterns still apply.
+- **Related decisions**: DEC-2026-032 (typography clamp), DEC-2026-033 (color tokens), DEC-2026-034 (card system — .card--pricing foundation), DEC-2026-035 (buttons — .btn--glow/.btn--outline), DEC-2026-036 (homepage ambient patterns — referenced for hero), DEC-2026-037 (solutions page patterns — .pricing-section rhythm reused).
+- **Related reports**: `reports/11-pricing.md` (~400 lines, 13 sections, full breakdown + verification + risks + commit message + files & artifacts).
+- **Risks**:
+  - Featured card hardcoded للباقة 3 — لو المستخدم يبي غيرها، 1-line change في `featured: true/false` flag.
+  - Open-state highlight uses raw rgba(42, 138, 126, 0.06) — لو design system يحتاج strict token-only، ممكن يضاف `--brand-soft-highlight` token في follow-up.
+  - Comparison table styling untouched (per brief "اختياري") — styling جاهز في components.css line 2069-2107 لو المستخدم يبي تحديثه.
+  - 8 internal links + NAP sections preserved verbatim بدون تعديل بصري (للـ SEO internal linking cluster).
+
 ---
 
 ## 10. Maintenance Log
 
 > سجل صيانة هذا الملف.
+
+- **v2.5.0** (2026-06-30 23:25 +03:00): Added DEC-2026-039 (Pricing Page Canonical Pattern — REPORT-12). Added change ledger entry for pricing visual refresh (page-hero + 4-col cards grid + featured card + FAQ accordion + final CTA). Updated Section 1 (no baseline change — 130 pages preserved). Updated Section 4 (DEC-2026-039 added). Updated frontmatter (version 2.4.0 → 2.5.0, last_updated).
 
 - **v2.2.0** (2026-06-30 21:50 +03:00): Added DEC-2026-035 (Buttons + Forms System Unification — REPORT-08). Added change ledger entry for buttons (4 sizes, 8 variants, 5 states, loading spinner, icon variants) + forms (3 sizes, 5 variants, 5 layout helpers, 6 states). Updated Section 1 (build pages 128 → 130, CSS gzip 18.4KB → 20.2KB). Updated Section 4 (DEC-2026-035 added). Updated frontmatter (version 2.1.0 → 2.2.0, last_updated).
 

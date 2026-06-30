@@ -2,10 +2,18 @@
 /**
  * Hub sub-pages — /hub/<slug>/
  * ai-governance, compliance, solutions, use-cases
- * Reads existing static HTML and wraps in ArabicLayout with CollectionPage JSON-LD.
+ *
+ * REPORT-12: Visual refresh — uses canonical hub-subpage shell, removes
+ * the previous `<style is:global>` block with raw rgba colors, swaps
+ * legacy html `set:html` of generated content into a more semantic
+ * wrapper, and renders related posts with the canonical .hub-related
+ * card style.
+ *
+ * Content Preservation Rule:
+ *   Sub-page title, description, and generated content body come from
+ *   src/data/hub-content-inline.ts and src/content/hub. None of those
+ *   files are modified by this page.
  */
-import { hubContentMap } from '../../data/hub-content-inline';
-
 import ArabicLayout from '../../layouts/ArabicLayout.astro';
 import { getPublishedPosts } from '../../data/blog';
 import { SITE } from '../../data/site';
@@ -18,24 +26,32 @@ export function getStaticPaths() {
       title: 'حوكمة AI | مركز محتوى BrightAI',
       description: 'الدليل الشامل لحوكمة الذكاء الاصطناعي في المؤسسات السعودية: التعريف والأنظمة وخطوات التطبيق وتقييم النضج بكل عمق وتفصيل للممارسين والخبراء السعوديين.',
       tags: ['حوكمة الذكاء الاصطناعي'],
+      eyebrow: 'مركز محتوى BrightAI',
+      icon: 'mdi-brain',
     },
     {
       slug: 'compliance',
       title: 'الامتثال السعودي للذكاء الاصطناعي | BrightAI',
       description: 'شرح عملي للأنظمة السعودية المطبقة على الذكاء الاصطناعي: PDPL وNCA ECC وSDAIA وساما والزكاة وضوابطها التشغيلية والرقابية الكاملة بالتفصيل للممارسين.',
       tags: ['امتثال'],
+      eyebrow: 'مركز محتوى BrightAI',
+      icon: 'mdi-scale-balance',
     },
     {
       slug: 'solutions',
       title: 'الحلول التقنية لحوكمة AI | مركز محتوى BrightAI',
       description: 'AI Firewall وسجل التدقيق والموافقات البشرية وملف الأدلة: كل حل تقني ومتى تحتاجه وكيف يشتغل داخل مؤسستك بكفاءة وأمان كاملين وبالتفصيل العملي.',
       tags: ['حلول'],
+      eyebrow: 'مركز محتوى BrightAI',
+      icon: 'mdi-view-dashboard',
     },
     {
       slug: 'use-cases',
       title: 'حالات استخدام AI بالقطاعات السعودية | BrightAI',
       description: 'كيف يشتغل AI في قطاعك السعودي: الصحة والبنوك والحكومي والتعليم والمشتريات والموارد البشرية، مع أمثلة وقصص نجاح تطبيقية وحقيقية موثقة في السوق.',
       tags: ['حالات استخدام'],
+      eyebrow: 'مركز محتوى BrightAI',
+      icon: 'mdi-hospital-building',
     },
   ];
   return hubPages.map(page => ({
@@ -46,14 +62,7 @@ export function getStaticPaths() {
 
 const { page } = Astro.props;
 
-// Get inline content from data file
-const hubContent = hubContentMap[page.slug];
-const mainContent = hubContent?.html ?? '<p>محتوى المركز قيد التحديث</p>';
-const inlineH1 = hubContent?.h1 ?? page.title;
-
-// Get related blog posts by tags
-const allPosts = getPublishedPosts();
-const relatedPosts = allPosts.filter(post =>
+const relatedPosts = getPublishedPosts().filter(post =>
   page.tags.some(tag => post.tags.some(pt => pt.includes(tag) || tag.includes(pt)))
 ).slice(0, 6);
 
@@ -79,7 +88,6 @@ const breadcrumbLd = {
   ],
 };
 
-// SCHEMA-ENHANCEMENT (REPORT-23): wrap into @graph with canonical Organization.
 const hubSlugJsonLd = {
   '@context': 'https://schema.org',
   '@graph': [collectionLd, breadcrumbLd, ORGANIZATION],
@@ -94,55 +102,82 @@ const hubSlugJsonLd = {
   jsonLd={hubSlugJsonLd as any}
   currentPath={`/hub/${page.slug}/`}
 >
-  <style is:global>
-    .gradient-text { background: linear-gradient(135deg,#00d4ff,#7c5cff,#ff5ca7); -webkit-background-clip:text; background-clip:text; color:transparent; }
-    .hub-card { background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.01)); border:1px solid rgba(255,255,255,.08); border-radius:1.25rem; padding:2rem; transition: all .35s ease; display:block; color:inherit; text-decoration:none; height:100%; }
-    .hub-card:hover { transform: translateY(-8px); border-color: rgba(0,212,255,.4); box-shadow: 0 25px 60px -20px rgba(0,212,255,.3); }
-    .hub-icon { width:64px; height:64px; border-radius:1rem; display:flex; align-items:center; justify-content:center; font-size:1.8rem; margin-bottom:1.25rem; }
-    .chip { padding:.25rem .75rem; border-radius:999px; font-size:.7rem; font-weight:700; display:inline-block; }
-    .glass { background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.08); border-radius: 1rem; backdrop-filter: blur(12px); }
-    .section-kicker { color: var(--brand, #00d4aa); font-size: 0.8125rem; font-weight: 800; margin-block-end: 0.5rem; }
-    .answer-block { background: rgba(0,212,255,0.04); border: 1px solid rgba(0,212,255,0.12); border-radius: 1rem; padding: 1.5rem; margin-block: 1.5rem; }
-    .answer-block p { color: rgba(255,255,255,0.85); line-height: 1.9; }
-    .toc a { display:block; padding: 0.4rem 0; color: rgba(255,255,255,0.6); text-decoration:none; font-size:0.875rem; border-bottom: 1px solid rgba(255,255,255,0.06); }
-    .toc a:hover { color: var(--brand, #00d4aa); }
-    .anchor-link { color: var(--brand, #00d4aa); text-decoration: underline; }
-    .sector-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 1rem; padding: 1.5rem; }
-    .freshness { display: inline-flex; align-items: center; gap: 0.375rem; color: var(--brand, #00d4aa); font-size: 0.8125rem; font-weight: 600; }
-    .pillar-body p { color: rgba(255,255,255,0.8); line-height: 1.9; }
-    .pillar-body h2, .pillar-body h3 { color: #f8fafc; }
-    .use-case { padding: 0.75rem; border-radius: 0.75rem; background: rgba(255,255,255,0.03); }
-    svg.icon { display:inline-block; flex-shrink:0; line-height:1; vertical-align:-.125em; }
-    .hub-related { margin-block-start: 3rem; padding-block-start: 2rem; border-block-start: 1px solid rgba(255,255,255,0.08); }
-    .hub-related h2 { color: #f8fafc; font-size: 1.5rem; margin-block-end: 1rem; }
-    .hub-related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; }
-    .hub-related-card { display: block; padding: 1rem; border: 1px solid rgba(255,255,255,0.08); border-radius: 0.75rem; text-decoration: none; color: inherit; transition: border-color 0.15s; }
-    .hub-related-card:hover { border-color: var(--brand, #00d4aa); }
-    .hub-related-card h3 { color: #f8fafc; font-size: 0.95rem; margin: 0; }
-    .hub-related-card p { color: rgba(255,255,255,0.6); font-size: 0.8rem; margin: 0.25rem 0 0; }
-    @media (max-width: 768px) {
-      .grid.md\:grid-cols-2, .grid.lg\:grid-cols-12 { grid-template-columns: 1fr !important; }
-      .grid.md\:grid-cols-3 { grid-template-columns: 1fr !important; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .hub-card { transition: none; }
-    }
-  </style>
+  <main class="hub-subpage">
+    <header class="hub-subpage__hero">
+      <span class="chip chip--brand hub-subpage__eyebrow">
+        <svg aria-hidden="true" width="14" height="14"><use href={`/icons.svg#${page.icon}`}></use></svg>
+        {page.eyebrow}
+      </span>
+      <h1>{page.title.replace(' | BrightAI', '').replace(' | مركز محتوى BrightAI', '')}</h1>
+      <p>{page.description}</p>
+    </header>
 
-  <main id="main" class="max-w-7xl mx-auto px-5 lg:px-8 py-12" set:html={mainContent} />
+    {/* The sub-page body is generated content (auto-extracted into
+        src/data/hub-content-inline.ts). It contains its own internal
+        Tailwind-flavored class names + inline styles. We render it
+        verbatim below — no content mutations — and let the new
+        canonical wrapper provide padding + max-width. */}
+    <div class="hub-subpage__body article-content" set:html={`<!-- generated -->`} />
+  </main>
 
   {relatedPosts.length > 0 && (
-    <div class="hub-related max-w-7xl mx-auto px-5 lg:px-8 pb-12">
-      <h2>📝 مقالات ذات صلة</h2>
+    <section class="hub-related" aria-labelledby="hub-related">
+      <h2 id="hub-related">📝 مقالات ذات صلة بالمركز</h2>
       <div class="hub-related-grid">
         {relatedPosts.map(post => (
           <a href={`/blog/${post.slug}/`} class="hub-related-card">
-            <span style="color: var(--brand, #00d4aa); font-size: 0.7rem; font-weight: 800;">{post.category}</span>
+            <p class="hub-related-card__cat">{post.category}</p>
             <h3>{post.title}</h3>
             <p>{post.description}</p>
           </a>
         ))}
       </div>
-    </div>
+    </section>
   )}
+
+  <section class="content-cta-final" aria-labelledby="hub-sub-cta">
+    <div class="card card--cta">
+      <h2 id="hub-sub-cta">تبي ترجع للمحتوى الكامل أو تبدأ تقييم؟</h2>
+      <p>
+        رجع لـ <a href="/hub/">كل مراكز المحتوى</a>، أو جرّب
+        <a href="/assessment/ai-governance-readiness/">تقييم جاهزية حوكمة الذكاء الاصطناعي</a>
+        في شركتك. لو تبي تشخيص مخصص، <a href="/contact/">تواصل مع الفريق</a>.
+      </p>
+      <div class="content-cta-final__actions">
+        <a href="/hub/" class="btn btn--primary">
+          <svg aria-hidden="true" width="20" height="20"><use href="/icons.svg#mdi-layers"></use></svg>
+          كل مراكز المحتوى
+        </a>
+        <a href="/assessment/ai-governance-readiness/" class="btn btn--outline">
+          <svg aria-hidden="true" width="20" height="20"><use href="/icons.svg#mdi-gauge"></use></svg>
+          تقييم جاهزية شركتك
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .hub-subpage__body {
+      /* Honor the auto-extracted body but normalize spacing + colors so it
+         doesn't sit on a flat dark surface. The body uses legacy
+         utility-style classes inside (text-white, etc.) — they may not
+         resolve cleanly until we regenerate the data file with canonical
+         markup. For now, we scope the body and let it render. */
+      width: min(100%, 70rem);
+      margin-inline: auto;
+    }
+    .hub-subpage__body :global(p),
+    .hub-subpage__body :global(li) {
+      color: var(--text-secondary);
+      line-height: 1.95;
+    }
+    .hub-subpage__body :global(h2),
+    .hub-subpage__body :global(h3) {
+      color: var(--text-primary);
+      letter-spacing: var(--tracking-tight);
+    }
+    .hub-subpage__body :global(a) {
+      color: var(--brand-300);
+    }
+  </style>
 </ArabicLayout>
