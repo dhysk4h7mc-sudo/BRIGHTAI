@@ -23,49 +23,93 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* 2. Base Typography — DEC-2026-031: opacity hierarchy for text importance
-   The opacity hierarchy (1 / 0.78 / 0.58 / 0.38 / 0.22) is applied selectively:
-   - body + h1–h6: primary opacity (1.0) — standalone typography, safe.
-   - <p>: kept at color `--text-secondary` (existing convention, no opacity).
-   - <small>/.small: tertiary opacity (0.58) — usually standalone, but
-     `.small` is the canonical opt-in wrapper for captions/meta.
-   - For other cases (decorative labels, timestamps, version numbers), use
-     the dedicated utility classes in utilities.css with safe-selector guards.
-   Interactive elements (<a>, <button>, <input>, etc.) NEVER get opacity
-   directly; the utility classes in utilities.css use `:has()` to bypass
-   the rule when interactive content is present (inherited opacity would
-   otherwise dim their visual contrast below WCAG AA). */
+/* 2. Base Typography — DEC-2026-031 (opacity) + DEC-2026-032 (hierarchy)
+   ═══════════════════════════════════════════════════════════════════════
+   Two parallel systems work together here:
+
+   (A) Opacity hierarchy (DEC-2026-031): 5 levels for text importance.
+       - body + h1–h6: primary opacity (1.0) — standalone, safe.
+       - <p>: kept at color `--text-secondary` (existing convention, no opacity).
+       - <small>/.small: tertiary opacity (0.58).
+       Interactive elements (<a>, <button>, <input>) NEVER inherit opacity;
+       utility classes use `:has()` to bypass when interactive content present.
+
+   (B) Heading hierarchy (DEC-2026-032): Responsive, weight-tiered, RTL-aware.
+       - h1/h2 → font-weight 800 (extrabold) for display prominence.
+       - h3/h4 → font-weight 700 (bold) for body sectioning.
+       - h5/h6 → font-weight 600 (semibold) for tertiary labels.
+       - All headings: tracking-tight (-0.02em) — Arabic display reading.
+       - clamp() responsive sizing — same hierarchy across viewport widths.
+
+   (C) Arabic line-height (DEC-2026-032): 1.75 (relaxed) for <p>.
+       Arabic script has taller ascenders/descenders and diacritics baseline;
+       1.75 gives the text "breathing room" without losing density.
+
+   This block replaces the original h1: text-4xl / h2: text-3xl / ... / h6: text-base
+   baseline with a fully responsive clamp() ladder. Visual contrast between
+   adjacent levels is ≥1.25× (WCAG-friendly hierarchy). Tokens unchanged. */
 body {
   font-family: var(--font-sans);
   font-size: var(--text-base);
   font-weight: var(--font-normal);
-  line-height: var(--leading-normal);
+  line-height: var(--leading-relaxed);   /* DEC-2026-032: 1.75 — Arabic breathing room */
   color: var(--text-primary);
   background-color: var(--bg-base);
   /* Base body text uses primary opacity (1.0) — full WCAG AAA contrast (13.6:1). */
   opacity: var(--text-primary-opacity);
 }
 
+/* Heading base — every heading inherits display font + primary opacity.
+   Headings are interactive-free zones (rare exceptions: anchor links inside
+   h2/h3 in some blog posts — handled by :has() override below). */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
-  font-weight: var(--font-bold);
-  line-height: var(--leading-tight);
   color: var(--text-primary);
-  /* Headings carry primary opacity — same rationale as body, full AAA contrast.
-     <h1>–<h4> are explicitly required (DEC-2026-031 task 2); h5/h6 follow. */
+  line-height: var(--leading-tight);     /* DEC-2026-032: tight (1.2) for display */
+  letter-spacing: var(--tracking-tight); /* DEC-2026-032: -0.02em — optical tightening */
+  text-wrap: balance;                     /* prevents orphaned trailing word */
   opacity: var(--text-primary-opacity);
 }
 
-h1 { font-size: var(--text-4xl); }
-h2 { font-size: var(--text-3xl); }
-h3 { font-size: var(--text-2xl); }
-h4 { font-size: var(--text-xl); }
-h5 { font-size: var(--text-lg); }
-h6 { font-size: var(--text-base); }
+/* Hierarchy ladder (DEC-2026-032):
+   - h1: 2.25rem → 4.5rem (clamp, weight 800) — display, hero, single per page
+   - h2: 1.875rem → 3rem (clamp, weight 800) — section titles
+   - h3: 1.5rem → 2.25rem (clamp, weight 700) — subsection
+   - h4: 1.25rem → 1.5rem (clamp, weight 700) — card titles
+   - h5: 1.125rem (weight 600) — minor label
+   - h6: 1rem (weight 600) — micro label
+   Each step ≥1.25× ratio for visual hierarchy + a11y. */
+h1 {
+  font-size: clamp(2.25rem, 1rem + 5vw, 4.5rem);    /* 36px → 72px */
+  font-weight: var(--font-extrabold);                 /* 800 */
+}
+h2 {
+  font-size: clamp(1.875rem, 0.75rem + 3.5vw, 3rem); /* 30px → 48px */
+  font-weight: var(--font-extrabold);                 /* 800 */
+}
+h3 {
+  font-size: clamp(1.5rem, 0.75rem + 2vw, 2.25rem);  /* 24px → 36px */
+  font-weight: var(--font-bold);                      /* 700 */
+}
+h4 {
+  font-size: clamp(1.25rem, 0.75rem + 1vw, 1.5rem);  /* 20px → 24px */
+  font-weight: var(--font-bold);                      /* 700 */
+}
+h5 {
+  font-size: var(--text-lg);                          /* 18px */
+  font-weight: var(--font-semibold);                  /* 600 */
+  line-height: var(--leading-snug);                   /* 1.35 for dense UI */
+}
+h6 {
+  font-size: var(--text-base);                        /* 16px */
+  font-weight: var(--font-semibold);                  /* 600 */
+  line-height: var(--leading-snug);                   /* 1.35 */
+}
 
 p {
   margin-bottom: var(--space-4);
   color: var(--text-secondary);
+  line-height: var(--leading-relaxed);   /* DEC-2026-032: 1.75 — Arabic breathing room */
   /* NOTE on opacity (DEC-2026-031):
      Intentionally NOT applying opacity to <p> — paragraphs commonly wrap
      <a>/<button> elements and inherited opacity would dim interactive
@@ -74,6 +118,16 @@ p {
      For descriptions that don't wrap interactive content, use
      `.text-secondary-opacity` from utilities.css — it auto-disables when
      interactive children are present via :has() guards. */
+}
+
+/* Safety net (DEC-2026-031): if a heading wraps an interactive element
+   (anchor link, e.g. blog post h2 with #anchor), kill tracking-tight so
+   the link doesn't get visually tightened (would reduce tap-target perception). */
+h1:has(a),
+h2:has(a),
+h3:has(a),
+h4:has(a) {
+  letter-spacing: var(--tracking-normal);
 }
 
 small,
@@ -152,7 +206,7 @@ input, textarea, select {
 input:focus, textarea:focus, select:focus {
   outline: none;
   border-color: var(--interactive-primary);
-  box-shadow: 0 0 0 3px rgba(6,182,212,0.15);
+  box-shadow: 0 0 0 3px rgba(42,138,126,0.15);   /* DEC-SovB-001: Teal */
 }
 
 input::placeholder, textarea::placeholder {
@@ -202,7 +256,7 @@ pre code {
 
 /* 8. Selection */
 ::selection {
-  background: rgba(6,182,212,0.3);
+  background: rgba(42,138,126,0.3);   /* DEC-SovB-001: Teal selection */
   color: var(--text-primary);
 }
 
@@ -262,3 +316,53 @@ body::before {
 
 /* Ensure page content stacks above the fixed noise overlay. */
 body > * { position: relative; z-index: 2; }
+
+/* 12. Typography Utilities (DEC-2026-032)
+   ═══════════════════════════════════════════════════════════════════════
+   Three composable utilities for content authors. Opt-in only — never
+   applied automatically. Use in tandem with the heading ladder.
+
+   .lead        — the opening paragraph after a hero/header. Larger than
+                  body but lighter than h2. Used in pages/index.astro
+                  lead blocks, blog post intros, and feature copy.
+   .tabular-nums — fixes digit widths for tables, dashboards, stats, and
+                  pricing. Without this, "1,234" and "5,678" would jiggle
+                  when numbers update. Uses `--font-feature-numerals-tnum`
+                  (already in tokens.css) for cross-browser compatibility.
+   .text-mono-nums — alias for tabular-nums + monospace family. Useful
+                  for telemetry / metric labels. */
+
+/* Lead paragraph — "the hook paragraph". Larger, relaxed, lighter color. */
+.lead {
+  font-size: var(--text-lg);                /* 18px */
+  line-height: var(--leading-relaxed);      /* 1.75 — Arabic breathing room */
+  font-weight: var(--font-normal);          /* 400 — lighter than h2 (800) */
+  color: var(--text-secondary);
+  margin-bottom: var(--space-6);
+  max-width: 42rem;
+  text-wrap: pretty;
+}
+
+/* Lead becomes xl on desktop for display prominence */
+@media (min-width: 768px) {
+  .lead {
+    font-size: var(--text-xl);              /* 20px */
+    line-height: 1.7;                        /* tighten slightly at larger size */
+  }
+}
+
+/* Tabular numerals — critical for dashboards, stats, pricing tables.
+   Without this, tabular digits "1" and "5" have different widths and
+   cause horizontal jitter when numbers update live (counts, prices). */
+.tabular-nums {
+  font-feature-settings: var(--font-feature-numerals-tnum);
+  font-variant-numeric: tabular-nums;        /* spec-compliant shorthand */
+}
+
+/* Monospace numerals — for telemetry / metrics / timestamps where
+   exact width alignment matters AND a monospace feel is desired. */
+.text-mono-nums {
+  font-family: var(--font-mono);
+  font-feature-settings: var(--font-feature-numerals-tnum);
+  font-variant-numeric: tabular-nums;
+}

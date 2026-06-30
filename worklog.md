@@ -88,3 +88,26 @@ Forbidden Items (NOT violated):
 
 Next Step:
 - اطلب موافقة المستخدم على commit + أمكن أعمل follow-up: Header.astro logo unification
+
+---
+Task ID: 2026-06-30-002
+Agent: Mavis (BrightAI Workspace Agent v2.3)
+Task: Typography Refinement — heading hierarchy + Arabic line-height + .lead + .tabular-nums + display page
+Started: 2026-06-30T20:40:24+03:00
+Mode: Senior
+Branch: uncommitted (pending user approval)
+
+Work Log:
+- 20:40: قرأت `.agents/brain.md` كاملاً (1435 سطر) — فهمت DEC-031 (text opacity) + DEC-022 (The Star) + DEC-041 (mobile hierarchy) + DEC-SovB-001 (Teal)
+- 20:40: قرأت `src/styles/tokens.css` (363 سطر) — اكتشفت التوكنز الجاهزة: `--text-7xl`, `--tracking-tight`, `--tracking-wide`, `--font-feature-numerals-tnum`, `--leading-relaxed`, `--leading-snug`, `--leading-loose`
+- 20:40: قرأت `src/styles/base.css` (264 سطر) — الـ h1-h6 الحالي: text-4xl/3xl/2xl/xl/lg/base بـ font-bold
+- 20:40: قرأت `src/styles/components.css` (1786 سطر) — `.section__title/subtitle` موجود، `.gradient-text` موجود بـ 135deg stops
+- 20:40: قرأت `src/components/SplitHero.astro` (974 سطر) — `.split-hero__h1` بثلاث breakpoints: 1.875 → 3 → 3.5rem، weight: 900
+- 20:40: تأكدت من القواعد: لا تغيّر النصوص العربية/الإنجليزية، لا تستبدل IBM Plex Sans Arabic، فقط CSS
+
+Stage Summary:
+- المشكلة: heading hierarchy ثابت على أحجام صغيرة نسبياً (text-4xl = 2.25rem كحد أقصى لـ h1)، line-height واحد (1.2 tight) ما يلائم العربي، ما في .lead/.tabular-nums/.section__eyebrow، ما في صفحة عرض typography
+- الحل: clamp() responsive headings + weight 800/700 split + Arabic line-height 1.75 + tracking-tight على العناوين الكبيرة + 3 utility classes جديدة + صفحة /design/typography عرض داخلي
+- القيد: 0 نص يتغير، 0 IBM Plex Sans Arabic يُستبدل، CSS فقط
+- المخاطر المتبقية: لو الـ hero h1 صار أكبر قد يأخذ مساحة fold أكثر — محسوب عبر clamp(2rem, 5vw + 1rem, 4.5rem) بحيث mobile=2rem, desktop=4.5rem
+

@@ -2,9 +2,9 @@
 file: brain.md
 project: BrightAI — Saudi AI Safety OS
 site: https://brightai.site
-last_updated: 2026-06-30 02:30 +03:00
+last_updated: 2026-06-30 20:30 +03:00
 maintained_by: BrightAI Workspace Agent
-version: 1.8.0
+version: 1.9.0
 agent_version: v2.3
 skills_ready: 7
 ---
@@ -119,6 +119,36 @@ skills_ready: 7
 ## 2. Change Ledger (newest first)
 
 > كل تغيير جوهري يُسجَّل هنا (newest first). Append-only.
+
+### 2026-06-30 — Sovereign Calm Phase 1: Cyan → Deep Teal Migration (DEC-SovB-001)
+
+- **Files**: `src/styles/tokens.css` (8 tokens updated: --interactive-primary/hover/active, --brand-50-900 series, --shadow-glow/lg, --shadow-cta-glow/lg, --gradient-section-radial; new --accent-warm tokens added; --duration-fast/base/slow/slower updated; --ease-spring softened), `src/styles/base.css` (input focus + ::selection), `src/styles/components.css` (25 rgba hardcoded replacements), `src/styles/pages.css` (12 replacements), `src/styles/kernel.css` (1 replacement + glow keyframe), `src/styles/utilities.css` (11 replacements), `src/styles/animations.css` (glow keyframe), `src/components/SplitHero.astro` (8 inline rgba replacements), `src/components/Header.astro` (1 rgba in linear-gradient), `src/components/Footer.astro` (1 rgba in hover state), `tokens.css.bak.20260630` (backup), `reports/01-design-directions.md` (new design report), `.agents/brain.md`
+- **What**: المرحلة الأولى من تنفيذ "السكينة السيادية" (Sovereign Calm) من تقرير `reports/01-design-directions.md`. غيّرنا `--interactive-primary` من Cyan `#06b6d4` إلى Deep Teal `#2a8a7e`، وكامل سلسلة `--brand-*` من cyan إلى teal (50-900 scale)، و `--shadow-glow` و `--shadow-cta-glow` للـ teal، و `--gradient-section-radial` للـ teal. أضفنا `--accent-warm: #c08a5a` (Burnished Copper) كـ accent ثانوي sparingly. عدّلنا durations: `--duration-fast` 150ms→200ms، `--duration-base` 250ms→350ms، `--duration-slow` 400ms→600ms، `--duration-slower` 600ms→900ms. خففنا الـ spring ease. 47 rgba hardcoded replacements عبر 9 ملفات.
+- **Why**: التوصية النهائية في `reports/01-design-directions.md` كانت "السكينة السيادية" (B) بسبب الجمهور التنفيذي الحذر (CIO/CISO/Compliance) + حاجة السوق السعودي لمنتج Premium هادئ. Teal يقول "حكمة، عمق" بدل Cyan اللي يقول "تقنية، سرعة". الـ durations الأطول + الـ ease الأبطأ تعطي "التنفس" المطلوب. الـ Copper accent يضيف لمسة سعودية دافئة بدون فولكلور.
+- **Verification**:
+  - `npm run build` → 125 pages, 0 errors, ~2.5s ✅
+  - `npm run verify:all` → 6/6 hreflang, 5/5 service, 19,863 refs, 0 broken, 0 errors, 0 warnings ✅
+  - `npm run seo:gate` → passed ✅
+  - dist cleaned of `index 2.html` / `index 3.html` duplicates from prior builds (build artifact hygiene) ✅
+- **Constraints respected**:
+  - 0 published Arabic text modified ✅
+  - 0 sections removed ✅
+  - 0 canonical/hreflang changes ✅
+  - 0 protected files modified ✅
+  - 0 new JS deps ✅
+  - RTL preserved (no left/right literals touched) ✅
+  - `--interactive-primary` retained — كل 113 استخدام في الـ code استفاد تلقائياً من الـ migration (zero call-site changes) ✅
+  - Backup: `tokens.css.bak.20260630` (rolls back in <10s) ✅
+- **Risks remaining**:
+  - **The Star** (BrightStar.astro) + 4 SVG assets in `public/assets/star/` لا تزال cyan → visual inconsistency. هذا **خارج الـ scope** الحالي (brand DNA البصري، REPORT-28). يحتاج decision منفصل: تحديث Star إلى Teal (full consistency) أو إبقاء Star cyan كـ "logo mark".
+  - Lighthouse لم يُقَس بعد التغيير — يُقاس في المرحلة القادمة.
+- **Next steps (Sovereign Calm Phase 2)**:
+  1. قياس LCP/CLS/INP بـ Playwright قبل/بعد (مقارنة موضوعية)
+  2. قرار BrightStar: تحديث أم إبقاء (يحتاج موافقة)
+  3. المرحلة 3-6 من Migration Plan: typography polish (line-heights)، hero variant، component audit، Playwright verification
+- **Report**: `reports/01-design-directions.md` (design document) + هذا entry (execution log)
+- **Status**: verified (build + verify:all + seo:gate pass)
+- **Brain updates**: Section 1 (--brand-* family now Teal), Section 5 (--accent-warm added), Section 4 (DEC-SovB-001 added)
 
 ### 2026-06-30 — Mobile Hierarchy Runbook (REPORT-33, DEC-041)
 

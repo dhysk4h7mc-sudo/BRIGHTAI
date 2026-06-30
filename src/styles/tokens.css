@@ -3,18 +3,18 @@
    نظام التوكنز الموحد
    ======================================== */
 
-/* 1. ألوان أساسية - Cyan */
-:root {
-  --brand-50: #ecfeff;
-  --brand-100: #cffafe;
-  --brand-200: #a5f3fc;
-  --brand-300: #67e8f9;
-  --brand-400: #22d3ee;
-  --brand-500: #06b6d4;
-  --brand-600: #0891b2;
-  --brand-700: #0e7490;
-  --brand-800: #155e75;
-  --brand-900: #164e63;
+/* 1. ألوان أساسية - Teal (DEC-SovB-001: Cyan → Deep Teal, Sovereign Calm) */
+  :root {
+  --brand-50: #e6f3f2;
+  --brand-100: #c2e1de;
+  --brand-200: #87c3bd;
+  --brand-300: #4ba69c;
+  --brand-400: #3ba395;
+  --brand-500: #2a8a7e;
+  --brand-600: #1f6f64;
+  --brand-700: #19574f;
+  --brand-800: #14433d;
+  --brand-900: #0a201e;
 
   /* 2. ألوان أساسية - Green */
   --accent-50: #f0fdf4;
@@ -55,14 +55,19 @@
   --border-default: rgba(148,163,184,0.2);
   --border-strong: rgba(148,163,184,0.35);
 
-  --interactive-primary: #06b6d4;
-  --interactive-hover: #0891b2;
-  --interactive-active: #0e7490;
+  --interactive-primary: #2a8a7e;       /* DEC-SovB-001: Cyan → Deep Teal (Sovereign Calm) */
+  --interactive-hover: #1f6f64;
+  --interactive-active: #19574f;
 
   --status-success: #22c55e;
   --status-warning: #f59e0b;
   --status-danger: #ef4444;
   --status-info: #6366f1;
+
+  /* DEC-SovB-001: Burnished Copper accent — sparingly، لمسة سعودية بدون فولكلور */
+  --accent-warm: #c08a5a;
+  --accent-warm-soft: rgba(192,138,90,0.15);
+  --accent-warm-glow: rgba(192,138,90,0.3);
 
   /* 5. تباعد موحد */
   --space-1: 0.25rem;
@@ -117,21 +122,21 @@
   --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.3), 0 4px 6px -4px rgba(0,0,0,0.3);
   --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.3), 0 8px 10px -6px rgba(0,0,0,0.3);
   --shadow-2xl: 0 25px 50px -12px rgba(0,0,0,0.5);
-  --shadow-glow: 0 0 20px rgba(6,182,212,0.3);
-  --shadow-glow-lg: 0 0 40px rgba(6,182,212,0.4);
+  --shadow-glow: 0 0 20px rgba(42,138,126,0.3);     /* Teal glow */
+  --shadow-glow-lg: 0 0 40px rgba(42,138,126,0.4);
 
-  /* 11. حركات - مدد */
-  --duration-fast: 150ms;
-  --duration-base: 250ms;
-  --duration-slow: 400ms;
-  --duration-slower: 600ms;
+  /* 11. حركات - مدد (DEC-SovB-001: longer for Sovereign Calm) */
+  --duration-fast: 200ms;
+  --duration-base: 350ms;
+  --duration-slow: 600ms;
+  --duration-slower: 900ms;
 
   /* 12. حركات - دوال */
   --ease-linear: linear;
   --ease-in: cubic-bezier(0.4,0,1,1);
   --ease-out: cubic-bezier(0,0,0.2,1);
   --ease-in-out: cubic-bezier(0.4,0,0.2,1);
-  --ease-spring: cubic-bezier(0.34,1.56,0.64,1);
+  --ease-spring: cubic-bezier(0.34,1.4,0.64,1);   /* DEC-SovB-001: أخف spring، Sovereign Calm */
 
   /* 13. تباعد إضافي (للمكونات القديمة) */
   --space-0-5: 0.125rem;
@@ -168,11 +173,11 @@
 --highlight-inner-strong: inset 0 1px 0 0 var(--glass-highlight-strong);
 
 /* Outer glow — for primary CTAs (subtle, not halo) */
---shadow-cta-glow: 0 0 28px -6px rgba(6, 182, 212, 0.45);
---shadow-cta-glow-lg: 0 0 40px -4px rgba(6, 182, 212, 0.55);
+--shadow-cta-glow: 0 0 28px -6px rgba(42, 138, 126, 0.45);   /* Teal CTA glow */
+  --shadow-cta-glow-lg: 0 0 40px -4px rgba(42, 138, 126, 0.55);
 
-/* Section radial gradients — gentle cyan halo from top */
---gradient-section-radial: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(6, 182, 212, 0.05), transparent 70%);
+/* Section radial gradients — gentle teal halo from top (DEC-SovB-001) */
+  --gradient-section-radial: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(42, 138, 126, 0.05), transparent 70%);
 --gradient-section-radial-indigo: radial-gradient(ellipse 70% 50% at 80% 100%, rgba(99, 102, 241, 0.06), transparent 70%);
 
 /* 16. Text Opacity Hierarchy (DEC-2026-031)
@@ -226,4 +231,133 @@
   --weight-semibold: var(--font-semibold);
   --weight-bold: var(--font-bold);
   --weight-extrabold: var(--font-extrabold);
+
+/* ════════════════════════════════════════════════════════════════════════════
+   Additions (v3.1 — Sovereign Calm refinement)
+   أُضيفت 2026-06-30 — لا تُزيل أي token سابق، فقط تُوسّع الـ vocabulary.
+   الأقسام 18–31 تُغطّي:
+     - Color:     neutrals scale، layered surfaces، border extensions، overlays
+     - Typography: 2xs/md/7xl sizes، tracking، font-feature-settings
+     - Spacing:   scale موسّع على 4px-base (0 → 32)
+     - Radius:    3xl/4xl للـ hero panels
+     - Shadows:   3-layer system (ambient + key + spread) + specialized glows + insets
+     - Motion:    Material 3 eases (emphasized/decelerated/accelerated)
+                  + instant (75ms) و snappy (180ms)
+   ════════════════════════════════════════════════════════════════════════════ */
+
+/* 18. Neutrals scale (slate، 11 stops 50→950)
+   يُستخدم للحدود، النصوص الخافتة، الـ dividers، placeholders.
+   نفس الـ slate palette المعتمد في Tailwind v3 (industry-standard). */
+  --neutral-50:  #f8fafc;
+  --neutral-100: #f1f5f9;
+  --neutral-200: #e2e8f0;
+  --neutral-300: #cbd5e1;
+  --neutral-400: #94a3b8;
+  --neutral-500: #64748b;
+  --neutral-600: #475569;
+  --neutral-700: #334155;
+  --neutral-800: #1e293b;
+  --neutral-900: #0f172a;
+  --neutral-950: #020617;
+
+/* 19. Layered surfaces — 3 stops للعمق + 1 stop للـ hover/active.
+   surface-1/2/3 مرايا للـ bg-base/surface/elevated (لا تكسر aliases). */
+  --surface-1: var(--bg-base);       /* صفحة كاملة — أفتح من الخلفية؟ لا، هذه أعمق base */
+  --surface-2: var(--bg-surface);    /* البطاقات الأساسية */
+  --surface-3: var(--bg-elevated);   /* البطاقات المرفوعة */
+  --surface-4: #1c2540;              /* hover/active surface — أعمق من elevated، للـ InteractiveCard */
+
+/* 20. Border scale — 4 stops (faint → bold).
+   -soft و -strong موجودان كأسماء بالفعل؛ نُضيف -faint (أخف) و -bold (أقوى). */
+  --border-faint: rgba(148,163,184,0.06);   /* فواصل زخرفية، dividers */
+  --border-bold:  rgba(148,163,184,0.5);    /* emphasized borders، selected states */
+
+/* 21. Overlays — 3 stops لمعايرة الـ scrim/darken.
+   light = dropdowns/tooltips، medium = drawers، heavy = modals full-screen. */
+  --overlay-light:  rgba(10,14,26,0.4);
+  --overlay-medium: rgba(10,14,26,0.65);
+  --overlay-heavy:  rgba(10,14,26,0.85);
+
+/* 22. Typography — sizes إضافية (modular scale 1.125 — minor third).
+   نُضيف فقط: 2xs (أصغر)، md (بين base و lg)، 7xl (أكبر hero). */
+  --text-2xs: 0.6875rem;     /* 11px — badges, micro-labels, kbd */
+  --text-md:  1.0625rem;     /* 17px — للمحتوى المُؤكد بين base و lg */
+  --text-7xl: 4.5rem;        /* 72px — hero display */
+
+  /* Line heights إضافية للـ dense UIs (الـ dashboard, kernel). */
+  --leading-none:   1;       /* icons + badges */
+  --leading-snug:   1.35;    /* dense UI rows */
+  --leading-loose:  2;       /* long-form accessibility */
+
+/* 23. Tracking (letter-spacing) — للسكايب اللاتيني + Arabic display */
+  --tracking-tight:  -0.02em;   /* display headings, hero H1 */
+  --tracking-normal:  0;        /* default body */
+  --tracking-wide:    0.05em;   /* labels، uppercase، kbd، small caps */
+
+/* 24. Font feature settings — للأرقام العربية والإنجليزية المختلطة.
+   يُطبّق كـ: `font-feature-settings: var(--font-feature-numerals-tnum);` */
+  --font-feature-default:        "kern", "calt";
+  --font-feature-numerals-tnum:  "tnum", "lnum";                      /* tabular figures — الجداول، metrics */
+  --font-feature-arabic-latin:   "kern", "calt", "ss01", "cv01";     /* mixed Arabic+Latin */
+  --font-feature-punctuation:    "kern", "calt", "ss03";             /* punctuation variants */
+
+/* 25. Spacing — extension للـ 4px-base scale.
+   يحافظ على الأسماء القديمة (1, 2, 3, 4, 6, 8, 12, 16) ويُضيف الفراغات بينها وبين الكبيرة. */
+  --space-0:   0;             /* reset للـ margin/padding */
+  --space-px:  1px;           /* للـ hairline borders فقط */
+  --space-7:   1.75rem;       /* 28px — بين card-title و content */
+  --space-9:   2.25rem;       /* 36px */
+  --space-11:  2.75rem;       /* 44px — touch target baseline (WCAG 2.5.5) */
+  --space-14:  3.5rem;        /* 56px — section padding داخلي */
+  --space-18:  4.5rem;        /* 72px */
+  --space-20:  5rem;          /* 80px — section spacing بين subsections */
+  --space-24:  6rem;          /* 96px — section breaks */
+  --space-28:  7rem;          /* 112px */
+  --space-32:  8rem;          /* 128px — hero spacing */
+
+/* 26. Radius — extension للبطاقات الكبيرة والـ hero panels */
+  --radius-3xl: 2rem;         /* 32px — feature cards, panel headers */
+  --radius-4xl: 2.5rem;       /* 40px — hero panels, modal corners */
+
+/* 27. Shadow system — 3 layers + combined variants.
+   الـ philosophy: cards عادية = ambient + key، cards مرفوعة = + spread،
+   overlays = ambient + key + spread ممتد، hero = spread عميق.
+   --shadow-sm/md/lg/xl/2xl ظلت كما هي (لا تُكسر). */
+  --shadow-ambient:    0 0 0 1px rgba(15,21,37,0.4);             /* hairline ambient ring */
+  --shadow-key:        0 4px 8px -2px rgba(0,0,0,0.4);           /* main directional */
+  --shadow-spread:     0 16px 32px -8px rgba(0,0,0,0.5);         /* wide spread */
+
+  --shadow-elevated:   var(--shadow-key), var(--shadow-spread);                     /* البطاقات المرفوعة */
+  --shadow-overlay:    var(--shadow-key), 0 24px 48px -12px rgba(0,0,0,0.6);       /* dropdowns، drawers */
+  --shadow-hero:       0 32px 64px -16px rgba(0,0,0,0.6);                          /* hero panels */
+
+/* 28. Shadow glows — متخصصة لكل لون توقيع (brand / accent / danger).
+   -glow و -glow-lg للـ brand ظلت كما هي (Teal) — نُضيف الـ variants. */
+  --shadow-glow-brand:    0 0 24px -4px rgba(42,138,126,0.4);    /* Deep Teal — للـ primary CTAs */
+  --shadow-glow-accent:   0 0 24px -4px rgba(192,138,90,0.4);    /* Burnished Copper — sparingly */
+  --shadow-glow-danger:   0 0 24px -4px rgba(239,68,68,0.4);     /* Critical، destructive actions */
+  --shadow-glow-success:  0 0 20px -4px rgba(34,197,94,0.4);     /* Confirmed/success states */
+
+/* 29. Shadow inset — للـ pressed/selected states (Buttons, Inputs, Toggles).
+   يُدمج في components عبر: `box-shadow: var(--shadow-press);` */
+  --shadow-inset-sm: inset 0 1px 2px 0 rgba(0,0,0,0.3);
+  --shadow-inset-md: inset 0 2px 4px 0 rgba(0,0,0,0.4);
+  --shadow-inset-lg: inset 0 4px 8px 0 rgba(0,0,0,0.5);
+  --shadow-press:    var(--shadow-inset-sm), 0 0 0 1px var(--interactive-primary);  /* button active ring */
+
+/* 30. Motion — Material 3 eases.
+   -linear، -in، -out، -in-out، -spring موجودة — نُضيف 3 curves
+   تُغطّي entry/exit و emphasized (entry + exit معاً). */
+  --ease-emphasized:  cubic-bezier(0.2, 0, 0, 1);           /* Material 3 emphasized — للـ hero transitions */
+  --ease-decelerated: cubic-bezier(0, 0, 0, 1);             /* دخول ناعم — opening */
+  --ease-accelerated: cubic-bezier(0.3, 0, 1, 1);           /* خروج سريع — dismissing */
+
+/* 31. Motion durations — extensions.
+   -fast (200ms)، -base (350ms)، -slow (600ms)، -slower (900ms) موجودة.
+   نُضيف instant (أقل من fast) و snappy (بين instant و fast). */
+  --duration-instant: 75ms;      /* hover state changes، micro feedback */
+  --duration-snappy:  180ms;     /* tap feedback، toggles، checkboxes */
+
+/* 32. Touch target — iOS/Android baseline (44×44px minimum) */
+  --touch-min: 2.75rem;          /* = 44px، يستخدم كـ min-height/width للأزرار التفاعلية */
 }
