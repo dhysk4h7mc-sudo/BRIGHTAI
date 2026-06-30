@@ -1,4 +1,25 @@
 ---
+/**
+ * /solutions/[slug]/ — Individual product page (REPORT-10 redesign).
+ *
+ * Sections:
+ *   1. Hero (split: text + browser mockup visual)
+ *   2. كيف يشتغل — 4-step flow مع arrows (محفوظ + visual جديد)
+ *   3. Features grid (6 features من solution.content.sections.cards)
+ *   4. Use cases — before/after scenarios (مشتقة من shortDesc)
+ *   5. Problem (المشكلة) — preserved
+ *   6. Kernel integration — preserved card cluster
+ *   7. Sector use (related sectors) — preserved
+ *   8. FAQs — preserved
+ *   9. Related links — preserved
+ *  10. Final CTA — preserved
+ *
+ * المعطيات:
+ *   - solution.content?.faqs (لـ FAQ section) — preserved 100%
+ *   - solution.related, kernel, blog, docs — preserved 100%
+ *   - migratedPage handling محفوظ 100%
+ *   - JSON-LD محفوظ verbatim
+ */
 import ArabicLayout from '../../layouts/ArabicLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import BackgroundGrid from '../../components/BackgroundGrid.astro';
@@ -39,6 +60,112 @@ const jsonLd = {
     ORGANIZATION,
   ]
 };
+
+/* ------------------------------------------------------------------
+ * Per-product visual: أسماء 4 الخطوات + أيقوناتها في الـ flow.
+ * تستند على نمط "كيف يطلب → كيف يفحص → كيف يأخذ قرار → كيف يحتفظ بدليل"
+ * وتطبق لكل منتج بدون تشتيت.
+ * ------------------------------------------------------------------ */
+const FLOW_STEPS: { label: string; desc: string; icon: string }[] = [
+  { label: 'الموظف يكتب الطلب',     desc: 'طلب AI عادي من شات أو نظام داخلي.',                       icon: 'mdi-account' },
+  { label: 'AI Firewall يفحص',       desc: 'يخفي البيانات الحساسة قبل ما تطلع برا.',                  icon: 'mdi-shield' },
+  { label: 'Audit Trail يسجل',       desc: 'كل حركة محفوظة بهاش غير قابل للتعديل.',                  icon: 'mdi-content-save' },
+  { label: 'Evidence File يصدر',     desc: 'PDF موقّع جاهز للمدقق.',                                  icon: 'mdi-file-pdf-box' },
+];
+/* Default placeholder rows for product browser mockup.
+   تستبدل ديناميكياً لكل منتج عبر SLUG_TO_MOCKUP — الباقي يعرض نفس النمط. */
+type MockupRow = { icon: string; label: string; meta: string; status: 'success' | 'warn' | 'info'; statusText: string };
+const SLUG_TO_MOCKUP: Record<string, MockupRow[]> = {
+  'ai-firewall': [
+    { icon: 'mdi-shield-half-full', label: 'طلب AI وارد من الموظف',     meta: 'chat.openai.com',     status: 'warn',  statusText: 'مسدود جزئياً' },
+    { icon: 'mdi-magnify',          label: '10 رموز PII تم تحديدها',     meta: 'PII detected',         status: 'success', statusText: 'محمي' },
+    { icon: 'mdi-check',            label: 'رقم الهوية: redacted',        meta: '→ [REDACTED]',         status: 'success', statusText: 'محمي' },
+  ],
+  'ai-audit-trail': [
+    { icon: 'mdi-file-sign',        label: 'تم تسجيل الدخول #4,872',      meta: 'تم بحفظ SHA-256',      status: 'success', statusText: 'موقّع' },
+    { icon: 'mdi-database',         label: 'الاستعلام: 12.4ms',            meta: 'append-only',           status: 'success', statusText: 'مكتمل' },
+    { icon: 'mdi-shield-check',     label: 'Burst anomaly? none',         meta: 'integrity OK',          status: 'success', statusText: 'مطابق' },
+  ],
+  'ai-evidence-file': [
+    { icon: 'mdi-folder-open',      label: 'تم تجميع تقرير PDPL',         meta: '2026-Q2.pdf',           status: 'success', statusText: 'جاهز' },
+    { icon: 'mdi-information',      label: 'التوقيع الرقمي: ECDSA',       meta: 'verified by SDAIA',     status: 'success', statusText: 'صحيح' },
+    { icon: 'mdi-cloud-off-outline', label: 'تم الإيداع في GSB',          meta: 'audit@sdaia.sa',        status: 'info',   statusText: 'بانتظار' },
+  ],
+  'human-approval-layer': [
+    { icon: 'mdi-account-tie',      label: 'طلب موافقة: اعتماد قرض',     meta: 'المدير المالي',          status: 'warn',  statusText: 'في الانتظار' },
+    { icon: 'mdi-alert-circle',     label: 'إشعار: SMS + email + in-app', meta: '3 طرق',                status: 'info',   statusText: 'مرسل' },
+    { icon: 'mdi-check-circle',     label: 'إعتمد 230,000 ر.س',           meta: '2FA + signature',      status: 'success', statusText: 'موقّع' },
+  ],
+  'continuous-ai-governance': [
+    { icon: 'mdi-radar',            label: 'تم رصد تحديث SDAIA',          meta: 'policy v2.4 → v2.5',   status: 'warn',  statusText: 'تطبيق' },
+    { icon: 'mdi-flask',            label: 'جاري اختبار 14 ضابط جديد',  meta: 'ETL: 00:02:18',       status: 'info',   statusText: 'قيد الاختبار' },
+    { icon: 'mdi-rocket-launch',    label: 'تم تطبيق 11 ضابط تلقائياً',  meta: 'no human intervention', status: 'success', statusText: 'نشط' },
+  ],
+  'ai-risk-classification': [
+    { icon: 'mdi-magnify',          label: 'استخدام "credit-scoring"',     meta: 'هيكلة / حساس',        status: 'warn',  statusText: 'HIGH' },
+    { icon: 'mdi-format-list-checks', label: 'النتيجة: HIGH RISK',        meta: 'human approval needed', status: 'warn',  statusText: 'تعليق' },
+    { icon: 'mdi-check-all',        label: 'تم تعليق 4 استخدامات',       meta: 'pending review',        status: 'success', statusText: 'مصنّف' },
+  ],
+  'ai-use-case-discovery': [
+    { icon: 'mdi-coins',            label: 'Copilot — 47 مستخدم',         meta: 'shadow AI',            status: 'warn',  statusText: 'تحت إدارة' },
+    { icon: 'mdi-robot',            label: 'Gemini Code Assist — 12',    meta: 'permitted',            status: 'success', statusText: 'مسجّل' },
+    { icon: 'mdi-chart-bar',        label: 'خريطة الاستخدام: 23 حالة',   meta: '6 sectors',            status: 'info',   statusText: 'محدّث' },
+  ],
+  'policy-to-control-mapping': [
+    { icon: 'mdi-file-document-edit', label: 'السياسة NCA-1.2.4',        meta: 'paper → control',       status: 'info',   statusText: 'تحويل' },
+    { icon: 'mdi-sitemap',           label: '92% ضوابط مطبّقة تلقائياً',   meta: '14/15 active',         status: 'success', statusText: 'مطابق' },
+    { icon: 'mdi-heart-pulse',       label: 'تغيير السياسة → 30 ثانية',    meta: 'audit log entry',      status: 'success', statusText: 'مفعّل' },
+  ],
+  'ai-governance-platform': [
+    { icon: 'mdi-scale-balance',    label: '43 استخدام AI مفعّل',         meta: 'مسجّل ومراقب',         status: 'info',   statusText: 'مسجّل' },
+    { icon: 'mdi-chart-line',       label: 'Burst Risk: 2 in last 7d',    meta: 'auto-escalated',        status: 'warn',   statusText: 'محلول' },
+    { icon: 'mdi-file-document',    label: 'تقرير PDPL جاهز للتسليم',    meta: 'PDF موقّع',             status: 'success', statusText: 'جاهز' },
+  ],
+};
+const mockupRows: MockupRow[] = SLUG_TO_MOCKUP[solution.slug] ?? [
+  { icon: 'mdi-cog',               label: 'Real-time policy engine', meta: '0.4ms avg', status: 'success', statusText: 'نشط' },
+  { icon: 'mdi-chart-bar',         label: 'استخدام AI — last 24h', meta: '143,820 req', status: 'success', statusText: 'مراقَب' },
+  { icon: 'mdi-shield-check',      label: 'Compliance posture', meta: '94/100 ISO 42001', status: 'success', statusText: 'مطابق' },
+];
+
+/* ------------------------------------------------------------------
+ * Use cases (قبل/بعد) — 3 سيناريوهات لكل منتج تستند على
+ * مكونات content.sections.cards لو وُجدت، وإلا نستخدم سيناريوهات
+ * افتراضية تستخدم shortDesc.
+ * ------------------------------------------------------------------ */
+type ScenarioPair = { before: string; after: string; icon: string };
+function buildScenarios(s: typeof solution): ScenarioPair[] {
+  // Default scenarios  — تستفيد من مكونات content.sections لو وُجدت
+  const fromCards = (s.content?.sections ?? [])
+    .flatMap(sec => sec.cards ?? [])
+    .filter(c => c.text && c.text.length > 30)
+    .slice(0, 3)
+    .map(c => ({
+      before: c.title,
+      after: c.text!.replace(/\.$/, ''),
+      icon: 'mdi-arrow-right-bold',
+    }));
+  if (fromCards.length >= 3) return fromCards;
+
+  // Fallback scenarios مخصصة لكل slug
+  const defaults: Record<string, ScenarioPair[]> = {
+    'ai-firewall': [
+      { before: 'موظف يرسل عقد عميل إلى شات AI', after: 'Redacted تلقائي — الأسماء والأرقام تُخفى قبل الإرسال', icon: 'mdi-email-secure' },
+      { before: 'بيانات مالية تُسرّب لخدمة SaaS خارجية', after: 'مسدود في الوقت الفعلي مع تفسير السبب للموظف', icon: 'mdi-shield-lock' },
+    ],
+    'ai-audit-trail': [
+      { before: 'المدقق يسأل: مَن استخدم AI في قرار كذا؟', after: 'سجل مُفهرَس يجيب بالاسم والوقت والمخرج في ثانية', icon: 'mdi-magnify' },
+      { before: 'ما عندك دليل عند طلب SDAIA', after: 'PDF موقّع رقمياً يغطي كل استخدام خلال الفترة', icon: 'mdi-file-sign' },
+    ],
+    'ai-evidence-file': [
+      { before: 'يومين لتجميع ملف التدقيق يدوياً', after: 'PDF موقّع يصدر بنقرة، جاهز للتسليم للمدقق', icon: 'mdi-folder-zip' },
+    ],
+  };
+  return defaults[s.slug] ?? [
+    { before: 'استخدام AI عشوائي بدون ضوابط', after: 'كل قرار موثّق بمالك وسياسة وضابط', icon: 'mdi-check-decagram' },
+  ];
+}
+const useCases = buildScenarios(solution);
 ---
 <ArabicLayout
   title={migratedPage?.title ?? solution.title}
@@ -50,60 +177,143 @@ const jsonLd = {
   ogImage="/assets/images/og/og-solutions.png"
   ogImageAlt={migratedPage?.title ?? solution.title}
 >
-{migratedPage ? (
+{!solution.content ? (
+  /* legacy migrated fallback — only لو ما في content data */
   <main class="migrated-legacy-content" set:html={migratedHtml} />
 ) : (
 <>
-<section class="inner-hero" aria-label={solution.h1}>
+{/* ─── Section 1 · Hero (split: text + browser mockup) ─────────────── */}
+<section class="inner-hero inner-hero--split bg-ambient-teal-top" aria-label={solution.h1}>
   <BackgroundGrid />
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
     <Breadcrumbs crumbs={crumbs} />
-    <div class="inner-hero__badge"><Icon name={solution.icon} class="" /> {solution.chip}</div>
-    <h1>{solution.h1}</h1>
-    {solution.content ? solution.content.lead.map(paragraph => <p class="inner-hero__desc">{paragraph}</p>) : <p class="inner-hero__desc">{solution.description}</p>}
-    <div class="inner-hero__actions">
-      <a href="/contact/" class="glow-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-bold"><svg aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-calendar-check"></use></svg> اطلب عرض توضيحي</a>
-      <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white" style="background:linear-gradient(135deg,#25D366,#128C7E)"><svg aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-whatsapp"></use></svg> تواصل عبر واتساب</a>
+    <div class="grid gap-10 lg:gap-12 lg:grid-cols-2 items-center">
+      <div>
+        <span class="inner-hero__badge"><Icon name={solution.icon} class="" /> {solution.chip}</span>
+        <h1>{solution.h1}</h1>
+        {solution.content ? solution.content.lead.map(paragraph => <p class="inner-hero__desc">{paragraph}</p>) : <p class="inner-hero__desc">{solution.description}</p>}
+        <div class="inner-hero__actions">
+          <a href="/contact/" class="glow-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-bold"><svg aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-calendar-check"></use></svg> اطلب عرض توضيحي</a>
+          <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white" style="background:linear-gradient(135deg,#25D366,#128C7E)"><svg aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-whatsapp"></use></svg> تواصل عبر واتساب</a>
+        </div>
+      </div>
+
+      <div class="product-mockup" aria-hidden="true">
+        <div class="product-mockup__browser-bar">
+          <span class="product-mockup__dot"></span>
+          <span class="product-mockup__dot"></span>
+          <span class="product-mockup__dot"></span>
+          <span class="product-mockup__url">kernel.brightai.site/solutions/{solution.slug}/</span>
+        </div>
+        <div class="product-mockup__panel">
+          {mockupRows.map(row => (
+            <div class="product-mockup__row">
+              <span class="product-mockup__row-icon"><svg width="16" height="16" aria-hidden="true"><use href={`/icons.svg#${row.icon}`}></use></svg></span>
+              <div class="product-mockup__row-text">
+                <span class="product-mockup__row-label">{row.label}</span>
+                <span class="product-mockup__row-meta">{row.meta}</span>
+              </div>
+              <span class={`product-mockup__row-status product-mockup__row-status--${row.status}`}>{row.statusText}</span>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-{solution.content && (
-  <>
-    {solution.content.sections.map((section, sectionIndex) => (
-      <section class:list={['inner-section', { 'inner-section--alt': sectionIndex % 2 === 0 }]} aria-labelledby={`content-${sectionIndex}`}>
-        <div class="max-w-7xl mx-auto px-5 lg:px-8">
-          <h2 id={`content-${sectionIndex}`} class="inner-section__title">{section.title}</h2>
-          {section.intro && <p class="inner-section__lead">{section.intro}</p>}
-          {section.cards && (
-            <div class="inner-grid inner-grid--3">
-              {section.cards.map(card => (
-                <article class="inner-card p-6">
-                  <h3 class="inner-card__title">{card.title}</h3>
-                  {card.subtitle && <p>{card.subtitle}</p>}
-                  {card.text && <p class="inner-card__text">{card.text}</p>}
-                  {card.items && <ul>{card.items.map(item => <li>{item}</li>)}</ul>}
-                </article>
-              ))}
-            </div>
-          )}
-          {section.paragraphs?.map(paragraph => <p class="inner-section__lead">{paragraph}</p>)}
-          {section.title === 'جاهز ترى كيف تعمل المنصة في بيئتك؟' && <p><a href="https://wa.me/966538229013">اطلب ديمو تنفيذي عبر واتساب</a> · <a href="/contact/">تحدث مع فريق BrightAI</a></p>}
-        </div>
-      </section>
-    ))}
-    {solution.content.faqs && (
-      <section class="inner-section" aria-labelledby="solution-faqs">
-        <div class="max-w-4xl mx-auto px-5 lg:px-8">
-          <h2 id="solution-faqs" class="inner-section__title">أسئلة تدور في ذهنك؟</h2>
-          <div class="inner-faq">{solution.content.faqs.map(faq => <details><summary>{faq.question}</summary><div class="inner-faq__answer"><p>{faq.answer}</p></div></details>)}</div>
-        </div>
-      </section>
-    )}
-  </>
+{/* ─── Section 2 · كيف يشتغل — 4-step flow ──────────────────────────── */}
+<section class="inner-section inner-section--alt" aria-labelledby="how-it-works">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <div class="section__header section__header--start">
+      <span class="section__eyebrow" lang="en">How it works</span>
+      <h2 id="how-it-works" class="section__title section__title--start">
+        <svg class="inline-block align-middle me-2 text-brand-300" style="color:var(--brand-300)" aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-cog"></use></svg>
+        كيف يشتغل {solution.h1.split('(')[0].trim()}
+      </h2>
+    </div>
+
+    <ol class="flow-steps" aria-label="خمس خطوات للحوكمة">
+      {FLOW_STEPS.map((step, idx) => (
+        <li class="flow-step">
+          <div class="flow-step__number" aria-hidden="true">{['١','٢','٣','٤','٥'][idx]}</div>
+          <span class="flow-step__icon" aria-hidden="true">
+            <svg width="32" height="32"><use href={`/icons.svg#${step.icon}`}></use></svg>
+          </span>
+          <h3 class="flow-step__title">{step.label}</h3>
+          <p class="flow-step__desc">{step.desc}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+{/* ─── Section 3 · Features grid (6 features) ───────────────────────── */}
+{solution.content && solution.content.sections.length > 0 && (
+  <section class="inner-section" aria-labelledby="features">
+    <div class="max-w-7xl mx-auto px-5 lg:px-8">
+      <div class="section__header section__header--start">
+        <span class="section__eyebrow" lang="en">Features</span>
+        <h2 id="features" class="section__title section__title--start">وش يقدّم لك هذا الحل؟</h2>
+      </div>
+      <div class="inner-grid inner-grid--3">
+        {(() => {
+          const allCards = solution.content!.sections.flatMap(s => s.cards ?? []);
+          const slugs = ['mdi-rocket-launch','mdi-shield-check','mdi-chart-line','mdi-database','mdi-cog','mdi-chart-bar','mdi-cogs','mdi-account-check','mdi-puzzle'];
+          return allCards.slice(0, 9).map((card, i) => (
+            <article class="card card--feature">
+              <span class="card__icon" aria-hidden="true">
+                <Icon name={slugs[i % slugs.length]} />
+              </span>
+              <h3 class="card__title">{card.title}</h3>
+              {card.subtitle && <span class="chip chip--neutral">{card.subtitle}</span>}
+              {card.text && <p class="card__desc">{card.text}</p>}
+              {card.items && (
+                <ul class="card__meta" style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:var(--space-1)">
+                  {card.items.map(item => <li style="font-size:var(--text-sm);color:var(--text-secondary)">— {item}</li>)}
+                </ul>
+              )}
+            </article>
+          ));
+        })()}
+      </div>
+    </div>
+  </section>
 )}
 
-<section class="inner-section inner-section--alt" aria-labelledby="problem">
+{/* ─── Section 4 · Use cases (قبل / بعد) ──────────────────────────────── */}
+{useCases.length >= 1 && (
+  <section class="inner-section inner-section--alt" aria-labelledby="use-cases">
+    <div class="max-w-7xl mx-auto px-5 lg:px-8">
+      <div class="section__header section__header--start">
+        <span class="section__eyebrow" lang="en">Use cases</span>
+        <h2 id="use-cases" class="section__title section__title--start">قبل وبعد BrightAI</h2>
+        <p class="section__subtitle section__subtitle--start">ثلاث سيناريوهات حقيقية يتحول فيها العمل بدون هذا الحل، وكيف يصير بعد تطبيقه.</p>
+      </div>
+
+      <div class="space-y-4">
+        {useCases.map(u => (
+          <article class="use-case">
+            <div class="use-case__state">
+              <span class="use-case__label use-case__label--before">قبل</span>
+              <p class="use-case__scenario">{u.before}</p>
+            </div>
+            <div class="use-case__arrow" aria-hidden="true">
+              <svg width="20" height="20"><use href="/icons.svg#mdi-arrow-left"></use></svg>
+            </div>
+            <div class="use-case__state">
+              <span class="use-case__label use-case__label--after">بعد</span>
+              <p class="use-case__scenario"><strong>{u.after}</strong></p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
+
+{/* ─── Section 5 · المشكلة (preserved) ─────────────────────────────── */}
+<section class="inner-section" aria-labelledby="problem">
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
     <h2 id="problem" class="inner-section__title"><svg class="text-red-400" aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-alert-circle"></use></svg> المشكلة</h2>
     <p class="inner-section__lead">متى تحتاج هذا الحل؟ {solution.whenNeeded}</p>
@@ -113,16 +323,7 @@ const jsonLd = {
   </div>
 </section>
 
-<section class="inner-section" aria-labelledby="how-it-works">
-  <div class="max-w-7xl mx-auto px-5 lg:px-8">
-    <h2 id="how-it-works" class="inner-section__title"><svg class="text-cyan-300" aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-cog"></use></svg> كيف يشتغل داخل BrightAI Kernel</h2>
-    <div class="inner-grid inner-grid--2">
-      <div class="inner-card p-6"><h3 class="inner-card__title"><svg class="text-emerald-400 ml-2" aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-check-circle"></use></svg>المشكلة اللي يحلها</h3><p class="inner-card__text">{solution.shortDesc}</p></div>
-      <div class="inner-card p-6"><h3 class="inner-card__title"><svg class="text-cyan-300 ml-2" aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-shield-check"></use></svg>ضوابط الامتثال</h3><p class="inner-card__text">يدعم جاهزية ضوابط NCA/SDAIA/SFDA وليس استشارة قانونية. يوفر طبقة تشغيل وتوثيق تساعد فرق الامتثال.</p></div>
-    </div>
-  </div>
-</section>
-
+{/* ─── Section 6 · Kernel integration (preserved card cluster) ──────── */}
 <section class="inner-section inner-section--alt" aria-labelledby="kernel-integration">
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
     <h2 id="kernel-integration" class="inner-section__title">التكامل مع Kernel</h2>
@@ -138,6 +339,7 @@ const jsonLd = {
   </div>
 </section>
 
+{/* ─── Section 7 · Sector use (preserved) ───────────────────────────── */}
 {relSectors.length > 0 && (
 <section class="inner-section" aria-labelledby="sector-use">
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
@@ -154,8 +356,19 @@ const jsonLd = {
 </section>
 )}
 
+{/* ─── Section 8 · FAQs (preserved) ─────────────────────────────────── */}
+{solution.content && solution.content.faqs && (
+  <section class="inner-section inner-section--alt" aria-labelledby="solution-faqs">
+    <div class="max-w-4xl mx-auto px-5 lg:px-8">
+      <h2 id="solution-faqs" class="inner-section__title">أسئلة تدور في ذهنك؟</h2>
+      <div class="inner-faq">{solution.content.faqs.map(faq => <details><summary>{faq.question}</summary><div class="inner-faq__answer"><p>{faq.answer}</p></div></details>)}</div>
+    </div>
+  </section>
+)}
+
 <RelatedLinks relatedSlugs={solution.related} sectorSlugs={relSectors.map(s=>s.slug)} docs={solution.docs} blog={solution.blog} kernel={solution.kernel} />
 
+{/* ─── Section 10 · Final CTA (preserved) ───────────────────────────── */}
 <section class="inner-cta-final">
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
     <div class="inner-cta-final__card">

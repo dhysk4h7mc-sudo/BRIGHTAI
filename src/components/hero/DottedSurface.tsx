@@ -36,7 +36,7 @@ interface Dot {
 }
 
 interface Props {
-  /** Dot grid spacing in px (desktop) */
+  /** Dot grid spacing in px (desktop). REPORT-09: bumped 28→36 for less noise */
   spacing?: number;
   /** Base dot radius in px */
   dotRadius?: number;
@@ -48,16 +48,22 @@ interface Props {
   color?: string;
   /** Pointer-highlighted dot color */
   highlightColor?: string;
+  /** Connection line color (REPORT-09: smarter connections between near dots) */
+  connectionColor?: string;
+  /** Max connection distance in px (REPORT-09: opt-in grid lines) */
+  connectionDistance?: number;
   className?: string;
 }
 
 export default function DottedSurface({
-  spacing = 28,
+  spacing = 36,
   dotRadius = 1.1,
-  influenceRadius = 130,
-  strength = 14,
-  color = 'rgba(34, 211, 238, 0.22)',
-  highlightColor = 'rgba(103, 232, 249, 0.85)',
+  influenceRadius = 140,
+  strength = 16,
+  color = 'rgba(75, 166, 156, 0.20)',   // Teal brand-300 (DEC-SovB-001)
+  highlightColor = 'rgba(130, 219, 207, 0.95)', // Teal brand-200 brightened
+  connectionColor = 'rgba(75, 166, 156, 0.08)', // REPORT-09: subtle teal connection lines
+  connectionDistance = 56,              // REPORT-09: connect neighbors within ~1.5x spacing
   className = 'dotted-surface-canvas',
 }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -123,18 +129,47 @@ export default function DottedSurface({
     // Subtle ambient breathing on base alpha (desktop only)
     const breathe = caps.reducedMotion ? 1 : 0.85 + Math.sin(t * 0.0006) * 0.15;
 
-    // Pointer soft glow (premium depth)
+    // Pointer soft glow (premium depth) — REPORT-09: tuned to teal (DEC-SovB-001)
     if (pointerRef.current.active && !caps.reducedMotion) {
       const glow = ctx.createRadialGradient(px, py, 0, px, py, influenceRadius * 1.4);
-      glow.addColorStop(0, 'rgba(34, 211, 238, 0.10)');
-      glow.addColorStop(0.5, 'rgba(34, 211, 238, 0.03)');
-      glow.addColorStop(1, 'rgba(34, 211, 238, 0)');
+      glow.addColorStop(0, 'rgba(75, 166, 156, 0.12)');
+      glow.addColorStop(0.5, 'rgba(75, 166, 156, 0.04)');
+      glow.addColorStop(1, 'rgba(75, 166, 156, 0)');
       ctx.fillStyle = glow;
       ctx.fillRect(0, 0, w, h);
     }
 
     ctx.fillStyle = color;
     const baseRadius = dotRadius * caps.dpr;
+
+    // REPORT-09: Draw smarter connections between nearby dots.
+    // Connects only dots that are close enough AND have brightness > 0 (i.e., near pointer).
+    // Skipped on mobile / low-power to keep draw count low. Creates a "constellation" feel.
+    if (!caps.lowPower && !caps.reducedMotion) {
+      const cd2 = connectionDistance * connectionDistance;
+      ctx.strokeStyle = connectionColor;
+      ctx.lineWidth = 1 * caps.dpr;
+      for (let i = 0; i < dots.length; i++) {
+        const a = dots[i];
+        // Only draw connections from dots that are "active" (near pointer or breathing)
+        if (a.brightness < 0.05 && Math.sin(t * 0.0008 + a.x * 0.01) < 0.92) continue;
+        for (let j = i + 1; j < dots.length; j++) {
+          const b = dots[j];
+          const ddx = (a.x + a.dx) - (b.x + b.dx);
+          const ddy = (a.y + a.dy) - (b.y + b.dy);
+          const d2 = ddx * ddx + ddy * ddy;
+          if (d2 < cd2) {
+            const alpha = 1 - Math.sqrt(d2) / connectionDistance;
+            ctx.globalAlpha = alpha * 0.25 * Math.max(a.brightness, 0.3);
+            ctx.beginPath();
+            ctx.moveTo((a.x + a.dx) * caps.dpr, (a.y + a.dy) * caps.dpr);
+            ctx.lineTo((b.x + b.dx) * caps.dpr, (b.y + b.dy) * caps.dpr);
+            ctx.stroke();
+          }
+        }
+      }
+      ctx.globalAlpha = 1;
+    }
 
     // Single-pass draw: base dots + highlight near pointer
     for (let i = 0; i < dots.length; i++) {
@@ -160,7 +195,7 @@ export default function DottedSurface({
       }
     }
     ctx.globalAlpha = 1;
-  }, [color, highlightColor, dotRadius, influenceRadius, spacing]);
+  }, [color, highlightColor, connectionColor, connectionDistance, dotRadius, influenceRadius, spacing]);
 
   const animate = useCallback((
     ctx: CanvasRenderingContext2D,

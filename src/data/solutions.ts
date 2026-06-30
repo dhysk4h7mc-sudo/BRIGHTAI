@@ -1,6 +1,19 @@
 /**
  * solutions.ts — Single source of truth for all solution metadata
  */
+import {
+  content_ai_firewall,
+  content_ai_audit_trail,
+  content_ai_evidence_file,
+  content_human_approval_layer,
+  content_continuous_ai_governance,
+  content_ai_risk_classification,
+  content_ai_use_case_discovery,
+  content_policy_to_control_mapping,
+  regulationsBySectorSlug,
+  faqsBySectorSlug,
+} from './solutions-content-generated';
+
 export interface SolutionData {
   slug: string;
   href: string;
@@ -47,6 +60,8 @@ export interface SectorData {
   locals?: LocalData[];
   docs?: string[];
   blog?: string[];
+  regulations?: { abbr: string; name: string; scope: string }[];
+  faqs?: { question: string; answer: string }[];
 }
 
 export interface LocalData {
@@ -168,6 +183,7 @@ export const solutions: SolutionData[] = [
     whenNeeded:'من اليوم الأول لاستخدام AI.',
     related:['ai-audit-trail','ai-risk-classification','human-approval-layer'],
     docs:['/docs/ai-firewall/'], blog:['/blog/ai-firewall-why-you-need-it/'], kernel:['/kernel/chat/'],
+    content: content_ai_firewall,
   },
   {
     slug:'ai-audit-trail', href:'/solutions/ai-audit-trail/',
@@ -180,6 +196,7 @@ export const solutions: SolutionData[] = [
     whenNeeded:'لو شركتك تحت NCA أو SFDA.',
     related:['ai-firewall','human-approval-layer','ai-evidence-file'],
     docs:['/docs/ai-audit-trail/'], blog:['/blog/ai-audit-trail-saudi/'], kernel:['/kernel/audit/'],
+    content: content_ai_audit_trail,
   },
   {
     slug:'ai-evidence-file', href:'/solutions/ai-evidence-file/',
@@ -192,6 +209,7 @@ export const solutions: SolutionData[] = [
     whenNeeded:'قبل أي تدقيق خارجي.',
     related:['ai-audit-trail','human-approval-layer','continuous-ai-governance'],
     docs:['/docs/ai-evidence-file/'], blog:['/blog/ai-audit-trail-compliance-path/'], kernel:['/kernel/evidence/'],
+    content: content_ai_evidence_file,
   },
   {
     slug:'human-approval-layer', href:'/solutions/human-approval-layer/',
@@ -206,6 +224,7 @@ export const solutions: SolutionData[] = [
     whenLabel:'متى تحتاجها؟',
     related:['ai-risk-classification','ai-firewall','ai-audit-trail'],
     docs:['/docs/human-approval-layer/'], blog:[], kernel:['/kernel/approvals/'],
+    content: content_human_approval_layer,
   },
   {
     slug:'continuous-ai-governance', href:'/solutions/continuous-ai-governance/',
@@ -218,6 +237,7 @@ export const solutions: SolutionData[] = [
     whenNeeded:'بعد ما تطبق الحوكمة الأساسية.',
     related:['ai-governance-platform','policy-to-control-mapping','ai-risk-classification'],
     docs:['/docs/ai-governance-platform/'], blog:[], kernel:['/kernel/compliance/'],
+    content: content_continuous_ai_governance,
   },
   {
     slug:'ai-risk-classification', href:'/solutions/ai-risk-classification/',
@@ -231,6 +251,7 @@ export const solutions: SolutionData[] = [
     cardTitle:'تصنيف مخاطر AI',
     related:['human-approval-layer','ai-use-case-discovery','continuous-ai-governance'],
     docs:['/docs/ai-risk-management/'], blog:[], kernel:['/kernel/policies/'],
+    content: content_ai_risk_classification,
   },
   {
     slug:'ai-use-case-discovery', href:'/solutions/ai-use-case-discovery/',
@@ -244,6 +265,7 @@ export const solutions: SolutionData[] = [
     cardTitle:'اكتشاف استخدامات AI',
     related:['ai-risk-classification','ai-firewall','ai-governance-platform'],
     docs:['/docs/ai-governance-platform/'], blog:['/blog/shadow-ai-discovery-saudi-company/'], kernel:['/kernel/stats/'],
+    content: content_ai_use_case_discovery,
   },
   {
     slug:'policy-to-control-mapping', href:'/solutions/policy-to-control-mapping/',
@@ -256,6 +278,7 @@ export const solutions: SolutionData[] = [
     whenNeeded:'لو عندك سياسات ما تتنفذ.',
     related:['continuous-ai-governance','ai-governance-platform','ai-risk-classification'],
     docs:['/docs/nca-ecc-ai-controls-mapping/'], blog:[], kernel:['/kernel/policies/'],
+    content: content_policy_to_control_mapping,
   },
 ];
 
@@ -291,6 +314,8 @@ export const sectors: SectorData[] = [
       },
     ],
     docs:['/docs/nca-ecc-ai-governance/'], blog:['/blog/banking-ai-governance-sama-requirements/'],
+    regulations: regulationsBySectorSlug['banking-ai-governance'],
+    faqs: faqsBySectorSlug['banking-ai-governance'],
   },
   {
     slug:'government-ai-governance', href:'/solutions/government-ai-governance/',
@@ -323,6 +348,8 @@ export const sectors: SectorData[] = [
       },
     ],
     docs:['/docs/pdpl-ai-governance/'], blog:['/blog/ai-governance-saudi-arabia/'],
+    regulations: regulationsBySectorSlug['government-ai-governance'],
+    faqs: faqsBySectorSlug['government-ai-governance'],
   },
   {
     slug:'healthcare-ai-governance', href:'/solutions/healthcare-ai-governance/',
@@ -355,6 +382,8 @@ export const sectors: SectorData[] = [
       },
     ],
     docs:['/docs/ai-governance-saudi-arabia/'], blog:['/blog/healthcare-ai-governance-saudi-hospitals/'],
+    regulations: regulationsBySectorSlug['healthcare-ai-governance'],
+    faqs: faqsBySectorSlug['healthcare-ai-governance'],
   },
   {
     slug:'manufacturing-ai-governance', href:'/solutions/manufacturing-ai-governance/',
@@ -367,6 +396,8 @@ export const sectors: SectorData[] = [
     whenNeeded:'إذا كان AI يؤثر على خط إنتاج أو جودة أو أصل صناعي.',
     related:['ai-firewall','ai-audit-trail','ai-risk-classification','continuous-ai-governance'],
     docs:['/docs/ai-risk-management/'], blog:[],
+    regulations: regulationsBySectorSlug['manufacturing-ai-governance'],
+    faqs: faqsBySectorSlug['manufacturing-ai-governance'],
   },
 ];
 

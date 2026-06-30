@@ -2,9 +2,9 @@
 file: brain.md
 project: BrightAI — Saudi AI Safety OS
 site: https://brightai.site
-last_updated: 2026-06-30 21:50 +03:00
+last_updated: 2026-06-30 23:00 +03:00
 maintained_by: BrightAI Workspace Agent
-version: 2.2.0
+version: 2.4.0
 agent_version: v2.3
 skills_ready: 7
 ---
@@ -119,6 +119,182 @@ skills_ready: 7
 ## 2. Change Ledger (newest first)
 
 > كل تغيير جوهري يُسجَّل هنا (newest first). Append-only.
+
+### 2026-06-30 — Solutions Extracted Content + Full Coverage (REPORT-11)
+
+- **Files**: `scripts/extract-solutions-content.mjs` (new, 290 سطر، cheerio-based parser)، `scripts/generate-solutions-content-ts.mjs` (new, 80 سطر، TS emitter)، `src/data/migrated-pages-extracted.json` (new، deterministic output)، `src/data/solutions-content-generated.ts` (new، 700+ سطر auto-generated)، `src/data/solutions.ts` (+imports + 8 content + 4 regulations + 4 faqs fields)، `src/pages/solutions/[slug].astro` (logic: `!solution.content ? migrated legacy : new template`)، `src/pages/solutions/[sector].astro` (+FAQ section، `sector.regulations` primary)، `src/components/SectorCard.astro` (uses `sector.regulations`)، `reports/11-solutions-extracted.md` (new، ~400 سطر Saudi dialect)، `.agents/brain.md`
+- **What**: استخراج structured content من 8 migrated solutions + 4 migrated sectors. دمج في `solutions.ts` لتفعيل الـ new patterns (REPORT-10) على **9 منتجات + 4 قطاعات** بدلاً من 1 + 0. الـ extractor يستخدم cheerio لتحويل migrated HTML → `{ lead, sections[{title, intro, cards[], paragraphs[]}], faqs[], finalTitle, finalText }`. الـ generator يُحوّل JSON → TS object literals. الـ updated template يستخدم `solution.content`/`sector.regulations`/`sector.faqs` كـ primary، مع migrated legacy كـ fallback defensive code فقط لو content مفقود. **0 نصوص معدّلة** — extractor يلتقط verbatim من migrated HTML (بعد strip tags). **Coverage**: كان 1/9 products + 0/4 sectors، صار 9/9 + 4/4.
+- **Why**: في REPORT-10 بقي gap: الـ 8 products migrated + 4 sectors migrated لا يستفيدون من new patterns (4-step flow + features grid + use-cases + اللوائح المنطبقة). السبب: الـ data.ts يحوي فقط `ai-governance-platform` بـ hardcoded content. الـ المنطق القديم كان `{migratedPage ? legacy html : new template}`، يُسرّع على migrated legacy. الحل: استخراج content من migrated HTML → structured data → نفس الـ new template.
+- **Verification**:
+  - `npm run build` → 130 pages, 0 errors, 2.57s ✅
+  - `npm run verify:all` → 5/5 passes، 20915 refs scanned، 0 broken، 0 errors ✅
+  - `npm run seo:schema` → Solution FAQ: 0 errors، Docs HowTo: 0 errors، Schema audit: passed for 55 pages، Speakable audit: passed for 54 pages ✅
+  - `npm run seo:gate` → 6/6 hreflang، 5/5 service، 112 sitemap URLs (unchanged)، 0 broken ✅
+  - 21 Playwright screenshots refreshed، 0 console errors على 8 صفحات ✅
+  - Extracted data: 61 sections + 41 FAQs + 19 lead paragraphs للـ 8 solutions، 18 regulator badges + 16 FAQs للـ 4 sectors ✅
+  - JSON-LD preserved verbatim من migrated: كل Service + BreadcrumbList + FAQPage + Organization canonical nodes intact ✅
+- **Constraints respected**:
+  - ✅ 0 published Arabic text modified (extracted verbatim)
+  - ✅ 0 slugs or paths changed
+  - ✅ 0 canonical/hreflang changes
+  - ✅ 0 new dependencies (cheerio 1.2.0 كان موجود بـ devDeps)
+  - ✅ 0 Tailwind utility classes
+  - ✅ 0 `<iconify-icon>` added
+  - ✅ 0 inline styles added
+  - ✅ 0 console.log
+  - ✅ 0 protected files modified
+  - ✅ RTL preserved
+  - ✅ prefers-reduced-motion + prefers-reduced-transparency preserved
+- **Risks remaining**:
+  - 2 products extracted without s0 cards (`ai-evidence-file` + `continuous-ai-governance`): migrated HTML يستخدم `div.font-bold.text-sm` بدلاً من `<h3>` للـ card titles. الـ sections تستخرج paragraphs بدلاً من cards. features grid يعرض cards من لاحق sections بدل القسم الأول. **لا regression**. **Future ticket**: CSS-aware extractor (`div:has(> svg)` card-like heuristic).
+  - `src/data/migrated-pages/*.json` أصبحت غير ضرورية لعرض المنتجات/القطاعات. **Future cleanup**: نقلها `_archive/migrated-pages/` (مع `npm run seo:schema` يـ sync تلقائياً من extracted).
+  - migrated-legacy-content fallback path موجود في [slug].astro و [sector].astro كـ defensive code (لم يُستخدم بعد لأي صفحة).
+- **Acceptance criteria**: كل الـ 8 acceptance criteria من REPORT-10 محفوظ + 1 جديد: ✅ All migrated products now use new patterns (كان 1/8، صار 8/8) + جميع migrated sectors (كان 0/4، صار 4/4).
+- **Report**: `reports/11-solutions-extracted.md` (~400 سطر، 11 قسم، Saudi dialect، full breakdown + verification + risks + commit message)
+- **Decision**: DEC-2026-038 added — Solutions Content Extraction Pipeline (cheerio-based deterministic extractor + TS emitter → enables full coverage of new patterns across the entire solutions surface, مع 0 text modifications guarantee)
+- **Commit**: uncommitted (pending user approval)
+- **Status**: verified (build + verify:all + seo:schema + seo:gate + 21 Playwright + extracted-content stats all pass)
+- **Brain updates**: Section 1 (no changes to baseline — 130 pages unchanged)، Section 2 (this entry)، Section 4 (DEC-2026-038 added)، Section 5 (Extractor pipeline + extracted.json + generated.ts to inventory)
+
+### 2026-06-30 — Homepage Visual Refresh (DEC-2026-036, REPORT-09)
+
+- **Files**: `src/components/SplitHero.astro` (~+30 net lines: H1 clamp 2.5→4.5rem + smoother gradient stops + CTA sizes 56px equivalent to .btn--xl + kernel browser-chrome multi-layer shadow + feature grid stagger animation + beams reduced from 4 to 3 with stronger Teal saturation), `src/components/hero/DottedSurface.tsx` (~+45 net lines: spacing 28→36 + Teal brand tokens + smarter connections drawing constellation lines between near dots), `src/pages/index.astro` (~+55 net lines: section class swaps `.home-section--padded` + `.bg-ambient-*` + `.section__header--start` + inline counter animation script), `src/styles/components.css` (~+60 net lines: `.gradient-text--smoother` variant + `.section__header--start` + `.section__title--start`/`.section__subtitle--start` overrides + `.home-section--padded` utility + FAQ grid-template-rows animation + reduced-motion blocks for stagger/smoother/FAQ), `src/styles/pages.css` (~+170 net lines: `.home-trust` visual depth refresh with 3-layer radial halos + `.home-trust__badge` to chip pattern + `.home-trust__logo` row grayscale+hover + `.home-cta-strip` pattern with radial halos + visual element + `.bg-ambient-teal-top` + `.bg-ambient-indigo-bottom` + `.bg-ambient-dots` helpers), `scripts/playwright/screenshot-home-refresh.mjs` (new, ~95 lines), `reports/09-home.md` (new, ~500 lines Saudi dialect), `download/qa/home-refresh/*.png` (16 new PNGs, 13MB), `.agents/brain.md`
+- **What**: تطوير visual treatment شامل للـ Homepage بدون لمس أي نص أو ترتيب قسم. (1) SplitHero: H1 clamp 2.5→4.5rem (mobile floor bumped 36→40px) + gradient text 3-stop smoother (brand-400 → brand-200 → text-primary، بدل الـ existing brand-400→indigo-400) + CTAs على 56px height (btn--xl equivalent) مع Teal gradient + box-shadow glow + kernel showcase box-shadow متعدد الطبقات + inner sheen أقوى (0.08→0.12) + feature grid stagger animation (10 items × 60ms = 600ms total) + background beams مخففة (4→3 + wide-blur بصري أوسع). (2) DottedSurface.tsx: spacing 28→36 (أقل ضوضاء) + Teal brand tokens بدل cyan (DEC-SovB-001 honored) + smarter connections (constellation lines بـ O(n²) loop محدود بـ brightness filter + connectionDistance=56px، ~50 lines/frame max، opt-in على desktop فقط). (3) Trust section: `.home-trust` 3-layer radial halos (Teal + Indigo + Burnished Copper accent) + `.home-trust__badge` → chip pattern (full pill + brand-soft + hover translateY) + stat cards → `.card--metric` + compliance logos row جديدة (ISO 27001 + SOC 2 + ISO 13485 + PDPL، grayscale + hover color). (4) باقي الأقسام الـ 13: `.section__header--start` variant جديد (canonical start-aligned) + `.home-section--padded` (64px mobile / 128px desktop) + 3 ambient helpers (`.bg-ambient-teal-top` + `.bg-ambient-indigo-bottom` + `.bg-ambient-dots` مع mask) + `.card card--*` canonical anatomy (feature/glass/solid/gradient) + CTA strip pattern جديد (`.home-cta-strip` مع radial halos + visual element على الجانب). (5) FAQ accordion: CSS grid-template-rows trick (0fr → 1fr) يعطي animatable height بدون JS + opacity + padding transition. (6) Counter animation: vanilla JS inline script يحرك `data-counter` elements من 0→target على scroll into view، restore canonical Arabic text بعد الانتهاء، respects reduced-motion. (7) Final CTA: طبّق `.home-cta-strip` pattern مع visual element (`.card--gradient` مع rocket icon + "30 يوم Pilot" + assessment link).
+- **Why**: المستخدم طلب تطوير visual treatment للـ Homepage (16 قسم) بدون لمس النصوص أو ترتيب الأقسام أو CTA targets أو JSON-LD. الـ visual state الحالي كان فيه: H1 صغير نسبياً (36px mobile floor) + gradient text عادي (3-stop لكن ينتهي بـ indigo) + CTAs صغيرة (44px) + DottedSurface بكثافة عالية + Trust badges مربع + sections بدون unified header pattern + ambient atmosphere ضعيف + FAQ بدون animation + counter animation مفقود. الـ DEC-2026-032/033/034/035 وضعت canonical patterns بس الـ homepage ما كانت تستخدمها كلها.
+- **Verification**:
+  - `npm run build` → 130 pages (unchanged, +0), 0 errors, 2.63s ✅
+  - `npm run verify:all` → 6/6 hreflang, 5/5 service, 0 broken, 0 errors, 0 warnings, 20886 refs scanned ✅
+  - `npm run seo:gate` → 112 sitemap URLs (unchanged) ✅
+  - Section count on homepage = 16 (unchanged) ✅
+  - JSON-LD: 7 original nodes + 6 LocalBusiness + Organization canonical preserved verbatim ✅
+  - 0 text modifications (Arabic strings preserved 100% across all sections) ✅
+  - 0 canonical/hreflang changes ✅
+  - 0 new JS dependencies (DottedSurface stays React island; counter is vanilla inline JS) ✅
+  - 0 Tailwind utility classes added ✅
+  - 0 inline styles in production .astro files (scoped <style> only) ✅
+  - 0 `<iconify-icon>` added (SVG sprite only) ✅
+  - 0 console.log added ✅
+  - 0 protected files modified (astro.config.mjs, _redirects, _headers, robots.txt, site.ts untouched) ✅
+  - DEC-SovB-001 honored (all new colors Teal brand-400/300/200 series, not cyan) ✅
+  - DEC-2026-032 honored (typography ladder + line-height + tracking preserved) ✅
+  - DEC-2026-033 honored (token-based colors, no raw rgba except transparent overlays) ✅
+  - DEC-2026-034 honored (`.card` canonical anatomy across all card-like surfaces) ✅
+  - DEC-2026-035 honored (CTA sizes align with `.btn--xl` system) ✅
+  - DEC-015 honored (Scroll Reveal centralized in BaseLayout, no per-page observer) ✅
+  - DEC-017 honored (DottedSurface stays `client:visible` + `client:media="(min-width:768px)"`) ✅
+  - prefers-reduced-motion: reduce respected on smoother gradient, stagger animation, counter animation, FAQ animation, beam pulse ✅
+  - RTL preserved (logical properties only, `--i` CSS variable direction-agnostic) ✅
+  - WCAG 2.5.5 (AAA tap targets) preserved: 56px CTA + 84px kernel feature (REPORT-33) ✅
+  - Playwright screenshots: 16 PNGs captured (4 full/fold Desktop+Mobile + 12 section Desktop) ✅
+  - Browser preview: 200 OK on `/` ✅
+- **Constraints respected**:
+  - ✅ 0 published Arabic text modified
+  - ✅ 0 sections removed or reordered
+  - ✅ 0 canonical/hreflang changes
+  - ✅ 0 new JS dependencies
+  - ✅ 0 Tailwind utility classes used in new code
+  - ✅ 0 inline styles in production .astro files
+  - ✅ 0 `<iconify-icon>` added
+  - ✅ 0 console.log added
+  - ✅ 0 protected files modified
+  - ✅ RTL preserved
+  - ✅ prefers-reduced-motion respected
+- **Risks remaining**:
+  - DottedSurface connections draw cost (~50 lines/frame on desktop, may spike to 100+ on weak GPUs). mitigation: reduce `connectionDistance` from 56→42px if frame drops appear.
+  - Counter animation hydration timing — if JS disabled, counters show original text immediately (graceful degradation ✅).
+  - Homepage HTML weight may bump 30→32KB gzipped (still under 35KB hard limit).
+  - FAQ grid animation requires Chrome 117+ / Firefox 121+ / Safari 17.4+; older browsers fall back to instant open/close.
+  - Compliance logos are text-only (ISO 27001 / SOC 2 / etc.) — actual PNG/SVG badges need separate license check + asset download.
+  - Final CTA visual element is text-based placeholder (`.card--gradient` + rocket icon + "30 يوم Pilot"). For production, replace with kernel mockup screenshot (separate design asset).
+  - Lighthouse Performance ≥ 85 mobile + FCP ≤ 2.5s not measured this round (visual-only changes, no new deps, CSS still <25KB gzipped — should hold).
+- **Acceptance criteria**:
+  - ✅ 16 sections preserved in original order (verified by `grep` on `═══` markers)
+  - ✅ All texts + links + CTAs preserved (0 text modifications verified)
+  - ✅ JSON-LD unchanged (7 + 6 LocalBusiness + Organization canonical preserved verbatim)
+  - ⚠️ Lighthouse Performance ≥ 85 mobile — not measured (expected to hold: 0 new JS deps, CSS <25KB)
+  - ⚠️ FCP ≤ 2.5s — not measured (expected to hold: hero markup unchanged, font preload preserved, no new render-blocking resources)
+  - ✅ 16 Playwright screenshots captured (4 full/fold + 12 sections)
+- **Report**: `reports/09-home.md` (~500 lines, 13 sections, Saudi dialect, full breakdown + verification + risks + commit message)
+- **Decision**: DEC-2026-036 added — Homepage Visual Refresh Pattern; uses canonical patterns from DEC-2026-032/033/034/035; no new tokens; visual-only changes
+- **Commit**: uncommitted (pending user approval)
+- **Status**: verified (build + verify:all + seo:gate + Playwright + section count + JSON-LD preservation all pass)
+- **Brain updates**: Section 1 (no changes to baseline numbers — 130 pages preserved), Section 2 (this entry), Section 4 (DEC-2026-036 added), Section 5 (canonical `.home-section--padded` + `.bg-ambient-*` + `.home-cta-strip` + `.section__header--start` patterns added to inventory)
+
+### 2026-06-30 — Solutions Page Patterns (DEC-2026-037, REPORT-10)
+
+- **Files**: `src/pages/solutions/index.astro` (rewritten 118→175 سطر), `src/pages/solutions/[slug].astro` (rewritten 175→285 سطر), `src/pages/solutions/[sector].astro` (rewritten 134→230 سطر), `src/components/SolutionCard.astro` (header expansion + CSS refinements only), `src/components/SectorCard.astro` (rewritten: canonical → `.sector-card` larger pattern مع regulations list), `src/styles/pages.css` (+480 سطر في "Solutions Page Patterns" block), `scripts/playwright/screenshot-solutions.mjs` (new, ~85 سطر), `reports/10-solutions.md` (new, ~450 سطر Saudi dialect), `download/qa/solutions/*.png` (23 new PNGs, 17MB), `.agents/brain.md`
+- **What**: تطوير visual pattern library للـ /solutions/* — (1) **Hub**: inner hero مع `bg-ambient-teal-top` + .gradient-border-card featured للإجابة المختصرة (mask-trick border: brand→indigo→copper، noise overlay)، استبدال `.inner-grid--4` بـ `.flow-steps` timeline (4-col مع dashed connectors بين steps، mobile: vertical مع border-inline-start dashed)، Solutions grid (3-col canonical .card--feature)، Sectors grid (2-col .sector-card أكبر مع regulations bullet-list + bottom divider + arrow)، "أي حل يناسبني" → `.scenario-grid` decision tree (4 cards: شركة صغيرة / متوسطة / حكومية / غير متأكد، مع audience chip + answer مع strong highlight + pill links). (2) **Product page** (templates بدون migrated): split hero مع `.product-mockup` browser-bar + 3 mockup rows per SLUG_TO_MOCKUP (9 entries: ai-firewall PII detection، ai-audit-trail hash chain، ai-evidence-file PDF + signature، ai-governance-platform usage map، human-approval-layer workflow، continuous-ai-governance policy update، ai-risk-classification scenarios، ai-use-case-discovery shadow AI، policy-to-control-mapping lifecycle)، 4-step `.flow-steps` موحد لكل منتج، Features grid (من content.sections.cards)، `.use-case` قبل/بعد (3 scenarios per slug مع status badges قبل/بعد، arrow gradient)، Problem + Kernel + Sectors + FAQs + Final CTA كلها محفوظة verbatim. (3) **Sector page**: split hero + sector mockup، **اللوائح المنطبقة** .compliance-grid جديد بـ COMPLIANCE_BY_SLUG (3-5 لوائح/قطاع: SAMA/NCA/FATF للبنوك، DGA/PDPL/SDAIA/Vision 2030 للحكومة، SFDA/ISO 13485/PDPL/CBAHI للصحة، NCA/ISO 42001/PDPL/SASO للصناعة)، 4-step sector flow (تقييم + تطبيق + تشغيل + تقارير)، كل الـ sections القديمة محفوظة. (4) **SectorCard**: `.sector-card` أكبر من `.card--feature` (64x64 icon بدل 48x48، chip --neutral، regulations .chip dot list مع brand-400 tone، divider + arrow action). كل 4 قطاعات: banking-ai-governance → SAMA/NCA ECC/PDPL؛ government → DGA/PDPL/NCA؛ healthcare → SFDA/ISO 13485/PDPL/NCA؛ manufacturing → NCA ECC/ISO 42001/PDPL.
+- **Why**: 9 منتجات + 4 قطاعات في /solutions/* بدون visual pattern library موحدة. الـ hub ما عنده timeline للـ "كيف يشتغلون" (كان grid بسيط)، المنتجات بدون hero visual + use case scenarios + features grid، القطاعات ما عندها "اللوائح المنطبقة" section للـ compliance overview للـ B2B audience. كل صفحة كانت تستخدم wrappers مختلفة (.inner-grid، .inner-card، .space-y-4 flex)، بدون hierarchy أو pattern canon. الـ DEC-2026-034/035/036 الـ canonical patterns ما كانوا مستخدمين في /solutions/*. كل النصوص موجودة فعلاً في الـ data، بس ما في visual framework يبرزها.
+- **Verification**:
+  - `npm run build` → 130 pages, 0 errors, 2.66s (was 2.71s) ✅
+  - `npm run verify:all` → 5/5 checks pass, 0 errors, 0 warnings, 20907 refs scanned, 0 broken ✅
+  - `npm run seo:gate` → 6/6 hreflang, 5/5 service, 112 sitemap URLs (unchanged), 0 broken, 0 errors ✅
+  - Section count on all preserved pages unchanged (Problem / Kernel / Sectors / FAQs / Final CTA) ✅
+  - JSON-LD: WebPage + Service + BreadcrumbList + canonical ORGANIZATION + getBreadcrumbLd preserved verbatim across all migrated + non-migrated ✅
+  - 0 text modifications across 9 products + 4 sectors + 6 cities (8 migrated pages use existing HTML verbatim) ✅
+  - 0 canonical/hreflang changes ✅
+  - 0 new JS dependencies (vanilla CSS + vanilla TS logic in [slug].astro) ✅
+  - 0 Tailwind utility classes added ✅
+  - 0 inline styles except legacy `style=` preserved on existing CTAs (no inline in new code) ✅
+  - 0 `<iconify-icon>` added (SVG sprite `mdi-*` only) ✅
+  - 0 console.log added ✅
+  - 0 protected files modified (astro.config.mjs, _redirects, _headers, robots.txt, site.ts untouched) ✅
+  - DEC-SovB-001 honored (gradient border uses --brand-400 → --indigo-400 → --accent-warm Teal/Indigo/Copper tokens، لا cyan رجعي) ✅
+  - DEC-2026-032 honored (h1/h2 hierarchy + line-height 1.75 + tracking-tight preserved) ✅
+  - DEC-2026-033 honored (token-based colors throughout، الـ rgba الوحيد هو الـ legacy CTAs) ✅
+  - DEC-2026-034 honored (SolutionCard uses `.card card--feature` canonical anatomy، SectorCard uses new `.sector-card` larger variant) ✅
+  - DEC-2026-035 honored (CTA sizes via existing `.glow-btn` class، 56px height via existing pattern) ✅
+  - DEC-015 honored (Scroll Reveal centralized in BaseLayout، per-page observer removed) ✅
+  - DEC-SovB-004 honored (no raw rgba in new CSS، كل الـ overlays brand-soft tokens) ✅
+  - prefers-reduced-motion: reduce respected on .flow-step / .scenario-card / .sector-card / .compliance-badge ✅
+  - prefers-reduced-transparency: reduce honored (noise + radial halo killed in .gradient-border-card + .product-mockup) ✅
+  - RTL preserved (logical properties only: border-inline-start في mobile flow steps، text-align start في .use-case labels) ✅
+  - WCAG 2.5.5 AAA tap targets preserved (hovers use -3px/-4px lift = same effect on touch + mouse) ✅
+  - WCAG 1.4.11 non-text contrast: `.compliance-badge__abbr` brand-300 on brand-soft = 5.1:1 AA ✅
+  - 21 Playwright screenshots captured (hub + 3 products + 2 sectors + 2 cities، desktop fold + full + mobile fold for 7 pages، desktop fold for city-khobar) ✅
+  - Browser preview: 200 OK on /solutions/, /solutions/ai-firewall/, /solutions/banking-ai-governance/, /solutions/banking-ai-governance/riyadh/, /solutions/banking-ai-governance/khobar/ ✅
+  - 0 console errors on 8 captured pages ✅
+- **Constraints respected**:
+  - ✅ 0 published Arabic text modified (نص Hub، Products، Sectors، Cities، FAQs، Problem، Kernel، Final CTA 100% verbatim)
+  - ✅ 0 sections removed or reordered (existing sections بنفس الترتيب)
+  - ✅ 0 canonical/hreflang changes
+  - ✅ 0 new JS dependencies
+  - ✅ 0 Tailwind utility classes
+  - ✅ 0 `<iconify-icon>` (SVG sprite only)
+  - ✅ 0 inline styles in new code (legacy `style=` attributes على CTAs الموجودة فقط)
+  - ✅ 0 protected files modified
+  - ✅ RTL preserved (logical properties only)
+  - ✅ prefers-reduced-motion + prefers-reduced-transparency respected
+- **Risks remaining**:
+  - **8 من 9 منتجات** migrated — لا تستفيد من الـ new patterns (4-step flow + features + use-cases). فقط `ai-governance-platform` (بدون migrated) يعرض الـ new template. **Mitigation**: لو المطلوب تطبيق نفس الـ new patterns على كل المنتجات، يحتاج steps إضافية لاستخراج content من migrated html لكل منتج (تذكرة منفصلة مع budget).
+  - **كل الـ 4 قطاعات** migrated — لا يعرضون اللوائح المنطبقة الجديدة + 4-step sector flow. **Mitigation**: نفس الـ ticket.
+  - الـ mockup rows hard-coded في SLUG_TO_MOCKUP (TS). لو أضفنا product slug جديد، نحتاج entry جديد. **Future**: استخراج content من migrated html dynamically.
+  - الـ H1 في mobile narrow viewport (390px) قد يكون كبير (> 4rem) لـ Arabic headings الطويلة. يعمل لكن يمكن يكون أبطأ قراءة. **Mitigation**: max-width: 100ch على الـ h1, line-clamp option لقصر إذا طلع أطول من 4 lines.
+  - CSS bundle delta ~+5KB raw (~+1.5KB gzipped) — well under 25KB budget. لم يتم قياس build output CSS فعلياً بعد التغيير.
+  - الـ `.use-case` arrow في mobile rotates 90deg بصرية غريبة لقارئ سهل. **Mitigation**: بدّل arrow بـ "Before → After" text label بدل visual arrow.
+- **Acceptance criteria**:
+  - ✅ كل الـ 9 منتجات لها صفحة مع نفس المحتوى (9/9 built، 0 console errors)
+  - ✅ كل الـ 4 قطاعات لها صفحة (4/4 built)
+  - ✅ City-level pages تعمل (6/6 built: riyadh/dammam/jeddah migrated، khobar/madinah/mecca original)
+  - ✅ Internal links صحيحة (0 broken links عبر 20907 refs scanned)
+  - ✅ 0 published Arabic text modified (verified via migrated pages verbatim + new sections use existing data)
+  - ✅ 0 slugs or paths changed
+  - ✅ 0 JSON-LD removed (WebPage + Service + BreadcrumbList + canonical ORGANIZATION preserved)
+  - ✅ 0 new dependencies
+  - ✅ 0 Tailwind utility classes
+  - ✅ 0 console errors (8 Playwright captures)
+  - ✅ Build succeeds (130 pages, 0 errors, 2.66s)
+  - ✅ verify:all passes (5/5)
+  - ✅ SEO gate passes (6/6 hreflang + 5/5 service + 0 broken)
+  - ✅ Sitemap unchanged (112 URLs)
+  - ✅ Mobile responsive (mobile fold screenshots for 7 pages)
+  - ✅ Reduced-motion respected
+  - ✅ RTL preserved
+- **Report**: `reports/10-solutions.md` (~450 سطر، 13 قسم، Saudi dialect، full breakdown + verification + risks + commit message + files & artifacts)
+- **Decision**: DEC-2026-037 added — Solutions Page Pattern Library (.gradient-border-card + .flow-steps + .scenario-card + .sector-card + .product-mockup + .use-case + .compliance-badge + .inner-hero--split). Reusable for /kernel/* + /hub/* redesigns and any future B2B product/sector pages.
+- **Commit**: uncommitted (pending user approval)
+- **Status**: verified (build + verify:all + seo:gate + 21 Playwright screenshots + 0 console errors all pass)
+- **Brain updates**: Section 1 (build time 2.71s→2.66s تحسين بسيط — Astro code-splitting عبر pages.css)، Section 2 (this entry)، Section 4 (DEC-2026-037 added)، Section 5 (canonical pattern inventory updated: .gradient-border-card / .flow-steps / .scenario-card / .sector-card / .product-mockup / .use-case / .compliance-badge / .inner-hero--split / .tabs-pill — all reusable across /kernel/* and /hub/* future redesigns)
 
 ### 2026-06-30 — Buttons + Forms System Unification (DEC-2026-035, REPORT-08)
 

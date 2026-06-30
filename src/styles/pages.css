@@ -7,18 +7,24 @@
    Home Page (الصفحة الرئيسية)
    ======================================== */
 
-/* Trust/Compliance Section */
+/* Trust/Compliance Section — REPORT-09 visual refresh.
+   Increased depth via layered radial gradients, refined badge chip pattern,
+   tighter stat grid (3 → 1) for mobile, and dedicated compliance-logo row. */
 .home-trust {
-  padding: var(--space-12) 0;
-  background: linear-gradient(to bottom, #0a1020, #070c19);
+  padding: var(--space-16) 0;            /* 64px — bumped from space-12 */
+  background: linear-gradient(180deg, #0a1020 0%, #070c19 100%);
   border-top: 1px solid rgba(255,255,255,0.05);
   border-bottom: 1px solid rgba(255,255,255,0.05);
   position: relative;
   z-index: 10;
   isolation: isolate;
 }
+@media (min-width: 1024px) {
+  .home-trust { padding: var(--space-20) 0; }   /* 80px on desktop */
+}
 
-/* Radial cyan glow at the top of .home-trust (DEPTH). Sits behind content. */
+/* REPORT-09: Layered radial halos — teal + indigo + warm-copper accent for
+   subtle depth without distraction. Sits behind content via z-index:0. */
 .home-trust::before {
   content: '';
   position: absolute;
@@ -26,11 +32,12 @@
   z-index: 0;
   pointer-events: none;
   background:
-    var(--gradient-section-radial),
-    var(--gradient-section-radial-indigo);
+    radial-gradient(ellipse 80% 50% at 20% 0%, rgba(42, 138, 126, 0.07), transparent 70%),
+    radial-gradient(ellipse 60% 40% at 80% 100%, rgba(99, 102, 241, 0.05), transparent 70%),
+    radial-gradient(ellipse 40% 30% at 50% 50%, rgba(192, 138, 90, 0.025), transparent 70%);
 }
 
-/* Same noise grain as body but slightly stronger (2.8%) for hero-panel feel. */
+/* Noise grain — slightly stronger than body for hero-panel feel */
 .home-trust::after {
   content: '';
   position: absolute;
@@ -61,6 +68,7 @@
 @media (max-width: 1023px) {
   .home-trust__grid {
     grid-template-columns: 1fr;
+    gap: var(--space-10);
   }
 }
 
@@ -71,21 +79,66 @@
   padding-top: var(--space-2);
 }
 
+/* REPORT-09: Badges use the canonical .chip system. We keep the .home-trust__badge
+   class for backwards compatibility but match its look to the chip pattern. */
 .home-trust__badge {
   backdrop-filter: blur(12px);
-  background: var(--glass);
-  border-radius: var(--radius-xl);
-  padding: var(--space-2) var(--space-3);
+  -webkit-backdrop-filter: blur(12px);
+  background: var(--brand-soft);
+  border-radius: 9999px;          /* full pill like .chip */
+  padding: var(--space-2) var(--space-4);
   font-size: var(--text-xs);
-  color: rgba(255,255,255,0.8);
+  font-weight: var(--font-semibold);
+  color: var(--text-primary);
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid var(--brand-soft-border);
+  transition: background var(--duration-fast) var(--ease-out),
+              border-color var(--duration-fast) var(--ease-out),
+              transform var(--duration-fast) var(--ease-out);
+}
+.home-trust__badge:hover {
+  background: var(--brand-soft-strong);
+  border-color: rgba(59, 163, 149, 0.35);
+  transform: translateY(-1px);
 }
 
 .home-trust__badge svg {
   color: var(--brand-300);
+  flex-shrink: 0;
+}
+
+/* Compliance logo row — REPORT-09: dedicated row of partner/compliance logos
+   with grayscale + hover color treatment. Used below the trust badges. */
+.home-trust__logos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  margin-top: var(--space-5);
+  align-items: center;
+  justify-content: flex-start;
+}
+.home-trust__logo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius-lg);
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  color: rgba(241, 245, 249, 0.5);  /* grayscale by default */
+  letter-spacing: 0.04em;
+  transition: color var(--duration-fast) var(--ease-out),
+              border-color var(--duration-fast) var(--ease-out),
+              background var(--duration-fast) var(--ease-out);
+}
+.home-trust__logo:hover {
+  color: var(--brand-300);           /* colored on hover */
+  border-color: rgba(59, 163, 149, 0.25);
+  background: rgba(42, 138, 126, 0.04);
 }
 
 /* Stat Cards */
@@ -103,7 +156,163 @@
   }
 }
 
-/* .home-stat-card moved to src/styles/components.css (.card--metric) */
+/* CTA Strip (Home) — REPORT-09 generic pattern.
+   Subtle radial gradient (cyan-soft), Big H2 + supporting + 2 CTAs + visual element.
+   Reusable across final-cta / demo / footer-adjacent sections. */
+.home-cta-strip {
+  position: relative;
+  isolation: isolate;
+  padding-block: var(--space-16);
+  overflow: hidden;
+}
+@media (min-width: 1024px) {
+  .home-cta-strip { padding-block: var(--space-24); }
+}
+
+/* Ambient background — layered radial halos */
+.home-cta-strip::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 60% 50% at 80% 50%, rgba(42, 138, 126, 0.08), transparent 70%),
+    radial-gradient(ellipse 50% 40% at 20% 50%, rgba(99, 102, 241, 0.04), transparent 70%);
+}
+.home-cta-strip::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: var(--noise-svg);
+  background-size: 200px 200px;
+  background-repeat: repeat;
+  opacity: var(--noise-card);
+  mix-blend-mode: overlay;
+}
+.home-cta-strip > * { position: relative; z-index: 1; }
+@media (prefers-reduced-transparency: reduce) {
+  .home-cta-strip::before,
+  .home-cta-strip::after { display: none; }
+}
+
+.home-cta-strip__inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-10);
+  align-items: center;
+}
+@media (min-width: 1024px) {
+  .home-cta-strip__inner {
+    grid-template-columns: 1.6fr 1fr;
+    gap: var(--space-16);
+  }
+}
+
+.home-cta-strip__title {
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  font-weight: var(--font-extrabold);
+  line-height: 1.1;
+  letter-spacing: var(--tracking-tight);
+  color: var(--text-primary);
+  text-wrap: balance;
+}
+.home-cta-strip__title .gradient-text { color: transparent; }
+.home-cta-strip__lead {
+  margin-top: var(--space-5);
+  font-size: var(--text-lg);
+  line-height: var(--leading-relaxed);
+  color: var(--text-secondary);
+  text-wrap: pretty;
+  max-width: 600px;
+}
+.home-cta-strip__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-8);
+}
+.home-cta-strip__visual {
+  /* visual placeholder — illustration or mockup slot */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+@media (max-width: 1023px) {
+  .home-cta-strip__visual {
+    order: -1;
+  }
+}
+
+/* Eyebrow row above the CTA strip title */
+.home-cta-strip__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  letter-spacing: var(--tracking-wide);
+  color: var(--interactive-primary);
+  background: var(--brand-soft);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  border: 1px solid var(--brand-soft-border);
+  margin-bottom: var(--space-4);
+}
+
+/* ========================================
+   Ambient Background Helpers — REPORT-09
+   Used between alternating sections to give the homepage a sense of
+   "atmosphere" without competing with the cards. Each variant is subtle
+   (max 8% opacity) so it never dominates the content. ======================================== */
+
+/* Teal-tinted top wash — for sections that follow a dark/cool section */
+.bg-ambient-teal-top {
+  position: relative;
+}
+.bg-ambient-teal-top::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(42, 138, 126, 0.05), transparent 35%);
+}
+.bg-ambient-teal-top > * { position: relative; z-index: 1; }
+
+/* Indigo-tinted bottom wash — for sections that precede a teal-heavy one */
+.bg-ambient-indigo-bottom {
+  position: relative;
+}
+.bg-ambient-indigo-bottom::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(0deg, rgba(99, 102, 241, 0.05), transparent 35%);
+}
+.bg-ambient-indigo-bottom > * { position: relative; z-index: 1; }
+
+/* Dotted pattern overlay — replaces the old background grid for sections
+   that need a sense of "structure" without harsh grid lines. */
+.bg-ambient-dots {
+  position: relative;
+}
+.bg-ambient-dots::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: radial-gradient(circle at 1px 1px, rgba(75, 166, 156, 0.06) 1px, transparent 0);
+  background-size: 32px 32px;
+  mask-image: linear-gradient(180deg, transparent, black 25%, black 75%, transparent);
+  -webkit-mask-image: linear-gradient(180deg, transparent, black 25%, black 75%, transparent);
+}
+.bg-ambient-dots > * { position: relative; z-index: 1; }
 
 /* .glass-panel — moved to src/styles/components.css */
 
@@ -434,18 +643,324 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: var(--space-6);
-  align-items: start;
+  align-items: stretch;
 }
 
-@media (max-width: 1023px) {
-  .pricing-grid {
+/* REPORT-11 (Pricing Visual Refresh): 4-column variant for the 4 packages.
+   Desktop 4 → Tablet 2 → Mobile 1. Stretches cards to equal height so the
+   CTA button sits at the bottom regardless of feature list length. */
+.pricing-grid--4col {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+/* REPORT-11: 3-column variant for the ROI panels — same breakpoints. */
+.pricing-grid--3col {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+@media (max-width: 1100px) {
+  .pricing-grid--4col {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .pricing-grid--3col {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .pricing-grid--4col,
+  .pricing-grid--3col {
     grid-template-columns: 1fr;
-    max-width: 500px;
-    margin-inline: auto;
   }
 }
 
 /* .pricing-card — moved to src/styles/components.css (.card--pricing) */
+
+/* ========================================
+   REPORT-11: Pricing Hero
+   Reuses .page-hero (radial cyan + indigo wash + noise grain) but wraps
+   content in a narrower container so the H1 + lead read as a focused
+   statement rather than a full-width banner.
+   ======================================== */
+
+.pricing-hero {
+  padding-block: var(--space-20) var(--space-16);
+  text-align: center;
+}
+
+.pricing-hero__inner {
+  width: min(100% - 2rem, 52rem);
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-6);
+}
+
+/* Override .breadcrumbs default left-align for the centered hero */
+.pricing-hero .breadcrumbs {
+  justify-content: center;
+}
+
+.pricing-hero__title {
+  font-size: clamp(2.25rem, 5vw, 4rem);
+  font-weight: var(--font-extrabold);
+  line-height: 1.15;
+  color: var(--text-primary);
+  margin: 0;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.pricing-hero__lead {
+  font-size: clamp(var(--text-base), 2vw, var(--text-xl));
+  line-height: 1.85;
+  color: var(--text-secondary);
+  max-width: 42rem;
+  margin: 0;
+  text-wrap: pretty;
+}
+
+.pricing-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-4);
+  margin-top: var(--space-2);
+}
+
+/* ========================================
+   REPORT-11: Pricing Section Spacing
+   Canonical vertical rhythm — every direct child section of .pricing-page
+   gets consistent block padding so the page breathes without manual gaps.
+   ======================================== */
+
+.pricing-section {
+  width: min(100% - 2rem, 75rem);
+  margin-inline: auto;
+  padding-block: var(--space-12);
+}
+
+.pricing-section h2 {
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-weight: var(--font-bold);
+  color: var(--text-primary);
+  margin-bottom: var(--space-4);
+  line-height: 1.3;
+  text-wrap: balance;
+}
+
+.pricing-section p {
+  color: var(--text-secondary);
+  line-height: 1.85;
+  margin-bottom: var(--space-6);
+  max-width: 60rem;
+}
+
+.pricing-section ul {
+  color: var(--text-secondary);
+  line-height: 1.85;
+  padding-inline-start: var(--space-6);
+  margin-bottom: var(--space-6);
+}
+
+.pricing-section ul li {
+  margin-bottom: var(--space-2);
+}
+
+/* ========================================
+   REPORT-11: Card Pricing Anatomy Extensions
+   Builds on .card--pricing (canonical in components.css). Adds:
+   - period text (smaller, muted) sitting under the price
+   - horizontal divider between price block and features
+   - SVG checkmark icon (replaces the ✓ glyph for richer visuals)
+   - full-width CTA button anchored at the bottom
+   - enhanced featured variant: brand border + brand glow + elevation
+   ======================================== */
+
+.card__pricing-period {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  margin-top: -0.25rem;
+  margin-bottom: var(--space-4);
+  font-weight: var(--font-normal);
+}
+
+.card__pricing-divider {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--border-default) 50%,
+    transparent 100%
+  );
+  margin-block: var(--space-4) var(--space-5);
+}
+
+.card__pricing-check {
+  color: var(--status-success);
+  flex-shrink: 0;
+}
+
+.card__pricing-features {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;     /* REPORT-11 brief: 12px feature spacing */
+  text-align: start;
+  margin-bottom: var(--space-6);
+}
+
+.card__pricing-features li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: 0;
+  color: var(--text-secondary);
+  font-size: var(--text-sm);
+  line-height: 1.6;
+}
+
+.card__pricing-features li::before {
+  display: none;     /* hide the ✓ glyph — SVG check is the new visual */
+}
+
+.card__pricing-cta {
+  width: 100%;
+  margin-top: auto;       /* push CTA to bottom regardless of feature count */
+}
+
+/* REPORT-11: enhanced featured card — brand gradient border + glow lift.
+   Layered backgrounds avoid the box-shadow bleed that a plain border tint would
+   produce on dark surfaces, and the ::before gradient picks up on the page's
+   ambient teal/indigo wash so the featured card reads as "elevated + selected". */
+.card--pricing--featured {
+  border: 1px solid transparent;
+  background:
+    linear-gradient(var(--bg-surface), var(--bg-surface)) padding-box,
+    linear-gradient(135deg, var(--brand-500), var(--indigo-400)) border-box;
+  box-shadow:
+    var(--shadow-lg),
+    0 0 0 1px rgba(42, 138, 126, 0.10),
+    0 12px 32px -8px rgba(42, 138, 126, 0.22);
+  transform: translateY(-4px);
+}
+
+.card--pricing--featured:hover {
+  transform: translateY(-6px);
+  box-shadow:
+    var(--shadow-xl),
+    0 0 0 1px rgba(42, 138, 126, 0.18),
+    0 16px 40px -8px rgba(42, 138, 126, 0.30);
+}
+
+.card__pricing-badge {
+  position: absolute;
+  inset-block-start: calc(var(--space-4) * -1);
+  inset-inline-start: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  font-size: var(--text-xs);
+  font-weight: var(--font-bold);
+  padding: var(--space-1) var(--space-3);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(42, 138, 126, 0.25);
+}
+
+/* ========================================
+   REPORT-11: Pricing FAQ Section
+   Reuses canonical .home-faq-item (glass card + chevron rotation +
+   smooth open/close animation). Adds the open-state subtle background
+   highlight so the expanded answer reads as "selected".
+   ======================================== */
+
+.pricing-faq-section {
+  padding-block: var(--space-16);
+}
+
+.pricing-faq {
+  max-width: 52rem;
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.pricing-faq .home-faq-item {
+  padding: 0;
+}
+
+.pricing-faq .home-faq-item summary {
+  padding: var(--space-5) var(--space-6);
+  font-size: var(--text-base);
+  font-weight: var(--font-semibold);
+  gap: var(--space-4);
+}
+
+.pricing-faq .home-faq-item .home-faq-answer {
+  padding-inline: var(--space-6);
+  padding-block: 0 var(--space-5);
+  color: var(--text-secondary);
+  line-height: 1.85;
+}
+
+.pricing-faq .home-faq-item .home-faq-answer p {
+  margin: 0;
+}
+
+/* REPORT-11: open-state subtle highlight — a soft brand-tinted wash on the
+   expanded card so the answer reads as the "current" focus without changing
+   the card border (the chevron rotation + bg shift are the only cues). */
+.pricing-faq .home-faq-item[open] {
+  background: linear-gradient(
+    180deg,
+    rgba(42, 138, 126, 0.06) 0%,
+    var(--bg-surface) 60%
+  );
+  border-color: rgba(42, 138, 126, 0.28);
+  box-shadow:
+    var(--shadow-md),
+    0 0 0 1px rgba(42, 138, 126, 0.08);
+}
+
+.pricing-faq .home-faq-item[open] summary {
+  color: var(--brand-300);
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .pricing-faq .home-faq-item[open] {
+    background: var(--bg-surface);
+  }
+}
+
+/* ========================================
+   REPORT-11: Pricing Final CTA Actions
+   The .inner-cta-final container (canonical in components.css) provides the
+   gradient + radial halo + noise grain. We just stack the two CTAs in a row
+   that collapses on mobile.
+   ======================================== */
+
+.inner-cta-final__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-4);
+  margin-top: var(--space-2);
+}
+
+/* Tighten the hero padding on very small screens so the H1 doesn't push the
+   CTAs below the fold on common mobile heights (640×960, 390×844). */
+@media (max-width: 640px) {
+  .pricing-hero {
+    padding-block: var(--space-12) var(--space-10);
+  }
+  .pricing-hero__inner {
+    gap: var(--space-4);
+  }
+}
 
 /* ========================================
    Contact Page
@@ -1527,4 +2042,915 @@ svg.icon {
 
 .error-page__legacy-link:hover {
   color: var(--interactive-primary);
+}
+
+/* ========================================
+   Solutions Page Patterns (REPORT-10)
+   Patterns جديدة لصفحات /solutions/*:
+   - .gradient-border-card (الإجابة المختصرة)
+   - .flow-steps (horizontal timeline مع dashed connectors)
+   - .scenario-card (أي حل يناسبني)
+   - .compliance-grid + .compliance-badge (اللوائح المنطبقة)
+   - .use-case (before/after scenarios)
+   - .feature-mockup (visual placeholder)
+   - .tabs-pill (product/sector filter)
+   كل الأنماط تحترم prefers-reduced-motion و RTL (logical properties).
+   ======================================== */
+
+/* ----- Gradient Border Card (الإجابة المختصرة) -----
+   يستخدم border عبر ::before mask-image trick عشان يصير gradient
+   حقيقي (مو border-color plain). padding داخلي كبير + icon container
+   + body text + optional CTA link. */
+.gradient-border-card {
+  position: relative;
+  isolation: isolate;
+  background: linear-gradient(135deg, var(--surface-3) 0%, var(--surface-2) 100%);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-8);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.gradient-border-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  padding: 1px;
+  border-radius: inherit;
+  background: linear-gradient(
+    135deg,
+    var(--brand-400) 0%,
+    var(--indigo-400) 50%,
+    var(--accent-warm) 100%
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  pointer-events: none;
+}
+
+.gradient-border-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background-image: var(--noise-svg);
+  background-size: 200px 200px;
+  background-repeat: repeat;
+  opacity: var(--noise-card);
+  mix-blend-mode: overlay;
+}
+
+.gradient-border-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.gradient-border-card__icon {
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--brand-500), var(--indigo-500));
+  border-radius: var(--radius-xl);
+  color: white;
+  margin-bottom: var(--space-5);
+  box-shadow: var(--shadow-glow);
+}
+
+.gradient-border-card__icon svg {
+  width: 28px;
+  height: 28px;
+}
+
+.gradient-border-card__title {
+  font-size: var(--text-2xl);
+  font-weight: var(--font-extrabold);
+  color: var(--text-primary);
+  margin-bottom: var(--space-3);
+  letter-spacing: var(--tracking-tight);
+  text-wrap: balance;
+}
+
+.gradient-border-card__title svg {
+  color: var(--accent-warm);
+  flex-shrink: 0;
+}
+
+.gradient-border-card__body {
+  font-size: var(--text-base);
+  line-height: var(--leading-relaxed);
+  color: var(--text-secondary);
+  text-wrap: pretty;
+}
+
+.gradient-border-card__body strong {
+  color: var(--text-primary);
+  font-weight: var(--font-semibold);
+}
+
+/* ----- Flow Steps (كيف يشتغلون مع بعض) -----
+   Timeline أفقي بـ dashed connectors بين steps. كل step عنده
+   number badge + icon + title + description.
+   Desktop: row + dashed lines via border-top
+   Mobile: column + dashed lines via border-inline-start */
+.flow-steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-4);
+  counter-reset: flow-step;
+}
+
+.flow-step {
+  position: relative;
+  text-align: center;
+  padding: var(--space-6) var(--space-4);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  transition: transform var(--duration-base) var(--ease-emphasized),
+              border-color var(--duration-base) var(--ease-emphasized),
+              box-shadow var(--duration-base) var(--ease-emphasized);
+}
+
+.flow-step:hover {
+  border-color: var(--border-strong);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-elevated);
+}
+
+.flow-step__number {
+  width: 56px;
+  height: 56px;
+  margin-inline: auto;
+  margin-bottom: var(--space-4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--brand-500), var(--indigo-500));
+  color: white;
+  font-weight: var(--font-extrabold);
+  font-size: var(--text-xl);
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-glow);
+  position: relative;
+  z-index: 2;
+}
+
+.flow-step__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  margin: var(--space-2) auto var(--space-3);
+  color: var(--brand-300);
+}
+
+.flow-step__icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.flow-step__title {
+  font-size: var(--text-base);
+  font-weight: var(--font-bold);
+  color: var(--text-primary);
+  margin-bottom: var(--space-2);
+  letter-spacing: var(--tracking-tight);
+}
+
+.flow-step__desc {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  line-height: var(--leading-relaxed);
+}
+
+/* Dashed connector — تظهر بين الـ steps.
+   Mobile: border-inline-start على كل step بعد الأول. */
+@media (min-width: 768px) {
+  .flow-step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    inset-block-start: 32px;
+    inset-inline-end: -0.875rem;       /* = -(badge/2 + gap/2) */
+    width: 1.75rem;
+    border-block-start: 2px dashed var(--border-strong);
+    z-index: 1;
+  }
+}
+
+@media (max-width: 767px) {
+  .flow-steps {
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+  }
+  .flow-step {
+    text-align: start;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-areas:
+      "icon title"
+      "icon desc";
+    column-gap: var(--space-4);
+    row-gap: var(--space-2);
+    padding: var(--space-4);
+  }
+  .flow-step__number {
+    grid-area: icon;
+    margin: 0;
+    width: 48px;
+    height: 48px;
+    font-size: var(--text-base);
+  }
+  .flow-step__icon { display: none; }
+  .flow-step__title {
+    grid-area: title;
+    margin: 0;
+    align-self: end;
+  }
+  .flow-step__desc {
+    grid-area: desc;
+    margin: 0;
+    align-self: start;
+  }
+  .flow-step:not(:last-child) {
+    border-block-end: 2px dashed transparent;
+    background:
+      linear-gradient(var(--bg-surface), var(--bg-surface)) padding-box,
+      repeating-linear-gradient(
+        90deg,
+        var(--border-strong) 0 6px,
+        transparent 6px 14px
+      ) border-box / 0 0 0 0 0 0 0 100% no-repeat;
+    border-inline-start: 2px dashed var(--border-strong);
+    padding-inline-start: var(--space-6);
+    border-start-start-radius: var(--radius-xl);
+  }
+}
+
+/* ----- Scenario Card (أي حل يناسبني) -----
+   Decision tree visual بدل flex items. كل scenario يحتوي
+   audience + need + recommended solution + arrow link. */
+.scenario-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-5);
+}
+
+@media (max-width: 767px) {
+  .scenario-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.scenario-card {
+  position: relative;
+  padding: var(--space-6);
+  background: var(--surface-2);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  transition: transform var(--duration-base) var(--ease-emphasized),
+              border-color var(--duration-base) var(--ease-emphasized),
+              box-shadow var(--duration-base) var(--ease-emphasized),
+              background var(--duration-base) var(--ease-emphasized);
+}
+
+.scenario-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-elevated);
+  background: var(--surface-3);
+}
+
+.scenario-card__question {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-xs);
+  font-weight: var(--font-bold);
+  color: var(--indigo-300);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: var(--space-3);
+}
+
+.scenario-card__question svg {
+  width: 16px;
+  height: 16px;
+}
+
+.scenario-card__answer {
+  font-size: var(--text-lg);
+  font-weight: var(--font-bold);
+  color: var(--text-primary);
+  margin-bottom: var(--space-3);
+  line-height: var(--leading-snug);
+  text-wrap: balance;
+}
+
+.scenario-card__answer strong {
+  color: var(--brand-300);
+}
+
+.scenario-card__detail {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  line-height: var(--leading-relaxed);
+  margin-bottom: var(--space-4);
+  text-wrap: pretty;
+}
+
+.scenario-card__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: center;
+}
+
+.scenario-card__links > a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: var(--space-1-5) var(--space-3);
+  background: var(--brand-soft);
+  color: var(--brand-300);
+  border: 1px solid var(--brand-soft-border);
+  border-radius: var(--radius-full);
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  text-decoration: none;
+  transition: background var(--duration-fast) var(--ease-out),
+              border-color var(--duration-fast) var(--ease-out);
+}
+
+.scenario-card__links > a:hover {
+  background: var(--brand-soft-strong);
+  border-color: var(--brand-300);
+}
+
+/* ----- Sector Cards (الحلول القطاعية) — أكبر وحليم list -----
+   بانخفاض typography-typography مثل .solution-card لكن مع regulation
+   tags في meta row (PDPL/NCA/SAMA/SFDA/ISO) بدل whenNeeded. */
+.sector-card {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-8);
+  text-decoration: none;
+  color: inherit;
+  height: 100%;
+  transition:
+    transform var(--duration-base) var(--ease-emphasized),
+    border-color var(--duration-base) var(--ease-emphasized),
+    box-shadow var(--duration-base) var(--ease-emphasized),
+    background var(--duration-base) var(--ease-emphasized);
+  will-change: transform;
+}
+
+.sector-card:hover {
+  border-color: var(--border-strong);
+  box-shadow:
+    var(--shadow-elevated),
+    var(--shadow-glow-brand);
+  transform: translateY(-4px);
+  background: linear-gradient(180deg, var(--surface-3) 0%, var(--surface-2) 100%);
+}
+
+.sector-card:focus-visible {
+  outline: 2px solid var(--interactive-primary);
+  outline-offset: 2px;
+}
+
+.sector-card__icon {
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--brand-soft);
+  color: var(--brand-300);
+  border-radius: var(--radius-2xl);
+  margin-bottom: var(--space-2);
+}
+
+.sector-card__icon svg {
+  width: 32px;
+  height: 32px;
+}
+
+.sector-card__title {
+  font-size: var(--text-xl);
+  font-weight: var(--font-bold);
+  color: var(--text-primary);
+  letter-spacing: var(--tracking-tight);
+  line-height: var(--leading-snug);
+  margin-bottom: var(--space-2);
+}
+
+.sector-card__desc {
+  font-size: var(--text-base);
+  color: var(--text-secondary);
+  line-height: var(--leading-relaxed);
+  flex-grow: 1;
+  text-wrap: pretty;
+}
+
+.sector-card__regulations {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sector-card__regulations li {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-1) var(--space-3);
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-full);
+  font-size: var(--text-xs);
+  font-weight: var(--font-bold);
+  letter-spacing: 0.03em;
+}
+
+.sector-card__regulations li::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--brand-400);
+  margin-inline-end: var(--space-2);
+  box-shadow: 0 0 8px var(--brand-soft);
+}
+
+.sector-card__action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  color: var(--brand-300);
+  font-size: var(--text-sm);
+  font-weight: var(--font-bold);
+  margin-top: auto;
+  padding-block-start: var(--space-3);
+  border-block-start: 1px solid var(--border-subtle);
+  inline-size: 100%;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.sector-card:hover .sector-card__action {
+  color: var(--brand-200);
+}
+
+/* ----- Solution Card — kept canonical with optional regulation tag hint -----
+   Default size matches card--feature. Allows .card__meta -- compliance
+   for showing "PDPL | NCA" style hints at the bottom. */
+
+.solution-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1-5);
+  margin-block-end: var(--space-2);
+}
+
+.solution-card-tags .chip {
+  font-size: var(--text-2xs, 0.6875rem);
+  padding: var(--space-0-5) var(--space-2);
+  letter-spacing: 0.02em;
+}
+
+/* ----- Product Page Hero Visual Mockup -----
+   .inner-hero--split بيرتب hero كنص على جانب وvisual على الجانب الآخر.
+   .product-mockup بيرسم visual placeholder بدون SVG معقد — يستخدم
+   gradient + depth + minimal geometry ليعطي "screenshot" feel. */
+.inner-hero--split {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-8);
+  text-align: start;
+  align-items: center;
+  position: relative;
+  isolation: isolate;
+}
+
+@media (min-width: 900px) {
+  .inner-hero--split {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-12);
+  }
+  .inner-hero--split .inner-hero__actions {
+    justify-content: flex-start;
+    margin-inline-start: 0;
+  }
+  .inner-hero--split .inner-hero__desc {
+    margin-inline: 0;
+  }
+}
+
+.product-mockup {
+  position: relative;
+  isolation: isolate;
+  border-radius: var(--radius-2xl);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-default);
+  padding: var(--space-6);
+  box-shadow:
+    var(--shadow-2xl),
+    var(--shadow-glow-brand),
+    var(--highlight-inner);
+  overflow: hidden;
+}
+
+.product-mockup::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: var(--noise-svg);
+  background-size: 200px 200px;
+  background-repeat: repeat;
+  opacity: var(--noise-card);
+  mix-blend-mode: overlay;
+}
+
+.product-mockup::after {
+  content: '';
+  position: absolute;
+  inset: -50% -10% auto auto;
+  width: 80%;
+  height: 80%;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(42, 138, 126, 0.12), transparent 70%);
+  filter: blur(40px);
+}
+
+.product-mockup__browser-bar {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding-block-end: var(--space-3);
+  border-block-end: 1px solid var(--border-subtle);
+  margin-block-end: var(--space-4);
+}
+
+.product-mockup__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--border-default);
+}
+
+.product-mockup__dot:nth-child(1) { background: #ef4444aa; }
+.product-mockup__dot:nth-child(2) { background: #f59e0baa; }
+.product-mockup__dot:nth-child(3) { background: #22c55eaa; }
+
+.product-mockup__url {
+  flex-grow: 1;
+  margin-inline-start: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  background: var(--bg-base);
+  border-radius: var(--radius-sm);
+  padding: var(--space-1) var(--space-2);
+}
+
+.product-mockup__panel {
+  position: relative;
+  z-index: 1;
+  background: var(--bg-base);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  min-height: 200px;
+}
+
+.product-mockup__row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  background: rgba(255,255,255,0.02);
+  margin-block-end: var(--space-2);
+  border: 1px solid var(--border-subtle);
+}
+
+.product-mockup__row-icon {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--brand-soft);
+  color: var(--brand-300);
+  border-radius: var(--radius-md);
+}
+
+.product-mockup__row-icon svg { width: 16px; height: 16px; }
+
+.product-mockup__row-text {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.product-mockup__row-label {
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.product-mockup__row-meta {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+.product-mockup__row-status {
+  flex-shrink: 0;
+  font-size: var(--text-xs);
+  font-weight: var(--font-bold);
+  padding: var(--space-0-5) var(--space-2);
+  border-radius: var(--radius-full);
+}
+
+.product-mockup__row-status--success {
+  background: rgba(34, 197, 94, 0.15);
+  color: var(--status-success);
+}
+
+.product-mockup__row-status--warn {
+  background: rgba(245, 158, 11, 0.15);
+  color: var(--status-warning);
+}
+
+.product-mockup__row-status--info {
+  background: rgba(99, 102, 241, 0.15);
+  color: var(--indigo-300);
+}
+
+/* ----- Use Case (قبل/بعد) — scenario visualization -----
+   بطاقتين جنب بعض: قبل (مشكلة) + بعد (نتيجة). */
+.use-case {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: var(--space-5);
+  align-items: center;
+  padding: var(--space-6);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  transition: border-color var(--duration-base) var(--ease-out),
+              box-shadow var(--duration-base) var(--ease-out);
+}
+
+.use-case:hover {
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-elevated);
+}
+
+.use-case--stacked {
+  grid-template-columns: 1fr;
+}
+
+.use-case__state {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.use-case__label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-xs);
+  font-weight: var(--font-extrabold);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  inline-size: max-content;
+}
+
+.use-case__label--before {
+  background: rgba(239, 68, 68, 0.12);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.25);
+}
+
+.use-case__label--after {
+  background: var(--brand-soft);
+  color: var(--brand-300);
+  border: 1px solid var(--brand-soft-border);
+}
+
+.use-case__scenario {
+  font-size: var(--text-base);
+  line-height: var(--leading-relaxed);
+  color: var(--text-primary);
+  text-wrap: pretty;
+}
+
+.use-case__scenario strong {
+  color: var(--brand-300);
+  font-weight: var(--font-semibold);
+}
+
+.use-case__arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, var(--brand-500), var(--indigo-500));
+  color: white;
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-glow);
+  align-self: center;
+}
+
+.use-case__arrow svg {
+  width: 24px;
+  height: 24px;
+}
+
+@media (max-width: 767px) {
+  .use-case {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "before"
+      "arrow"
+      "after";
+  }
+  .use-case__state:first-child { grid-area: before; }
+  .use-case__state:last-child { grid-area: after; }
+  .use-case__arrow {
+    grid-area: arrow;
+    margin-inline: auto;
+    transform: rotate(90deg);
+  }
+}
+
+/* ----- Compliance Grid (اللوائح المنطبقة) — regulators list -----
+   بطاقات صغيرة جداً تعرض الجهة التنظيمية + ما تغطيه + scope المطبق. */
+.compliance-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  gap: var(--space-4);
+}
+
+.compliance-badge {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-5);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-xl);
+  transition: border-color var(--duration-base) var(--ease-out),
+              transform var(--duration-base) var(--ease-out),
+              box-shadow var(--duration-base) var(--ease-out);
+}
+
+.compliance-badge:hover {
+  border-color: var(--brand-300);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-elevated);
+}
+
+.compliance-badge__abbr {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  padding: var(--space-1) var(--space-3);
+  background: var(--brand-soft);
+  color: var(--brand-300);
+  border: 1px solid var(--brand-soft-border);
+  border-radius: var(--radius-full);
+  font-size: var(--text-xs);
+  font-weight: var(--font-extrabold);
+  letter-spacing: 0.05em;
+}
+
+.compliance-badge__name {
+  font-size: var(--text-base);
+  font-weight: var(--font-bold);
+  color: var(--text-primary);
+  letter-spacing: var(--tracking-tight);
+  line-height: var(--leading-snug);
+}
+
+.compliance-badge__scope {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  line-height: var(--leading-relaxed);
+}
+
+/* ----- Solution Hub Tabs (فلتر products / sectors) -----
+   Pills-based tabs — تبسيط التصفح إذا تبي فلتر بعد إعادة التصميم. */
+.tabs-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-full);
+  margin-block-end: var(--space-8);
+}
+
+.tabs-pill__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  background: transparent;
+  color: var(--text-secondary);
+  border: none;
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  cursor: pointer;
+  transition: background var(--duration-fast) var(--ease-out),
+              color var(--duration-fast) var(--ease-out);
+}
+
+.tabs-pill__btn[aria-selected="true"],
+.tabs-pill__btn.is-active {
+  background: linear-gradient(135deg, var(--brand-500), var(--brand-600));
+  color: white;
+  box-shadow: var(--shadow-cta-glow);
+}
+
+.tabs-pill__btn[aria-selected="false"]:hover {
+  color: var(--text-primary);
+  background: var(--bg-surface);
+}
+
+.tabs-pill__count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  padding-inline: var(--space-2);
+  background: rgba(255,255,255,0.08);
+  color: inherit;
+  border-radius: var(--radius-full);
+  font-size: var(--text-2xs, 0.6875rem);
+  font-weight: var(--font-extrabold);
+}
+
+.tabs-pill__btn[aria-selected="true"] .tabs-pill__count,
+.tabs-pill__btn.is-active .tabs-pill__count {
+  background: rgba(255,255,255,0.18);
+}
+
+/* ----- Reduced-motion: kill all decorative transitions on new patterns ----- */
+@media (prefers-reduced-motion: reduce) {
+  .flow-step,
+  .scenario-card,
+  .sector-card,
+  .compliance-badge {
+    transition: opacity 0.3s, border-color 0.3s;
+  }
+  .flow-step:hover,
+  .scenario-card:hover,
+  .sector-card:hover,
+  .compliance-badge:hover {
+    transform: none;
+  }
+}
+
+/* ----- Reduced-transparency: drop noise overlay on .gradient-border-card ----- */
+@media (prefers-reduced-transparency: reduce) {
+  .gradient-border-card::after,
+  .product-mockup::before {
+    display: none;
+  }
+  .product-mockup::after {
+    filter: none;
+  }
 }

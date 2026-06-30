@@ -54,7 +54,9 @@
 .inner-section--alt { background: var(--bg-surface); }
 
 /* Section header (used by .section + alias)
-   DEC-2026-032: hierarchy polish + new .section__eyebrow utility. */
+   DEC-2026-032: hierarchy polish + new .section__eyebrow utility.
+   REPORT-09: added --start variant for left/right-aligned headers (used on the
+   problem + layers sections where the header sits on a 3/12 column). */
 .section__header,
 .inner-section__header {
   text-align: center;
@@ -63,6 +65,22 @@
   flex-direction: column;
   align-items: center;
   gap: var(--space-3);
+}
+
+/* Start-aligned variant — header sits on the start side, used on asymmetric
+   layouts (problem, layers, compliance, sectors, evidence, guides). */
+.section__header--start {
+  text-align: start;
+  align-items: flex-start;
+}
+[dir="rtl"] .section__header--start {
+  text-align: start;
+}
+
+/* Start-aligned title + subtitle overrides (default is centered) */
+.section__title--start,
+.section__subtitle--start {
+  margin-inline: 0;
 }
 
 /* Section eyebrow — small uppercase label above the title.
@@ -2758,9 +2776,9 @@
 }
 
 /* Gradient Text — used for branded numbers and labels.
-   DEC-2026-032: smoother stops (3-color transition) + 145deg (more readable
-   on Arabic than 135deg) + 220% width (gives shimmer more horizontal travel
-   range without repeating too fast). */
+    DEC-2026-032: smoother stops (3-color transition) + 145deg (more readable
+    on Arabic than 135deg) + 220% width (gives shimmer more horizontal travel
+    range without repeating too fast). */
 .gradient-text {
   background: linear-gradient(
     145deg,
@@ -2772,6 +2790,25 @@
   background-clip: text;
   -webkit-text-fill-color: transparent;
   background-size: 220% 100%;
+  background-position: 0% 50%;
+}
+
+/* REPORT-09: Hero-optimized gradient with 3 smoother stops ending in white.
+   brand-400 → brand-200 → text-primary. Brand tokens are Teal (DEC-SovB-001),
+   so this reads as a brighter, more luminous "data-OS" feel for the hero.
+   Use on large display text where the regular .gradient-text reads too dark. */
+.gradient-text--smoother,
+.split-hero__h1 .gradient-text {
+  background: linear-gradient(
+    140deg,
+    var(--brand-400) 0%,
+    var(--brand-200) 50%,
+    var(--text-primary) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 200% 100%;
   background-position: 0% 50%;
 }
 
@@ -2791,13 +2828,19 @@
 
 /* Subtle shimmer animation on gradient text — only on hover inside cards, so it
    reads as a deliberate polish detail rather than static decoration. Pauses on
-   reduced-motion for accessibility. */
+   reduced-motion for accessibility.
+   REPORT-09: also applied to .gradient-text--smoother on hero load (one-time). */
 @media (prefers-reduced-motion: no-preference) {
   .card:hover .gradient-text,
   .feature-card:hover .gradient-text,
   .card--feature:hover .gradient-text,
   .inner-card:hover .gradient-text {
     animation: gradient-shimmer 2.4s var(--ease-in-out) infinite;
+  }
+  /* Hero smoother gradient — slow one-time drift on load */
+  .split-hero__h1 .gradient-text--smoother,
+  .gradient-text--smoother {
+    animation: gradient-shimmer 4s var(--ease-in-out) 1;
   }
 }
 
@@ -2890,6 +2933,41 @@
 .home-comparison-wrap.is-visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* REPORT-09: Section padding-block utilities — bumped to 128px desktop, 64px mobile per task spec.
+   Use .home-section--padded for the major sections (problem, layers, sectors, evidence, faq, guides).
+   Hero/Trust/Final CTA keep their own custom spacing (more compact for visual density). */
+.home-section--padded {
+  padding-block: 4rem; /* 64px mobile default */
+}
+@media (min-width: 1024px) {
+  .home-section--padded {
+    padding-block: 8rem; /* 128px desktop */
+  }
+}
+
+/* FAQ accordion animation — REPORT-09: smooth max-height + opacity transition on open/close.
+   Uses CSS @starting-style fallback + grid-template-rows trick for animatable height. */
+.home-faq-item .home-faq-answer {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition:
+    grid-template-rows var(--duration-base) var(--ease-out),
+    opacity var(--duration-base) var(--ease-out),
+    padding var(--duration-base) var(--ease-out);
+  padding-block: 0;
+  overflow: hidden;
+}
+.home-faq-item[open] .home-faq-answer {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  padding-block: var(--space-3) var(--space-2);
+}
+.home-faq-item .home-faq-answer > * {
+  min-height: 0;
+  overflow: hidden;
 }
 
 /* GSAP-style fade — alias for legacy pages */

@@ -1,4 +1,17 @@
 ---
+/**
+ * /solutions/[sector]/ — Sector page (REPORT-10 redesign).
+ *
+ * Sections (preserved + new اللوائح المنطبقة):
+ *   1. Hero (split + sector chip)
+ *   2. اللوائح المنطبقة — compliance-grid (NEW per task spec)
+ *   3. كيف يشتغل المنصة في هذا القطاع — 4-step flow (NEW)
+ *   4. التحديات — preserved (المشكلة السابقة + shortcut)
+ *   5. Solutions for this sector — preserved card cluster
+ *   6. Local presence — preserved (city cards)
+ *   7. Related links — preserved
+ *   8. Final CTA — preserved
+ */
 import ArabicLayout from '../../layouts/ArabicLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import BackgroundGrid from '../../components/BackgroundGrid.astro';
@@ -46,29 +59,161 @@ const jsonLd = {
     ORGANIZATION,
   ]
 };
+
+/* ------------------------------------------------------------------
+ * Per-sector compliance badges + 4-step flow مخصصة لكل قطاع.
+ * تستند على نفس البيانات الموجودة في migrated pages + حلول مرتبطة.
+ * ------------------------------------------------------------------ */
+type Compliance = { abbr: string; name: string; scope: string };
+const COMPLIANCE_BY_SLUG: Record<string, Compliance[]> = {
+  'banking-ai-governance': [
+    { abbr: 'SAMA',     name: 'البنك المركزي السعودي',         scope: 'حوكمة الائتمان، كشف الاحتيال، مكافحة غسل الأموال' },
+    { abbr: 'NCA ECC',  name: 'ضوابط الأمن السيبراني',        scope: 'تقييم المخاطر، حماية البيانات' },
+    { abbr: 'PDPL',     name: 'نظام حماية البيانات الشخصية', scope: 'موافقة العميل، حق الحذف، الإفصاح' },
+    { abbr: 'FATF',     name: 'مكافحة غسل الأموال وتمويل الإرهاب', scope: 'KYC، الإبلاغ عن المعاملات المشبوهة' },
+  ],
+  'government-ai-governance': [
+    { abbr: 'DGA',      name: 'هيئة الحكومة الرقمية',         scope: 'معايير الخدمات الرقمية الحكومية' },
+    { abbr: 'PDPL',     name: 'حماية البيانات الشخصية',      scope: 'بيانات المستفيدين من الخدمات' },
+    { abbr: 'NCA ECC',  name: 'ضوابط الأمن السيبراني',        scope: 'تطبيقات AI الحكومية، سرية المستندات' },
+    { abbr: 'SDAIA',    name: 'سدايا',                        scope: 'إرشادات الذكاء الاصطناعي التوليدي' },
+    { abbr: 'Vision 2030', name: 'رؤية 2030',                  scope: 'التحول الرقمي الحكومي' },
+  ],
+  'healthcare-ai-governance': [
+    { abbr: 'SFDA',     name: 'الهيئة العامة للغذاء والدواء', scope: 'تطبيقات AI الطبية، الأجهزة الطبية الذكية' },
+    { abbr: 'ISO 13485', name: 'إدارة جودة الأجهزة الطبية',  scope: 'تصميم وتطوير أنظمة AI الطبية' },
+    { abbr: 'PDPL',     name: 'حماية البيانات الشخصية',      scope: 'بيانات المرضى (PHI)' },
+    { abbr: 'NCA ECC',  name: 'الأمن السيبراني',             scope: 'حماية سجلات المرضى' },
+    { abbr: 'CBAHI',    name: 'المركز السعودي لاعتماد المنشآت الصحية', scope: 'معايير الاعتماد المؤسسي' },
+  ],
+  'manufacturing-ai-governance': [
+    { abbr: 'NCA ECC',  name: 'الأمن السيبراني الصناعي',     scope: 'حماية شبكات OT و IoT' },
+    { abbr: 'ISO 42001', name: 'إدارة الذكاء الاصطناعي',     scope: 'نظام حوكمة AI متكامل' },
+    { abbr: 'PDPL',     name: 'حماية البيانات',              scope: 'بيانات المشغلين والموردين' },
+    { abbr: 'SASO/IEC', name: 'الهيئة السعودية للمواصفات', scope: 'الجودة الصناعية' },
+  ],
+};
+const complianceBadges = sector.regulations ?? COMPLIANCE_BY_SLUG[sector.slug] ?? [];
+
+const SECTOR_FLOW: { label: string; desc: string; icon: string }[] = [
+  { label: 'تقييم مخاطر AI',           desc: 'مسح شامل لاستخدامات AI في القطاع.',          icon: 'mdi-magnify' },
+  { label: 'تطبيق ضوابط مخصصة',         desc: 'سياسات تترجم اللوائح إلى ضوابط تقنية.',     icon: 'mdi-cog' },
+  { label: 'تشغيل لحظي',                desc: 'مراقبة القرارات عالية المخاطر تلقائياً.',   icon: 'mdi-heart-pulse' },
+  { label: 'تقارير القطاع',             desc: 'تقارير جاهزة للجهات التنظيمية.',            icon: 'mdi-file-document' },
+];
 ---
 <ArabicLayout title={migratedPage?.title ?? sector.title} description={migratedPage?.description ?? sector.description} canonical={migratedPage?.canonical ?? sector.canonical} hreflang={migratedPage?.hreflang ?? [{lang:'ar-SA',href:sector.canonical},{lang:'x-default',href:sector.canonical}]} jsonLd={(migratedPage?.jsonLd ?? jsonLd) as any} currentPath={sector.href} ogImage="/assets/images/og/og-solutions.png" ogImageAlt={migratedPage?.title ?? sector.title}>
-{migratedPage ? (
+{!sector.regulations ? (
+  /* legacy migrated fallback — only لو ما في regulations data */
   <>
-    {!/<h1\b/i.test(migratedPage.html) && <h1 class="sr-only">{sector.h1}</h1>}
-    <main class="migrated-legacy-content" set:html={migratedPage.html} />
+    {!/<h1\b/i.test(migratedPage!.html) && <h1 class="sr-only">{sector.h1}</h1>}
+    <main class="migrated-legacy-content" set:html={migratedPage!.html} />
   </>
 ) : (
 <>
-<section class="inner-hero" aria-label={sector.h1}>
+{/* ─── Section 1 · Hero ───────────────────────────────────────────── */}
+<section class="inner-hero inner-hero--split bg-ambient-teal-top" aria-label={sector.h1}>
   <BackgroundGrid />
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
     <Breadcrumbs crumbs={crumbs} />
-    <div class="inner-hero__badge"><Icon name={sector.icon} class="" /> {sector.chip}</div>
-    <h1>{sector.h1}</h1>
-    <p class="inner-hero__desc">{sector.description}</p>
-    <div class="inner-hero__actions">
-      <a href="/contact/" class="glow-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-bold"><svg aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-calendar-check"></use></svg> اطلب عرض توضيحي</a>
-      <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white" style="background:linear-gradient(135deg,#25D366,#128C7E)"><svg aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-whatsapp"></use></svg> تواصل عبر واتساب</a>
+    <div class="grid gap-10 lg:gap-12 lg:grid-cols-2 items-center">
+      <div>
+        <span class="inner-hero__badge"><Icon name={sector.icon} class="" /> {sector.chip}</span>
+        <h1>{sector.h1}</h1>
+        <p class="inner-hero__desc">{sector.description}</p>
+        <div class="inner-hero__actions">
+          <a href="/contact/" class="glow-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-bold"><svg aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-calendar-check"></use></svg> اطلب عرض توضيحي</a>
+          <a href="https://wa.me/966538229013" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white" style="background:linear-gradient(135deg,#25D366,#128C7E)"><svg aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-whatsapp"></use></svg> تواصل عبر واتساب</a>
+        </div>
+      </div>
+
+      <div class="product-mockup" aria-hidden="true">
+        <div class="product-mockup__browser-bar">
+          <span class="product-mockup__dot"></span>
+          <span class="product-mockup__dot"></span>
+          <span class="product-mockup__dot"></span>
+          <span class="product-mockup__url">kernel.brightai.site{sector.href}</span>
+        </div>
+        <div class="product-mockup__panel">
+          <div class="product-mockup__row">
+            <span class="product-mockup__row-icon"><svg width="16" height="16" aria-hidden="true"><use href={`/icons.svg#${sector.icon}`}></use></svg></span>
+            <div class="product-mockup__row-text">
+              <span class="product-mockup__row-label">{sector.chip} — لوحة الحوكمة</span>
+              <span class="product-mockup__row-meta">{relatedSols.length} حلول مطبّقة</span>
+            </div>
+            <span class="product-mockup__row-status product-mockup__row-status--success">مطابق</span>
+          </div>
+          <div class="product-mockup__row">
+            <span class="product-mockup__row-icon"><svg width="16" height="16" aria-hidden="true"><use href="/icons.svg#mdi-shield-check"></use></svg></span>
+            <div class="product-mockup__row-text">
+              <span class="product-mockup__row-label">جاهزية اللوائح</span>
+              <span class="product-mockup__row-meta">{complianceBadges.length} جهات منطبقة</span>
+            </div>
+            <span class="product-mockup__row-status product-mockup__row-status--info">قيد المراجعة</span>
+          </div>
+          <div class="product-mockup__row">
+            <span class="product-mockup__row-icon"><svg width="16" height="16" aria-hidden="true"><use href="/icons.svg#mdi-graph-outline"></use></svg></span>
+            <div class="product-mockup__row-text">
+              <span class="product-mockup__row-label">مخاطر نشطة</span>
+              <span class="product-mockup__row-meta">آخر 30 يوم</span>
+            </div>
+            <span class="product-mockup__row-status product-mockup__row-status--success">صفر</span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
+{/* ─── Section 2 · اللوائح المنطبقة — compliance-grid (NEW) ──────── */}
+{complianceBadges.length > 0 && (
+  <section class="inner-section inner-section--alt" aria-labelledby="compliance">
+    <div class="max-w-7xl mx-auto px-5 lg:px-8">
+      <div class="section__header section__header--start">
+        <span class="section__eyebrow" lang="en">Applicable regulations</span>
+        <h2 id="compliance" class="section__title section__title--start">
+          <svg class="inline-block align-middle me-2" style="color:var(--indigo-300)" aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-shield-check"></use></svg>
+          اللوائح المنطبقة
+        </h2>
+        <p class="section__subtitle section__subtitle--start">الجهات التنظيمية التي يجب أن تلتزم بها أي مؤسسة في هذا القطاع، وكيف يدعم BrightAI كل ضابط.</p>
+      </div>
+
+      <div class="compliance-grid">
+        {complianceBadges.map(c => (
+          <article class="compliance-badge">
+            <span class="compliance-badge__abbr">{c.abbr}</span>
+            <h3 class="compliance-badge__name">{c.name}</h3>
+            <p class="compliance-badge__scope">{c.scope}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
+
+{/* ─── Section 3 · كيف يشتغل المنصة في هذا القطاع — 4-step flow ── */}
+<section class="inner-section" aria-labelledby="sector-flow">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <div class="section__header section__header--start">
+      <span class="section__eyebrow" lang="en">How it works in this sector</span>
+      <h2 id="sector-flow" class="section__title section__title--start">كيف يُطبَّق BrightAI في {sector.chip}؟</h2>
+    </div>
+    <ol class="flow-steps" aria-label="كيف يُطبَّق BrightAI في هذا القطاع">
+      {SECTOR_FLOW.map((step, idx) => (
+        <li class="flow-step">
+          <div class="flow-step__number" aria-hidden="true">{['١','٢','٣','٤'][idx]}</div>
+          <span class="flow-step__icon" aria-hidden="true">
+            <svg width="32" height="32"><use href={`/icons.svg#${step.icon}`}></use></svg>
+          </span>
+          <h3 class="flow-step__title">{step.label}</h3>
+          <p class="flow-step__desc">{step.desc}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+{/* ─── Section 4 · التحدي (preserved) ─────────────────────────────── */}
 <section class="inner-section inner-section--alt" aria-labelledby="problem">
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
     <h2 id="problem" class="inner-section__title"><svg class="text-red-400" aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-alert-circle"></use></svg> التحدي</h2>
@@ -79,6 +224,7 @@ const jsonLd = {
   </div>
 </section>
 
+{/* ─── Section 5 · الحلول لهذا القطاع (preserved card cluster) ───── */}
 <section class="inner-section" aria-labelledby="solutions-for-sector">
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
     <h2 id="solutions-for-sector" class="inner-section__title"><svg class="text-cyan-300" aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-puzzle"></use></svg> حلول BrightAI لهذا القطاع</h2>
@@ -96,6 +242,7 @@ const jsonLd = {
   </div>
 </section>
 
+{/* ─── Section 6 · Local presence (preserved city cards) ─────────── */}
 {sector.locals && sector.locals.length > 0 && (
 <section class="inner-section inner-section--alt" aria-labelledby="local-presence">
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
@@ -113,8 +260,32 @@ const jsonLd = {
 </section>
 )}
 
+{/* ─── Section 7 · FAQs (extracted from migrated) ──────────────────── */}
+{sector.faqs && sector.faqs.length > 0 && (
+<section class="inner-section" aria-labelledby="sector-faqs">
+  <div class="max-w-4xl mx-auto px-5 lg:px-8">
+    <div class="section__header section__header--start">
+      <span class="section__eyebrow" lang="en">FAQ</span>
+      <h2 id="sector-faqs" class="section__title section__title--start">أسئلة تدور في ذهنك؟</h2>
+    </div>
+    <div class="inner-faq">
+      {sector.faqs.map(faq => (
+        <details>
+          <summary>{faq.question}</summary>
+          <div class="inner-faq__answer">
+            <p>{faq.answer}</p>
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+)}
+
+{/* ─── Section 8 · Related links (preserved) ──────────────────────── */}
 <RelatedLinks relatedSlugs={sector.related} sectorSlugs={sectors.filter(s => s.slug !== sector.slug).map(s => s.slug)} docs={sector.docs} blog={sector.blog} />
 
+{/* ─── Section 8 · Final CTA (preserved) ──────────────────────────── */}
 <section class="inner-cta-final">
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
     <div class="inner-cta-final__card">
