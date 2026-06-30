@@ -1,63 +1,70 @@
 ---
 /**
  * SolutionCard — Card for a single solution on the index page.
- * Uses V3 unified design tokens instead of Tailwind.
+ * Uses V4 unified card system (REPORT-07, DEC-2026-034).
+ *
+ * Anatomy:
+ *   - .card__icon      — brand-glow icon (top)
+ *   - .card__eyebrow   — uppercase category tag
+ *   - .card__title     — h3-style headline
+ *   - .card__desc      — lead paragraph
+ *   - .card__meta      — bottom row (stats / badges / arrow)
+ *   - .card__action    — cta link with arrow
  */
 import type { SolutionData } from '../data/solutions';
 import Icon from '../components/Icon.astro';
 
 interface Props { solution: SolutionData; }
 const { solution } = Astro.props;
+
+const cardTitle =
+  solution.cardTitle ??
+  (solution.h1.split(' ').length > 4 ? solution.h1 : solution.title.split(' | ')[0]);
 ---
 
-<a href={solution.href} class="card card--feature solution-card" style="display:block;text-decoration:none;color:inherit;height:100%;">
-  <div class="solution-card__icon">
-    <Icon name={solution.icon} class="" />
-  </div>
-  <span class="badge badge--brand solution-card__chip">{solution.chip}</span>
-  <h3 class="card__title solution-card__title">{solution.cardTitle ?? (solution.h1.split(' ').length > 4 ? solution.h1 : solution.title.split(' | ')[0])}</h3>
-  <p class="card__description">{solution.shortDesc}</p>
-  <p class="solution-card__when">{solution.whenLabel ?? 'متى تحتاجه؟'} {solution.whenNeeded}</p>
+<a
+  href={solution.href}
+  class="card card--feature card--interactive solution-card"
+  aria-label={solution.h1}
+>
+  <span class="card__icon" aria-hidden="true">
+    <Icon name={solution.icon} />
+  </span>
+
+  {solution.chip && <span class="card__eyebrow">{solution.chip}</span>}
+
+  <h3 class="card__title">{cardTitle}</h3>
+
+  <p class="card__desc">{solution.shortDesc}</p>
+
+  <p class="card__meta">
+    <span class="card__meta-label">
+      {solution.whenLabel ?? 'متى تحتاجه؟'}
+    </span>
+    <span class="card__meta-value">{solution.whenNeeded}</span>
+  </p>
+
+  <span class="card__action">اعرف المزيد</span>
 </a>
 
 <style>
   .solution-card {
-    display: flex;
-    flex-direction: column;
-    transition: all var(--duration-base) var(--ease-out);
+    /* Override the inline default; the .card + .card--feature base already covers layout */
+    text-decoration: none;
+    color: inherit;
+    height: 100%;
   }
 
-  .solution-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-lg);
+  /* Meta label uses eyebrow tone for visual hierarchy */
+  .solution-card .card__meta-label {
+    font-weight: var(--font-medium);
+    letter-spacing: 0.04em;
+    color: var(--text-secondary);
+    opacity: 0.78;
   }
 
-  .solution-card__icon {
-    width: 56px;
-    height: 56px;
-    border-radius: var(--radius-xl);
-    background: linear-gradient(135deg, rgba(34,211,238,0.15), rgba(124,92,255,0.15));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
+  .solution-card .card__meta-value {
     color: var(--brand-300);
-    margin-bottom: var(--space-4);
-  }
-
-  .solution-card__chip {
-    margin-bottom: var(--space-3);
-    align-self: flex-start;
-  }
-
-  .solution-card__title {
-    margin-bottom: var(--space-3);
-  }
-
-  .solution-card__when {
-    font-size: var(--text-xs);
-    color: var(--interactive-primary);
-    margin-top: auto;
-    margin-bottom: 0;
+    font-weight: var(--font-semibold);
   }
 </style>
