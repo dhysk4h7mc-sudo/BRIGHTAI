@@ -28,10 +28,13 @@
  */
 
 import DottedSurface from './hero/DottedSurface.tsx';
+import BrightStar from './brand/BrightStar.astro';
 ---
 
 <section class="split-hero" aria-label="BrightAI الرئيسية">
-  {/* ─── Interactive Dotted-Surface (React island, client:visible) ─── */}
+  {/* ─── Interactive Dotted-Surface (React island, client:visible)
+        Background visual is dimmed — The Star (BrightStar.astro) is the
+        primary visual on this section. Canvas stays as ambient texture. ─── */}
   <div class="split-hero__visual" aria-hidden="true">
     <DottedSurface client:visible />
   </div>
@@ -55,6 +58,14 @@ import DottedSurface from './hero/DottedSurface.tsx';
 
     {/* Left Column — Main Hero Content */}
     <div class="split-hero__main">
+      {/* ─── THE STAR — single visual identity for BrightAI ───
+            Sits at the top of the main column, directly above the H1.
+            Decorative (aria-hidden) — the heading carries the verbal story.
+            On the homepage hero, this is the visual that people remember. */}
+      <div class="split-hero__star-wrap" data-priority="hero-visual">
+        <BrightStar variant="hero" size={300} decorative={true} className="split-hero__star" />
+      </div>
+
       <span class="chip split-hero__chip">
         <span class="split-hero__dot pulse-dot"></span>
         🇸🇦 صنع في السعودية
@@ -183,6 +194,46 @@ import DottedSurface from './hero/DottedSurface.tsx';
     will-change: transform;
     transform: translateZ(0);
     opacity: 0.9;
+  }
+
+  /* ─── THE STAR — wraps the BrightStar.astro SVG at the top of the main column ─── */
+  .split-hero__star-wrap {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 0.5rem;
+    width: 100%;
+    max-width: 320px;
+    z-index: 22;       /* above visual layer + spotlight, below main content text */
+    pointer-events: none; /* decorative — don't block CTAs */
+  }
+  .split-hero__star {
+    width: 100%;
+    height: auto;
+    /* Pull up slightly so the star visually "leads" the title, not crowds it */
+    margin-top: -0.5rem;
+  }
+  /* Desktop: star grows slightly and gets a touch of pull-up via translateZ */
+  @media (min-width: 768px) {
+    .split-hero__star-wrap {
+      max-width: 360px;
+      margin-bottom: 0.75rem;
+    }
+  }
+  /* Below 640px (small phones): stay compact to preserve CTA prominence */
+  @media (max-width: 640px) {
+    .split-hero__star-wrap {
+      max-width: 230px;
+      margin-bottom: 0.25rem;
+    }
+    .split-hero__star { margin-top: 0; }
+  }
+
+  /* On the homepage, dim the background canvas so The Star wins the visual hierarchy.
+     Spotlight + beams + vignette still operate — only the dotted canvas dims. */
+  @media (min-width: 768px) {
+    .split-hero .dotted-surface-canvas { opacity: 0.32; }
   }
 
   /* ─── Gradient Beams (pure CSS, enhanced) ─── */
@@ -689,7 +740,7 @@ import DottedSurface from './hero/DottedSurface.tsx';
     }
     /* Reduce visual complexity on mobile */
     .dotted-surface-canvas {
-      opacity: 0.6;
+      opacity: 0.5;
     }
     .split-hero__vignette {
       background:

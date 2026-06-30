@@ -15,6 +15,40 @@
   border-bottom: 1px solid rgba(255,255,255,0.05);
   position: relative;
   z-index: 10;
+  isolation: isolate;
+}
+
+/* Radial cyan glow at the top of .home-trust (DEPTH). Sits behind content. */
+.home-trust::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    var(--gradient-section-radial),
+    var(--gradient-section-radial-indigo);
+}
+
+/* Same noise grain as body but slightly stronger (2.8%) for hero-panel feel. */
+.home-trust::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: var(--noise-svg);
+  background-size: 200px 200px;
+  background-repeat: repeat;
+  opacity: var(--noise-hero);
+  mix-blend-mode: overlay;
+}
+
+.home-trust > * { position: relative; z-index: 1; }
+
+@media (prefers-reduced-transparency: reduce) {
+  .home-trust::before,
+  .home-trust::after { display: none; }
 }
 
 .home-trust__grid {
@@ -475,7 +509,12 @@
   display: block;
   font-size: var(--text-sm);
   font-weight: var(--font-medium);
-  color: var(--text-secondary);
+  /* DEC-2026-031: secondary opacity for form labels (0.78, contrast ≈ 9:1).
+     Labels are higher-importance than captions so they get the secondary tier.
+     Form labels may contain <input>/etc. as siblings — but the label element
+     itself does not wrap interactive content, so opacity is safe here. */
+  color: var(--text-primary);
+  opacity: var(--text-secondary-opacity);
   margin-bottom: var(--space-2);
 }
 
@@ -550,7 +589,10 @@
   gap: var(--space-3);
   margin-bottom: var(--space-3);
   font-size: var(--text-sm);
-  color: var(--text-muted);
+  /* DEC-2026-031: tertiary opacity for blog card meta (0.58, contrast ≈ 5.25:1).
+     Was: `--text-muted` (~3.4:1, below AA). Upgrade to AA. */
+  color: var(--text-primary);
+  opacity: var(--text-tertiary-opacity);
 }
 
 .blog-card__title {
@@ -600,6 +642,29 @@
   justify-content: center;
   text-align: center;
   padding: var(--space-16) var(--space-4);
+}
+
+/* ─── 404 Star echo (mono variant of BrightStar) ─── */
+.error-page__star-wrap {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  width: 100%;
+  max-width: 280px;
+}
+.error-page__star {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 0 12px rgba(34, 211, 238, 0.18));
+}
+@media (min-width: 768px) {
+  .error-page__star-wrap {
+    max-width: 320px;
+    margin-bottom: 2rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .error-page__star { filter: none; }
 }
 
 .error-page__content {
@@ -1353,7 +1418,10 @@ svg.icon {
 
 .k-unit-card__desc {
   font-size: var(--text-xs);
-  color: var(--text-secondary);
+  /* DEC-2026-031: secondary opacity for card description (0.78).
+     Was: `--text-secondary` color directly. New: primary × 0.78 (≈ 9:1, AAA). */
+  color: var(--text-primary);
+  opacity: var(--text-secondary-opacity);
   line-height: 1.5;
 }
 

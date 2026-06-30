@@ -80,6 +80,44 @@
   padding-block: var(--space-16);
   text-align: center;
   background: linear-gradient(180deg, var(--bg-surface) 0%, var(--bg-base) 100%);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+/* Radial cyan halo + indigo bottom wash — gives the inner-page banner depth without
+   breaking the existing flat gradient. Sits behind content via z-index. */
+.page-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    var(--gradient-section-radial),
+    radial-gradient(ellipse 70% 50% at 20% 100%, rgba(99, 102, 241, 0.05), transparent 70%);
+}
+
+/* Hero panel noise — slightly stronger than card noise (2.8%) since this is the main
+   visual surface per inner page. Inline SVG, zero HTTP. */
+.page-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: var(--noise-svg);
+  background-size: 200px 200px;
+  background-repeat: repeat;
+  opacity: var(--noise-hero);
+  mix-blend-mode: overlay;
+}
+
+.page-hero > * { position: relative; z-index: 1; }
+
+@media (prefers-reduced-transparency: reduce) {
+  .page-hero::before,
+  .page-hero::after { display: none; }
 }
 
 .page-hero__title {
@@ -376,6 +414,138 @@
   box-shadow: var(--shadow-lg);
 }
 
+/* Card noise overlay + top-edge highlight — gives surface tangible depth without breaking flatness.
+   Uses ::before for the highlight and ::after for the noise grain so neither blocks content.
+   Targets all card-shaped surfaces in the system (canonical BEM + legacy aliases). */
+.card,
+.card--feature,
+.feature-card,
+.inner-card,
+.card--pricing,
+.pricing-card,
+.card--metric,
+.home-stat-card,
+.inner-stat,
+.testimonial,
+.pricing-panel,
+.home-faq-item,
+.card--cta,
+.home-cta-card,
+.inner-cta-final__card {
+  position: relative;
+  isolation: isolate;
+  box-shadow:
+    var(--shadow-md),
+    var(--highlight-inner);
+}
+
+/* Noise grain layer — sits above background, below content (z-index via :where) */
+.card::after,
+.card--feature::after,
+.feature-card::after,
+.inner-card::after,
+.card--pricing::after,
+.pricing-card::after,
+.card--metric::after,
+.home-stat-card::after,
+.inner-stat::after,
+.testimonial::after,
+.pricing-panel::after,
+.home-faq-item::after,
+.card--cta::after,
+.home-cta-card::after,
+.inner-cta-final__card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background-image: var(--noise-svg);
+  background-size: 200px 200px;
+  background-repeat: repeat;
+  opacity: var(--noise-card);
+  mix-blend-mode: overlay;
+  /* Hide noise from the card border so the edge stays crisp */
+  -webkit-mask-image: linear-gradient(black, black);
+          mask-image: linear-gradient(black, black);
+}
+
+/* Lift child content above the noise layer */
+.card > *,
+.card--feature > *,
+.feature-card > *,
+.inner-card > *,
+.card--pricing > *,
+.pricing-card > *,
+.card--metric > *,
+.home-stat-card > *,
+.inner-stat > *,
+.testimonial > *,
+.pricing-panel > *,
+.home-faq-item > *,
+.card--cta > *,
+.home-cta-card > *,
+.inner-cta-final__card > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Outer glow on primary CTAs — subtle, no halo on mobile, paused if reduced motion */
+.btn--primary,
+.btn-primary,
+.home-cta-primary,
+.btn--glow,
+.glow-btn {
+  box-shadow:
+    var(--shadow-cta-glow),
+    var(--highlight-inner-strong);
+}
+
+.btn--primary:hover,
+.btn-primary:hover {
+  box-shadow:
+    var(--shadow-cta-glow-lg),
+    var(--highlight-inner-strong);
+}
+
+.btn--glow:hover,
+.glow-btn:hover,
+.home-cta-primary:hover {
+  box-shadow:
+    var(--shadow-cta-glow-lg),
+    0 0 0 1px rgba(255, 255, 255, 0.08) inset;
+}
+
+/* Reduce-transparency: drop the noise grain + drop the outer glow halo (cosmetic only).
+   Card backgrounds and borders are unchanged so contrast stays identical. */
+@media (prefers-reduced-transparency: reduce) {
+  .card::after,
+  .card--feature::after,
+  .feature-card::after,
+  .inner-card::after,
+  .card--pricing::after,
+  .pricing-card::after,
+  .card--metric::after,
+  .home-stat-card::after,
+  .inner-stat::after,
+  .testimonial::after,
+  .pricing-panel::after,
+  .home-faq-item::after,
+  .card--cta::after,
+  .home-cta-card::after,
+  .inner-cta-final__card::after {
+    display: none;
+  }
+  .btn--primary,
+  .btn-primary,
+  .home-cta-primary,
+  .btn--glow,
+  .glow-btn {
+    box-shadow: var(--highlight-inner-strong);
+  }
+}
+
 /* Card icon block (used by feature/metric cards) */
 .card__icon {
   width: 48px;
@@ -540,7 +710,11 @@
 .home-stat-card__label,
 .inner-stat__label {
   font-size: var(--text-xs);
-  color: var(--text-muted);
+  /* DEC-2026-031: tertiary opacity for captions/labels (0.58).
+     Previously `--text-muted` (contrast ≈ 3.4:1, below WCAG AA).
+     New: primary color × 0.58 (contrast ≈ 5.25:1, passes WCAG AA — a11y upgrade). */
+  color: var(--text-primary);
+  opacity: var(--text-tertiary-opacity);
   margin-top: var(--space-1-5);
   font-weight: var(--font-medium);
 }
@@ -569,7 +743,10 @@
 
 .card__stat-label {
   font-size: var(--text-sm);
-  color: var(--text-secondary);
+  /* DEC-2026-031: secondary opacity for stat labels (0.78).
+     Previously `--text-secondary` color directly. New: primary × 0.78 (≈ 9:1). */
+  color: var(--text-primary);
+  opacity: var(--text-secondary-opacity);
   margin-top: var(--space-2);
 }
 

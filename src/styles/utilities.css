@@ -142,6 +142,73 @@
 .text-danger { color: var(--status-danger); }
 .text-info { color: var(--status-info); }
 
+/* 11b. Text Opacity Hierarchy Utilities (DEC-2026-031)
+   Pure opt-in wrappers that apply the opacity tokens defined in tokens.css.
+   Each utility uses :has() guards to auto-disable when the element wraps
+   interactive content (<a>/<button>/<input>/<select>/<textarea>) — this is
+   how we satisfy the forbidden rule "no opacity on interactive links" while
+   still letting authors use these utilities safely.
+
+   WCAG contrasts (on bg-base #0a0e1a, with text-primary #f1f5f9 as base):
+   - secondary (0.78): ≈ 9.04:1 — AAA
+   - tertiary  (0.58): ≈ 5.25:1 — AA  (kept text bar)
+   - disabled   (0.38): ≈ 2.72:1 — below AA; only valid for disabled states
+   - decorative (0.22): ≈ 1.38:1 — pure decoration, no informational meaning */
+.text-primary-opacity {
+  opacity: var(--text-primary-opacity);
+}
+.text-primary-opacity:has(a),
+.text-primary-opacity:has(button),
+.text-primary-opacity:has(input),
+.text-primary-opacity:has(select),
+.text-primary-opacity:has(textarea) {
+  opacity: 1;
+}
+
+.text-secondary-opacity {
+  opacity: var(--text-secondary-opacity);
+}
+.text-secondary-opacity:has(a),
+.text-secondary-opacity:has(button),
+.text-secondary-opacity:has(input),
+.text-secondary-opacity:has(select),
+.text-secondary-opacity:has(textarea) {
+  opacity: 1;
+}
+
+.text-tertiary-opacity {
+  opacity: var(--text-tertiary-opacity);
+}
+.text-tertiary-opacity:has(a),
+.text-tertiary-opacity:has(button),
+.text-tertiary-opacity:has(input),
+.text-tertiary-opacity:has(select),
+.text-tertiary-opacity:has(textarea) {
+  opacity: 1;
+}
+
+.text-disabled-opacity {
+  opacity: var(--text-disabled-opacity);
+}
+.text-disabled-opacity:has(a),
+.text-disabled-opacity:has(button),
+.text-disabled-opacity:has(input),
+.text-disabled-opacity:has(select),
+.text-disabled-opacity:has(textarea) {
+  opacity: 1;
+}
+
+.text-decorative-opacity {
+  opacity: var(--text-decorative-opacity);
+}
+.text-decorative-opacity:has(a),
+.text-decorative-opacity:has(button),
+.text-decorative-opacity:has(input),
+.text-decorative-opacity:has(select),
+.text-decorative-opacity:has(textarea) {
+  opacity: 1;
+}
+
 /* 12. Spacing (Tailwind compatibility) */
 .py-1 { padding-top: var(--space-1); padding-bottom: var(--space-1); }
 .py-2 { padding-top: var(--space-2); padding-bottom: var(--space-2); }

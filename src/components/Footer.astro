@@ -26,7 +26,12 @@ const footerSections = Object.values(FOOTER_NAV);
       <!-- Brand column -->
       <div class="footer__brand">
         <a href="/" class="footer__logo" aria-label="BrightAI Home">
-          <img src="/logo.png" alt="BrightAI" width="32" height="32" class="footer__logo-img" />
+          {/*
+            ─── ECHO: The Star (minimal variant) replaces logo.png ───
+            Single SVG, 1.2KB on disk, scales perfectly, no extra requests.
+            Kept the `<span>BrightAI</span>` wordmark for legibility.
+          */}
+          <img src="/assets/star/bright-star-minimal.svg" alt="" width="32" height="32" class="footer__logo-img" loading="lazy" decoding="async" />
           <span>BrightAI</span>
         </a>
         <p class="footer__tagline">

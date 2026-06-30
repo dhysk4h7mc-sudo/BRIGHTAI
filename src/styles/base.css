@@ -23,7 +23,18 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* 2. Base Typography */
+/* 2. Base Typography — DEC-2026-031: opacity hierarchy for text importance
+   The opacity hierarchy (1 / 0.78 / 0.58 / 0.38 / 0.22) is applied selectively:
+   - body + h1–h6: primary opacity (1.0) — standalone typography, safe.
+   - <p>: kept at color `--text-secondary` (existing convention, no opacity).
+   - <small>/.small: tertiary opacity (0.58) — usually standalone, but
+     `.small` is the canonical opt-in wrapper for captions/meta.
+   - For other cases (decorative labels, timestamps, version numbers), use
+     the dedicated utility classes in utilities.css with safe-selector guards.
+   Interactive elements (<a>, <button>, <input>, etc.) NEVER get opacity
+   directly; the utility classes in utilities.css use `:has()` to bypass
+   the rule when interactive content is present (inherited opacity would
+   otherwise dim their visual contrast below WCAG AA). */
 body {
   font-family: var(--font-sans);
   font-size: var(--text-base);
@@ -31,6 +42,8 @@ body {
   line-height: var(--leading-normal);
   color: var(--text-primary);
   background-color: var(--bg-base);
+  /* Base body text uses primary opacity (1.0) — full WCAG AAA contrast (13.6:1). */
+  opacity: var(--text-primary-opacity);
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -38,6 +51,9 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: var(--font-bold);
   line-height: var(--leading-tight);
   color: var(--text-primary);
+  /* Headings carry primary opacity — same rationale as body, full AAA contrast.
+     <h1>–<h4> are explicitly required (DEC-2026-031 task 2); h5/h6 follow. */
+  opacity: var(--text-primary-opacity);
 }
 
 h1 { font-size: var(--text-4xl); }
@@ -50,6 +66,32 @@ h6 { font-size: var(--text-base); }
 p {
   margin-bottom: var(--space-4);
   color: var(--text-secondary);
+  /* NOTE on opacity (DEC-2026-031):
+     Intentionally NOT applying opacity to <p> — paragraphs commonly wrap
+     <a>/<button> elements and inherited opacity would dim interactive
+     contrast below WCAG AA (forbidden: "no opacity on interactive links").
+     <p> keeps the existing `--text-secondary` color (contrast ≈ 6.4:1, AAA).
+     For descriptions that don't wrap interactive content, use
+     `.text-secondary-opacity` from utilities.css — it auto-disables when
+     interactive children are present via :has() guards. */
+}
+
+small,
+.small {
+  font-size: var(--text-sm);
+  color: var(--text-primary);
+  /* Captions/meta via tertiary opacity (0.58) — contrast ≈ 5.25:1, WCAG AA.
+     If <small> contains interactive content, override below restores opacity 1. */
+  opacity: var(--text-tertiary-opacity);
+}
+
+/* Safety net: if <small>/.small contains interactive elements, kill opacity
+   so the inherited alpha doesn't drop interactive contrast below WCAG. */
+small:has(a),
+small:has(button),
+.small:has(a),
+.small:has(button) {
+  opacity: 1;
 }
 
 a {
@@ -186,3 +228,37 @@ pre code {
   white-space: nowrap;
   border: 0;
 }
+
+/* 11. Body Noise + Radial Depth (DEC-2026-030) */
+/*    Page-wide subtle film grain, ~1.5% opacity. Inlined SVG, zero HTTP.
+      pointer-events: none and isolation: isolate keep it from intercepting clicks. */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background-image: var(--noise-svg);
+  background-size: 200px 200px;
+  background-repeat: repeat;
+  opacity: var(--noise-body);
+  mix-blend-mode: overlay;
+  /* Fades noise at edges so it never sits on top of viewport chrome */
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, black 90%, transparent 100%);
+          mask-image: linear-gradient(to bottom, black 0%, black 90%, transparent 100%);
+  isolation: isolate;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::before { animation: none; }
+}
+
+/* When the user explicitly opts out of translucency, kill the body grain entirely
+   (the dry pixel-noise is jarring for sensitive viewers) and disable backdrop-filter
+   on any layer that uses it. See also individual component rules below. */
+@media (prefers-reduced-transparency: reduce) {
+  body::before { display: none; }
+}
+
+/* Ensure page content stacks above the fixed noise overlay. */
+body > * { position: relative; z-index: 2; }

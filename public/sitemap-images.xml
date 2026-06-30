@@ -58,6 +58,34 @@
     </image:image>
   </url>
   <url>
+    <loc>https://brightai.site/assets/star/bright-star-hero.svg</loc>
+    <image:image>
+      <image:loc>https://brightai.site/assets/star/bright-star-hero.svg</image:loc>
+      <image:title>bright star hero</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://brightai.site/assets/star/bright-star-loading.svg</loc>
+    <image:image>
+      <image:loc>https://brightai.site/assets/star/bright-star-loading.svg</image:loc>
+      <image:title>bright star loading</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://brightai.site/assets/star/bright-star-minimal.svg</loc>
+    <image:image>
+      <image:loc>https://brightai.site/assets/star/bright-star-minimal.svg</image:loc>
+      <image:title>bright star minimal</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://brightai.site/assets/star/bright-star-mono.svg</loc>
+    <image:image>
+      <image:loc>https://brightai.site/assets/star/bright-star-mono.svg</image:loc>
+      <image:title>bright star mono</image:title>
+    </image:image>
+  </url>
+  <url>
     <loc>https://brightai.site/favicon.svg</loc>
     <image:image>
       <image:loc>https://brightai.site/favicon.svg</image:loc>
@@ -174,6 +202,13 @@
     <image:image>
       <image:loc>https://brightai.site/logo.png</image:loc>
       <image:title>logo</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://brightai.site/noise.svg</loc>
+    <image:image>
+      <image:loc>https://brightai.site/noise.svg</image:loc>
+      <image:title>noise</image:title>
     </image:image>
   </url>
   <url>

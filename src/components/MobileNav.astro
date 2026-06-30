@@ -202,13 +202,39 @@ function isActive(href: string): boolean {
     position: fixed;
     inset: 0;
     z-index: 900;
-    background: var(--bg-base);
+    background: var(--glass-strong);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
     overflow-y: auto;
     transform: translateX(100%);
     transition: transform var(--duration-base) var(--ease-out);
     padding: var(--space-4);
     display: flex;
     flex-direction: column;
+    isolation: isolate;
+    box-shadow:
+      -1px 0 0 0 var(--glass-highlight-strong) inset,
+      var(--shadow-2xl);
+  }
+
+  /* Subtle noise grain on the mobile drawer — keeps it visually consistent with the
+     desktop header glass treatment without adding HTTP requests. */
+  .mobile-menu::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image: var(--noise-svg);
+    background-size: 200px 200px;
+    background-repeat: repeat;
+    opacity: var(--noise-card);
+    mix-blend-mode: overlay;
+  }
+
+  .mobile-menu > * {
+    position: relative;
+    z-index: 1;
   }
 
   [dir="rtl"] .mobile-menu {
@@ -384,6 +410,18 @@ function isActive(href: string): boolean {
     .mobile-menu { transition: none; }
     .mobile-menu__accordion-panel { transition: none; }
     .mobile-menu__accordion-chevron { transition: none; }
+  }
+
+  /* User opted out of translucency — drawer becomes a solid panel, noise grain
+     suppressed. Background opacity stays visually equivalent (0.95) so contrast
+     on the nav items is unchanged from before. */
+  @media (prefers-reduced-transparency: reduce) {
+    .mobile-menu {
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      background: rgb(10, 14, 26);
+    }
+    .mobile-menu::before { display: none; }
   }
 
   /* Hide on desktop */

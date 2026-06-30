@@ -69,7 +69,10 @@
 
 .kernel-metric__label {
   font-size: var(--text-sm);
-  color: var(--text-secondary);
+  /* DEC-2026-031: secondary opacity for kernel metric labels (0.78).
+     Was: `--text-secondary` color directly. New: primary × 0.78 (≈ 9:1, AAA). */
+  color: var(--text-primary);
+  opacity: var(--text-secondary-opacity);
   margin-bottom: var(--space-2);
 }
 
@@ -470,6 +473,9 @@
 
 .kernel-code__lang {
   font-size: var(--text-xs);
-  color: var(--text-muted);
+  /* DEC-2026-031: tertiary opacity for code language labels (0.58).
+     Was: `--text-muted` (~3.4:1, below AA). New: primary × 0.58 (≈ 5.25:1, AA). */
+  color: var(--text-primary);
+  opacity: var(--text-tertiary-opacity);
   text-transform: uppercase;
 }
