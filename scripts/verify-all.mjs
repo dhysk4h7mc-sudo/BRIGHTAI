@@ -56,7 +56,14 @@ function getAllHtmlFiles(dir, fileList = []) {
   return fileList;
 }
 
-const allHtmlFiles = getAllHtmlFiles(path.join(rootDir, "dist"));
+// REPORTS-SEC-01 — adapt to @astrojs/vercel layout:
+//   With the adapter, static HTML lives at dist/client/ instead of dist/.
+//   When dist/client/ exists (adapter build), read from there; otherwise
+//   fall back to dist/ for plain-static builds (backward-compatible).
+const staticHtmlRoot = fs.existsSync(path.join(rootDir, 'dist', 'client', '404.html'))
+  ? path.join(rootDir, 'dist', 'client')
+  : path.join(rootDir, 'dist');
+const allHtmlFiles = getAllHtmlFiles(staticHtmlRoot);
 
 // 1. فحص الروابط الداخلية
 console.log('--- 1. فحص الروابط الداخلية ---');
@@ -133,18 +140,33 @@ for (const dir of mainDirs) {
 logStatus(allCanonicalsValid, 'جميع الملفات تحتوي على canonical tags صحيحة.');
 
 
-// 3. فحص sitemap.xml
-console.log('\n--- 3. فحص sitemap.xml ---');
-const sitemapPath = path.join(rootDir, 'dist', 'sitemap.xml');
+// 3. فحص sitemap.xml — REPORTS-SEC-01: prioritise adapter-laid sitemaps.
+//    The script `scripts/generate-sitemap-all-pages.mjs` writes a fresh
+//    `dist/sitemap.xml` at the root, but it can land as an empty stub
+//    when the build before it was an adapter build. Prefer adapter output.
+const sitemapCandidates = [
+  path.join(rootDir, 'dist', 'client', 'sitemap-0.xml'),
+  path.join(rootDir, 'dist', 'client', 'sitemap.xml'),
+  path.join(rootDir, 'dist', 'sitemap.xml'),
+];
+let sitemapPath = sitemapCandidates.find((p) => fs.existsSync(p));
 let sitemapValid = true;
-if (fs.existsSync(sitemapPath)) {
+if (sitemapPath) {
   const sitemapContent = fs.readFileSync(sitemapPath, 'utf8');
-  
+
+  // Guard against an empty stub: must contain at least one <loc>...
+  const hasAnyUrl = /<loc>https:\/\/brightai\.site\/[^<]+<\/loc>/.test(sitemapContent);
+
   const pagesWithSlash = ['about', 'blog'];
-  for (const page of pagesWithSlash) {
-    if (!sitemapContent.match(new RegExp(`https://brightai.site/${page}/<`, 'i'))) {
-       sitemapValid = false;
-       errors.push({ type: 'Sitemap Trailing Slash', issue: `${page}/ is missing its trailing slash.` });
+  if (!hasAnyUrl) {
+    sitemapValid = false;
+    errors.push({ type: 'Sitemap Empty', issue: `Chosen sitemap (${path.relative(rootDir, sitemapPath)}) contains no <loc> entries.` });
+  } else {
+    for (const page of pagesWithSlash) {
+      if (!sitemapContent.match(new RegExp(`https://brightai.site/${page}/<`, 'i'))) {
+         sitemapValid = false;
+         errors.push({ type: 'Sitemap Trailing Slash', issue: `${page}/ is missing its trailing slash.` });
+      }
     }
   }
 } else {

@@ -45,6 +45,7 @@ dist/
 build/
 .render-static/
 .astro/
+.vercel/
 tsconfig.tsbuildinfo
 # Note: .min.js and .min.css files are now included in git (needed for production)
 

@@ -354,6 +354,10 @@ const policyBanner = {
       if (form.dataset.bound === '1') return;
       form.dataset.bound = '1';
 
+      // REPORTS-SEC-01 — track whether /api/ai/chat is reachable.
+      // null = untested, true = reachable (try it), false = 404 (skip it).
+      var apiAvailability = null;
+
       function sendMessage() {
         var raw = input.value;
         if (!raw || !raw.trim()) return;
@@ -374,18 +378,69 @@ const policyBanner = {
         // Hide any active policy banner after first send
         if (banner) banner.hidden = true;
 
-        // Simulate latency then stream AI reply
-        setTimeout(function () {
-          var aiMsg = createMessage('ai', '');
-          messages.insertBefore(aiMsg.article, typing);
-          streamInto(aiMsg.bubble, pickFakeResponse(), function () {
-            typing.hidden = true;
-            messages.setAttribute('aria-busy', 'false');
-            if (sendBtn) sendBtn.disabled = false;
-            input.focus();
-            scrollThreadToEnd(thread);
-          });
-        }, 700);
+        // REPORTS-SEC-01: Try the server-side /api/ai/chat proxy first.
+        // Falls back to demo mode silently if the endpoint is unreachable
+        // (e.g. Render static hosting without server functions, network
+        // outage, or no API keys configured server-side). Preserves the
+        // existing UX 1:1 when API is unavailable.
+        var apiTried = false;
+        if (apiAvailability !== false) {
+          apiTried = true;
+          fetch('/api/ai/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: raw }),
+          })
+            .then(function (res) {
+              if (res.status === 404) {
+                apiAvailability = false;
+                runDemoReply();
+                return null;
+              }
+              if (!res.ok) {
+                runDemoReply();
+                return null;
+              }
+              return res.json();
+            })
+            .then(function (data) {
+              if (!data || !data.reply) {
+                if (!apiAvailability === false) runDemoReply();
+                return;
+              }
+              var aiMsg = createMessage('ai', '');
+              messages.insertBefore(aiMsg.article, typing);
+              streamInto(aiMsg.bubble, data.reply, function () {
+                typing.hidden = true;
+                messages.setAttribute('aria-busy', 'false');
+                if (sendBtn) sendBtn.disabled = false;
+                input.focus();
+                scrollThreadToEnd(thread);
+              });
+            })
+            .catch(function () {
+              runDemoReply();
+            });
+        }
+
+        // REPORTS-SEC-01: Demo fallback path (latency simulation + fake streaming).
+        // Preserved EXACTLY as before the security hardening so existing UX
+        // is intact when the API endpoint isn't reachable.
+        function runDemoReply() {
+          setTimeout(function () {
+            var aiMsg = createMessage('ai', '');
+            messages.insertBefore(aiMsg.article, typing);
+            streamInto(aiMsg.bubble, pickFakeResponse(), function () {
+              typing.hidden = true;
+              messages.setAttribute('aria-busy', 'false');
+              if (sendBtn) sendBtn.disabled = false;
+              input.focus();
+              scrollThreadToEnd(thread);
+            });
+          }, 700);
+        }
+
+        if (!apiTried) runDemoReply();
       }
 
       form.addEventListener('submit', function (e) { e.preventDefault(); sendMessage(); });

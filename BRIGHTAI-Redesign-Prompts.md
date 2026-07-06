@@ -1,402 +1,335 @@
-# 🎨 BRIGHTAI — مجموعة برومبتات إعادة التصميم (UI/UX فقط)
+Thought for 1s# حزمة البرومبتات المُعاد كتابتها — نسخة Astro مع ضمان الحفاظ الكامل على المحتوى ونشر كل الصفحات
 
-> **القاعدة الذهبية:** كل برومبت في هذه المجموعة يُغيّر **التصميم وتجربة المستخدم فقط**.
-> **ممنوع منعاً باتاً:** تغيير المحتوى، حذف أو إضافة أقسام، تعديل النصوص، تغيير الـ SEO أو الـ JSON-LD، تعديل الـ routes، أو لمس بنية الصفحات.
+**تغييران جوهريان في هذه النسخة:**
 
----
-
-## 📋 تحليل المشروع (لتوصيف الوكيل قبل البدء)
-
-```yaml
-المشروع: BrightAI — Saudi AI Safety OS
-التقنية: Astro 6.4 + React 19 + Tailwind 3 + TypeScript
-اللغة الأساسية: العربية (RTL) — مع نسخة EN لبعض الصفحات القانونية
-عدد الصفحات: 36 صفحة Astro + 11 صفحة Kernel HTML ثابتة
-عدد المكونات: 28 مكون Astro/TSX
-
-الهيكلة:
-  src/
-    layouts/       → 6 layouts (Base, Arabic, English, Blog, Docs, Kernel)
-    components/    → 28 مكون (Header, Footer, SplitHero, Kernel/*, hero/*)
-    pages/         → 36 صفحة (home, solutions, kernel, blog, docs, pricing, ...)
-    styles/        → 7 ملفات CSS (tokens, base, components, pages, kernel, animations, utilities)
-    data/          → site config, navigation, solutions, kernel
-    content/       → blog + docs (content collections)
-  kernel/          → 11 صفحة HTML ثابتة (dashboard, chat, audit, ...)
-  public/          → assets, fonts, icons.svg, logo
-
-نظام التوكنز الحالي (src/styles/tokens.css):
-  ألوان: brand (cyan 50-900), accent (green 50-900), indigo (50-900)
-  خلفيات: --bg-base #0a0e1a, --bg-surface #0f1525, --bg-elevated #151c30
-  نص: --text-primary #f1f5f9, --text-secondary #94a3b8
-  خط: IBM Plex Sans Arabic
-  تباعد/زوايا/ظلال/حركات: متغيرات CSS كاملة
-
-الصفحات الرئيسية:
-  / (home)         → SplitHero + Trust + 11+ section
-  /solutions/      → 9 منتجات + 4 قطاعات
-  /kernel/         → 11 شاشة (dashboard, chat, audit, evidence, approvals, ...)
-  /pricing/        → 4 باقات + FAQ
-  /blog/, /docs/, /hub/, /about/, /contact/, /trust/, ...
-  /assessment/ai-governance-readiness/
-```
-
----
-
-## ⛔ القيود الصارمة المشتركة (انسخها في كل برومبت)
-
-```text
-NON-NEGOTIABLE CONSTRAINTS (apply to EVERY task):
-
-1. ❌ لا تحذف أو تضيف أي section أو عنصر من أي صفحة.
-2. ❌ لا تغيّر أي نص عربي أو إنجليزي ظاهر للمستخدم.
-3. ❌ لا تعدّل: sitemap.xml, robots.txt, canonical URLs, hreflang tags,
-   JSON-LD schemas, redirects.json, astro.config.mjs (redirects),
-   .well-known/*, manifest.webmanifest, ai.txt, llms.txt, _headers, _redirects.
-4. ❌ لا تكسر RTL، ولا تغيّر `dir="rtl"` ولا `lang="ar"`.
-5. ❌ لا تغيّر أسماء الـ routes أو ملفات الصفحات.
-6. ❌ لا تحذف أو تغيّر أي data-* attribute موجود حالياً (يُستخدم لـ analytics/SEO).
-7. ❌ لا تغيّر أسماء الـ classes العامة المستخدمة في data attributes
-   أو في scripts ربط (مثلاً .site-header, .footer, [data-dropdown]).
-8. ❌ لا تستخدم emoji جديدة لم تكن موجودة أصلاً.
-9. ✅ يُسمح بتغيير: CSS، animations، layout (visual)، spacing،
-   typography scale، أيقونات، ظلال، حركات، تفاعلات micro-interactions.
-10. ✅ يُسمح بإضافة CSS classes جديدة، CSS variables جديدة، أو ملفات CSS جديدة.
-11. ✅ يُسمح بتحويل layout grid/flex من نمط لآخر بشرط نفس الترتيب البصري للأقسام.
-12. ✅ كل تعديل في فرع git منفصل + PR + تقرير .md باسم محدد في البرومبت.
-13. ✅ التزم بـ Node 22.x وما تستخدم `npm install` بدون مبرر.
-14. ✅ كل برومبت يولّد QA report يحتوي: قبل/بعد screenshots لـ /, /kernel/,
-     /solutions/, /pricing/, /blog/ على Desktop + Mobile.
-```
-
----
-
-## 🗺️ خريطة البرومبتات
-
-```
-المرحلة 0 — Discovery & Design System Audit       → 2 برومبتات (0.1 → 0.2)
-المرحلة 1 — Design Tokens & Foundations           → 3 برومبتات (1.1 → 1.3)
-المرحلة 2 — Core Components Redesign              → 4 برومبتات (2.1 → 2.4)
-المرحلة 3 — Page-Level Visual Redesign            → 5 برومبتات (3.1 → 3.5)
-المرحلة 4 — Kernel UI (HTML الثابت)               → 3 برومبتات (4.1 → 4.3)
-المرحلة 5 — Motion, Micro-Interactions & A11y     → 3 برومبتات (5.1 → 5.3)
-المرحلة 6 — Final QA & Polish                     → 2 برومبتات (6.1 → 6.2)
-                                          الإجمالي = 22 برومبت
-```
-
+1. **قاعدة حماية المحتوى** في كل برومبت: ممنوع حذف أي قسم أو صفحة أو نص أو محتوى موجود — التحسين بالإضافة وإعادة الهيكلة فقط.
+2. **قاعدة النشر الشامل**: كل صفحة موجودة يجب أن تُبنى وتُنشر وتُفهرس (لا noindex، لا حجب في robots.txt إلا /api/، الكل في sitemap).
 
 
 ---
 
-# ✨ المرحلة 5 — Motion, Micro-Interactions & A11y
+**القاعدة الثابتة — تُلصق في بداية كل جلسة MiniMax:**
 
-## Prompt 5.1 — Scroll-Reveal & Page Transitions
-
-```text
-ROLE: Motion Designer.
-CONSTRAINTS: [القيود الصارمة] + respect prefers-reduced-motion دائماً
-
-TASK:
-
-1. **Unified scroll reveal system:**
-   - استخدم IntersectionObserver واحد عالمي (موجود في BaseLayout)
-   - Reveal animations: fade-up, fade-in, scale-in, slide-in-right (RTL natural)
-   - Stagger للـ children (50ms delay between items)
-   - Duration: 600ms emphasized ease
-
-2. **Page transitions (Astro ViewTransitions):**
-   - Hero text: fade animation (موجود)
-   - Card grids: cross-fade
-   - Sticky header: stay during transition
-
-3. **Hover micro-interactions:**
-   - Cards: lift -4px + shadow + border-strong (250ms)
-   - Buttons: brightness +5% + scale 1.02 (180ms)
-   - Links: underline reveal من left (200ms)
-
-4. **Click feedback:**
-   - Scale 0.98 active state
-   - Ripple effect optional (subtle)
-
-5. **Loading states:**
-   - Skeleton shimmer (gradient sweep across surfaces)
-   - Spinner: brand color, smooth
-
-6. **Reduce motion:**
-   - prefers-reduced-motion: animations duration 0 + transforms removed
-   - Use @media (prefers-reduced-motion: reduce) في كل CSS
-
-OUTPUT:
-- src/styles/animations.css (محدّث)
-- src/scripts/scroll-reveal.js (لو منفصل)
-- تقرير `reports/17-motion.md`
-
-ACCEPTANCE CRITERIA:
-✅ كل الحركات smooth (60fps)
-✅ prefers-reduced-motion يلغي كل animations
-✅ لا توجد layout shifts (CLS = 0)
+```plaintext
+السياق الثابت والقواعد غير القابلة للكسر:
+- المشروع: موقع BrightAI بـ Astro، عربي RTL، الدومين https://www.brightaii.com، الاستهداف: السوق السعودي.
+- قاعدة حماية المحتوى (إلزامية): ممنوع حذف أو إزالة أي قسم من أي صفحة، أو أي صفحة كاملة، أو أي نص عربي، أو أي محتوى مرئي موجود حالياً. كل التحسينات تتم بإعادة الهيكلة أو الإضافة فقط. إذا رأيت أن حذف شيء ضروري، توقف واذكره في تقريرك ولا تحذفه.
+- قاعدة النشر الشامل (إلزامية): كل صفحة موجودة في المشروع يجب أن تُبنى في dist/ وتظهر في sitemap وتكون قابلة للفهرسة. ممنوع إضافة noindex لأي صفحة، وممنوع حجب أي مسار في robots.txt باستثناء /api/ فقط.
+- لا تغيّر أي Schema JSON-LD أو meta tags موجودة إلا إذا طُلب صراحة.
+- بعد كل مهمة: npm run build يجب أن ينجح، وقارن عدد صفحات HTML في dist/ قبل وبعد — يجب ألا ينقص أبداً. أرفق العددين في كل تقرير.
 ```
 
 ---
 
-## Prompt 5.2 — Accessibility Audit & Fix
+## المرحلة 1 — الأمان (30% → 95%)
 
-```text
-ROLE: Accessibility Engineer (WCAG 2.1 AA expert).
-CONSTRAINTS: [القيود الصارمة]
+### Prompt 1: إزالة المفاتيح المسربة + API خلفي (بدون حذف أي صفحة)
 
-TASK:
+```plaintext
+أنت مهندس أمان في مشروع Astro (BrightAI). طبّق القواعد الثابتة أعلاه. نفّذ بدون تخطي أي بند:
 
-1. **Color contrast:**
-   - افحص كل text/background combinations بـ contrast checker
-   - أي combo أقل من 4.5:1 (نصوص عادية) أو 3:1 (نصوص كبيرة) — fix بـ tokens
+1. ابحث في كامل المشروع (src/ و public/ وأي ملفات موروثة) عن مفاتيح API مسربة بالأنماط: gsk_ (Groq)، AIza (Gemini)، sk- (OpenAI). افحص خصوصاً أي chat widget وأي صفحات interview/admin/dashboard/support وملف .env وأي env.js.
 
-2. **Focus indicators:**
-   - كل interactive element له focus-visible style واضح
-   - استخدم :focus-visible (مو :focus) عشان ما يظهر بالماوس
-   - Ring offset 2px + brand color
+2. مهم: صفحات interview/admin/dashboard/support نفسها تبقى كما هي بكامل محتواها وأقسامها — المطلوب فقط استبدال المفاتيح المضمنة فيها باستدعاءات للـ API الخلفي. لا تحذف أي صفحة من هذه الصفحات ولا أي قسم منها.
 
-3. **Keyboard navigation:**
-   - كل dropdowns/modals/drawers مفتاحية
-   - Escape يقفل
-   - Tab يدور في النظام الصحيح
-   - Skip-to-content link موجود
+3. أنشئ src/pages/api/ai/chat.ts كـ Astro API endpoint (export const POST) مع export const prerender = false:
+   - يقرأ المفاتيح من import.meta.env.GROQ_API_KEY و GEMINI_API_KEY (متغيرات سيرفر فقط، بدون بادئة PUBLIC_).
+   - rate limiting في الذاكرة (10 طلبات/دقيقة/IP) وvalidation: الرسالة نص، أقصى 4000 حرف.
+   - تأكد أن astro.config يستخدم @astrojs/vercel adapter بحيث تبقى كل الصفحات static كما هي والـ API فقط server-rendered. ممنوع تحويل أي صفحة موجودة إلى SSR أو حذفها من البناء.
 
-4. **ARIA:**
-   - تأكد كل اللي يحتاج role/aria-label موجود
-   - لا تضيف ARIA زيادة (لو الـ HTML semantic كافي)
-   - aria-current="page" على الصفحة الحالية
+4. حدّث كود chat widget وكل الصفحات المصابة لتستدعي fetch('/api/ai/chat') بدلاً من الاستدعاء المباشر — مع الحفاظ على كامل وظيفة الدردشة وواجهتها كما هي.
 
-5. **Screen reader:**
-   - اختبر مع VoiceOver/NVDA على 5 صفحات على الأقل
-   - تأكد ترتيب القراءة منطقي
-   - الأيقونات إما aria-hidden أو لها label
+5. أضف .env إلى .gitignore، ونفّذ git rm --cached .env إن كان متعقباً. أنشئ .env.example بأسماء المتغيرات فقط: GROQ_API_KEY= و GEMINI_API_KEY=.
 
-6. **Forms:**
-   - كل field له label مرتبط
-   - Error messages مرتبطة بـ aria-describedby
-   - Required fields واضحة
+6. تحقق نهائي وأرفق الأدلة:
+   - grep -rE "gsk_|AIza[A-Za-z0-9_-]{30}" على src/ و public/ و dist/ بعد البناء = صفر تطابق.
+   - عدد صفحات HTML في dist/ قبل التعديل = بعده تماماً (find dist -name "*.html" | wc -l).
+   - وظيفة الدردشة تعمل عبر المسار الجديد.
+```
 
-7. **RTL specifics:**
-   - logical properties في كل مكان (inset-inline, padding-inline)
-   - dir="rtl" على html
-   - النصوص المختلطة (عربي + إنجليزي + أرقام) تظهر صح
+### Prompt 2: Headers أمنية (بدون التأثير على عرض أي صفحة)
 
-OUTPUT:
-- تقرير `reports/18-a11y.md` يحتوي:
-  * Axe DevTools report (قبل/بعد)
-  * Lighthouse a11y score (قبل/بعد)
-  * Manual checks log
-- ملفات CSS/HTML محدّثة (focus styles, ARIA fixes)
+```plaintext
+في مشروع Astro (BrightAI) على Vercel، طبّق القواعد الثابتة. قوِّ الأمان:
 
-ACCEPTANCE CRITERIA:
-✅ Lighthouse a11y ≥ 95 على كل الصفحات الرئيسية
-✅ Zero critical Axe issues
-✅ كل forms تجاوز screen reader test
-✅ Tab order صحيح
+1. في vercel.json (أو headers عبر adapter @astrojs/vercel):
+   - CORS على مسارات /api/* فقط: Access-Control-Allow-Origin: https://www.brightaii.com (ليس *). لا تضف قيود CORS على الصفحات العادية.
+   - أضف: Strict-Transport-Security: max-age=63072000; includeSubDomains; preload، X-Content-Type-Options: nosniff، Referrer-Policy: strict-origin-when-cross-origin، Permissions-Policy: camera=(), microphone=(), geolocation=()، X-Frame-Options: SAMEORIGIN.
+
+2. Content-Security-Policy: شدّدها تدريجياً وليس دفعة واحدة — ابدأ بحصر script-src في self + المصادر المستخدمة فعلياً (اجردها من الكود أولاً: خطوط، تحليلات، أي CDN). أبقِ unsafe-inline في style-src (سلوك Astro الافتراضي مع scoped styles). قاعدة صارمة: إن كسرت CSP أي وظيفة في أي صفحة (دردشة، خرائط، فيديو، نماذج)، وسّع السياسة لتسمح بها — ممنوع تعطيل أي ميزة موجودة.
+
+3. تحقق وأرفق الأدلة:
+   - npm run build && npx astro preview ثم افحص Response Headers للرئيسية وثلاث صفحات داخلية متنوعة و/api/ai/chat.
+   - افتح 5 صفحات مختلفة (رئيسية، خدمة، مقال، صفحة interview، أي صفحة تفاعلية) وتأكد من console خالٍ من أخطاء CSP، وكل الوظائف تعمل.
+   - عدد صفحات dist/ لم ينقص.
 ```
 
 ---
 
-## Prompt 5.3 — Responsive Refinement
+## المرحلة 2 — الأداء (55% → 92%)
 
-```text
-ROLE: Responsive Design Specialist.
-CONSTRAINTS: [القيود الصارمة]
+### Prompt 3: تفكيك الصفحة الرئيسية إلى مكونات (نقل، ليس حذف)
 
-TASK:
+```plaintext
+في مشروع Astro (BrightAI)، طبّق القواعد الثابتة. الصفحة الرئيسية موروثة من index.html ضخم. أعد هيكلتها:
 
-1. **Breakpoints:**
-   - sm: 640px, md: 768px, lg: 1024px, xl: 1280px, 2xl: 1536px
-   - وحّد على هذه الـ breakpoints في كل CSS
+1. قبل أي شيء: اجرد كل أقسام الصفحة الرئيسية الحالية بالترتيب (hero، خدمات، إحصائيات، شهادات، أسئلة، CTA، أي أقسام أخرى مهما كانت) واكتب القائمة في تقريرك. هذه القائمة هي عقد الحماية: كل قسم فيها يجب أن يظهر في الصفحة النهائية بنفس محتواه النصي الكامل وبنفس الترتيب.
 
-2. **Container widths:**
-   - max-width: 1280px (default)
-   - max-width: 1440px للـ hero والـ marketing sections
+2. قسّم src/pages/index.astro إلى مكونات في src/components/home/ — مكون لكل قسم من القائمة أعلاه. النقل حرفي: انسخ الـ markup والنصوص كما هي إلى المكونات. ممنوع تلخيص أو حذف أو "تنظيف" أي نص أو عنصر مرئي.
 
-3. **Mobile-first review:**
-   - افحص كل صفحة على 320px, 390px, 414px
-   - تأكد ما فيه horizontal scroll
-   - touch targets ≥ 44px
-   - text لا يصغر تحت 14px
+3. أي CSS مضمن قديم انقله إلى scoped styles داخل المكونات أو src/styles/global.css — Astro يتكفل بالتجزئة والتصغير.
 
-4. **Tablet (768-1024):**
-   - 2-column layouts بدل 3
-   - Side panels تصير bottom sheets أو modals
+4. السكربتات التفاعلية:
+   - القائمة/الموبايل: <script> داخل مكون Header.
+   - chat widget وأي widgets أسفل الصفحة: تحميل كسول (IntersectionObserver للـ vanilla JS، أو client:visible/client:idle لمكونات framework). ممنوع client:load لغير الحرج. مهم: التحميل الكسول يعني تأجيل التحميل وليس إزالة الميزة — كل widget موجود يبقى يعمل.
+   - التحليلات: بعد حدث load.
 
-5. **Large screens (≥1440):**
-   - Heroes اللي ممكن تكبر — أعطها مساحة
-   - Cards grids: max 4 columns (لا تزيد)
-   - Reading content max-width 720-800px
+5. الهدف بعد npm run build: dist/index.html أقل من 80KB، وإجمالي JS عند أول عرض أقل من 60KB. أرفق الأرقام قبل/بعد.
 
-6. **RTL on mobile:**
-   - تأكد drawer من اليمين
-   - swipe gestures تعمل بالاتجاه الصحيح
-   - الأيقونات (chevron, arrow) في الاتجاه الصحيح
+6. التحقق الإلزامي:
+   - قارن النص المرئي للصفحة القديمة والجديدة (استخرج innerText من كليهما وقارن) — أي نص مفقود = فشل المهمة، أعده.
+   - Schema JSON-LD وmeta tags منقولة كاملة بدون تغيير (ضعها في مكون src/components/seo/Schema.astro يُستدعى في الـ Layout).
+   - تحقق بصرياً بالمعاينة أن كل قسم من قائمة العقد ظاهر وبنفس الترتيب.
+```
 
-OUTPUT:
-- ملفات CSS محدّثة بـ media queries موحّدة
-- تقرير `reports/19-responsive.md` مع screenshots لكل breakpoint
+### Prompt 4: توحيد CSS وتقليص JS الملاحة (بدون كسر أي صفحة)
 
-ACCEPTANCE CRITERIA:
-✅ زيرو horizontal scroll على أي viewport
-✅ كل النصوص قابلة للقراءة بدون zoom
-✅ Touch targets ≥ 44px (44×44 على mobile)
-✅ Layout يتنفس على شاشات كبيرة (2560px tested)
+```plaintext
+في مشروع Astro (BrightAI)، طبّق القواعد الثابتة. توجد بقايا 3 منظومات CSS: main.bundle.css و index-theme.css و tailwind.local.min.css (173KB). نفّذ:
+
+1. اجرد أولاً: grep على كل صفحات src/pages/ وpublic/ لتحديد أي صفحة تستخدم أي ملف CSS. أرفق الجدول الكامل صفحة/ملفات. ممنوع حذف أي ملف CSS قبل إثبات أن صفر صفحات تشير إليه — والصفحات التي تعتمد عليه يجب نقل الأنماط المطلوبة لها أولاً بحيث لا يتغير شكلها.
+
+2. إن كان المشروع يستخدم Tailwind: ثبّت @tailwindcss/vite (v4) رسمياً بدل الملف الثابت — البناء يولّد CSS purged تلقائياً (الهدف أقل من 30KB). انقل متغيرات الثيم (ألوان، خطوط، RTL) من index-theme.css إلى src/styles/global.css كـ custom properties موحدة مع الحفاظ على نفس القيم الحالية حرفياً (نفس الألوان، نفس الخطوط) — التوحيد تقني وليس تغييراً بصرياً.
+
+3. navigation.js الموروث (48KB): أعد كتابته كمكون Header.astro مع سكربت أساسي أقل من 8KB (قائمة موبايل، dropdowns، حالة scroll) + ملف ثانٍ يُحمّل عند التفاعل الأول لبقية الوظائف (بحث، mega menu). كل وظيفة موجودة في الملاحة الحالية يجب أن تبقى تعمل — اجرد وظائفه أولاً واكتب قائمة، ثم تحقق منها واحدة واحدة بعد التقسيم.
+
+4. الخطوط العربية: preload لملف woff2 الرئيسي في الـ Layout + font-display: swap، وقلّص الأوزان المحمّلة لوزنين — لكن إن كانت صفحات تستخدم أوزاناً أخرى فعلياً أبقِها.
+
+5. تحقق وأرفق: أحجام CSS/JS في dist/_astro/ قبل/بعد، معاينة بصرية لخمس صفحات متنوعة (رئيسية، خدمة، مقال، مدونة، صفحة تفاعلية) للتأكد أن الشكل لم يتغير، وعدد صفحات dist/ لم ينقص.
 ```
 
 ---
 
-# 🏁 المرحلة 6 — Final QA & Polish
+## المرحلة 3 — SEO السعودي (82% → 98%)
 
-## Prompt 6.1 — Performance & Quality Pass
+### Prompt 5: أساس SEO مركزي + فهرسة كل الصفحات بلا استثناء
 
-```text
-ROLE: Performance Engineer.
-CONSTRAINTS: [القيود الصارمة]
+```plaintext
+في مشروع Astro (BrightAI)، طبّق القواعد الثابتة. ثبّت أساس SEO مع ضمان نشر وفهرسة كل صفحة:
 
-TASK:
+1. أنشئ src/layouts/BaseLayout.astro موحداً يستقبل props: title، description، canonical، ogImage، schema إضافي اختياري. يتضمن دائماً:
+   - <html lang="ar" dir="rtl">
+   - canonical تلقائي من Astro.url مع https://www.brightaii.com
+   - hreflang: ar-SA + x-default
+   - geo tags الرياض (geo.region: SA-01, geo.placename: Riyadh)
+   - Open Graph + Twitter Cards بالعربية
+   - Schema أساسي (Organization + WebSite مع SearchAction + LocalBusiness) في src/components/seo/Schema.astro — انسخ القيم الحالية كما هي، باستثناء: صحّح postalCode الوهمي 12345 إلى الحقيقي (إن لم تجده اطلبه ولا تخترع)، وتحقق من foundingDate.
+   - ممنوع منعاً باتاً: أي وسم <meta name="robots" content="noindex"> في أي صفحة. إن وجدت noindex موجوداً مسبقاً في أي صفحة، أزله واذكره في التقرير.
 
-1. **CSS Cleanup:**
-   - شيل أي styles ما تنطبق
-   - وحّد الـ duplicate rules
-   - استخدم CSS layer لو منطقي
+2. طبّق BaseLayout على كل صفحات src/pages/ بدون استثناء — كل صفحة بـ title فريد (< 60 حرفاً) وdescription فريد (120–158 حرفاً) بالعربية بسياق سعودي، وh1 واحد. الصفحات الموروثة (interview، أدوات، أي أقسام قديمة) تُشمل أيضاً — لا تُستثنى ولا تُحذف.
 
-2. **Images:**
-   - تأكد كل img لها width + height + loading="lazy" (إلا hero)
-   - استخدم WebP/AVIF بديل لـ PNG/JPG لو ممكن
-   - تأكد fetchpriority="high" على hero image
+3. ثبّت @astrojs/sitemap مع site: 'https://www.brightaii.com'. الاستثناء الوحيد المسموح: مسارات /api/. كل ما عداها يدخل الـ sitemap — بما فيها صفحات interview والأدوات والأقسام الموروثة كلها.
 
-3. **Fonts:**
-   - preload IBM Plex Sans Arabic
-   - استخدم font-display: swap
-   - تأكد ما فيه FOUT/FOIT مزعج
+4. أنشئ public/robots.txt:
+   User-agent: *
+   Allow: /
+   Disallow: /api/
+   Sitemap: https://www.brightaii.com/sitemap-index.xml
+   ممنوع أي Disallow آخر، وممنوع Disallow: /*?*.
 
-4. **JS:**
-   - راجع الـ React islands — هل كلهم محتاجين hydration؟
-   - استخدم client:idle/visible/media حسب الحاجة
+5. تحقق وأرفق الأدلة:
+   - npm run build ثم: عدد صفحات HTML في dist/ مقابل عدد روابط sitemap — يجب أن يتطابقا (باستثناء /api/ فقط). أرفق أي صفحة مبنية غير مدرجة في sitemap وأدرجها.
+   - grep -r "noindex" dist/ = صفر تطابق.
+   - عينة 5 صفحات من dist/ (متنوعة، منها صفحة موروثة) بها canonical وhreflang وtitle/description فريدة.
+```
 
-5. **Lighthouse runs:**
-   - 10 صفحات على الأقل
-   - Performance ≥ 85 mobile, ≥ 95 desktop
-   - Accessibility ≥ 95
-   - Best Practices ≥ 95
-   - SEO ≥ 95
+### Prompt 6: صفحات الهبوط الجغرافية (إضافة صفحات جديدة فقط)
 
-6. **Core Web Vitals:**
-   - LCP ≤ 2.5s
-   - INP ≤ 200ms
-   - CLS ≤ 0.1
+```plaintext
+في مشروع Astro (BrightAI)، طبّق القواعد الثابتة. هذه مهمة إضافة صرفة — لا تعديل على أي صفحة موجودة باستثناء إضافة روابط.
 
-OUTPUT:
-- تقرير `reports/20-performance.md`
-- Lighthouse JSON exports
-- قائمة بكل التحسينات المطبّقة
+1. أنشئ src/pages/locations/[city].astro مع getStaticPaths لأربع مدن: riyadh (الرياض)، jeddah (جدة)، dammam (الدمام)، neom (نيوم). بيانات المدن في src/data/cities.ts: الاسم العربي، وصف السوق المحلي، القطاعات المستهدفة، إحصائية محلية.
 
-ACCEPTANCE CRITERIA:
-✅ كل targets محققة
-✅ Bundle size ما زاد >10% من الأساسي
-✅ Build time معقول
+2. كل صفحة (عربية، محتوى فريد 600+ كلمة لكل مدينة، ليس قالباً بتبديل الاسم):
+   - h1: "حلول الذكاء الاصطناعي في {المدينة} | BrightAI"
+   - أقسام: خدماتنا في المدينة، قطاعات نخدمها محلياً (مرتبطة برؤية 2030 ومشاريع المدينة الفعلية: نيوم/القدية/البحر الأحمر حسب المدينة)، أسئلة شائعة محلية (4+)، CTA تواصل.
+   - Schema: Service مع areaServed + FAQPage.
+   - روابط داخلية: 3+ لصفحات الخدمات ذات الصلة.
+
+3. أضف قسم "مواقعنا" في الفوتر بروابط المدن الأربع — إضافة للفوتر الحالي بدون إزالة أي عنصر موجود فيه.
+
+4. تحقق وأرفق: dist/locations/ يحتوي 4 صفحات، كلها في sitemap، عدد صفحات dist/ زاد بـ 4 بالضبط ولم ينقص شيء آخر.
 ```
 
 ---
 
-## Prompt 6.2 — Final Visual QA & Acceptance
+## المرحلة 4 — المحتوى والمدونة (35% → 85%)
 
-```text
-ROLE: Senior QA Designer.
-CONSTRAINTS: [القيود الصارمة]
+### Prompt 7: بنية المدونة بـ Content Collections (ترحيل بدون فقد)
 
-TASK:
+```plaintext
+في مشروع Astro (BrightAI)، طبّق القواعد الثابتة. ابنِ المدونة بـ Content Collections مع ترحيل كامل بلا فقد:
 
-1. **Visual regression testing:**
-   - قارن screenshots قبل/بعد لكل صفحة
-   - استخدم qa-visual-diff.mjs (موجود في الـ scripts)
-   - حدّد أي unintended changes
+1. أنشئ src/content.config.ts مع collection اسمها blog وschema (zod): title، description، pubDate، updatedDate اختياري، author (افتراضي "فريق BrightAI")، category (enum: ذكاء-اصطناعي، رؤية-2030، تحول-رقمي، دراسات-حالة، أمن-البيانات)، tags، image اختياري، draft (افتراضي false).
 
-2. **Content verification:**
-   - run qa-text-snapshot.mjs قبل/بعد
-   - تأكد زيرو تغيير في النصوص
-   - تأكد كل الـ headings والـ CTAs زي ما كانوا
+2. أنشئ:
+   - src/pages/blog/index.astro: قائمة المقالات مع pagination (9 لكل صفحة)، فلترة بالتصنيف، بطاقات RTL متسقة مع هوية الموقع.
+   - src/pages/blog/[slug].astro: BaseLayout + schema BlogPosting كامل + breadcrumbs (مرئية + BreadcrumbList) + "مقالات ذات صلة" (3 من نفس التصنيف) + روابط داخلية للخدمات.
+   - src/pages/blog/category/[category].astro.
 
-3. **Link checking:**
-   - كل internal links تشتغل
-   - كل external links فيها rel="noopener noreferrer"
-   - كل CTAs تذهب للـ targets الصحيحة
+3. الترحيل من القسمين الموروثين (blog و blogger) — بروتوكول عدم الفقد الإلزامي:
+   أ. اجرد أولاً كل المقالات/الصفحات في القسمين القديمين واكتب قائمة كاملة (العنوان + المسار القديم) في تقريرك.
+   ب. رحّل كل عنصر من القائمة إلى الـ collection بمحتواه النصي الكامل — ممنوع إسقاط أي مقال أو اختصار محتواه. إن وجدت مقالاً مكرراً حرفياً بين القسمين، رحّل نسخة واحدة ووجّه المسارين القديمين إليها.
+   ج. أضف redirect 301 في astro.config (redirects: {}) أو vercel.json من كل مسار قديم من القائمة إلى مساره الجديد — تغطية 100% من القائمة.
+   د. لا تحذف الملفات القديمة في هذه المهمة — فقط تأكد أن الـ redirects تعمل. الحذف يُقرر لاحقاً في مهمة الحوكمة بعد التحقق.
 
-4. **SEO verification:**
-   - sitemap.xml ما تغيّر
-   - canonical URLs ما تغيّروا
-   - hreflang محفوظة
-   - JSON-LD ما تغيّر (use schema validator)
-   - meta titles/descriptions ما تغيّروا
+4. ثبّت @astrojs/rss وأنشئ src/pages/rss.xml.ts.
 
-5. **Browser testing:**
-   - Chrome (latest)
-   - Safari (latest)
-   - Firefox (latest)
-   - Edge (latest)
-   - iOS Safari (14+)
-   - Android Chrome
+5. تحقق وأرفق: جدول الترحيل (مسار قديم ← مسار جديد ← redirect يعمل) لكل عنصر، npm run build ينجح، صفحات المدونة والتصنيفات وRSS في dist/ وكلها في sitemap.
+```
 
-6. **Final acceptance checklist:**
-   ```
-   ☐ كل الـ 36 صفحة معروضة بنفس المحتوى
-   ☐ زيرو نص تغيّر
-   ☐ زيرو section حُذف أو أُضيف
-   ☐ كل forms تشتغل
-   ☐ كل CTAs تذهب للـ targets الصحيحة
-   ☐ Lighthouse scores ≥ thresholds
-   ☐ RTL layout صحيح
-   ☐ Mobile responsive
-   ☐ A11y AA
-   ☐ Build ينجح
-   ☐ Sitemap.xml ما تغيّر
-   ☐ JSON-LD ما تغيّر
-   ```
+### Prompt 8: كتابة 20 مقالاً سعودياً (إضافة صرفة)
 
-OUTPUT:
-- تقرير نهائي `reports/21-final-qa.md`
-- Acceptance sign-off
-- مجلد `reports/screenshots/before/` و `reports/screenshots/after/`
-- Side-by-side comparison HTML
+```plaintext
+في مشروع Astro (BrightAI)، طبّق القواعد الثابتة. مهمة إضافة محتوى صرفة — لا تمس أي ملف موجود عدا إضافة المقالات.
 
-ACCEPTANCE CRITERIA:
-✅ كل checklist items محققة
-✅ Stakeholder review approved
-✅ Ready to merge
+اكتب 20 مقالاً عربياً أصلياً في src/content/blog/ (ملفات .md بـ frontmatter مطابق للـ schema). كل مقال 1200+ كلمة، عربية فصحى احترافية بسياق سعودي، بنية h2/h3 واضحة، فقرة تمهيدية تجيب على نية البحث مباشرة، خاتمة مع CTA لخدمات BrightAI، و3+ روابط داخلية (خدمات + مقالات أخرى + صفحات المدن).
+
+العناوين المستهدفة:
+1. أفضل شركات الذكاء الاصطناعي في السعودية 2026: دليل شامل
+2. كيف يدعم الذكاء الاصطناعي رؤية السعودية 2030
+3. نظام حماية البيانات الشخصية PDPL: دليل الامتثال للشركات
+4. الذكاء الاصطناعي في القطاع الصحي السعودي: تطبيقات وفرص
+5. شات بوت عربي لخدمة العملاء: دليل الشركات السعودية
+6. التحول الرقمي للشركات الصغيرة والمتوسطة في السعودية
+7. الذكاء الاصطناعي في القطاع المصرفي السعودي
+8. متطلبات الهيئة الوطنية للأمن السيبراني NCA: دليل عملي
+9. تحليل البيانات الضخمة للشركات السعودية: من أين تبدأ
+10. الذكاء الاصطناعي التوليدي في التعليم السعودي
+11. أتمتة العمليات RPA: كيف توفر الشركات السعودية ملايين الريالات
+12. الذكاء الاصطناعي في نيوم: مستقبل المدن الذكية
+13. حوكمة البيانات وفق NDMO: دليل الشركات
+14. الذكاء الاصطناعي في التجارة الإلكترونية السعودية
+15. رؤية حاسوبية للمصانع السعودية: تطبيقات عملية
+16. الذكاء الاصطناعي في الموارد البشرية: التوظيف الذكي بالسعودية
+17. تكلفة تطبيق الذكاء الاصطناعي للشركات السعودية: دليل الأسعار
+18. الفرق بين الذكاء الاصطناعي والتعلم الآلي: شرح مبسط
+19. الذكاء الاصطناعي في القطاع العقاري السعودي
+20. كيف تختار شركة ذكاء اصطناعي في الرياض: 10 معايير
+
+قواعد: pubDate متدرجة على آخر 4 أشهر، description فريد (120–158 حرفاً)، لا حشو ولا قوالب مكررة، أرقام وإحصاءات منسوبة لمصادر عامة (رؤية 2030، سدايا، الهيئات) بدون اختلاق. نفّذ على دفعات 5 مقالات مع build بعد كل دفعة. تحقق نهائياً: 20 مقالاً جديداً في sitemap، وعدد صفحات dist/ زاد ولم ينقص.
 ```
 
 ---
 
-# 🎯 ملخص الاستخدام
+## المرحلة 5 — UI/UX والحوكمة (65%/50% → 92%)
 
-## كيف تستخدم البرومبتات:
+### Prompt 9: توحيد الهوية البصرية (تحسين بدون تغيير محتوى)
 
-1. **ابدأ بالـ Prompt 0.1** — لا تخطّ المرحلة 0، هي أساس باقي الشغل.
-2. **اشتغل بالترتيب** — كل مرحلة تبني على السابقة.
-3. **انشئ branch لكل برومبت** — `redesign/prompt-X.Y-description`.
-4. **اعمل PR لكل برومبت** — مع التقرير المطلوب.
-5. **لا تجمع برومبتات** — كل واحد مهمة مستقلة.
+```plaintext
+في مشروع Astro (BrightAI)، طبّق القواعد الثابتة. وحّد الهوية البصرية — هذه مهمة تنسيق وتوحيد، ممنوع فيها حذف أي قسم أو عنصر أو نص من أي صفحة:
 
-## أدوات QA المتوفرة في المشروع:
+1. في src/styles/global.css عرّف design tokens بـ CSS custom properties: 3–5 ألوان (مشتقة من الهوية الحالية للموقع — لا تخترع لوحة جديدة) وخطان كحد أقصى (خط عناوين + خط نص عربي كـ IBM Plex Sans Arabic أو Tajawal — أو الخط الحالي إن كان مناسباً). استبدل الألوان الـ hardcoded في المكونات بالـ tokens تدريجياً مع الحفاظ على نفس المظهر.
 
-```bash
-npm run build              # build كامل
-npm run seo:gate           # SEO checks
-node qa-screenshots.mjs    # screenshots
-node qa-visual-diff.mjs    # visual diff
-node qa-text-snapshot.mjs  # content snapshot
-node qa-lighthouse.mjs     # lighthouse
+2. مكونات موحدة في src/components/ui/: Button.astro (primary/secondary/ghost)، Card.astro، SectionHeading.astro — واستبدل التكرارات في الصفحات بها، مع الحفاظ على نفس النصوص والروابط والوظائف حرفياً.
+
+3. تجربة الجوال (70% من الزيارات): افحص كل الصفحات الرئيسية على 375px — القائمة تعمل، الأزرار بمساحة لمس 44px+، الجداول قابلة للتمرير أفقياً (وليس حذف أعمدتها)، لا overflow أفقي، تباين AA. أي إصلاح يكون بالـ CSS وليس بإزالة عناصر.
+
+4. إمكانية الوصول: skip-link، focus states مرئية، aria-labels للأيقونات، alt عربي وصفي لكل الصور (أضف alt للناقص — لا تحذف صوراً).
+
+5. تحقق وأرفق: معاينة 3 صفحات (رئيسية، خدمة، مقال) على 375px و1440px مع لقطات، مقارنة innerText قبل/بعد لكل صفحة عدّلتها = متطابق، وعدد صفحات dist/ لم ينقص.
 ```
 
-## القاعدة الذهبية في كل برومبت:
+### Prompt 10: الحوكمة والفحص النهائي (حذف آمن مشروط بالإثبات)
 
-> **التصميم يتطوّر — المحتوى ثابت.**
-> أي تغيير في نص واحد = فشل الـ acceptance.
-> أي قسم يُحذف أو يُضاف = فشل الـ acceptance.
-> أي رابط أو schema يتغيّر = فشل الـ acceptance.
+```plaintext
+في مشروع Astro (BrightAI)، طبّق القواعد الثابتة. التنظيف النهائي — بروتوكول الحذف الآمن الإلزامي:
+
+1. المرشحون الوحيدون للحذف: (أ) ملفات بنمط "* 2.*" أو "* 3.*" (نسخ Finder مكررة)، (ب) new_index_part.html وأمثاله من مسودات الجذر، (ج) JS/CSS في public/ لا تشير إليه أي صفحة.
+   شرط الحذف لكل ملف على حدة: أثبت بـ grep على كامل src/ و public/ و dist/ أن صفر مراجع إليه، وأثبت أن له نسخة أصلية حية (للمكررات) أو مقابلاً في src/pages (للمسودات). أرفق دليل كل حذف في جدول: الملف / سبب الحذف / ناتج grep. أي ملف عليه شك = لا يُحذف ويُذكر في التقرير.
+   ممنوع قطعياً: حذف أي صفحة HTML لها رابط داخلي أو موجودة في sitemap القديم — هذه تُرحّل أو يوجَّه لها redirect، لا تُحذف.
+
+2. المسارات القديمة (مثل /frontend/pages/...): redirect 301 في astro.config أو vercel.json لكل صفحة كانت مفهرسة (راجع sitemap القديم بالكامل) إلى مقابلها الجديد — تغطية 100%، وأرفق جدول المسارات.
+
+3. أضف سكربتات فحص في package.json:
+   - "check:secrets": grep للأنماط gsk_|AIza على src/ و public/ (يفشل عند أي تطابق)
+   - "check:links": فحص روابط dist/ بعد البناء (npx linkinator dist/ --recurse أو ما يعادله)
+   - "check:pages": سكربت يقارن عدد صفحات dist/ بعدد روابط sitemap ويفشل عند أي صفحة مبنية غير مدرجة
+   - "check:all": build + الثلاثة أعلاه
+
+4. شغّل npm run check:all وأصلح كل فشل حتى النجاح الكامل.
+
+5. تقرير ختامي: جدول قبل/بعد (أمان، أحجام dist، عدد صفحات sitemap، عدد المقالات، الروابط المكسورة)، جدول المحذوفات بأدلتها، جدول الـ redirects، وقائمة البنود التي تحتاج قراراً بشرياً (الرمز البريدي، Google Business Profile، إبطال المفاتيح من لوحات المزودين، Search Console).
+```
 
 ---
 
-**جاهز للنسخ والاستخدام مع أي وكيل ذكي (Claude Code / Cline / Cursor / Aider).**
+## Prompt 11 — التدقيق الشامل النهائي (بعد تنفيذ 1→10)
+
+```plaintext
+أنت مدقق جودة رئيسي (Lead QA Auditor) لمشروع BrightAI بـ Astro، الدومين https://www.brightaii.com، الاستهداف: السوق السعودي. نُفذت 10 مراحل إصلاح. مهمتك: تدقيق مستقل بالأدلة — لا تعتمد على أي ادعاء سابق، شغّل الفحوصات بنفسك وأرفق النواتج. قاعدة صارمة: قراءة وفحص فقط، ممنوع تعديل أي ملف — وثّق الأعطال ولا تصلحها.
+
+═══ 0. سلامة المحتوى والنشر الشامل (الأهم — يُفحص أولاً) ═══
+- عدد صفحات HTML في dist/ بعد build جديد: find dist -name "*.html" | wc -l — قارنه بعدد الصفحات قبل بدء المراحل العشر (من git log أو التقارير السابقة). أي نقص غير مبرر بجدول redirects موثق = فشل حرج.
+- grep -ri "noindex" dist/ = يجب صفر تطابق.
+- افحص robots.txt: لا يحجب شيئاً غير /api/، لا يحتوي Disallow: /*?*.
+- قارن عدد صفحات dist/ بعدد روابط sitemap — كل صفحة مبنية يجب أن تكون في sitemap. أرفق قائمة أي صفحة ناقصة.
+- تحقق من جدول الترحيل: كل مسار قديم من المدونتين الموروثتين (blog وblogger) وكل صفحة من sitemap القديم لها إما صفحة حية أو redirect 301 يعمل. اختبر عينة 10 مسارات قديمة.
+- تحقق أن أقسام الصفحة الرئيسية كاملة: قارن قائمة الأقسام الموثقة في عقد Prompt 3 بالصفحة الحالية.
+
+═══ 1. الأمان (فشل هنا يوقف التقرير) ═══
+- grep -rE "gsk_[A-Za-z0-9]{20,}|AIza[A-Za-z0-9_-]{30,}|sk-[A-Za-z0-9]{30,}" على src/ و public/ و dist/ = صفر.
+- git ls-files | grep -E "^\.env$" = فارغ، و.env.example موجود بدون قيم.
+- src/pages/api/ai/chat.ts: مفاتيح من import.meta.env بدون PUBLIC_، rate limiting، validation، prerender = false.
+- Headers: CORS ليس * على /api/، HSTS، X-Content-Type-Options، Referrer-Policy، Permissions-Policy، X-Frame-Options، CSP بدون unsafe-inline في script-src.
+- شغّل npm run check:secrets.
+
+═══ 2. البناء والأداء ═══
+- npm run build ينجح بدون أخطاء. أرفق الناتج.
+- جدول: dist/index.html (< 80KB)، إجمالي JS أول عرض (< 60KB)، أكبر CSS (< 30KB).
+- grep -r "client:load" src/ — برّر كل نتيجة.
+- preload للخط العربي + font-display: swap + ≤ خطين بوزنين.
+- chat widget والتحليلات كسولة التحميل — وتعمل فعلياً (اختبرها).
+
+═══ 3. SEO التقني السعودي ═══
+اكتب سكربت يمر على كل صفحات dist/ ويفحص، وأرفق ملخصاً + قائمة الفاشل:
+- lang="ar" dir="rtl"، title فريد < 60 حرفاً (اكشف المكرر)، description فريد 120–158 حرفاً (اكشف المكرر)، canonical صحيح، hreflang ar-SA + x-default، h1 واحد، OG + Twitter Cards.
+- Parse كل JSON-LD وتحقق من صحته: Organization/WebSite/LocalBusiness في الرئيسية، BlogPosting في المقالات، Service+areaServed في المدن، FAQPage وBreadcrumbList حيث يلزم. postalCode ليس 12345.
+
+═══ 4. المحتوى والمدونة ═══
+- عدد src/content/blog/*.md ≥ 20 + كل المقالات المرحّلة من القسمين القديمين (قارن بجدول الترحيل).
+- جدول لكل مقال: الملف / عدد الكلمات (≥ 1200 للجديدة) / التصنيف / التاريخ / عدد الروابط الداخلية (≥ 3).
+- اكشف التشابه القالبي المفرط بين المقالات.
+- /blog مع pagination، /blog/category/*، /rss.xml، "مقالات ذات صلة" تعمل.
+- dist/locations/: 4 مدن، كل واحدة 600+ كلمة فريدة، روابط المدن في الفوتر.
+
+═══ 5. الربط الداخلي ═══
+- npx linkinator dist/ --recurse (أو ما يعادله): إجمالي الروابط، المكسور (الهدف صفر)، قائمة المكسور.
+- كل مقال يرتبط بخدمة، كل صفحة مدينة بـ 3+ خدمات، قائمة الصفحات اليتيمة (لا يشير إليها رابط داخلي) — بما فيها الصفحات الموروثة، فاليتيمة تحتاج روابط وليس حذفاً.
+- breadcrumbs مرئية + schema في الصفحات الداخلية.
+
+═══ 6. UI/UX ═══
+- tokens موحدة (3–5 ألوان، خطان)، grep للألوان hardcoded في src/components وsrc/pages وأرفق العدد.
+- مكونات ui/ موجودة ومستخدمة.
+- img بدون alt = صفر (grep)، skip-link، aria-labels.
+- معاينة 3 صفحات على 375px و1440px: لا overflow، القائمة تعمل.
+
+═══ 7. الحوكمة ═══
+- find . -name "* 2.*" -o -name "* 3.*" (عدا node_modules) = صفر.
+- جدول المحذوفات من Prompt 10 موجود بأدلته — تحقق من عينة أن المحذوف لم يكن مرجعاً لأي صفحة.
+- npm run check:all ينجح كاملاً (بما فيه check:pages).
+- بقايا console.log تصحيحية / TODO / كود معطل.
+
+═══ التقرير النهائي ═══
+Markdown يتضمن:
+1. جدول النتيجة: سلامة المحتوى والنشر (إجباري 100% وإلا فشل حرج) + المجالات السبعة بنسب مئوية + الإجمالي الموزون (أمان 20%، أداء 20%، SEO 20%، محتوى 15%، روابط 10%، UI/UX 10%، حوكمة 5%).
+2. مقارنة بخط الأساس: أمان 30%، أداء 55%، SEO 82%، محتوى 35%، روابط 88%، UI/UX 65%، حوكمة 50%.
+3. قائمة "فشل حرج" قبل النشر — وعلى رأسها أي محتوى مفقود أو صفحة غير منشورة.
+4. "تحسينات متبقية" مرتبة بالأثر.
+5. "بنود تحتاج قراراً بشرياً" (Google Business Profile، إبطال المفاتيح من لوحات المزودين، الرمز البريدي، Search Console).
+6. كل نسبة مدعومة بدليل فحص مرفق — أي بند لم تفحصه اذكره "غير محقق" ولا تفترض نجاحه.
+```
+
+---
+
+الفرق الجوهري في هذه النسخة: كل برومبت أصبح يحمل **عقد حماية محتوى** (جرد قبل التعديل + مقارنة innerText/عدد الصفحات بعده)، و**بروتوكول حذف آمن** مشروطاً بإثبات صفر مراجع، وبند **النشر الشامل** (كل صفحة في dist تدخل sitemap، صفر noindex، robots يحجب /api فقط). والتدقيق النهائي (Prompt 11) يبدأ بقسم "سلامة المحتوى والنشر" كفحص إجباري يُفشل التقرير كاملاً إن نقصت صفحة واحدة.

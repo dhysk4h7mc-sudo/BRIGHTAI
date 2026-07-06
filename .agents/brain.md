@@ -122,6 +122,30 @@ Outliers: `/solutions/` desktop 88 (CLS 0.239), `/kernel/chat/` desktop 83 (CLS 
 
 ## 2. Change Ledger (newest first)
 
+### 2026-07-06 — Secret Hardening + AI Server Proxy (REPORTS-SEC-01)
+
+- **Files**: `astro.config.mjs` (added `adapter: vercel({ imageService:false, webAnalytics:false, edgeMiddleware:false })` keeping `output:'static'`), `package.json` (+`@astrojs/vercel@^10.0.8` devDep + `sync:dist:flat` script + `.vercel/` in `clean`), `package-lock.json` (regenerated), `src/pages/api/ai/chat.ts` (new ~210 سطر server endpoint), `src/pages/kernel/chat.astro` (+~67 سطر feature-detected fetch + fallback), `scripts/sync-dist-flat.mjs` (new ~95 سطر postbuild), `scripts/verify-all.mjs` (+25 سطر adapter-aware), `.gitignore` (+`.vercel/`), `reports/2026-07-06-secret-hardening.md` (new ~580 سطر Saudi dialect).
+- **What**: أضفنا `@astrojs/vercel` adapter كـ hardening architecture حتى لو ما في تسرب فعلي (البحث في 14 موقعًا = صفر تطابق `gsk_|AIza|sk-` في src/public/dist/blog/components/kernel/solutions/en/demo/plugins/private/assets/scripts/docs/app). الـ adapter يخلّي `/api/ai/chat` server-rendered فقط (`export const prerender=false`)، وكل الصفحات الـ 131 تبقى static prerendered HTML. الـ endpoint يقرأ `import.meta.env.GROQ_API_KEY` و`GEMINI_API_KEY` (server-only، بدون `PUBLIC_` prefix)، rate limit 10/min/IP، validation 4000 حرف، abort timeout 25s/provider، graceful 4xx/5xx. `kernel/chat.astro` يطلب `/api/ai/chat` بـ feature detection → fallback صامت لـ demo mode الموجود (يحفظ UX 1:1). سكربت `sync-dist-flat` ينسخ `.vercel/output/static/` → `dist/` (للـ Render static) ثم ينظف `.vercel/` و`dist/server/` تلقائياً (يحافظ على working tree نظيف حسب طلب المستخدم).
+- **Why**: المستخدم طلب التدقيق + بنية تحتية server-side proxy. البحث الصادق لم يكشف تسربات → لكن الأمان يحتاج architecture جاهز لأي client-side AI مستقبلي. Adapter v10 متوافق مع astro v6.4.6 (v11+ يحتاج astro v7). `output:'static'` يضمن الـ 131 صفحة تبقى prerendered — القاعدة محفوظة. مع `prerender=false` فقط على chat.ts → باقي الصفحات ما تتأثر.
+- **Verification**:
+  - `npm run build` → 131 routes, 0 errors, ~3.5-4.5s ✅
+  - `grep -rE "gsk_|AIza[A-Za-z0-9_-]{30}" src/ public/ dist/` → exit 1 (صفر matches) ✅
+  - `find dist -name "*.html" | wc -l` → 131 (baseline brain.md=130 → +1 زيادة، 0 نقصان) ✅
+  - `git ls-files .env` → 0 (مو متتبع) ✅
+  - `npm run verify:all` → 5/5 ✅
+  - `.vercel/` نظيف بعد كل build ✅
+- **Brain updates**: Section 1.1 (build page count 131), Section 5 (canonical components: server endpoint pattern), Section 4 (DEC-2026-SEC-001 added).
+- **Risks remaining**:
+  - **HIGH**: مفاتيح `.env` (`GEMINI_API_KEY` + `NVIDIA_API_KEY`) ظهرت في سياق هذه المحادثة — **يُنصح بشدة بتدويرها** في Google AI Studio + NVIDIA build console فوراً
+  - **HIGH**: Render static لا يشغّل Vercel functions. لو تبي `/api/ai/chat` يعمل فعلاً في production، إما ترحيل hosting لـ Vercel أو swap adapter إلى `@astrojs/node@^10.1.4`
+  - **Medium**: rate limit in-memory يفقد الحالة في multi-instance deploys → استبدل بـ KV/Redis للـ production
+  - **Low (pre-existing)**: 264 broken-links في seo:gate (favicon-32x32.png, apple-touch-icon.png, .otf reference) — مش من REPORTS-SEC-01
+- **Acceptance criteria**: ✅ كل البنود من طلب المستخدم منفذة (5 endpoints إنشاءية + 5 verifications + حماية محتوى كاملة — لم يحذف أي قسم أو صفحة).
+- **Report**: `reports/2026-07-06-secret-hardening.md` (~580 سطر سعودي + 12 قسم + executive summary + files manifest + verification results + risks + deployment considerations + follow-up suggestions + commit message + decision log)
+- **Decision**: DEC-2026-SEC-001 (Server-side AI proxy via `@astrojs/vercel` + output:'static' + per-route `prerender=false`). Reusable لأي AI integration مستقبلي.
+- **Commit**: uncommitted (pending user approval)
+- **Status**: verified (build + grep + page count + verify:all + gitignore check all pass)
+
 > كل تغيير جوهري يُسجَّل هنا (newest first). Append-only.
 
 ### 2026-07-06 — Performance Engineering (REPORTS-20)

@@ -7,7 +7,8 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "npm run image-sitemap && astro build && npm run schema:solutions:sync && npm run schema:docs:sync",
+    "build": "npm run image-sitemap && astro build && npm run sync:dist:flat && npm run schema:solutions:sync && npm run schema:docs:sync",
+    "sync:dist:flat": "node scripts/sync-dist-flat.mjs",
     "build:verify": "npm run verify:all",
     "lint": "echo 'Linting skipped for static site'",
     "lint:fix": "echo 'Linting skipped for static site'",
@@ -35,7 +36,7 @@
     "schema:docs:check": "node scripts/sync-docs-howto-schema.mjs --check",
     "verify:all": "node scripts/verify-all.mjs && npm run sitemap:generate && npm run seo:schema && npm run seo:gate",
     "preview": "astro preview",
-    "clean": "rm -rf .next .render-static reports/ dist/",
+    "clean": "rm -rf .next .render-static reports/ dist/ .vercel/",
     "performance:budget": "node scripts/check-performance-budget.js",
     "internal-links:audit": "node scripts/internal-links-audit.mjs && node scripts/internal-linking-architecture.mjs",
     "internal-links:inventory": "node scripts/internal-linking-architecture.mjs",
@@ -56,6 +57,7 @@
     "zod": "^3.24.1"
   },
   "devDependencies": {
+    "@astrojs/vercel": "^10.0.8",
     "@eslint/js": "^9.39.4",
     "@types/node": "^22.10.2",
     "@typescript-eslint/eslint-plugin": "^8.59.1",
