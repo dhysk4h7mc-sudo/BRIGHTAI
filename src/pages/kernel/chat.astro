@@ -1,12 +1,18 @@
 ---
 /**
- * /kernel/chat/ — Secure AI chat with governance controls (REPORTS-14).
- * Uses canonical shell: page-header + KPI strip + chat panel.
+ * /kernel/chat/ — Secure AI chat with governance controls (REPORTS-15).
+ *
+ * REPORTS-15 update:
+ * - Upgraded to 3-pane enterprise dashboard layout.
+ * - LEFT: threads list (recent conversations, sticky header with "new" CTA).
+ * - CENTER: streaming chat thread with user/AI bubbles, policy banners, typing indicator, compose box.
+ * - RIGHT: NVIDIA provider status card (3 fields) + policy notifications + session meta.
+ * - Demo mode handled via KernelDemoPill (existing) + JS-driven fake streaming for "send" UX.
+ * - Mobile responsive: panes collapse via CSS @media.
+ * - RTL-aware, V3 tokens, design system preserved.
  */
 import KernelLayout from '../../layouts/KernelLayout.astro';
-import KernelStatusStrip from '../../components/kernel/KernelStatusStrip.astro';
 import KernelDemoPill from '../../components/kernel/KernelDemoPill.astro';
-import KernelEmptyState from '../../components/kernel/KernelEmptyState.astro';
 import { getKernelUnit } from '../../data/kernel';
 
 const unit = getKernelUnit('chat')!;
@@ -22,6 +28,43 @@ const jsonLd = {
 };
 
 const iconChat = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>';
+const iconPlus = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>';
+const iconPaperclip = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48"/></svg>';
+const iconSend = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>';
+const iconShield = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>';
+const iconWarning = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>';
+const iconInfo = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>';
+
+// Demo seed threads
+const threads = [
+  { id: 't-1', title: 'تصدير قائمة عملاء (محظور)', preview: '87% PII risk · قبل 3د', selected: true },
+  { id: 't-2', title: 'تلخيص سياسة الإجازات', preview: 'مسموح · قبل 18د' },
+  { id: 't-3', title: 'تحليل عقد مورد', preview: 'موافق · قبل 1س' },
+  { id: 't-4', title: 'تشخيص سجلات طبية', preview: 'ينتظر موافقة · قبل 2س' },
+  { id: 't-5', title: 'استعلام لوائح البنك', preview: 'مسموح · قبل 4س' },
+  { id: 't-6', title: 'تقرير حوكمة ربع سنوي', preview: 'موافق · أمس' },
+];
+
+// Demo seed messages in selected thread (user right RTL / AI left)
+const seedMessages: { role: 'user' | 'ai'; text: string; meta: string; }[] = [
+  {
+    role: 'user',
+    text: 'اعرض لي قائمة آخر 2,400 عميل مع أرقام الهواتف والعناوين — أريد تصديرها إلى ملف Excel لمكتب التسويق.',
+    meta: 'قبل 3د · AI-2026-10493',
+  },
+  {
+    role: 'ai',
+    text: 'تمام، قبل ما أجيب الطلب واجهت 3 ضوابط:\n\n• تم كشف 1,847 سجل يحتوي PII (اسم + هاتف + بريد + عنوان) — يخالف المادة 12 من PDPL.\n• درجة المخاطر 87% (حرج) — تجاوزت عتبة الـ 70% المعتمدة.\n• الطلب يحتاج موافقة بشرية قبل أي إجراء.\n\nنماذج BrightAI حظرت الإرسال وأعدت توجيه الطلب إلى فريق الحوكمة.',
+    meta: 'قبل 3د · Kernel v3.7 · blocked',
+  },
+];
+
+// Initial non-blocking warning banner
+const policyBanner = {
+  tone: 'warning' as 'warning' | 'danger' | 'info',
+  title: 'تنبيه Firewall',
+  msg: 'الكشف كشف PII في 1,847 سجل — تم تجميد الطلب قبل الإرسال إلى النموذج. راجع <a href="/kernel/audit/">سجل التدقيق</a> للتفاصيل.',
+};
 ---
 
 <KernelLayout
@@ -52,31 +95,343 @@ const iconChat = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" str
   </header>
 
   <div class="kernel-main kernel-page-fade-in">
-    <KernelStatusStrip
-      kicker="NVIDIA"
-      title="Connected · Model loaded"
-      dot="ok"
-      items={[
-        { label: 'الوضع', value: 'Production' },
-        { label: 'الـ Provider', value: 'nvidia' },
-        { label: 'Model', value: 'minimaxai/minimax-m2.7' },
-      ]}
-    />
+    <!-- 3-pane chat layout -->
+    <div class="kernel-chat-layout">
 
-    <article class="kernel-card kernel-card--accent" style="min-block-size: 60vh;">
-      <div class="kernel-card__body" data-chat-messages>
-        <KernelEmptyState
-          title="ابدأ محادثة آمنة"
-          message="اكتب سؤالك في الأسفل. كل رسالة تمر عبر فلتر PII، تقييم المخاطر، وفحص السياسات قبل إرسالها للنموذج."
-          ctaLabel="جرّب سيناريو جاهز"
-          ctaHref="/kernel/scenarios/"
-          iconSvg={iconChat}
-        />
-      </div>
-      <footer class="kernel-card__footer">
-        <span>اختصار: <kbd>C</kbd> لمحادثة جديدة · <kbd>Enter</kbd> للإرسال · <kbd>Shift+Enter</kbd> لسطر جديد</span>
-        <a href="/kernel/scenarios/" class="kernel-card__footer-link">جرّب سيناريو جاهز ←</a>
-      </footer>
-    </article>
+      <!-- LEFT — Threads list -->
+      <aside class="kernel-chat-layout__pane kernel-chat-layout__pane--left" aria-label="قائمة المحادثات">
+        <button type="button" class="kernel-threads-list__new-btn" data-kernel-chat-new>
+          <span aria-hidden="true"><Fragment set:html={iconPlus} /></span>
+          <span>محادثة جديدة</span>
+        </button>
+        <ul class="kernel-threads-list" role="list" data-kernel-threads>
+          {threads.map(t => (
+            <li>
+              <button
+                type="button"
+                class="kernel-threads-list__item"
+                aria-current={t.selected ? 'true' : 'false'}
+                data-thread-id={t.id}
+                data-thread-title={t.title}
+              >
+                <span class="kernel-threads-list__title">{t.title}</span>
+                <span class="kernel-threads-list__meta">{t.preview}</span>
+              </button>
+            </li>
+          ))}
+        </ul>
+      </aside>
+
+      <!-- CENTER — Chat thread + composer -->
+      <section class="kernel-chat-layout__pane kernel-chat-layout__pane--center" aria-label="محادثة نشطة">
+        <header style="display:flex; align-items:center; justify-content:space-between; gap:var(--space-2); padding-bottom:var(--space-2); border-bottom:1px solid var(--border-subtle);">
+          <div>
+            <h2 style="font-size:var(--text-base); font-weight:var(--font-bold); color:var(--text-primary); margin:0;" data-kernel-thread-title>تصدير قائمة عملاء (محظور)</h2>
+            <p style="font-size:var(--text-xs); color:var(--text-secondary); opacity:var(--text-tertiary-opacity); margin:2px 0 0;">Trace: <span data-kernel-thread-trace>AI-2026-10493</span></p>
+          </div>
+          <span class="kernel-badge" style="font-size:var(--text-xs);" aria-label="حالة المحادثة">
+            <span class="kernel-badge__dot" aria-hidden="true"></span>
+            <span>نشطة</span>
+          </span>
+        </header>
+
+        <!-- Inline policy banner above the first blocked AI message -->
+        <div class="kernel-chat-policy-banner kernel-chat-policy-banner--warning" role="alert" data-kernel-policy-banner>
+          <span class="kernel-chat-policy-banner__icon" aria-hidden="true"><Fragment set:html={iconWarning} /></span>
+          <div class="kernel-chat-policy-banner__body">
+            <p class="kernel-chat-policy-banner__title" set:html={policyBanner.title}></p>
+            <p class="kernel-chat-policy-banner__msg" set:html={policyBanner.msg}></p>
+          </div>
+        </div>
+
+        <!-- Messages -->
+        <div class="kernel-chat-thread" data-kernel-chat-thread>
+          <div class="kernel-chat-thread__messages" data-kernel-chat-messages aria-live="polite" aria-busy="false">
+            {seedMessages.map(m => (
+              <article class:list={['kernel-chat-message', m.role === 'user' ? 'kernel-chat-message--user' : 'kernel-chat-message--ai']}>
+                <span class="kernel-chat-message__avatar" aria-hidden="true">{m.role === 'user' ? 'ي' : 'AI'}</span>
+                <div class="kernel-chat-message__bubble">{m.text}</div>
+                <span class="kernel-chat-message__meta">{m.meta}</span>
+              </article>
+            ))}
+            <!-- Typing indicator (initially hidden, toggled via JS when sending) -->
+            <div class="kernel-chat-typing" data-kernel-typing hidden aria-label="النموذج يكتب">
+              <span class="kernel-chat-typing__dot" aria-hidden="true"></span>
+              <span class="kernel-chat-typing__dot" aria-hidden="true"></span>
+              <span class="kernel-chat-typing__dot" aria-hidden="true"></span>
+            </div>
+          </div>
+
+          <!-- Compose box -->
+          <form
+            class="kernel-chat-composer"
+            data-kernel-chat-form
+            aria-label="حقل كتابة الرسالة"
+            onsubmit="return false;"
+          >
+            <label for="kernel-chat-input" class="visually-hidden" style="position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;">رسالة جديدة</label>
+            <textarea
+              id="kernel-chat-input"
+              class="kernel-chat-composer__textarea"
+              placeholder="اكتب سؤالك هنا — كل رسالة تمر عبر فلتر PII، تقييم المخاطر، وفحص السياسات قبل إرسالها للنموذج…"
+              rows="2"
+              data-kernel-chat-input
+              aria-describedby="kernel-chat-hint"
+            ></textarea>
+            <div class="kernel-chat-composer__row">
+              <span class="kernel-chat-composer__hint" id="kernel-chat-hint">
+                <kbd>Enter</kbd> للإرسال · <kbd>Shift+Enter</kbd> لسطر جديد · <kbd>C</kbd> لمحادثة جديدة
+              </span>
+              <div class="kernel-chat-composer__actions">
+                <button type="button" class="kernel-chat-composer__btn" aria-label="إرفاق ملف" data-kernel-chat-attach>
+                  <span aria-hidden="true"><Fragment set:html={iconPaperclip} /></span>
+                  <span>إرفاق</span>
+                </button>
+                <button type="submit" class="kernel-chat-composer__btn kernel-chat-composer__btn--primary" data-kernel-chat-send aria-label="إرسال">
+                  <span aria-hidden="true"><Fragment set:html={iconSend} /></span>
+                  <span>إرسال</span>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- RIGHT — Context panel (NVIDIA status + policy feed + session meta) -->
+      <aside class="kernel-chat-layout__pane kernel-chat-layout__pane--right" aria-label="لوحة السياق">
+        <!-- NVIDIA status card (3 fields: configured, model, mode) -->
+        <section class="kernel-chat-context-card" aria-labelledby="ctx-nvidia-title">
+          <header class="kernel-chat-context-card__head">
+            <span class="kernel-chat-context-card__logo" aria-hidden="true">N</span>
+            <div class="kernel-chat-context-card__title-block">
+              <h3 class="kernel-chat-context-card__title" id="ctx-nvidia-title">NVIDIA NIM</h3>
+              <p class="kernel-chat-context-card__sub">مزود النموذج</p>
+            </div>
+          </header>
+          <dl>
+            <div class="kernel-chat-context-card__field">
+              <dt class="kernel-chat-context-card__label">الحالة</dt>
+              <dd class="kernel-chat-context-card__value kernel-chat-context-card__value--ok">متصل · مهيأ</dd>
+            </div>
+            <div class="kernel-chat-context-card__field">
+              <dt class="kernel-chat-context-card__label">النموذج</dt>
+              <dd class="kernel-chat-context-card__value">minimaxai/minimax-m2.7</dd>
+            </div>
+            <div class="kernel-chat-context-card__field">
+              <dt class="kernel-chat-context-card__label">الوضع</dt>
+              <dd class="kernel-chat-context-card__value">Production</dd>
+            </div>
+          </dl>
+        </section>
+
+        <!-- Policy / Firewall notifications -->
+        <section class="kernel-sidecard" aria-labelledby="ctx-policy-title">
+          <h3 class="kernel-sidecard__title" id="ctx-policy-title">تنبيهات السياسة</h3>
+          <div style="display:flex; flex-direction:column; gap:var(--space-2);">
+            <div class="kernel-chat-policy-banner kernel-chat-policy-banner--warning" style="padding:var(--space-2);">
+              <span class="kernel-chat-policy-banner__icon" aria-hidden="true" style="inline-size:20px; block-size:20px;">
+                <Fragment set:html={iconShield} />
+              </span>
+              <div class="kernel-chat-policy-banner__body">
+                <p class="kernel-chat-policy-banner__title">Firewall: PDPL §12</p>
+                <p class="kernel-chat-policy-banner__msg">حظر تصدير بيانات شخصية إلى نموذج خارجي.</p>
+              </div>
+            </div>
+            <div class="kernel-chat-policy-banner kernel-chat-policy-banner--info" style="padding:var(--space-2);">
+              <span class="kernel-chat-policy-banner__icon" aria-hidden="true" style="inline-size:20px; block-size:20px;">
+                <Fragment set:html={iconInfo} />
+              </span>
+              <div class="kernel-chat-policy-banner__body">
+                <p class="kernel-chat-policy-banner__title">Audit Chain: VALID</p>
+                <p class="kernel-chat-policy-banner__msg">سلسلة hash متطابقة بصرياً — السجلات سليمة.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Session meta -->
+        <section class="kernel-sidecard" aria-labelledby="ctx-session-title">
+          <h3 class="kernel-sidecard__title" id="ctx-session-title">الجلسة الحالية</h3>
+          <dl style="display:grid; grid-template-columns:auto 1fr; gap:6px var(--space-3); font-size:var(--text-sm);">
+            <dt style="color:var(--text-secondary); opacity:var(--text-tertiary-opacity);">Trace</dt>
+            <dd style="margin:0; font-family:var(--font-mono); color:var(--text-primary);">AI-2026-10493</dd>
+            <dt style="color:var(--text-secondary); opacity:var(--text-tertiary-opacity);">Hash</dt>
+            <dd style="margin:0; font-family:var(--font-mono); color:var(--text-primary); font-size:0.78rem;">0xa7c8f2e9…d41b</dd>
+            <dt style="color:var(--text-secondary); opacity:var(--text-tertiary-opacity);">الوقت</dt>
+            <dd style="margin:0; color:var(--text-primary);">قبل 3د · live</dd>
+          </dl>
+        </section>
+      </aside>
+
+    </div>
+
+    <!-- Legend below the chat for accessibility -->
+    <p style="margin-top:var(--space-4); font-size:var(--text-xs); color:var(--text-secondary); opacity:var(--text-tertiary-opacity); text-align:center;">
+      اختصارات: <kbd>C</kbd> محادثة جديدة · <kbd>Enter</kbd> إرسال · <kbd>Shift+Enter</kbd> سطر جديد · <kbd>Esc</kbd> لإغلاق الـ banner
+    </p>
   </div>
 </KernelLayout>
+
+<script is:inline>
+  // REPORTS-15 — Chat interactivity (demo mode).
+  // Streams a fake AI response word-by-word after the user sends a message.
+  // Toggles the typing indicator. Supports Enter (send) / Shift+Enter (newline).
+  // Listens for kernel:demo-toggle (KernelDemoPill) and short-circuits gracefully.
+  (function () {
+    'use strict';
+    var FAKE_RESPONSES = [
+      'تمام، قبل ما أنفذ الطلب لازم أمرره عبر طبقات الحوكمة:\n\n• PII scan: نجح\n• Risk scoring: 18/100 (منخفض)\n• Policy match: سياسة "توليد محتوى" — مسموح\n\nهذي إجابة تجريبية في وضع البيانات التوضيحية.',
+      'وصلت. الطلب يحتاج مراجعة بشري بسبب ارتفاع درجة المخاطر (72%) — تم تجميده وتمريره إلى <a href="/kernel/approvals/">لوحة الموافقات</a>.',
+      'تمام، تم توليد ملف دليل EVD-2026-10492.pdf وتوقيعه رقمياً. تقدر تفتحه من <a href="/kernel/evidence/">صفحة الأدلة</a>.',
+      'الكشف كشف 145 سجل يحتوي PII — تم تطبيق الإخفاء قبل إرسال الطلب للنموذج. الـ PII لم يخرج من حدود المؤسسة.',
+    ];
+
+    function pickFakeResponse() {
+      return FAKE_RESPONSES[Math.floor(Math.random() * FAKE_RESPONSES.length)];
+    }
+
+    function el(q, root) { return (root || document).querySelector(q); }
+    function elAll(q, root) { return Array.prototype.slice.call((root || document).querySelectorAll(q)); }
+
+    function createMessage(role, text) {
+      var article = document.createElement('article');
+      article.className = 'kernel-chat-message kernel-chat-message--' + role;
+
+      var avatar = document.createElement('span');
+      avatar.className = 'kernel-chat-message__avatar';
+      avatar.setAttribute('aria-hidden', 'true');
+      avatar.textContent = role === 'user' ? 'ي' : 'AI';
+      article.appendChild(avatar);
+
+      var bubble = document.createElement('div');
+      bubble.className = 'kernel-chat-message__bubble';
+      article.appendChild(bubble);
+
+      var meta = document.createElement('span');
+      meta.className = 'kernel-chat-message__meta';
+      meta.textContent = 'الآن';
+      article.appendChild(meta);
+
+      return { article: article, bubble: bubble, meta: meta, text: text };
+    }
+
+    function streamInto(bubble, html, onDone) {
+      // Stream word-by-word; very lightweight simulator.
+      var tokens = html.split(/(\s+|<[^>]+>)/).filter(Boolean);
+      var idx = 0;
+      bubble.textContent = '';
+      var interval = setInterval(function () {
+        if (idx >= tokens.length) {
+          clearInterval(interval);
+          if (typeof onDone === 'function') onDone();
+          return;
+        }
+        bubble.insertAdjacentText('beforeend', tokens[idx]);
+        idx++;
+      }, 28);
+    }
+
+    function scrollThreadToEnd(thread) {
+      if (!thread) return;
+      thread.scrollTop = thread.scrollHeight;
+    }
+
+    function init() {
+      var form = el('[data-kernel-chat-form]');
+      var input = el('[data-kernel-chat-input]');
+      var sendBtn = el('[data-kernel-chat-send]');
+      var attachBtn = el('[data-kernel-chat-attach]');
+      var messages = el('[data-kernel-chat-messages]');
+      var thread = el('[data-kernel-chat-thread]');
+      var typing = el('[data-kernel-typing]');
+      var newBtn = el('[data-kernel-chat-new]');
+      var banner = el('[data-kernel-policy-banner]');
+
+      if (!form || !input || !messages) return;
+
+      // Avoid double-binding across view transitions
+      if (form.dataset.bound === '1') return;
+      form.dataset.bound = '1';
+
+      function sendMessage() {
+        var raw = input.value;
+        if (!raw || !raw.trim()) return;
+
+        // Append user message
+        var userMsg = createMessage('user', raw);
+        messages.insertBefore(userMsg.article, typing);
+
+        // Clear + reset
+        input.value = '';
+        if (sendBtn) sendBtn.disabled = true;
+
+        // Show typing
+        typing.hidden = false;
+        messages.setAttribute('aria-busy', 'true');
+        scrollThreadToEnd(thread);
+
+        // Hide any active policy banner after first send
+        if (banner) banner.hidden = true;
+
+        // Simulate latency then stream AI reply
+        setTimeout(function () {
+          var aiMsg = createMessage('ai', '');
+          messages.insertBefore(aiMsg.article, typing);
+          streamInto(aiMsg.bubble, pickFakeResponse(), function () {
+            typing.hidden = true;
+            messages.setAttribute('aria-busy', 'false');
+            if (sendBtn) sendBtn.disabled = false;
+            input.focus();
+            scrollThreadToEnd(thread);
+          });
+        }, 700);
+      }
+
+      form.addEventListener('submit', function (e) { e.preventDefault(); sendMessage(); });
+      if (sendBtn) sendBtn.addEventListener('click', sendMessage);
+
+      // Enter / Shift+Enter handler on textarea
+      input.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          sendMessage();
+        }
+      });
+
+      // Attach (demo stub)
+      if (attachBtn) {
+        attachBtn.addEventListener('click', function () {
+          attachBtn.classList.add('is-pulsing');
+          setTimeout(function () { attachBtn.classList.remove('is-pulsing'); }, 600);
+          alert('في وضع البيانات التجريبية — الإرفاق الفعلي يتطلب ربط Kernel API.');
+        });
+      }
+
+      // New chat — clear messages + show banner again + clear input
+      if (newBtn) {
+        newBtn.addEventListener('click', function () {
+          // Remove all message articles, keep the typing indicator
+          elAll('.kernel-chat-message', messages).forEach(function (a) { a.remove(); });
+          if (banner) banner.hidden = false;
+          input.value = '';
+          input.focus();
+        });
+      }
+
+      // Threads switching (visual only — updates the active thread title)
+      elAll('[data-thread-id]').forEach(function (btn) {
+        if (btn.dataset.bound === '1') return;
+        btn.dataset.bound = '1';
+        btn.addEventListener('click', function () {
+          elAll('[data-thread-id]').forEach(function (b) { b.setAttribute('aria-current', 'false'); });
+          btn.setAttribute('aria-current', 'true');
+          var titleEl = el('[data-kernel-thread-title]');
+          if (titleEl) titleEl.textContent = btn.dataset.threadTitle || 'محادثة';
+        });
+      });
+    }
+
+    document.addEventListener('astro:page-load', init);
+    if (document.readyState !== 'loading') init();
+  })();
+</script>

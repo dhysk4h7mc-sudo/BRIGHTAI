@@ -1,14 +1,19 @@
 ---
 /**
- * /kernel/audit/ — Audit log + hash chain verification (REPORTS-14).
+ * /kernel/audit/ — Audit log + hash chain verification (REPORTS-15).
+ *
+ * REPORTS-15 update — Enterprise audit dashboard:
+ * 1. Filters bar: date range + risk level + status + user.
+ * 2. Toolbar: record count + export (CSV / JSON / PDF — stubbed in demo).
+ * 3. Sticky-header table: timestamp + user + action + risk + hash + view.
+ * 4. Risk score badges: green/amber/red color-coded.
+ * 5. Hash cell: monospace + truncate + copy button (writes hash to clipboard).
+ * 6. Detail drawer: slides from right (start) — full event context + trace JSON.
+ * 7. Pagination + export buttons (paginate client-side; export downloads CSV in demo).
+ * 8. RTL-aware, V3 tokens, mobile responsive (table → cards on <1024px).
  */
 import KernelLayout from '../../layouts/KernelLayout.astro';
-import KernelStatusStrip from '../../components/kernel/KernelStatusStrip.astro';
-import KernelCard from '../../components/kernel/KernelCard.astro';
-import KernelActivityList from '../../components/kernel/KernelActivityList.astro';
-import KernelActivityItem from '../../components/kernel/KernelActivityItem.astro';
 import KernelDemoPill from '../../components/kernel/KernelDemoPill.astro';
-import KernelSkeleton from '../../components/kernel/KernelSkeleton.astro';
 import { getKernelUnit } from '../../data/kernel';
 
 const unit = getKernelUnit('audit')!;
@@ -23,10 +28,81 @@ const jsonLd = {
 };
 
 const iconShield = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>';
-const iconWarning = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>';
-const iconClock = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>';
+const iconCopy = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>';
 const iconCheck = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
-const iconArrow = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
+const iconDownload = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>';
+const iconArrowLeft = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>';
+const iconArrowRight = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>';
+const iconClose = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+
+// Filters risk levels
+const RISK_LEVELS = [
+  { value: '', label: 'كل المستويات' },
+  { value: 'low', label: 'منخفض (≤30)' },
+  { value: 'medium', label: 'متوسط (31-60)' },
+  { value: 'high', label: 'مرتفع (61-85)' },
+  { value: 'critical', label: 'حرج (>85)' },
+];
+
+// Filters statuses
+const STATUSES = [
+  { value: '', label: 'كل الحالات' },
+  { value: 'allowed', label: 'مسموح' },
+  { value: 'blocked', label: 'محظور' },
+  { value: 'pending_approval', label: 'بانتظار الموافقة' },
+  { value: 'error', label: 'خطأ' },
+];
+
+// USERS (used for filter dropdown + rendered in rows)
+const USERS = [
+  { id: '', label: 'كل المستخدمين' },
+  { id: 'm.alharbi', label: 'محمد الحربي — التسويق' },
+  { id: 's.alfaisal', label: 'سارة الفيصل — المالية' },
+  { id: 'a.alqahtani', label: 'أحمد القحطاني — العمليات' },
+  { id: 'n.alshahrani', label: 'نورة الشهراني — القانونية' },
+  { id: 'k.alghamdi', label: 'خالد الغامدي — تقنية' },
+];
+
+// Audit rows (seeded)
+type AuditRow = {
+  ts: string;
+  user: string;
+  userRole: string;
+  action: string;
+  risk: number;
+  status: 'allowed' | 'blocked' | 'pending_approval' | 'error';
+  hash: string;
+  traceId: string;
+};
+
+const ROWS: AuditRow[] = [
+  { ts: '٢٠٢٦/٠٧/٠٦ ١٧:٤٢', user: 'م. الحربي', userRole: 'تسويق', action: 'طلب تصدير قائمة 2,400 عميل (PII)', risk: 87, status: 'blocked', hash: '0xa7c8f2e9d41b9c3a8e5f2c1b', traceId: 'AI-2026-10493' },
+  { ts: '٢٠٢٦/٠٧/٠٦ ١٧:٣٨', user: 'م. الحربي', userRole: 'تسويق', action: 'استعلام تلخيصي عن سياسة الإجازات', risk: 12, status: 'allowed', hash: '0xb1d9e4f2c6a87e3b1d4f9c8a', traceId: 'AI-2026-10492' },
+  { ts: '٢٠٢٦/٠٧/٠٦ ١٧:٣٥', user: 'س. الفيصل', userRole: 'مالية', action: 'تشغيل نموذج توليدي على سجلات طبية', risk: 72, status: 'pending_approval', hash: '0xc4e8a1d7b3f5a9c2e6b8d4f1', traceId: 'AI-2026-10491' },
+  { ts: '٢٠٢٦/٠٧/٠٦ ١٧:٢٤', user: 'أ. القحطاني', userRole: 'عمليات', action: 'تحليل عقد مورد', risk: 28, status: 'allowed', hash: '0xd2f5b3a9c1e7b4f8d3a6c5e9', traceId: 'AI-2026-10490' },
+  { ts: '٢٠٢٦/٠٧/٠٦ ١٧:٢٠', user: 'ن. الشهراني', userRole: 'قانونية', action: 'استعلام لوائح البنك المركزي', risk: 18, status: 'allowed', hash: '0xe3c6b4d8a1f5b7c2e4a9d6f3', traceId: 'AI-2026-10489' },
+  { ts: '٢٠٢٦/٠٧/٠٦ ١٧:١٤', user: 'خ. الغامدي', userRole: 'تقنية', action: 'دمج نموذج ثالث + كشف PII جديد', risk: 64, status: 'pending_approval', hash: '0xf4d7c5e9b2a6f8c3e7b1a4d5', traceId: 'AI-2026-10488' },
+  { ts: '٢٠٢٦/٠٧/٠٦ ١٧:٠٨', user: 'م. الحربي', userRole: 'تسويق', action: 'تصدير تقرير خفيف لقائمة 320 عميل', risk: 45, status: 'allowed', hash: '0xa5e8d6c1f3b9a7d4f6c2b8e5', traceId: 'AI-2026-10487' },
+  { ts: '٢٠٢٦/٠٧/٠٦ ١٧:٠١', user: 'س. الفيصل', userRole: 'مالية', action: 'فشل اتصال بـ ERP (timeout)', risk: 36, status: 'error', hash: '0xb6f9e7d2c4a1e5b8d9c3a7f4', traceId: 'AI-2026-10486' },
+  { ts: '٢٠٢٦/٠٧/٠٦ ١٦:٥٦', user: 'أ. القحطاني', userRole: 'عمليات', action: 'اختبار سيناريو تلخيصي', risk: 22, status: 'allowed', hash: '0xc7a1e8d3f5b2c6e9a4d7f1b8', traceId: 'AI-2026-10485' },
+  { ts: '٢٠٢٦/٠٧/٠٦ ١٦:٤٨', user: 'م. الحربي', userRole: 'تسويق', action: 'استعلام عادي (لا PII)', risk: 8, status: 'allowed', hash: '0xd8b2f9e4a6c3f7b1d5a8e2c9', traceId: 'AI-2026-10484' },
+];
+
+const STATUS_LABEL: Record<AuditRow['status'], string> = {
+  allowed: 'مسموح',
+  blocked: 'محظور',
+  pending_approval: 'بانتظار الموافقة',
+  error: 'خطأ',
+};
+
+function riskClass(score: number): string {
+  if (score > 85) return 'kernel-risk-badge--critical';
+  if (score >= 60) return 'kernel-risk-badge--high';
+  if (score >= 30) return 'kernel-risk-badge--medium';
+  return 'kernel-risk-badge--low';
+}
+
+const TOTAL_RECORDS = 12483;
 ---
 
 <KernelLayout
@@ -53,75 +129,458 @@ const iconArrow = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" st
     </div>
     <div class="kernel-page-header__actions">
       <KernelDemoPill />
-      <button class="kernel-card__footer-link" type="button" disabled aria-label="نسخ Trace ID">نسخ Trace ID</button>
+      <button class="kernel-audit-toolbar__btn" type="button" data-kernel-audit-copy-trace aria-label="نسخ Trace ID">
+        <Fragment set:html={iconCopy} />
+        <span>نسخ Trace ID</span>
+      </button>
     </div>
   </header>
 
   <div class="kernel-main kernel-page-fade-in">
-    <KernelStatusStrip
-      kicker="Hash Chain"
-      title="VALID · سلسلة مطابقة بصرياً"
-      dot="ok"
-      items={[
-        { label: 'إجمالي السجلات', value: '12,483' },
-        { label: 'آخر سجل', value: 'قبل 12 ثانية' },
-      ]}
-    />
 
-    <KernelCard
-      title="Trace Timeline"
-      subtitle="6 مراحل لكل طلب · REQUEST_RECEIVED → EVIDENCE_GENERATED"
-      iconSvg={iconShield}
-    >
-      <div class="kernel-card__body">
-        <KernelActivityList>
-          <KernelActivityItem
-            title="REQUEST_RECEIVED — مستخدم من قسم التسويق، طلب تصدير قائمة 2,400 عميل"
-            traceId="AI-2026-10493"
-            meta="قبل 3د"
-            iconSvg={iconClock}
-          />
-          <KernelActivityItem
-            title="PII_SCANNED — تم كشف 1,847 سجل يحتوي PII (اسم، هاتف، بريد، عنوان)"
-            traceId="AI-2026-10493"
-            meta="قبل 3د"
-            iconSvg={iconWarning}
-            tone="warning"
-          />
-          <KernelActivityItem
-            title="RISK_SCORED — درجة المخاطر 87% (حرج) — تجاوز عتبة 70%"
-            traceId="AI-2026-10493"
-            meta="قبل 3د"
-            iconSvg={iconWarning}
-            tone="danger"
-          />
-          <KernelActivityItem
-            title="APPROVAL_REQUESTED — طلب موافقة بشرية بسبب درجة المخاطر الحرجة"
-            traceId="AI-2026-10493"
-            meta="قبل 3د"
-            iconSvg={iconClock}
-          />
-          <KernelActivityItem
-            title="MODEL_CALLED — لم يُستدعى النموذج — تم الحظر قبل الإرسال"
-            traceId="AI-2026-10493"
-            meta="قبل 3د"
-            iconSvg={iconCheck}
-          />
-          <KernelActivityItem
-            title="EVIDENCE_GENERATED — تم توليد ملف دليل EVD-2026-10493.pdf"
-            traceId="AI-2026-10493"
-            meta="قبل 3د"
-            iconSvg={iconCheck}
-            tone="success"
-          />
-        </KernelActivityList>
+    <!-- Filters bar -->
+    <section class="kernel-audit-filters" aria-label="فلاتر سجل التدقيق">
+      <div class="kernel-audit-filters__field">
+        <label for="audit-date-from" class="kernel-audit-filters__label">من تاريخ</label>
+        <input id="audit-date-from" type="date" class="kernel-audit-filters__input" value="2026-06-01" />
       </div>
-      <Fragment slot="footer">
-        <footer class="kernel-card__footer">
-          <span>Hash: 0xa7c8f2e9...d41b</span>
-          <a href="/kernel/evidence/" class="kernel-card__footer-link">افتح ملف الدليل {iconArrow}</a>
-        </footer>
-      </Fragment>
-    </KernelCard>
+      <div class="kernel-audit-filters__field">
+        <label for="audit-date-to" class="kernel-audit-filters__label">إلى تاريخ</label>
+        <input id="audit-date-to" type="date" class="kernel-audit-filters__input" value="2026-07-06" />
+      </div>
+      <div class="kernel-audit-filters__field">
+        <label for="audit-risk" class="kernel-audit-filters__label">درجة المخاطر</label>
+        <select id="audit-risk" class="kernel-audit-filters__select" data-kernel-audit-filter="risk">
+          {RISK_LEVELS.map(l => <option value={l.value}>{l.label}</option>)}
+        </select>
+      </div>
+      <div class="kernel-audit-filters__field">
+        <label for="audit-status" class="kernel-audit-filters__label">الحالة</label>
+        <select id="audit-status" class="kernel-audit-filters__select" data-kernel-audit-filter="status">
+          {STATUSES.map(s => <option value={s.value}>{s.label}</option>)}
+        </select>
+      </div>
+      <div class="kernel-audit-filters__field">
+        <label for="audit-user" class="kernel-audit-filters__label">المستخدم</label>
+        <select id="audit-user" class="kernel-audit-filters__select" data-kernel-audit-filter="user">
+          {USERS.map(u => <option value={u.id}>{u.label}</option>)}
+        </select>
+      </div>
+    </section>
+
+    <!-- Toolbar -->
+    <div class="kernel-audit-toolbar">
+      <span class="kernel-audit-toolbar__count" data-kernel-audit-count>
+        {TOTAL_RECORDS.toLocaleString('ar-SA')} سجل إجمالي · تعرض {ROWS.length}
+      </span>
+      <div class="kernel-audit-toolbar__actions">
+        <button type="button" class="kernel-audit-toolbar__btn" data-kernel-audit-export="csv" aria-label="تصدير CSV">
+          <Fragment set:html={iconDownload} />
+          <span>CSV</span>
+        </button>
+        <button type="button" class="kernel-audit-toolbar__btn" data-kernel-audit-export="json" aria-label="تصدير JSON">
+          <Fragment set:html={iconDownload} />
+          <span>JSON</span>
+        </button>
+        <button type="button" class="kernel-audit-toolbar__btn" data-kernel-audit-export="pdf" aria-label="تصدير PDF">
+          <Fragment set:html={iconDownload} />
+          <span>PDF</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Audit table -->
+    <div class="kernel-table-wrapper" style="overflow-x:auto;">
+      <table class="kernel-audit-table" aria-label="سجل التدقيق">
+        <thead>
+          <tr>
+            <th scope="col">الوقت</th>
+            <th scope="col">المستخدم</th>
+            <th scope="col">الإجراء</th>
+            <th scope="col">المخاطر</th>
+            <th scope="col">Hash</th>
+            <th scope="col">عرض</th>
+          </tr>
+        </thead>
+        <tbody data-kernel-audit-tbody>
+          {ROWS.map((r, idx) => (
+            <tr
+              tabindex="0"
+              data-row-idx={idx}
+              data-kernel-audit-row
+              data-risk={r.risk}
+              data-status={r.status}
+              data-user={r.user}
+              data-hash={r.hash}
+              data-trace={r.traceId}
+              data-ts={r.ts}
+              data-action={r.action}
+            >
+              <td>{r.ts}</td>
+              <td>
+                <span style="display:flex; flex-direction:column; gap:2px;">
+                  <strong style="color:var(--text-primary);">{r.user}</strong>
+                  <span style="font-size:var(--text-xs); color:var(--text-secondary); opacity:var(--text-tertiary-opacity);">{r.userRole}</span>
+                </span>
+              </td>
+              <td>{r.action}</td>
+              <td>
+                <span class:list={['kernel-risk-badge', riskClass(r.risk)]} aria-label={`درجة المخاطر ${r.risk}`}>{r.risk}</span>
+              </td>
+              <td>
+                <span class="kernel-audit-table__hash" aria-label="Hash">
+                  <span class="kernel-audit-table__hash-text">{r.hash.slice(0, 12)}…{r.hash.slice(-4)}</span>
+                  <button
+                    type="button"
+                    class="kernel-audit-table__hash-copy"
+                    aria-label={`نسخ الهاش ${r.hash}`}
+                    data-kernel-audit-copy={r.hash}
+                  >
+                    <Fragment set:html={iconCopy} />
+                  </button>
+                </span>
+              </td>
+              <td>
+                <button type="button" class="kernel-audit-table__view-btn" data-kernel-audit-view={idx} aria-label={`عرض تفاصيل ${r.traceId}`}>
+                  عرض
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    <nav class="kernel-audit-pagination" aria-label="تصفح الصفحات">
+      <button type="button" class="kernel-audit-pagination__btn kernel-audit-pagination__btn--first" aria-label="الأولى" disabled>
+        <Fragment set:html={iconArrowLeft} />
+      </button>
+      <button type="button" class="kernel-audit-pagination__btn" aria-label="السابقة" disabled>
+        <Fragment set:html={iconArrowLeft} />
+      </button>
+      <button type="button" class="kernel-audit-pagination__btn" aria-current="page" aria-label="صفحة 1">1</button>
+      <button type="button" class="kernel-audit-pagination__btn" aria-label="صفحة 2">2</button>
+      <button type="button" class="kernel-audit-pagination__btn" aria-label="صفحة 3">3</button>
+      <button type="button" class="kernel-audit-pagination__btn" aria-label="التالية">
+        <Fragment set:html={iconArrowRight} />
+      </button>
+      <button type="button" class="kernel-audit-pagination__btn kernel-audit-pagination__btn--last" aria-label="الأخيرة">
+        <Fragment set:html={iconArrowRight} />
+      </button>
+    </nav>
+  </div>
+
+  <!-- Detail drawer -->
+  <div class="kernel-audit-drawer" data-kernel-audit-drawer data-open="false" role="dialog" aria-modal="true" aria-labelledby="audit-drawer-title" aria-hidden="true">
+    <div class="kernel-audit-drawer__backdrop" data-kernel-audit-drawer-close></div>
+    <div class="kernel-audit-drawer__panel" tabindex="-1">
+      <button type="button" class="kernel-audit-drawer__close" aria-label="إغلاق" data-kernel-audit-drawer-close>
+        <Fragment set:html={iconClose} />
+      </button>
+      <h2 class="kernel-audit-drawer__title" id="audit-drawer-title" data-kernel-drawer-title>تفاصيل السجل</h2>
+
+      <section class="kernel-audit-drawer__section">
+        <h3 class="kernel-audit-drawer__section-title">المعلومات الأساسية</h3>
+        <dl class="kernel-audit-drawer__kv">
+          <dt class="kernel-audit-drawer__key">Trace ID</dt>
+          <dd class="kernel-audit-drawer__val kernel-audit-drawer__val--mono" data-kernel-drawer-trace>—</dd>
+          <dt class="kernel-audit-drawer__key">Hash</dt>
+          <dd class="kernel-audit-drawer__val kernel-audit-drawer__val--mono" data-kernel-drawer-hash>—</dd>
+          <dt class="kernel-audit-drawer__key">الوقت</dt>
+          <dd class="kernel-audit-drawer__val" data-kernel-drawer-ts>—</dd>
+          <dt class="kernel-audit-drawer__key">المستخدم</dt>
+          <dd class="kernel-audit-drawer__val" data-kernel-drawer-user>—</dd>
+          <dt class="kernel-audit-drawer__key">الحالة</dt>
+          <dd class="kernel-audit-drawer__val" data-kernel-drawer-status>—</dd>
+        </dl>
+      </section>
+
+      <section class="kernel-audit-drawer__section">
+        <h3 class="kernel-audit-drawer__section-title">تفاصيل الإجراء</h3>
+        <p style="color:var(--text-primary); line-height:1.6;" data-kernel-drawer-action>—</p>
+      </section>
+
+      <section class="kernel-audit-drawer__section">
+        <h3 class="kernel-audit-drawer__section-title">Trace Timeline (6 مراحل)</h3>
+        <div class="kernel-audit-drawer__trace" data-kernel-drawer-timeline>—</div>
+      </section>
+
+      <section class="kernel-audit-drawer__section">
+        <h3 class="kernel-audit-drawer__section-title">إجراءات</h3>
+        <div style="display:flex; gap:var(--space-2); flex-wrap:wrap;">
+          <button type="button" class="kernel-modal__btn" data-kernel-drawer-export-pdf>
+            <Fragment set:html={iconDownload} />
+            <span>تصدير PDF</span>
+          </button>
+          <button type="button" class="kernel-modal__btn" data-kernel-drawer-copy-hash>
+            <Fragment set:html={iconCopy} />
+            <span>نسخ الهاش</span>
+          </button>
+          <a href="/kernel/evidence/" class="kernel-modal__btn" data-kernel-drawer-link-evidence>افتح ملف الدليل</a>
+        </div>
+      </section>
+    </div>
   </div>
 </KernelLayout>
+
+<script is:inline>
+  // REPORTS-15 — Audit interactivity (filters, hash copy, drawer, exports).
+  (function () {
+    'use strict';
+
+    function el(q, root) { return (root || document).querySelector(q); }
+    function elAll(q, root) { return Array.prototype.slice.call((root || document).querySelectorAll(q)); }
+
+    function flashCopy(btn) {
+      btn.setAttribute('data-copied', 'true');
+      setTimeout(function () { btn.removeAttribute('data-copied'); }, 1500);
+    }
+
+    function safeCopy(text) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        return navigator.clipboard.writeText(text).catch(function () { return fallbackCopy(text); });
+      }
+      return Promise.resolve(fallbackCopy(text));
+    }
+    function fallbackCopy(text) {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(ta);
+    }
+
+    function downloadFile(name, mime, content) {
+      var blob = (content instanceof Blob) ? content : new Blob([content], { type: mime });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url; a.download = name;
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(function () { URL.revokeObjectURL(url); }, 1500);
+    }
+
+    function buildTimeline(row) {
+      var status = row.getAttribute('data-status') || 'allowed';
+      var risk = parseInt(row.getAttribute('data-risk') || '0', 10);
+      var stages = [
+        { stage: 'REQUEST_RECEIVED', ts: 'T+0ms', detail: 'مستخدم: ' + (row.getAttribute('data-user') || '—') },
+        { stage: 'PII_SCANNED',      ts: 'T+18ms', detail: 'كاشف PII: لم يُكشف في هذا السجل.' },
+        { stage: 'RISK_SCORED',      ts: 'T+24ms', detail: 'درجة المخاطر: ' + risk + '/100' },
+        { stage: 'POLICY_MATCHED',   ts: 'T+31ms', detail: 'سياسة: ' + (risk > 70 ? 'تجميد + مراجعة بشرية' : 'مسموح') },
+        { stage: 'MODEL_CALLED',     ts: 'T+58ms', detail: status === 'blocked' ? 'لم يُستدعى النموذج — تم الحظر قبل الإرسال.' : 'استدعاء مزود النموذج: NVIDIA NIM' },
+        { stage: 'EVIDENCE_GENERATED', ts: 'T+74ms', detail: 'Hash: ' + (row.getAttribute('data-hash') || '—') },
+      ];
+      return stages.map(function (s) {
+        return '[' + s.ts + '] ' + s.stage + ' — ' + s.detail;
+      }).join('\n');
+    }
+
+    function openDrawer(row) {
+      var drawer = el('[data-kernel-audit-drawer]');
+      if (!drawer) return;
+      drawer.setAttribute('data-open', 'true');
+      drawer.setAttribute('aria-hidden', 'false');
+
+      // Populate fields
+      var trace = row.getAttribute('data-trace') || '';
+      var hash  = row.getAttribute('data-hash')  || '';
+      var ts    = row.getAttribute('data-ts')    || '';
+      var user  = row.getAttribute('data-user')  || '';
+      var status = row.getAttribute('data-status') || '';
+      var action = row.getAttribute('data-action') || '';
+
+      var setText = function (sel, val) {
+        var node = el(sel);
+        if (node) node.textContent = val;
+      };
+      setText('[data-kernel-drawer-trace]', trace);
+      setText('[data-kernel-drawer-hash]', hash);
+      setText('[data-kernel-drawer-ts]', ts);
+      setText('[data-kernel-drawer-user]', user);
+      setText('[data-kernel-drawer-status]', status);
+      setText('[data-kernel-drawer-action]', action);
+
+      var tlEl = el('[data-kernel-drawer-timeline]');
+      if (tlEl) tlEl.textContent = buildTimeline(row);
+
+      // Focus the close button + trap initial focus
+      setTimeout(function () {
+        var close = el('.kernel-audit-drawer__close');
+        if (close) close.focus();
+      }, 60);
+    }
+
+    function closeDrawer() {
+      var drawer = el('[data-kernel-audit-drawer]');
+      if (!drawer) return;
+      drawer.setAttribute('data-open', 'false');
+      drawer.setAttribute('aria-hidden', 'true');
+    }
+
+    function applyFilters() {
+      var risk = el('[data-kernel-audit-filter="risk"]').value;
+      var status = el('[data-kernel-audit-filter="status"]').value;
+      var user = el('[data-kernel-audit-filter="user"]').value;
+
+      var rows = elAll('[data-kernel-audit-row]');
+      var shown = 0;
+      rows.forEach(function (row) {
+        var r = parseInt(row.getAttribute('data-risk') || '0', 10);
+        var s = row.getAttribute('data-status') || '';
+        var u = row.getAttribute('data-user') || '';
+        var visible =
+          (risk === '' || (risk === 'critical' ? r > 85 : risk === 'high' ? (r >= 60 && r <= 85) : risk === 'medium' ? (r >= 30 && r <= 60) : r <= 30)) &&
+          (status === '' || s === status) &&
+          (user === '' || u === user);
+        row.hidden = !visible;
+        if (visible) shown++;
+      });
+
+      var counter = el('[data-kernel-audit-count]');
+      if (counter) counter.textContent = '١٢٬٤٨٣ سجل إجمالي · تعرض ' + shown;
+    }
+
+    function exportRows(format) {
+      var rows = elAll('[data-kernel-audit-row]:not([hidden])');
+      var data = rows.map(function (r) {
+        return {
+          ts: r.getAttribute('data-ts'),
+          user: r.getAttribute('data-user'),
+          action: r.getAttribute('data-action'),
+          risk: r.getAttribute('data-risk'),
+          status: r.getAttribute('data-status'),
+          hash: r.getAttribute('data-hash'),
+          trace: r.getAttribute('data-trace'),
+        };
+      });
+      if (format === 'csv') {
+        var header = 'ts,user,action,risk,status,hash,trace\n';
+        var body = data.map(function (d) {
+          return [d.ts, d.user, d.action, d.risk, d.status, d.hash, d.trace]
+            .map(function (c) { return '"' + String(c || '').replace(/"/g, '""') + '"'; })
+            .join(',');
+        }).join('\n');
+        downloadFile('audit-' + Date.now() + '.csv', 'text/csv;charset=utf-8', header + body);
+      } else if (format === 'json') {
+        downloadFile('audit-' + Date.now() + '.json', 'application/json', JSON.stringify(data, null, 2));
+      } else if (format === 'pdf') {
+        // Demo: produce a minimal printable summary
+        var summary = 'BrightAI Kernel · Audit Summary\n' +
+          'Generated: ' + new Date().toISOString() + '\n\n' +
+          data.map(function (d) { return '• ' + d.ts + ' · ' + d.user + ' · ' + d.action + ' · risk=' + d.risk + ' · ' + d.status; }).join('\n');
+        downloadFile('audit-' + Date.now() + '.txt', 'text/plain;charset=utf-8', summary);
+      }
+    }
+
+    function bindFilters() {
+      elAll('[data-kernel-audit-filter]').forEach(function (sel) {
+        if (sel.dataset.bound === '1') return;
+        sel.dataset.bound = '1';
+        sel.addEventListener('change', applyFilters);
+      });
+
+      // Trigger initial filter pass (in case the user reloaded with prefilled values)
+      applyFilters();
+    }
+
+    function bindHashCopy() {
+      elAll('[data-kernel-audit-copy]').forEach(function (btn) {
+        if (btn.dataset.bound === '1') return;
+        btn.dataset.bound = '1';
+        btn.addEventListener('click', function (e) {
+          e.stopPropagation(); // don't open drawer
+          var hash = btn.getAttribute('data-kernel-audit-copy') || '';
+          safeCopy(hash).then(function () { flashCopy(btn); });
+        });
+      });
+    }
+
+    function bindViewButtons() {
+      elAll('[data-kernel-audit-view]').forEach(function (btn) {
+        if (btn.dataset.bound === '1') return;
+        btn.dataset.bound = '1';
+        btn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          var row = btn.closest('[data-kernel-audit-row]');
+          if (row) openDrawer(row);
+        });
+      });
+
+      // Row click / keyboard activation
+      elAll('[data-kernel-audit-row]').forEach(function (row) {
+        if (row.dataset.bound === '1') return;
+        row.dataset.bound = '1';
+        row.addEventListener('click', function () { openDrawer(row); });
+        row.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openDrawer(row); }
+        });
+      });
+    }
+
+    function bindDrawer() {
+      var drawer = el('[data-kernel-audit-drawer]');
+      if (!drawer || drawer.dataset.bound === '1') return;
+      drawer.dataset.bound = '1';
+      elAll('[data-kernel-audit-drawer-close]', drawer).forEach(function (n) {
+        n.addEventListener('click', closeDrawer);
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && drawer.getAttribute('data-open') === 'true') closeDrawer();
+      });
+
+      // Drawer-local actions
+      var exportPdf = el('[data-kernel-drawer-export-pdf]');
+      if (exportPdf) exportPdf.addEventListener('click', function () { exportRows('pdf'); });
+      var copyHash = el('[data-kernel-drawer-copy-hash]');
+      if (copyHash) copyHash.addEventListener('click', function () {
+        var hash = el('[data-kernel-drawer-hash]');
+        if (hash) safeCopy(hash.textContent || '').then(function () {
+          copyHash.setAttribute('data-copied', 'true');
+          setTimeout(function () { copyHash.removeAttribute('data-copied'); }, 1500);
+        });
+      });
+    }
+
+    function bindExports() {
+      elAll('[data-kernel-audit-export]').forEach(function (btn) {
+        if (btn.dataset.bound === '1') return;
+        btn.dataset.bound = '1';
+        btn.addEventListener('click', function () {
+          var fmt = btn.getAttribute('data-kernel-audit-export') || 'json';
+          exportRows(fmt);
+        });
+      });
+    }
+
+    function bindTraceIdCopy() {
+      var btn = el('[data-kernel-audit-copy-trace]');
+      if (!btn || btn.dataset.bound === '1') return;
+      btn.dataset.bound = '1';
+      btn.addEventListener('click', function () {
+        var trace = el('[data-kernel-drawer-trace]');
+        var first = el('[data-kernel-audit-row]:not([hidden])');
+        var val = (trace && trace.textContent) || (first && first.getAttribute('data-trace')) || '';
+        safeCopy(val).then(function () {
+          btn.setAttribute('data-copied', 'true');
+          setTimeout(function () { btn.removeAttribute('data-copied'); }, 1500);
+        });
+      });
+    }
+
+    function init() {
+      bindFilters();
+      bindHashCopy();
+      bindViewButtons();
+      bindDrawer();
+      bindExports();
+      bindTraceIdCopy();
+    }
+
+    document.addEventListener('astro:page-load', init);
+    if (document.readyState !== 'loading') init();
+  })();
+</script>

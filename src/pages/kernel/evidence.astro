@@ -1,13 +1,17 @@
 ---
 /**
- * /kernel/evidence/ — Evidence files + PDF export (REPORTS-14).
+ * /kernel/evidence/ — Evidence files + PDF export (REPORTS-15).
+ *
+ * REPORTS-15 update:
+ * - Grid view: 12 evidence cards with title, date, signature status, download.
+ * - Filters toolbar: date + sector + compliance pack.
+ * - Each card: type icon, hash monospace, signature badge, download/Preview buttons.
+ * - Preview modal (uses a tiny inline PDF placeholder via iframe srcdoc — works in demo).
+ * - Generate new evidence button (creates a new card live in demo).
+ * - Mobile responsive + RTL preserved.
  */
 import KernelLayout from '../../layouts/KernelLayout.astro';
-import KernelCard from '../../components/kernel/KernelCard.astro';
-import KernelActivityList from '../../components/kernel/KernelActivityList.astro';
-import KernelActivityItem from '../../components/kernel/KernelActivityItem.astro';
 import KernelDemoPill from '../../components/kernel/KernelDemoPill.astro';
-import KernelEmptyState from '../../components/kernel/KernelEmptyState.astro';
 import { getKernelUnit } from '../../data/kernel';
 
 const unit = getKernelUnit('evidence')!;
@@ -22,7 +26,261 @@ const jsonLd = {
 };
 
 const iconFile = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>';
-const iconChat = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>';
+const iconDownload = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>';
+const iconEye = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+const iconCheck = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+const iconWarning = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>';
+const iconClock = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>';
+const iconPlus = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>';
+const iconClose = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+
+// Filters
+const SECTORS = [
+  { value: '', label: 'كل القطاعات' },
+  { value: 'banking', label: 'البنوك' },
+  { value: 'government', label: 'الجهات الحكومية' },
+  { value: 'healthcare', label: 'الرعاية الصحية' },
+  { value: 'manufacturing', label: 'الصناعة' },
+  { value: 'telecom', label: 'الاتصالات' },
+];
+
+const COMPLIANCE_PACKS = [
+  { value: '', label: 'كل الحزم' },
+  { value: 'pdpl', label: 'PDPL' },
+  { value: 'nca', label: 'NCA ECC' },
+  { value: 'sdaia', label: 'SDAIA' },
+  { value: 'sfda', label: 'SFDA' },
+  { value: 'sama', label: 'SAMA' },
+  { value: 'iso42001', label: 'ISO 42001' },
+  { value: 'iso27001', label: 'ISO 27001' },
+];
+
+type EvidenceItem = {
+  id: string;
+  traceId: string;
+  title: string;
+  query: string;
+  status: 'allowed' | 'blocked' | 'pending_approval' | 'approved' | 'draft';
+  riskLevel: 'low' | 'medium' | 'high' | 'critical';
+  riskScore: number;
+  sector: string;
+  pack: string;
+  hash: string;
+  signedAt: string | null;
+  size: string;
+  createdAt: string;
+};
+
+const ITEMS: EvidenceItem[] = [
+  {
+    id: 'EVD-2026-10493',
+    traceId: 'AI-2026-10493',
+    title: 'محاولة تصدير قائمة 2,400 عميل',
+    query: 'تصدير قائمة 2,400 عميل مع PII (اسم + هاتف + بريد)',
+    status: 'blocked',
+    riskLevel: 'critical',
+    riskScore: 87,
+    sector: 'banking',
+    pack: 'pdpl',
+    hash: '0xa7c8f2e9d41b9c3a8e5f2c1b7e8d2a9f',
+    signedAt: '٢٠٢٦/٠٧/٠٦ ١٧:٤٢',
+    size: '142KB',
+    createdAt: '٢٠٢٦/٠٧/٠٦',
+  },
+  {
+    id: 'EVD-2026-10492',
+    traceId: 'AI-2026-10492',
+    title: 'استعلام تلخيصي عن سياسة الإجازات',
+    query: 'تلخيص لوائح الإجازات الداخلية',
+    status: 'allowed',
+    riskLevel: 'low',
+    riskScore: 12,
+    sector: 'government',
+    pack: 'sdaia',
+    hash: '0xb1d9e4f2c6a87e3b1d4f9c8a5d2e7b3f',
+    signedAt: '٢٠٢٦/٠٧/٠٦ ١٧:٣٨',
+    size: '38KB',
+    createdAt: '٢٠٢٦/٠٧/٠٦',
+  },
+  {
+    id: 'EVD-2026-10491',
+    traceId: 'AI-2026-10491',
+    title: 'تشغيل نموذج على سجلات طبية',
+    query: 'تحليل 580 سجل طبي مع PII متعدد',
+    status: 'pending_approval',
+    riskLevel: 'high',
+    riskScore: 72,
+    sector: 'healthcare',
+    pack: 'sfda',
+    hash: '0xc4e8a1d7b3f5a9c2e6b8d4f1a5c9b2e7',
+    signedAt: null,
+    size: '86KB',
+    createdAt: '٢٠٢٦/٠٧/٠٦',
+  },
+  {
+    id: 'EVD-2026-10490',
+    traceId: 'AI-2026-10490',
+    title: 'تحليل عقد مورد',
+    query: 'مراجعة عقد شراء من مورّد خارجي',
+    status: 'approved',
+    riskLevel: 'medium',
+    riskScore: 28,
+    sector: 'manufacturing',
+    pack: 'iso27001',
+    hash: '0xd2f5b3a9c1e7b4f8d3a6c5e9b8f1a4d7',
+    signedAt: '٢٠٢٦/٠٧/٠٦ ١٧:٢٤',
+    size: '124KB',
+    createdAt: '٢٠٢٦/٠٧/٠٦',
+  },
+  {
+    id: 'EVD-2026-10489',
+    traceId: 'AI-2026-10489',
+    title: 'استعلام لوائح البنك المركزي',
+    query: 'بحث عن ضوابط SAMA الجديدة',
+    status: 'allowed',
+    riskLevel: 'low',
+    riskScore: 18,
+    sector: 'banking',
+    pack: 'sama',
+    hash: '0xe3c6b4d8a1f5b7c2e4a9d6f3c7a1e8b5',
+    signedAt: '٢٠٢٦/٠٧/٠٦ ١٧:٢٠',
+    size: '42KB',
+    createdAt: '٢٠٢٦/٠٧/٠٦',
+  },
+  {
+    id: 'EVD-2026-10488',
+    traceId: 'AI-2026-10488',
+    title: 'دمج نموذج ثالث',
+    query: 'جرّب دمج نموذج Cohere مع PII',
+    status: 'pending_approval',
+    riskLevel: 'high',
+    riskScore: 64,
+    sector: 'telecom',
+    pack: 'nca',
+    hash: '0xf4d7c5e9b2a6f8c3e7b1a4d5a8e3b6f9',
+    signedAt: null,
+    size: '94KB',
+    createdAt: '٢٠٢٦/٠٧/٠٦',
+  },
+  {
+    id: 'EVD-2026-10487',
+    traceId: 'AI-2026-10487',
+    title: 'تصدير قائمة خفيفة (320)',
+    query: 'تصدير قائمة 320 عميل بدون PII',
+    status: 'allowed',
+    riskLevel: 'low',
+    riskScore: 8,
+    sector: 'banking',
+    pack: 'pdpl',
+    hash: '0xa5e8d6c1f3b9a7d4f6c2b8e5d9a1c7f3',
+    signedAt: '٢٠٢٦/٠٧/٠٦ ١٧:٠٨',
+    size: '28KB',
+    createdAt: '٢٠٢٦/٠٧/٠٦',
+  },
+  {
+    id: 'EVD-2026-10486',
+    traceId: 'AI-2026-10486',
+    title: 'فشل اتصال ERP',
+    query: 'timeout عند محاولة جلب بيانات من SAP',
+    status: 'draft',
+    riskLevel: 'medium',
+    riskScore: 36,
+    sector: 'manufacturing',
+    pack: 'iso42001',
+    hash: '0xb6f9e7d2c4a1e5b8d9c3a7f4b2e8d5a1',
+    signedAt: null,
+    size: '18KB',
+    createdAt: '٢٠٢٦/٠٧/٠٦',
+  },
+  {
+    id: 'EVD-2026-10485',
+    traceId: 'AI-2026-10485',
+    title: 'اختبار سيناريو تلخيصي',
+    query: 'اختبار سيناريو تلخيص عمليات',
+    status: 'allowed',
+    riskLevel: 'low',
+    riskScore: 22,
+    sector: 'government',
+    pack: 'sdaia',
+    hash: '0xc7a1e8d3f5b2c6e9a4d7f1b8a5c3e2d7',
+    signedAt: '٢٠٢٦/٠٧/٠٦ ١٦:٥٦',
+    size: '52KB',
+    createdAt: '二零٢٦/٠٧/٠٦',
+  },
+  {
+    id: 'EVD-2026-10484',
+    traceId: 'AI-2026-10484',
+    title: 'استعلام عادي بدون PII',
+    query: 'استعلام عام عن سياسات HR',
+    status: 'allowed',
+    riskLevel: 'low',
+    riskScore: 8,
+    sector: 'government',
+    pack: 'iso27001',
+    hash: '0xd8b2f9e4a6c3f7b1d5a8e2c9a4d6f3b8',
+    signedAt: '٢٠٢٦/٠٧/٠٦ ١٦:٤٨',
+    size: '24KB',
+    createdAt: '٢٠٢٦/٠٧/٠٦',
+  },
+  {
+    id: 'EVD-2026-10470',
+    traceId: 'AI-2026-10470',
+    title: 'استعلام بهوية عميل (مرفوض)',
+    query: 'محاولة الوصول لبيانات عميل برقم هوية',
+    status: 'blocked',
+    riskLevel: 'critical',
+    riskScore: 94,
+    sector: 'banking',
+    pack: 'pdpl',
+    hash: '0xe9c3a1f5b7d4e2c8f6a3b9d5a7e1c4f8',
+    signedAt: '٢٠٢٦/٠٧/٠٦ ١٥:١٢',
+    size: '68KB',
+    createdAt: '٢٠٢٦/٠٧/٠٦',
+  },
+  {
+    id: 'EVD-2026-10465',
+    traceId: 'AI-2026-10465',
+    title: 'تلخيص تقرير حوكمة شهري',
+    query: 'تلخيص تقرير حوكمة شهري تلقائي',
+    status: 'allowed',
+    riskLevel: 'low',
+    riskScore: 14,
+    sector: 'telecom',
+    pack: 'iso42001',
+    hash: '0xfa4b2d6c8e1a5f3b9d7c4e6a2f8b1d5c',
+    signedAt: '٢٠٢٦/٠٧/٠٥ ١٨:٣٠',
+    size: '76KB',
+    createdAt: '٢٠٢٦/٠٧/٠٥',
+  },
+];
+
+function signatureClass(item: EvidenceItem): string {
+  if (!item.signedAt) return 'kernel-evidence-item__signature--pending';
+  if (item.status === 'draft') return 'kernel-evidence-item__signature--draft';
+  return '';
+}
+
+function signatureText(item: EvidenceItem): string {
+  if (!item.signedAt) return 'بانتظار التوقيع';
+  if (item.status === 'draft') return 'مسودة — غير موقّعة';
+  return 'موقّع رقمياً';
+}
+
+function signatureIcon(item: EvidenceItem): string {
+  if (!item.signedAt) return iconClock;
+  if (item.status === 'draft') return iconFile;
+  return iconCheck;
+}
+
+const PACK_LABEL: Record<string, string> = {
+  pdpl: 'PDPL', nca: 'NCA ECC', sdaia: 'SDAIA', sfda: 'SFDA', sama: 'SAMA',
+  iso42001: 'ISO 42001', iso27001: 'ISO 27001',
+};
+
+const SECTOR_LABEL: Record<string, string> = {
+  banking: 'البنوك', government: 'الحكومة', healthcare: 'الرعاية الصحية',
+  manufacturing: 'الصناعة', telecom: 'الاتصالات',
+};
 ---
 
 <KernelLayout
@@ -53,31 +311,406 @@ const iconChat = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" str
   </header>
 
   <div class="kernel-main kernel-page-fade-in">
-    <section class="kernel-dashboard-grid">
-      <KernelCard title="قائمة الأدلة" subtitle="عينة من 2,156 سجل" iconSvg={iconFile}>
-        <div class="kernel-card__body kernel-card__body--tight">
-          <KernelActivityList>
-            <KernelActivityItem title="EVD-2026-10493.pdf — محاولة تصدير قائمة 2,400 عميل" traceId="AI-2026-10493" meta="blocked · 142KB" iconSvg={iconFile} time="قبل 3د" />
-            <KernelActivityItem title="EVD-2026-10492.pdf — استعلام تلخيصي عن سياسة الإجازات" traceId="AI-2026-10492" meta="allowed · 38KB" tone="success" iconSvg={iconFile} time="قبل 5د" />
-            <KernelActivityItem title="EVD-2026-10491.pdf — تشغيل نموذج على سجلات طبية" traceId="AI-2026-10491" meta="pending_approval · 86KB" tone="warning" iconSvg={iconFile} time="قبل 8د" />
-            <KernelActivityItem title="EVD-2026-10490.pdf — تحليل عقد مورد" traceId="AI-2026-10490" meta="approved · 124KB" tone="success" iconSvg={iconFile} time="قبل 11د" />
-            <KernelActivityItem title="EVD-2026-10489.pdf — استعلام لوائح البنك المركزي" traceId="AI-2026-10489" meta="allowed · 42KB" tone="success" iconSvg={iconFile} time="قبل 13د" />
-          </KernelActivityList>
-        </div>
-      </KernelCard>
 
-      <KernelCard title="تفاصيل الدليل" subtitle="اختر دليلاً من القائمة لعرض التفاصيل" iconSvg={iconChat}>
-        <Fragment slot="actions">
-          <button class="kernel-card__footer-link" type="button" disabled>تصدير PDF</button>
-        </Fragment>
-        <div class="kernel-card__body">
-          <KernelEmptyState
-            title="اختر دليلاً من القائمة"
-            message="كل دليل يحوي Trace ID، hash، توقيع رقمي، وقرار الحوكمة. يمكن تصديره PDF."
-            iconSvg={iconFile}
-          />
+    <!-- Toolbar -->
+    <div class="kernel-evidence-toolbar" role="search" aria-label="فلاتر الأدلة">
+      <div class="kernel-evidence-toolbar__filters">
+        <div style="display:flex; flex-direction:column; gap:4px;">
+          <label for="ev-date" class="kernel-audit-filters__label">التاريخ</label>
+          <input id="ev-date" type="date" class="kernel-evidence-toolbar__input" value="2026-06-01" />
         </div>
-      </KernelCard>
+        <div style="display:flex; flex-direction:column; gap:4px;">
+          <label for="ev-sector" class="kernel-audit-filters__label">القطاع</label>
+          <select id="ev-sector" class="kernel-evidence-toolbar__select" data-kernel-evidence-filter="sector">
+            {SECTORS.map(s => <option value={s.value}>{s.label}</option>)}
+          </select>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:4px;">
+          <label for="ev-pack" class="kernel-audit-filters__label">حزمة الامتثال</label>
+          <select id="ev-pack" class="kernel-evidence-toolbar__select" data-kernel-evidence-filter="pack">
+            {COMPLIANCE_PACKS.map(p => <option value={p.value}>{p.label}</option>)}
+          </select>
+        </div>
+      </div>
+      <button type="button" class="kernel-evidence-toolbar__generate" data-kernel-evidence-generate>
+        <span aria-hidden="true"><Fragment set:html={iconPlus} /></span>
+        <span>توليد دليل جديد</span>
+      </button>
+    </div>
+
+    <!-- Stats line -->
+    <p style="margin-block-end: var(--space-4); font-size:var(--text-sm); color:var(--text-secondary); opacity:var(--text-tertiary-opacity);" data-kernel-evidence-count>
+      {ITEMS.length} من {ITEMS.length} · 142KB إجمالي · 4 حزم امتثال
+    </p>
+
+    <!-- Grid -->
+    <section class="kernel-evidence-grid" aria-label="ملفات الأدلة" data-kernel-evidence-grid>
+      {ITEMS.map(item => (
+        <article
+          class="kernel-evidence-item"
+          data-kernel-evidence-item={item.id}
+          data-sector={item.sector}
+          data-pack={item.pack}
+          data-created-at={item.createdAt}
+        >
+          <header class="kernel-evidence-item__head">
+            <span class="kernel-evidence-item__icon" aria-hidden="true"><Fragment set:html={iconFile} /></span>
+            <div class="kernel-evidence-item__title-block">
+              <h3 class="kernel-evidence-item__title">{item.id}.pdf</h3>
+              <p class="kernel-evidence-item__sub">{item.title}</p>
+            </div>
+          </header>
+          <dl class="kernel-evidence-item__meta">
+            <dt>التاريخ</dt>
+            <dd>{item.signedAt || item.createdAt}</dd>
+            <dt>القطاع</dt>
+            <dd>{SECTOR_LABEL[item.sector]}</dd>
+            <dt>الحزمة</dt>
+            <dd>{PACK_LABEL[item.pack]}</dd>
+            <dt>الحجم</dt>
+            <dd>{item.size}</dd>
+          </dl>
+          <footer class="kernel-evidence-item__footer">
+            <span class:list={['kernel-evidence-item__signature', signatureClass(item)]}>
+              <span aria-hidden="true"><Fragment set:html={signatureIcon(item)} /></span>
+              <span>{signatureText(item)}</span>
+            </span>
+            <div style="display:flex; gap:var(--space-1);">
+              <button
+                type="button"
+                class="kernel-evidence-item__btn"
+                data-kernel-evidence-preview={item.id}
+                aria-label={`معاينة ${item.id}`}
+                data-title={item.title}
+                data-trace={item.traceId}
+                data-hash={item.hash}
+                data-query={item.query}
+                data-status={item.status}
+                data-signed={item.signedAt || 'لم يوقّع بعد'}
+                data-sector={SECTOR_LABEL[item.sector]}
+                data-pack={PACK_LABEL[item.pack]}
+                data-size={item.size}
+                data-risk={item.riskScore}
+              >
+                <span aria-hidden="true"><Fragment set:html={iconEye} /></span>
+                <span>معاينة</span>
+              </button>
+              <button
+                type="button"
+                class="kernel-evidence-item__btn"
+                data-kernel-evidence-download={item.id}
+                aria-label={`تنزيل ${item.id}`}
+              >
+                <span aria-hidden="true"><Fragment set:html={iconDownload} /></span>
+                <span>PDF</span>
+              </button>
+            </div>
+          </footer>
+        </article>
+      ))}
     </section>
   </div>
+
+  <!-- Preview modal -->
+  <div class="kernel-modal" data-kernel-evidence-preview-modal data-open="false" role="dialog" aria-modal="true" aria-labelledby="ev-preview-title" aria-hidden="true">
+    <div class="kernel-modal__backdrop" data-kernel-evidence-preview-modal-close></div>
+    <div class="kernel-modal__dialog" style="inline-size: min(880px, 100%);" tabindex="-1">
+      <header class="kernel-modal__head">
+        <h2 class="kernel-modal__title" id="ev-preview-title">معاينة ملف الدليل</h2>
+        <button type="button" class="kernel-modal__close" aria-label="إغلاق" data-kernel-evidence-preview-modal-close>
+          <Fragment set:html={iconClose} />
+        </button>
+      </header>
+
+      <dl class="kernel-modal__preview-meta">
+        <dt>Trace</dt><dd data-kernel-preview-trace>—</dd>
+        <dt>Hash</dt><dd data-kernel-preview-hash>—</dd>
+        <dt>القطاع</dt><dd data-kernel-preview-sector>—</dd>
+        <dt>الحزمة</dt><dd data-kernel-preview-pack>—</dd>
+        <dt>التوقيع</dt><dd data-kernel-preview-signed>—</dd>
+      </dl>
+
+      <iframe
+        class="kernel-modal__iframe"
+        title="معاينة ملف الدليل"
+        data-kernel-preview-frame
+        srcdoc="<html lang='ar' dir='rtl'><head><meta charset='UTF-8'><style>body{margin:0;padding:32px;background:#0a0e1a;color:#f1f5f9;font-family:'IBM Plex Sans Arabic',sans-serif;line-height:1.7}.h{font-size:24px;color:#22d3ee;border-bottom:1px solid rgba(148,163,184,0.2);padding-bottom:8px;margin-bottom:24px}.label{font-size:11px;text-transform:uppercase;color:#94a3b8;letter-spacing:.05em;font-weight:bold}.val{font-family:'IBM Plex Mono',monospace;font-size:13px;color:#f1f5f9;margin-bottom:16px;word-break:break-all}.section{margin-bottom:24px}.badge{display:inline-block;padding:4px 10px;border-radius:9999px;font-size:11px;font-weight:bold;margin-left:8px}.b-good{background:rgba(34,197,94,.15);color:#22c55e}.b-warn{background:rgba(245,158,11,.15);color:#f59e0b}.b-bad{background:rgba(239,68,68,.15);color:#ef4444}.footer{margin-top:32px;padding-top:16px;border-top:1px solid rgba(148,163,184,0.2);font-size:11px;color:#64748b;text-align:center}</style></head><body><div class='h'>BrightAI Kernel — Evidence File</div><div class='section'><div class='label'>Title</div><div class='val' id='t'>—</div></div><div class='section'><div class='label'>Query</div><div class='val' id='q'>—</div></div><div class='section'><div class='label'>Hash</div><div class='val' id='h'>—</div></div><div class='section'><div class='label'>Risk Score</div><div class='val'><span id='r'>—</span> <span id='rb' class='badge'>—</span></div></div><div class='section'><div class='label'>Status</div><div class='val' id='s'>—</div></div><div class='footer'>هذا ملف تجريبي — في الإنتاج يُولّد فعلياً من Kernel API. للتفاصيل، افتح <a href='/kernel/evidence/' style='color:#22d3ee'>صفحة الأدلة</a>.</div></body></html>"
+      ></iframe>
+
+      <div class="kernel-modal__actions">
+        <button type="button" class="kernel-modal__btn" data-kernel-evidence-preview-modal-close>إغلاق</button>
+        <button type="button" class="kernel-modal__btn kernel-modal__btn--primary" data-kernel-evidence-download-from-preview>
+          <span aria-hidden="true"><Fragment set:html={iconDownload} /></span>
+          <span>تنزيل PDF</span>
+        </button>
+      </div>
+    </div>
+  </div>
 </KernelLayout>
+
+<script is:inline>
+  // REPORTS-15 — Evidence interactivity (filters, preview modal, downloads, generate).
+  (function () {
+    'use strict';
+
+    function el(q, root) { return (root || document).querySelector(q); }
+    function elAll(q, root) { return Array.prototype.slice.call((root || document).querySelectorAll(q)); }
+
+    function downloadFile(name, mime, content) {
+      var blob = (content instanceof Blob) ? content : new Blob([content], { type: mime });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url; a.download = name;
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(function () { URL.revokeObjectURL(url); }, 1500);
+    }
+
+    function riskBadgeFor(score) {
+      if (score > 85) return '<span style="display:inline-block;padding:4px 10px;border-radius:9999px;font-size:11px;font-weight:bold;background:rgba(239,68,68,.15);color:#ef4444;">حرج (' + score + ')</span>';
+      if (score >= 60) return '<span style="display:inline-block;padding:4px 10px;border-radius:9999px;font-size:11px;font-weight:bold;background:rgba(245,158,11,.15);color:#f59e0b;">مرتفع (' + score + ')</span>';
+      if (score >= 30) return '<span style="display:inline-block;padding:4px 10px;border-radius:9999px;font-size:11px;font-weight:bold;background:rgba(245,158,11,.15);color:#f59e0b;">متوسط (' + score + ')</span>';
+      return '<span style="display:inline-block;padding:4px 10px;border-radius:9999px;font-size:11px;font-weight:bold;background:rgba(34,197,94,.15);color:#22c55e;">منخفض (' + score + ')</span>';
+    }
+
+    function openPreview(btn) {
+      var modal = el('[data-kernel-evidence-preview-modal]');
+      if (!modal) return;
+      var data = {
+        title:  btn.getAttribute('data-title'),
+        trace:  btn.getAttribute('data-trace'),
+        hash:   btn.getAttribute('data-hash'),
+        query:  btn.getAttribute('data-query'),
+        status: btn.getAttribute('data-status'),
+        signed: btn.getAttribute('data-signed'),
+        sector: btn.getAttribute('data-sector'),
+        pack:   btn.getAttribute('data-pack'),
+        size:   btn.getAttribute('data-size'),
+        risk:   parseInt(btn.getAttribute('data-risk') || '0', 10),
+        id:     btn.getAttribute('data-kernel-evidence-preview'),
+      };
+
+      var setText = function (sel, val) { var n = el(sel); if (n) n.textContent = val || '—'; };
+      setText('[data-kernel-preview-trace]', data.trace);
+      setText('[data-kernel-preview-hash]', data.hash);
+      setText('[data-kernel-preview-sector]', data.sector);
+      setText('[data-kernel-preview-pack]', data.pack);
+      setText('[data-kernel-preview-signed]', data.signed);
+
+      // Build the iframe content with the right values
+      var frame = el('[data-kernel-preview-frame]');
+      if (frame) {
+        var html =
+          '<html lang="ar" dir="rtl"><head><meta charset="UTF-8"><style>' +
+          'body{margin:0;padding:32px;background:#0a0e1a;color:#f1f5f9;font-family:"IBM Plex Sans Arabic",sans-serif;line-height:1.7}' +
+          '.h{font-size:24px;color:#22d3ee;border-bottom:1px solid rgba(148,163,184,.2);padding-bottom:8px;margin-bottom:24px}' +
+          '.label{font-size:11px;text-transform:uppercase;color:#94a3b8;letter-spacing:.05em;font-weight:bold}' +
+          '.val{font-family:"IBM Plex Mono",monospace;font-size:13px;color:#f1f5f9;margin-bottom:16px;word-break:break-all}' +
+          '.section{margin-bottom:24px}' +
+          '.footer{margin-top:32px;padding-top:16px;border-top:1px solid rgba(148,163,184,.2);font-size:11px;color:#64748b;text-align:center}' +
+          '</style></head><body>' +
+          '<div class="h">BrightAI Kernel — Evidence File</div>' +
+          '<div class="section"><div class="label">Evidence ID</div><div class="val">' + (data.id || '—') + '</div></div>' +
+          '<div class="section"><div class="label">Title</div><div class="val">' + (data.title || '—') + '</div></div>' +
+          '<div class="section"><div class="label">Query</div><div class="val">' + (data.query || '—') + '</div></div>' +
+          '<div class="section"><div class="label">Trace ID</div><div class="val">' + (data.trace || '—') + '</div></div>' +
+          '<div class="section"><div class="label">Hash (SHA-256)</div><div class="val">' + (data.hash || '—') + '</div></div>' +
+          '<div class="section"><div class="label">Risk Score</div><div class="val">' + riskBadgeFor(data.risk) + '</div></div>' +
+          '<div class="section"><div class="label">Status</div><div class="val">' + (data.status || '—') + '</div></div>' +
+          '<div class="section"><div class="label">Sector</div><div class="val">' + (data.sector || '—') + '</div></div>' +
+          '<div class="section"><div class="label">Compliance Pack</div><div class="val">' + (data.pack || '—') + '</div></div>' +
+          '<div class="section"><div class="label">Size</div><div class="val">' + (data.size || '—') + '</div></div>' +
+          '<div class="section"><div class="label">Signed</div><div class="val">' + (data.signed || 'لم يوقّع بعد') + '</div></div>' +
+          '<div class="footer">هذا ملف تجريبي — في الإنتاج يُولّد فعلياً من Kernel API. للتفاصيل، افتح <a href="/kernel/evidence/" style="color:#22d3ee">صفحة الأدلة</a>.</div>' +
+          '</body></html>';
+        frame.srcdoc = html;
+      }
+
+      modal.setAttribute('data-open', 'true');
+      modal.setAttribute('aria-hidden', 'false');
+      modal.dataset.previewId = data.id || '';
+
+      setTimeout(function () {
+        var close = el('.kernel-modal__close');
+        if (close) close.focus();
+      }, 50);
+    }
+
+    function closePreview() {
+      var modal = el('[data-kernel-evidence-preview-modal]');
+      if (!modal) return;
+      modal.setAttribute('data-open', 'false');
+      modal.setAttribute('aria-hidden', 'true');
+    }
+
+    function downloadFor(id) {
+      // Demo: produce a tiny text+html file describing the evidence.
+      var card = el('[data-kernel-evidence-item="' + id + '"]');
+      if (!card) return;
+      var title = card.querySelector('.kernel-evidence-item__sub').textContent || id;
+      var content =
+        'BrightAI Kernel — Evidence File\n' +
+        '========================\n\n' +
+        'ID: ' + id + '\n' +
+        'Title: ' + title + '\n\n' +
+        'هذا ملف تجريبي يحاكي المحتوى الفعلي. في الإنتاج يتم توليد PDF موقّع رقمياً عبر Kernel API.\n';
+      downloadFile(id + '.pdf.txt', 'text/plain;charset=utf-8', content);
+    }
+
+    function applyFilters() {
+      var sector = el('[data-kernel-evidence-filter="sector"]').value;
+      var pack = el('[data-kernel-evidence-filter="pack"]').value;
+
+      var items = elAll('[data-kernel-evidence-item]');
+      var shown = 0;
+      var totalSize = 0;
+      var packs = new Set();
+      items.forEach(function (it) {
+        var s = it.getAttribute('data-sector') || '';
+        var p = it.getAttribute('data-pack') || '';
+        var visible = (sector === '' || s === sector) && (pack === '' || p === pack);
+        it.hidden = !visible;
+        if (visible) {
+          shown++;
+          var sizeTxt = (it.querySelector('.kernel-evidence-item__meta dd:nth-of-type(5)') || {}).textContent || '';
+          var kb = parseFloat((sizeTxt || '').replace(/[^\d.]/g, ''));
+          if (!isNaN(kb)) totalSize += kb;
+          packs.add(p);
+        }
+      });
+
+      var counter = el('[data-kernel-evidence-count]');
+      if (counter) {
+        counter.textContent =
+          shown + ' من ' + items.length +
+          ' · ' + (totalSize ? Math.round(totalSize) + 'KB' : '—') + ' إجمالي' +
+          ' · ' + packs.size + ' حزم امتثال';
+      }
+    }
+
+    function generateNew() {
+      // Build a fresh card and prepend to the grid.
+      var grid = el('[data-kernel-evidence-grid]');
+      if (!grid) return;
+      var id = 'EVD-2026-' + (10500 + Math.floor(Math.random() * 99));
+      var trace = 'AI-2026-' + (10500 + Math.floor(Math.random() * 99));
+      var now = new Date();
+      var iso = now.toISOString();
+      var localTime = now.toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit', hour12: false });
+      var sectors = ['banking', 'government', 'healthcare', 'manufacturing', 'telecom'];
+      var packs = ['pdpl', 'nca', 'sdaia', 'sfda', 'sama', 'iso42001', 'iso27001'];
+      var sector = sectors[Math.floor(Math.random() * sectors.length)];
+      var pack = packs[Math.floor(Math.random() * packs.length)];
+      var sectorLabel = { banking: 'البنوك', government: 'الحكومة', healthcare: 'الرعاية الصحية', manufacturing: 'الصناعة', telecom: 'الاتصالات' }[sector];
+      var packLabel = { pdpl: 'PDPL', nca: 'NCA ECC', sdaia: 'SDAIA', sfda: 'SFDA', sama: 'SAMA', iso42001: 'ISO 42001', iso27001: 'ISO 27001' }[pack];
+      var risk = Math.floor(Math.random() * 80) + 10;
+      var status = risk > 85 ? 'blocked' : risk >= 60 ? 'pending_approval' : 'allowed';
+      var hash = '0x' + Array.from({ length: 32 }, function () { return '0123456789abcdef'[Math.floor(Math.random() * 16)]; }).join('');
+
+      var article = document.createElement('article');
+      article.className = 'kernel-evidence-item';
+      article.setAttribute('data-kernel-evidence-item', id);
+      article.setAttribute('data-sector', sector);
+      article.setAttribute('data-pack', pack);
+      article.setAttribute('data-created-at', iso);
+
+      article.innerHTML =
+        '<header class="kernel-evidence-item__head">' +
+          '<span class="kernel-evidence-item__icon" aria-hidden="true">' +
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>' +
+          '</span>' +
+          '<div class="kernel-evidence-item__title-block">' +
+            '<h3 class="kernel-evidence-item__title">' + id + '.pdf</h3>' +
+            '<p class="kernel-evidence-item__sub">دليل مولّد تلقائياً — ' + localTime + '</p>' +
+          '</div>' +
+        '</header>' +
+        '<dl class="kernel-evidence-item__meta">' +
+          '<dt>التاريخ</dt><dd>' + localTime + '</dd>' +
+          '<dt>القطاع</dt><dd>' + sectorLabel + '</dd>' +
+          '<dt>الحزمة</dt><dd>' + packLabel + '</dd>' +
+          '<dt>الحجم</dt><dd>' + (32 + Math.floor(Math.random() * 90)) + 'KB</dd>' +
+        '</dl>' +
+        '<footer class="kernel-evidence-item__footer">' +
+          '<span class="kernel-evidence-item__signature' + (status === 'pending_approval' ? ' kernel-evidence-item__signature--pending' : '') + '">' +
+            '<span aria-hidden="true">' +
+              (status === 'pending_approval'
+                ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>'
+                : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>') +
+            '</span>' +
+            '<span>' + (status === 'pending_approval' ? 'بانتظار التوقيع' : 'موقّع رقمياً') + '</span>' +
+          '</span>' +
+          '<div style="display:flex; gap:var(--space-1);">' +
+            '<button type="button" class="kernel-evidence-item__btn" data-kernel-evidence-preview="' + id + '" data-title="دليل مولّد تلقائياً" data-trace="' + trace + '" data-hash="' + hash + '" data-query="استعلام آلي" data-status="' + status + '" data-signed="' + localTime + '" data-sector="' + sectorLabel + '" data-pack="' + packLabel + '" data-size="64KB" data-risk="' + risk + '">' +
+              '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg><span>معاينة</span>' +
+            '</button>' +
+            '<button type="button" class="kernel-evidence-item__btn" data-kernel-evidence-download="' + id + '" aria-label="تنزيل ' + id + '">' +
+              '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><span>PDF</span>' +
+            '</button>' +
+          '</div>' +
+        '</footer>';
+
+      grid.insertBefore(article, grid.firstChild);
+      article.style.animation = 'kernelChatMsgIn 0.4s var(--ease-out) both';
+
+      // Re-bind for the new buttons
+      bindItemButtons(article);
+      applyFilters();
+    }
+
+    function bindItemButtons(scope) {
+      var root = scope || document;
+      elAll('[data-kernel-evidence-preview]', root).forEach(function (b) {
+        if (b.dataset.bound === '1') return;
+        b.dataset.bound = '1';
+        b.addEventListener('click', function () { openPreview(b); });
+      });
+      elAll('[data-kernel-evidence-download]', root).forEach(function (b) {
+        if (b.dataset.bound === '1') return;
+        b.dataset.bound = '1';
+        b.addEventListener('click', function () { downloadFor(b.getAttribute('data-kernel-evidence-download') || ''); });
+      });
+    }
+
+    function bindModal() {
+      var modal = el('[data-kernel-evidence-preview-modal]');
+      if (!modal || modal.dataset.bound === '1') return;
+      modal.dataset.bound = '1';
+      elAll('[data-kernel-evidence-preview-modal-close]', modal).forEach(function (n) {
+        n.addEventListener('click', closePreview);
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && modal.getAttribute('data-open') === 'true') closePreview();
+      });
+      var dl = el('[data-kernel-evidence-download-from-preview]');
+      if (dl) dl.addEventListener('click', function () {
+        var id = modal.dataset.previewId;
+        if (id) downloadFor(id);
+      });
+    }
+
+    function bindFilters() {
+      elAll('[data-kernel-evidence-filter]').forEach(function (sel) {
+        if (sel.dataset.bound === '1') return;
+        sel.dataset.bound = '1';
+        sel.addEventListener('change', applyFilters);
+      });
+      applyFilters();
+    }
+
+    function bindGenerate() {
+      var btn = el('[data-kernel-evidence-generate]');
+      if (!btn || btn.dataset.bound === '1') return;
+      btn.dataset.bound = '1';
+      btn.addEventListener('click', generateNew);
+    }
+
+    function init() {
+      bindFilters();
+      bindItemButtons();
+      bindModal();
+      bindGenerate();
+    }
+
+    document.addEventListener('astro:page-load', init);
+    if (document.readyState !== 'loading') init();
+  })();
+</script>

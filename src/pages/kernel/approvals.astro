@@ -1,12 +1,16 @@
 ---
 /**
- * /kernel/approvals/ — Human-in-the-loop approvals queue (REPORTS-14).
+ * /kernel/approvals/ — Human-in-the-loop approvals queue (REPORTS-15).
+ *
+ * REPORTS-15 update:
+ * - Tabs: Pending / Approved / Rejected (with counts + notification badge on Pending).
+ * - Approval cards: snippet + risk score + requester avatar + 3 actions.
+ * - Approval modal (opened on Approve/Reject): full request context +
+ *   signature/comment textarea + decision confirmation.
+ * - Demo mode: all actions are stubbed locally (status updates + UI feedback).
+ * - Mobile responsive + RTL preserved.
  */
 import KernelLayout from '../../layouts/KernelLayout.astro';
-import KernelTabs from '../../components/kernel/KernelTabs.astro';
-import KernelCard from '../../components/kernel/KernelCard.astro';
-import KernelActivityList from '../../components/kernel/KernelActivityList.astro';
-import KernelActivityItem from '../../components/kernel/KernelActivityItem.astro';
 import KernelDemoPill from '../../components/kernel/KernelDemoPill.astro';
 import { getKernelUnit } from '../../data/kernel';
 
@@ -21,17 +25,157 @@ const jsonLd = {
   description: unit.description,
 };
 
-const tabs = [
-  { id: 'pending', label: 'قيد الانتظار', count: 7, selected: true },
-  { id: 'critical', label: 'حرجة', count: 3, selected: false },
-  { id: 'all', label: 'الكل', count: 24, selected: false },
-  { id: 'completed', label: 'مكتملة', selected: false },
-  { id: 'rejected', label: 'مرفوضة', selected: false },
-];
-
-const iconApprovals = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>';
+const iconCheck = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+const iconX = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+const iconComment = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>';
 const iconWarning = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>';
 const iconClock = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>';
+const iconClose = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+
+// Tabs (with notification badge on Pending)
+const tabs = [
+  { id: 'pending',   label: 'قيد الانتظار', count: 7, selected: true,  alert: true },
+  { id: 'critical',  label: 'حرجة',         count: 3 },
+  { id: 'in_progress', label: 'قيد المراجعة', count: 2 },
+  { id: 'approved',  label: 'موافق عليها',  count: 142 },
+  { id: 'rejected',  label: 'مرفوضة',        count: 8 },
+];
+
+type ApprovalItem = {
+  id: string;
+  title: string;
+  context: string;
+  traceId: string;
+  risk: number;
+  requester: string;
+  requesterRole: string;
+  initials: string;
+  age: string;
+  category: 'pending' | 'approved' | 'rejected';
+};
+
+// Pending approvals (default tab)
+const PENDING: ApprovalItem[] = [
+  {
+    id: 'a-1',
+    title: 'وصول بيانات عملاء — القسم 5 PDPL',
+    context: 'طلب تصدير قائمة 2,400 عميل تحتوي اسم + هاتف + بريد + عنوان. النظام رصد 87% مخاطرة وأوقف التنفيذ.',
+    traceId: 'AI-2026-10493',
+    risk: 87,
+    requester: 'محمد الحربي',
+    requesterRole: 'تسويق',
+    initials: 'م',
+    age: 'قبل 3د',
+    category: 'pending',
+  },
+  {
+    id: 'a-2',
+    title: 'تشغيل نموذج توليدي على سجلات طبية',
+    context: 'محاولة استخدام نموذج توليدي لتحليل 580 سجل طبي مع PII. النظام رصد PII متعدد الحقول وطلب مراجعة SFDA.',
+    traceId: 'AI-2026-10491',
+    risk: 72,
+    requester: 'سارة الفيصل',
+    requesterRole: 'مالية',
+    initials: 'س',
+    age: 'قبل 8د',
+    category: 'pending',
+  },
+  {
+    id: 'a-3',
+    title: 'تصدير تقرير مالي خارجي',
+    context: 'إنشاء تقرير مالي ربع سنوي يحتوي أرقاماً تشغيلية. النظام رصد مشاركة مع طرف خارجي وطلب مراجعة.',
+    traceId: 'AI-2026-10488',
+    risk: 68,
+    requester: 'سارة الفيصل',
+    requesterRole: 'مالية',
+    initials: 'س',
+    age: 'قبل 14د',
+    category: 'pending',
+  },
+  {
+    id: 'a-4',
+    title: 'دمج نموذج ثالث + PII',
+    context: 'جرّب دمج نموذج خارجي (Cohere) مع كشف PII. النظام رصد مخاطرة مرتفعة وطلب مراجعة من قسم تقنية.',
+    traceId: 'AI-2026-10485',
+    risk: 64,
+    requester: 'خالد الغامدي',
+    requesterRole: 'تقنية',
+    initials: 'خ',
+    age: 'قبل 22د',
+    category: 'pending',
+  },
+  {
+    id: 'a-5',
+    title: 'استعلام بنكي بمعلومات حساسة',
+    context: 'استعلام توليدي يستهدف حساب عميل بعينه. النظام رصد PII مالي وأوقف التنفيذ.',
+    traceId: 'AI-2026-10481',
+    risk: 61,
+    requester: 'محمد الحربي',
+    requesterRole: 'تسويق',
+    initials: 'م',
+    age: 'قبل 31د',
+    category: 'pending',
+  },
+];
+
+const APPROVED: ApprovalItem[] = [
+  {
+    id: 'a-6',
+    title: 'تلخيص سياسة الإجازات',
+    context: 'استعلام تلخيصي عن لوائح الإجازات. موافقة تلقائية (مخاطر 12/100).',
+    traceId: 'AI-2026-10492',
+    risk: 12,
+    requester: 'أحمد القحطاني',
+    requesterRole: 'عمليات',
+    initials: 'أ',
+    age: 'قبل 18د',
+    category: 'approved',
+  },
+  {
+    id: 'a-7',
+    title: 'تحليل عقد مورد',
+    context: 'تحليل عقد شراء مورّد مع إخفاء PII تلقائي. مخاطر 28/100.',
+    traceId: 'AI-2026-10490',
+    risk: 28,
+    requester: 'نورة الشهراني',
+    requesterRole: 'قانونية',
+    initials: 'ن',
+    age: 'قبل 24د',
+    category: 'approved',
+  },
+];
+
+const REJECTED: ApprovalItem[] = [
+  {
+    id: 'a-8',
+    title: 'استعلام مع رقم هوية عميل',
+    context: 'محاولة الوصول لبيانات عميل برقم هوية وطني مباشرة. مخاطر 94/100 — مرفوضة.',
+    traceId: 'AI-2026-10470',
+    risk: 94,
+    requester: 'محمد الحربي',
+    requesterRole: 'تسويق',
+    initials: 'م',
+    age: 'قبل 2س',
+    category: 'rejected',
+  },
+];
+
+function riskClass(score: number): string {
+  if (score >= 80) return 'kernel-approval-card--critical';
+  if (score >= 60) return 'kernel-approval-card--high';
+  return 'kernel-approval-card--medium';
+}
+
+function riskBadgeClass(score: number): string {
+  if (score > 85) return 'kernel-risk-badge--critical';
+  if (score >= 60) return 'kernel-risk-badge--high';
+  if (score >= 30) return 'kernel-risk-badge--medium';
+  return 'kernel-risk-badge--low';
+}
+
+// Counts
+const COUNT_PENDING = PENDING.length + 3; // 5 listed + 2 in queue
+const COUNT_CRITICAL = PENDING.filter(p => p.risk >= 80).length + 1;
 ---
 
 <KernelLayout
@@ -62,55 +206,385 @@ const iconClock = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" st
   </header>
 
   <div class="kernel-main kernel-page-fade-in">
-    <KernelTabs tabs={tabs} ariaLabel="حالات الموافقات" />
 
-    <KernelCard
-      title="طلبات تنتظر قرارك"
-      subtitle="مرتّبة حسب الخطورة (الأعلى أولاً)"
-      iconSvg={iconApprovals}
-    >
-      <div class="kernel-card__body">
-        <KernelActivityList>
-          <KernelActivityItem
-            title="وصول بيانات عملاء — القسم 5 PDPL"
-            traceId="AI-2026-10493"
-            meta="حرج · 87%"
-            tone="danger"
-            iconSvg={iconWarning}
-            time="قبل 3د"
-          />
-          <KernelActivityItem
-            title="تشغيل نموذج توليدي على سجلات طبية"
-            traceId="AI-2026-10491"
-            meta="عالية · 72%"
-            tone="warning"
-            iconSvg={iconClock}
-            time="قبل 8د"
-          />
-          <KernelActivityItem
-            title="تصدير تقرير مالي خارجي — يحتاج مراجعة"
-            traceId="AI-2026-10488"
-            meta="عالية · 68%"
-            tone="warning"
-            iconSvg={iconClock}
-            time="قبل 14د"
-          />
-          <KernelActivityItem
-            title="دمج نموذج ثالث — كشف PII جديد"
-            traceId="AI-2026-10485"
-            meta="عالية · 64%"
-            tone="warning"
-            iconSvg={iconClock}
-            time="قبل 22د"
-          />
-        </KernelActivityList>
+    <!-- Tabs with notification badge -->
+    <div class="kernel-tabs" role="tablist" aria-label="حالات الموافقات" data-kernel-tabs>
+      {tabs.map(tab => (
+        <button
+          class="kernel-tabs__item"
+          role="tab"
+          type="button"
+          data-tab-id={tab.id}
+          aria-selected={tab.selected ? 'true' : 'false'}
+          aria-controls={`tabpanel-${tab.id}`}
+        >
+          <span>{tab.label}</span>
+          <span class:list={['kernel-approvals-tabs-count', tab.alert && 'kernel-approvals-tabs-count--alert']}>{tab.count}</span>
+        </button>
+      ))}
+    </div>
+
+    <!-- PENDING panel -->
+    <section class="kernel-tabs-panel" id="tabpanel-pending" role="tabpanel" data-kernel-panel="pending">
+      <div class="kernel-approvals-list" data-kernel-approval-list="pending">
+        {PENDING.map(item => (
+          <article
+            class:list={['kernel-approval-card', riskClass(item.risk)]}
+            data-kernel-approval-item={item.id}
+            data-decision=""
+          >
+            <header class="kernel-approval-card__head">
+              <div class="kernel-approval-card__snippet">
+                <h3 class="kernel-approval-card__title">{item.title}</h3>
+                <div class="kernel-approval-card__meta">
+                  <span class:list={['kernel-risk-badge', riskBadgeClass(item.risk)]} aria-label={`درجة المخاطر ${item.risk}`}>{item.risk}</span>
+                  <span>·</span>
+                  <span class="kernel-approval-card__meta-trace">{item.traceId}</span>
+                  <span>·</span>
+                  <span>{item.age}</span>
+                </div>
+              </div>
+              <div class="kernel-approval-card__requester" aria-label={`مقدّم الطلب: ${item.requester}`}>
+                <span class="kernel-approval-card__avatar" aria-hidden="true">{item.initials}</span>
+                <span>
+                  <span style="display:block; font-weight:var(--font-semibold); color:var(--text-primary);">{item.requester}</span>
+                  <span style="display:block; font-size:0.7rem; color:var(--text-secondary);">{item.requesterRole}</span>
+                </span>
+              </div>
+            </header>
+            <p class="kernel-approval-card__body">{item.context}</p>
+            <footer class="kernel-approval-card__actions">
+              <button
+                type="button"
+                class="kernel-approval-card__btn"
+                data-kernel-approval-action="discuss"
+                data-id={item.id}
+                aria-label={`نقاش ${item.title}`}
+              >
+                <span aria-hidden="true"><Fragment set:html={iconComment} /></span>
+                <span>نقاش</span>
+              </button>
+              <button
+                type="button"
+                class="kernel-approval-card__btn kernel-approval-card__btn--reject"
+                data-kernel-approval-action="reject"
+                data-id={item.id}
+                data-approval-title={item.title}
+                data-approval-context={item.context}
+                data-approval-trace={item.traceId}
+                data-approval-risk={item.risk}
+                aria-label={`رفض ${item.title}`}
+              >
+                <span aria-hidden="true"><Fragment set:html={iconX} /></span>
+                <span>رفض</span>
+              </button>
+              <button
+                type="button"
+                class="kernel-approval-card__btn kernel-approval-card__btn--approve"
+                data-kernel-approval-action="approve"
+                data-id={item.id}
+                data-approval-title={item.title}
+                data-approval-context={item.context}
+                data-approval-trace={item.traceId}
+                data-approval-risk={item.risk}
+                aria-label={`موافقة على ${item.title}`}
+              >
+                <span aria-hidden="true"><Fragment set:html={iconCheck} /></span>
+                <span>موافقة</span>
+              </button>
+            </footer>
+          </article>
+        ))}
       </div>
-      <Fragment slot="footer">
-        <footer class="kernel-card__footer">
-          <span>3 حرجة · 4 عالية</span>
-          <span class="kernel-card__footer-link">رفض جماعي يتطلب سبباً</span>
-        </footer>
-      </Fragment>
-    </KernelCard>
+    </section>
+
+    <!-- APPROVED panel -->
+    <section class="kernel-tabs-panel" id="tabpanel-approved" role="tabpanel" data-kernel-panel="approved" hidden>
+      <div class="kernel-approvals-list" data-kernel-approval-list="approved">
+        {APPROVED.map(item => (
+          <article
+            class:list={['kernel-approval-card', riskClass(item.risk)]}
+            data-kernel-approval-item={item.id}
+            data-decision="approved"
+          >
+            <header class="kernel-approval-card__head">
+              <div class="kernel-approval-card__snippet">
+                <h3 class="kernel-approval-card__title">{item.title}</h3>
+                <div class="kernel-approval-card__meta">
+                  <span class:list={['kernel-risk-badge', riskBadgeClass(item.risk)]} aria-label={`درجة المخاطر ${item.risk}`}>{item.risk}</span>
+                  <span>·</span>
+                  <span>{item.traceId}</span>
+                  <span>·</span>
+                  <span>{item.age}</span>
+                </div>
+              </div>
+              <div class="kernel-approval-card__requester">
+                <span class="kernel-approval-card__avatar" aria-hidden="true">{item.initials}</span>
+                <span>
+                  <span style="display:block; font-weight:var(--font-semibold); color:var(--text-primary);">{item.requester}</span>
+                  <span style="display:block; font-size:0.7rem; color:var(--text-secondary);">{item.requesterRole}</span>
+                </span>
+              </div>
+            </header>
+            <p class="kernel-approval-card__body">{item.context}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <!-- REJECTED panel -->
+    <section class="kernel-tabs-panel" id="tabpanel-rejected" role="tabpanel" data-kernel-panel="rejected" hidden>
+      <div class="kernel-approvals-list" data-kernel-approval-list="rejected">
+        {REJECTED.map(item => (
+          <article class:list={['kernel-approval-card', riskClass(item.risk)]}>
+            <header class="kernel-approval-card__head">
+              <div class="kernel-approval-card__snippet">
+                <h3 class="kernel-approval-card__title">{item.title}</h3>
+                <div class="kernel-approval-card__meta">
+                  <span class:list={['kernel-risk-badge', riskBadgeClass(item.risk)]} aria-label={`درجة المخاطر ${item.risk}`}>{item.risk}</span>
+                  <span>·</span>
+                  <span>{item.traceId}</span>
+                  <span>·</span>
+                  <span>{item.age}</span>
+                </div>
+              </div>
+              <div class="kernel-approval-card__requester">
+                <span class="kernel-approval-card__avatar" aria-hidden="true">{item.initials}</span>
+                <span>
+                  <span style="display:block; font-weight:var(--font-semibold); color:var(--text-primary);">{item.requester}</span>
+                  <span style="display:block; font-size:0.7rem; color:var(--text-secondary);">{item.requesterRole}</span>
+                </span>
+              </div>
+            </header>
+            <p class="kernel-approval-card__body">{item.context}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  </div>
+
+  <!-- Approval modal (reused for approve/reject with appropriate tone) -->
+  <div class="kernel-modal" data-kernel-approval-modal data-open="false" role="dialog" aria-modal="true" aria-labelledby="approval-modal-title" aria-hidden="true">
+    <div class="kernel-modal__backdrop" data-kernel-approval-modal-close></div>
+    <div class="kernel-modal__dialog" tabindex="-1">
+      <header class="kernel-modal__head">
+        <h2 class="kernel-modal__title" id="approval-modal-title" data-kernel-approval-modal-title>تأكيد القرار</h2>
+        <button type="button" class="kernel-modal__close" aria-label="إغلاق" data-kernel-approval-modal-close>
+          <Fragment set:html={iconClose} />
+        </button>
+      </header>
+
+      <div class="kernel-modal__context" data-kernel-approval-modal-context>—</div>
+
+      <div class="kernel-modal__field">
+        <label for="approval-comment" class="kernel-modal__label">
+          <span data-kernel-approval-modal-action-label>ملاحظاتك / توقيعك الإلكتروني</span>
+        </label>
+        <textarea
+          id="approval-comment"
+          class="kernel-modal__textarea"
+          placeholder="اكتب سبب القرار أو تعليقاً… (مطلوب للرفض — اختياري للموافقة)"
+          data-kernel-approval-modal-comment
+        ></textarea>
+      </div>
+
+      <div class="kernel-modal__actions">
+        <button type="button" class="kernel-modal__btn" data-kernel-approval-modal-close>إلغاء</button>
+        <button
+          type="button"
+          class="kernel-modal__btn kernel-modal__btn--reject"
+          data-kernel-approval-modal-decide="reject"
+          hidden
+        >
+          <span aria-hidden="true"><Fragment set:html={iconX} /></span>
+          <span>تأكيد الرفض</span>
+        </button>
+        <button
+          type="button"
+          class="kernel-modal__btn kernel-modal__btn--primary"
+          data-kernel-approval-modal-decide="approve"
+          hidden
+        >
+          <span aria-hidden="true"><Fragment set:html={iconCheck} /></span>
+          <span>تأكيد الموافقة</span>
+        </button>
+      </div>
+    </div>
   </div>
 </KernelLayout>
+
+<script is:inline>
+  // REPORTS-15 — Approvals interactivity (tabs + modal + decision stub).
+  (function () {
+    'use strict';
+
+    function el(q, root) { return (root || document).querySelector(q); }
+    function elAll(q, root) { return Array.prototype.slice.call((root || document).querySelectorAll(q)); }
+
+    function openModal(action, btn) {
+      var modal = el('[data-kernel-approval-modal]');
+      if (!modal) return;
+      var title   = btn.getAttribute('data-approval-title')   || '';
+      var context = btn.getAttribute('data-approval-context') || '';
+      var trace   = btn.getAttribute('data-approval-trace')   || '';
+      var risk    = btn.getAttribute('data-approval-risk')    || '';
+      var id      = btn.getAttribute('data-id')               || '';
+
+      modal.setAttribute('data-open', 'true');
+      modal.setAttribute('aria-hidden', 'false');
+      modal.dataset.decisionAction = action;
+      modal.dataset.targetId = id;
+
+      el('[data-kernel-approval-modal-title]').textContent = action === 'approve' ? 'تأكيد الموافقة' : 'تأكيد الرفض';
+      el('[data-kernel-approval-modal-context]').innerHTML =
+        '<strong style="color:var(--text-primary);">' + title + '</strong><br><br>' +
+        '<span style="font-family:var(--font-mono); font-size:0.85rem;">Trace: ' + trace + ' · Risk: ' + risk + '</span><br><br>' +
+        '<span style="color:var(--text-secondary);">' + context + '</span>';
+
+      el('[data-kernel-approval-modal-action-label]').textContent = action === 'approve'
+        ? 'ملاحظاتك (اختياري)'
+        : 'سبب الرفض (مطلوب)';
+
+      var rejectBtn = el('[data-kernel-approval-modal-decide="reject"]');
+      var approveBtn = el('[data-kernel-approval-modal-decide="approve"]');
+      if (rejectBtn) rejectBtn.hidden = action !== 'reject';
+      if (approveBtn) approveBtn.hidden = action !== 'approve';
+
+      var ta = el('[data-kernel-approval-modal-comment]');
+      if (ta) {
+        ta.value = '';
+        setTimeout(function () { ta.focus(); }, 50);
+      }
+    }
+
+    function closeModal() {
+      var modal = el('[data-kernel-approval-modal]');
+      if (!modal) return;
+      modal.setAttribute('data-open', 'false');
+      modal.setAttribute('aria-hidden', 'true');
+    }
+
+    function moveItemAfterDecision(id, action) {
+      // Remove from pending list UI + update counts
+      var item = el('[data-kernel-approval-item="' + id + '"]');
+      if (!item) return;
+      item.style.transition = 'opacity 350ms, transform 350ms';
+      item.style.opacity = '0';
+      item.style.transform = 'translateX(-12px)';
+      setTimeout(function () { item.remove(); updateCounts(action); }, 360);
+    }
+
+    function updateCounts(action) {
+      // Update the "pending" tab count badge
+      var pendingTab = el('[data-tab-id="pending"]');
+      if (pendingTab) {
+        var badge = pendingTab.querySelector('.kernel-approvals-tabs-count');
+        if (badge) {
+          var current = parseInt(badge.textContent.replace(/[^\d]/g, ''), 10) || 0;
+          badge.textContent = Math.max(0, current - 1);
+        }
+      }
+      // Update approved/rejected counts
+      var counterId = action === 'approve' ? 'approved' : 'rejected';
+      var targetTab = el('[data-tab-id="' + counterId + '"]');
+      if (targetTab) {
+        var b = targetTab.querySelector('.kernel-approvals-tabs-count');
+        if (b) {
+          var n = parseInt(b.textContent.replace(/[^\d]/g, ''), 10) || 0;
+          b.textContent = n + 1;
+        }
+      }
+    }
+
+    function bindTabs() {
+      var tabButtons = elAll('[data-tab-id]');
+      tabButtons.forEach(function (btn) {
+        if (btn.dataset.bound === '1') return;
+        btn.dataset.bound = '1';
+        btn.addEventListener('click', function () {
+          var id = btn.getAttribute('data-tab-id');
+          tabButtons.forEach(function (b) {
+            b.setAttribute('aria-selected', b.getAttribute('data-tab-id') === id ? 'true' : 'false');
+          });
+          elAll('[data-kernel-panel]').forEach(function (p) {
+            p.hidden = p.getAttribute('data-kernel-panel') !== id;
+          });
+        });
+      });
+    }
+
+    function bindActions() {
+      elAll('[data-kernel-approval-action]').forEach(function (btn) {
+        if (btn.dataset.bound === '1') return;
+        btn.dataset.bound = '1';
+        btn.addEventListener('click', function () {
+          var action = btn.getAttribute('data-kernel-approval-action');
+          if (action === 'discuss') {
+            // Discuss opens same modal in a comment-only state (no decision buttons).
+            var modal = el('[data-kernel-approval-modal]');
+            if (modal) {
+              modal.setAttribute('data-open', 'true');
+              modal.setAttribute('aria-hidden', 'false');
+              el('[data-kernel-approval-modal-title]').textContent = 'فتح نقاش';
+              el('[data-kernel-approval-modal-context]').textContent = btn.getAttribute('data-approval-context') || btn.closest('[data-kernel-approval-item]').textContent;
+              el('[data-kernel-approval-modal-action-label]').textContent = 'تعليقك';
+              var rejectBtn = el('[data-kernel-approval-modal-decide="reject"]');
+              var approveBtn = el('[data-kernel-approval-modal-decide="approve"]');
+              if (rejectBtn) rejectBtn.hidden = true;
+              if (approveBtn) approveBtn.hidden = true;
+              setTimeout(function () {
+                var ta = el('[data-kernel-approval-modal-comment]');
+                if (ta) ta.focus();
+              }, 50);
+            }
+          } else {
+            openModal(action, btn);
+          }
+        });
+      });
+    }
+
+    function bindModal() {
+      var modal = el('[data-kernel-approval-modal]');
+      if (!modal || modal.dataset.bound === '1') return;
+      modal.dataset.bound = '1';
+
+      elAll('[data-kernel-approval-modal-close]', modal).forEach(function (n) {
+        n.addEventListener('click', closeModal);
+      });
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && modal.getAttribute('data-open') === 'true') closeModal();
+      });
+
+      // Decision confirmations
+      elAll('[data-kernel-approval-modal-decide]', modal).forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var action = btn.getAttribute('data-kernel-approval-modal-decide');
+          var commentEl = el('[data-kernel-approval-modal-comment]');
+          var comment = commentEl ? commentEl.value : '';
+          if (action === 'reject' && !comment.trim()) {
+            if (commentEl) {
+              commentEl.focus();
+              commentEl.style.borderColor = 'var(--status-danger)';
+              setTimeout(function () { commentEl.style.borderColor = ''; }, 1500);
+            }
+            return;
+          }
+          var id = modal.dataset.targetId;
+          if (id) moveItemAfterDecision(id, action);
+          closeModal();
+        });
+      });
+    }
+
+    function init() {
+      bindTabs();
+      bindActions();
+      bindModal();
+    }
+
+    document.addEventListener('astro:page-load', init);
+    if (document.readyState !== 'loading') init();
+  })();
+</script>
