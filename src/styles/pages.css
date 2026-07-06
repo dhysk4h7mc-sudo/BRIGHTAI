@@ -4392,11 +4392,8 @@ svg.icon {
   margin: 0 0 var(--space-6);
 }
 
-.docs-index__grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--space-4);
-}
+/* (REPORTS-20): Removed duplicate .docs-index__grid — same body appears
+   earlier in the file (with margin-block for tighter vertical rhythm). */
 
 @media (max-width: 1023px) {
   .docs-index__grid {

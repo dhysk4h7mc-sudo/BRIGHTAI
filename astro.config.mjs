@@ -1,7 +1,6 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
-import react from '@astrojs/react';
 
 export default defineConfig({
   site: 'https://brightai.site',
@@ -18,7 +17,6 @@ export default defineConfig({
     format: 'directory',
   },
   integrations: [
-    react(),
     sitemap({
       i18n: {
         defaultLocale: 'ar',

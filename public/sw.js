@@ -16,8 +16,9 @@ const PRECACHE_URLS = [
   OFFLINE_URL,
   '/manifest.webmanifest',
   '/assets/fonts/TheYearofTheCamel-Medium.woff2',
-  '/assets/images/logo.png',
-  '/images/hero-brain.svg'
+  '/logo-192.webp',
+  '/logo-96.webp',
+  '/assets/images/logo.webp',
 ];
 
 /* Install: precache + skip waiting for immediate activation */

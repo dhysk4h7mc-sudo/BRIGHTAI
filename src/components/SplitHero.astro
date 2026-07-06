@@ -8,7 +8,7 @@
  * Architecture:
  *   - Left column: Server-rendered hero text, CTAs, trust chip (SSR, SEO-safe)
  *   - Right column: Kernel showcase panel (SSR, interactive links)
- *   - Background layer: DottedSurface React island (canvas-based interactive
+ *   - Background layer: dotted-surface vanilla JS canvas (interactive
  *     dotted grid, 21st.dev inspired) hydrated lazily via client:visible
  *
  * Content Preservation Rule:
@@ -27,18 +27,19 @@
  * RTL: Layout flows naturally with logical properties (inset-inline, etc.)
  */
 
-import DottedSurface from './hero/DottedSurface.tsx';
 import BrightStar from './brand/BrightStar.astro';
 ---
 
 <section class="split-hero" aria-label="BrightAI الرئيسية">
-  {/* ─── Interactive Dotted-Surface (React island, client:visible + client:media)
-        Background visual is dimmed — The Star (BrightStar.astro) is the
-        primary visual on this section. Canvas stays as ambient texture.
-        client:media="(min-width: 768px)" prevents the React renderer
-        (~58KB gzipped) from downloading on mobile per DEC-017. ─── */}
+  {/* ─── Interactive Dotted-Surface (vanilla JS canvas — REPORTS-20)
+        Replaces the prior DottedSurface React island. Removes the React
+        renderer payload (~185KB raw / ~58KB gzipped) from the homepage
+        critical path. The canvas stays inert until JS hydrates
+        src/scripts/dotted-surface.js via astro:page-load. CSS controls
+        the ambient opacity/positioning; the script handles pointer
+        interaction and frame timing. ─── */}
   <div class="split-hero__visual" aria-hidden="true">
-    <DottedSurface client:visible client:media="(min-width: 768px)" />
+    <canvas class="dotted-surface-canvas"></canvas>
   </div>
 
   {/* ─── Gradient beam accents (pure CSS, enhanced) ─── */}
@@ -785,8 +786,8 @@ import BrightStar from './brand/BrightStar.astro';
       padding-bottom: 3rem;
     }
     /* REPORT-33: The .dotted-surface-canvas + .split-hero__visual display:none
-       rules live in components.css (Global) because the React island
-       DottedSurface.tsx is not scoped with SplitHero's data-astro-cid. */
+       rules live in components.css (Global) because the canvas markup
+       inside .split-hero__visual is shared across hero layouts. */
     .split-hero__vignette {
       background:
         radial-gradient(ellipse 100% 60% at 50% 30%, rgba(4,7,17,0.7), transparent 80%),
@@ -1022,4 +1023,10 @@ import BrightStar from './brand/BrightStar.astro';
     document.addEventListener('astro:page-load', init);
     document.addEventListener('astro:before-swap', destroy);
   })();
+</script>
+
+<script>
+  // Dotted-surface canvas — vanilla JS port (REPORTS-20).
+  // Replaces the prior React island. Bundled only on pages that mount SplitHero.
+  import '../scripts/dotted-surface.js';
 </script>

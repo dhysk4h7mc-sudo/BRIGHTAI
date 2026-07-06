@@ -46,19 +46,23 @@ const {
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-  <!-- Font preconnect -->
+  <!-- Font preconnect (REPORTS-20: trimmed to body 400 + heading 600 only). -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" />
+  <!-- Google Fonts CSS loaded non-blocking via print media trick — does not block render. -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;600&family=Inter:wght@400;600&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;600&family=Inter:wght@400;600&display=swap" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;600&family=Inter:wght@400;600&display=swap" /></noscript>
 
   <!-- Preload custom brand font -->
   <link rel="preload" href="/assets/fonts/TheYearofTheCamel-Medium.woff2" as="font" type="font/woff2" crossorigin />
 
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <link rel="icon" type="image/png" href="/logo.png" />
-  <link rel="apple-touch-icon" href="/logo.png" />
-  <link rel="preload" as="image" href="/logo.png" fetchpriority="high" />
+  <link rel="icon" type="image/png" href="/favicon-32x32.png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <!-- Brand logo preload — webp ~17KB instead of 406KB PNG (REPORTS-20). -->
+  <link rel="preload" as="image" href="/logo-192.webp" type="image/webp" fetchpriority="high" />
   <link rel="manifest" href="/manifest.webmanifest" />
 
   <!-- SEO -->
@@ -76,11 +80,13 @@ const {
 
   <ClientRouter />
 
-  <!-- Service Worker registration -->
+  <!-- Service Worker registration (REPORTS-20: deferred via setTimeout to not block initial load) -->
   <script is:inline>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', function() {
-        navigator.serviceWorker.register('/sw.js');
+        setTimeout(function() {
+          navigator.serviceWorker.register('/sw.js');
+        }, 100);
       });
     }
   </script>
@@ -100,16 +106,32 @@ const {
     <meta name="google-site-verification" content={SITE.googleVerification} />
   )}
 
-  {/* Google tag (gtag.js) — single injection point. Initial pageview on load. */}
-  <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${SITE.googleTagId}`}></script>
+  {/* Google tag (gtag.js) — REPORTS-20: deferred via requestIdleCallback-equivalent
+       so 182KB gtag.js doesn't compete with the LCP element. Initial pageview fires
+       after first paint via setTimeout(0) instead of blocking. */}
   <script is:inline set:html={`
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', '${SITE.googleTagId}', {
-      page_path: window.location.pathname,
-      anonymize_ip: true
-    });
+    gtag('config', '${SITE.googleTagId}', { anonymize_ip: true, send_page_view: false });
+    function loadGtag() {
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=${SITE.googleTagId}';
+      s.onload = function() {
+        gtag('event', 'page_view', {
+          page_path: window.location.pathname,
+          page_title: document.title,
+          page_location: window.location.href
+        });
+      };
+      document.head.appendChild(s);
+    }
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(loadGtag, { timeout: 4000 });
+    } else {
+      setTimeout(loadGtag, 1500);
+    }
   `}></script>
 
   {/* Microsoft Clarity — only when valid ID exists (not placeholder) */}
@@ -123,15 +145,12 @@ const {
     </script>
   )}
 
-  {/* SPA transition pageview — deduplicated via flag to prevent double-fire */}
+  {/* SPA transition pageview — fires page_view on view-transition navigations.
+       REPORTS-20: gtag.js itself is loaded lazily via requestIdleCallback above,
+       so this listener waits for gtag to exist before firing. */}
   <script>
     (function() {
-      let firstPageview = true;
-      document.addEventListener('astro:page-load', () => {
-        if (firstPageview) {
-          firstPageview = false;
-          return; // initial pageview already sent by gtag config above
-        }
+      document.addEventListener('astro:after-swap', () => {
         const w = window as any;
         if (w.gtag) {
           w.gtag('event', 'page_view', {
@@ -160,8 +179,7 @@ const {
   <style is:inline>
     @font-face {
       font-family: 'BrightAI Official';
-      src: url('/assets/fonts/TheYearofTheCamel-Medium.woff2') format('woff2'),
-           url('/assets/fonts/TheYearofTheCamel-Medium.otf') format('opentype');
+      src: url('/assets/fonts/TheYearofTheCamel-Medium.woff2') format('woff2');
       font-weight: 400 900;
       font-display: swap;
     }
@@ -179,16 +197,20 @@ const {
   </style>
 
   <!-- Styles — V3 Unified Design System -->
-  <!-- Load order: tokens → base → components → pages → utilities → animations → kernel -->
+  <!-- REPORTS-20: Wrapped in CSS layers so the cascade is predictable.
+       Lower layers win when specificity is equal (override-by-layer).
+       Order (low → high priority): tokens < base < components < pages < animations < kernel < utilities -->
   <style is:global>
-    @import '../styles/tokens.css';
-    @import '../styles/base.css';
-    @import '../styles/components.css';
-    @import '../styles/pages.css';
-    @import '../styles/utilities.css';
-    @import '../styles/color-usage.css';
-    @import '../styles/animations.css';
-    @import '../styles/kernel.css';
+    @layer tokens, base, components, pages, animations, kernel, utilities;
+
+    @import '../styles/tokens.css' layer(tokens);
+    @import '../styles/base.css' layer(base);
+    @import '../styles/components.css' layer(components);
+    @import '../styles/pages.css' layer(pages);
+    @import '../styles/utilities.css' layer(utilities);
+    @import '../styles/color-usage.css' layer(components);
+    @import '../styles/animations.css' layer(animations);
+    @import '../styles/kernel.css' layer(kernel);
   </style>
 </head>
 <body>

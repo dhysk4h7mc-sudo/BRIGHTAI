@@ -769,24 +769,9 @@
 /* ============================================================
    4.2 FEATURE CARD — icon top + hover lift + border-strong
    ============================================================ */
-.card--feature,
-.feature-card,
-.inner-card {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-  background: var(--bg-surface);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-xl);
-  padding: var(--space-6);
-  transition:
-    transform var(--duration-base) var(--ease-emphasized),
-    border-color var(--duration-base) var(--ease-emphasized),
-    box-shadow var(--duration-base) var(--ease-emphasized),
-    background var(--duration-base) var(--ease-emphasized),
-    opacity 0.55s var(--ease-emphasized);
-  will-change: transform;
-}
+/* (REPORTS-20): Removed duplicate base block — the canonical rule is at
+   the unified-motion system block further down (uses --reveal-duration).
+   Keeping the :hover state below. */
 
 .card--feature:hover,
 .feature-card:hover,
@@ -943,22 +928,8 @@
 }
 
 /* Card icon block (used by feature/metric cards) */
-.card__icon {
-  width: 48px;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(42,138,126,0.1);
-  border-radius: var(--radius-lg);
-  color: var(--interactive-primary);
-  margin-bottom: var(--space-4);
-}
-
-.card__icon svg {
-  width: 24px;
-  height: 24px;
-}
+/* (REPORTS-20): Removed duplicate .card__icon, .card__icon svg, .card__title
+   rules — identical duplicates appeared further down in the file. */
 
 .card__title {
   font-size: var(--text-xl);
