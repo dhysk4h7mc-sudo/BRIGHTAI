@@ -1,0 +1,3361 @@
+{
+  "results": [
+    {
+      "page": "home",
+      "path": "/",
+      "bp": "320",
+      "width": 320,
+      "docW": 320,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [
+        {
+          "sel": "a.text-green-400.hover:underline",
+          "w": 47,
+          "h": 21,
+          "text": "الواتساب"
+        },
+        {
+          "sel": "a.footer__link",
+          "w": 39,
+          "h": 44,
+          "text": "التدقيق"
+        },
+        {
+          "sel": "a.footer__link",
+          "w": 39,
+          "h": 44,
+          "text": "الامتثال"
+        },
+        {
+          "sel": "a.footer__link",
+          "w": 34,
+          "h": 44,
+          "text": "التقارير"
+        },
+        {
+          "sel": "a.footer__link",
+          "w": 35,
+          "h": 44,
+          "text": "التوثيق"
+        }
+      ],
+      "smallText": [
+        {
+          "sel": "span.chip.split-hero__chip",
+          "fs": 13,
+          "text": "🇸🇦 صنع في السعودية"
+        },
+        {
+          "sel": "span.split-hero__dot.pulse-dot",
+          "fs": 13,
+          "text": ""
+        },
+        {
+          "sel": "span.home-kernel-path",
+          "fs": 13,
+          "text": "brightai.site/kernel"
+        }
+      ]
+    },
+    {
+      "page": "about",
+      "path": "/about/",
+      "bp": "320",
+      "width": 320,
+      "docW": 320,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [
+        {
+          "sel": "a.breadcrumbs__link",
+          "w": 48,
+          "h": 24,
+          "text": "الرئيسية"
+        },
+        {
+          "sel": "a.footer__link",
+          "w": 39,
+          "h": 44,
+          "text": "التدقيق"
+        },
+        {
+          "sel": "a.footer__link",
+          "w": 39,
+          "h": 44,
+          "text": "الامتثال"
+        },
+        {
+          "sel": "a.footer__link",
+          "w": 34,
+          "h": 44,
+          "text": "التقارير"
+        },
+        {
+          "sel": "a.footer__link",
+          "w": 35,
+          "h": 44,
+          "text": "التوثيق"
+        }
+      ],
+      "smallText": [
+        {
+          "sel": "span.ksa-flag-badge__icon",
+          "fs": 11,
+          "text": "🇸🇦"
+        },
+        {
+          "sel": "span.",
+          "fs": 11,
+          "text": "🇸🇦"
+        },
+        {
+          "sel": "small.",
+          "fs": 12,
+          "text": "Made in KSA — مرخّصة في الرياض"
+        }
+      ]
+    },
+    {
+      "page": "pricing",
+      "path": "/pricing/",
+      "bp": "320",
+      "width": 320,
+      "docW": 320,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [
+        {
+          "sel": "a.breadcrumbs__link",
+          "w": 48,
+          "h": 24,
+          "text": "الرئيسية"
+        },
+        {
+          "sel": "a.",
+          "w": 109,
+          "h": 21,
+          "text": "+966538229013"
+        },
+        {
+          "sel": "a.",
+          "w": 150,
+          "h": 21,
+          "text": "yazeed1job@gmail.com"
+        },
+        {
+          "sel": "a.footer__link",
+          "w": 39,
+          "h": 44,
+          "text": "التدقيق"
+        },
+        {
+          "sel": "a.footer__link",
+          "w": 39,
+          "h": 44,
+          "text": "الامتثال"
+        }
+      ],
+      "smallText": [
+        {
+          "sel": "span.card__pricing-badge.chip",
+          "fs": 13,
+          "text": "الأكثر طلباً"
+        }
+      ]
+    },
+    {
+      "page": "contact",
+      "path": "/contact/",
+      "bp": "320",
+      "width": 320,
+      "docW": 320,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [
+        {
+          "sel": "a.breadcrumbs__link",
+          "w": 48,
+          "h": 24,
+          "text": "الرئيسية"
+        },
+        {
+          "sel": "a.",
+          "w": 90,
+          "h": 19,
+          "text": "سياسة الخصوصية"
+        },
+        {
+          "sel": "a.",
+          "w": 223,
+          "h": 40,
+          "text": "بيان الامتثال لنظام PDPL السعو"
+        },
+        {
+          "sel": "a.",
+          "w": 119,
+          "h": 21,
+          "text": "+966 538 229 013"
+        },
+        {
+          "sel": "a.",
+          "w": 150,
+          "h": 21,
+          "text": "yazeed1job@gmail.com"
+        }
+      ],
+      "smallText": [
+        {
+          "sel": "label.text-xs",
+          "fs": 13,
+          "text": "أوافق على معالجة بياناتي الشخص"
+        },
+        {
+          "sel": "a.",
+          "fs": 13,
+          "text": "سياسة الخصوصية"
+        },
+        {
+          "sel": "a.",
+          "fs": 13,
+          "text": "بيان الامتثال لنظام PDPL السعو"
+        }
+      ]
+    },
+    {
+      "page": "trust",
+      "path": "/trust/",
+      "bp": "320",
+      "width": 320,
+      "docW": 320,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [
+        {
+          "sel": "a.breadcrumbs__link",
+          "w": 48,
+          "h": 24,
+          "text": "الرئيسية"
+        },
+        {
+          "sel": "a.chip",
+          "w": 103,
+          "h": 26,
+          "text": "سياسة الخصوصية"
+        },
+        {
+          "sel": "a.chip",
+          "w": 148,
+          "h": 41,
+          "text": "إعدادات وخصوصية ملفات الارتباط"
+        },
+        {
+          "sel": "a.chip",
+          "w": 119,
+          "h": 26,
+          "text": "اتفاقية معالجة البيانات"
+        },
+        {
+          "sel": "a.chip",
+          "w": 85,
+          "h": 26,
+          "text": "AI Firewall"
+        }
+      ],
+      "smallText": [
+        {
+          "sel": "a.chip",
+          "fs": 13,
+          "text": "سياسة الخصوصية"
+        },
+        {
+          "sel": "a.chip",
+          "fs": 13,
+          "text": "إعدادات وخصوصية ملفات الارتباط"
+        },
+        {
+          "sel": "a.chip",
+          "fs": 13,
+          "text": "اتفاقية معالجة البيانات"
+        }
+      ]
+    },
+    {
+      "page": "solutions",
+      "path": "/solutions/",
+      "bp": "320",
+      "width": 320,
+      "docW": 320,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [
+        {
+          "sel": "a.breadcrumbs__link",
+          "w": 48,
+          "h": 24,
+          "text": "الرئيسية"
+        },
+        {
+          "sel": "a.",
+          "w": 77,
+          "h": 24,
+          "text": "AI Firewall"
+        },
+        {
+          "sel": "a.",
+          "w": 94,
+          "h": 24,
+          "text": "AI Audit Trail"
+        },
+        {
+          "sel": "a.",
+          "w": 181,
+          "h": 24,
+          "text": "منصة حوكمة الذكاء الاصطناعي"
+        },
+        {
+          "sel": "a.",
+          "w": 94,
+          "h": 24,
+          "text": "تصنيف المخاطر"
+        }
+      ],
+      "smallText": [
+        {
+          "sel": "span.inner-hero__badge",
+          "fs": 12,
+          "text": "مركز محتوى تقني · Solutions Hu"
+        },
+        {
+          "sel": "span.card__eyebrow",
+          "fs": 12,
+          "text": "المنصة الأم"
+        },
+        {
+          "sel": "span.card__meta",
+          "fs": 12,
+          "text": "متى تحتاجه؟  لو عندك أكثر من ٢"
+        }
+      ]
+    },
+    {
+      "page": "kernel",
+      "path": "/kernel/",
+      "bp": "320",
+      "width": 320,
+      "docW": 320,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [
+        {
+          "sel": "a.kernel-card__footer-link",
+          "w": 134,
+          "h": 28,
+          "text": "فتح محادثة جديدة"
+        },
+        {
+          "sel": "a.kernel-card__footer-link",
+          "w": 39,
+          "h": 56,
+          "text": "عرض الكل"
+        },
+        {
+          "sel": "a.kernel-card__footer-link",
+          "w": 51,
+          "h": 28,
+          "text": "تفاصيل"
+        },
+        {
+          "sel": "a.kernel-card__footer-link",
+          "w": 40,
+          "h": 84,
+          "text": "عرض خطة التحسين ←"
+        },
+        {
+          "sel": "a.k-unit-card__link",
+          "w": 70,
+          "h": 39,
+          "text": "التوثيق ←"
+        }
+      ],
+      "smallText": [
+        {
+          "sel": "button.kernel-demo-pill",
+          "fs": 12,
+          "text": "بيانات تجريبية"
+        },
+        {
+          "sel": "span.kernel-demo-pill__dot",
+          "fs": 12,
+          "text": ""
+        },
+        {
+          "sel": "span.",
+          "fs": 12,
+          "text": "بيانات تجريبية"
+        }
+      ]
+    },
+    {
+      "page": "blog-index",
+      "path": "/blog/",
+      "bp": "320",
+      "width": 320,
+      "docW": 320,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [
+        {
+          "sel": "button.blog-filters__btn.is-active",
+          "w": 84,
+          "h": 39,
+          "text": "الكل\n22"
+        },
+        {
+          "sel": "button.blog-filters__btn",
+          "w": 170,
+          "h": 39,
+          "text": "حوكمة الذكاء الاصطناعي 7"
+        },
+        {
+          "sel": "button.blog-filters__btn",
+          "w": 125,
+          "h": 39,
+          "text": "الأمن والسلامة 4"
+        },
+        {
+          "sel": "button.blog-filters__btn",
+          "w": 134,
+          "h": 39,
+          "text": "الامتثال والأنظمة 7"
+        },
+        {
+          "sel": "button.blog-filters__btn",
+          "w": 95,
+          "h": 39,
+          "text": "قطاعات 2"
+        }
+      ],
+      "smallText": [
+        {
+          "sel": "span.chip.chip--brand",
+          "fs": 13,
+          "text": "المدونة"
+        },
+        {
+          "sel": "a.",
+          "fs": 12,
+          "text": "حوكمة AI"
+        },
+        {
+          "sel": "a.",
+          "fs": 12,
+          "text": "PDPL"
+        }
+      ]
+    },
+    {
+      "page": "docs-index",
+      "path": "/docs/",
+      "bp": "320",
+      "width": 320,
+      "docW": 320,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [
+        {
+          "sel": "a.breadcrumbs__link",
+          "w": 48,
+          "h": 24,
+          "text": "الرئيسية"
+        },
+        {
+          "sel": "a.",
+          "w": 43,
+          "h": 24,
+          "text": "المنصة"
+        },
+        {
+          "sel": "a.",
+          "w": 72,
+          "h": 24,
+          "text": "الجدار الناري"
+        },
+        {
+          "sel": "a.",
+          "w": 83,
+          "h": 24,
+          "text": "سجل التدقيق"
+        },
+        {
+          "sel": "a.",
+          "w": 93,
+          "h": 24,
+          "text": "طبقة الموافقات"
+        }
+      ],
+      "smallText": [
+        {
+          "sel": "span.chip.chip--brand",
+          "fs": 13,
+          "text": "مركز الوثائق"
+        },
+        {
+          "sel": "span.docs-index__card-link",
+          "fs": 12,
+          "text": "اقرأ الدليل"
+        },
+        {
+          "sel": "span.docs-index__card-link",
+          "fs": 12,
+          "text": "اقرأ الدليل"
+        }
+      ]
+    },
+    {
+      "page": "home",
+      "path": "/",
+      "bp": "390",
+      "width": 390,
+      "docW": 390,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [
+        {
+          "sel": "a.text-green-400.hover:underline",
+          "w": 47,
+          "h": 21,
+          "text": "الواتساب"
+        },
+        {
+          "sel": "a.footer__link",
+          "w": 39,
+          "h": 44,
+          "text": "التدقيق"
+        },
+        {
+          "sel": "a.footer__link",
+          "w": 39,
+          "h": 44,
+          "text": "الامتثال"
+        },
+        {
+          "sel": "a.footer__link",
+          "w": 34,
+          "h": 44,
+          "text": "التقارير"
+        },
+        {
+          "sel": "a.footer__link",
+          "w": 35,
+          "h": 44,
+          "text": "التوثيق"
+        }
+      ],
+      "smallText": [
+        {
+          "sel": "span.chip.split-hero__chip",
+          "fs": 13,
+          "text": "🇸🇦 صنع في السعودية"
+        },
+        {
+          "sel": "span.split-hero__dot.pulse-dot",
+          "fs": 13,
+          "text": ""
+        },
+        {
+          "sel": "span.home-kernel-path",
+          "fs": 13,
+          "text": "brightai.site/kernel"
+        }
+      ]
+    },
+    {
+      "page": "about",
+      "path": "/about/",
+      "bp": "390",
+      "width": 390,
+      "docW": 390,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [
+        {
+          "sel": "a.breadcrumbs__link",
+          "w": 48,
+          "h": 24,
+          "text": "الرئيسية"
+        },
+        {
+          "sel": "a.footer__link",
+          "w": 39,
+          "h": 44,
+          "text": "التدقيق"
+        },
+        {
+          "sel": "a.footer__link",
+          "w": 39,
+          "h": 44,
+          "text": "الامتثال"
+        },
+        {
+          "sel": "a.footer__link",
+          "w": 34,
+          "h": 44,
+          "text": "التقارير"
+        },
+        {
+          "sel": "a.footer__link",
+          "w": 35,
+          "h": 44,
+          "text": "التوثيق"
+        }
+      ],
+      "smallText": [
+        {
+          "sel": "span.ksa-flag-badge__icon",
+          "fs": 11,
+          "text": "🇸🇦"
+        },
+        {
+          "sel": "span.",
+          "fs": 11,
+          "text": "🇸🇦"
+        },
+        {
+          "sel": "small.",
+          "fs": 12,
+          "text": "Made in KSA — مرخّصة في الرياض"
+        }
+      ]
+    },
+    {
+      "page": "pricing",
+      "path": "/pricing/",
+      "bp": "390",
+      "width": 390,
+      "docW": 390,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [
+        {
+          "sel": "a.breadcrumbs__link",
+          "w": 48,
+          "h": 24,
+          "text": "الرئيسية"
+        },
+        {
+          "sel": "a.",
+          "w": 109,
+          "h": 21,
+          "text": "+966538229013"
+        },
+        {
+          "sel": "a.",
+          "w": 150,
+          "h": 21,
+          "text": "yazeed1job@gmail.com"
+        },
+        {
+          "sel": "a.footer__link",
+          "w": 39,
+          "h": 44,
+          "text": "التدقيق"
+        },
+        {
+          "sel": "a.footer__link",
+          "w": 39,
+          "h": 44,
+          "text": "الامتثال"
+        }
+      ],
+      "smallText": [
+        {
+          "sel": "span.card__pricing-badge.chip",
+          "fs": 13,
+          "text": "الأكثر طلباً"
+        }
+      ]
+    },
+    {
+      "page": "contact",
+      "path": "/contact/",
+      "bp": "390",
+      "width": 390,
+      "docW": 390,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [
+        {
+          "sel": "a.breadcrumbs__link",
+          "w": 48,
+          "h": 24,
+          "text": "الرئيسية"
+        },
+        {
+          "sel": "a.",
+          "w": 277,
+          "h": 40,
+          "text": "سياسة الخصوصية"
+        },
+        {
+          "sel": "a.",
+          "w": 171,
+          "h": 19,
+          "text": "بيان الامتثال لنظام PDPL السعو"
+        },
+        {
+          "sel": "a.",
+          "w": 119,
+          "h": 21,
+          "text": "+966 538 229 013"
+        },
+        {
+          "sel": "a.",
+          "w": 150,
+          "h": 21,
+          "text": "yazeed1job@gmail.com"
+        }
+      ],
+      "smallText": [
+        {
+          "sel": "label.text-xs",
+          "fs": 13,
+          "text": "أوافق على معالجة بياناتي الشخص"
+        },
+        {
+          "sel": "a.",
+          "fs": 13,
+          "text": "سياسة الخصوصية"
+        },
+        {
+          "sel": "a.",
+          "fs": 13,
+          "text": "بيان الامتثال لنظام PDPL السعو"
+        }
+      ]
+    },
+    {
+      "page": "trust",
+      "path": "/trust/",
+      "bp": "390",
+      "width": 390,
+      "docW": 390,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [
+        {
+          "sel": "a.breadcrumbs__link",
+          "w": 48,
+          "h": 24,
+          "text": "الرئيسية"
+        },
+        {
+          "sel": "a.chip",
+          "w": 103,
+          "h": 26,
+          "text": "سياسة الخصوصية"
+        },
+        {
+          "sel": "a.chip",
+          "w": 177,
+          "h": 26,
+          "text": "إعدادات وخصوصية ملفات الارتباط"
+        },
+        {
+          "sel": "a.chip",
+          "w": 119,
+          "h": 26,
+          "text": "اتفاقية معالجة البيانات"
+        },
+        {
+          "sel": "a.chip",
+          "w": 85,
+          "h": 26,
+          "text": "AI Firewall"
+        }
+      ],
+      "smallText": [
+        {
+          "sel": "a.chip",
+          "fs": 13,
+          "text": "سياسة الخصوصية"
+        },
+        {
+          "sel": "a.chip",
+          "fs": 13,
+          "text": "إعدادات وخصوصية ملفات الارتباط"
+        },
+        {
+          "sel": "a.chip",
+          "fs": 13,
+          "text": "اتفاقية معالجة البيانات"
+        }
+      ]
+    },
+    {
+      "page": "solutions",
+      "path": "/solutions/",
+      "bp": "390",
+      "width": 390,
+      "docW": 390,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [
+        {
+          "sel": "a.breadcrumbs__link",
+          "w": 48,
+          "h": 24,
+          "text": "الرئيسية"
+        },
+        {
+          "sel": "a.",
+          "w": 77,
+          "h": 24,
+          "text": "AI Firewall"
+        },
+        {
+          "sel": "a.",
+          "w": 129,
+          "h": 24,
+          "text": "طبقة الموافقة البشرية"
+        },
+        {
+          "sel": "a.",
+          "w": 181,
+          "h": 24,
+          "text": "منصة حوكمة الذكاء الاصطناعي"
+        },
+        {
+          "sel": "a.",
+          "w": 163,
+          "h": 24,
+          "text": "اكتشاف حالات استخدام AI"
+        }
+      ],
+      "smallText": [
+        {
+          "sel": "span.inner-hero__badge",
+          "fs": 12,
+          "text": "مركز محتوى تقني · Solutions Hu"
+        },
+        {
+          "sel": "span.card__eyebrow",
+          "fs": 12,
+          "text": "المنصة الأم"
+        },
+        {
+          "sel": "span.card__meta",
+          "fs": 12,
+          "text": "متى تحتاجه؟  لو عندك أكثر من ٢"
+        }
+      ]
+    },
+    {
+      "page": "kernel",
+      "path": "/kernel/",
+      "bp": "390",
+      "width": 390,
+      "docW": 390,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [
+        {
+          "sel": "a.kernel-card__footer-link",
+          "w": 134,
+          "h": 28,
+          "text": "فتح محادثة جديدة"
+        },
+        {
+          "sel": "a.kernel-card__footer-link",
+          "w": 39,
+          "h": 56,
+          "text": "عرض الكل"
+        },
+        {
+          "sel": "a.kernel-card__footer-link",
+          "w": 51,
+          "h": 28,
+          "text": "تفاصيل"
+        },
+        {
+          "sel": "a.kernel-card__footer-link",
+          "w": 40,
+          "h": 84,
+          "text": "عرض خطة التحسين ←"
+        },
+        {
+          "sel": "a.",
+          "w": 59,
+          "h": 24,
+          "text": "كل الوثائق"
+        }
+      ],
+      "smallText": [
+        {
+          "sel": "button.kernel-demo-pill",
+          "fs": 12,
+          "text": "بيانات تجريبية"
+        },
+        {
+          "sel": "span.kernel-demo-pill__dot",
+          "fs": 12,
+          "text": ""
+        },
+        {
+          "sel": "span.",
+          "fs": 12,
+          "text": "بيانات تجريبية"
+        }
+      ]
+    },
+    {
+      "page": "blog-index",
+      "path": "/blog/",
+      "bp": "390",
+      "width": 390,
+      "docW": 390,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [
+        {
+          "sel": "button.blog-filters__btn.is-active",
+          "w": 84,
+          "h": 39,
+          "text": "الكل\n22"
+        },
+        {
+          "sel": "button.blog-filters__btn",
+          "w": 170,
+          "h": 39,
+          "text": "حوكمة الذكاء الاصطناعي 7"
+        },
+        {
+          "sel": "button.blog-filters__btn",
+          "w": 125,
+          "h": 39,
+          "text": "الأمن والسلامة 4"
+        },
+        {
+          "sel": "button.blog-filters__btn",
+          "w": 134,
+          "h": 39,
+          "text": "الامتثال والأنظمة 7"
+        },
+        {
+          "sel": "button.blog-filters__btn",
+          "w": 95,
+          "h": 39,
+          "text": "قطاعات 2"
+        }
+      ],
+      "smallText": [
+        {
+          "sel": "span.chip.chip--brand",
+          "fs": 13,
+          "text": "المدونة"
+        },
+        {
+          "sel": "a.",
+          "fs": 12,
+          "text": "حوكمة AI"
+        },
+        {
+          "sel": "a.",
+          "fs": 12,
+          "text": "PDPL"
+        }
+      ]
+    },
+    {
+      "page": "docs-index",
+      "path": "/docs/",
+      "bp": "390",
+      "width": 390,
+      "docW": 390,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [
+        {
+          "sel": "a.breadcrumbs__link",
+          "w": 48,
+          "h": 24,
+          "text": "الرئيسية"
+        },
+        {
+          "sel": "a.",
+          "w": 43,
+          "h": 24,
+          "text": "المنصة"
+        },
+        {
+          "sel": "a.",
+          "w": 72,
+          "h": 24,
+          "text": "الجدار الناري"
+        },
+        {
+          "sel": "a.",
+          "w": 83,
+          "h": 24,
+          "text": "سجل التدقيق"
+        },
+        {
+          "sel": "a.",
+          "w": 93,
+          "h": 24,
+          "text": "طبقة الموافقات"
+        }
+      ],
+      "smallText": [
+        {
+          "sel": "span.chip.chip--brand",
+          "fs": 13,
+          "text": "مركز الوثائق"
+        },
+        {
+          "sel": "span.docs-index__card-link",
+          "fs": 12,
+          "text": "اقرأ الدليل"
+        },
+        {
+          "sel": "span.docs-index__card-link",
+          "fs": 12,
+          "text": "اقرأ الدليل"
+        }
+      ]
+    },
+    {
+      "page": "home",
+      "path": "/",
+      "bp": "414",
+      "width": 414,
+      "docW": 414,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [
+        {
+          "sel": "a.text-green-400.hover:underline",
+          "w": 47,
+          "h": 21,
+          "text": "الواتساب"
+        },
+        {
+          "sel": "a.footer__link",
+          "w": 39,
+          "h": 44,
+          "text": "التدقيق"
+        },
+        {
+          "sel": "a.footer__link",
+          "w": 39,
+          "h": 44,
+          "text": "الامتثال"
+        },
+        {
+          "sel": "a.footer__link",
+          "w": 34,
+          "h": 44,
+          "text": "التقارير"
+        },
+        {
+          "sel": "a.footer__link",
+          "w": 35,
+          "h": 44,
+          "text": "التوثيق"
+        }
+      ],
+      "smallText": [
+        {
+          "sel": "span.chip.split-hero__chip",
+          "fs": 13,
+          "text": "🇸🇦 صنع في السعودية"
+        },
+        {
+          "sel": "span.split-hero__dot.pulse-dot",
+          "fs": 13,
+          "text": ""
+        },
+        {
+          "sel": "span.home-kernel-path",
+          "fs": 13,
+          "text": "brightai.site/kernel"
+        }
+      ]
+    },
+    {
+      "page": "about",
+      "path": "/about/",
+      "bp": "414",
+      "width": 414,
+      "docW": 414,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [
+        {
+          "sel": "a.breadcrumbs__link",
+          "w": 48,
+          "h": 24,
+          "text": "الرئيسية"
+        },
+        {
+          "sel": "a.footer__link",
+          "w": 39,
+          "h": 44,
+          "text": "التدقيق"
+        },
+        {
+          "sel": "a.footer__link",
+          "w": 39,
+          "h": 44,
+          "text": "الامتثال"
+        },
+        {
+          "sel": "a.footer__link",
+          "w": 34,
+          "h": 44,
+          "text": "التقارير"
+        },
+        {
+          "sel": "a.footer__link",
+          "w": 35,
+          "h": 44,
+          "text": "التوثيق"
+        }
+      ],
+      "smallText": [
+        {
+          "sel": "span.ksa-flag-badge__icon",
+          "fs": 11,
+          "text": "🇸🇦"
+        },
+        {
+          "sel": "span.",
+          "fs": 11,
+          "text": "🇸🇦"
+        },
+        {
+          "sel": "small.",
+          "fs": 12,
+          "text": "Made in KSA — مرخّصة في الرياض"
+        }
+      ]
+    },
+    {
+      "page": "pricing",
+      "path": "/pricing/",
+      "bp": "414",
+      "width": 414,
+      "docW": 414,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [
+        {
+          "sel": "a.breadcrumbs__link",
+          "w": 48,
+          "h": 24,
+          "text": "الرئيسية"
+        },
+        {
+          "sel": "a.",
+          "w": 109,
+          "h": 21,
+          "text": "+966538229013"
+        },
+        {
+          "sel": "a.",
+          "w": 150,
+          "h": 21,
+          "text": "yazeed1job@gmail.com"
+        },
+        {
+          "sel": "a.footer__link",
+          "w": 39,
+          "h": 44,
+          "text": "التدقيق"
+        },
+        {
+          "sel": "a.footer__link",
+          "w": 39,
+          "h": 44,
+          "text": "الامتثال"
+        }
+      ],
+      "smallText": [
+        {
+          "sel": "span.card__pricing-badge.chip",
+          "fs": 13,
+          "text": "الأكثر طلباً"
+        }
+      ]
+    },
+    {
+      "page": "contact",
+      "path": "/contact/",
+      "bp": "414",
+      "width": 414,
+      "docW": 414,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [
+        {
+          "sel": "a.breadcrumbs__link",
+          "w": 48,
+          "h": 24,
+          "text": "الرئيسية"
+        },
+        {
+          "sel": "a.",
+          "w": 277,
+          "h": 40,
+          "text": "سياسة الخصوصية"
+        },
+        {
+          "sel": "a.",
+          "w": 171,
+          "h": 19,
+          "text": "بيان الامتثال لنظام PDPL السعو"
+        },
+        {
+          "sel": "a.",
+          "w": 119,
+          "h": 21,
+          "text": "+966 538 229 013"
+        },
+        {
+          "sel": "a.",
+          "w": 150,
+          "h": 21,
+          "text": "yazeed1job@gmail.com"
+        }
+      ],
+      "smallText": [
+        {
+          "sel": "label.text-xs",
+          "fs": 13,
+          "text": "أوافق على معالجة بياناتي الشخص"
+        },
+        {
+          "sel": "a.",
+          "fs": 13,
+          "text": "سياسة الخصوصية"
+        },
+        {
+          "sel": "a.",
+          "fs": 13,
+          "text": "بيان الامتثال لنظام PDPL السعو"
+        }
+      ]
+    },
+    {
+      "page": "trust",
+      "path": "/trust/",
+      "bp": "414",
+      "width": 414,
+      "docW": 414,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [
+        {
+          "sel": "a.breadcrumbs__link",
+          "w": 48,
+          "h": 24,
+          "text": "الرئيسية"
+        },
+        {
+          "sel": "a.chip",
+          "w": 103,
+          "h": 26,
+          "text": "سياسة الخصوصية"
+        },
+        {
+          "sel": "a.chip",
+          "w": 177,
+          "h": 26,
+          "text": "إعدادات وخصوصية ملفات الارتباط"
+        },
+        {
+          "sel": "a.chip",
+          "w": 119,
+          "h": 26,
+          "text": "اتفاقية معالجة البيانات"
+        },
+        {
+          "sel": "a.chip",
+          "w": 85,
+          "h": 26,
+          "text": "AI Firewall"
+        }
+      ],
+      "smallText": [
+        {
+          "sel": "a.chip",
+          "fs": 13,
+          "text": "سياسة الخصوصية"
+        },
+        {
+          "sel": "a.chip",
+          "fs": 13,
+          "text": "إعدادات وخصوصية ملفات الارتباط"
+        },
+        {
+          "sel": "a.chip",
+          "fs": 13,
+          "text": "اتفاقية معالجة البيانات"
+        }
+      ]
+    },
+    {
+      "page": "solutions",
+      "path": "/solutions/",
+      "bp": "414",
+      "width": 414,
+      "docW": 414,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [
+        {
+          "sel": "a.breadcrumbs__link",
+          "w": 48,
+          "h": 24,
+          "text": "الرئيسية"
+        },
+        {
+          "sel": "a.",
+          "w": 94,
+          "h": 24,
+          "text": "AI Audit Trail"
+        },
+        {
+          "sel": "a.",
+          "w": 129,
+          "h": 24,
+          "text": "طبقة الموافقة البشرية"
+        },
+        {
+          "sel": "a.",
+          "w": 181,
+          "h": 24,
+          "text": "منصة حوكمة الذكاء الاصطناعي"
+        },
+        {
+          "sel": "a.",
+          "w": 163,
+          "h": 24,
+          "text": "اكتشاف حالات استخدام AI"
+        }
+      ],
+      "smallText": [
+        {
+          "sel": "span.inner-hero__badge",
+          "fs": 12,
+          "text": "مركز محتوى تقني · Solutions Hu"
+        },
+        {
+          "sel": "span.card__eyebrow",
+          "fs": 12,
+          "text": "المنصة الأم"
+        },
+        {
+          "sel": "span.card__meta",
+          "fs": 12,
+          "text": "متى تحتاجه؟  لو عندك أكثر من ٢"
+        }
+      ]
+    },
+    {
+      "page": "kernel",
+      "path": "/kernel/",
+      "bp": "414",
+      "width": 414,
+      "docW": 414,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [
+        {
+          "sel": "a.kernel-card__footer-link",
+          "w": 134,
+          "h": 28,
+          "text": "فتح محادثة جديدة"
+        },
+        {
+          "sel": "a.kernel-card__footer-link",
+          "w": 39,
+          "h": 56,
+          "text": "عرض الكل"
+        },
+        {
+          "sel": "a.kernel-card__footer-link",
+          "w": 51,
+          "h": 28,
+          "text": "تفاصيل"
+        },
+        {
+          "sel": "a.kernel-card__footer-link",
+          "w": 40,
+          "h": 84,
+          "text": "عرض خطة التحسين ←"
+        },
+        {
+          "sel": "a.",
+          "w": 59,
+          "h": 24,
+          "text": "كل الوثائق"
+        }
+      ],
+      "smallText": [
+        {
+          "sel": "button.kernel-demo-pill",
+          "fs": 12,
+          "text": "بيانات تجريبية"
+        },
+        {
+          "sel": "span.kernel-demo-pill__dot",
+          "fs": 12,
+          "text": ""
+        },
+        {
+          "sel": "span.",
+          "fs": 12,
+          "text": "بيانات تجريبية"
+        }
+      ]
+    },
+    {
+      "page": "blog-index",
+      "path": "/blog/",
+      "bp": "414",
+      "width": 414,
+      "docW": 414,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [
+        {
+          "sel": "button.blog-filters__btn.is-active",
+          "w": 84,
+          "h": 39,
+          "text": "الكل\n22"
+        },
+        {
+          "sel": "button.blog-filters__btn",
+          "w": 170,
+          "h": 39,
+          "text": "حوكمة الذكاء الاصطناعي 7"
+        },
+        {
+          "sel": "button.blog-filters__btn",
+          "w": 125,
+          "h": 39,
+          "text": "الأمن والسلامة 4"
+        },
+        {
+          "sel": "button.blog-filters__btn",
+          "w": 134,
+          "h": 39,
+          "text": "الامتثال والأنظمة 7"
+        },
+        {
+          "sel": "button.blog-filters__btn",
+          "w": 95,
+          "h": 39,
+          "text": "قطاعات 2"
+        }
+      ],
+      "smallText": [
+        {
+          "sel": "span.chip.chip--brand",
+          "fs": 13,
+          "text": "المدونة"
+        },
+        {
+          "sel": "a.",
+          "fs": 12,
+          "text": "حوكمة AI"
+        },
+        {
+          "sel": "a.",
+          "fs": 12,
+          "text": "PDPL"
+        }
+      ]
+    },
+    {
+      "page": "docs-index",
+      "path": "/docs/",
+      "bp": "414",
+      "width": 414,
+      "docW": 414,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [
+        {
+          "sel": "a.breadcrumbs__link",
+          "w": 48,
+          "h": 24,
+          "text": "الرئيسية"
+        },
+        {
+          "sel": "a.",
+          "w": 43,
+          "h": 24,
+          "text": "المنصة"
+        },
+        {
+          "sel": "a.",
+          "w": 72,
+          "h": 24,
+          "text": "الجدار الناري"
+        },
+        {
+          "sel": "a.",
+          "w": 93,
+          "h": 24,
+          "text": "طبقة الموافقات"
+        },
+        {
+          "sel": "a.",
+          "w": 63,
+          "h": 24,
+          "text": "ملف الأدلة"
+        }
+      ],
+      "smallText": [
+        {
+          "sel": "span.chip.chip--brand",
+          "fs": 13,
+          "text": "مركز الوثائق"
+        },
+        {
+          "sel": "span.docs-index__card-link",
+          "fs": 12,
+          "text": "اقرأ الدليل"
+        },
+        {
+          "sel": "span.docs-index__card-link",
+          "fs": 12,
+          "text": "اقرأ الدليل"
+        }
+      ]
+    },
+    {
+      "page": "home",
+      "path": "/",
+      "bp": "768",
+      "width": 768,
+      "docW": 768,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [
+        {
+          "sel": "a.site-header__cta.btn",
+          "w": 81,
+          "h": 39,
+          "text": "احجز ديمو"
+        },
+        {
+          "sel": "a.text-green-400.hover:underline",
+          "w": 47,
+          "h": 21,
+          "text": "الواتساب"
+        },
+        {
+          "sel": "a.footer__link",
+          "w": 39,
+          "h": 44,
+          "text": "التدقيق"
+        },
+        {
+          "sel": "a.footer__link",
+          "w": 39,
+          "h": 44,
+          "text": "الامتثال"
+        },
+        {
+          "sel": "a.footer__link",
+          "w": 34,
+          "h": 44,
+          "text": "التقارير"
+        }
+      ],
+      "smallText": [
+        {
+          "sel": "span.chip.split-hero__chip",
+          "fs": 13,
+          "text": "🇸🇦 صنع في السعودية"
+        },
+        {
+          "sel": "span.split-hero__dot.pulse-dot",
+          "fs": 13,
+          "text": ""
+        },
+        {
+          "sel": "span.home-kernel-path",
+          "fs": 13,
+          "text": "brightai.site/kernel"
+        }
+      ]
+    },
+    {
+      "page": "about",
+      "path": "/about/",
+      "bp": "768",
+      "width": 768,
+      "docW": 768,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [
+        {
+          "sel": "a.site-header__cta.btn",
+          "w": 81,
+          "h": 39,
+          "text": "احجز ديمو"
+        },
+        {
+          "sel": "a.breadcrumbs__link",
+          "w": 48,
+          "h": 24,
+          "text": "الرئيسية"
+        },
+        {
+          "sel": "a.footer__link",
+          "w": 39,
+          "h": 44,
+          "text": "التدقيق"
+        },
+        {
+          "sel": "a.footer__link",
+          "w": 39,
+          "h": 44,
+          "text": "الامتثال"
+        },
+        {
+          "sel": "a.footer__link",
+          "w": 34,
+          "h": 44,
+          "text": "التقارير"
+        }
+      ],
+      "smallText": [
+        {
+          "sel": "span.ksa-flag-badge__icon",
+          "fs": 11,
+          "text": "🇸🇦"
+        },
+        {
+          "sel": "span.",
+          "fs": 11,
+          "text": "🇸🇦"
+        },
+        {
+          "sel": "small.",
+          "fs": 12,
+          "text": "Made in KSA — مرخّصة في الرياض"
+        }
+      ]
+    },
+    {
+      "page": "pricing",
+      "path": "/pricing/",
+      "bp": "768",
+      "width": 768,
+      "docW": 768,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [
+        {
+          "sel": "a.site-header__cta.btn",
+          "w": 81,
+          "h": 39,
+          "text": "احجز ديمو"
+        },
+        {
+          "sel": "a.breadcrumbs__link",
+          "w": 48,
+          "h": 24,
+          "text": "الرئيسية"
+        },
+        {
+          "sel": "a.",
+          "w": 109,
+          "h": 21,
+          "text": "+966538229013"
+        },
+        {
+          "sel": "a.",
+          "w": 150,
+          "h": 21,
+          "text": "yazeed1job@gmail.com"
+        },
+        {
+          "sel": "a.footer__link",
+          "w": 39,
+          "h": 44,
+          "text": "التدقيق"
+        }
+      ],
+      "smallText": [
+        {
+          "sel": "span.card__pricing-badge.chip",
+          "fs": 13,
+          "text": "الأكثر طلباً"
+        }
+      ]
+    },
+    {
+      "page": "contact",
+      "path": "/contact/",
+      "bp": "768",
+      "width": 768,
+      "docW": 768,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [
+        {
+          "sel": "a.site-header__cta.btn",
+          "w": 81,
+          "h": 39,
+          "text": "احجز ديمو"
+        },
+        {
+          "sel": "a.breadcrumbs__link",
+          "w": 48,
+          "h": 24,
+          "text": "الرئيسية"
+        },
+        {
+          "sel": "a.",
+          "w": 90,
+          "h": 19,
+          "text": "سياسة الخصوصية"
+        },
+        {
+          "sel": "a.",
+          "w": 171,
+          "h": 19,
+          "text": "بيان الامتثال لنظام PDPL السعو"
+        },
+        {
+          "sel": "a.",
+          "w": 119,
+          "h": 21,
+          "text": "+966 538 229 013"
+        }
+      ],
+      "smallText": [
+        {
+          "sel": "label.text-xs",
+          "fs": 13,
+          "text": "أوافق على معالجة بياناتي الشخص"
+        },
+        {
+          "sel": "a.",
+          "fs": 13,
+          "text": "سياسة الخصوصية"
+        },
+        {
+          "sel": "a.",
+          "fs": 13,
+          "text": "بيان الامتثال لنظام PDPL السعو"
+        }
+      ]
+    },
+    {
+      "page": "trust",
+      "path": "/trust/",
+      "bp": "768",
+      "width": 768,
+      "docW": 768,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [
+        {
+          "sel": "a.site-header__cta.btn",
+          "w": 81,
+          "h": 39,
+          "text": "احجز ديمو"
+        },
+        {
+          "sel": "a.breadcrumbs__link",
+          "w": 48,
+          "h": 24,
+          "text": "الرئيسية"
+        },
+        {
+          "sel": "a.chip",
+          "w": 103,
+          "h": 26,
+          "text": "سياسة الخصوصية"
+        },
+        {
+          "sel": "a.chip",
+          "w": 177,
+          "h": 26,
+          "text": "إعدادات وخصوصية ملفات الارتباط"
+        },
+        {
+          "sel": "a.chip",
+          "w": 119,
+          "h": 26,
+          "text": "اتفاقية معالجة البيانات"
+        }
+      ],
+      "smallText": [
+        {
+          "sel": "a.chip",
+          "fs": 13,
+          "text": "سياسة الخصوصية"
+        },
+        {
+          "sel": "a.chip",
+          "fs": 13,
+          "text": "إعدادات وخصوصية ملفات الارتباط"
+        },
+        {
+          "sel": "a.chip",
+          "fs": 13,
+          "text": "اتفاقية معالجة البيانات"
+        }
+      ]
+    },
+    {
+      "page": "solutions",
+      "path": "/solutions/",
+      "bp": "768",
+      "width": 768,
+      "docW": 768,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [
+        {
+          "sel": "a.site-header__cta.btn",
+          "w": 81,
+          "h": 39,
+          "text": "احجز ديمو"
+        },
+        {
+          "sel": "a.breadcrumbs__link",
+          "w": 48,
+          "h": 24,
+          "text": "الرئيسية"
+        },
+        {
+          "sel": "a.",
+          "w": 77,
+          "h": 24,
+          "text": "AI Firewall"
+        },
+        {
+          "sel": "a.",
+          "w": 129,
+          "h": 24,
+          "text": "طبقة الموافقة البشرية"
+        },
+        {
+          "sel": "a.",
+          "w": 181,
+          "h": 24,
+          "text": "منصة حوكمة الذكاء الاصطناعي"
+        }
+      ],
+      "smallText": [
+        {
+          "sel": "span.inner-hero__badge",
+          "fs": 12,
+          "text": "مركز محتوى تقني · Solutions Hu"
+        },
+        {
+          "sel": "span.card__eyebrow",
+          "fs": 12,
+          "text": "المنصة الأم"
+        },
+        {
+          "sel": "span.card__meta",
+          "fs": 12,
+          "text": "متى تحتاجه؟  لو عندك أكثر من ٢"
+        }
+      ]
+    },
+    {
+      "page": "kernel",
+      "path": "/kernel/",
+      "bp": "768",
+      "width": 768,
+      "docW": 768,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [
+        {
+          "sel": "a.site-header__cta.btn",
+          "w": 81,
+          "h": 39,
+          "text": "احجز ديمو"
+        },
+        {
+          "sel": "a.kernel-card__footer-link",
+          "w": 134,
+          "h": 28,
+          "text": "فتح محادثة جديدة"
+        },
+        {
+          "sel": "a.kernel-card__footer-link",
+          "w": 39,
+          "h": 56,
+          "text": "عرض الكل"
+        },
+        {
+          "sel": "a.kernel-card__footer-link",
+          "w": 51,
+          "h": 28,
+          "text": "تفاصيل"
+        },
+        {
+          "sel": "a.kernel-card__footer-link",
+          "w": 40,
+          "h": 84,
+          "text": "عرض خطة التحسين ←"
+        }
+      ],
+      "smallText": [
+        {
+          "sel": "button.kernel-demo-pill",
+          "fs": 12,
+          "text": "بيانات تجريبية"
+        },
+        {
+          "sel": "span.kernel-demo-pill__dot",
+          "fs": 12,
+          "text": ""
+        },
+        {
+          "sel": "span.",
+          "fs": 12,
+          "text": "بيانات تجريبية"
+        }
+      ]
+    },
+    {
+      "page": "blog-index",
+      "path": "/blog/",
+      "bp": "768",
+      "width": 768,
+      "docW": 768,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [
+        {
+          "sel": "a.site-header__cta.btn",
+          "w": 81,
+          "h": 39,
+          "text": "احجز ديمو"
+        },
+        {
+          "sel": "button.blog-filters__btn.is-active",
+          "w": 84,
+          "h": 39,
+          "text": "الكل\n22"
+        },
+        {
+          "sel": "button.blog-filters__btn",
+          "w": 170,
+          "h": 39,
+          "text": "حوكمة الذكاء الاصطناعي 7"
+        },
+        {
+          "sel": "button.blog-filters__btn",
+          "w": 125,
+          "h": 39,
+          "text": "الأمن والسلامة 4"
+        },
+        {
+          "sel": "button.blog-filters__btn",
+          "w": 134,
+          "h": 39,
+          "text": "الامتثال والأنظمة 7"
+        }
+      ],
+      "smallText": [
+        {
+          "sel": "span.chip.chip--brand",
+          "fs": 13,
+          "text": "المدونة"
+        },
+        {
+          "sel": "a.",
+          "fs": 12,
+          "text": "حوكمة AI"
+        },
+        {
+          "sel": "a.",
+          "fs": 12,
+          "text": "PDPL"
+        }
+      ]
+    },
+    {
+      "page": "docs-index",
+      "path": "/docs/",
+      "bp": "768",
+      "width": 768,
+      "docW": 768,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [
+        {
+          "sel": "a.site-header__cta.btn",
+          "w": 81,
+          "h": 39,
+          "text": "احجز ديمو"
+        },
+        {
+          "sel": "a.breadcrumbs__link",
+          "w": 48,
+          "h": 24,
+          "text": "الرئيسية"
+        },
+        {
+          "sel": "a.",
+          "w": 43,
+          "h": 24,
+          "text": "المنصة"
+        },
+        {
+          "sel": "a.",
+          "w": 72,
+          "h": 24,
+          "text": "الجدار الناري"
+        },
+        {
+          "sel": "a.",
+          "w": 93,
+          "h": 24,
+          "text": "طبقة الموافقات"
+        }
+      ],
+      "smallText": [
+        {
+          "sel": "span.chip.chip--brand",
+          "fs": 13,
+          "text": "مركز الوثائق"
+        },
+        {
+          "sel": "span.docs-index__card-link",
+          "fs": 12,
+          "text": "اقرأ الدليل"
+        },
+        {
+          "sel": "span.docs-index__card-link",
+          "fs": 12,
+          "text": "اقرأ الدليل"
+        }
+      ]
+    },
+    {
+      "page": "home",
+      "path": "/",
+      "bp": "1024",
+      "width": 1024,
+      "docW": 1024,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [],
+      "smallText": [
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "المنتجات"
+        },
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "القطاعات"
+        },
+        {
+          "sel": "span.chip.split-hero__chip",
+          "fs": 12,
+          "text": "🇸🇦 صنع في السعودية"
+        }
+      ]
+    },
+    {
+      "page": "about",
+      "path": "/about/",
+      "bp": "1024",
+      "width": 1024,
+      "docW": 1024,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [],
+      "smallText": [
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "المنتجات"
+        },
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "القطاعات"
+        },
+        {
+          "sel": "span.ksa-flag-badge__icon",
+          "fs": 11,
+          "text": "🇸🇦"
+        }
+      ]
+    },
+    {
+      "page": "pricing",
+      "path": "/pricing/",
+      "bp": "1024",
+      "width": 1024,
+      "docW": 1024,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [],
+      "smallText": [
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "المنتجات"
+        },
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "القطاعات"
+        },
+        {
+          "sel": "span.card__pricing-badge.chip",
+          "fs": 12,
+          "text": "الأكثر طلباً"
+        }
+      ]
+    },
+    {
+      "page": "contact",
+      "path": "/contact/",
+      "bp": "1024",
+      "width": 1024,
+      "docW": 1024,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [],
+      "smallText": [
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "المنتجات"
+        },
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "القطاعات"
+        },
+        {
+          "sel": "label.text-xs",
+          "fs": 12,
+          "text": "أوافق على معالجة بياناتي الشخص"
+        }
+      ]
+    },
+    {
+      "page": "trust",
+      "path": "/trust/",
+      "bp": "1024",
+      "width": 1024,
+      "docW": 1024,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [],
+      "smallText": [
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "المنتجات"
+        },
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "القطاعات"
+        },
+        {
+          "sel": "a.chip",
+          "fs": 12,
+          "text": "سياسة الخصوصية"
+        }
+      ]
+    },
+    {
+      "page": "solutions",
+      "path": "/solutions/",
+      "bp": "1024",
+      "width": 1024,
+      "docW": 1024,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [],
+      "smallText": [
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "المنتجات"
+        },
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "القطاعات"
+        },
+        {
+          "sel": "span.inner-hero__badge",
+          "fs": 12,
+          "text": "مركز محتوى تقني · Solutions Hu"
+        }
+      ]
+    },
+    {
+      "page": "kernel",
+      "path": "/kernel/",
+      "bp": "1024",
+      "width": 1024,
+      "docW": 1024,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [],
+      "smallText": [
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "المنتجات"
+        },
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "القطاعات"
+        },
+        {
+          "sel": "span.kernel-sidebar__subtitle",
+          "fs": 12,
+          "text": "لوحة الحوكمة"
+        }
+      ]
+    },
+    {
+      "page": "blog-index",
+      "path": "/blog/",
+      "bp": "1024",
+      "width": 1024,
+      "docW": 1024,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [],
+      "smallText": [
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "المنتجات"
+        },
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "القطاعات"
+        },
+        {
+          "sel": "span.chip.chip--brand",
+          "fs": 12,
+          "text": "المدونة"
+        }
+      ]
+    },
+    {
+      "page": "docs-index",
+      "path": "/docs/",
+      "bp": "1024",
+      "width": 1024,
+      "docW": 1024,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [],
+      "smallText": [
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "المنتجات"
+        },
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "القطاعات"
+        },
+        {
+          "sel": "span.chip.chip--brand",
+          "fs": 12,
+          "text": "مركز الوثائق"
+        }
+      ]
+    },
+    {
+      "page": "home",
+      "path": "/",
+      "bp": "1280",
+      "width": 1280,
+      "docW": 1280,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [],
+      "smallText": [
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "المنتجات"
+        },
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "القطاعات"
+        },
+        {
+          "sel": "span.chip.split-hero__chip",
+          "fs": 12,
+          "text": "🇸🇦 صنع في السعودية"
+        }
+      ]
+    },
+    {
+      "page": "about",
+      "path": "/about/",
+      "bp": "1280",
+      "width": 1280,
+      "docW": 1280,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [],
+      "smallText": [
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "المنتجات"
+        },
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "القطاعات"
+        },
+        {
+          "sel": "span.ksa-flag-badge__icon",
+          "fs": 11,
+          "text": "🇸🇦"
+        }
+      ]
+    },
+    {
+      "page": "pricing",
+      "path": "/pricing/",
+      "bp": "1280",
+      "width": 1280,
+      "docW": 1280,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [],
+      "smallText": [
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "المنتجات"
+        },
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "القطاعات"
+        },
+        {
+          "sel": "span.card__pricing-badge.chip",
+          "fs": 12,
+          "text": "الأكثر طلباً"
+        }
+      ]
+    },
+    {
+      "page": "contact",
+      "path": "/contact/",
+      "bp": "1280",
+      "width": 1280,
+      "docW": 1280,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [],
+      "smallText": [
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "المنتجات"
+        },
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "القطاعات"
+        },
+        {
+          "sel": "label.text-xs",
+          "fs": 12,
+          "text": "أوافق على معالجة بياناتي الشخص"
+        }
+      ]
+    },
+    {
+      "page": "trust",
+      "path": "/trust/",
+      "bp": "1280",
+      "width": 1280,
+      "docW": 1280,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [],
+      "smallText": [
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "المنتجات"
+        },
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "القطاعات"
+        },
+        {
+          "sel": "a.chip",
+          "fs": 12,
+          "text": "سياسة الخصوصية"
+        }
+      ]
+    },
+    {
+      "page": "solutions",
+      "path": "/solutions/",
+      "bp": "1280",
+      "width": 1280,
+      "docW": 1280,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [],
+      "smallText": [
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "المنتجات"
+        },
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "القطاعات"
+        },
+        {
+          "sel": "span.inner-hero__badge",
+          "fs": 12,
+          "text": "مركز محتوى تقني · Solutions Hu"
+        }
+      ]
+    },
+    {
+      "page": "kernel",
+      "path": "/kernel/",
+      "bp": "1280",
+      "width": 1280,
+      "docW": 1280,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [],
+      "smallText": [
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "المنتجات"
+        },
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "القطاعات"
+        },
+        {
+          "sel": "span.kernel-sidebar__subtitle",
+          "fs": 12,
+          "text": "لوحة الحوكمة"
+        }
+      ]
+    },
+    {
+      "page": "blog-index",
+      "path": "/blog/",
+      "bp": "1280",
+      "width": 1280,
+      "docW": 1280,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [],
+      "smallText": [
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "المنتجات"
+        },
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "القطاعات"
+        },
+        {
+          "sel": "span.chip.chip--brand",
+          "fs": 12,
+          "text": "المدونة"
+        }
+      ]
+    },
+    {
+      "page": "docs-index",
+      "path": "/docs/",
+      "bp": "1280",
+      "width": 1280,
+      "docW": 1280,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [],
+      "smallText": [
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "المنتجات"
+        },
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "القطاعات"
+        },
+        {
+          "sel": "span.chip.chip--brand",
+          "fs": 12,
+          "text": "مركز الوثائق"
+        }
+      ]
+    },
+    {
+      "page": "home",
+      "path": "/",
+      "bp": "1440",
+      "width": 1440,
+      "docW": 1440,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [],
+      "smallText": [
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "المنتجات"
+        },
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "القطاعات"
+        },
+        {
+          "sel": "span.chip.split-hero__chip",
+          "fs": 12,
+          "text": "🇸🇦 صنع في السعودية"
+        }
+      ]
+    },
+    {
+      "page": "about",
+      "path": "/about/",
+      "bp": "1440",
+      "width": 1440,
+      "docW": 1440,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [],
+      "smallText": [
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "المنتجات"
+        },
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "القطاعات"
+        },
+        {
+          "sel": "span.ksa-flag-badge__icon",
+          "fs": 11,
+          "text": "🇸🇦"
+        }
+      ]
+    },
+    {
+      "page": "pricing",
+      "path": "/pricing/",
+      "bp": "1440",
+      "width": 1440,
+      "docW": 1440,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [],
+      "smallText": [
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "المنتجات"
+        },
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "القطاعات"
+        },
+        {
+          "sel": "span.card__pricing-badge.chip",
+          "fs": 12,
+          "text": "الأكثر طلباً"
+        }
+      ]
+    },
+    {
+      "page": "contact",
+      "path": "/contact/",
+      "bp": "1440",
+      "width": 1440,
+      "docW": 1440,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [],
+      "smallText": [
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "المنتجات"
+        },
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "القطاعات"
+        },
+        {
+          "sel": "label.text-xs",
+          "fs": 12,
+          "text": "أوافق على معالجة بياناتي الشخص"
+        }
+      ]
+    },
+    {
+      "page": "trust",
+      "path": "/trust/",
+      "bp": "1440",
+      "width": 1440,
+      "docW": 1440,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [],
+      "smallText": [
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "المنتجات"
+        },
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "القطاعات"
+        },
+        {
+          "sel": "a.chip",
+          "fs": 12,
+          "text": "سياسة الخصوصية"
+        }
+      ]
+    },
+    {
+      "page": "solutions",
+      "path": "/solutions/",
+      "bp": "1440",
+      "width": 1440,
+      "docW": 1440,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [],
+      "smallText": [
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "المنتجات"
+        },
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "القطاعات"
+        },
+        {
+          "sel": "span.inner-hero__badge",
+          "fs": 12,
+          "text": "مركز محتوى تقني · Solutions Hu"
+        }
+      ]
+    },
+    {
+      "page": "kernel",
+      "path": "/kernel/",
+      "bp": "1440",
+      "width": 1440,
+      "docW": 1440,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [],
+      "smallText": [
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "المنتجات"
+        },
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "القطاعات"
+        },
+        {
+          "sel": "span.kernel-sidebar__subtitle",
+          "fs": 12,
+          "text": "لوحة الحوكمة"
+        }
+      ]
+    },
+    {
+      "page": "blog-index",
+      "path": "/blog/",
+      "bp": "1440",
+      "width": 1440,
+      "docW": 1440,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [],
+      "smallText": [
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "المنتجات"
+        },
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "القطاعات"
+        },
+        {
+          "sel": "span.chip.chip--brand",
+          "fs": 12,
+          "text": "المدونة"
+        }
+      ]
+    },
+    {
+      "page": "docs-index",
+      "path": "/docs/",
+      "bp": "1440",
+      "width": 1440,
+      "docW": 1440,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [],
+      "smallText": [
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "المنتجات"
+        },
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "القطاعات"
+        },
+        {
+          "sel": "span.chip.chip--brand",
+          "fs": 12,
+          "text": "مركز الوثائق"
+        }
+      ]
+    },
+    {
+      "page": "home",
+      "path": "/",
+      "bp": "1536",
+      "width": 1536,
+      "docW": 1536,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [],
+      "smallText": [
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "المنتجات"
+        },
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "القطاعات"
+        },
+        {
+          "sel": "span.chip.split-hero__chip",
+          "fs": 12,
+          "text": "🇸🇦 صنع في السعودية"
+        }
+      ]
+    },
+    {
+      "page": "about",
+      "path": "/about/",
+      "bp": "1536",
+      "width": 1536,
+      "docW": 1536,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [],
+      "smallText": [
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "المنتجات"
+        },
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "القطاعات"
+        },
+        {
+          "sel": "span.ksa-flag-badge__icon",
+          "fs": 11,
+          "text": "🇸🇦"
+        }
+      ]
+    },
+    {
+      "page": "pricing",
+      "path": "/pricing/",
+      "bp": "1536",
+      "width": 1536,
+      "docW": 1536,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [],
+      "smallText": [
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "المنتجات"
+        },
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "القطاعات"
+        },
+        {
+          "sel": "span.card__pricing-badge.chip",
+          "fs": 12,
+          "text": "الأكثر طلباً"
+        }
+      ]
+    },
+    {
+      "page": "contact",
+      "path": "/contact/",
+      "bp": "1536",
+      "width": 1536,
+      "docW": 1536,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [],
+      "smallText": [
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "المنتجات"
+        },
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "القطاعات"
+        },
+        {
+          "sel": "label.text-xs",
+          "fs": 12,
+          "text": "أوافق على معالجة بياناتي الشخص"
+        }
+      ]
+    },
+    {
+      "page": "trust",
+      "path": "/trust/",
+      "bp": "1536",
+      "width": 1536,
+      "docW": 1536,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [],
+      "smallText": [
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "المنتجات"
+        },
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "القطاعات"
+        },
+        {
+          "sel": "a.chip",
+          "fs": 12,
+          "text": "سياسة الخصوصية"
+        }
+      ]
+    },
+    {
+      "page": "solutions",
+      "path": "/solutions/",
+      "bp": "1536",
+      "width": 1536,
+      "docW": 1536,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [],
+      "smallText": [
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "المنتجات"
+        },
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "القطاعات"
+        },
+        {
+          "sel": "span.inner-hero__badge",
+          "fs": 12,
+          "text": "مركز محتوى تقني · Solutions Hu"
+        }
+      ]
+    },
+    {
+      "page": "kernel",
+      "path": "/kernel/",
+      "bp": "1536",
+      "width": 1536,
+      "docW": 1536,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [],
+      "smallText": [
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "المنتجات"
+        },
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "القطاعات"
+        },
+        {
+          "sel": "span.kernel-sidebar__subtitle",
+          "fs": 12,
+          "text": "لوحة الحوكمة"
+        }
+      ]
+    },
+    {
+      "page": "blog-index",
+      "path": "/blog/",
+      "bp": "1536",
+      "width": 1536,
+      "docW": 1536,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [],
+      "smallText": [
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "المنتجات"
+        },
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "القطاعات"
+        },
+        {
+          "sel": "span.chip.chip--brand",
+          "fs": 12,
+          "text": "المدونة"
+        }
+      ]
+    },
+    {
+      "page": "docs-index",
+      "path": "/docs/",
+      "bp": "1536",
+      "width": 1536,
+      "docW": 1536,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [],
+      "smallText": [
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "المنتجات"
+        },
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "القطاعات"
+        },
+        {
+          "sel": "span.chip.chip--brand",
+          "fs": 12,
+          "text": "مركز الوثائق"
+        }
+      ]
+    },
+    {
+      "page": "home",
+      "path": "/",
+      "bp": "1920",
+      "width": 1920,
+      "docW": 1920,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [],
+      "smallText": [
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "المنتجات"
+        },
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "القطاعات"
+        },
+        {
+          "sel": "span.chip.split-hero__chip",
+          "fs": 12,
+          "text": "🇸🇦 صنع في السعودية"
+        }
+      ]
+    },
+    {
+      "page": "about",
+      "path": "/about/",
+      "bp": "1920",
+      "width": 1920,
+      "docW": 1920,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [],
+      "smallText": [
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "المنتجات"
+        },
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "القطاعات"
+        },
+        {
+          "sel": "span.ksa-flag-badge__icon",
+          "fs": 11,
+          "text": "🇸🇦"
+        }
+      ]
+    },
+    {
+      "page": "pricing",
+      "path": "/pricing/",
+      "bp": "1920",
+      "width": 1920,
+      "docW": 1920,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [],
+      "smallText": [
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "المنتجات"
+        },
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "القطاعات"
+        },
+        {
+          "sel": "span.card__pricing-badge.chip",
+          "fs": 12,
+          "text": "الأكثر طلباً"
+        }
+      ]
+    },
+    {
+      "page": "contact",
+      "path": "/contact/",
+      "bp": "1920",
+      "width": 1920,
+      "docW": 1920,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [],
+      "smallText": [
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "المنتجات"
+        },
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "القطاعات"
+        },
+        {
+          "sel": "label.text-xs",
+          "fs": 12,
+          "text": "أوافق على معالجة بياناتي الشخص"
+        }
+      ]
+    },
+    {
+      "page": "trust",
+      "path": "/trust/",
+      "bp": "1920",
+      "width": 1920,
+      "docW": 1920,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [],
+      "smallText": [
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "المنتجات"
+        },
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "القطاعات"
+        },
+        {
+          "sel": "a.chip",
+          "fs": 12,
+          "text": "سياسة الخصوصية"
+        }
+      ]
+    },
+    {
+      "page": "solutions",
+      "path": "/solutions/",
+      "bp": "1920",
+      "width": 1920,
+      "docW": 1920,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [],
+      "smallText": [
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "المنتجات"
+        },
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "القطاعات"
+        },
+        {
+          "sel": "span.inner-hero__badge",
+          "fs": 12,
+          "text": "مركز محتوى تقني · Solutions Hu"
+        }
+      ]
+    },
+    {
+      "page": "kernel",
+      "path": "/kernel/",
+      "bp": "1920",
+      "width": 1920,
+      "docW": 1920,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [],
+      "smallText": [
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "المنتجات"
+        },
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "القطاعات"
+        },
+        {
+          "sel": "span.kernel-sidebar__subtitle",
+          "fs": 12,
+          "text": "لوحة الحوكمة"
+        }
+      ]
+    },
+    {
+      "page": "blog-index",
+      "path": "/blog/",
+      "bp": "1920",
+      "width": 1920,
+      "docW": 1920,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [],
+      "smallText": [
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "المنتجات"
+        },
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "القطاعات"
+        },
+        {
+          "sel": "span.chip.chip--brand",
+          "fs": 12,
+          "text": "المدونة"
+        }
+      ]
+    },
+    {
+      "page": "docs-index",
+      "path": "/docs/",
+      "bp": "1920",
+      "width": 1920,
+      "docW": 1920,
+      "horizontalScroll": false,
+      "scrollDelta": 0,
+      "overflowCulprits": [],
+      "smallTargets": [],
+      "smallText": [
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "المنتجات"
+        },
+        {
+          "sel": "span.site-header__dropdown-group-label",
+          "fs": 12,
+          "text": "القطاعات"
+        },
+        {
+          "sel": "span.chip.chip--brand",
+          "fs": 12,
+          "text": "مركز الوثائق"
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "totalCaptures": 81,
+    "horizontalScrollIssues": 0,
+    "smallTargetIssues": 36,
+    "smallTextIssues": 81,
+    "errorCount": 0,
+    "consoleErrors": 0,
+    "pageErrors": 0,
+    "issuesByPage": {},
+    "issuesByBreakpoint": {}
+  },
+  "consoleErrors": [],
+  "pageErrors": []
+}

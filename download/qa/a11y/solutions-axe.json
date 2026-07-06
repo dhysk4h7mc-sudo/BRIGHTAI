@@ -1,0 +1,31 @@
+{
+  "page": "solutions",
+  "url": "http://localhost:4321/solutions/",
+  "violations": 0,
+  "incomplete": 3,
+  "passes": 46,
+  "consoleErrors": 0,
+  "timestamp": "2026-07-06T17:52:52.812Z",
+  "violationsList": [],
+  "incompleteList": [
+    {
+      "id": "aria-valid-attr-value",
+      "impact": "critical",
+      "help": "ARIA attributes must conform to valid values",
+      "nodes": 3
+    },
+    {
+      "id": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "nodes": 23
+    },
+    {
+      "id": "link-in-text-block",
+      "impact": "serious",
+      "help": "Links must be distinguishable without relying on color",
+      "nodes": 1
+    }
+  ],
+  "consoleErrorsList": []
+}

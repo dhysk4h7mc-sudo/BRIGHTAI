@@ -21,11 +21,11 @@ function isActive(href: string): boolean {
 }
 ---
 
-<div id="mobile-menu" class="mobile-menu" role="dialog" aria-label={isAr ? 'القائمة' : 'Menu'} aria-hidden="true">
+<div id="mobile-menu" class="mobile-menu" role="dialog" aria-modal="true" aria-label={isAr ? 'القائمة' : 'Menu'} aria-hidden="true">
   <!-- Header: close button -->
   <div class="mobile-menu__header">
     <a href="/" class="mobile-menu__logo" aria-label="BrightAI Home">
-      <img src="/logo.png" alt="BrightAI" width="32" height="32" class="mobile-menu__logo-img" />
+      <img src="/logo.png" alt="" width="32" height="32" class="mobile-menu__logo-img" />
       <span>BrightAI</span>
     </a>
     <button class="mobile-menu__close" aria-label={isAr ? 'إغلاق' : 'Close'} data-mobile-close>
@@ -149,12 +149,37 @@ function isActive(href: string): boolean {
       toggle.focus();
     };
 
+    /**
+     * Focus trap — when focus is inside the menu, Tab / Shift+Tab cycle
+     * through the focusable elements without escaping to the page behind.
+     * Required for `aria-modal="true"` dialogs (WCAG 2.1.2 + APG dialog pattern).
+     */
+    const trapFocus = (e: KeyboardEvent) => {
+      if (e.key !== 'Tab') return;
+      const focusables = Array.from(
+        menu.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        )
+      ).filter((el) => el.offsetParent !== null); // skip hidden accordion children
+      if (focusables.length === 0) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+
     toggle.addEventListener('click', open);
     if (close) close.addEventListener('click', shut);
 
-    // Escape to close
+    // Escape to close + Tab focus trap
     menu.addEventListener('keydown', (e: KeyboardEvent) => {
       if (e.key === 'Escape') shut();
+      else trapFocus(e);
     });
 
     // Accordion
@@ -200,13 +225,23 @@ function isActive(href: string): boolean {
 <style>
   .mobile-menu {
     position: fixed;
-    inset: 0;
+    top: 0;
+    bottom: 0;
     z-index: 900;
     background: var(--glass-strong);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
     overflow-y: auto;
+    /* REPORTS-19: استخدام position offsets (right/left) بدل transform: translateX
+       عشان ما يحسب في scrollWidth لما يكون المغلق (position: fixed children
+       اللي عندهم transform يحسبون في scrollWidth، حتى لو visibility: hidden).
+       LTR: drawer يجي من اليسار، يبدأ من خارج يمين الشاشة.
+       RTL: drawer يجي من اليمين، يبدأ من خارج يسار الشاشة. */
+    right: 0;
+    left: auto;
     transform: translateX(100%);
+    width: 100%;
+    max-width: 480px;
     transition: transform var(--duration-base) var(--ease-out);
     padding: var(--space-4);
     display: flex;
@@ -215,6 +250,8 @@ function isActive(href: string): boolean {
     box-shadow:
       -1px 0 0 0 var(--glass-highlight-strong) inset,
       var(--shadow-2xl);
+    visibility: hidden;
+    pointer-events: none;
   }
 
   /* Subtle noise grain on the mobile drawer — keeps it visually consistent with the
@@ -238,11 +275,16 @@ function isActive(href: string): boolean {
   }
 
   [dir="rtl"] .mobile-menu {
+    /* RTL: drawer يدخل من اليمين (start side)، يبدأ من خارج يسار الشاشة. */
+    right: auto;
+    left: 0;
     transform: translateX(-100%);
   }
 
   .mobile-menu--open {
     transform: translateX(0) !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
   }
 
   .mobile-menu__header {

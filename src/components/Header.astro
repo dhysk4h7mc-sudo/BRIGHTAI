@@ -63,7 +63,12 @@ NAV.forEach((item, idx) => {
   <div class="site-header__inner">
     <!-- Logo -->
     <a href="/" class="site-header__logo" aria-label={isAr ? 'برايت أيه آي — الصفحة الرئيسية' : 'BrightAI — Home'} transition:animate="fade">
-      <img src="/logo.png" alt="BrightAI" width="36" height="36" class="site-header__logo-img" />
+      {/* WCAG fix (REPORTS-18): alt="" because the visible <span> already
+          names the brand. Without this, screen readers announce
+          "BrightAI logo BrightAI" (redundant). The logo is decorative
+          in this context because the link's aria-label provides the
+          accessible name. */}
+      <img src="/logo.png" alt="" width="36" height="36" class="site-header__logo-img" />
       <span class="site-header__logo-text">BrightAI</span>
     </a>
 
@@ -484,6 +489,12 @@ NAV.forEach((item, idx) => {
     letter-spacing: 0.06em;
     padding-block: var(--space-1);
     padding-inline: var(--space-3);
+  }
+  /* REPORTS-19: تكبير النص 12px → 13px على mobile عشان القراءة بدون zoom. */
+  @media (max-width: 1023px) {
+    .site-header__dropdown-group-label {
+      font-size: 0.8125rem;       /* 13px */
+    }
   }
 
   .site-header__dropdown-link {

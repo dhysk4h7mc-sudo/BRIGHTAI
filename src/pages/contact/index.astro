@@ -181,7 +181,11 @@ const jsonLd = {
 
       <div class="contact-split" style="margin-block-start: var(--space-10);">
         {/* ─── Form (right in RTL = first column) ─── */}
-        <div class="contact-form-card" role="region" aria-labelledby="contact-form-sec">
+        {/* WCAG fix (REPORTS-18): separate aria-labelledby target so the
+            region has its own unique accessible name — doesn't collide
+            with the outer section's label. */}
+        <div class="contact-form-card" role="region" aria-labelledby="contact-form-card-title">
+          <h3 id="contact-form-card-title" class="sr-only">نموذج التواصل</h3>
           <h3 class="form-card__title">أرسل تفاصيل طلبك</h3>
           <p class="form-card__desc">كل المعلومات تساعد فريقنا يفهم احتياجك قبل ما نتواصل معك.</p>
 
@@ -192,23 +196,57 @@ const jsonLd = {
 
             <div class="form-row form-row--2">
               <div class="form-field">
-                <label class="form-label" for="name">الاسم الكامل <span class="text-red-400">*</span></label>
-                <input class="field" type="text" id="name" name="name" required placeholder="مثال: محمد أحمد" />
+                <label class="form-label" for="name">الاسم الكامل <span class="text-red-400" aria-hidden="true">*</span></label>
+                <input
+                  class="field"
+                  type="text"
+                  id="name"
+                  name="name"
+                  required
+                  aria-required="true"
+                  autocomplete="name"
+                  placeholder="مثال: محمد أحمد"
+                />
               </div>
               <div class="form-field">
-                <label class="form-label" for="email">البريد الإلكتروني <span class="text-red-400">*</span></label>
-                <input class="field" type="email" id="email" name="email" required placeholder="example@company.sa" />
+                <label class="form-label" for="email">البريد الإلكتروني <span class="text-red-400" aria-hidden="true">*</span></label>
+                <input
+                  class="field"
+                  type="email"
+                  id="email"
+                  name="email"
+                  required
+                  aria-required="true"
+                  autocomplete="email"
+                  inputmode="email"
+                  placeholder="example@company.sa"
+                />
               </div>
             </div>
 
             <div class="form-row form-row--2">
               <div class="form-field">
                 <label class="form-label" for="phone">رقم الجوال</label>
-                <input class="field" type="tel" id="phone" name="phone" placeholder="05X-XXX-XXXX" />
+                <input
+                  class="field"
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  autocomplete="tel"
+                  inputmode="tel"
+                  placeholder="05X-XXX-XXXX"
+                />
               </div>
               <div class="form-field">
                 <label class="form-label" for="company">اسم الشركة</label>
-                <input class="field" type="text" id="company" name="company" placeholder="اسم شركتك أو مؤسستك" />
+                <input
+                  class="field"
+                  type="text"
+                  id="company"
+                  name="company"
+                  autocomplete="organization"
+                  placeholder="اسم شركتك أو مؤسستك"
+                />
               </div>
             </div>
 
@@ -221,17 +259,31 @@ const jsonLd = {
             </div>
 
             <div class="form-field">
-              <label class="form-label" for="message">رسالتك <span class="text-red-400">*</span></label>
-              <textarea class="field field--textarea" id="message" name="message" required placeholder="أخبرنا عن احتياجاتك أو استفسارك..."></textarea>
+              <label class="form-label" for="message">رسالتك <span class="text-red-400" aria-hidden="true">*</span></label>
+              <textarea
+                class="field field--textarea"
+                id="message"
+                name="message"
+                required
+                aria-required="true"
+                placeholder="أخبرنا عن احتياجاتك أو استفسارك..."
+              ></textarea>
             </div>
 
             <div class="form-field" style="display: flex; align-items: flex-start; gap: var(--space-3);">
-              <input required id="pdpl_consent" name="pdpl_consent" type="checkbox" style="margin-block-start: 0.2em;" />
+              <input
+                required
+                aria-required="true"
+                id="pdpl_consent"
+                name="pdpl_consent"
+                type="checkbox"
+                style="margin-block-start: 0.2em;"
+              />
               <label for="pdpl_consent" class="text-xs" style="color: var(--text-secondary); line-height: 1.6;">
                 أوافق على معالجة بياناتي الشخصية المدخلة وفقاً لـ
                 <a href="/privacy-policy/">سياسة الخصوصية</a> و
                 <a href="/pdpl-statement/">بيان الامتثال لنظام PDPL السعودي</a>.
-                <span class="text-red-400">*</span>
+                <span class="text-red-400" aria-hidden="true">*</span>
               </label>
             </div>
 

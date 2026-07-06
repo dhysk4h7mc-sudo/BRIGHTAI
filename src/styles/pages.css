@@ -455,7 +455,7 @@
 .solutions-hero__description {
   font-size: var(--text-lg);
   color: var(--text-secondary);
-  max-width: 700px;
+  max-width: var(--container-reading);
   margin-inline: auto;
 }
 
@@ -585,7 +585,7 @@
   color: var(--interactive-primary);
 }
 
-@media (max-width: 760px) {
+@media (max-width: 767px) {
   .pricing-grid,
   .pricing-columns,
   .pricing-links {
@@ -658,13 +658,15 @@
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 1023px) {
+  /* REPORTS-19: unified breakpoint (lg-1). was 1100px. */
   .pricing-grid--4col {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1023px) {
+  /* REPORTS-19: unified breakpoint (lg-1). was 900px. */
   .pricing-grid--3col {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -1236,7 +1238,7 @@
 .inner-hero__desc {
   font-size: var(--text-lg);
   color: var(--text-secondary);
-  max-width: 700px;
+  max-width: var(--container-reading);
   margin-inline: auto;
   margin-bottom: var(--space-6);
 }
@@ -1292,7 +1294,7 @@
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1023px) {
   .trust-grid,
   .trust-grid--4 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1381,7 +1383,7 @@
   margin-block: var(--space-4);
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1023px) {
   .docs-index__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
@@ -1837,7 +1839,7 @@ svg.icon {
   gap: var(--space-4);
 }
 
-@media (max-width: 760px) {
+@media (max-width: 767px) {
   .k-actions {
     grid-template-columns: 1fr;
   }
@@ -1914,9 +1916,37 @@ svg.icon {
 }
 
 .k-unit-card:hover,
-.k-unit-card:focus-visible {
+.k-unit-card:focus-within {
   border-color: var(--interactive-primary);
   transform: translateY(-2px);
+}
+
+/* Primary CTA inside the unit card — must be a real link (not nested inside
+   another <a>). Was previously part of the outer wrapper link, which
+   produced invalid HTML + screen-reader confusion (REPORTS-18). */
+.k-unit-card__primary {
+  display: inline-flex;
+  align-items: center;
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  color: var(--text-inverse);
+  background: var(--interactive-primary);
+  text-decoration: none;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--interactive-primary);
+  transition: background var(--duration-fast) var(--ease-out);
+}
+
+.k-unit-card__primary:hover {
+  background: var(--interactive-hover);
+  text-decoration: none;
+  color: var(--text-inverse);
+}
+
+.k-unit-card__primary:focus-visible {
+  outline: 2px solid var(--brand-300);
+  outline-offset: 2px;
 }
 
 .k-unit-card__icon {
@@ -1949,8 +1979,14 @@ svg.icon {
 
 .k-unit-card__link {
   font-size: var(--text-xs);
-  color: var(--interactive-primary);
-  text-decoration: none;
+  /* WCAG AA contrast on small text: Teal-300 (#4ba69c, L ≈ 0.38) gives
+     ~7.3:1 against bg-surface (#0f1525) — passes 4.5:1 AA threshold for
+     small body text. --interactive-primary (#2a8a7e) only gives 4.25:1,
+     below the 4.5:1 minimum for text below 18px / 14px bold. */
+  color: var(--brand-300);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
   display: block;
   padding: var(--space-2) var(--space-3);
   border: 1px solid var(--border-subtle);
@@ -1960,9 +1996,15 @@ svg.icon {
 }
 
 .k-unit-card__link:hover {
-  text-decoration: underline;
+  color: var(--brand-200);
   border-color: var(--border-default);
   box-shadow: var(--shadow-lg);
+}
+
+.k-unit-card__link:focus-visible {
+  outline: 2px solid var(--brand-300);
+  outline-offset: 2px;
+  text-decoration-thickness: 2px;
 }
 
 /* Shortcut Overlay */
@@ -3669,7 +3711,7 @@ svg.icon {
   list-style: none;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1023px) {
   .blog-paths {
     grid-template-columns: 1fr;
   }
@@ -3755,7 +3797,7 @@ svg.icon {
   list-style: none;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1023px) {
   .blog-featured {
     grid-template-columns: 1fr;
   }
@@ -3930,7 +3972,7 @@ svg.icon {
   flex-direction: row;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1023px) {
   .listing-card--featured {
     grid-column: span 1;
     flex-direction: column;
@@ -4356,7 +4398,7 @@ svg.icon {
   gap: var(--space-4);
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1023px) {
   .docs-index__grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -5652,7 +5694,7 @@ svg.icon {
   align-items: start;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1023px) {
   .contact-split { grid-template-columns: 1fr; gap: var(--space-6); }
 }
 
@@ -5918,7 +5960,7 @@ svg.icon {
   gap: var(--space-5);
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1023px) {
   .demo-expect-timeline { grid-template-columns: 1fr; }
 }
 
@@ -6042,11 +6084,11 @@ svg.icon {
   align-items: start;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1023px) {
   .split-content { grid-template-columns: 1fr; }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1023px) {
   .split-content--reverse { grid-template-columns: 1fr; }
 }
 

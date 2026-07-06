@@ -366,4 +366,41 @@
 
 /* 32. Touch target — iOS/Android baseline (44×44px minimum) */
   --touch-min: 2.75rem;          /* = 44px، يستخدم كـ min-height/width للأزرار التفاعلية */
+
+  /* ════════════════════════════════════════════════════════════════════════
+     REPORTS-19: Responsive Token System
+     خمس breakpoints موحّدة عبر الموقع كله (mobile-first).
+     الأسماء تحاكي Tailwind v4 (sm/md/lg/xl/2xl) عشان الـ familiarity
+     بس بدون الاعتماد على Tailwind (نظام معطّل).
+     ════════════════════════════════════════════════════════════════════════ */
+  --bp-sm:   640px;   /* phones landscape، small tablets */
+  --bp-md:   768px;   /* tablets portrait */
+  --bp-lg:   1024px;  /* tablets landscape، small laptops */
+  --bp-xl:   1280px;  /* desktop standard */
+  --bp-2xl:  1536px;  /* desktop HD، 2K */
+
+  /* Container widths — REPORTS-19 unified system
+     - default:  المواقع العامة
+     - wide:     الـ hero والـ marketing sections (تأخذ نفس container لكن مع padding أوسع)
+     - reading:  long-form content (مقالات، docs) — 720-800px للأداء القرائي
+     - narrow:   forms، CTAs المعزولة */
+  --container-default:  80rem;   /* 1280px — مواقع عامة */
+  --container-wide:     90rem;   /* 1440px — hero، marketing sections، landing */
+  --container-reading:  45rem;   /* 720px — long-form content */
+  --container-narrow:   40rem;   /* 640px — forms، focused CTAs */
+  --container-prose:    50rem;   /* 800px — prose content max-width */
+
+  /* Horizontal padding system — mobile-first
+     - xs: 16px (1rem) — أصغر الموبايلات
+     - sm: 20px (1.25rem) — موبايل عادي
+     - md: 24px (1.5rem) — تابلت
+     - lg: 32px (2rem) — desktop
+     - xl: 48px (3rem) — desktop wide
+     الأرقام تعكس grid التوكن الموجود (--space-*). */
+  --gutter-xs:  1rem;     /* 320-639px */
+  --gutter-sm:  1.25rem;  /* 640-767px (sm+) */
+  --gutter-md:  1.5rem;   /* 768-1023px (md+) */
+  --gutter-lg:  2rem;     /* 1024-1279px (lg+) */
+  --gutter-xl:  2.5rem;   /* 1280-1535px (xl+) */
+  --gutter-2xl: 3rem;     /* 1536px+ (2xl+) */
 }

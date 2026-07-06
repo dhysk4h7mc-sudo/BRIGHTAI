@@ -436,17 +436,22 @@ const complianceRows = [
         {kernelNavItems.map((item, i) => {
           const links = getCrossLinks(item);
           return (
-            <a href={item.path} class="k-unit-card gsap-fade" data-gsap-delay={String(i * 60)}>
+            /* WCAG fix (REPORTS-18): outer wrapper is <article> not <a>, so
+               nested <a class="k-unit-card__link"> tags are valid HTML.
+               The card's primary action (open the unit) is now an explicit
+               CTA link with visible label, satisfying the link-name rule. */
+            <article class="k-unit-card gsap-fade" data-gsap-delay={String(i * 60)}>
               <div class="k-unit-card__icon" aria-hidden="true">
                 <Fragment set:html={item.iconSvg} />
               </div>
               <div class="k-unit-card__label">{item.label}</div>
               <div class="k-unit-card__desc">{item.shortDescription}</div>
               <div class="k-unit-card__links">
-                {links.solutionPath && <a href={links.solutionPath} class="k-unit-card__link" onclick="event.stopPropagation()">الحل ←</a>}
-                <a href={links.docPath} class="k-unit-card__link" onclick="event.stopPropagation()">التوثيق ←</a>
+                <a href={item.path} class="k-unit-card__primary" aria-label={`افتح وحدة ${item.label}`}>افتح الوحدة ←</a>
+                {links.solutionPath && <a href={links.solutionPath} class="k-unit-card__link">الحل ←</a>}
+                <a href={links.docPath} class="k-unit-card__link">التوثيق ←</a>
               </div>
-            </a>
+            </article>
           );
         })}
       </div>

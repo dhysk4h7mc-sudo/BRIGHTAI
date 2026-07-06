@@ -930,7 +930,7 @@ html[dir="rtl"] .kernel-breadcrumb li:not(:last-child)::after { content: '‹'; 
   }
 }
 
-@media (max-width: 720px) {
+@media (max-width: 767px) {
   .kernel-main { gap: var(--space-4); }
   .kernel-page-header { padding-block-start: var(--space-4); }
 }
@@ -1808,7 +1808,7 @@ html[dir="rtl"] .kernel-breadcrumb li:not(:last-child)::after { content: '‹'; 
   }
 }
 
-@media (max-width: 720px) {
+@media (max-width: 767px) {
   .kernel-page-header {
     flex-direction: column;
     align-items: stretch;
@@ -2141,8 +2141,10 @@ html[dir="rtl"] .kernel-breadcrumb li:not(:last-child)::after { content: '‹'; 
 
 .kernel-chat-composer__hint {
   font-size: var(--text-xs);
+  /* WCAG AA fix (REPORTS-18): --text-secondary with tertiary opacity
+     (0.58) → effective contrast ~3.3:1, below 4.5:1 for small body text.
+     --text-secondary alone gives ~7.5:1 (AAA). */
   color: var(--text-secondary);
-  opacity: var(--text-tertiary-opacity);
 }
 
 .kernel-chat-composer__hint kbd {
@@ -2152,6 +2154,9 @@ html[dir="rtl"] .kernel-breadcrumb li:not(:last-child)::after { content: '‹'; 
   background: var(--bg-elevated);
   font-family: var(--font-mono);
   font-size: 0.7rem;
+  /* kbd inherits color from .hint — explicitly set text-primary for
+     higher contrast on the elevated background */
+  color: var(--text-primary);
 }
 
 .kernel-chat-composer__actions {
@@ -3346,7 +3351,7 @@ html[dir="rtl"] .kernel-breadcrumb li:not(:last-child)::after { content: '‹'; 
   .kernel-evidence-toolbar__generate { inline-size: 100%; justify-content: center; }
 }
 
-@media (max-width: 720px) {
+@media (max-width: 767px) {
   .kernel-audit-drawer__panel { inline-size: 100vw; }
   .kernel-modal__dialog { inline-size: 100%; }
   .kernel-modal__iframe { block-size: 60vh; }
@@ -4064,7 +4069,7 @@ html[dir="rtl"] .kernel-breadcrumb li:not(:last-child)::after { content: '‹'; 
 }
 .kernel-compliance-map__legend-score.high { background: rgba(34, 197, 94, 0.18); color: #86efac; }
 .kernel-compliance-map__legend-score.mid { background: rgba(245, 158, 11, 0.18); color: #fcd34d; }
-@media (max-width: 900px) {
+@media (max-width: 1023px) {
   .kernel-compliance-map { grid-template-columns: 1fr; }
 }
 
@@ -4141,7 +4146,8 @@ html[dir="rtl"] .kernel-breadcrumb li:not(:last-child)::after { content: '‹'; 
 }
 .kernel-policies-table__edit svg { inline-size: 12px; block-size: 12px; }
 .kernel-policies-table__edit:hover { background: var(--brand-500); border-color: var(--brand-500); color: var(--text-inverse); }
-@media (max-width: 1100px) {
+@media (max-width: 1023px) {
+  /* REPORTS-19: unified breakpoint (lg-1). was 1100px. */
   .kernel-policies-table__header,
   .kernel-policies-table__row {
     grid-template-columns: 1fr;
@@ -4158,7 +4164,7 @@ html[dir="rtl"] .kernel-breadcrumb li:not(:last-child)::after { content: '‹'; 
   gap: var(--space-3);
   margin-block-end: var(--space-4);
 }
-@media (max-width: 700px) { .kernel-policy-editor__meta { grid-template-columns: 1fr; } }
+@media (max-width: 767px) { .kernel-policy-editor__meta { grid-template-columns: 1fr; } }
 .kernel-policy-editor__field { display: flex; flex-direction: column; gap: var(--space-1); }
 .kernel-policy-editor__field > span { font-size: var(--text-sm); color: var(--text-secondary); font-weight: var(--font-medium); }
 .kernel-policy-editor__input {

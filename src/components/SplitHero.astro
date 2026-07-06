@@ -675,7 +675,9 @@ import BrightStar from './brand/BrightStar.astro';
     margin-inline-start: auto;
     font-size: 0.6875rem;
     font-weight: 700;
-    color: var(--text-muted);
+    /* WCAG AA (REPORTS-18): --text-muted on bg-base = 4.05:1, fails 4.5:1
+       threshold for text below 14px. --text-secondary on bg-base = 7.5:1 (AAA). */
+    color: var(--text-secondary);
     padding: 2px 8px;
     border-radius: 9999px;
     background: var(--bg-base);
@@ -855,6 +857,13 @@ import BrightStar from './brand/BrightStar.astro';
     .home-kernel-feature-link {
       min-height: 72px;
     }
+  }
+  /* REPORTS-19: mobile text legibility — تكبير النص < 14px على mobile. */
+  @media (max-width: 1023px) {
+    .split-hero__chip { font-size: 0.8125rem; }       /* 13px */
+    .home-kernel-path { font-size: 0.8125rem; }
+    .home-kernel-feature-count { font-size: 0.8125rem; }
+    .home-kernel-feature-meta { font-size: 0.8125rem; }
   }
   /* Tablet-only refinement */
   @media (min-width: 769px) and (max-width: 1023px) {

@@ -127,7 +127,7 @@ const policyBanner = {
         <header style="display:flex; align-items:center; justify-content:space-between; gap:var(--space-2); padding-bottom:var(--space-2); border-bottom:1px solid var(--border-subtle);">
           <div>
             <h2 style="font-size:var(--text-base); font-weight:var(--font-bold); color:var(--text-primary); margin:0;" data-kernel-thread-title>تصدير قائمة عملاء (محظور)</h2>
-            <p style="font-size:var(--text-xs); color:var(--text-secondary); opacity:var(--text-tertiary-opacity); margin:2px 0 0;">Trace: <span data-kernel-thread-trace>AI-2026-10493</span></p>
+            <p style="font-size:var(--text-xs); color:var(--text-secondary); margin:2px 0 0;">Trace: <span data-kernel-thread-trace>AI-2026-10493</span></p>
           </div>
           <span class="kernel-badge" style="font-size:var(--text-xs);" aria-label="حالة المحادثة">
             <span class="kernel-badge__dot" aria-hidden="true"></span>
@@ -155,7 +155,8 @@ const policyBanner = {
               </article>
             ))}
             <!-- Typing indicator (initially hidden, toggled via JS when sending) -->
-            <div class="kernel-chat-typing" data-kernel-typing hidden aria-label="النموذج يكتب">
+            <div class="kernel-chat-typing" data-kernel-typing hidden role="status" aria-live="polite">
+              <span class="sr-only">النموذج يكتب</span>
               <span class="kernel-chat-typing__dot" aria-hidden="true"></span>
               <span class="kernel-chat-typing__dot" aria-hidden="true"></span>
               <span class="kernel-chat-typing__dot" aria-hidden="true"></span>
@@ -266,7 +267,7 @@ const policyBanner = {
     </div>
 
     <!-- Legend below the chat for accessibility -->
-    <p style="margin-top:var(--space-4); font-size:var(--text-xs); color:var(--text-secondary); opacity:var(--text-tertiary-opacity); text-align:center;">
+    <p style="margin-top:var(--space-4); font-size:var(--text-xs); color:var(--text-secondary); text-align:center;">
       اختصارات: <kbd>C</kbd> محادثة جديدة · <kbd>Enter</kbd> إرسال · <kbd>Shift+Enter</kbd> سطر جديد · <kbd>Esc</kbd> لإغلاق الـ banner
     </p>
   </div>

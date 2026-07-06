@@ -68,7 +68,7 @@
 .flex-1 { flex: 1 1 0%; }
 .flex-shrink-0 { flex-shrink: 0; }
 
-/* 6. Grid */
+/* 6. Grid — REPORTS-19: minmax(0, 1fr) لمنع overflow من المحتوى الداخلي */
 .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
 .grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -290,39 +290,78 @@
 .shrink-0 { flex-shrink: 0; }
 .grow { flex-grow: 1; }
 
-/* 14. Responsive Grid (Tailwind compatibility) */
+/* 14. Responsive Grid (Tailwind compatibility) — REPORTS-19 unified breakpoint system
+   الـ breakpoints موحّدة على:
+   sm:  640px, md: 768px, lg: 1024px, xl: 1280px, 2xl: 1536px
+   الأسماء تحاكي Tailwind v4 familiarity بدون الاعتماد على Tailwind. */
 .grid-cols-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
-.sm\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.lg\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.lg\:grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-.lg\:grid-cols-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
-.lg\:grid-cols-12 { grid-template-columns: repeat(12, minmax(0, 1fr)); }
-.lg\:col-span-3 { grid-column: span 3 / span 3; }
-.lg\:col-span-4 { grid-column: span 4 / span 4; }
-.lg\:col-span-5 { grid-column: span 5 / span 5; }
-.lg\:p-10 { padding: 2.5rem; }
-.lg\:p-12 { padding: var(--space-12); }
-.lg\:px-8 { padding-left: var(--space-8); padding-right: var(--space-8); }
-.lg\:py-20 { padding-top: 5rem; padding-bottom: 5rem; }
-.lg\:py-28 { padding-top: 7rem; padding-bottom: 7rem; }
-.lg\:block { display: block; }
-.lg\:hidden { display: none; }
-.lg\:flex { display: flex; }
-.lg\:flex-row { flex-direction: row; }
-.lg\:items-end { align-items: flex-end; }
-.lg\:justify-between { justify-content: space-between; }
 
+/* sm: ≥ 640px (phones landscape، small tablets) */
 @media (min-width: 640px) {
   .sm\:text-3xl { font-size: var(--text-3xl); }
   .sm\:text-4xl { font-size: var(--text-4xl); }
   .sm\:text-5xl { font-size: var(--text-5xl); }
   .sm\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .sm\:col-span-2 { grid-column: span 2 / span 2; }
+  .sm\:flex-row { flex-direction: row; }
+  .sm\:items-center { align-items: center; }
+  .sm\:justify-between { justify-content: space-between; }
+  .sm\:px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
 }
 
+/* md: ≥ 768px (tablets portrait) */
 @media (min-width: 768px) {
   .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .md\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .md\:grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .md\:text-center { text-align: center; }
+  .md\:text-start { text-align: start; }
+  .md\:flex-row { flex-direction: row; }
+  .md\:items-center { align-items: center; }
+  .md\:px-8 { padding-left: 2rem; padding-right: 2rem; }
+}
+
+/* lg: ≥ 1024px (tablets landscape، small laptops) */
+@media (min-width: 1024px) {
+  .lg\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .lg\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .lg\:grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .lg\:grid-cols-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  .lg\:grid-cols-12 { grid-template-columns: repeat(12, minmax(0, 1fr)); }
+  .lg\:col-span-3 { grid-column: span 3 / span 3; }
+  .lg\:col-span-4 { grid-column: span 4 / span 4; }
+  .lg\:col-span-5 { grid-column: span 5 / span 5; }
+  .lg\:col-span-6 { grid-column: span 6 / span 6; }
+  .lg\:col-span-7 { grid-column: span 7 / span 7; }
+  .lg\:p-10 { padding: 2.5rem; }
+  .lg\:p-12 { padding: var(--space-12); }
+  .lg\:px-8 { padding-left: 2rem; padding-right: 2rem; }
+  .lg\:py-20 { padding-top: 5rem; padding-bottom: 5rem; }
+  .lg\:py-28 { padding-top: 7rem; padding-bottom: 7rem; }
+  .lg\:block { display: block; }
+  .lg\:hidden { display: none; }
+  .lg\:flex { display: flex; }
+  .lg\:flex-row { flex-direction: row; }
+  .lg\:items-end { align-items: flex-end; }
+  .lg\:justify-between { justify-content: space-between; }
+  .lg\:text-end { text-align: end; }
+}
+
+/* xl: ≥ 1280px (desktop standard) */
+@media (min-width: 1280px) {
+  .xl\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .xl\:grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .xl\:grid-cols-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  .xl\:px-10 { padding-left: 2.5rem; padding-right: 2.5rem; }
+  .xl\:text-6xl { font-size: var(--text-6xl); }
+  .xl\:text-7xl { font-size: var(--text-7xl); }
+}
+
+/* 2xl: ≥ 1536px (desktop HD) */
+@media (min-width: 1536px) {
+  .xl2\:grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .xl2\:px-12 { padding-left: 3rem; padding-right: 3rem; }
+  .xl2\:text-7xl { font-size: var(--text-7xl); }
 }
 
 /* 15. Colors (Tailwind compatibility) */
@@ -381,14 +420,110 @@
 /* 21. Form inputs (compatibility) */
 .bg-white\/5\.border { background-color: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); }
 
-/* 22. Responsive Helpers */
+/* 22. Responsive Helpers — REPORTS-19 unified system
+   mobile/  = < 768px (phone)
+   tablet/  = 768-1023px (tablet portrait)
+   desktop/ = ≥ 1024px
+   wide/    = ≥ 1280px
+   hd/      = ≥ 1536px */
 @media (max-width: 767px) {
   .mobile\:hidden { display: none; }
   .mobile\:block { display: block; }
   .mobile\:text-center { text-align: center; }
+  .mobile\:text-start { text-align: start; }
+  .mobile\:flex-col { flex-direction: column; }
+  .mobile\:w-full { width: 100%; }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 768px) and (max-width: 1023px) {
   .tablet\:hidden { display: none; }
   .tablet\:flex { display: flex; }
+  .tablet\:block { display: block; }
+  .tablet\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (min-width: 1024px) {
+  .desktop\:hidden { display: none; }
+  .desktop\:flex { display: flex; }
+  .desktop\:block { display: block; }
+}
+
+@media (min-width: 1280px) {
+  .wide\:max-w-wide { max-width: var(--container-wide); }
+  .wide\:px-10 { padding-left: 2.5rem; padding-right: 2.5rem; }
+}
+
+@media (min-width: 1536px) {
+  .hd\:px-12 { padding-left: 3rem; padding-right: 3rem; }
+  .hd\:max-w-wide { max-width: var(--container-wide); }
+}
+
+/* 23. Container Variants (REPORTS-19)
+   - .container     → 1280px default (موجود في components.css)
+   - .container--wide    → 1440px للـ hero + marketing
+   - .container--reading → 720px long-form
+   - .container--prose   → 800px prose
+   - .container--narrow  → 640px forms
+   الـ padding يتغيّر مع الـ breakpoint تلقائياً (gutter-xs → gutter-2xl). */
+.container--wide {
+  width: 100%;
+  max-width: var(--container-wide);
+  margin-inline: auto;
+  padding-inline: var(--gutter-xs);
+}
+@media (min-width: 640px)  { .container--wide { padding-inline: var(--gutter-sm); } }
+@media (min-width: 768px)  { .container--wide { padding-inline: var(--gutter-md); } }
+@media (min-width: 1024px) { .container--wide { padding-inline: var(--gutter-lg); } }
+@media (min-width: 1280px) { .container--wide { padding-inline: var(--gutter-xl); } }
+@media (min-width: 1536px) { .container--wide { padding-inline: var(--gutter-2xl); } }
+
+.container--reading {
+  width: 100%;
+  max-width: var(--container-reading);
+  margin-inline: auto;
+  padding-inline: var(--gutter-xs);
+}
+@media (min-width: 640px)  { .container--reading { padding-inline: var(--gutter-sm); } }
+@media (min-width: 768px)  { .container--reading { padding-inline: var(--gutter-md); } }
+@media (min-width: 1024px) { .container--reading { padding-inline: var(--gutter-lg); } }
+
+.container--prose {
+  width: 100%;
+  max-width: var(--container-prose);
+  margin-inline: auto;
+  padding-inline: var(--gutter-xs);
+}
+@media (min-width: 640px)  { .container--prose { padding-inline: var(--gutter-sm); } }
+@media (min-width: 768px)  { .container--prose { padding-inline: var(--gutter-md); } }
+@media (min-width: 1024px) { .container--prose { padding-inline: var(--gutter-lg); } }
+
+.container--narrow {
+  width: 100%;
+  max-width: var(--container-narrow);
+  margin-inline: auto;
+  padding-inline: var(--gutter-xs);
+}
+@media (min-width: 640px)  { .container--narrow { padding-inline: var(--gutter-sm); } }
+@media (min-width: 768px)  { .container--narrow { padding-inline: var(--gutter-md); } }
+
+/* 24. Touch Target Utilities (REPORTS-19)
+   يفرض حد أدنى 44×44px على العناصر التفاعلية.
+   - .touch-target       → 44×44 على mobile (< 1024px)
+   - .touch-target--lg   → 52×52 للـ primary CTAs */
+.touch-target {
+  min-height: var(--touch-min);
+  min-width: var(--touch-min);
+}
+.touch-target--lg {
+  min-height: 3.25rem;   /* 52px */
+  min-width: 3.25rem;
+}
+
+/* inline-flex row icons must respect 44px hit area even if the icon is small */
+.touch-row {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--touch-min);
+  padding-inline: var(--space-3);
 }
