@@ -1,155 +1,57 @@
 # ==============================================================================
-# BrightAI - Render.com & Static Hosting Comprehensive HTTP Headers Configuration
+# BrightAI — Comprehensive HTTP Headers Configuration
+# Updated: 2026-07-07 — Security hardening pass (REPORTS-SEC-02)
+#
+# PLATFORM NOTE:
+#   This file is the Netlify / Cloudflare Pages / Render Static style.
+#   On VERCEL: Vercel does NOT read this file — see /vercel.json instead.
+#   On other static hosts (Netlify, Cloudflare Pages, Render): this file IS read.
+#   Both files are kept in sync so the security posture is identical everywhere.
+#
+# CSP STRATEGY — Phase 1 (this deploy):
+#   - Removed unused third-party domains from the allowlist:
+#     * cdnjs.cloudflare.com       (not used in any source)
+#     * cdn.tailwindcss.com        (Tailwind disabled; not loaded)
+#     * tovik.app                  (not referenced anywhere)
+#     * api.contractai.sa          (not referenced anywhere)
+#     * js.sentry-cdn.com          (Sentry only DNS-prefetched in /public/500.html, never script-loaded)
+#     * *.sentry.io / o4510966719840256.ingest.us.sentry.io  (Sentry not initialised)
+#     * c.bing.com                 (IndexNow is server-side, no browser fetch)
+#     * region1.google-analytics.com (duplicate of google-analytics.com)
+#   - Kept the actually-loaded domains:
+#     * googletagmanager.com + google-analytics.com + stats.g.doubleclick.net  (GA4: G-8LLESL207Q)
+#     * clarity.ms + *.clarity.ms  (Microsoft Clarity — loaded when SITE.clarityId is non-empty)
+#     * fonts.googleapis.com + fonts.gstatic.com  (IBM Plex Sans Arabic + Inter)
+#   - frame-src extended with https://www.google.com  (Google Maps iframe in /contact/)
+#   - Kept 'unsafe-inline' on script-src / script-src-elem / script-src-attr / style-src:
+#     * Astro BaseLayout uses <script is:inline> for GA/Clarity init (deferred pageview).
+#     * Kernel pages (KernelLayout, kernel/index, kernel/chat, kernel/audit, kernel/approvals,
+#       kernel/reports, kernel/scenarios, kernel/connectors) use <script is:inline define:vars={...}>
+#       for data injection. Removing unsafe-inline would break Kernel interactive demos.
+#     * Astro scoped styles are emitted inline by the build pipeline.
+#
+# CSP STRATEGY — Phase 2 (next, requires user approval):
+#   - Replace 'unsafe-inline' on script-src with per-request nonce-based CSP.
+#   - Requires Astro middleware to inject nonce into BaseLayout and re-write every
+#     is:inline script to reference the nonce. High blast radius (~30 files).
+#   - Will be a separate audit pass with per-page console verification.
+#
+# HSTS:
+#   max-age=63072000 (2 years), includeSubDomains; preload.
+#   To enable browser preload, submit the domain once at https://hstspreload.org.
 # ==============================================================================
 
 # الترويسات الافتراضية الشاملة لكافة موارد الموقع لضمان أقصى درجات الأمان والامتثال للأنظمة المحلية
 /*
-  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
   X-Frame-Options: SAMEORIGIN
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
   X-Robots-Tag: index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1
-  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; form-action 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://js.sentry-cdn.com https://www.clarity.ms https://*.clarity.ms https://cdnjs.cloudflare.com https://cdn.tailwindcss.com https://tovik.app; script-src-elem 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://js.sentry-cdn.com https://www.clarity.ms https://*.clarity.ms https://cdnjs.cloudflare.com https://cdn.tailwindcss.com https://tovik.app; script-src-attr 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; style-src-elem 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; style-src-attr 'unsafe-inline'; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com https://cdnjs.cloudflare.com; connect-src 'self' https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://stats.g.doubleclick.net https://o4510966719840256.ingest.us.sentry.io https://*.sentry.io https://www.clarity.ms https://*.clarity.ms https://c.bing.com https://api.contractai.sa https://tovik.app; frame-src 'self' https://tovik.app https://www.googletagmanager.com; worker-src 'self' blob:; manifest-src 'self'; media-src 'self' data: blob: https:; upgrade-insecure-requests
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; form-action 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://www.clarity.ms https://*.clarity.ms; script-src-elem 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://www.clarity.ms https://*.clarity.ms; script-src-attr 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; style-src-elem 'self' 'unsafe-inline' https://fonts.googleapis.com; style-src-attr 'unsafe-inline'; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://www.googletagmanager.com https://www.google-analytics.com https://analytics.google.com https://www.google.com https://stats.g.doubleclick.net https://www.clarity.ms https://*.clarity.ms; frame-src 'self' https://www.google.com; worker-src 'self' blob:; manifest-src 'self'; media-src 'self' data: blob: https:; upgrade-insecure-requests
   Cache-Control: public, max-age=0, must-revalidate
 
-# منع التخزين المؤقت تماماً لروابط واجهات البرمجة الخلفية لضمان سرية البيانات
-/api/*
-  Cache-Control: no-store, no-cache, must-revalidate, proxy-revalidate
-
-# ترويسات التخزين المؤقت الفورية لملفات HTML الرئيسية وصفحة الهبوط والدليل النشط
-/*.html
-  Cache-Control: public, max-age=0, must-revalidate
-
-/**/*.html
-  Cache-Control: public, max-age=0, must-revalidate
-
-/sw.js
-  Cache-Control: public, max-age=0, must-revalidate
-
-/service-worker.js
-  Cache-Control: public, max-age=0, must-revalidate
-
-# ──────────────────────────────────────────────────────────────────────────────
-# Astro fingerprinted assets (built to /dist/_astro/*.HASH.ext)
-# These get unique hashes on each build, so they are safe to cache forever
-# ──────────────────────────────────────────────────────────────────────────────
-/_astro/*
-  Cache-Control: public, max-age=31536000, immutable
-
-# ──────────────────────────────────────────────────────────────────────────────
-# Non-fingerprinted CSS/JS — medium cache since they may change
-# ──────────────────────────────────────────────────────────────────────────────
-/*.css
-  Cache-Control: public, max-age=86400
-
-/**/*.css
-  Cache-Control: public, max-age=86400
-
-/*.js
-  Cache-Control: public, max-age=86400
-
-/**/*.js
-  Cache-Control: public, max-age=86400
-
-# Fingerprinted CSS/JS (legacy v-pattern — keep for backward compat)
-/*.v*.css
-  Cache-Control: public, max-age=31536000, immutable
-
-/**/*.v*.css
-  Cache-Control: public, max-age=31536000, immutable
-
-/*.v*.js
-  Cache-Control: public, max-age=31536000, immutable
-
-/**/*.v*.js
-  Cache-Control: public, max-age=31536000, immutable
-
-# التخزين المؤقت الطويل والأبدي لملفات أصول التصميم والخطوط ذات البصمة الزمنية أو غير المتغيرة
-/*.woff
-  Cache-Control: public, max-age=31536000, immutable
-
-/**/*.woff
-  Cache-Control: public, max-age=31536000, immutable
-
-/*.woff2
-  Cache-Control: public, max-age=31536000, immutable
-
-/**/*.woff2
-  Cache-Control: public, max-age=31536000, immutable
-
-/*.ttf
-  Cache-Control: public, max-age=31536000, immutable
-
-/**/*.ttf
-  Cache-Control: public, max-age=31536000, immutable
-
-/*.otf
-  Cache-Control: public, max-age=31536000, immutable
-
-/**/*.otf
-  Cache-Control: public, max-age=31536000, immutable
-
-# التخزين المؤقت الطويل والمتوسط لملفات الصور والأيقونات المحدثة
-/*.png
-  Cache-Control: public, max-age=7776000, stale-while-revalidate=2592000
-
-/**/*.png
-  Cache-Control: public, max-age=7776000, stale-while-revalidate=2592000
-
-/*.jpg
-  Cache-Control: public, max-age=7776000, stale-while-revalidate=2592000
-
-/**/*.jpg
-  Cache-Control: public, max-age=7776000, stale-while-revalidate=2592000
-
-/*.jpeg
-  Cache-Control: public, max-age=7776000, stale-while-revalidate=2592000
-
-/**/*.jpeg
-  Cache-Control: public, max-age=7776000, stale-while-revalidate=2592000
-
-/*.webp
-  Cache-Control: public, max-age=7776000, stale-while-revalidate=2592000
-
-/**/*.webp
-  Cache-Control: public, max-age=7776000, stale-while-revalidate=2592000
-
-/*.avif
-  Cache-Control: public, max-age=7776000, stale-while-revalidate=2592000
-
-/**/*.avif
-  Cache-Control: public, max-age=7776000, stale-while-revalidate=2592000
-
-/*.svg
-  Cache-Control: public, max-age=7776000, stale-while-revalidate=2592000
-
-/**/*.svg
-  Cache-Control: public, max-age=7776000, stale-while-revalidate=2592000
-
-/*.ico
-  Cache-Control: public, max-age=7776000, stale-while-revalidate=2592000
-
-/**/*.ico
-  Cache-Control: public, max-age=7776000, stale-while-revalidate=2592000
-
-# ترويسات التخزين لملفات النصوص العامة وملحقات السيو والبحث
-/llms.txt
-  Content-Type: text/plain; charset=utf-8
-  Cache-Control: public, max-age=86400
-
-/llms-full.txt
-  Content-Type: text/plain; charset=utf-8
-  Cache-Control: public, max-age=86400
-
-/sitemap.xml
-  Content-Type: application/xml; charset=utf-8
-  Cache-Control: public, max-age=86400
-
-/robots.txt
-  Content-Type: text/plain; charset=utf-8
-  Cache-Control: public, max-age=86400
-
-/manifest.webmanifest
-  Content-Type: application/manifest+json; charset=utf-8
-  Cache-Control: public, max-age=86400
+# CORS scoped to API routes only — regular pages are NOT subject to CORS restrictions
+# Access-Control-Allow-Origin: https://www.brightaii.com
+# (This header is set per-route in vercel.json; Netlify-style _headers does not support regex scopes)
