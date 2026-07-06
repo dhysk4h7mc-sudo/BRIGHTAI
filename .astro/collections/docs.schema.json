@@ -20,14 +20,7 @@
       "format": "date-time"
     },
     "category": {
-      "type": "string",
-      "enum": [
-        "Kernel",
-        "PDPL",
-        "NCA",
-        "SDAIA",
-        "General"
-      ]
+      "type": "string"
     },
     "tldr": {
       "type": "string"
@@ -44,12 +37,7 @@
   },
   "required": [
     "title",
-    "metaTitle",
     "description",
-    "canonical",
-    "updated",
-    "category",
-    "tldr",
-    "related"
+    "canonical"
   ]
 }

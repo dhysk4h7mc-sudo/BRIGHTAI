@@ -1,50 +1,17 @@
-# BrightAI - Saudi AI Safety OS
+# BrightAI — Saudi AI Safety OS
 # https://brightai.site
-# Optimized for Google indexing, AI search, and EAO
+# REPORTS-SEO-FOUNDATION (2026-07-07): the foundation robots.txt.
 
+# ─────────────────────────────────────────────────────────────────────
+# Universal: every well-behaved crawler is allowed everywhere except /api/.
+# ─────────────────────────────────────────────────────────────────────
 User-agent: *
 Allow: /
+Disallow: /api/
 
-# Google
-User-agent: Googlebot
-Allow: /
-
-User-agent: Googlebot-Image
-Allow: /
-Allow: /*.webp
-Allow: /*.jpg
-Allow: /*.png
-Allow: /*.svg
-
-# Bing
-User-agent: Bingbot
-Allow: /
-Crawl-delay: 1
-
-User-agent: MSNBot-Media
-Allow: /
-
-# Yandex
-User-agent: YandexBot
-Allow: /
-Crawl-delay: 2
-
-# DuckDuckGo
-User-agent: DuckDuckBot
-Allow: /
-
-# Baidu
-User-agent: Baiduspider
-Allow: /
-Crawl-delay: 2
-
-User-agent: Baiduspider-image
-Allow: /
-
-# ==================== AI Crawlers / LLMO / EAO ====================
-# Allow all AI crawlers to learn about BrightAI
-
-# OpenAI
+# ─────────────────────────────────────────────────────────────────────
+# AI crawlers / LLMs / answer engines — explicitly allowed (LLMO/EAO).
+# ─────────────────────────────────────────────────────────────────────
 User-agent: GPTBot
 Allow: /
 
@@ -54,50 +21,42 @@ Allow: /
 User-agent: OAI-SearchBot
 Allow: /
 
-# Google AI
 User-agent: Google-Extended
 Allow: /
 
 User-agent: Google-CloudVertexBot
 Allow: /
 
-# Anthropic
 User-agent: ClaudeBot
 Allow: /
 
 User-agent: anthropic-ai
 Allow: /
 
-# Perplexity
 User-agent: PerplexityBot
 Allow: /
 
 User-agent: Perplexity-ai
 Allow: /
 
-# Meta
 User-agent: FacebookBot
 Allow: /
 
 User-agent: Meta-ExternalAgent
 Allow: /
 
-# BytesDance / TikTok
 User-agent: Bytespider
 Allow: /
 
-# Apple
 User-agent: Applebot
 Allow: /
 
 User-agent: Applebot-Extended
 Allow: /
 
-# Cohere
 User-agent: cohere-ai
 Allow: /
 
-# AI Search Engines
 User-agent: YouBot
 Allow: /
 
@@ -107,37 +66,48 @@ Allow: /
 User-agent: omgili
 Allow: /
 
-# Common Crawl
 User-agent: CCBot
 Allow: /
 
-# ==================== SEO Files ====================
+# ─────────────────────────────────────────────────────────────────────
+# Major search engines — explicit allow (defensive belt-and-suspenders).
+# ─────────────────────────────────────────────────────────────────────
+User-agent: Googlebot
+Allow: /
 
-# BrightAI Kernel
-# AI Firewall, Audit Trail, Human Approval, Compliance Packs, and Evidence Reports.
-Allow: /kernel/
-Allow: /kernel/chat/
-Allow: /kernel/audit/
-Allow: /kernel/approvals/
-Allow: /kernel/compliance/
-Allow: /kernel/reports/
-Allow: /kernel/evidence/
+User-agent: Googlebot-Image
+Allow: /
 
-# Topical Content Hubs (Topical Authority)
-Allow: /hub/
-Allow: /hub/ai-governance/
-Allow: /hub/compliance/
-Allow: /hub/solutions/
-Allow: /hub/use-cases/
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
 
-# Sitemaps
+User-agent: MSNBot-Media
+Allow: /
+
+User-agent: YandexBot
+Allow: /
+Crawl-delay: 2
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+Crawl-delay: 2
+
+User-agent: Baiduspider-image
+Allow: /
+
+# ─────────────────────────────────────────────────────────────────────
+# Sitemaps — single source of truth for crawlers.
+# @astrojs/sitemap emits dist/sitemap-index.xml pointing at every
+# page that builds (except /api/* which is excluded by astro.config.mjs).
+# ─────────────────────────────────────────────────────────────────────
+Sitemap: https://brightai.site/sitemap-index.xml
 Sitemap: https://brightai.site/sitemap.xml
 Sitemap: https://brightai.site/sitemap-images.xml
 Sitemap: https://brightai.site/blog/feed.xml
 
 # Host
-Host: brightai.site
-
-# AI-readable content
-# See /llms.txt, /llms-full.txt, and /ai.txt for comprehensive AI-readable documentation
-# /ai.txt contains citation guidelines and topical authority signals for AI engines
+Host: https://brightai.site

@@ -2,7 +2,14 @@
 /**
  * SEOHead — Complete SEO meta tags for every page.
  * Props: title, description, canonical, hreflang, ogImage, jsonLd
- * Always: robots no noindex, Google tag G-8LLESL207Q, canonical self-reference.
+ * Always: robots is INDEX-FOLLOW (REPORTS-SEO-FOUNDATION, 2026-07-07),
+ *         Google tag G-8LLESL207Q, canonical self-reference.
+ *
+ * IMPORTANT: This component MUST NEVER emit <meta name="robots" content="noindex">
+ * per the SEO foundation rule. The `robots` prop is sanitized below — any
+ * `noindex` token is dropped and replaced with the canonical "index, follow, …"
+ * directive. Pass `robots` only if you have a strong reason to override the
+ * default; even then, noindex will be filtered out.
  */
 import { SITE } from '../data/site';
 import type { SEOProps } from '../data/site';
@@ -15,6 +22,9 @@ interface HreflangLink {
 
 interface Props extends SEOProps {
   locale?: 'ar' | 'en';
+  /**
+   * @deprecated No-index is forbidden. Will be normalized to "index, follow".
+   */
   robots?: string;
   hreflang?: HreflangLink[];
 }
@@ -30,6 +40,12 @@ const {
   locale = 'ar',
   robots = 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1',
 } = Astro.props as Props;
+
+// Hard guard — REPORTS-SEO-FOUNDATION: never allow noindex. Even if a page
+// (or layout) passes robots="noindex, follow", we strip the noindex token
+// and force "index, follow". This keeps the foundation rule tamper-proof.
+const SAFE_ROBOTS = 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1';
+const safeRobots = robots && /noindex/i.test(robots) ? SAFE_ROBOTS : (robots || SAFE_ROBOTS);
 
 const fullOgImage = ogImage.startsWith('http') ? ogImage : `${SITE.url}${ogImage}`;
 const siteName = SITE.name;
@@ -61,7 +77,7 @@ const finalHasXDefault = enrichedHreflang.some((link) => link.lang === 'x-defaul
 <!-- Primary Meta Tags -->
 <title>{title}</title>
 <meta name="description" content={description} />
-<meta name="robots" content={robots} />
+<meta name="robots" content={safeRobots} />
 <link rel="canonical" href={canonical} />
 
 <!-- Open Graph / Facebook -->
@@ -86,7 +102,7 @@ const finalHasXDefault = enrichedHreflang.some((link) => link.lang === 'x-defaul
 {enrichedHreflang.map((link) => (
   <link rel="alternate" hreflang={link.lang} href={link.href} />
 ))}
-{!finalHasXDefault && enrichedHreflang.length > 0 && !robots.includes('noindex') && (
+{!finalHasXDefault && enrichedHreflang.length > 0 && !safeRobots.includes('noindex') && (
   <link rel="alternate" hreflang="x-default" href={canonical} />
 )}
 

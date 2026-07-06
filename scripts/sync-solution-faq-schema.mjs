@@ -6,7 +6,10 @@ import { fileURLToPath } from "node:url";
 import * as cheerio from "cheerio";
 import { glob } from "glob";
 
-const MANAGED_SCHEMA_ID = "brightai-production-schema";
+// REPORTS-SEO-FOUNDATION (2026-07-07): FoundationSchema is the single source
+// of truth for JSON-LD now. The legacy id "brightai-production-schema"
+// was emitted by SEOHead but FoundationSchema emits "brightai-foundation-schema".
+const MANAGED_SCHEMA_ID = "brightai-foundation-schema";
 
 function normalizeText(value) {
   return String(value || "").replace(/\s+/g, " ").trim();

@@ -19,30 +19,30 @@
  *   7. Legacy aliases reference
  *
  * Constraints:
- *   - robots="noindex, follow" — never indexed by search engines.
- *   - /design/* paths are excluded from sitemap via astro.config.mjs filter.
+ *   - Page is INDEXABLE (REPORTS-SEO-FOUNDATION, 2026-07-07).
  *   - All sample text is intentionally generic.
  *   - No published Arabic text from any production page is used here.
  *
- * Access: This page is published (builds to /design/buttons/) but not
- * indexed. Internal team use only.
+ * Access: Published as /design/buttons/ for team reference and searchability.
  */
 import ArabicLayout from '../../layouts/ArabicLayout.astro';
 ---
 
 <ArabicLayout
-  title="Button System Showcase (Internal) — BrightAI Design System"
-  description="Internal preview: button base, variants, sizes, states, and icon buttons. Not indexed."
+  title="نظام الأزرار الموحّد | BrightAI Design System"
+  description="مرجع نظام الأزرار الموحّد في BrightAI: 8 أنواع للزر (primary وsecondary وghost وoutline وwhatsapp وdanger وglow وaccent)، 4 أحجام من 36px إلى 60px، و6 حالات (default وhover وactive وfocus وdisabled وloading)."
   canonical="https://brightai.site/design/buttons/"
-  hreflang={[]}
-  robots="noindex, follow"
+  hreflang={[
+    { lang: 'ar-SA', href: 'https://brightai.site/design/buttons/' },
+    { lang: 'x-default', href: 'https://brightai.site/design/buttons/' },
+  ]}
   jsonLd={{
     '@context': 'https://schema.org',
     '@type': 'WebPage',
-    name: 'Button System Showcase (Internal)',
+    name: 'نظام الأزرار الموحّد — BrightAI Design System',
     url: 'https://brightai.site/design/buttons/',
     inLanguage: 'ar-SA',
-    description: 'Internal button system reference for the BrightAI design system.',
+    description: 'مرجع نظام الأزرار الموحّد في BrightAI: 8 أنواع للزر و4 أحجام و6 حالات، متوافق مع WCAG 2.5.5 AAA.',
   }}
   currentPath="/design/buttons/"
 >
@@ -55,7 +55,7 @@ import ArabicLayout from '../../layouts/ArabicLayout.astro';
         site resolves to <code>.btn</code> + a variant + a size + a state. All
         variants share the same base (44px height, 350ms transition, 2px
         focus ring offset 2px). Tap targets ≥ 44px on every size to meet
-        WCAG 2.5.5 AAA. Page is <code>noindex, follow</code>.
+        WCAG 2.5.5 AAA. Page is fully indexable (REPORTS-SEO-FOUNDATION).
       </p>
       <p class="buttons-page__ar-lead" lang="ar" dir="rtl">
         نظام الأزرار الموحّد في BrightAI. كل زر على الموقع يستخدم

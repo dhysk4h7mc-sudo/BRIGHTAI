@@ -7,6 +7,10 @@ updatedDate: "2026-05-31"
 author: "nasser-alabdullah"
 slug: "ai-governance-saudi-arabia"
 readingTime: 22
+category: "ذكاء-اصطناعي"
+tags: ["حوكمة AI", "السعودية", "SDAIA", "PDPL", "حلول BrightAI"]
+draft: false
+image: "/images/og/brightai-og-1200x630.png"
 ---
 
 <div class="short-answer-box">

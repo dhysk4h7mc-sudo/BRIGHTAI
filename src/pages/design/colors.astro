@@ -11,7 +11,7 @@
  * decisions before shipping.
  *
  * Constraints:
- *   - robots="noindex, follow" — never indexed by search engines.
+ *   - Page is INDEXABLE (REPORTS-SEO-FOUNDATION, 2026-07-07).
  *   - /design/* paths are excluded from sitemap via astro.config.mjs filter.
  *   - All sample text is intentionally generic so the page serves as a
  *     color reference, not a content sample.
@@ -70,15 +70,17 @@ const statusTokens = [
 ---
 
 <ArabicLayout
-  title="Color System Showcase (Internal) — BrightAI Design System"
-  description="Internal preview: surface layers, borders, text colors, glow backgrounds, brand scale, and status colors. Not indexed."
+  title="نظام الألوان والـ Tokens | BrightAI Design System"
+  description="مرجع نظام الألوان الموحّد في BrightAI: 3 طبقات سطح (base وsurface وelevated)، 4 ألوان نص، 6 ألوان حالة، تدرّج brand بـ cyan وindigo، و6 ظلال glow. متوافق مع WCAG 2.1 AA."
   canonical="https://brightai.site/design/colors/"
-  hreflang={[]}
-  robots="noindex, follow"
+  hreflang={[
+    { lang: 'ar-SA', href: 'https://brightai.site/design/colors/' },
+    { lang: 'x-default', href: 'https://brightai.site/design/colors/' },
+  ]}
   jsonLd={{
     '@context': 'https://schema.org',
     '@type': 'WebPage',
-    name: 'Color System Showcase (Internal)',
+    name: 'نظام الألوان والـ Tokens الموحّد — BrightAI Design System',
     url: 'https://brightai.site/design/colors/',
     inLanguage: 'ar-SA',
     description: 'Internal color reference for the BrightAI design system.',
@@ -94,13 +96,13 @@ const statusTokens = [
         border, text color, and glow effect in production is bound to one
         of the tokens shown on this page. <strong>Zero hex values in
         components</strong> — everything resolves through CSS custom
-        properties. Page is <code>noindex, follow</code>.
+        properties. Page is fully indexable (REPORTS-SEO-FOUNDATION).
       </p>
       <p class="colors-page__ar-lead" lang="ar" dir="rtl">
         نظام الألوان الموحّد في BrightAI. كل سطح وحد ونص وتأثير بصري
         في الإنتاج مربوط بأحد الـ tokens المعروضة هنا. <strong>صفر hex
         في المكونات</strong> — كله عبر CSS variables. الصفحة
-        <code>noindex</code> — لا تظهر في محركات البحث.
+        الصفحة قابلة للفهرسة بالكامل — مرجع مفتوح للألوان والـ tokens.
       </p>
     </header>
 

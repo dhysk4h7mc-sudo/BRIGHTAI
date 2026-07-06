@@ -7,6 +7,10 @@ updatedDate: "2026-07-14"
 author: "nasser-alabdullah"
 slug: "healthcare-ai-governance-saudi-hospitals"
 readingTime: 14
+category: "دراسات-حالة"
+tags: ["قطاع الصحة", "حوكمة AI", "SFDA", "المستشفيات السعودية"]
+draft: false
+image: "/images/og/brightai-og-1200x630.png"
 ---
 
 <p class="article-summary">دليل للمستشفيات ومقدمي الرعاية حول حوكمة AI، حماية بيانات المرضى، ومتطلبات SFDA عند وجود أجهزة أو برمجيات طبية.</p>

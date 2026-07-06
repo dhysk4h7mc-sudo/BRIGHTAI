@@ -1,0 +1,216 @@
+---
+/**
+ * Category landing page — /blog/category/<name>/
+ *
+ * REPORT-BLOG-2026-07-07:
+ *   One static page per `BlogCategory` enum value (5 pages). Slug is the
+ *   literal Arabic enum value (e.g. /blog/category/أمن-البيانات/) because
+ *   Astro 6 normalises Unicode in dynamic route params natively.
+ *
+ *   Each page lists its category's posts with the same pagination &
+ *   9-per-page math as the main index. URL query params reuse the same
+ *   `?page=N` shape so deep links to "page 2 of category X" stay valid.
+ */
+import ArabicLayout from '../../../layouts/ArabicLayout.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import {
+  BLOG_CATEGORIES,
+  getPostsByCategory,
+  paginate,
+  categoryTint,
+} from '../../../data/blog';
+import { SITE } from '../../../data/site';
+import { ORGANIZATION } from '../../../data/schema-helpers';
+
+const PAGE_SIZE = 9;
+
+export async function getStaticPaths() {
+  return BLOG_CATEGORIES.map((category) => ({ params: { category } }));
+}
+
+const category = Astro.params.category as (typeof BLOG_CATEGORIES)[number];
+
+if (!BLOG_CATEGORIES.includes(category)) {
+  return Astro.redirect('/blog/');
+}
+
+const postsInCategory = await getPostsByCategory(category);
+
+// URL query → page.
+const url = Astro.url;
+const requestedPage = Math.max(1, parseInt(url.searchParams.get('page') ?? '1', 10) || 1);
+
+const pagination = paginate(postsInCategory, requestedPage, PAGE_SIZE, `/blog/category/${category}/`);
+
+function pageUrl(page: number): string {
+  return page > 1 ? `/blog/category/${category}/?page=${page}` : `/blog/category/${category}/`;
+}
+
+// SEO + JSON-LD
+const breadcrumbLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'الرئيسية', item: `${SITE.url}/` },
+    { '@type': 'ListItem', position: 2, name: 'المدونة', item: `${SITE.url}/blog/` },
+    { '@type': 'ListItem', position: 3, name: category, item: `${SITE.url}/blog/category/${category}/` },
+  ],
+};
+
+const descriptionByCategory: Record<typeof category, string> = {
+  'ذكاء-اصطناعي': 'مقالات عن حوكمة الذكاء الاصطناعي ومنصات BrightAI وأخلاقيات AI. محتوى تنفيذي مخصص للسوق السعودي.',
+  'رؤية-2030': 'مقالات عن الذكاء الاصطناعي في إطار رؤية 2030 والتحول الرقمي السعودي.',
+  'تحول-رقمي': 'مقالات عن مسارات التحول الرقمي، ISO/IEC 42001، وسجلات تدقيق AI.',
+  'دراسات-حالة': 'دراسات حالة سعودية عن تطبيق AI في قطاعات الصحة والبنوك والحكومة.',
+  'أمن-البيانات': 'مقالات عن حماية البيانات في AI، PDPL، NCA ECC، SDAIA، AI Firewall، Red Teaming.',
+};
+
+const categoryLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: `${category} | مدونة BrightAI`,
+  description: descriptionByCategory[category],
+  url: `${SITE.url}/blog/category/${category}/`,
+  inLanguage: 'ar-SA',
+  isPartOf: { '@id': 'https://brightai.site/#website' },
+  publisher: { '@id': 'https://brightai.site/#organization' },
+};
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [categoryLd, ORGANIZATION, breadcrumbLd],
+};
+
+void categoryTint;
+---
+
+<ArabicLayout
+  title={`${category} | مدونة BrightAI`}
+  description={descriptionByCategory[category]}
+  canonical={`${SITE.url}/blog/category/${category}/`}
+  hreflang={[{ lang: 'ar-SA', href: `${SITE.url}/blog/category/${category}/` }]}
+  jsonLd={jsonLd as any}
+  currentPath={`/blog/category/${category}/`}
+>
+  <header class="blog-index__hero">
+    <span class="chip chip--brand blog-index__eyebrow">
+      <svg aria-hidden="true" width="14" height="14"><use href="/icons.svg#mdi-tag"></use></svg>
+      تصنيف
+    </span>
+    <h1 class="blog-index__title">{category}</h1>
+    <p class="blog-index__lead">{descriptionByCategory[category]}</p>
+    <p class="blog-index__count">
+      <strong>{postsInCategory.length}</strong>
+      مقال في هذا التصنيف
+    </p>
+    <div class="blog-index__hero-actions">
+      <a href="/blog/">
+        <svg aria-hidden="true" width="16" height="16"><use href="/icons.svg#mdi-arrow-right"></use></svg>
+        كل المقالات
+      </a>
+      <a href="/rss.xml/" target="_blank" rel="noopener noreferrer">
+        <svg aria-hidden="true" width="16" height="16"><use href="/icons.svg#mdi-share"></use></svg>
+        اشترك عبر RSS
+      </a>
+    </div>
+  </header>
+
+  <Breadcrumbs crumbs={[
+    { label: 'الرئيسية', href: '/' },
+    { label: 'المدونة', href: '/blog/' },
+    { label: category },
+  ]} />
+
+  <div class="blog-section">
+    <article class="listing-grid">
+      {pagination.items.length === 0 && (
+        <p class="listing-grid__empty">لا توجد مقالات في هذا التصنيف حتى الآن.</p>
+      )}
+      {pagination.items.map((post) => (
+        <a href={`/blog/${post.slug}/`} class="listing-card" data-category={post.category}>
+          <div class="listing-card__image" aria-hidden="true"></div>
+          <div class="listing-card__body">
+            <span class="listing-card__category">{post.category}</span>
+            <h2>{post.title}</h2>
+            <p class="listing-card__desc">{post.description}</p>
+            <div class="listing-card__meta">
+              <span>
+                <svg aria-hidden="true" width="14" height="14"><use href="/icons.svg#mdi-calendar"></use></svg>
+                {post.pubDate}
+              </span>
+              <span>
+                <svg aria-hidden="true" width="14" height="14"><use href="/icons.svg#mdi-clock-outline"></use></svg>
+                {post.readingTime} دقائق
+              </span>
+            </div>
+          </div>
+        </a>
+      ))}
+    </article>
+
+    {pagination.pageCount > 1 && (
+      <nav class="blog-pagination" aria-label="تصفح المقالات">
+        <span class="blog-pagination__info">
+          صفحة {pagination.page} من {pagination.pageCount}
+        </span>
+        <div class="blog-pagination__actions">
+          {pagination.hasPrev ? (
+            <a href={pageUrl(pagination.page - 1)} class="blog-pagination__btn" rel="prev">السابق</a>
+          ) : (
+            <span class="blog-pagination__btn" aria-disabled="true">السابق</span>
+          )}
+          {Array.from({ length: pagination.pageCount }, (_, i) => i + 1).map((p) => (
+            <a
+              href={pageUrl(p)}
+              class={`blog-pagination__btn ${p === pagination.page ? 'is-active' : ''}`}
+              aria-current={p === pagination.page ? 'page' : undefined}
+            >{p}</a>
+          ))}
+          {pagination.hasNext ? (
+            <a href={pageUrl(pagination.page + 1)} class="blog-pagination__btn" rel="next">التالي</a>
+          ) : (
+            <span class="blog-pagination__btn" aria-disabled="true">التالي</span>
+          )}
+        </div>
+      </nav>
+    )}
+  </div>
+
+  <section class="blog-final-cta" aria-labelledby="cat-cta">
+    <div class="card card--cta">
+      <h2 id="cat-cta">تبي تتعمق في {category}؟</h2>
+      <p>ابدأ بتقييم جاهزية حوكمة الذكاء الاصطناعي أو تواصل مع الفريق لترتيب جلسة تشخيص قصيرة.</p>
+      <div class="blog-final-cta__actions">
+        <a href="/assessment/ai-governance-readiness/" class="btn btn--primary">
+          <svg aria-hidden="true" width="20" height="20"><use href="/icons.svg#mdi-gauge"></use></svg>
+          تقييم الجاهزية
+        </a>
+        <a href="/contact/" class="btn btn--outline">
+          <svg aria-hidden="true" width="20" height="20"><use href="/icons.svg#mdi-email"></use></svg>
+          تواصل مع الفريق
+        </a>
+      </div>
+    </div>
+  </section>
+</ArabicLayout>
+
+<style>
+  .listing-grid__empty {
+    color: var(--text-secondary);
+    padding: var(--space-12) var(--space-4);
+    text-align: center;
+    border: 1px dashed var(--text-muted);
+    border-radius: var(--radius-lg);
+    margin-block: var(--space-6);
+  }
+  .blog-pagination__btn[aria-disabled='true'] {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+  .blog-pagination__btn.is-active {
+    background: var(--interactive-primary);
+    color: var(--bg-base);
+    font-weight: 700;
+  }
+</style>

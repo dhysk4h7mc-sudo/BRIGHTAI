@@ -7,6 +7,10 @@ updatedDate: "2026-06-30"
 author: "nasser-alabdullah"
 slug: "sdaia-generative-ai-guidelines-practical-compliance"
 readingTime: 14
+category: "أمن-البيانات"
+tags: ["SDAIA", "الذكاء الاصطناعي التوليدي", "إرشادات", "امتثال"]
+draft: false
+image: "/images/og/brightai-og-1200x630.png"
 ---
 
 <section class="highlight-box tldr">

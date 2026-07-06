@@ -27,6 +27,21 @@
     "readingTime": {
       "type": "number"
     },
+    "category": {
+      "type": "string"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "image": {
+      "type": "string"
+    },
+    "draft": {
+      "type": "boolean"
+    },
     "$schema": {
       "type": "string"
     }
@@ -36,9 +51,6 @@
     "description",
     "canonical",
     "pubDate",
-    "updatedDate",
-    "author",
-    "slug",
-    "readingTime"
+    "slug"
   ]
 }

@@ -1,47 +1,104 @@
 ---
 /**
  * Blog article dynamic page — /blog/<slug>/
- * Uses data from src/data/blog.ts + content from src/content/blog/*.md
  *
- * REPORT-12: Passes breadcrumb JSON-LD (chain: الرئيسية → المدونة → article)
- * separately from BlogLayout's Article + Organization schema. The visual
- * breadcrumbs are emitted by the <Breadcrumbs /> component inside BlogLayout.
+ * REPORT-BLOG-2026-07-07: rewrite against the Content Collection.
+ *   - Data lookup via collection helpers.
+ *   - Body markdown rendered with entry.render() into a named slot.
+ *   - BlogPosting JSON-LD.
+ *   - Same-category first related posts, then tag-overlap.
  */
 import BlogLayout from '../../layouts/BlogLayout.astro';
-import { posts, getRelatedPosts } from '../../data/blog';
-import { getCollection } from 'astro:content';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { getPostBySlug, getRelatedPosts } from '../../data/blog';
+import { getCollection, render } from 'astro:content';
 import { SITE } from '../../data/site';
-import { getBreadcrumbLd } from '../../data/schema-helpers';
 
 export async function getStaticPaths() {
-  const blogEntries = await getCollection('blog');
-
-  return blogEntries.map(entry => ({
-    params: { slug: entry.data.slug || entry.id.replace(/\.md$/, '') },
-    props: { entry },
-  }));
+  const entries = await getCollection('blog');
+  return entries
+    .filter((e) => !e.data.draft)
+    .map((entry) => ({
+      params: { slug: entry.data.slug || entry.id.replace(/\.md$/, '') },
+      props: { entry },
+    }));
 }
 
-const { entry } = Astro.props;
-const slug = entry.data.slug || entry.id.replace(/\.md$/, '');
-
-const post = posts.find(p => p.slug === slug);
-
-if (!post) {
-  return Astro.redirect('/blog/');
+interface Props {
+  entry: Awaited<ReturnType<typeof getCollection<'blog'>>>[number];
 }
 
-const relatedPosts = getRelatedPosts(slug);
-const body = entry.body || '';
+const { entry } = Astro.props as Props;
+const slug = Astro.params.slug as string;
+const post = (await getPostBySlug(slug))!;
+const { Content } = await render(entry);
 
-// SCHEMA-ENHANCEMENT (REPORT-23): explicit chain breadcrumb for the article.
-const breadcrumbLd = getBreadcrumbLd([
-  { name: 'الرئيسية', href: '/' },
-  { name: 'المدونة', href: '/blog/' },
-  { name: post.title, href: post.canonical },
-]);
+const INTERNAL_LINKS_BY_CATEGORY: Record<string, Array<{ href: string; label: string }>> = {
+  'ذكاء-اصطناعي': [
+    { href: '/solutions/ai-governance-platform/', label: 'حل حوكمة AI' },
+    { href: '/docs/ai-audit-trail/', label: 'توثيق سجل التدقيق' },
+    { href: '/hub/ai-governance/', label: 'مركز حوكمة AI' },
+    { href: '/hub/compliance/', label: 'مركز الامتثال' },
+  ],
+  'رؤية-2030': [
+    { href: '/hub/', label: 'مركز المعرفة' },
+    { href: '/solutions/ai-governance-platform/', label: 'حل حوكمة AI' },
+    { href: '/assessment/ai-governance-readiness/', label: 'تقييم الجاهزية' },
+    { href: '/contact/', label: 'تواصل مع الفريق' },
+  ],
+  'تحول-رقمي': [
+    { href: '/solutions/ai-audit-trail/', label: 'سجل التدقيق' },
+    { href: '/docs/ai-audit-trail/', label: 'توثيق سجل التدقيق' },
+    { href: '/hub/compliance/', label: 'مركز الامتثال' },
+    { href: '/assessment/ai-governance-readiness/', label: 'تقييم الجاهزية' },
+  ],
+  'دراسات-حالة': [
+    { href: '/solutions/healthcare-ai-governance/', label: 'قطاع الصحة' },
+    { href: '/solutions/banking-ai-governance/', label: 'قطاع البنوك' },
+    { href: '/hub/', label: 'مركز المعرفة' },
+    { href: '/contact/', label: 'تواصل مع الفريق' },
+  ],
+  'أمن-البيانات': [
+    { href: '/solutions/ai-firewall/', label: 'جدار حماية AI' },
+    { href: '/solutions/ai-audit-trail/', label: 'سجل التدقيق' },
+    { href: '/solutions/ai-risk-classification/', label: 'تصنيف مخاطر AI' },
+    { href: '/hub/security/', label: 'مركز الأمان' },
+  ],
+};
+
+const internalLinks = INTERNAL_LINKS_BY_CATEGORY[post.category] || [];
+
+// Prefer same-category related posts; fall back to broader tag-overlap.
+const allRelated = await getRelatedPosts(post.slug, 20);
+const sameCategory = allRelated.filter((p) => p.category === post.category).slice(0, 3);
+const relatedPosts = sameCategory.length > 0 ? sameCategory : allRelated.slice(0, 3);
+
+const breadcrumbLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'الرئيسية', item: `${SITE.url}/` },
+    { '@type': 'ListItem', position: 2, name: 'المدونة', item: `${SITE.url}/blog/` },
+    { '@type': 'ListItem', position: 3, name: post.title, item: post.canonical },
+  ],
+};
 ---
 
-<BlogLayout post={post} body={body} relatedPosts={relatedPosts}>
-  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLd)} />
+<BlogLayout
+  post={post}
+  relatedPosts={relatedPosts}
+  internalLinks={internalLinks}
+  breadcrumbLd={breadcrumbLd}
+>
+  <Fragment slot="header">
+    <Breadcrumbs crumbs={[
+      { label: 'الرئيسية', href: '/' },
+      { label: 'المدونة', href: '/blog/' },
+      { label: post.title },
+    ]} />
+  </Fragment>
+
+  <Fragment slot="article">
+    <Content />
+  </Fragment>
 </BlogLayout>

@@ -7,6 +7,10 @@ updatedDate: "2026-06-23"
 author: "nasser-alabdullah"
 slug: "pdpl-ai-compliance-guide"
 readingTime: 20
+category: "أمن-البيانات"
+tags: ["PDPL", "امتثال", "حماية البيانات", "الذكاء الاصطناعي"]
+draft: false
+image: "/images/og/brightai-og-1200x630.png"
 ---
 
 <section class="highlight-box tldr">

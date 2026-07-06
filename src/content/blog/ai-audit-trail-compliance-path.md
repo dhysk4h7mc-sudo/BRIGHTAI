@@ -7,6 +7,10 @@ updatedDate: "2026-07-10"
 author: "nasser-alabdullah"
 slug: "ai-audit-trail-compliance-path"
 readingTime: 12
+category: "تحول-رقمي"
+tags: ["سجل التدقيق", "AI Audit Trail", "امتثال", "تدقيق"]
+draft: false
+image: "/images/og/brightai-og-1200x630.png"
 ---
 
 <section class="shell hero">

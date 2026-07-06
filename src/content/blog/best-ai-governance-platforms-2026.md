@@ -7,6 +7,10 @@ updatedDate: "2026-07-24"
 author: "nasser-alabdullah"
 slug: "best-ai-governance-platforms-2026"
 readingTime: 19
+category: "ذكاء-اصطناعي"
+tags: ["منصات حوكمة AI", "مقارنة", "BrightAI", "2026"]
+draft: false
+image: "/images/og/brightai-og-1200x630.png"
 ---
 
 <p class="article-summary">مقارنة عملية بين معايير اختيار منصات حوكمة AI في 2026، مع توضيح أين تتميز BrightAI للشركات السعودية.</p>

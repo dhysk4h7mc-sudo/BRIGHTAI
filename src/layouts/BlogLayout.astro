@@ -1,70 +1,93 @@
 ---
 /**
- * BlogLayout — Blog article page layout.
- * Used by src/pages/blog/[slug].astro
- * Injects BlogPosting + BreadcrumbList JSON-LD.
+ * BlogLayout — Blog article page layout. Used by src/pages/blog/[...slug].astro
  *
- * REPORT-12: Visual refresh — chip category, code copies, prose styling,
- * tags as numbered tokens, author bio, links grid, final CTA.
- * Content Preservation Rule:
- *   Published Arabic titles + descriptions + author bios are not changed.
- *   Only markup + visual treatment updated.
+ * REPORT-BLOG-2026-07-07:
+ *   - Body markdown now rendered via entry.render() + a named slot
+ *     (`slot="article"`).
+ *   - JSON-LD upgraded to schema.org `BlogPosting` (Google prefers this
+ *     type for blog content).
+ *   - Breadcrumbs component provided by the page via `slot="header"`.
+ *   - Internal links grid driven by an `internalLinks` prop.
  */
 import ArabicLayout from './ArabicLayout.astro';
-import Breadcrumbs from '../components/Breadcrumbs.astro';
 import RelatedPosts from '../components/RelatedPosts.astro';
 import { SITE } from '../data/site';
 import type { BlogPost } from '../data/blog';
 import { ORGANIZATION } from '../data/schema-helpers';
 
-interface Props {
-  post: BlogPost;
-  body: string;
-  relatedPosts: BlogPost[];
+interface InternalLink {
+  href: string;
+  label: string;
 }
 
-const { post, body, relatedPosts } = Astro.props;
+interface Props {
+  post: BlogPost;
+  relatedPosts: BlogPost[];
+  internalLinks?: InternalLink[];
+  breadcrumbLd?: Record<string, unknown>;
+}
 
-const blogPostingLd = {
+const { post, relatedPosts, internalLinks = [], breadcrumbLd } = Astro.props;
+
+const blogPostingLd: Record<string, unknown> = {
   '@context': 'https://schema.org',
-  '@type': 'Article',
-  '@id': `${post.canonical}#article`,
+  '@type': 'BlogPosting',
+  '@id': `${post.canonical}#blogPosting`,
   headline: post.title,
   description: post.description,
-  image: `${SITE.url}${post.ogImage}`,
+  image: {
+    '@type': 'ImageObject',
+    url: `${SITE.url}${post.ogImage}`,
+    width: 1200,
+    height: 630,
+  },
   datePublished: post.pubDate,
   dateModified: post.updatedDate ?? post.pubDate,
   inLanguage: 'ar-SA',
   author: {
     '@type': 'Person',
+    '@id': `${SITE.url}/authors/${post.author.slug}#person`,
     name: post.author.name,
-    url: `${SITE.url}/authors/${post.author.slug}/`,
+    alternateName: post.author.nameEn,
+    url: post.author.url,
+    jobTitle: post.author.title,
   },
   publisher: {
     '@type': 'Organization',
     '@id': `${SITE.url}#organization`,
     name: 'BrightAI',
     url: SITE.url,
-    logo: { '@type': 'ImageObject', url: `${SITE.url}/logo.png` },
+    logo: {
+      '@type': 'ImageObject',
+      url: `${SITE.url}/logo.png`,
+      width: 512,
+      height: 512,
+    },
   },
   mainEntityOfPage: {
     '@type': 'WebPage',
     '@id': post.canonical,
   },
   articleSection: post.category,
+  articleBody: post.description,
   keywords: post.tags.join(', '),
+  wordCount: post.readingTime * 200,
+  url: post.canonical,
+  isAccessibleForFree: true,
 };
 
 const jsonLd = {
   '@context': 'https://schema.org',
-  '@graph': [blogPostingLd, ORGANIZATION],
+  '@graph': [
+    blogPostingLd,
+    ORGANIZATION,
+    breadcrumbLd,
+  ].filter(Boolean),
 };
 
-// Tag count keeps the meta tidy. Saudi-dialect-friendly: 4 is the max we want
-// before they crowd the hero on mobile.
 const visibleTags = (post.tags || []).slice(0, 4);
 
-// Author initials for the .author-bio__avatar gradient circle.
 const authorInitials = post.author.name
   .replace(/^م\.\s*/, '')
   .split(' ')
@@ -86,14 +109,12 @@ const authorInitials = post.author.name
   <div class="reading-progress" hidden aria-hidden="true"></div>
 
   <div class="article-shell">
-    <Breadcrumbs crumbs={[
-      { label: 'الرئيسية', href: '/' },
-      { label: 'المدونة', href: '/blog/' },
-      { label: post.title },
-    ]} />
+    <slot name="header" />
 
     <header class="article-hero" data-speakable>
-      <span class="chip chip--brand article-hero__category">{post.category}</span>
+      <a class="chip chip--brand article-hero__category" href={`/blog/category/${encodeURIComponent(post.category)}/`}>
+        {post.category}
+      </a>
       <h1>{post.title}</h1>
       <p class="article-hero__desc">{post.description}</p>
       <div class="article-hero__meta" aria-label="معلومات المقال">
@@ -123,9 +144,10 @@ const authorInitials = post.author.name
       </div>
     )}
 
-    <article class="article-content article-content--reading" set:html={body} />
+    <article class="article-content article-content--reading">
+      <slot name="article" />
+    </article>
 
-    <!-- Author bio (canonical .author-bio card) -->
     <aside class="author-bio" aria-labelledby="author-bio-name">
       <div class="author-bio__avatar" aria-hidden="true">{authorInitials}</div>
       <div class="author-bio__body">
@@ -137,22 +159,20 @@ const authorInitials = post.author.name
       </div>
     </aside>
 
-    <!-- Related posts (canonical .related-posts) -->
     <RelatedPosts posts={relatedPosts} />
 
-    <!-- Internal links grid (canonical .article-links) -->
-    <section class="article-links" aria-labelledby="article-related-links">
-      <p class="article-links__label">استكشف أعمق</p>
-      <h2 id="article-related-links">محتوى ذو صلة</h2>
-      <div class="article-links__grid">
-        <a href="/solutions/ai-governance-platform/">حل حوكمة AI</a>
-        <a href="/docs/ai-audit-trail/">توثيق سجل التدقيق</a>
-        <a href="/hub/ai-governance/">مركز حوكمة AI</a>
-        <a href="/hub/compliance/">مركز الامتثال</a>
-      </div>
-    </section>
+    {internalLinks.length > 0 && (
+      <section class="article-links" aria-labelledby="article-related-links">
+        <p class="article-links__label">استكشف أعمق</p>
+        <h2 id="article-related-links">محتوى ذو صلة</h2>
+        <div class="article-links__grid">
+          {internalLinks.map((link) => (
+            <a href={link.href}>{link.label}</a>
+          ))}
+        </div>
+      </section>
+    )}
 
-    <!-- Final CTA (canonical card--cta + .article-demo-cta) -->
     <section class="article-demo-cta" aria-labelledby="blog-demo-title">
       <div class="card card--cta article-demo-cta__card">
         <h2 id="blog-demo-title">شاهد حوكمة AI وهي تعمل على حالاتك الفعلية</h2>
@@ -166,19 +186,14 @@ const authorInitials = post.author.name
   </div>
 
   <script>
-    // REPORT-12: Reading progress bar.
-    // Anchors a thin .reading-progress bar to the top of the page; width
-    // is the % of the article scrolled past. Hides itself when at top.
     function initReadingProgress() {
       const article = document.querySelector('.article-content');
       const bar = document.querySelector('.reading-progress');
       if (!article || !bar || bar.hasAttribute('data-progress-initialized')) return;
       bar.removeAttribute('hidden');
       bar.setAttribute('data-progress-initialized', 'true');
-
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       let raf = 0;
-
       const update = () => {
         raf = 0;
         const rect = (article as HTMLElement).getBoundingClientRect();
@@ -192,20 +207,12 @@ const authorInitials = post.author.name
           bar.setAttribute('hidden', '');
         }
       };
-
-      const onScroll = () => {
-        if (raf) return;
-        raf = window.requestAnimationFrame(update);
-      };
-
+      const onScroll = () => { if (raf) return; raf = window.requestAnimationFrame(update); };
       window.addEventListener('scroll', onScroll, { passive: true });
       window.addEventListener('resize', onScroll, { passive: true });
-      if (reduceMotion) {
-        bar.style.transition = 'none';
-      }
+      if (reduceMotion) bar.style.transition = 'none';
       update();
     }
-
     document.addEventListener('astro:page-load', initReadingProgress);
     document.addEventListener('astro:before-swap', () => {
       document.querySelectorAll('.reading-progress[data-progress-initialized]').forEach((el) => {

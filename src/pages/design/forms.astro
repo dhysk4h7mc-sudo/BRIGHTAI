@@ -23,7 +23,7 @@
  *   11. Legacy aliases reference
  *
  * Constraints:
- *   - robots="noindex, follow" — never indexed by search engines.
+ *   - Page is INDEXABLE (REPORTS-SEO-FOUNDATION, 2026-07-07).
  *   - /design/* paths are excluded from sitemap via astro.config.mjs filter.
  *   - All sample text is intentionally generic.
  *   - No published Arabic text from any production page is used here.
@@ -35,15 +35,17 @@ import ArabicLayout from '../../layouts/ArabicLayout.astro';
 ---
 
 <ArabicLayout
-  title="Form System Showcase (Internal) — BrightAI Design System"
-  description="Internal preview: input base, variants, sizes, states, and form layout helpers. Not indexed."
+  title="نظام النماذج الموحّد | BrightAI Design System"
+  description="مرجع نظام النماذج الموحّد في BrightAI: 7 أنواع للحقل (input وtextarea وselect وcheckbox وradio وswitch وfile)، 4 حالات (default وhover وfocus وerror)، helpers للتخطيط (field وform-row وform-label)، ودعم كامل لـ aria."
   canonical="https://brightai.site/design/forms/"
-  hreflang={[]}
-  robots="noindex, follow"
+  hreflang={[
+    { lang: 'ar-SA', href: 'https://brightai.site/design/forms/' },
+    { lang: 'x-default', href: 'https://brightai.site/design/forms/' },
+  ]}
   jsonLd={{
     '@context': 'https://schema.org',
     '@type': 'WebPage',
-    name: 'Form System Showcase (Internal)',
+    name: 'نظام النماذج الموحّد — BrightAI Design System',
     url: 'https://brightai.site/design/forms/',
     inLanguage: 'ar-SA',
     description: 'Internal form system reference for the BrightAI design system.',
@@ -60,7 +62,7 @@ import ArabicLayout from '../../layouts/ArabicLayout.astro';
         checkbox, radio, file) + a size (sm 36 / md 44 / lg 52). All
         controls share the same focus state (brand border + 3px tinted
         ring) and the same error pattern (danger border + helper text).
-        Page is <code>noindex, follow</code>.
+        Page is fully indexable (REPORTS-SEO-FOUNDATION).
       </p>
       <p class="forms-page__ar-lead" lang="ar" dir="rtl">
         نظام الـ forms الموحّد في BrightAI. كل حقل يستخدم <code>.input</code>

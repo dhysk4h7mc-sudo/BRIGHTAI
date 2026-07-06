@@ -103,6 +103,14 @@ function findTargetScript(html) {
       if (/\bid=["']brightai-page-schema["']/i.test(match[0])) {
         pageSchema = candidate;
       }
+      // REPORTS-SEO-FOUNDATION (2026-07-07): FoundationSchema emits
+      // "brightai-foundation-schema" — the legacy "brightai-production-schema"
+      // id is no longer used. Kept as a fallback for any pages that haven't
+      // been migrated yet.
+      if (/\bid=["']brightai-foundation-schema["']/i.test(match[0])) {
+        productionSchema = candidate;
+        return productionSchema; // Foundation schema is the canonical source.
+      }
       if (/\bid=["']brightai-production-schema["']/i.test(match[0])) {
         productionSchema = candidate;
       }

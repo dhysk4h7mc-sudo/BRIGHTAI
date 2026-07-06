@@ -24,8 +24,10 @@ const navigationLinks = [
   title="الصفحة غير موجودة | BrightAI"
   description="الصفحة المطلوبة غير متوفرة حالياً. يمكنك العودة إلى الصفحة الرئيسية أو استكشاف حلول BrightAI للذكاء الاصطناعي للشركات السعودية."
   canonical="https://brightai.site/404.html"
-  hreflang={[]}
-  robots="noindex, follow"
+  hreflang={[
+    { lang: 'ar-SA', href: 'https://brightai.site/404.html' },
+    { lang: 'x-default', href: 'https://brightai.site/404.html' },
+  ]}
   jsonLd={{
     '@context': 'https://schema.org',
     '@type': 'WebPage',

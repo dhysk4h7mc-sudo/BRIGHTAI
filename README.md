@@ -73,3 +73,15 @@ Sequential Thinking = يرتب الخطة قبل التعديلات الكبير
    hermes config edit  Open config in editor
    hermes gateway install Install gateway service (messaging + cron)
    hermes update       Update to latest version
+
+
+
+   <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8LLESL207Q"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8LLESL207Q');
+</script>

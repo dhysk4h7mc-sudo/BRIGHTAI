@@ -62,7 +62,7 @@ export function getStaticPaths() {
 
 const { page } = Astro.props;
 
-const relatedPosts = getPublishedPosts().filter(post =>
+const relatedPosts = (await getPublishedPosts()).filter(post =>
   page.tags.some(tag => post.tags.some(pt => pt.includes(tag) || tag.includes(pt)))
 ).slice(0, 6);
 

@@ -315,3 +315,15 @@ https://www.brightai.site/*    https://brightai.site/:splat  301
 /docs/kernel-scenarios        /docs/kernel-scenarios/       301
 /docs/kernel-scenarios.html   /docs/kernel-scenarios/       301
 /docs/kernel-scenarios/index.html /docs/kernel-scenarios/   301
+
+# REPORT-BLOG-2026-07-07: RSS endpoint migrated from /blog/feed.xml to /rss.xml/.
+# Old paths continue to 301 to the new canonical URL.
+# (Both endpoints stay live until external redirect propagates.)
+/rss              /rss.xml/ 301
+/rss.html         /rss.xml/ 301
+/rss/index.html   /rss.xml/ 301
+/blog/feed        /rss.xml/ 301
+/blog/feed.html   /rss.xml/ 301
+/blog/feed.xml    /rss.xml/ 301
+/blog/feed.xml/   /rss.xml/ 301
+/blog/feed/index.html /rss.xml/ 301

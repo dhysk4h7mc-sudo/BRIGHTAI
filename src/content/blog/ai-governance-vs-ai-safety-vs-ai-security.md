@@ -7,6 +7,10 @@ updatedDate: "2026-06-16"
 author: "nasser-alabdullah"
 slug: "ai-governance-vs-ai-safety-vs-ai-security"
 readingTime: 14
+category: "ذكاء-اصطناعي"
+tags: ["حوكمة AI", "أمان AI", "أمن AI", "AI Governance vs Safety vs Security"]
+draft: false
+image: "/images/og/brightai-og-1200x630.png"
 ---
 
 <p class="article-summary">شرح عملي للفروق بين حوكمة AI وأمان AI وأمن AI، وكيف تتكامل الثلاثة داخل برنامج واحد بدلاً من أن تعمل كجزر منفصلة.</p>

@@ -1080,3 +1080,32 @@ services:
       - type: redirect
         source: /frontend/*
         destination: /404/
+
+      # ── RSS Feed Migration (REPORT-BLOG-2026-07-07) ───────────────────
+      # RSS endpoint moved from /blog/feed.xml → /rss.xml/. All old paths
+      # continue to 301 to the new canonical URL. Both endpoints stay
+      # live until external redirect propagates externally.
+      - type: redirect
+        source: /rss
+        destination: /rss.xml/
+      - type: redirect
+        source: /rss.html
+        destination: /rss.xml/
+      - type: redirect
+        source: /rss/index.html
+        destination: /rss.xml/
+      - type: redirect
+        source: /blog/feed
+        destination: /rss.xml/
+      - type: redirect
+        source: /blog/feed.html
+        destination: /rss.xml/
+      - type: redirect
+        source: /blog/feed.xml
+        destination: /rss.xml/
+      - type: redirect
+        source: /blog/feed.xml/
+        destination: /rss.xml/
+      - type: redirect
+        source: /blog/feed/index.html
+        destination: /rss.xml/

@@ -7,6 +7,10 @@ updatedDate: "2026-07-07"
 author: "nasser-alabdullah"
 slug: "ai-firewall-why-you-need-it"
 readingTime: 11
+category: "أمن-البيانات"
+tags: ["AI Firewall", "جدار حماية", "حماية البيانات", "أمان AI"]
+draft: false
+image: "/images/og/brightai-og-1200x630.png"
 ---
 
 <p class="article-summary">شرح مبسط وعملي لمفهوم AI Firewall ودوره في حماية البيانات، منع الاستخدامات الخطرة، وتسجيل الأدلة.</p>

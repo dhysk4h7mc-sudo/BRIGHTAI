@@ -1,7 +1,12 @@
 /**
  * RSS Feed — /blog/feed.xml
  * Uses @astrojs/rss to generate a valid RSS 2.0 feed.
- * Matches the exact path of the existing static feed.xml.
+ *
+ * REPORT-BLOG-2026-07-07:
+ *   - `getPublishedPosts()` is now async (collection-derived).
+ *   - URL unchanged: /blog/feed.xml still valid (a 301 from /blog/feed.xml
+ *     → /rss.xml/ will be added in a separate step — both stay live until
+ *     the redirect propagates externally).
  */
 import rss from '@astrojs/rss';
 import { getPublishedPosts } from '../../data/blog';
@@ -9,13 +14,13 @@ import { SITE } from '../../data/site';
 import type { APIContext } from 'astro';
 
 export async function GET(context: APIContext) {
-  const posts = getPublishedPosts();
+  const posts = await getPublishedPosts();
 
   return rss({
     title: 'مدونة BrightAI',
     description: 'مقالات عملية حول حوكمة الذكاء الاصطناعي في السعودية والامتثال والأنظمة',
     site: context.site || SITE.url,
-    items: posts.map(post => ({
+    items: posts.map((post) => ({
       title: post.title,
       pubDate: new Date(post.pubDate),
       description: post.description,

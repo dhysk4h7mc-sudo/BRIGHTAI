@@ -7,6 +7,10 @@ updatedDate: "2026-05-31"
 author: "nasser-alabdullah"
 slug: "ai-customer-data-protection-saudi"
 readingTime: 24
+category: "أمن-البيانات"
+tags: ["حماية البيانات", "PDPL", "بيانات العملاء", "الخصوصية"]
+draft: false
+image: "/images/og/brightai-og-1200x630.png"
 ---
 
 <div class="short-answer-box">

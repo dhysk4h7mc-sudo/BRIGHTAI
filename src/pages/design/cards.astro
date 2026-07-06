@@ -10,7 +10,7 @@
  * decisions before shipping any redesign that touches cards.
  *
  * Constraints:
- *   - robots="noindex, follow" — never indexed by search engines.
+ *   - Page is INDEXABLE (REPORTS-SEO-FOUNDATION, 2026-07-07).
  *   - /design/* paths are excluded from sitemap via astro.config.mjs filter.
  *   - All sample text is intentionally generic so the page serves as a
  *     card reference, not a content sample.
@@ -56,15 +56,17 @@ const interactiveSample = {
 };
 ---
 <ArabicLayout
-  title="Card System Showcase (Internal) — BrightAI Design System"
-  description="Internal preview: card base, variants, sizes, anatomy sub-elements, and legacy aliases. Not indexed."
+  title="نظام البطاقات الموحّد | BrightAI Design System"
+  description="مرجع نظام البطاقات الموحّد في BrightAI: 6 أنواع للبطاقة (feature وmetric وglass وinner وhome-cta وstep)، 3 أحجام، وتشريح البطاقة (header وbody وfooter)، مع 14 alias قديم للحفاظ على توافق HTML."
   canonical="https://brightai.site/design/cards/"
-  hreflang={[]}
-  robots="noindex, follow"
+  hreflang={[
+    { lang: 'ar-SA', href: 'https://brightai.site/design/cards/' },
+    { lang: 'x-default', href: 'https://brightai.site/design/cards/' },
+  ]}
   jsonLd={{
     '@context': 'https://schema.org',
     '@type': 'WebPage',
-    name: 'Card System Showcase (Internal)',
+    name: 'نظام البطاقات الموحّد — BrightAI Design System',
     url: 'https://brightai.site/design/cards/',
     inLanguage: 'ar-SA',
     description: 'Internal card system reference for the BrightAI design system.',
@@ -80,13 +82,13 @@ const interactiveSample = {
         site resolves to <code>.card</code> + one of the variants documented
         below. All variants share the same base (surface-2 + border-soft +
         radius-xl + 250ms transition). All aliases below still resolve to
-        the canonical patterns. Page is <code>noindex, follow</code>.
+        the canonical patterns. Page is fully indexable (REPORTS-SEO-FOUNDATION).
       </p>
       <p class="cards-page__ar-lead" lang="ar" dir="rtl">
         نظام البطاقات الموحّد في BrightAI. كل بطاقة على الموقع تستخدم
         <code>.card</code> كنقطة بداية مع variant واحد من القائمة تحت.
         الـaliases القديمة (مثل <code>.inner-card</code>) كلها لا تزال تشتغل.
-        الصفحة <code>noindex</code> — للمراجعة الداخلية فقط.
+        الصفحة قابلة للفهرسة بالكامل — مرجع تصميمي مفتوح للزوار.
       </p>
     </header>
 

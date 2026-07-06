@@ -1,8 +1,28 @@
 ---
 /**
- * BaseLayout — Root layout for all pages.
- * Props: lang, dir, title, description, canonical, hreflang, ogImage, jsonLd
- * Injects: Google tag G-8LLESL207Q, fonts preconnect, all CSS.
+ * BaseLayout — Root layout for every page in BrightAI.
+ *
+ * REPORTS-SEO-FOUNDATION (2026-07-07):
+ *   - Accepts canonical, ogImage, and optional extra schema via props.
+ *   - Emits geo.* meta tags for Riyadh (geo.region SA-01, geo.placename Riyadh).
+ *   - Forces <html lang="ar" dir="rtl"> as the site default (Arabic, Saudi).
+ *   - Always emits hreflang ar-SA + x-default. Adds en-SA + x-default when
+ *     a language counterpart exists (via i18n-pairs.ts LEGAL_I18N_PAIRS).
+ *   - Emits the foundation schema (Organization + WebSite + LocalBusiness)
+ *     from src/components/seo/Schema.astro, and merges any page-provided
+ *     extra schema into a single @graph (no duplicate <script> blocks).
+ *   - Hard rule: NO `meta name="robots" content="noindex"` is ever emitted
+ *     here. If a page tries to pass `robots="noindex, ..."`, the prop is
+ *     ignored with a console warning. Pages are crawled and indexed by
+ *     default — see REPORTS-SEO-FOUNDATION.
+ *
+ * PRESERVED (no regression):
+ *   - SEOHead still owns title/description/OG/Twitter meta.
+ *   - Header, MobileNav, Footer, WhatsAppCTA, CookieConsent, DottedBackground,
+ *     ClientRouter, gtag, scroll-reveal, CSS layers, brand @font-face are
+ *     all kept exactly as before.
+ *   - ArabicLayout and EnglishLayout continue to be thin wrappers that
+ *     forward their props here.
  */
 import SEOHead from '../components/SEOHead.astro';
 import Header from '../components/Header.astro';
@@ -11,6 +31,7 @@ import Footer from '../components/Footer.astro';
 import WhatsAppCTA from '../components/WhatsAppCTA.astro';
 import DottedBackground from '../components/DottedBackground.astro';
 import CookieConsent from '../components/CookieConsent.astro';
+import FoundationSchema from '../components/seo/Schema.astro';
 import { SITE } from '../data/site';
 import type { SEOProps } from '../data/site';
 import { ClientRouter } from 'astro:transitions';
@@ -20,7 +41,22 @@ interface Props extends SEOProps {
   dir?: 'rtl' | 'ltr';
   currentPath?: string;
   languageCounterpart?: string;
+  /**
+   * @deprecated Indexing is forced by the SEO foundation (2026-07-07).
+   * Pass-through kept for backward compatibility; the layout ignores any
+   * "noindex" value and emits the canonical `index, follow, max-...` set.
+   */
   robots?: string;
+  /**
+   * Optional page-level breadcrumbs (without the home crumb — added by
+   * FoundationSchema automatically). Order: ancestors first, current last.
+   */
+  breadcrumbs?: Array<{ name: string; href: string }>;
+  /**
+   * Optional extra schema nodes to merge into the foundation @graph
+   * (FAQPage, Article, Service, HowTo, …).
+   */
+  extraJsonLd?: Array<Record<string, unknown> | null | undefined>;
 }
 
 const {
@@ -36,7 +72,25 @@ const {
   currentPath = '/',
   languageCounterpart,
   robots,
+  breadcrumbs = [],
+  extraJsonLd = [],
 } = Astro.props;
+
+// REPORTS-SEO-FOUNDATION: canonical auto-derivation. If a page forgets to
+// pass a canonical, we derive one from Astro.url using the SITE.url host.
+const finalCanonical =
+  canonical ||
+  new URL(currentPath, SITE.url).toString().replace(/\/$/, '/').replace(/([^:])\/{2,}/g, '$1/');
+
+// Robots hard-coded to "index, follow" — never noindex.
+const finalRobots = 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1';
+
+// Build the @graph: foundation nodes + breadcrumbs + page extras + page jsonLd
+// All in a single block (avoids duplicate <script type="application/ld+json">).
+const graphExtras: Array<Record<string, unknown>> = [
+  ...(Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd as Record<string, unknown>] : []),
+  ...extraJsonLd,
+].filter((n): n is Record<string, unknown> => Boolean(n));
 ---
 
 <!DOCTYPE html>
@@ -45,6 +99,16 @@ const {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+  <!-- Geo tags — Riyadh HQ (REPORTS-SEO-FOUNDATION, 2026-07-07) -->
+  <meta name="geo.region" content="SA-01" />
+  <meta name="geo.placename" content="Riyadh" />
+  <meta name="geo.position" content="24.7136;46.6753" />
+  <meta name="ICBM" content="24.7136, 46.6753" />
+  <meta name="language" content={lang === 'ar' ? 'Arabic' : 'English'} />
+  <meta name="distribution" content="global" />
+  <meta name="rating" content="general" />
+  <meta name="revisit-after" content="7 days" />
 
   <!-- Font preconnect (REPORTS-20: trimmed to body 400 + heading 600 only). -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -65,17 +129,25 @@ const {
   <link rel="preload" as="image" href="/logo-192.webp" type="image/webp" fetchpriority="high" />
   <link rel="manifest" href="/manifest.webmanifest" />
 
-  <!-- SEO -->
+  <!-- SEO meta + Open Graph + Twitter Cards + hreflang + page-level JSON-LD -->
   <SEOHead
     title={title}
     description={description}
-    canonical={canonical}
+    canonical={finalCanonical}
     hreflang={hreflang}
     ogImage={ogImage}
     ogImageAlt={ogImageAlt}
-    jsonLd={jsonLd}
+    jsonLd={undefined}
     locale={lang}
-    robots={robots}
+    robots={finalRobots}
+  />
+
+  <!-- Foundation schema (Organization + WebSite + SearchAction + LocalBusiness)
+       merged with the page's extra schema in a single @graph. -->
+  <FoundationSchema
+    canonical={finalCanonical}
+    breadcrumbs={breadcrumbs}
+    extra={graphExtras}
   />
 
   <ClientRouter />

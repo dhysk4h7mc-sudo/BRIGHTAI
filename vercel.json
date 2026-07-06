@@ -94,5 +94,15 @@
         }
       ]
     }
+  ],
+  "redirects": [
+    { "source": "/rss", "destination": "/rss.xml/", "statusCode": 301 },
+    { "source": "/rss.html", "destination": "/rss.xml/", "statusCode": 301 },
+    { "source": "/rss/index.html", "destination": "/rss.xml/", "statusCode": 301 },
+    { "source": "/blog/feed", "destination": "/rss.xml/", "statusCode": 301 },
+    { "source": "/blog/feed.html", "destination": "/rss.xml/", "statusCode": 301 },
+    { "source": "/blog/feed.xml", "destination": "/rss.xml/", "statusCode": 301 },
+    { "source": "/blog/feed.xml/", "destination": "/rss.xml/", "statusCode": 301 },
+    { "source": "/blog/feed/index.html", "destination": "/rss.xml/", "statusCode": 301 }
   ]
 }

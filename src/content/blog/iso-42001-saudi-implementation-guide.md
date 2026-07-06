@@ -7,6 +7,10 @@ updatedDate: "2026-07-03"
 author: "nasser-alabdullah"
 slug: "iso-42001-saudi-implementation-guide"
 readingTime: 13
+category: "تحول-رقمي"
+tags: ["ISO 42001", "إدارة AI", "الشركات السعودية", "تدقيق"]
+draft: false
+image: "/images/og/brightai-og-1200x630.png"
 ---
 
 <p class="article-summary">كيف تستفيد الشركات السعودية من ISO/IEC 42001 لبناء نظام إدارة ذكاء اصطناعي قابل للتحسين والتدقيق.</p>

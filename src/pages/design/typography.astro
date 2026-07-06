@@ -10,8 +10,7 @@
  * the agent to validate changes before they ship to production pages.
  *
  * Constraints:
- *   - robots="noindex, follow" — never indexed by search engines.
- *   - /design/* paths are excluded from sitemap via the noindex meta.
+ *   - Page is INDEXABLE (REPORTS-SEO-FOUNDATION, 2026-07-07).
  *   - All sample text is intentionally generic (Lorem-style or descriptive)
  *     so the page serves as a typography reference, not a content sample.
  *   - No published Arabic text from any production page is used here.
@@ -23,15 +22,17 @@ import ArabicLayout from '../../layouts/ArabicLayout.astro';
 ---
 
 <ArabicLayout
-  title="Typography Showcase (Internal) — BrightAI Design System"
-  description="Internal preview: heading hierarchy, weights, line-heights, tracking, utility classes, and gradient variants. Not indexed."
+  title="نظام الخطوط الموحّد | BrightAI Design System"
+  description="مرجع نظام الخطوط الموحّد في BrightAI: 6 مستويات للعناوين (h1 إلى h6)، 4 أوزان للـ IBM Plex Sans Arabic وInter، 3 أحجام للنص الأساسي، 4 مسافات بين السطور، وgradient-text للتمييز."
   canonical="https://brightai.site/design/typography/"
-  hreflang={[]}
-  robots="noindex, follow"
+  hreflang={[
+    { lang: 'ar-SA', href: 'https://brightai.site/design/typography/' },
+    { lang: 'x-default', href: 'https://brightai.site/design/typography/' },
+  ]}
   jsonLd={{
     '@context': 'https://schema.org',
     '@type': 'WebPage',
-    name: 'Typography Showcase (Internal)',
+    name: 'نظام الخطوط الموحّد — BrightAI Design System',
     url: 'https://brightai.site/design/typography/',
     inLanguage: 'ar-SA',
     description: 'Internal typography reference for the BrightAI design system.',
@@ -46,12 +47,12 @@ import ArabicLayout from '../../layouts/ArabicLayout.astro';
         This page is a complete reference for the BrightAI typography system.
         Every heading level, weight, line-height, tracking value, and utility class
         is shown below. Used by the design team to verify changes before shipping.
-        Page is <code>noindex, follow</code> — never visible to search engines.
+        Page is fully indexable (REPORTS-SEO-FOUNDATION).
       </p>
       <p class="typography-page__ar-lead" lang="ar" dir="rtl">
         هذه الصفحة مرجع كامل لنظام الطباعة في BrightAI. كل مستوى عنوان،
         وزن، ارتفاع سطر، تباعد حروف، وكل class مساعد معروض هنا.
-        الصفحة <code>noindex</code> — لا تظهر في محركات البحث.
+        الصفحة قابلة للفهرسة بالكامل — مرجع الخطوط الموحّد.
       </p>
     </header>
 
