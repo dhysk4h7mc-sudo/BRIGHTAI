@@ -1,0 +1,32 @@
+---
+/**
+ * KernelSkeleton — Shimmer placeholder (loading state).
+ * Variants: text | text-sm | text-md | heading | avatar | icon | card
+ */
+interface Props {
+  variant?: 'text' | 'text-sm' | 'text-md' | 'heading' | 'avatar' | 'icon' | 'card';
+  /** Override the inline size (e.g. "60%"). Default: from variant. */
+  width?: string;
+  /** Override the block size (e.g. "100px"). Default: from variant. */
+  height?: string;
+}
+
+const { variant = 'text', width, height } = Astro.props;
+
+const variantClass = {
+  'text': 'kernel-skeleton--text',
+  'text-sm': 'kernel-skeleton--text-sm',
+  'text-md': 'kernel-skeleton--text-md',
+  'heading': 'kernel-skeleton--heading',
+  'avatar': 'kernel-skeleton--avatar',
+  'icon': 'kernel-skeleton--icon',
+  'card': 'kernel-skeleton--card',
+}[variant];
+
+const styleParts: string[] = [];
+if (width) styleParts.push(`inline-size: ${width}`);
+if (height) styleParts.push(`block-size: ${height}`);
+const style = styleParts.join('; ');
+---
+
+<span class:list={['kernel-skeleton', variantClass]} style={style} aria-hidden="true"></span>

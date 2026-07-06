@@ -1,0 +1,174 @@
+---
+/**
+ * KernelSidebar — Persistent sidebar (desktop ≥1024px).
+ * - On mobile (<1024px): hidden; kernel-mobile.js drawer handles nav.
+ * - Collapsible: data-sidebar="collapsed" on <body> → 72px width.
+ * - State persisted to localStorage('brightai-kernel-sidebar').
+ * - ARIA: navigation landmark, current page indicator, focus-trap-friendly.
+ * - Reads nav items from `kernelUnits` (excluding /kernel/ index).
+ * - Active route via Astro.url.pathname.
+ */
+
+import { kernelUnits } from '../../data/kernel';
+
+interface Props {
+  /** Optional override for active page detection (e.g. /kernel/chat/). */
+  currentPath?: string;
+}
+
+const { currentPath = Astro.url.pathname } = Astro.props;
+
+interface NavItem {
+  id: string;
+  path: string;
+  label: string;
+  iconSvg: string;
+  isNew?: boolean;
+  group: 'operations' | 'evidence' | 'admin';
+  pendingCount?: number;
+}
+
+// Sidebar groups (visual order). Pending count is 7 (canonical demo).
+const OPERATIONS = ['chat', 'stats', 'approvals', 'audit'];
+const EVIDENCE = ['evidence', 'reports'];
+const ADMIN = ['scenarios', 'compliance', 'policies', 'connectors'];
+
+function pickNav(slug: string): NavItem | null {
+  const unit = kernelUnits.find(u => u.slug === slug);
+  if (!unit) return null;
+  let group: NavItem['group'] = 'admin';
+  if (OPERATIONS.includes(slug)) group = 'operations';
+  else if (EVIDENCE.includes(slug)) group = 'evidence';
+  return {
+    id: slug,
+    path: unit.path,
+    label: unit.label === 'الفهرس' ? 'لوحة الحوكمة' : unit.label,
+    iconSvg: unit.iconSvg,
+    isNew: unit.slug === 'evidence' || unit.slug === 'reports',
+    group,
+    pendingCount: slug === 'approvals' ? 7 : undefined,
+  };
+}
+
+const items: NavItem[] = OPERATIONS.concat(EVIDENCE, ADMIN)
+  .map(pickNav)
+  .filter((x): x is NavItem => x !== null);
+---
+
+<aside class="kernel-sidebar" aria-label="القائمة الرئيسية لـ Kernel">
+  <header class="kernel-sidebar__brand">
+    <span class="kernel-sidebar__logo" aria-hidden="true">ي</span>
+    <div class="kernel-sidebar__brand-text">
+      <span class="kernel-sidebar__title">نواة BrightAI</span>
+      <span class="kernel-sidebar__subtitle">لوحة الحوكمة</span>
+    </div>
+  </header>
+
+  <span class="kernel-sidebar__section-label">العمليات</span>
+  <nav class="kernel-sidebar__nav" aria-label="التنقل الرئيسي لـ Kernel">
+    <a href="/kernel/" class="kernel-sidebar__item" data-kernel-nav-id="home" aria-current={currentPath === '/kernel/' ? 'page' : undefined}>
+      <span class="kernel-sidebar__icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+      </span>
+      <span class="kernel-sidebar__label">لوحة الحوكمة</span>
+    </a>
+
+    {items.filter(i => i.group === 'operations').map(item => (
+      <>
+        <a href={item.path} class="kernel-sidebar__item" data-kernel-nav-id={item.id} aria-current={currentPath === item.path || currentPath === item.path.replace(/\/$/, '') ? 'page' : undefined}>
+          <span class="kernel-sidebar__icon" aria-hidden="true"><Fragment set:html={item.iconSvg} /></span>
+          <span class="kernel-sidebar__label">{item.label}</span>
+          {item.pendingCount !== undefined && (
+            <span class="kernel-sidebar__badge" aria-label={`${item.pendingCount} طلبات موافقة معلقة`}>{item.pendingCount}</span>
+          )}
+        </a>
+      </>
+    ))}
+
+    <span class="kernel-sidebar__section-label">الأدلة والقرارات</span>
+    {items.filter(i => i.group === 'evidence').map(item => (
+      <a href={item.path} class="kernel-sidebar__item" data-kernel-nav-id={item.id} aria-current={currentPath === item.path || currentPath === item.path.replace(/\/$/, '') ? 'page' : undefined}>
+        <span class="kernel-sidebar__icon" aria-hidden="true"><Fragment set:html={item.iconSvg} /></span>
+        <span class="kernel-sidebar__label">{item.label}</span>
+        {item.isNew && <span class="kernel-sidebar__badge kernel-sidebar__badge--new">جديد</span>}
+      </a>
+    ))}
+
+    <span class="kernel-sidebar__section-label">الإدارة</span>
+    {items.filter(i => i.group === 'admin').map(item => (
+      <a href={item.path} class="kernel-sidebar__item" data-kernel-nav-id={item.id} aria-current={currentPath === item.path || currentPath === item.path.replace(/\/$/, '') ? 'page' : undefined}>
+        <span class="kernel-sidebar__icon" aria-hidden="true"><Fragment set:html={item.iconSvg} /></span>
+        <span class="kernel-sidebar__label">{item.label}</span>
+      </a>
+    ))}
+  </nav>
+
+  <footer class="kernel-sidebar__footer">
+    <div class="kernel-sidebar__user">
+      <span class="kernel-sidebar__avatar" aria-hidden="true">ي</span>
+      <div class="kernel-sidebar__user-meta">
+        <span class="kernel-sidebar__user-name">يزيد</span>
+        <span class="kernel-sidebar__user-role">مدير النظام</span>
+      </div>
+    </div>
+    <button class="kernel-sidebar__collapse" type="button" aria-label="طي القائمة الجانبية" data-kernel-sidebar-collapse>
+      <span class="kernel-sidebar__collapse-icon" aria-hidden="true">⇤</span>
+      <span class="kernel-sidebar__collapse-label">طي القائمة</span>
+    </button>
+  </footer>
+</aside>
+
+<script is:inline>
+  // Kernel sidebar collapse/expand — CSS-driven via data-sidebar on <body>.
+  // State persisted to localStorage. Survives Astro view transitions.
+  (function () {
+    'use strict';
+    var KEY = 'brightai-kernel-sidebar';
+
+    function syncLabel(state, btn) {
+      var label = state === 'collapsed' ? 'فتح القائمة' : 'طي القائمة';
+      btn.setAttribute('aria-label', label);
+      btn.setAttribute('title', label);
+      var text = btn.querySelector('.kernel-sidebar__collapse-label');
+      if (text) text.textContent = label;
+    }
+
+    function init() {
+      var body = document.body;
+      // Ensure body has kernel-shell class (KernelLayout script may run after)
+      if (!body.classList.contains('kernel-shell')) {
+        body.classList.add('kernel-shell');
+      }
+      var btn = document.querySelector('[data-kernel-sidebar-collapse]');
+      if (!btn) return;
+
+      try {
+        var saved = localStorage.getItem(KEY);
+        body.setAttribute('data-sidebar', saved === 'collapsed' ? 'collapsed' : 'expanded');
+      } catch (e) {
+        body.setAttribute('data-sidebar', 'expanded');
+      }
+
+      syncLabel(body.getAttribute('data-sidebar'), btn);
+
+      // Avoid duplicate listeners across page transitions
+      if (btn.dataset.bound === '1') return;
+      btn.dataset.bound = '1';
+
+      btn.addEventListener('click', function () {
+        var next = body.getAttribute('data-sidebar') === 'collapsed' ? 'expanded' : 'collapsed';
+        body.setAttribute('data-sidebar', next);
+        try { localStorage.setItem(KEY, next); } catch (e) {}
+        syncLabel(next, btn);
+      });
+    }
+
+    // Astro view transition hooks + initial load
+    document.addEventListener('astro:page-load', init);
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  })();
+</script>

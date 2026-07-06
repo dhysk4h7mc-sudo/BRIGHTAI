@@ -5521,3 +5521,612 @@ svg.icon {
     background: var(--bg-surface);
   }
 }
+
+/* ========================================
+   REPORT-13: Secondary Pages UX Patterns
+   Adds visual primitives specifically for /about/, /contact/, /trust/,
+   /demo/, and /assessment/. Built ON TOP of the canonical system
+   (page-hero, card--*, grid, btn, field, home-faq-item) rather than
+   introducing competing patterns.
+   ======================================== */
+
+/* ----- About: Saudi / Made in KSA flag-badge -----
+   Prominent flag-colored badge that anchors the company identity.
+   Lives inside .page-hero on About — gradient + glass border. */
+.about-page-hero {
+  padding-block: var(--space-20) var(--space-16);
+}
+
+.ksa-flag-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2-5);
+  padding: var(--space-2) var(--space-5);
+  margin-bottom: var(--space-5);
+  background: linear-gradient(135deg, rgba(0, 96, 76, 0.18), rgba(0, 64, 117, 0.14));
+  border: 1px solid rgba(0, 153, 102, 0.4);
+  border-radius: var(--radius-full);
+  color: var(--text-primary);
+  font-size: var(--text-sm);
+  font-weight: var(--font-bold);
+  letter-spacing: 0.01em;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+}
+
+.ksa-flag-badge__icon {
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+  font-weight: 900;
+  background: linear-gradient(180deg, #00663d 0%, #00663d 66.66%, #ffffff 66.66%, #ffffff 100%);
+  color: #00663d;
+  flex-shrink: 0;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+}
+
+.ksa-flag-badge__icon span {
+  font-family: var(--font-brand);
+}
+
+.ksa-flag-badge__label {
+  display: flex;
+  flex-direction: column;
+  text-align: start;
+  line-height: 1.2;
+}
+
+.ksa-flag-badge__label strong {
+  color: var(--brand-300);
+  font-size: var(--text-base);
+}
+
+.ksa-flag-badge__label small {
+  font-size: var(--text-xs);
+  font-weight: var(--font-normal);
+  color: var(--text-secondary);
+}
+
+/* Founder avatar tile (replaces inline gradient box for team/founder cards).
+   64x64 rounded square with first-letter monogram + gradient bg. */
+.avatar-tile {
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  color: #02111f;
+  background: linear-gradient(135deg, #22d3ee, #a78bfa);
+  font-weight: 950;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.08) inset;
+}
+
+.avatar-tile--lg { width: 80px; height: 80px; border-radius: 50%; font-size: 1.75rem; }
+
+.avatar-tile--sm { width: 48px; height: 48px; font-size: 1.15rem; }
+
+/* ----- About: timeline / story rail -----
+   Visual timeline marker for the narrative about-section. Pure CSS. */
+.story-rail {
+  position: relative;
+  padding-inline-start: var(--space-8);
+  border-inline-start: 2px dashed var(--border-strong);
+}
+
+.story-rail__item {
+  position: relative;
+  padding-block: var(--space-4);
+}
+
+.story-rail__item:first-child { padding-block-start: 0; }
+.story-rail__item:last-child { padding-block-end: 0; }
+
+.story-rail__item::before {
+  content: '';
+  position: absolute;
+  inset-inline-start: calc(var(--space-8) * -1 - 1px);
+  inset-block-start: var(--space-5);
+  transform: translateX(50%);
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--bg-base);
+  border: 2px solid var(--brand-500);
+  box-shadow: 0 0 0 4px rgba(42, 138, 126, 0.15);
+}
+
+/* RTL flip handled by transform above; the dot moves visually with start. */
+
+/* ----- Contact: split layout (form on right in RTL = first column) -----
+   2-column grid that stacks on mobile.
+   Per RTL spec: form sits at the visual right (first in source because dir=rtl). */
+.contact-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: var(--space-8);
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .contact-split { grid-template-columns: 1fr; gap: var(--space-6); }
+}
+
+.contact-form-card {
+  padding: var(--space-8);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
+}
+
+@media (max-width: 640px) {
+  .contact-form-card { padding: var(--space-6); }
+}
+
+/* Office hours table — clean rows with day/time */
+.office-hours {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: var(--space-5);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  margin-top: var(--space-4);
+}
+
+.office-hours__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-2-5) var(--space-2);
+  border-block-end: 1px solid var(--border-subtle);
+  font-size: var(--text-sm);
+}
+
+.office-hours__row:last-child { border-block-end: 0; }
+
+.office-hours__day { color: var(--text-primary); font-weight: var(--font-semibold); }
+
+.office-hours__time { color: var(--brand-300); font-weight: var(--font-bold); }
+
+.office-hours__row--closed .office-hours__time {
+  color: var(--text-muted);
+  font-weight: var(--font-normal);
+}
+
+/* ----- Trust: compliance badges grid -----
+   Auto-fit responsive grid of regulator badges.
+   Each badge shows an abbreviation + full name + scope. */
+.trust-compliance-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--space-4);
+}
+
+.trust-compliance-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-2);
+  padding: var(--space-6) var(--space-4);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  transition:
+    transform var(--duration-base) var(--ease-out),
+    border-color var(--duration-base) var(--ease-out),
+    box-shadow var(--duration-base) var(--ease-out);
+  text-decoration: none;
+  color: inherit;
+}
+
+.trust-compliance-badge:hover {
+  transform: translateY(-3px);
+  border-color: var(--brand-soft-border);
+  box-shadow: var(--shadow-elevated);
+}
+
+.trust-compliance-badge__abbr {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, rgba(42, 138, 126, 0.18), rgba(99, 102, 241, 0.15));
+  border: 1px solid rgba(42, 138, 126, 0.32);
+  color: var(--brand-300);
+  font-size: var(--text-base);
+  font-weight: var(--font-extrabold);
+  letter-spacing: 0.02em;
+  font-family: var(--font-brand);
+}
+
+.trust-compliance-badge__name {
+  font-size: var(--text-base);
+  font-weight: var(--font-bold);
+  color: var(--text-primary);
+  line-height: var(--leading-snug);
+}
+
+.trust-compliance-badge__scope {
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+  line-height: 1.4;
+  max-width: 28ch;
+}
+
+/* ----- Trust: trust signals strip (uptime + certifications) -----
+   Horizontal strip of metric chips used right after the badges. */
+.trust-signals-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--space-3);
+  padding: var(--space-5);
+  background: linear-gradient(180deg, rgba(42, 138, 126, 0.06), rgba(42, 138, 126, 0.02));
+  border: 1px solid rgba(42, 138, 126, 0.18);
+  border-radius: var(--radius-lg);
+}
+
+.trust-signals-strip__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-1);
+  padding: var(--space-2);
+}
+
+.trust-signals-strip__value {
+  font-size: var(--text-2xl);
+  font-weight: var(--font-extrabold);
+  color: var(--brand-300);
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+
+.trust-signals-strip__label {
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+  line-height: 1.3;
+}
+
+/* ----- Trust: security practices accordion -----
+   Uses canonical .home-faq-item details/summary. Adds a left accent
+   strip for visual identity as a "security topic" block. */
+.security-topic {
+  border-inline-start: 3px solid var(--brand-500);
+  padding-inline-start: var(--space-4);
+  border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+}
+
+.security-topic__title {
+  font-size: var(--text-lg);
+  font-weight: var(--font-bold);
+  color: var(--text-primary);
+  margin-bottom: var(--space-2);
+}
+
+/* ----- Assessment: multi-step form visual (visual only — no logic) -----
+   A horizontal progress indicator + grouped question cards. The actual
+   form uses native inputs + action (none of this changes behavior). */
+.assessment-progress {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-bottom: var(--space-8);
+  padding: var(--space-5);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+}
+
+.assessment-progress__bar {
+  position: relative;
+  height: 8px;
+  background: var(--bg-base);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.assessment-progress__fill {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg, var(--brand-500), var(--indigo-400));
+  border-radius: var(--radius-full);
+}
+
+.assessment-progress__steps {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+  font-weight: var(--font-semibold);
+}
+
+.assessment-progress__steps > li {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: var(--space-1-5);
+}
+
+.assessment-progress__steps > li::before {
+  content: counter(assessment-step);
+  counter-increment: assessment-step;
+  width: 22px;
+  height: 22px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--bg-base);
+  border: 1px solid var(--border-strong);
+  color: var(--text-secondary);
+  font-size: var(--text-xs);
+  font-weight: var(--font-bold);
+  font-variant-numeric: tabular-nums;
+}
+
+.assessment-progress__steps > li:first-child {
+  counter-reset: assessment-step;
+  counter-increment: assessment-step 0;
+}
+
+.assessment-progress__steps {
+  counter-reset: assessment-step;
+}
+
+.assessment-question-group {
+  padding: var(--space-6);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.assessment-question-group__title {
+  font-size: var(--text-base);
+  font-weight: var(--font-bold);
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.assessment-question-group__helper {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* ----- Demo: "What to expect" timeline -----
+   3 numbered steps showing what the user will experience. */
+.demo-expect-timeline {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-5);
+}
+
+@media (max-width: 900px) {
+  .demo-expect-timeline { grid-template-columns: 1fr; }
+}
+
+.demo-expect-step {
+  position: relative;
+  padding: var(--space-6);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.demo-expect-step__num {
+  width: 44px;
+  height: 44px;
+  margin: 0 auto;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--brand-500), var(--indigo-400));
+  color: var(--text-inverse);
+  font-size: var(--text-lg);
+  font-weight: var(--font-extrabold);
+  font-variant-numeric: tabular-nums;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25), 0 0 0 4px rgba(42, 138, 126, 0.12);
+}
+
+.demo-expect-step__title {
+  font-size: var(--text-lg);
+  font-weight: var(--font-bold);
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.demo-expect-step__body {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* ----- Demo: quick stats strip -----
+   Compact horizontal summary above the demo grid. */
+.demo-stat-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: var(--space-3);
+  padding: var(--space-5);
+  background: linear-gradient(180deg, rgba(42, 138, 126, 0.05), rgba(42, 138, 126, 0.01));
+  border: 1px solid rgba(42, 138, 126, 0.18);
+  border-radius: var(--radius-lg);
+}
+
+.demo-stat-strip__item {
+  text-align: center;
+}
+
+.demo-stat-strip__value {
+  font-size: var(--text-2xl);
+  font-weight: var(--font-extrabold);
+  color: var(--brand-300);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+}
+
+.demo-stat-strip__label {
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+  margin-block-start: var(--space-1);
+}
+
+/* ----- About: stat strip (compact horizontal metrics) -----
+   Used in stats sections (about, trust) — replaces inline-style boxes. */
+.stat-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--space-4);
+}
+
+.stat-strip__cell {
+  padding: var(--space-5);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.stat-strip__value {
+  font-size: var(--text-3xl);
+  font-weight: var(--font-extrabold);
+  color: var(--brand-300);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+}
+
+.stat-strip__label {
+  font-size: var(--text-sm);
+  color: var(--text-primary);
+  font-weight: var(--font-semibold);
+}
+
+.stat-strip__helper {
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+  line-height: 1.4;
+  margin-block-start: var(--space-1);
+}
+
+/* ----- Generic: 2-column split with optional sticky info column -----
+   Used on /about/ for the founder info aside or /demo/ for sidebar content. */
+.split-content {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  gap: var(--space-6);
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .split-content { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 900px) {
+  .split-content--reverse { grid-template-columns: 1fr; }
+}
+
+/* ----- Map embed wrapper -----
+   Constrains the Google Maps iframe to consistent proportions. */
+.map-embed {
+  width: 100%;
+  height: 100%;
+  min-height: 380px;
+  border: 0;
+  border-radius: var(--radius-lg);
+  display: block;
+}
+
+.map-embed-card {
+  overflow: hidden;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.map-embed-card__footer {
+  padding: var(--space-3) var(--space-5);
+  border-block-start: 1px solid var(--border-subtle);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* ----- Form-style preset for /contact/ and /assessment/ -----
+   Section card with a clear header, used to wrap the form. */
+.form-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
+}
+
+.form-card__header {
+  padding: var(--space-6) var(--space-8);
+  border-block-end: 1px solid var(--border-subtle);
+}
+
+@media (max-width: 640px) {
+  .form-card__header { padding: var(--space-5) var(--space-6); }
+}
+
+.form-card__body {
+  padding: var(--space-8);
+}
+
+@media (max-width: 640px) {
+  .form-card__body { padding: var(--space-6); }
+}
+
+.form-card__title {
+  font-size: var(--text-2xl);
+  font-weight: var(--font-bold);
+  color: var(--text-primary);
+  margin: 0 0 var(--space-2);
+}
+
+.form-card__desc {
+  font-size: var(--text-base);
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.7;
+}
+
+/* ----- Reduced motion overrides for the new components -----
+   Mirrors the codebase convention. */
+@media (prefers-reduced-motion: reduce) {
+  .trust-compliance-badge,
+  .stat-strip__cell {
+    transition: none;
+  }
+  .trust-compliance-badge:hover,
+  .stat-strip__cell:hover {
+    transform: none;
+  }
+}

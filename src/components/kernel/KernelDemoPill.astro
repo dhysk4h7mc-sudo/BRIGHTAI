@@ -1,0 +1,48 @@
+---
+/**
+ * KernelDemoPill — Demo data toggle (matches /kernel/ PWA pattern).
+ * - Pressed state reads from a parent data attr or localStorage.
+ * - Click dispatches `kernel:demo-toggle` custom event for any page to listen.
+ * - Pure CSS styling; no JS logic to wire up — page reads aria-pressed.
+ */
+interface Props {
+  label?: string;
+  pressed?: boolean;
+}
+
+const { label = 'بيانات تجريبية', pressed = true } = Astro.props;
+---
+
+<button
+  class:list={['kernel-demo-pill', !pressed && 'kernel-demo-pill--inactive']}
+  type="button"
+  aria-pressed={pressed ? 'true' : 'false'}
+  aria-label="تبديل البيانات التجريبية"
+  data-kernel-demo-pill
+>
+  <span class="kernel-demo-pill__dot" aria-hidden="true"></span>
+  <span>{label}</span>
+</button>
+
+<script is:inline>
+  // Demo pill click handler — emits custom event + toggles class.
+  // Pages can listen for 'kernel:demo-toggle' to refresh data.
+  (function () {
+    'use strict';
+    function init() {
+      document.querySelectorAll('[data-kernel-demo-pill]').forEach(function (pill) {
+        if (pill.dataset.bound === '1') return;
+        pill.dataset.bound = '1';
+        pill.addEventListener('click', function () {
+          var isPressed = pill.getAttribute('aria-pressed') === 'true';
+          var next = !isPressed;
+          pill.setAttribute('aria-pressed', next ? 'true' : 'false');
+          pill.classList.toggle('kernel-demo-pill--inactive', !next);
+          document.dispatchEvent(new CustomEvent('kernel:demo-toggle', { detail: { active: next } }));
+        });
+      });
+    }
+    document.addEventListener('astro:page-load', init);
+    if (document.readyState !== 'loading') init();
+  })();
+</script>

@@ -1,0 +1,65 @@
+---
+/**
+ * /kernel/scenarios/ — Test scenarios (REPORTS-14).
+ */
+import KernelLayout from '../../layouts/KernelLayout.astro';
+import KernelCard from '../../components/kernel/KernelCard.astro';
+import KernelDemoPill from '../../components/kernel/KernelDemoPill.astro';
+import KernelEmptyState from '../../components/kernel/KernelEmptyState.astro';
+import { getKernelUnit } from '../../data/kernel';
+
+const unit = getKernelUnit('scenarios')!;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `BrightAI Kernel - ${unit.label}`,
+  url: unit.canonical,
+  applicationCategory: 'BusinessApplication',
+  description: unit.description,
+};
+
+const iconScenario = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>';
+---
+
+<KernelLayout
+  title={unit.title}
+  description={unit.description}
+  canonical={unit.canonical}
+  hreflang={unit.hreflang}
+  jsonLd={jsonLd}
+  currentPath={unit.path}
+>
+  <header class="kernel-page-header">
+    <div class="kernel-page-header__lead">
+      <nav class="kernel-breadcrumb" aria-label="مسار التنقل">
+        <ol>
+          <li><a href="/">BrightAI</a></li>
+          <li><a href="/kernel/">Kernel</a></li>
+          <li aria-current="page">{unit.label}</li>
+        </ol>
+      </nav>
+      <h1 class="kernel-page-header__title">{unit.h1}</h1>
+      <p class="kernel-page-header__subtitle">
+        سيناريوهات اختبار جاهزة ترسل المستخدم إلى المحادثة مع prompt محدد لاختبار سلوك Kernel في ظروف معينة.
+      </p>
+    </div>
+    <div class="kernel-page-header__actions">
+      <KernelDemoPill />
+    </div>
+  </header>
+
+  <div class="kernel-main kernel-page-fade-in">
+    <KernelCard title="سيناريوهات جاهزة" subtitle="12 سيناريو · 4 فئات" iconSvg={iconScenario}>
+      <div class="kernel-card__body">
+        <KernelEmptyState
+          title="السيناريوهات جاهزة"
+          message="12 سيناريو موزعة على 4 فئات: PII detection، Risk scoring، Policy violation، و Audit integrity. اختر واحداً لاختبار Kernel."
+          ctaLabel="ابدأ محادثة"
+          ctaHref="/kernel/chat/"
+          iconSvg={iconScenario}
+        />
+      </div>
+    </KernelCard>
+  </div>
+</KernelLayout>

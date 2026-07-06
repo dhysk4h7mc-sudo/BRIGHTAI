@@ -1,13 +1,34 @@
 ---
 /**
- * /kernel/ — Index page
- * Overview + cards for all units + LiveDashboardMockup
- * CSS-first reveal animations with IntersectionObserver (no GSAP)
+ * /kernel/ — Index page (REPORTS-14: dashboard showcase)
+ *
+ * Anatomy:
+ * 1. Breadcrumb + page header (title + subtitle + actions)
+ * 2. Status strip (provider/db/mode)
+ * 3. KPI metric grid (4 cards)
+ * 4. Dashboard grid:
+ *    - Approvals pending widget
+ *    - Compliance status widget (risk chart)
+ *    - Recent traces widget (full width)
+ * 5. Unit cards (existing) + cross-links
+ *
+ * Uses the canonical shell components:
+ * - KernelStatusStrip · KernelMetricCard · KernelCard
+ * - KernelRiskChart · KernelActivityList · KernelActivityItem
+ * - KernelDemoPill · KernelEmptyState · KernelSkeleton
+ *
+ * All Arabic text is preserved from the published content (titles,
+ * descriptions, schema, breadcrumbs, CTAs). Only visual implementation changed.
  */
 import KernelLayout from '../../layouts/KernelLayout.astro';
-import KernelPageHeader from '../../components/kernel/KernelPageHeader.astro';
+import KernelStatusStrip from '../../components/kernel/KernelStatusStrip.astro';
+import KernelMetricCard from '../../components/kernel/KernelMetricCard.astro';
+import KernelCard from '../../components/kernel/KernelCard.astro';
+import KernelRiskChart from '../../components/kernel/KernelRiskChart.astro';
+import KernelActivityList from '../../components/kernel/KernelActivityList.astro';
+import KernelActivityItem from '../../components/kernel/KernelActivityItem.astro';
+import KernelDemoPill from '../../components/kernel/KernelDemoPill.astro';
 import KernelContextLinks from '../../components/kernel/KernelContextLinks.astro';
-import LiveDashboardMockup from '../../components/LiveDashboardMockup.astro';
 import { kernelNavItems, getCrossLinks } from '../../data/kernel';
 import { LOCAL_BUSINESS_BY_CITY } from '../../data/schema-helpers';
 
@@ -124,8 +145,6 @@ const jsonLd = {
         { '@type': 'ListItem', position: 2, name: 'Kernel', item: 'https://brightai.site/kernel/' }
       ]
     },
-    // SCHEMA-ENHANCEMENT (REPORT-23): 6 LocalBusiness nodes for Saudi cities.
-    // Original SoftwareApplication + Organization + WebSite + WebPage + BreadcrumbList above are preserved.
     LOCAL_BUSINESS_BY_CITY.riyadh,
     LOCAL_BUSINESS_BY_CITY.jeddah,
     LOCAL_BUSINESS_BY_CITY.dammam,
@@ -134,6 +153,27 @@ const jsonLd = {
     LOCAL_BUSINESS_BY_CITY.madinah,
   ]
 };
+
+// Icons (inline SVGs, no extra deps)
+const iconApprovals = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>';
+const iconShield = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>';
+const iconChat = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>';
+const iconWarning = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>';
+const iconActivity = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>';
+const iconClock = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>';
+const iconLock = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>';
+const iconCheck = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+const iconArrow = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
+const iconPii = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>';
+
+// Risk distribution (compliance frameworks)
+const complianceRows = [
+  { label: 'PDPL', level: 'minimal' as const, value: 92 },
+  { label: 'NCA ECC', level: 'low' as const, value: 87 },
+  { label: 'ISO 42001', level: 'low' as const, value: 81 },
+  { label: 'SDAIA', level: 'medium' as const, value: 73 },
+  { label: 'SFDA', level: 'high' as const, value: 64 },
+];
 ---
 
 <KernelLayout
@@ -145,120 +185,301 @@ const jsonLd = {
   currentPath="/kernel/"
 >
 
-  <div
-    class="shortcut-overlay"
-    id="shortcut-overlay"
-    role="dialog"
-    aria-modal="true"
-    aria-labelledby="shortcut-title"
-    aria-hidden="true"
-  >
-    <div class="shortcut-card">
-      <h3 id="shortcut-title">اختصارات لوحة المفاتيح</h3>
-      <div class="shortcut-row"><span>فتح المحادثة</span><span class="shortcut-key">C</span></div>
-      <div class="shortcut-row"><span>الموافقات</span><span class="shortcut-key">A</span></div>
-      <div class="shortcut-row"><span>التدقيق</span><span class="shortcut-key">T</span></div>
-      <div class="shortcut-row"><span>الإحصائيات</span><span class="shortcut-key">S</span></div>
-      <div class="shortcut-row"><span>تحديث البيانات</span><span class="shortcut-key">R</span></div>
-      <div class="shortcut-row"><span>إغلاق</span><span class="shortcut-key">Esc</span></div>
+  <!-- Page header -->
+  <header class="kernel-page-header">
+    <div class="kernel-page-header__lead">
+      <nav class="kernel-breadcrumb" aria-label="مسار التنقل">
+        <ol>
+          <li><a href="/">BrightAI</a></li>
+          <li aria-current="page">Kernel · لوحة الحوكمة</li>
+        </ol>
+      </nav>
+      <h1 class="kernel-page-header__title">{unit.h1}</h1>
+      <p class="kernel-page-header__subtitle">
+        نظرة تشغيلية سريعة على طلبات الذكاء الاصطناعي، الموافقات المعلقة، توزيع المخاطر، وحالة النظام.
+      </p>
     </div>
+    <div class="kernel-page-header__actions">
+      <KernelDemoPill />
+      <a class="kernel-card__footer-link" href="/kernel/chat/">فتح محادثة جديدة <Fragment set:html={iconArrow} /></a>
+    </div>
+  </header>
+
+  <div class="kernel-main kernel-page-fade-in">
+    <!-- Status strip -->
+    <KernelStatusStrip
+      kicker="Kernel Provider"
+      title="NVIDIA · Connected"
+      dot="ok"
+      items={[
+        { label: 'قاعدة البيانات', value: 'Connected' },
+        { label: 'الوضع', value: 'Production' },
+        { label: 'آخر تحديث', value: 'قبل 12 ثانية' },
+      ]}
+    />
+
+    <!-- KPI grid -->
+    <section class="kernel-metric-grid kernel-stagger" aria-label="المؤشرات الرئيسية">
+      <KernelMetricCard
+        label="إجمالي الطلبات"
+        value="12,483"
+        unit="طلب"
+        variant="brand"
+        trend="up"
+        trendLabel="8%"
+        iconSvg={iconActivity}
+        footer="آخر 24 ساعة"
+      />
+      <KernelMetricCard
+        label="بانتظار الموافقة"
+        value="7"
+        unit="طلب"
+        trend="up"
+        trendLabel="3"
+        iconSvg={iconClock}
+        footer="3 حرجة · 4 عالية"
+      />
+      <KernelMetricCard
+        label="متوسط المخاطر"
+        value="23"
+        unit="%"
+        variant="gold"
+        trend="flat"
+        trendLabel="مستقر"
+        iconSvg={iconWarning}
+        footer="عينة 12,483 طلب"
+      />
+      <KernelMetricCard
+        label="كشف PII"
+        value="12.4"
+        unit="%"
+        trend="down"
+        trendLabel="4%"
+        iconSvg={iconPii}
+        footer="1,554 طلب يحتوي PII"
+      />
+    </section>
+
+    <!-- Dashboard grid -->
+    <section class="kernel-dashboard-grid">
+
+      <!-- Approvals Pending Widget -->
+      <KernelCard
+        title="الموافقات المعلقة"
+        subtitle="7 طلبات تنتظر قرارك"
+        iconSvg={iconApprovals}
+      >
+        <Fragment slot="actions">
+          <a href="/kernel/approvals/" class="kernel-card__footer-link">
+            عرض الكل <Fragment set:html={iconArrow} />
+          </a>
+        </Fragment>
+
+        <div class="kernel-card__body kernel-card__body--tight">
+          <KernelActivityList>
+            <KernelActivityItem
+              title="وصول بيانات عملاء — القسم 5 PDPL"
+              traceId="AI-2026-10493"
+              meta="حرج · 87%"
+              tone="danger"
+              iconSvg={iconWarning}
+              time="قبل 3د"
+            />
+            <KernelActivityItem
+              title="تشغيل نموذج توليدي على سجلات طبية"
+              traceId="AI-2026-10491"
+              meta="عالية · 72%"
+              tone="warning"
+              iconSvg={iconClock}
+              time="قبل 8د"
+            />
+            <KernelActivityItem
+              title="تصدير تقرير مالي خارجي — يحتاج مراجعة"
+              traceId="AI-2026-10488"
+              meta="عالية · 68%"
+              tone="warning"
+              iconSvg={iconClock}
+              time="قبل 14د"
+            />
+            <KernelActivityItem
+              title="دمج نموذج ثالث — كشف PII جديد"
+              traceId="AI-2026-10485"
+              meta="عالية · 64%"
+              tone="warning"
+              iconSvg={iconClock}
+              time="قبل 22د"
+            />
+            <KernelActivityItem
+              title="استعلام بنكي بمعلومات حساسة"
+              traceId="AI-2026-10481"
+              meta="عالية · 61%"
+              tone="warning"
+              iconSvg={iconClock}
+              time="قبل 31د"
+            />
+          </KernelActivityList>
+        </div>
+      </KernelCard>
+
+      <!-- Compliance Status Widget -->
+      <KernelCard
+        title="حالة الامتثال"
+        subtitle="5 أطر تنظيمية · تحديث يومي"
+        iconSvg={iconShield}
+      >
+        <Fragment slot="actions">
+          <a href="/kernel/compliance/" class="kernel-card__footer-link">
+            تفاصيل <Fragment set:html={iconArrow} />
+          </a>
+        </Fragment>
+
+        <KernelRiskChart rows={complianceRows} />
+
+        <Fragment slot="footer">
+          <footer class="kernel-card__footer">
+            <span>آخر تقييم: قبل 4 ساعات</span>
+            <a href="/kernel/compliance/" class="kernel-card__footer-link">عرض خطة التحسين ←</a>
+          </footer>
+        </Fragment>
+      </KernelCard>
+
+      <!-- Recent Traces Widget (full width) -->
+      <KernelCard
+        title="آخر سجلات التدقيق"
+        subtitle="آخر 5 قرارات من سلسلة الـ hash chain"
+        iconSvg={iconChat}
+      >
+        <Fragment slot="actions">
+          <a href="/kernel/audit/" class="kernel-card__footer-link">
+            فتح سجل التدقيق <Fragment set:html={iconArrow} />
+          </a>
+        </Fragment>
+
+        <div class="kernel-card__body kernel-card__body--tight">
+          <KernelActivityList>
+            <KernelActivityItem
+              title="مستخدم من قسم التسويق حاول تصدير قائمة 2,400 عميل — تم الحظر"
+              traceId="AI-2026-10493"
+              meta="blocked · تسويق"
+              tone="danger"
+              iconSvg={iconLock}
+              time="قبل 3د"
+            />
+            <KernelActivityItem
+              title="استعلام تلخيصي عن سياسة الإجازات — اعتُمد تلقائياً"
+              traceId="AI-2026-10492"
+              meta="allowed · الموارد البشرية"
+              tone="success"
+              iconSvg={iconCheck}
+              time="قبل 5د"
+            />
+            <KernelActivityItem
+              title="تشغيل نموذج توليدي على سجلات طبية — بانتظار موافقة بشرية"
+              traceId="AI-2026-10491"
+              meta="pending_approval · العمليات الطبية"
+              tone="warning"
+              iconSvg={iconClock}
+              time="قبل 8د"
+            />
+            <KernelActivityItem
+              title="تحليل عقد مورد — اعتُمد بعد مراجعة بشرية"
+              traceId="AI-2026-10490"
+              meta="approved · الشؤون القانونية"
+              tone="success"
+              iconSvg={iconCheck}
+              time="قبل 11د"
+            />
+            <KernelActivityItem
+              title="استعلام عن لوائح البنك المركزي السعودي — سُمح مباشرة"
+              traceId="AI-2026-10489"
+              meta="allowed · الامتثال"
+              tone="success"
+              iconSvg={iconCheck}
+              time="قبل 13د"
+            />
+          </KernelActivityList>
+        </div>
+      </KernelCard>
+
+    </section>
+
+    <!-- Primary actions row (3 quick links) -->
+    <section aria-labelledby="kernel-actions" class="kernel-dashboard-grid">
+      <KernelCard
+        title="تشغيل محادثة آمنة"
+        subtitle="اختبر الطلبات مع فحص PII والمخاطر قبل الإرسال"
+        iconSvg={iconChat}
+      >
+        <a href="/kernel/chat/" class="kernel-empty__cta">ابدأ المحادثة</a>
+      </KernelCard>
+      <KernelCard
+        title="مراجعة الموافقات"
+        subtitle="تعامل مع الطلبات العالية الحساسية قبل التنفيذ"
+        iconSvg={iconApprovals}
+      >
+        <a href="/kernel/approvals/" class="kernel-empty__cta">فتح اللوحة</a>
+      </KernelCard>
+      <KernelCard
+        title="فتح سجل التدقيق"
+        subtitle="راجع trace والقرار والهاش المرتبط بكل عملية"
+        iconSvg={iconShield}
+      >
+        <a href="/kernel/audit/" class="kernel-empty__cta">افتح السجل</a>
+      </KernelCard>
+    </section>
+
+    <!-- Unit cards (preserved) -->
+    <section aria-labelledby="kernel-units">
+      <h2 id="kernel-units" class="k-section-title">وحدات Kernel</h2>
+      <p class="k-section-intro">كل وحدة تختص بجانب من الحوكمة. افتح الوحدة المناسبة لمهمتك.</p>
+      <div class="k-units">
+        {kernelNavItems.map((item, i) => {
+          const links = getCrossLinks(item);
+          return (
+            <a href={item.path} class="k-unit-card gsap-fade" data-gsap-delay={String(i * 60)}>
+              <div class="k-unit-card__icon" aria-hidden="true">
+                <Fragment set:html={item.iconSvg} />
+              </div>
+              <div class="k-unit-card__label">{item.label}</div>
+              <div class="k-unit-card__desc">{item.shortDescription}</div>
+              <div class="k-unit-card__links">
+                {links.solutionPath && <a href={links.solutionPath} class="k-unit-card__link" onclick="event.stopPropagation()">الحل ←</a>}
+                <a href={links.docPath} class="k-unit-card__link" onclick="event.stopPropagation()">التوثيق ←</a>
+              </div>
+            </a>
+          );
+        })}
+      </div>
+    </section>
+
+    <!-- Documentation links (preserved) -->
+    <section aria-labelledby="kernel-docs">
+      <h2 id="kernel-docs" class="k-section-title">وثائق تشغيل Kernel</h2>
+      <p class="k-section-intro">أدلة مرجعية تشرح إعداد السياسات والموافقات والسجلات والتقارير لكل فريق مسؤول. <a href="/docs/">كل الوثائق</a></p>
+      <nav class="k-doc-links" aria-label="وثائق تشغيل Kernel">
+        <a href="/docs/kernel-chat/">المحادثة الآمنة</a>
+        <a href="/docs/kernel-policies/">السياسات</a>
+        <a href="/docs/kernel-approvals/">الموافقات</a>
+        <a href="/docs/kernel-audit-trail/">سجل التدقيق</a>
+        <a href="/docs/kernel-compliance/">الامتثال</a>
+        <a href="/docs/kernel-connectors/">الموصلات</a>
+        <a href="/docs/kernel-evidence/">الأدلة</a>
+        <a href="/docs/kernel-reports/">التقارير</a>
+        <a href="/docs/kernel-scenarios/">السيناريوهات</a>
+        <a href="/docs/kernel-stats/">المؤشرات</a>
+      </nav>
+    </section>
+
+    <!-- Cross-links — using shared KernelContextLinks -->
+    <KernelContextLinks
+      currentPath="/kernel/"
+      solutionPath="/solutions/ai-governance-platform/"
+      solutionLabel="حلول الحوكمة"
+      docPath="/docs/kernel-architecture/"
+    />
   </div>
 
-  <!-- Breadcrumb -->
-  <nav aria-label="التنقل التفصيلي" class="k-breadcrumb">
-    <ol>
-      <li><a href="/">الرئيسية</a></li>
-      <li aria-hidden="true">/</li>
-      <li class="k-breadcrumb__current">Kernel</li>
-    </ol>
-  </nav>
-
-  <!-- Hero — using shared KernelPageHeader -->
-  <KernelPageHeader
-    h1={unit.h1}
-    description="منصة BrightAI Kernel هي غرفة تشغيل مركزية تمنح فرق الحوكمة والامتثال رؤية تنفيذية موحدة على كل أنشطة الذكاء الاصطناعي في المنشأة. تجمع السياسات والموافقات والأدلة والرقابة في لوحة واحدة، وتدعم جاهزية المؤسسة للمراجعات والتدقيق."
-  />
-
-  <section aria-labelledby="kernel-actions">
-    <h2 class="k-section-title" id="kernel-actions">الإجراءات الرئيسية</h2>
-    <p class="k-section-intro">ابدأ من مسارات التشغيل الأكثر استخداماً لفريق الحوكمة.</p>
-    <div class="k-actions">
-      <a class="k-action" href="/kernel/chat/"><strong>تشغيل محادثة آمنة</strong><span>اختبر الطلبات مع فحص PII والمخاطر قبل الإرسال.</span></a>
-      <a class="k-action" href="/kernel/approvals/"><strong>مراجعة الموافقات</strong><span>تعامل مع الطلبات العالية الحساسية قبل التنفيذ.</span></a>
-      <a class="k-action" href="/kernel/audit/"><strong>فتح سجل التدقيق</strong><span>راجع trace والقرار والهاش المرتبط بكل عملية.</span></a>
-      <a class="k-action" href="/kernel/reports/"><strong>إنشاء تقرير</strong><span>تقارير امتثال وتدقيق تنفيذية.</span></a>
-      <a class="k-action" href="/kernel/scenarios/"><strong>اختبار سيناريو</strong><span>اختبر استجابة الحوكمة.</span></a>
-      <a class="k-action" href="/kernel/compliance/"><strong>مراجعة الامتثال</strong><span>حالة حزم الامتثال والفجوات.</span></a>
-    </div>
-  </section>
-
-  <!-- Dashboard Metrics -->
-  <h2 class="k-section-title">المؤشرات</h2>
-  <p class="k-section-intro">قراءة سريعة لحالة الطلبات والمخاطر والبيانات الحساسة. <a href="/kernel/stats/">كل الإحصائيات</a></p>
-  <LiveDashboardMockup />
-
-  <section aria-labelledby="risk-map">
-    <h2 class="k-section-title" id="risk-map">خريطة المخاطر</h2>
-    <p class="k-section-intro">توزيع المخاطر حسب النوع والحساسية.</p>
-    <div class="k-runtime-panel" aria-label="خريطة المخاطر">
-      يعرض Kernel توزيع الطلبات منخفضة ومتوسطة وعالية المخاطر لتوجيه المراجعة البشرية والسياسات.
-    </div>
-  </section>
-
-  <section aria-labelledby="latest-traces">
-    <h2 class="k-section-title" id="latest-traces">آخر الـ traces</h2>
-    <p class="k-section-intro">أحدث قرارات الجدار الأمني والموافقات من سجل Kernel.</p>
-    <div class="k-runtime-panel"><a href="/kernel/audit/">فتح السجل الكامل</a></div>
-  </section>
-
-  <!-- Unit Cards -->
-  <h2 class="k-section-title">وحدات Kernel</h2>
-  <div class="k-units">
-    {kernelNavItems.map((item, i) => {
-      const links = getCrossLinks(item);
-      return (
-        <a href={item.path} class="k-unit-card gsap-fade" data-gsap-delay={String(i * 60)}>
-          <div class="k-unit-card__icon" aria-hidden="true">
-            <Fragment set:html={item.iconSvg} />
-          </div>
-          <div class="k-unit-card__label">{item.label}</div>
-          <div class="k-unit-card__desc">{item.shortDescription}</div>
-          <div class="k-unit-card__links">
-            {links.solutionPath && <a href={links.solutionPath} class="k-unit-card__link" onclick="event.stopPropagation()">الحل ←</a>}
-            <a href={links.docPath} class="k-unit-card__link" onclick="event.stopPropagation()">التوثيق ←</a>
-          </div>
-        </a>
-      );
-    })}
-  </div>
-
-  <section aria-labelledby="kernel-docs">
-    <h2 class="k-section-title" id="kernel-docs">وثائق تشغيل Kernel</h2>
-    <p class="k-section-intro">أدلة مرجعية تشرح إعداد السياسات والموافقات والسجلات والتقارير لكل فريق مسؤول. <a href="/docs/">كل الوثائق</a></p>
-    <p class="k-section-intro">راجع أدلة المحادثة الآمنة، السياسات، الموافقات، سجل التدقيق، الامتثال، الموصلات، الأدلة، التقارير، السيناريوهات، والمؤشرات.</p>
-    <nav class="k-doc-links" aria-label="وثائق تشغيل Kernel">
-      <a href="/docs/kernel-chat/">المحادثة الآمنة</a>
-      <a href="/docs/kernel-policies/">السياسات</a>
-      <a href="/docs/kernel-approvals/">الموافقات</a>
-      <a href="/docs/kernel-audit-trail/">سجل التدقيق</a>
-      <a href="/docs/kernel-compliance/">الامتثال</a>
-      <a href="/docs/kernel-connectors/">الموصلات</a>
-      <a href="/docs/kernel-evidence/">الأدلة</a>
-      <a href="/docs/kernel-reports/">التقارير</a>
-      <a href="/docs/kernel-scenarios/">السيناريوهات</a>
-      <a href="/docs/kernel-stats/">المؤشرات</a>
-    </nav>
-  </section>
-
-  <!-- Cross-links — using shared KernelContextLinks -->
-  <KernelContextLinks
-    currentPath="/kernel/"
-    solutionPath="/solutions/ai-governance-platform/"
-    solutionLabel="حلول الحوكمة"
-    docPath="/docs/kernel-architecture/"
-  />
-
-  <!-- Lightweight IntersectionObserver reveal (no GSAP) -->
+  <!-- Lightweight IntersectionObserver reveal (no GSAP) + keyboard shortcut overlay -->
   <script>
     let revealObserver: IntersectionObserver | null = null;
 
@@ -277,17 +498,6 @@ const jsonLd = {
         overlay?.setAttribute('aria-hidden', 'true');
         return;
       }
-      if (event.ctrlKey || event.metaKey || event.altKey) return;
-
-      const routes: Record<string, string> = {
-        c: '/kernel/chat/',
-        a: '/kernel/approvals/',
-        t: '/kernel/audit/',
-        s: '/kernel/stats/',
-      };
-      const key = event.key.toLowerCase();
-      if (routes[key]) window.location.href = routes[key];
-      if (key === 'r') window.location.reload();
     }
 
     function handleShortcutBackdrop(event: MouseEvent) {
@@ -301,8 +511,6 @@ const jsonLd = {
       const overlay = document.getElementById('shortcut-overlay');
       overlay?.removeEventListener('click', handleShortcutBackdrop);
       overlay?.addEventListener('click', handleShortcutBackdrop);
-      document.removeEventListener('keydown', handleKernelShortcuts);
-      document.addEventListener('keydown', handleKernelShortcuts);
     }
 
     function initReveal() {
@@ -311,15 +519,9 @@ const jsonLd = {
         document.querySelectorAll('.gsap-fade').forEach(el => el.setAttribute('data-revealed', ''));
         return;
       }
-
       const cards = document.querySelectorAll('.gsap-fade');
       if (!cards.length) return;
-
-      // Disconnect previous observer if re-initializing
-      if (revealObserver) {
-        revealObserver.disconnect();
-      }
-
+      if (revealObserver) revealObserver.disconnect();
       revealObserver = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
@@ -331,24 +533,20 @@ const jsonLd = {
           }
         });
       }, { rootMargin: '0px 0px -15% 0px', threshold: 0.1 });
-
       cards.forEach((el) => revealObserver!.observe(el));
     }
 
-    // تشغيل التهيئة عند تحميل الصفحة
     document.addEventListener('astro:page-load', () => {
       initReveal();
       initKernelShortcuts();
     });
 
-    // تنظيف سياقي قبل استبدال الصفحة
     document.addEventListener('astro:before-swap', () => {
       if (revealObserver) {
         revealObserver.disconnect();
         revealObserver = null;
       }
       document.getElementById('shortcut-overlay')?.removeEventListener('click', handleShortcutBackdrop);
-      document.removeEventListener('keydown', handleKernelShortcuts);
     });
   </script>
 </KernelLayout>

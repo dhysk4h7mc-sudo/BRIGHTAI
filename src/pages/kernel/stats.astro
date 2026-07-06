@@ -1,0 +1,92 @@
+---
+/**
+ * /kernel/stats/ — Statistics dashboard (REPORTS-14).
+ */
+import KernelLayout from '../../layouts/KernelLayout.astro';
+import KernelMetricCard from '../../components/kernel/KernelMetricCard.astro';
+import KernelCard from '../../components/kernel/KernelCard.astro';
+import KernelActivityList from '../../components/kernel/KernelActivityList.astro';
+import KernelActivityItem from '../../components/kernel/KernelActivityItem.astro';
+import KernelDemoPill from '../../components/kernel/KernelDemoPill.astro';
+import KernelEmptyState from '../../components/kernel/KernelEmptyState.astro';
+import { getKernelUnit } from '../../data/kernel';
+
+const unit = getKernelUnit('stats')!;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `BrightAI Kernel - ${unit.label}`,
+  url: unit.canonical,
+  applicationCategory: 'BusinessApplication',
+  description: unit.description,
+};
+
+const iconActivity = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>';
+const iconStats = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>';
+const iconClock = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>';
+const iconCheck = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+const iconLock = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>';
+const iconPii = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>';
+---
+
+<KernelLayout
+  title={unit.title}
+  description={unit.description}
+  canonical={unit.canonical}
+  hreflang={unit.hreflang}
+  jsonLd={jsonLd}
+  currentPath={unit.path}
+>
+  <header class="kernel-page-header">
+    <div class="kernel-page-header__lead">
+      <nav class="kernel-breadcrumb" aria-label="مسار التنقل">
+        <ol>
+          <li><a href="/">BrightAI</a></li>
+          <li><a href="/kernel/">Kernel</a></li>
+          <li aria-current="page">{unit.label}</li>
+        </ol>
+      </nav>
+      <h1 class="kernel-page-header__title">{unit.h1}</h1>
+      <p class="kernel-page-header__subtitle">
+        لوحة شاملة لإحصائيات استخدام Kernel: توزيع الحالات، المخاطر، الأقسام، heatmap المخاطر، وآخر Trace IDs.
+      </p>
+    </div>
+    <div class="kernel-page-header__actions">
+      <KernelDemoPill />
+    </div>
+  </header>
+
+  <div class="kernel-main kernel-page-fade-in">
+    <section class="kernel-metric-grid kernel-stagger" aria-label="مؤشرات الإحصائيات">
+      <KernelMetricCard label="إجمالي الطلبات" value="12,483" unit="طلب" variant="brand" trend="up" trendLabel="8%" iconSvg={iconActivity} footer="آخر 24 ساعة" />
+      <KernelMetricCard label="السمـوح بها" value="11,210" unit="طلب" trend="up" trendLabel="2%" iconSvg={iconCheck} footer="من إجمالي الطلبات" />
+      <KernelMetricCard label="المحظورة" value="382" unit="طلب" trend="down" trendLabel="12%" iconSvg={iconLock} footer="عالية المخاطر" />
+      <KernelMetricCard label="PII مكتشف" value="1,554" unit="طلب" trend="down" trendLabel="4%" iconSvg={iconPii} footer="نسبة 12.4%" />
+    </section>
+
+    <section class="kernel-dashboard-grid">
+      <KernelCard title="Risk Heatmap" subtitle="توزيع المخاطر عبر الأقسام × الفترات" iconSvg={iconStats}>
+        <div class="kernel-card__body">
+          <KernelEmptyState
+            title="Heatmap جاهز"
+            message="سيتم عرض التوزيع التفاعلي بعد تحميل البيانات من الـ API."
+            iconSvg={iconStats}
+          />
+        </div>
+      </KernelCard>
+
+      <KernelCard title="آخر Trace IDs" subtitle="آخر 5 سجلات" iconSvg={iconClock}>
+        <div class="kernel-card__body kernel-card__body--tight">
+          <KernelActivityList>
+            <KernelActivityItem title="AI-2026-10493" traceId="" meta="blocked · تسويق" tone="danger" iconSvg={iconLock} time="قبل 3د" />
+            <KernelActivityItem title="AI-2026-10492" traceId="" meta="allowed · الموارد البشرية" tone="success" iconSvg={iconCheck} time="قبل 5د" />
+            <KernelActivityItem title="AI-2026-10491" traceId="" meta="pending · الطبية" tone="warning" iconSvg={iconClock} time="قبل 8د" />
+            <KernelActivityItem title="AI-2026-10490" traceId="" meta="approved · القانونية" tone="success" iconSvg={iconCheck} time="قبل 11د" />
+            <KernelActivityItem title="AI-2026-10489" traceId="" meta="allowed · الامتثال" tone="success" iconSvg={iconCheck} time="قبل 13د" />
+          </KernelActivityList>
+        </div>
+      </KernelCard>
+    </section>
+  </div>
+</KernelLayout>

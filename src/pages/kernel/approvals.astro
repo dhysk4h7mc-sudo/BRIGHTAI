@@ -1,0 +1,116 @@
+---
+/**
+ * /kernel/approvals/ — Human-in-the-loop approvals queue (REPORTS-14).
+ */
+import KernelLayout from '../../layouts/KernelLayout.astro';
+import KernelTabs from '../../components/kernel/KernelTabs.astro';
+import KernelCard from '../../components/kernel/KernelCard.astro';
+import KernelActivityList from '../../components/kernel/KernelActivityList.astro';
+import KernelActivityItem from '../../components/kernel/KernelActivityItem.astro';
+import KernelDemoPill from '../../components/kernel/KernelDemoPill.astro';
+import { getKernelUnit } from '../../data/kernel';
+
+const unit = getKernelUnit('approvals')!;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `BrightAI Kernel - ${unit.label}`,
+  url: unit.canonical,
+  applicationCategory: 'BusinessApplication',
+  description: unit.description,
+};
+
+const tabs = [
+  { id: 'pending', label: 'قيد الانتظار', count: 7, selected: true },
+  { id: 'critical', label: 'حرجة', count: 3, selected: false },
+  { id: 'all', label: 'الكل', count: 24, selected: false },
+  { id: 'completed', label: 'مكتملة', selected: false },
+  { id: 'rejected', label: 'مرفوضة', selected: false },
+];
+
+const iconApprovals = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>';
+const iconWarning = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>';
+const iconClock = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>';
+---
+
+<KernelLayout
+  title={unit.title}
+  description={unit.description}
+  canonical={unit.canonical}
+  hreflang={unit.hreflang}
+  jsonLd={jsonLd}
+  currentPath={unit.path}
+>
+  <header class="kernel-page-header">
+    <div class="kernel-page-header__lead">
+      <nav class="kernel-breadcrumb" aria-label="مسار التنقل">
+        <ol>
+          <li><a href="/">BrightAI</a></li>
+          <li><a href="/kernel/">Kernel</a></li>
+          <li aria-current="page">{unit.label}</li>
+        </ol>
+      </nav>
+      <h1 class="kernel-page-header__title">{unit.h1}</h1>
+      <p class="kernel-page-header__subtitle">
+        لوحة مراجعة تشغيلية للطلبات التي تحتاج موافقة بشرية قبل التنفيذ، مع ترتيب حسب المخاطر، تحديد جماعي، ورفض جماعي بسبب واضح.
+      </p>
+    </div>
+    <div class="kernel-page-header__actions">
+      <KernelDemoPill />
+    </div>
+  </header>
+
+  <div class="kernel-main kernel-page-fade-in">
+    <KernelTabs tabs={tabs} ariaLabel="حالات الموافقات" />
+
+    <KernelCard
+      title="طلبات تنتظر قرارك"
+      subtitle="مرتّبة حسب الخطورة (الأعلى أولاً)"
+      iconSvg={iconApprovals}
+    >
+      <div class="kernel-card__body">
+        <KernelActivityList>
+          <KernelActivityItem
+            title="وصول بيانات عملاء — القسم 5 PDPL"
+            traceId="AI-2026-10493"
+            meta="حرج · 87%"
+            tone="danger"
+            iconSvg={iconWarning}
+            time="قبل 3د"
+          />
+          <KernelActivityItem
+            title="تشغيل نموذج توليدي على سجلات طبية"
+            traceId="AI-2026-10491"
+            meta="عالية · 72%"
+            tone="warning"
+            iconSvg={iconClock}
+            time="قبل 8د"
+          />
+          <KernelActivityItem
+            title="تصدير تقرير مالي خارجي — يحتاج مراجعة"
+            traceId="AI-2026-10488"
+            meta="عالية · 68%"
+            tone="warning"
+            iconSvg={iconClock}
+            time="قبل 14د"
+          />
+          <KernelActivityItem
+            title="دمج نموذج ثالث — كشف PII جديد"
+            traceId="AI-2026-10485"
+            meta="عالية · 64%"
+            tone="warning"
+            iconSvg={iconClock}
+            time="قبل 22د"
+          />
+        </KernelActivityList>
+      </div>
+      <Fragment slot="footer">
+        <footer class="kernel-card__footer">
+          <span>3 حرجة · 4 عالية</span>
+          <span class="kernel-card__footer-link">رفض جماعي يتطلب سبباً</span>
+        </footer>
+      </Fragment>
+    </KernelCard>
+  </div>
+</KernelLayout>

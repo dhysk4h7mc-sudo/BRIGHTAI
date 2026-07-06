@@ -1,0 +1,81 @@
+---
+/**
+ * /kernel/compliance/ — Compliance packs dashboard (REPORTS-14).
+ */
+import KernelLayout from '../../layouts/KernelLayout.astro';
+import KernelMetricCard from '../../components/kernel/KernelMetricCard.astro';
+import KernelRiskChart from '../../components/kernel/KernelRiskChart.astro';
+import KernelCard from '../../components/kernel/KernelCard.astro';
+import KernelDemoPill from '../../components/kernel/KernelDemoPill.astro';
+import { getKernelUnit } from '../../data/kernel';
+
+const unit = getKernelUnit('compliance')!;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `BrightAI Kernel - ${unit.label}`,
+  url: unit.canonical,
+  applicationCategory: 'BusinessApplication',
+  description: unit.description,
+};
+
+const rows = [
+  { label: 'PDPL', level: 'minimal' as const, value: 92 },
+  { label: 'NCA ECC', level: 'low' as const, value: 87 },
+  { label: 'ISO 42001', level: 'low' as const, value: 81 },
+  { label: 'SDAIA', level: 'medium' as const, value: 73 },
+  { label: 'SFDA', level: 'high' as const, value: 64 },
+];
+
+const iconShield = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>';
+---
+
+<KernelLayout
+  title={unit.title}
+  description={unit.description}
+  canonical={unit.canonical}
+  hreflang={unit.hreflang}
+  jsonLd={jsonLd}
+  currentPath={unit.path}
+>
+  <header class="kernel-page-header">
+    <div class="kernel-page-header__lead">
+      <nav class="kernel-breadcrumb" aria-label="مسار التنقل">
+        <ol>
+          <li><a href="/">BrightAI</a></li>
+          <li><a href="/kernel/">Kernel</a></li>
+          <li aria-current="page">{unit.label}</li>
+        </ol>
+      </nav>
+      <h1 class="kernel-page-header__title">{unit.h1}</h1>
+      <p class="kernel-page-header__subtitle">
+        عرض حزم الامتثال وحالة المتطلبات حسب الإطار التنظيمي السعودي: PDPL، NCA ECC، SFDA، SAMA، ISO.
+      </p>
+    </div>
+    <div class="kernel-page-header__actions">
+      <KernelDemoPill />
+    </div>
+  </header>
+
+  <div class="kernel-main kernel-page-fade-in">
+    <section class="kernel-metric-grid kernel-stagger" aria-label="مؤشرات الامتثال">
+      <KernelMetricCard label="متوسط الامتثال" value="79" unit="%" variant="brand" iconSvg={iconShield} footer="5 أطر" />
+      <KernelMetricCard label="مكتمل" value="94" unit="%" iconSvg={iconShield} footer="PDPL" />
+      <KernelMetricCard label="يحتاج تحسين" value="62" unit="%" iconSvg={iconShield} footer="SDAIA" />
+      <KernelMetricCard label="إجراءات معلقة" value="3" iconSvg={iconShield} footer="SFDA · SDAIA · ISO" />
+    </section>
+
+    <KernelCard title="أطر الامتثال" subtitle="PDPL · NCA ECC · ISO 42001 · SDAIA · SFDA" iconSvg={iconShield}>
+      <div class="kernel-card__body">
+        <KernelRiskChart rows={rows} />
+      </div>
+      <Fragment slot="footer">
+        <footer class="kernel-card__footer">
+          <span>آخر تقييم: قبل 4 ساعات</span>
+          <a href="/kernel/reports/" class="kernel-card__footer-link">تنزيل تقرير امتثال PDF ←</a>
+        </footer>
+      </Fragment>
+    </KernelCard>
+  </div>
+</KernelLayout>

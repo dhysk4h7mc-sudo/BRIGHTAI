@@ -1,0 +1,87 @@
+---
+/**
+ * /kernel/policies/ — Policy editor with CRUD (REPORTS-14).
+ */
+import KernelLayout from '../../layouts/KernelLayout.astro';
+import KernelStatusStrip from '../../components/kernel/KernelStatusStrip.astro';
+import KernelCard from '../../components/kernel/KernelCard.astro';
+import KernelActivityList from '../../components/kernel/KernelActivityList.astro';
+import KernelActivityItem from '../../components/kernel/KernelActivityItem.astro';
+import KernelDemoPill from '../../components/kernel/KernelDemoPill.astro';
+import { getKernelUnit } from '../../data/kernel';
+
+const unit = getKernelUnit('policies')!;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `BrightAI Kernel - ${unit.label}`,
+  url: unit.canonical,
+  applicationCategory: 'BusinessApplication',
+  description: unit.description,
+};
+
+const iconPolicies = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>';
+const iconCheck = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+const iconClock = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>';
+---
+
+<KernelLayout
+  title={unit.title}
+  description={unit.description}
+  canonical={unit.canonical}
+  hreflang={unit.hreflang}
+  jsonLd={jsonLd}
+  currentPath={unit.path}
+>
+  <header class="kernel-page-header">
+    <div class="kernel-page-header__lead">
+      <nav class="kernel-breadcrumb" aria-label="مسار التنقل">
+        <ol>
+          <li><a href="/">BrightAI</a></li>
+          <li><a href="/kernel/">Kernel</a></li>
+          <li aria-current="page">{unit.label}</li>
+        </ol>
+      </nav>
+      <h1 class="kernel-page-header__title">{unit.h1}</h1>
+      <p class="kernel-page-header__subtitle">
+        محرر سياسات بصري مع CRUD، preview محلي، وtoggle بيانات تجريبية، يدعم 14 نوع سياسة حوكمة مختلفة.
+      </p>
+    </div>
+    <div class="kernel-page-header__actions">
+      <KernelDemoPill />
+      <a href="/kernel/policies/new/" class="kernel-card__footer-link">+ إنشاء سياسة جديدة</a>
+    </div>
+  </header>
+
+  <div class="kernel-main kernel-page-fade-in">
+    <KernelStatusStrip
+      kicker="السياسات النشطة"
+      title="14 سياسة · 3 بحاجة لمراجعة"
+      dot="warn"
+      items={[
+        { label: 'مفعّلة', value: '11' },
+        { label: 'مسودة', value: '2' },
+        { label: 'مؤرشفة', value: '1' },
+      ]}
+    />
+
+    <KernelCard title="قائمة السياسات" subtitle="CRUD + Preview + Export" iconSvg={iconPolicies}>
+      <div class="kernel-card__body">
+        <KernelActivityList>
+          <KernelActivityItem title="POL-001 · PDPL: حماية البيانات الشخصية" traceId="" meta="مفعّلة · 142 تطبيق" tone="success" iconSvg={iconCheck} time="آخر تعديل قبل يومين" />
+          <KernelActivityItem title="POL-002 · NCA ECC: ضوابط الأمن السيبراني" traceId="" meta="مفعّلة · 89 تطبيق" tone="success" iconSvg={iconCheck} time="آخر تعديل قبل 5 أيام" />
+          <KernelActivityItem title="POL-003 · SDAIA: إرشادات الذكاء الاصطناعي التوليدي" traceId="" meta="مسودة · 12 مراجعة" tone="warning" iconSvg={iconClock} time="آخر تعديل قبل ساعة" />
+          <KernelActivityItem title="POL-004 · SFDA: محتوى الرعاية الصحية" traceId="" meta="مفعّلة · 28 تطبيق" tone="success" iconSvg={iconCheck} time="آخر تعديل قبل أسبوع" />
+          <KernelActivityItem title="POL-005 · ISO 42001: نظام إدارة AI" traceId="" meta="مفعّلة · 56 تطبيق" tone="success" iconSvg={iconCheck} time="آخر تعديل قبل 3 أيام" />
+        </KernelActivityList>
+      </div>
+      <Fragment slot="footer">
+        <footer class="kernel-card__footer">
+          <span>14 سياسة إجمالاً · 11 مفعّلة</span>
+          <a href="/kernel/policies/new/" class="kernel-card__footer-link">+ سياسة جديدة</a>
+        </footer>
+      </Fragment>
+    </KernelCard>
+  </div>
+</KernelLayout>

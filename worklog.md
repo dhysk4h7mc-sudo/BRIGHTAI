@@ -111,3 +111,37 @@ Stage Summary:
 - القيد: 0 نص يتغير، 0 IBM Plex Sans Arabic يُستبدل، CSS فقط
 - المخاطر المتبقية: لو الـ hero h1 صار أكبر قد يأخذ مساحة fold أكثر — محسوب عبر clamp(2rem, 5vw + 1rem, 4.5rem) بحيث mobile=2rem, desktop=4.5rem
 
+
+---
+Task ID: 2026-06-30-013
+Agent: BrightAI Workspace Agent (Mavis)
+Task: REPORT-13: Secondary pages visual refresh (about/contact/trust/demo/assessment)
+Started: 2026-06-30T23:35:00+03:00
+Mode: Senior (full canonical migration on /trust/, polish on the others)
+
+Work Log:
+- قرأت brain.md (state snapshot + change ledger + inventory) + skills README ✅
+- قرأت الصفحات الـ 5 الحالية (288 + 201 + 120 + 275 + 223 = ~1107 سطر total) + pricing page كمرجع canonical + components.css للـ primitives ✅
+- npm run build baseline → 130 pages, 0 errors ✅
+- أضفت ~680 سطر في pages.css تحت بلوك جديد "REPORT-13: Secondary Pages UX Patterns" (15+ utility classes جديدة) ✅
+- أعدت كتابة /about/ مع .page-hero + .ksa-flag-badge + .avatar-tile + .stat-strip + 8 sections preserved verbatim ✅
+- أعدت كتابة /contact/ مع .contact-split layout (form على يمين RTL) + .form-card anatomy + .office-hours table + .map-embed-card ✅
+- أعدت كتابة /trust/ بالكامل (legacy → canonical) مع .trust-compliance-grid (10 regulators) + .trust-signals-strip + .security-topic accordion ✅
+- أعدت كتابة /demo/ مع .demo-stat-strip + .demo-expect-timeline + .testimonials gradient cards + 30+ demos preserved ✅
+- أعدت كتابة /assessment/ مع .assessment-progress multi-step visual + .assessment-step/.assessment-output variants + .assessment-result-preview ✅
+- npm run build → 130 pages, 0 errors ✅
+- npm run verify:all → exit 0 ✅ (6/6 hreflang, 5/5 service, 112 sitemap URLs, 0 broken)
+- npm run seo:gate → 0 errors, 0 warnings ✅
+- Action form preserved: form action="https://formsubmit.co/info@brightai.site" method="POST" ✅
+- Verified Arabic preservation via grep على dist HTML (5 صفحات) ✅
+- شغّلت preview server + Playwright screenshot-secondary.mjs → 37 screenshots ✅
+- Acceptance gate: 0 console errors, 0 page errors, exactly 1 H1 per page × 10 visits ✅
+- كتبت reports/13-secondary-pages.md (~480 سطر Saudi dialect) ✅
+- حدّثت brain.md (change ledger entry جديد + version 2.5.0 → 2.6.0) ✅
+
+Stage Summary:
+- المشكلة: الصفحات الـ 5 كانت تستخدم markup متنوّع (legacy .trust-*, inline styles, Tailwind-like utilities). لا visual consistency، inline style proliferation (~12 موقع).
+- الحل: كل الصفحات هاجرت لـ canonical design system (.page-hero + .card--* + .btn--* + .field + .home-faq-item + .inner-cta-final + .inner-section). عناصر جديدة: KSA flag-badge + avatar-tile + stat-strip + office-hours + trust-compliance-grid + trust-signals-strip + assessment-progress + assessment-step + assessment-result-preview + map-embed-card + form-card.
+- النتيجة: 5 صفحات تشترك في نفس الـ visual language، 0 inline styles للـ layout (إلا text-align:center مبرّر)، 0 legacy classes مستخدمة، 0 console/page errors.
+- القيد: 0 نص منشور تم تعديله (grep cross-checked)، 0 sections محذوفة، 0 canonical/hreflang changes، form action preserved verbatim.
+- المخاطر المتبقية: CSS budget وصل ~6200 سطر في pages.css (من 5523)؛ اقتراح: فصل secondary-pages.css لو وصل 8000+. Map embed يعتمد على Google Maps output=embed endpoint المستقر.

@@ -1,0 +1,83 @@
+---
+/**
+ * /kernel/evidence/ — Evidence files + PDF export (REPORTS-14).
+ */
+import KernelLayout from '../../layouts/KernelLayout.astro';
+import KernelCard from '../../components/kernel/KernelCard.astro';
+import KernelActivityList from '../../components/kernel/KernelActivityList.astro';
+import KernelActivityItem from '../../components/kernel/KernelActivityItem.astro';
+import KernelDemoPill from '../../components/kernel/KernelDemoPill.astro';
+import KernelEmptyState from '../../components/kernel/KernelEmptyState.astro';
+import { getKernelUnit } from '../../data/kernel';
+
+const unit = getKernelUnit('evidence')!;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `BrightAI Kernel - ${unit.label}`,
+  url: unit.canonical,
+  applicationCategory: 'BusinessApplication',
+  description: unit.description,
+};
+
+const iconFile = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>';
+const iconChat = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>';
+---
+
+<KernelLayout
+  title={unit.title}
+  description={unit.description}
+  canonical={unit.canonical}
+  hreflang={unit.hreflang}
+  jsonLd={jsonLd}
+  currentPath={unit.path}
+>
+  <header class="kernel-page-header">
+    <div class="kernel-page-header__lead">
+      <nav class="kernel-breadcrumb" aria-label="مسار التنقل">
+        <ol>
+          <li><a href="/">BrightAI</a></li>
+          <li><a href="/kernel/">Kernel</a></li>
+          <li aria-current="page">{unit.label}</li>
+        </ol>
+      </nav>
+      <h1 class="kernel-page-header__title">{unit.h1}</h1>
+      <p class="kernel-page-header__subtitle">
+        عرض الأدلة المرتبطة بقرارات الذكاء الاصطناعي مع إمكانية التصدير PDF داخل المتصفح عند الحاجة.
+      </p>
+    </div>
+    <div class="kernel-page-header__actions">
+      <KernelDemoPill />
+    </div>
+  </header>
+
+  <div class="kernel-main kernel-page-fade-in">
+    <section class="kernel-dashboard-grid">
+      <KernelCard title="قائمة الأدلة" subtitle="عينة من 2,156 سجل" iconSvg={iconFile}>
+        <div class="kernel-card__body kernel-card__body--tight">
+          <KernelActivityList>
+            <KernelActivityItem title="EVD-2026-10493.pdf — محاولة تصدير قائمة 2,400 عميل" traceId="AI-2026-10493" meta="blocked · 142KB" iconSvg={iconFile} time="قبل 3د" />
+            <KernelActivityItem title="EVD-2026-10492.pdf — استعلام تلخيصي عن سياسة الإجازات" traceId="AI-2026-10492" meta="allowed · 38KB" tone="success" iconSvg={iconFile} time="قبل 5د" />
+            <KernelActivityItem title="EVD-2026-10491.pdf — تشغيل نموذج على سجلات طبية" traceId="AI-2026-10491" meta="pending_approval · 86KB" tone="warning" iconSvg={iconFile} time="قبل 8د" />
+            <KernelActivityItem title="EVD-2026-10490.pdf — تحليل عقد مورد" traceId="AI-2026-10490" meta="approved · 124KB" tone="success" iconSvg={iconFile} time="قبل 11د" />
+            <KernelActivityItem title="EVD-2026-10489.pdf — استعلام لوائح البنك المركزي" traceId="AI-2026-10489" meta="allowed · 42KB" tone="success" iconSvg={iconFile} time="قبل 13د" />
+          </KernelActivityList>
+        </div>
+      </KernelCard>
+
+      <KernelCard title="تفاصيل الدليل" subtitle="اختر دليلاً من القائمة لعرض التفاصيل" iconSvg={iconChat}>
+        <Fragment slot="actions">
+          <button class="kernel-card__footer-link" type="button" disabled>تصدير PDF</button>
+        </Fragment>
+        <div class="kernel-card__body">
+          <KernelEmptyState
+            title="اختر دليلاً من القائمة"
+            message="كل دليل يحوي Trace ID، hash، توقيع رقمي، وقرار الحوكمة. يمكن تصديره PDF."
+            iconSvg={iconFile}
+          />
+        </div>
+      </KernelCard>
+    </section>
+  </div>
+</KernelLayout>

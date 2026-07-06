@@ -1,0 +1,93 @@
+---
+/**
+ * /kernel/reports/ — Reports dashboard (REPORTS-14).
+ */
+import KernelLayout from '../../layouts/KernelLayout.astro';
+import KernelMetricCard from '../../components/kernel/KernelMetricCard.astro';
+import KernelCard from '../../components/kernel/KernelCard.astro';
+import KernelActivityList from '../../components/kernel/KernelActivityList.astro';
+import KernelActivityItem from '../../components/kernel/KernelActivityItem.astro';
+import KernelDemoPill from '../../components/kernel/KernelDemoPill.astro';
+import { getKernelUnit } from '../../data/kernel';
+
+const unit = getKernelUnit('reports')!;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `BrightAI Kernel - ${unit.label}`,
+  url: unit.canonical,
+  applicationCategory: 'BusinessApplication',
+  description: unit.description,
+};
+
+const iconReports = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>';
+const iconCheck = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+const iconClock = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>';
+const iconArrow = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
+---
+
+<KernelLayout
+  title={unit.title}
+  description={unit.description}
+  canonical={unit.canonical}
+  hreflang={unit.hreflang}
+  jsonLd={jsonLd}
+  currentPath={unit.path}
+>
+  <header class="kernel-page-header">
+    <div class="kernel-page-header__lead">
+      <nav class="kernel-breadcrumb" aria-label="مسار التنقل">
+        <ol>
+          <li><a href="/">BrightAI</a></li>
+          <li><a href="/kernel/">Kernel</a></li>
+          <li aria-current="page">{unit.label}</li>
+        </ol>
+      </nav>
+      <h1 class="kernel-page-header__title">{unit.h1}</h1>
+      <p class="kernel-page-header__subtitle">
+        واجهة التقارير: فلاتر، تحميل، إنشاء، وجدولة تقارير الجاهزية والامتثال بصيغ متعددة.
+      </p>
+    </div>
+    <div class="kernel-page-header__actions">
+      <KernelDemoPill />
+      <button class="kernel-card__footer-link" type="button">+ إنشاء تقرير</button>
+    </div>
+  </header>
+
+  <div class="kernel-main kernel-page-fade-in">
+    <section class="kernel-metric-grid kernel-stagger" aria-label="مؤشرات التقارير">
+      <KernelMetricCard label="تقارير منجزة" value="42" variant="brand" iconSvg={iconReports} footer="هذا الشهر" />
+      <KernelMetricCard label="قيد الإنشاء" value="3" iconSvg={iconClock} footer="متوسط 4 دقائق" />
+      <KernelMetricCard label="مجدولة" value="7" iconSvg={iconReports} footer="يومية · أسبوعية · شهرية" />
+      <KernelMetricCard label="المستلمون" value="18" iconSvg={iconReports} footer="قادة · امتثال · عمليات" />
+    </section>
+
+    <section class="kernel-dashboard-grid">
+      <KernelCard title="التقارير الأخيرة" subtitle="42 تقرير هذا الشهر" iconSvg={iconReports}>
+        <Fragment slot="actions">
+          <button class="kernel-card__footer-link" type="button">+ إنشاء تقرير</button>
+        </Fragment>
+        <div class="kernel-card__body">
+          <KernelActivityList>
+            <KernelActivityItem title="تقرير جاهزية PDPL — Q2 2026" traceId="" meta="PDF · 2.1MB · مكتمل" tone="success" iconSvg={iconCheck} time="قبل 12 ساعة" />
+            <KernelActivityItem title="تقرير المخاطر الشهري — يونيو" traceId="" meta="PDF · 1.8MB · مكتمل" tone="success" iconSvg={iconCheck} time="قبل يوم" />
+            <KernelActivityItem title="تدقيق NCA ECC — ربع سنوي" traceId="" meta="PDF · 3.4MB · مكتمل" tone="success" iconSvg={iconCheck} time="قبل 3 أيام" />
+            <KernelActivityItem title="كشف PII للموارد البشرية" traceId="" meta="PDF · 0.9MB · قيد الإنشاء" tone="warning" iconSvg={iconClock} time="قبل 4 دقائق" />
+          </KernelActivityList>
+        </div>
+      </KernelCard>
+
+      <KernelCard title="المجدولة" subtitle="7 جداول نشطة" iconSvg={iconClock}>
+        <div class="kernel-card__body kernel-card__body--tight">
+          <KernelActivityList>
+            <KernelActivityItem title="جاهزية PDPL — كل يوم أحد 09:00" traceId="" meta="نشط · آخر تشغيل اليوم" tone="success" iconSvg={iconCheck} />
+            <KernelActivityItem title="المخاطر الأسبوعي — كل اثنين" traceId="" meta="نشط · 18 مستلم" tone="success" iconSvg={iconCheck} />
+            <KernelActivityItem title="تدقيق NCA — كل 3 أشهر" traceId="" meta="نشط · القادم بعد 12 يوم" tone="success" iconSvg={iconCheck} />
+            <KernelActivityItem title="PII للموارد البشرية — شهري" traceId="" meta="موقوف" iconSvg={iconClock} />
+          </KernelActivityList>
+        </div>
+      </KernelCard>
+    </section>
+  </div>
+</KernelLayout>

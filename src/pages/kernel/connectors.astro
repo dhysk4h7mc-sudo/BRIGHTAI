@@ -1,0 +1,76 @@
+---
+/**
+ * /kernel/connectors/ — Enterprise connectors (read-only preview) (REPORTS-14).
+ */
+import KernelLayout from '../../layouts/KernelLayout.astro';
+import KernelMetricCard from '../../components/kernel/KernelMetricCard.astro';
+import KernelCard from '../../components/kernel/KernelCard.astro';
+import KernelActivityList from '../../components/kernel/KernelActivityList.astro';
+import KernelActivityItem from '../../components/kernel/KernelActivityItem.astro';
+import KernelDemoPill from '../../components/kernel/KernelDemoPill.astro';
+import { getKernelUnit } from '../../data/kernel';
+
+const unit = getKernelUnit('connectors')!;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `BrightAI Kernel - ${unit.label}`,
+  url: unit.canonical,
+  applicationCategory: 'BusinessApplication',
+  description: unit.description,
+};
+
+const iconConnectors = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>';
+const iconCheck = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+const iconClock = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>';
+---
+
+<KernelLayout
+  title={unit.title}
+  description={unit.description}
+  canonical={unit.canonical}
+  hreflang={unit.hreflang}
+  jsonLd={jsonLd}
+  currentPath={unit.path}
+>
+  <header class="kernel-page-header">
+    <div class="kernel-page-header__lead">
+      <nav class="kernel-breadcrumb" aria-label="مسار التنقل">
+        <ol>
+          <li><a href="/">BrightAI</a></li>
+          <li><a href="/kernel/">Kernel</a></li>
+          <li aria-current="page">{unit.label}</li>
+        </ol>
+      </nav>
+      <h1 class="kernel-page-header__title">{unit.h1}</h1>
+      <p class="kernel-page-header__subtitle">
+        عرض موصلات قراءة تجريبية لأنظمة المؤسسة بدون الوصول لبيانات حقيقية، مع نظرة شاملة على 8 موصلات.
+      </p>
+    </div>
+    <div class="kernel-page-header__actions">
+      <KernelDemoPill />
+    </div>
+  </header>
+
+  <div class="kernel-main kernel-page-fade-in">
+    <section class="kernel-metric-grid kernel-stagger" aria-label="مؤشرات الموصلات">
+      <KernelMetricCard label="إجمالي الموصلات" value="8" variant="brand" iconSvg={iconConnectors} footer="6 متصلة · 2 معلقة" />
+      <KernelMetricCard label="قراءة فقط" value="8" iconSvg={iconCheck} footer="بدون وصول كتابة" />
+      <KernelMetricCard label="طلبات اليوم" value="2,148" iconSvg={iconConnectors} footer="عبر جميع الموصلات" />
+      <KernelMetricCard label="متوسط زمن الاستجابة" value="128" unit="ms" iconSvg={iconClock} footer="P95: 240ms" />
+    </section>
+
+    <KernelCard title="الموصلات المتصلة" subtitle="قراءة فقط · بدون وصول لبيانات حقيقية" iconSvg={iconConnectors}>
+      <div class="kernel-card__body">
+        <KernelActivityList>
+          <KernelActivityItem title="SAP S/4HANA — Finance + Procurement (قراءة)" traceId="" meta="متصل · 1,420 طلب اليوم" tone="success" iconSvg={iconCheck} />
+          <KernelActivityItem title="Oracle EBS — HR + Payroll (قراءة)" traceId="" meta="متصل · 218 طلب اليوم" tone="success" iconSvg={iconCheck} />
+          <KernelActivityItem title="Microsoft Dynamics 365 — CRM (قراءة)" traceId="" meta="متصل · 86 طلب اليوم" tone="success" iconSvg={iconCheck} />
+          <KernelActivityItem title="Epic HIS — Clinical Records (قراءة)" traceId="" meta="متصل · 312 طلب اليوم" tone="success" iconSvg={iconCheck} />
+          <KernelActivityItem title="Moodle LMS — Student Records (قراءة)" traceId="" meta="معلق · يتطلب OAuth" tone="warning" iconSvg={iconClock} />
+        </KernelActivityList>
+      </div>
+    </KernelCard>
+  </div>
+</KernelLayout>

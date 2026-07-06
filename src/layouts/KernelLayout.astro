@@ -1,12 +1,19 @@
 ---
 /**
  * KernelLayout — Layout for /kernel/* pages.
- * Wraps BaseLayout (Header + Footer) with a kernel-specific
- * sticky top-nav (desktop) + drawer/bottom-nav (mobile).
+ *
+ * REPORTS-14 update:
+ * - Now uses persistent desktop sidebar (KernelSidebar) instead of inline drawer
+ * - Mobile (<1024px): kernel-mobile.js drawer + bottom nav still take over
+ * - body class: `kernel-shell` enables the CSS grid layout
+ * - data-sidebar attribute on body controls collapse state (72px expanded / 260px)
+ * - All existing behavior preserved: skip-link, top-nav, focus visibility, etc.
+ *
  * RTL-aware, touch ≥44px, aria + keyboard nav.
- * Uses V2 design tokens exclusively.
+ * Uses V2/V3 design tokens exclusively.
  */
 import BaseLayout from './BaseLayout.astro';
+import KernelSidebar from '../components/kernel/KernelSidebar.astro';
 import { kernelNavItems } from '../data/kernel';
 import type { SEOProps } from '../data/site';
 
@@ -41,9 +48,9 @@ const allItems = [
       inset-inline-start: var(--space-2);
       z-index: 100;
       padding: var(--space-3) var(--space-5);
-      background: var(--gradient-brand);
+      background: linear-gradient(135deg, var(--brand-500) 0%, var(--brand-700) 100%);
       color: var(--text-inverse);
-      font-weight: var(--weight-bold);
+      font-weight: var(--font-bold);
       font-size: var(--text-sm);
       border-radius: 0 0 var(--radius-lg) var(--radius-lg);
       text-decoration: none;
@@ -60,7 +67,7 @@ const allItems = [
     .k-drawer-toggle:focus-visible,
     .k-drawer__close:focus-visible,
     .k-topnav__brand:focus-visible {
-      outline: 2px solid var(--brand);
+      outline: 2px solid var(--brand-500);
       outline-offset: 2px;
     }
 
@@ -68,10 +75,10 @@ const allItems = [
       position: sticky;
       top: 0;
       z-index: 40;
-      background: var(--ink-950);
+      background: var(--bg-base);
       border-bottom: 1px solid var(--border);
-      backdrop-filter: blur(var(--blur-md));
-      -webkit-backdrop-filter: blur(var(--blur-md));
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
       padding: 0 var(--space-4);
     }
     .k-topnav__inner {
@@ -89,8 +96,8 @@ const allItems = [
       display: flex;
       align-items: center;
       gap: var(--space-2);
-      font-weight: var(--weight-bold);
-      color: var(--text);
+      font-weight: var(--font-bold);
+      color: var(--text-primary);
       text-decoration: none;
       white-space: nowrap;
       padding: var(--space-3) 0;
@@ -109,22 +116,22 @@ const allItems = [
       padding: var(--space-2) var(--space-3);
       border-radius: var(--radius-lg);
       font-size: var(--text-xs);
-      color: var(--text-soft);
+      color: var(--text-secondary);
       text-decoration: none;
       white-space: nowrap;
       transition: background var(--duration-fast) var(--ease-out),
                   color var(--duration-fast) var(--ease-out);
-      min-height: var(--touch-min);
+      min-height: 44px;
     }
     .k-topnav__link:hover,
     .k-topnav__link:focus-visible {
-      background: var(--surface-soft);
-      color: var(--text);
+      background: var(--brand-soft);
+      color: var(--text-primary);
     }
     .k-topnav__link[aria-current="page"] {
-      background: var(--brand-subtle);
-      color: var(--brand);
-      font-weight: var(--weight-semibold);
+      background: var(--brand-soft-strong);
+      color: var(--brand-500);
+      font-weight: var(--font-semibold);
     }
 
     /* Mobile bottom nav */
@@ -135,7 +142,7 @@ const allItems = [
       left: 0;
       right: 0;
       z-index: 50;
-      background: var(--ink-950);
+      background: var(--bg-base);
       border-top: 1px solid var(--border);
       padding: var(--space-1) 0;
       padding-bottom: env(safe-area-inset-bottom, var(--space-1));
@@ -160,17 +167,17 @@ const allItems = [
       align-items: center;
       gap: var(--space-1);
       padding: var(--space-1-5) var(--space-2);
-      color: var(--text-soft);
+      color: var(--text-secondary);
       text-decoration: none;
       font-size: 0.625rem;
       min-width: 52px;
-      min-height: var(--touch-min);
+      min-height: 44px;
       justify-content: center;
       border-radius: var(--radius-lg);
       transition: color var(--duration-fast) var(--ease-out);
     }
     .k-bottomnav__link[aria-current="page"] {
-      color: var(--brand);
+      color: var(--brand-500);
     }
     .k-bottomnav__link svg {
       width: 1.25rem;
@@ -182,12 +189,12 @@ const allItems = [
       display: none;
       align-items: center;
       justify-content: center;
-      width: var(--touch-min);
-      height: var(--touch-min);
+      width: 44px;
+      height: 44px;
       background: none;
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
-      color: var(--text);
+      color: var(--text-primary);
       cursor: pointer;
     }
 
@@ -201,7 +208,7 @@ const allItems = [
     .k-drawer__backdrop {
       position: absolute;
       inset: 0;
-      background: var(--overlay);
+      background: var(--bg-overlay);
     }
     .k-drawer__panel {
       position: absolute;
@@ -209,13 +216,13 @@ const allItems = [
       right: 0;
       bottom: 0;
       width: min(85vw, 320px);
-      background: var(--ink-950);
+      background: var(--bg-base);
       border-left: 1px solid var(--border);
       padding: var(--space-6) var(--space-4);
       overflow-y: auto;
     }
     .k-drawer__panel h3 {
-      color: var(--text);
+      color: var(--text-primary);
       font-size: var(--text-base);
       margin-bottom: var(--space-4);
     }
@@ -223,42 +230,42 @@ const allItems = [
       display: block;
       padding: var(--space-3) var(--space-4);
       border-radius: var(--radius-lg);
-      color: var(--text-soft);
+      color: var(--text-secondary);
       text-decoration: none;
       font-size: var(--text-sm);
-      min-height: var(--touch-min);
+      min-height: 44px;
       transition: background var(--duration-fast) var(--ease-out),
                   color var(--duration-fast) var(--ease-out);
     }
     .k-drawer__link:hover,
     .k-drawer__link:focus-visible {
-      background: var(--surface-soft);
-      color: var(--text);
+      background: var(--brand-soft);
+      color: var(--text-primary);
     }
     .k-drawer__link[aria-current="page"] {
-      background: var(--brand-subtle);
-      color: var(--brand);
-      font-weight: var(--weight-semibold);
+      background: var(--brand-soft-strong);
+      color: var(--brand-500);
+      font-weight: var(--font-semibold);
     }
     .k-drawer__close {
       position: absolute;
       top: var(--space-4);
       left: var(--space-4);
-      width: var(--touch-min);
-      height: var(--touch-min);
+      width: 44px;
+      height: 44px;
       display: flex;
       align-items: center;
       justify-content: center;
       background: none;
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
-      color: var(--text);
+      color: var(--text-primary);
       cursor: pointer;
     }
 
     /* Content area spacing */
     .k-content {
-      max-width: 80rem;
+      max-width: 100%;
       margin: 0 auto;
       padding: var(--space-6) var(--space-4) var(--space-20);
     }
@@ -281,6 +288,9 @@ const allItems = [
 
   <!-- Skip-link -->
   <a href="#k-content" class="k-skip-link">تخطّى إلى المحتوى</a>
+
+  <!-- REPORTS-14: Persistent sidebar (desktop ≥1024px) -->
+  <KernelSidebar currentPath={currentPath} />
 
   <!-- Kernel Top Nav -->
   <nav class="k-topnav" aria-label="تنقل Kernel">
@@ -335,16 +345,31 @@ const allItems = [
     </div>
   </div>
 
+  <!-- REPORTS-14: Status bar (provider/db/mode) — visible to grid layout -->
+  <section class="kernel-status-bar" role="status" aria-live="polite">
+    <div class="kernel-status-bar-inner">
+      <div class="kernel-status-provider">
+        <span class="kernel-status-dot connected" aria-hidden="true"></span>
+        <span class="kernel-status-label">Kernel Provider</span>
+        <strong id="kernel-status-provider-text">NVIDIA · Connected</strong>
+      </div>
+      <div class="kernel-status-meta">
+        <span class="kernel-status-pill"><span>DB</span><strong>Connected</strong></span>
+        <span class="kernel-status-pill"><span>Mode</span><strong>Production</strong></span>
+      </div>
+    </div>
+  </section>
+
   <!-- No-JS drawer fallback -->
   <noscript>
     <style>
-      .k-drawer { display: block; position: static; background: var(--ink-950, #040711); border-bottom: 1px solid var(--border); padding: var(--space-4); }
+      .k-drawer { display: block; position: static; background: var(--bg-base); border-bottom: 1px solid var(--border); padding: var(--space-4); }
       .k-drawer__backdrop { display: none; }
       .k-drawer__panel { position: static; width: 100%; background: transparent; border: none; padding: 0; }
       .k-drawer__close { display: none; }
-      .k-drawer__link { display: block; padding: var(--space-3) var(--space-4); color: var(--text-soft); text-decoration: none; border-radius: var(--radius-lg); }
-      .k-drawer__link:hover, .k-drawer__link:focus-visible { background: var(--surface-soft); color: var(--text); }
-      .k-drawer__link[aria-current="page"] { background: var(--brand-subtle); color: var(--brand); font-weight: var(--weight-semibold); }
+      .k-drawer__link { display: block; padding: var(--space-3) var(--space-4); color: var(--text-secondary); text-decoration: none; border-radius: var(--radius-lg); }
+      .k-drawer__link:hover, .k-drawer__link:focus-visible { background: var(--brand-soft); color: var(--text-primary); }
+      .k-drawer__link[aria-current="page"] { background: var(--brand-soft-strong); color: var(--brand-500); font-weight: var(--font-semibold); }
     </style>
     <div class="k-drawer" id="k-drawer-noscript">
       <h3>وحدات Kernel</h3>
@@ -382,12 +407,11 @@ const allItems = [
 
   <!-- Drawer JS (minimal, no external deps) -->
   <script is:inline>
-    // حفظ مرجع دالة ثابت خارج نطاق دالة التهيئة لمنع تراكم المستمعين
     function handleKernelEscapeKey(e) {
       var drawer = document.getElementById('k-drawer');
       if (!drawer) return;
       var toggle = document.querySelector('[data-kernel-drawer-toggle]');
-      
+
       if (e.key === 'Escape' && drawer.getAttribute('aria-hidden') === 'false') {
         drawer.setAttribute('aria-hidden', 'true');
         drawer.style.display = 'none';
@@ -424,7 +448,6 @@ const allItems = [
         el.addEventListener('click', closeDrawer);
       });
 
-      // إزالة المستمع القديم وإعادة الإضافة الآمنة بمرجع ثابت
       document.removeEventListener('keydown', handleKernelEscapeKey);
       document.addEventListener('keydown', handleKernelEscapeKey);
     }
@@ -432,3 +455,37 @@ const allItems = [
     document.addEventListener('astro:page-load', initKernelDrawer);
   </script>
 </BaseLayout>
+
+<script is:inline>
+  // REPORTS-14: Apply kernel-shell class to body so the CSS grid layout kicks in.
+  // Also add basic keyboard shortcuts (C, A, S) matching the prior /kernel/ PWA.
+  (function () {
+    'use strict';
+    function initShell() {
+      if (document.body && !document.body.classList.contains('kernel-shell')) {
+        document.body.classList.add('kernel-shell');
+      }
+    }
+    function initShortcuts() {
+      document.removeEventListener('keydown', handleShortcuts);
+      document.addEventListener('keydown', handleShortcuts);
+    }
+    function handleShortcuts(e) {
+      var target = e.target;
+      if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.tagName === 'SELECT')) return;
+      if (target && target.isContentEditable) return;
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
+      var key = (e.key || '').toLowerCase();
+      if (key === 'c') { window.location.href = '/kernel/chat/'; }
+      else if (key === 'a') { window.location.href = '/kernel/approvals/'; }
+      else if (key === 's') { window.location.href = '/kernel/stats/'; }
+      else if (key === 't') { window.location.href = '/kernel/audit/'; }
+      else if (key === 'r') { window.location.reload(); }
+    }
+    document.addEventListener('astro:page-load', function () {
+      initShell();
+      initShortcuts();
+    });
+    if (document.readyState !== 'loading') initShell();
+  })();
+</script>
