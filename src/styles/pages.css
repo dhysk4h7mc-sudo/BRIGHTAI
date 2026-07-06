@@ -6169,3 +6169,149 @@ svg.icon {
     transform: none;
   }
 }
+
+/* ============================================================
+   REDESIGN-2026-07-07 — Mobile (375px) touch-target + a11y
+   الإضافات mobile-only عبر additive CSS. لا تحذف أو تستبدل
+   القاعدة الأساسية (36px chips تبقى على desktop، تصير 44px على mobile).
+   ============================================================ */
+
+@media (max-width: 479px) {
+  /* Blog filter chips: 36px → 44px touch target (WCAG 2.5.5).
+     لا نخسر البصمة — نصغر الـ count أو نخلي الـ badge inline أصغر. */
+  .blog-filters__btn {
+    min-height: var(--touch-min, 2.75rem);
+    padding: var(--space-2) var(--space-4);
+    font-size: var(--text-sm);     /* تكبير النص لشكل أوضح، يحافظ على البصمة */
+  }
+
+  /* Pagination buttons — ارتفاع موحد 44px على mobile. */
+  .blog-pagination__btn {
+    min-height: var(--touch-min, 2.75rem);
+    min-width: var(--touch-min, 2.75rem);
+    padding: var(--space-2) var(--space-3);
+  }
+
+  /* Header WhatsApp link — touch target upgrade.
+     النص "الواتساب" داخل pill صغير؛ نضمن 44px ارتفاع مع padding. */
+  .header-contact,
+  .header-wa,
+  .whatsapp-link {
+    min-height: var(--touch-min, 2.75rem);
+    padding-block: var(--space-2);
+    display: inline-flex;
+    align-items: center;
+  }
+
+  /* Kernel feature chips (audit/compliance pills). */
+  .home-kernel-feature-link,
+  .kernel-feature-chip {
+    min-height: var(--touch-min, 2.75rem);
+    padding: var(--space-2) var(--space-4);
+  }
+
+  /* Cards global: padding منخفض على 375px (مو أقل، أقل).
+     gap = 12px، padding = 16px (كان 24px) — يحافظ على البصمة. */
+  .card { padding: var(--space-4); }
+
+  /* Listing cards — صورة أوضح، padding الداخلي أقل. */
+  .listing-card { padding: 0; }  /* لأن الصورة تأخذ الحيز الطبيعي */
+
+  /* Section titles scale down on 375px (بدون حذف، فقط shrink). */
+  .section__title { font-size: var(--text-2xl); }
+  .page-hero__title,
+  .about-page-hero h1,
+  .hero-section h1 { font-size: var(--text-3xl); }
+
+  /* Container padding mobile-first less aggressive. */
+  .container { padding-inline: var(--space-4); }
+}
+
+/* Focus-visible strengthening — يعمل على كل العناصر التفاعلية عبر document.
+   override increment إذا كان selector أدق موجود مسبقاً (لا يحذف). */
+@media (max-width: 767px) {
+  button:focus-visible,
+  a:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 3px solid var(--interactive-primary);
+    outline-offset: 2px;
+  }
+}
+
+/* ============================================================
+   REDESIGN-2026-07-07 — Additional mobile touch-target upgrades
+   Targeted selectors for elements the base rules missed.
+   يضمن 44×44px touch target على كل العناصر التفاعلية داخل نص الصفحة.
+   ============================================================ */
+
+@media (max-width: 479px) {
+  /* Breadcrumbs — links to home / page hierarchy.
+     24px → 44px min-height (WCAG 2.5.5). */
+  .breadcrumbs__link {
+    min-height: var(--touch-min, 2.75rem);
+    display: inline-flex;
+    align-items: center;
+    padding: var(--space-2) var(--space-3);
+  }
+
+  /* Cookie consent links (popup bottom bar) — 21px → 44px. */
+  .cookie-consent__link {
+    min-height: var(--touch-min, 2.75rem);
+    display: inline-flex;
+    align-items: center;
+    padding-block: var(--space-2);
+  }
+
+  /* Mobile menu accordion triggers — touch targets. */
+  .mobile-menu__accordion-trigger {
+    min-height: var(--touch-min, 2.75rem);
+  }
+
+  /* Mobile menu nav-links — touch targets. */
+  .mobile-menu__link,
+  .mobile-menu__sub-link {
+    min-height: var(--touch-min, 2.75rem);
+    display: flex;
+    align-items: center;
+  }
+
+  /* Footer navigation links — Arabic words قصيرة، نوسّع min-width لـ 44px.
+     الارتفاع 44px بالفعل، لكن العرض كان 28-39px على كلمات قصيرة. */
+  .footer__link {
+    min-width: var(--touch-min, 2.75rem);
+    min-height: var(--touch-min, 2.75rem);
+    display: inline-flex;
+    align-items: center;
+    padding-block: var(--space-2);
+    padding-inline: var(--space-2);
+  }
+
+  /* header dropdown items — touch target upgrade. */
+  .site-header__nav-link,
+  .site-header__dropdown-link,
+  .site-header__cta {
+    min-height: var(--touch-min, 2.75rem);
+  }
+
+  /* WhatsApp CTA floating button at bottom of screen already ≥ 44px
+     on desktop but verify on mobile. */
+  .whatsapp-cta-fab {
+    min-width: var(--touch-min, 2.75rem);
+    min-height: var(--touch-min, 2.75rem);
+  }
+
+  /* Inline WhatsApp CTA links (e.g. FAQ "الواتساب" link inside article body).
+     Tailwind utility text-green-400 hover:underline yields 47×21
+     without padding — ensure 44×44 touch target while preserving
+     the inline visual treatment. */
+  a[href*="wa.me/"],
+  a[href*="whatsapp"],
+  a[href*="api.whatsapp"] {
+    min-height: var(--touch-min, 2.75rem);
+    display: inline-flex;
+    align-items: center;
+    padding-block: var(--space-2);
+    padding-inline: var(--space-2);
+    border-radius: var(--radius-md);
+  }
+}
