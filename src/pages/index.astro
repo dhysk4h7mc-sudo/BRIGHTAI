@@ -212,50 +212,7 @@ const enhancedJsonLd = appendLd(jsonLd, [
 {/* ═══════════════ 1. HERO (SplitHero — DottedBackground now in BaseLayout) ═══════════════ */}
 <SplitHero />
 
-{/* ═══════════════ 2. TRUST / COMPLIANCE ═══════════════ */}
-<section id="trust-signals" aria-label="أمن وثقة BrightAI" class="home-trust">
-  <div class="max-w-7xl mx-auto px-5 lg:px-8">
-    <div class="grid lg:grid-cols-12 gap-8 items-center">
-      <div class="lg:col-span-5 space-y-4">
-        <span class="section__eyebrow" lang="ar">
-          <svg aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-shield-home"></use></svg> الامتثال التنظيمي السعودي
-        </span>
-        <h2 class="section__title text-right">متوافق مع الهيئات السعودية 🇸🇦</h2>
-        <p class="text-sm text-white/60 leading-relaxed">نواة BrightAI متوافقة مع ضوابط الأمن السيبراني ولائحة حماية البيانات.</p>
-        <div class="home-trust__badges">
-          <span class="home-trust__badge"><svg aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-shield-half-full"></use></svg> الهيئة الوطنية للأمن السيبراني (NCA)</span>
-          <span class="home-trust__badge"><svg aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-brain"></use></svg> هيئة البيانات والذكاء الاصطناعي (SDAIA)</span>
-          <span class="home-trust__badge"><svg aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-medical-bag"></use></svg> هيئة الغذاء والدواء (SFDA)</span>
-          <span class="home-trust__badge"><svg aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-file-document-outline"></use></svg> هيئة الزكاة والضريبة والجمارك (ZATCA)</span>
-        </div>
-        {/* REPORT-09: Compliance logo row — grayscale by default, colored on hover */}
-        <div class="home-trust__logos" aria-label="الشهادات والمعايير الدولية">
-          <span class="home-trust__logo">ISO 27001</span>
-          <span class="home-trust__logo">SOC 2</span>
-          <span class="home-trust__logo">ISO 13485</span>
-          <span class="home-trust__logo">PDPL</span>
-        </div>
-      </div>
-      <div class="lg:col-span-4 grid grid-cols-3 gap-3 text-center">
-        <div class="card card--metric card--sm"><div class="text-2xl sm:text-3xl font-black gradient-text" data-counter="15" data-suffix="+">+١٥</div><div class="text-[10px] sm:text-xs text-white/60 mt-1.5 font-medium">عميل مؤسسي وحكومي</div></div>
-        <div class="card card--metric card--sm"><div class="text-2xl sm:text-3xl font-black gradient-text" data-counter="365" data-suffix="+">+٣٦٥</div><div class="text-[10px] sm:text-xs text-white/60 mt-1.5 font-medium">يوم تشغيل آمن</div></div>
-        <div class="card card--metric card--sm"><div class="text-2xl sm:text-3xl font-black gradient-text" data-counter="12000" data-suffix="+">+١٢K</div><div class="text-[10px] sm:text-xs text-white/60 mt-1.5 font-medium">نقطة تدقيق مفحوصة</div></div>
-      </div>
-      <div class="lg:col-span-3 card card--glass p-5 border border-cyan-500/20 bg-cyan-500/[.02] flex flex-col justify-between space-y-4">
-        <div class="flex items-start gap-3">
-          <span class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-lg shrink-0"><svg class="text-emerald-400" aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-check-circle"></use></svg></span>
-          <div><strong class="block text-white text-sm">حماية بيانات مشفرة</strong><span class="block text-[11px] text-white/50 mt-0.5">AES-256 · ISO 27001 · SOC 2</span></div>
-        </div>
-        <div class="border-t border-white/5 pt-3 space-y-2">
-          <a href="/pdpl-statement/" class="flex items-center justify-between text-xs text-cyan-300 hover:text-white transition-all"><span>بيان الامتثال لنظام PDPL</span><svg class="text-[9px]" aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-arrow-left"></use></svg></a>
-          <a href="/privacy-policy/" class="flex items-center justify-between text-xs text-cyan-300 hover:text-white transition-all"><span>سياسة الخصوصية والأمان</span><svg class="text-[9px]" aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-arrow-left"></use></svg></a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-{/* ═══════════════ 3. PROBLEM ═══════════════ */}
+{/* ═══════════════ 2. PROBLEM ═══════════════ */}
 <section id="problem" aria-labelledby="problem-title" class="home-section--padded bg-ambient-dots">
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
     <div class="max-w-3xl section__header section__header--start">
@@ -308,7 +265,7 @@ const enhancedJsonLd = appendLd(jsonLd, [
 
 <div class="ambient-separator" aria-hidden="true"><span class="ambient-separator-node"></span></div>
 
-{/* ═══════════════ 4. PRODUCT ═══════════════ */}
+{/* ═══════════════ 3. PRODUCT ═══════════════ */}
 <section id="product" aria-labelledby="product-title" class="home-section--padded bg-ambient-teal-top">
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
     <div class="text-center max-w-3xl mx-auto section__header">
@@ -336,7 +293,7 @@ const enhancedJsonLd = appendLd(jsonLd, [
 
 <div class="ambient-separator" aria-hidden="true"><span class="ambient-separator-node"></span></div>
 
-{/* ═══════════════ 5. LAYERS ═══════════════ */}
+{/* ═══════════════ 4. LAYERS ═══════════════ */}
 <section id="layers" aria-labelledby="layers-title" class="home-section--padded">
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
     <div class="max-w-2xl section__header section__header--start">
@@ -372,7 +329,7 @@ const enhancedJsonLd = appendLd(jsonLd, [
 
 <div class="ambient-separator" aria-hidden="true"><span class="ambient-separator-node"></span></div>
 
-{/* ═══════════════ 6. COMPLIANCE PACKS ═══════════════ */}
+{/* ═══════════════ 5. COMPLIANCE PACKS ═══════════════ */}
 <section id="compliance" aria-labelledby="compliance-title" class="home-section--padded bg-ambient-indigo-bottom">
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
     <div class="max-w-3xl section__header section__header--start">
@@ -398,7 +355,7 @@ const enhancedJsonLd = appendLd(jsonLd, [
 
 <div class="ambient-separator" aria-hidden="true"><span class="ambient-separator-node"></span></div>
 
-{/* ═══════════════ 7. SECTORS ═══════════════ */}
+{/* ═══════════════ 6. SECTORS ═══════════════ */}
 <section id="sectors" aria-labelledby="sectors-title" class="home-section--padded">
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
     <div class="text-center max-w-3xl mx-auto section__header">
@@ -420,7 +377,7 @@ const enhancedJsonLd = appendLd(jsonLd, [
 
 <div class="ambient-separator" aria-hidden="true"><span class="ambient-separator-node"></span></div>
 
-{/* ═══════════════ 8. EVIDENCE FILE ═══════════════ */}
+{/* ═══════════════ 7. EVIDENCE FILE ═══════════════ */}
 <section id="evidence" aria-labelledby="evidence-title" class="home-section--padded bg-ambient-teal-top">
   <div class="max-w-7xl mx-auto px-5 lg:px-8 grid lg:grid-cols-2 gap-12 items-center">
     <div>
@@ -467,7 +424,7 @@ const enhancedJsonLd = appendLd(jsonLd, [
 
 <div class="ambient-separator" aria-hidden="true"><span class="ambient-separator-node"></span></div>
 
-{/* ═══════════════ 9. COMPARISON ═══════════════ */}
+{/* ═══════════════ 8. COMPARISON ═══════════════ */}
 <section id="why" aria-labelledby="why-title" class="home-section--padded">
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
     <div class="max-w-3xl section__header section__header--start">
@@ -493,7 +450,7 @@ const enhancedJsonLd = appendLd(jsonLd, [
 
 <div class="ambient-separator" aria-hidden="true"><span class="ambient-separator-node"></span></div>
 
-{/* ═══════════════ 9b. STATS ═══════════════ */}
+{/* ═══════════════ 9. STATS ═══════════════ */}
 <section aria-label="إحصائيات سوق الذكاء الاصطناعي السعودي" class="py-12 lg:py-20">
   <div class="max-w-7xl mx-auto px-5 lg:px-8 grid grid-cols-2 md:grid-cols-4 gap-4">
     <div class="card card--metric"><div class="text-3xl sm:text-4xl font-black gradient-text" data-counter="2030">2030</div><div class="text-xs text-white/60 mt-1">رؤية المملكة لقيادة AI عالمياً</div></div>
@@ -505,7 +462,52 @@ const enhancedJsonLd = appendLd(jsonLd, [
 
 <div class="ambient-separator" aria-hidden="true"><span class="ambient-separator-node"></span></div>
 
-{/* ═══════════════ 10. FAQ ═══════════════ */}
+{/* ═══════════════ 10. TRUST / COMPLIANCE (moved here 2026-07-07 from position 2 — explicit founder override, see brain.md DEC-2026-TRUST-001) ═══════════════ */}
+<section id="trust-signals" aria-label="أمن وثقة BrightAI" class="home-trust">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <div class="grid lg:grid-cols-12 gap-8 items-center">
+      <div class="lg:col-span-5 space-y-4">
+        <span class="section__eyebrow" lang="ar">
+          <svg aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-shield-home"></use></svg> الامتثال التنظيمي السعودي
+        </span>
+        <h2 class="section__title text-right">متوافق مع الهيئات السعودية 🇸🇦</h2>
+        <p class="text-sm text-white/60 leading-relaxed">نواة BrightAI متوافقة مع ضوابط الأمن السيبراني ولائحة حماية البيانات.</p>
+        <div class="home-trust__badges">
+          <span class="home-trust__badge"><svg aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-shield-half-full"></use></svg> الهيئة الوطنية للأمن السيبراني (NCA)</span>
+          <span class="home-trust__badge"><svg aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-brain"></use></svg> هيئة البيانات والذكاء الاصطناعي (SDAIA)</span>
+          <span class="home-trust__badge"><svg aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-medical-bag"></use></svg> هيئة الغذاء والدواء (SFDA)</span>
+          <span class="home-trust__badge"><svg aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-file-document-outline"></use></svg> هيئة الزكاة والضريبة والجمارك (ZATCA)</span>
+        </div>
+        {/* REPORT-09: Compliance logo row — grayscale by default, colored on hover */}
+        <div class="home-trust__logos" aria-label="الشهادات والمعايير الدولية">
+          <span class="home-trust__logo">ISO 27001</span>
+          <span class="home-trust__logo">SOC 2</span>
+          <span class="home-trust__logo">ISO 13485</span>
+          <span class="home-trust__logo">PDPL</span>
+        </div>
+      </div>
+      <div class="lg:col-span-4 grid grid-cols-3 gap-3 text-center">
+        <div class="card card--metric card--sm"><div class="text-2xl sm:text-3xl font-black gradient-text" data-counter="15" data-suffix="+">+١٥</div><div class="text-[10px] sm:text-xs text-white/60 mt-1.5 font-medium">عميل مؤسسي وحكومي</div></div>
+        <div class="card card--metric card--sm"><div class="text-2xl sm:text-3xl font-black gradient-text" data-counter="365" data-suffix="+">+٣٦٥</div><div class="text-[10px] sm:text-xs text-white/60 mt-1.5 font-medium">يوم تشغيل آمن</div></div>
+        <div class="card card--metric card--sm"><div class="text-2xl sm:text-3xl font-black gradient-text" data-counter="12000" data-suffix="+">+١٢K</div><div class="text-[10px] sm:text-xs text-white/60 mt-1.5 font-medium">نقطة تدقيق مفحوصة</div></div>
+      </div>
+      <div class="lg:col-span-3 card card--glass p-5 border border-cyan-500/20 bg-cyan-500/[.02] flex flex-col justify-between space-y-4">
+        <div class="flex items-start gap-3">
+          <span class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-lg shrink-0"><svg class="text-emerald-400" aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-check-circle"></use></svg></span>
+          <div><strong class="block text-white text-sm">حماية بيانات مشفرة</strong><span class="block text-[11px] text-white/50 mt-0.5">AES-256 · ISO 27001 · SOC 2</span></div>
+        </div>
+        <div class="border-t border-white/5 pt-3 space-y-2">
+          <a href="/pdpl-statement/" class="flex items-center justify-between text-xs text-cyan-300 hover:text-white transition-all"><span>بيان الامتثال لنظام PDPL</span><svg class="text-[9px]" aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-arrow-left"></use></svg></a>
+          <a href="/privacy-policy/" class="flex items-center justify-between text-xs text-cyan-300 hover:text-white transition-all"><span>سياسة الخصوصية والأمان</span><svg class="text-[9px]" aria-hidden="true" width="1em" height="1em"><use href="/icons.svg#mdi-arrow-left"></use></svg></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="ambient-separator" aria-hidden="true"><span class="ambient-separator-node"></span></div>
+
+{/* ═══════════════ 11. FAQ ═══════════════ */}
 <section id="faq" aria-labelledby="faq-title" class="home-section--padded bg-ambient-dots">
   <div class="max-w-4xl mx-auto px-5 lg:px-8">
     <div class="text-center section__header">
@@ -532,7 +534,7 @@ const enhancedJsonLd = appendLd(jsonLd, [
   </div>
 </section>
 
-{/* ═══════════════ 11. DEMO REQUEST ═══════════════ */}
+{/* ═══════════════ 12. DEMO REQUEST ═══════════════ */}
 <section id="demo" aria-labelledby="cta-title" class="home-section--padded">
   <div class="max-w-5xl mx-auto px-5 lg:px-8">
     <div class="card card--solid home-cta-card p-8 lg:p-12">
@@ -561,7 +563,7 @@ const enhancedJsonLd = appendLd(jsonLd, [
   </div>
 </section>
 
-{/* ═══════════════ 12. FINAL CTA ═══════════════ */}
+{/* ═══════════════ 13. FINAL CTA ═══════════════ */}
 <section id="final-cta" aria-labelledby="final-cta-title" class="home-cta-strip">
   <div class="max-w-6xl mx-auto px-5 lg:px-8">
     <div class="home-cta-strip__inner">
