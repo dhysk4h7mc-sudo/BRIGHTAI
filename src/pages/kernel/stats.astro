@@ -1,6 +1,17 @@
 ---
 /**
- * /kernel/stats/ — Statistics dashboard (REPORTS-14).
+ * /kernel/stats/ — Statistics dashboard (REPORTS-16).
+ *
+ * Features:
+ * - 4 KPI cards (total / allowed / blocked / PII) + trend indicators
+ * - Time range selector (24h / 7d / 30d / 90d / custom)
+ * - Line chart: requests over time (Chart.js)
+ * - Bar chart: top users / departments (Chart.js)
+ * - Pie chart: risk distribution (Chart.js)
+ * - Heatmap: activity by department × hour (custom grid)
+ * - Latest trace IDs table
+ *
+ * Demo data realistic — uses kernel/api/mock/stats.json structure.
  */
 import KernelLayout from '../../layouts/KernelLayout.astro';
 import KernelMetricCard from '../../components/kernel/KernelMetricCard.astro';
@@ -8,7 +19,6 @@ import KernelCard from '../../components/kernel/KernelCard.astro';
 import KernelActivityList from '../../components/kernel/KernelActivityList.astro';
 import KernelActivityItem from '../../components/kernel/KernelActivityItem.astro';
 import KernelDemoPill from '../../components/kernel/KernelDemoPill.astro';
-import KernelEmptyState from '../../components/kernel/KernelEmptyState.astro';
 import { getKernelUnit } from '../../data/kernel';
 
 const unit = getKernelUnit('stats')!;
@@ -28,6 +38,7 @@ const iconClock = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" st
 const iconCheck = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
 const iconLock = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>';
 const iconPii = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>';
+const iconExport = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>';
 ---
 
 <KernelLayout
@@ -49,44 +60,465 @@ const iconPii = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stro
       </nav>
       <h1 class="kernel-page-header__title">{unit.h1}</h1>
       <p class="kernel-page-header__subtitle">
-        لوحة شاملة لإحصائيات استخدام Kernel: توزيع الحالات، المخاطر، الأقسام، heatmap المخاطر، وآخر Trace IDs.
+        لوحة شاملة لإحصائيات استخدام Kernel: توزيع الحالات، المخاطر، الأقسام، heatmap النشاط، وآخر Trace IDs.
       </p>
     </div>
     <div class="kernel-page-header__actions">
       <KernelDemoPill />
+      <button id="export-dashboard-pdf" class="kernel-stats-export" type="button" aria-label="تصدير PDF">
+        <Fragment set:html={iconExport} />
+        <span>تصدير PDF</span>
+      </button>
     </div>
   </header>
 
   <div class="kernel-main kernel-page-fade-in">
+
+    {/* Time Range Selector */}
+    <nav class="kernel-stats-range" aria-label="نطاق زمني">
+      <div class="kernel-stats-range__tabs" role="tablist">
+        <button class="kernel-stats-range__tab" role="tab" data-range="24" aria-selected="false">آخر 24 ساعة</button>
+        <button class="kernel-stats-range__tab active" role="tab" data-range="7" aria-selected="true">آخر 7 أيام</button>
+        <button class="kernel-stats-range__tab" role="tab" data-range="30" aria-selected="false">آخر 30 يوم</button>
+        <button class="kernel-stats-range__tab" role="tab" data-range="90" aria-selected="false">آخر 90 يوم</button>
+        <button class="kernel-stats-range__tab" role="tab" data-range="custom" aria-selected="false">مخصص</button>
+      </div>
+      <div class="kernel-stats-range__custom" id="custom-range-panel" hidden>
+        <label class="kernel-stats-range__field">
+          <span>من</span>
+          <input type="date" id="date-from" value="2026-05-23" />
+        </label>
+        <label class="kernel-stats-range__field">
+          <span>إلى</span>
+          <input type="date" id="date-to" value="2026-05-29" />
+        </label>
+        <button id="apply-custom-range" type="button" class="kernel-stats-range__apply">تطبيق</button>
+      </div>
+      <span class="kernel-stats-range__refresh" id="last-refresh-time">آخر تحديث: قبل لحظات</span>
+    </nav>
+
+    {/* KPI Cards */}
     <section class="kernel-metric-grid kernel-stagger" aria-label="مؤشرات الإحصائيات">
-      <KernelMetricCard label="إجمالي الطلبات" value="12,483" unit="طلب" variant="brand" trend="up" trendLabel="8%" iconSvg={iconActivity} footer="آخر 24 ساعة" />
-      <KernelMetricCard label="السمـوح بها" value="11,210" unit="طلب" trend="up" trendLabel="2%" iconSvg={iconCheck} footer="من إجمالي الطلبات" />
-      <KernelMetricCard label="المحظورة" value="382" unit="طلب" trend="down" trendLabel="12%" iconSvg={iconLock} footer="عالية المخاطر" />
+      <KernelMetricCard label="إجمالي الطلبات" value="12,483" unit="طلب" variant="brand" trend="up" trendLabel="8%" iconSvg={iconActivity} footer="مقارنة بالفترة السابقة" />
+      <KernelMetricCard label="السمـوح بها" value="11,210" unit="طلب" trend="up" trendLabel="2%" iconSvg={iconCheck} footer="89.8% من الإجمالي" />
+      <KernelMetricCard label="المحظورة" value="382" unit="طلب" trend="down" trendLabel="12%" iconSvg={iconLock} footer="عالية الخطورة" />
       <KernelMetricCard label="PII مكتشف" value="1,554" unit="طلب" trend="down" trendLabel="4%" iconSvg={iconPii} footer="نسبة 12.4%" />
     </section>
 
-    <section class="kernel-dashboard-grid">
-      <KernelCard title="Risk Heatmap" subtitle="توزيع المخاطر عبر الأقسام × الفترات" iconSvg={iconStats}>
+    {/* Primary Charts Row */}
+    <section class="kernel-dashboard-grid" aria-label="الرسوم البيانية الرئيسية">
+      <KernelCard title="الطلبات عبر الزمن" subtitle="آخر 7 أيام · hourly buckets" iconSvg={iconActivity}>
+        <Fragment slot="actions">
+          <div class="kernel-stats-legend">
+            <span class="kernel-stats-legend__item"><span class="kernel-stats-legend__dot" style="background: var(--brand-500)"></span>مسموح</span>
+            <span class="kernel-stats-legend__item"><span class="kernel-stats-legend__dot" style="background: var(--status-warning)"></span>معلق</span>
+            <span class="kernel-stats-legend__item"><span class="kernel-stats-legend__dot" style="background: var(--status-danger)"></span>محظور</span>
+          </div>
+        </Fragment>
         <div class="kernel-card__body">
-          <KernelEmptyState
-            title="Heatmap جاهز"
-            message="سيتم عرض التوزيع التفاعلي بعد تحميل البيانات من الـ API."
-            iconSvg={iconStats}
-          />
+          <div class="chart-canvas-wrap">
+            <canvas id="requests-line-chart" aria-label="رسم بياني خطي للطلبات عبر الزمن"></canvas>
+          </div>
         </div>
       </KernelCard>
 
-      <KernelCard title="آخر Trace IDs" subtitle="آخر 5 سجلات" iconSvg={iconClock}>
+      <KernelCard title="توزيع المخاطر" subtitle="critical / high / medium / low / minimal" iconSvg={iconStats}>
+        <div class="kernel-card__body">
+          <div class="chart-canvas-wrap">
+            <canvas id="risk-pie-chart" aria-label="رسم بياني دائري لتوزيع المخاطر"></canvas>
+          </div>
+        </div>
+      </KernelCard>
+    </section>
+
+    {/* Secondary Charts Row */}
+    <section class="kernel-dashboard-grid" aria-label="الرسوم البيانية الثانوية">
+      <KernelCard title="الأقسام الأكثر نشاطاً" subtitle="عدد الطلبات لكل قسم" iconSvg={iconStats}>
+        <div class="kernel-card__body">
+          <div class="chart-canvas-wrap tall">
+            <canvas id="department-bar-chart" aria-label="رسم بياني شريطي للأقسام"></canvas>
+          </div>
+        </div>
+      </KernelCard>
+
+      <KernelCard title="مؤشر الامتثال" subtitle="متوسط النتيجة عبر الأطر التنظيمية" iconSvg={iconCheck}>
+        <div class="kernel-card__body">
+          <div class="chart-canvas-wrap gauge">
+            <canvas id="compliance-gauge-chart" aria-label="مؤشر دائري للامتثال"></canvas>
+          </div>
+        </div>
+      </KernelCard>
+    </section>
+
+    {/* Heatmap */}
+    <section class="kernel-col-12">
+      <KernelCard title="خريطة النشاط الحرارية" subtitle="الأقسام × ساعات اليوم · الـ 7 أيام الأخيرة" iconSvg={iconStats}>
+        <div class="kernel-card__body">
+          <div class="kernel-heatmap" id="activity-heatmap" role="img" aria-label="خريطة حرارية للنشاط">
+            <div class="kernel-heatmap__y-axis" aria-hidden="true">
+              <span>المالية</span>
+              <span>الموارد البشرية</span>
+              <span>الرعاية الصحية</span>
+              <span>القانونية</span>
+              <span>المشتريات</span>
+              <span>التسويق</span>
+              <span>التقنية</span>
+            </div>
+            <div class="kernel-heatmap__grid" id="heatmap-grid"></div>
+            <div class="kernel-heatmap__x-axis" aria-hidden="true">
+              <span>٠٠</span>
+              <span>٠٣</span>
+              <span>٠٦</span>
+              <span>٠٩</span>
+              <span>١٢</span>
+              <span>١٥</span>
+              <span>١٨</span>
+              <span>٢١</span>
+            </div>
+          </div>
+          <div class="kernel-heatmap__legend" aria-hidden="true">
+            <span class="kernel-heatmap__legend-label">منخفض</span>
+            <div class="kernel-heatmap__legend-scale">
+              <span data-level="0"></span>
+              <span data-level="1"></span>
+              <span data-level="2"></span>
+              <span data-level="3"></span>
+              <span data-level="4"></span>
+            </div>
+            <span class="kernel-heatmap__legend-label">مرتفع</span>
+          </div>
+        </div>
+      </KernelCard>
+    </section>
+
+    {/* Latest Traces */}
+    <section class="kernel-col-12">
+      <KernelCard title="آخر Trace IDs" subtitle="آخر 5 سجلات في النظام" iconSvg={iconClock}>
         <div class="kernel-card__body kernel-card__body--tight">
           <KernelActivityList>
-            <KernelActivityItem title="AI-2026-10493" traceId="" meta="blocked · تسويق" tone="danger" iconSvg={iconLock} time="قبل 3د" />
+            <KernelActivityItem title="AI-2026-10493" traceId="" meta="blocked · تسويق · PDPL" tone="danger" iconSvg={iconLock} time="قبل 3د" />
             <KernelActivityItem title="AI-2026-10492" traceId="" meta="allowed · الموارد البشرية" tone="success" iconSvg={iconCheck} time="قبل 5د" />
-            <KernelActivityItem title="AI-2026-10491" traceId="" meta="pending · الطبية" tone="warning" iconSvg={iconClock} time="قبل 8د" />
+            <KernelActivityItem title="AI-2026-10491" traceId="" meta="pending · الطبية · SFDA" tone="warning" iconSvg={iconClock} time="قبل 8د" />
             <KernelActivityItem title="AI-2026-10490" traceId="" meta="approved · القانونية" tone="success" iconSvg={iconCheck} time="قبل 11د" />
-            <KernelActivityItem title="AI-2026-10489" traceId="" meta="allowed · الامتثال" tone="success" iconSvg={iconCheck} time="قبل 13د" />
+            <KernelActivityItem title="AI-2026-10489" traceId="" meta="allowed · الامتثال · ISO 42001" tone="success" iconSvg={iconCheck} time="قبل 13د" />
           </KernelActivityList>
         </div>
       </KernelCard>
     </section>
+
   </div>
+
+  {/* Chart.js via CDN — loaded with defer to not block render */}
+  <script is:inline src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script is:inline>
+    (function () {
+      'use strict';
+
+      // ─── Color tokens from CSS variables ───
+      const cssVar = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+      const colors = {
+        brand: cssVar('--brand-500') || '#2a8a7e',
+        brandSoft: 'rgba(42, 138, 126, 0.18)',
+        success: cssVar('--status-success') || '#22c55e',
+        warning: cssVar('--status-warning') || '#f59e0b',
+        danger: cssVar('--status-danger') || '#ef4444',
+        info: cssVar('--indigo-400') || '#818cf8',
+        text: cssVar('--text-primary') || '#f1f5f9',
+        textMuted: cssVar('--text-secondary') || '#94a3b8',
+        grid: 'rgba(148, 163, 184, 0.16)',
+      };
+
+      // ─── Demo datasets (matching kernel/api/mock/stats.json structure) ───
+      const datasets = {
+        line: {
+          labels: ['٠٠:٠٠', '٠٣:٠٠', '٠٦:٠٠', '٠٩:٠٠', '١٢:٠٠', '١٥:٠٠', '١٨:٠٠', '٢١:٠٠', '٢٣:٠٠'],
+          series: [
+            { label: 'مسموح', data: [120, 95, 80, 410, 580, 690, 520, 380, 210], color: colors.brand },
+            { label: 'معلق', data: [8, 5, 4, 28, 42, 56, 38, 24, 14], color: colors.warning },
+            { label: 'محظور', data: [3, 2, 1, 12, 18, 24, 16, 10, 5], color: colors.danger },
+          ],
+        },
+        pie: {
+          labels: ['حرج', 'مرتفع', 'متوسط', 'منخفض', 'ضئيل'],
+          data: [12, 34, 68, 146, 88],
+          colors: [colors.danger, '#f97316', colors.warning, colors.success, '#10b981'],
+        },
+        bar: {
+          labels: ['المالية', 'الموارد البشرية', 'الرعاية الصحية', 'القانونية', 'المشتريات', 'التسويق'],
+          series: [
+            { label: 'مسموح', data: [180, 145, 92, 78, 165, 132], color: colors.brand },
+            { label: 'محظور', data: [21, 18, 28, 8, 12, 6], color: colors.danger },
+          ],
+        },
+        gauge: {
+          value: 87,
+          max: 100,
+        },
+      };
+
+      const chartFont = { family: '"IBM Plex Sans Arabic", system-ui, sans-serif' };
+
+      function commonOptions() {
+        return {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              labels: { color: colors.text, font: chartFont, padding: 12, usePointStyle: true },
+            },
+            tooltip: {
+              rtl: true,
+              titleColor: colors.text,
+              bodyColor: colors.text,
+              backgroundColor: 'rgba(10, 14, 26, 0.92)',
+              borderColor: colors.brand,
+              borderWidth: 1,
+              titleFont: chartFont,
+              bodyFont: chartFont,
+            },
+          },
+        };
+      }
+
+      // ─── 1. Line chart: requests over time ───
+      function renderLineChart() {
+        const canvas = document.getElementById('requests-line-chart');
+        if (!canvas || !window.Chart) return;
+        const ctx = canvas.getContext('2d');
+        new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: datasets.line.labels,
+            datasets: datasets.line.series.map((s) => ({
+              label: s.label,
+              data: s.data,
+              borderColor: s.color,
+              backgroundColor: s.color + '22',
+              borderWidth: 2,
+              fill: true,
+              tension: 0.35,
+              pointBackgroundColor: s.color,
+              pointBorderColor: colors.text,
+              pointBorderWidth: 1,
+              pointRadius: 3,
+              pointHoverRadius: 6,
+            })),
+          },
+          options: {
+            ...commonOptions(),
+            scales: {
+              x: { ticks: { color: colors.textMuted, font: chartFont }, grid: { color: colors.grid } },
+              y: { ticks: { color: colors.textMuted, font: chartFont }, grid: { color: colors.grid }, beginAtZero: true },
+            },
+          },
+        });
+      }
+
+      // ─── 2. Pie chart: risk distribution ───
+      function renderPieChart() {
+        const canvas = document.getElementById('risk-pie-chart');
+        if (!canvas || !window.Chart) return;
+        const ctx = canvas.getContext('2d');
+        new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+            labels: datasets.pie.labels,
+            datasets: [{
+              data: datasets.pie.data,
+              backgroundColor: datasets.pie.colors,
+              borderColor: 'rgba(10, 14, 26, 0.9)',
+              borderWidth: 2,
+              hoverOffset: 8,
+            }],
+          },
+          options: {
+            ...commonOptions(),
+            cutout: '62%',
+            plugins: {
+              ...commonOptions().plugins,
+              legend: { position: 'right', labels: { color: colors.text, font: chartFont, padding: 10, usePointStyle: true } },
+            },
+          },
+        });
+      }
+
+      // ─── 3. Bar chart: top departments ───
+      function renderBarChart() {
+        const canvas = document.getElementById('department-bar-chart');
+        if (!canvas || !window.Chart) return;
+        const ctx = canvas.getContext('2d');
+        new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: datasets.bar.labels,
+            datasets: datasets.bar.series.map((s) => ({
+              label: s.label,
+              data: s.data,
+              backgroundColor: s.color + 'cc',
+              borderColor: s.color,
+              borderWidth: 1,
+              borderRadius: 6,
+              maxBarThickness: 32,
+            })),
+          },
+          options: {
+            ...commonOptions(),
+            indexAxis: 'y',
+            scales: {
+              x: { stacked: true, ticks: { color: colors.textMuted, font: chartFont }, grid: { color: colors.grid }, beginAtZero: true },
+              y: { stacked: true, ticks: { color: colors.text, font: chartFont }, grid: { display: false } },
+            },
+          },
+        });
+      }
+
+      // ─── 4. Gauge: compliance ring (built as doughnut) ───
+      function renderGaugeChart() {
+        const canvas = document.getElementById('compliance-gauge-chart');
+        if (!canvas || !window.Chart) return;
+        const ctx = canvas.getContext('2d');
+        new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+            labels: ['مكتمل', 'متبقي'],
+            datasets: [{
+              data: [datasets.gauge.value, datasets.gauge.max - datasets.gauge.value],
+              backgroundColor: [colors.brand, 'rgba(148, 163, 184, 0.12)'],
+              borderWidth: 0,
+              circumference: 270,
+              rotation: 225,
+              cutout: '78%',
+            }],
+          },
+          options: {
+            ...commonOptions(),
+            plugins: {
+              ...commonOptions().plugins,
+              legend: { display: false },
+              tooltip: { enabled: false },
+            },
+          },
+          plugins: [{
+            id: 'gaugeCenter',
+            afterDraw(chart) {
+              const { ctx, chartArea } = chart;
+              const cx = (chartArea.left + chartArea.right) / 2;
+              const cy = (chartArea.top + chartArea.bottom) / 2;
+              ctx.save();
+              ctx.fillStyle = colors.text;
+              ctx.font = '700 2.5rem ' + chartFont.family;
+              ctx.textAlign = 'center';
+              ctx.textBaseline = 'middle';
+              ctx.fillText(datasets.gauge.value + '%', cx, cy - 8);
+              ctx.fillStyle = colors.textMuted;
+              ctx.font = '400 0.875rem ' + chartFont.family;
+              ctx.fillText('متوسط الامتثال', cx, cy + 18);
+              ctx.restore();
+            },
+          }],
+        });
+      }
+
+      // ─── 5. Heatmap: 7 depts × 8 hours (deterministic pseudo-random) ───
+      function renderHeatmap() {
+        const grid = document.getElementById('heatmap-grid');
+        if (!grid) return;
+        const departments = 7;
+        const hours = 8;
+        const seed = (i, j) => {
+          // Deterministic-ish pattern: peaks 9-12 and 15-18 weekdays
+          const v = Math.abs(Math.sin(i * 2.7 + j * 1.3) * 4);
+          const hourBoost = (j >= 3 && j <= 5) ? 1.4 : (j === 6 || j === 1) ? 0.6 : 1;
+          return Math.min(4, Math.floor(v * hourBoost));
+        };
+        let html = '';
+        for (let i = 0; i < departments; i++) {
+          for (let j = 0; j < hours; j++) {
+            const lvl = seed(i, j);
+            html += `<div class="kernel-heatmap__cell" data-level="${lvl}" title="القسم ${i + 1} · الساعة ${j}:00"></div>`;
+          }
+        }
+        grid.innerHTML = html;
+      }
+
+      // ─── Time range tabs ───
+      function setupRangeTabs() {
+        const tabs = document.querySelectorAll('[data-range]');
+        const customPanel = document.getElementById('custom-range-panel');
+        tabs.forEach((tab) => {
+          tab.addEventListener('click', () => {
+            tabs.forEach((t) => {
+              t.classList.toggle('active', t === tab);
+              t.setAttribute('aria-selected', t === tab ? 'true' : 'false');
+            });
+            if (tab.dataset.range === 'custom') {
+              customPanel.hidden = false;
+            } else {
+              customPanel.hidden = true;
+              updateRefreshTime(tab.dataset.range);
+            }
+          });
+        });
+
+        const applyBtn = document.getElementById('apply-custom-range');
+        if (applyBtn) {
+          applyBtn.addEventListener('click', () => {
+            const from = document.getElementById('date-from').value;
+            const to = document.getElementById('date-to').value;
+            if (from && to) {
+              updateRefreshTime('custom', `${from} → ${to}`);
+            }
+          });
+        }
+      }
+
+      function updateRefreshTime(range, customLabel) {
+        const el = document.getElementById('last-refresh-time');
+        if (!el) return;
+        const label = customLabel ? `مخصص: ${customLabel}` : `آخر ${range === '24' ? '24 ساعة' : range === '7' ? '7 أيام' : range === '30' ? '30 يوم' : '90 يوم'}`;
+        el.textContent = `${label} · تم التحديث الآن`;
+      }
+
+      // ─── Export PDF (stub: triggers print dialog) ───
+      function setupExport() {
+        const btn = document.getElementById('export-dashboard-pdf');
+        if (!btn) return;
+        btn.addEventListener('click', () => {
+          btn.disabled = true;
+          btn.textContent = 'جاري التصدير…';
+          setTimeout(() => {
+            btn.disabled = false;
+            btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg><span>تصدير PDF</span>`;
+            // In production, this would call window.print() or POST to /api/reports
+            window.print();
+          }, 400);
+        });
+      }
+
+      // ─── Init ───
+      function init() {
+        if (!window.Chart) {
+          console.warn('Chart.js not loaded — charts unavailable');
+          return;
+        }
+        // RTL: make tooltips respect direction
+        Chart.defaults.rtl = true;
+        Chart.defaults.font.family = chartFont.family;
+
+        renderLineChart();
+        renderPieChart();
+        renderBarChart();
+        renderGaugeChart();
+        renderHeatmap();
+        setupRangeTabs();
+        setupExport();
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+  </script>
 </KernelLayout>

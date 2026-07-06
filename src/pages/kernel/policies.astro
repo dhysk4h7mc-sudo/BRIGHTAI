@@ -1,12 +1,19 @@
 ---
 /**
- * /kernel/policies/ — Policy editor with CRUD (REPORTS-14).
+ * /kernel/policies/ — Policy editor (REPORTS-16).
+ *
+ * Features:
+ * - Policy list with cards: name + status + last modified + edit + delete
+ * - Visual rule builder in editor modal:
+ *   - IF (PII type) [matches/contains] [pattern]
+ *   - AND/OR (compliance pack) [in] [packs]
+ *   - THEN (action) [mask/block/redact/log] + (risk modifier)
+ * - Preview pane shows the equivalent JSON policy
+ * - Save / Cancel buttons
  */
 import KernelLayout from '../../layouts/KernelLayout.astro';
 import KernelStatusStrip from '../../components/kernel/KernelStatusStrip.astro';
 import KernelCard from '../../components/kernel/KernelCard.astro';
-import KernelActivityList from '../../components/kernel/KernelActivityList.astro';
-import KernelActivityItem from '../../components/kernel/KernelActivityItem.astro';
 import KernelDemoPill from '../../components/kernel/KernelDemoPill.astro';
 import { getKernelUnit } from '../../data/kernel';
 
@@ -21,9 +28,179 @@ const jsonLd = {
   description: unit.description,
 };
 
+// Policies with full structure
+const policies = [
+  {
+    id: 'pr_saudi_id_pdpl',
+    name: 'تعمية الهوية الوطنية السعودية - PDPL',
+    description: 'إخفاء أرقام الهويات الوطنية السعودية (10 أرقام تبدأ بـ 1 أو 2) تلقائياً في كل الطلبات.',
+    piiType: 'saudi_id',
+    compliancePack: 'pdpl',
+    action: 'mask',
+    riskModifier: 15,
+    isActive: true,
+    lastModified: '2026-05-28',
+    appsCount: 142,
+  },
+  {
+    id: 'pr_saudi_id_sfda',
+    name: 'حظر الهوية الوطنية في السياق الصحي - SFDA',
+    description: 'حظر إرسال أرقام الهويات الوطنية مع البيانات الطبية (الربط بملف مريض).',
+    piiType: 'saudi_id',
+    compliancePack: 'sfda',
+    action: 'block',
+    riskModifier: 30,
+    isActive: true,
+    lastModified: '2026-05-26',
+    appsCount: 38,
+  },
+  {
+    id: 'pr_phone_pdpl',
+    name: 'تعمية أرقام الجوال - PDPL',
+    description: 'حجب أرقام الجوال السعودي (05xxxxxxxx) قبل إرسال الطلب للنموذج.',
+    piiType: 'phone',
+    compliancePack: 'pdpl',
+    action: 'mask',
+    riskModifier: 5,
+    isActive: true,
+    lastModified: '2026-05-24',
+    appsCount: 256,
+  },
+  {
+    id: 'pr_iban_pdpl',
+    name: 'حظر أرقام الآيبان السعودي - PDPL + SAMA',
+    description: 'منع خروج أرقام الحسابات البنكية السعودية (SA-IBAN، 24 رقم) خارج البيئة المؤسسية.',
+    piiType: 'iban',
+    compliancePack: 'pdpl',
+    action: 'block',
+    riskModifier: 25,
+    isActive: true,
+    lastModified: '2026-05-22',
+    appsCount: 89,
+  },
+  {
+    id: 'pr_iban_nca',
+    name: 'حظر الآيبان البنكي - NCA ECC',
+    description: 'حظر أرقام الحسابات البنكية للامتثال لضوابط الأمن السيبراني الأساسية.',
+    piiType: 'iban',
+    compliancePack: 'nca_ecc',
+    action: 'block',
+    riskModifier: 25,
+    isActive: true,
+    lastModified: '2026-05-20',
+    appsCount: 74,
+  },
+  {
+    id: 'pr_email_pdpl',
+    name: 'تعمية البريد الإلكتروني - PDPL',
+    description: 'إخفاء عناوين البريد الإلكتروني تلقائياً قبل الإرسال للنموذج الخارجي.',
+    piiType: 'email',
+    compliancePack: 'pdpl',
+    action: 'mask',
+    riskModifier: 5,
+    isActive: true,
+    lastModified: '2026-05-19',
+    appsCount: 198,
+  },
+  {
+    id: 'pr_patient_sfda',
+    name: 'حظر أرقام ملفات المرضى - SFDA',
+    description: 'منع الكشف عن المعرفات الطبية وأرقام المرضى. يطبق في كل طلب يحتوي على مرجع طبي.',
+    piiType: 'patient_id',
+    compliancePack: 'sfda',
+    action: 'block',
+    riskModifier: 30,
+    isActive: true,
+    lastModified: '2026-05-15',
+    appsCount: 28,
+  },
+  {
+    id: 'pr_credit_pdpl',
+    name: 'حظر بطاقات الائتمان - PDPL + PCI',
+    description: 'حظر أرقام بطاقات الدفع (16 رقم، Luhn validation) قبل أي معالجة.',
+    piiType: 'credit_card',
+    compliancePack: 'pdpl',
+    action: 'block',
+    riskModifier: 20,
+    isActive: true,
+    lastModified: '2026-05-12',
+    appsCount: 56,
+  },
+  {
+    id: 'pr_passport_pdpl',
+    name: 'تعمية أرقام جواز السفر - PDPL',
+    description: 'تطبيق الحجب التلقائي على أرقام جوازات السفر (حرف + 7-9 أرقام).',
+    piiType: 'passport',
+    compliancePack: 'pdpl',
+    action: 'mask',
+    riskModifier: 15,
+    isActive: true,
+    lastModified: '2026-05-10',
+    appsCount: 41,
+  },
+  {
+    id: 'pr_sdaia_genai',
+    name: 'إرشادات SDAIA للذكاء الاصطناعي التوليدي',
+    description: 'سياسة شاملة تتطلب اعتماد بشري (HITL) لمحتوى AI التوليدي في القطاعات الحساسة.',
+    piiType: 'ai_generated',
+    compliancePack: 'sdaia',
+    action: 'hitl',
+    riskModifier: 10,
+    isActive: false,
+    lastModified: '2026-05-08',
+    appsCount: 0,
+  },
+  {
+    id: 'pr_iso42001_transparency',
+    name: 'الشفافية في مخرجات AI - ISO 42001',
+    description: 'إضافة watermark + disclosure تلقائي لكل مخرج نموذج، يوضح أنه AI-generated.',
+    piiType: 'ai_output',
+    compliancePack: 'iso_42001',
+    action: 'redact',
+    riskModifier: 0,
+    isActive: false,
+    lastModified: '2026-05-05',
+    appsCount: 0,
+  },
+];
+
+// Reference data for rule builder
+const piiTypes = [
+  { id: 'saudi_id', label: 'الهوية الوطنية', icon: '🆔' },
+  { id: 'phone', label: 'رقم الجوال', icon: '📱' },
+  { id: 'iban', label: 'الآيبان البنكي', icon: '🏦' },
+  { id: 'email', label: 'البريد الإلكتروني', icon: '✉️' },
+  { id: 'patient_id', label: 'رقم ملف المريض', icon: '⚕️' },
+  { id: 'credit_card', label: 'بطاقة ائتمان', icon: '💳' },
+  { id: 'passport', label: 'جواز السفر', icon: '🛂' },
+  { id: 'diagnosis', label: 'تشخيص طبي', icon: '🩺' },
+  { id: 'saudi_iban', label: 'آيبان سعودي', icon: '💰' },
+];
+
+const compliancePacks = [
+  { id: 'pdpl', label: 'PDPL' },
+  { id: 'nca_ecc', label: 'NCA ECC' },
+  { id: 'sfda', label: 'SFDA' },
+  { id: 'sama', label: 'SAMA' },
+  { id: 'sdaia', label: 'SDAIA' },
+  { id: 'iso_42001', label: 'ISO 42001' },
+  { id: 'procurement', label: 'المشتريات' },
+];
+
+const actions = [
+  { id: 'mask', label: 'تعمية', desc: 'إخفاء البيانات بعلامات * مع الحفاظ على البنية', color: 'var(--brand-500)' },
+  { id: 'block', label: 'حظر', desc: 'منع الطلب بالكامل وإرجاع خطأ', color: 'var(--status-danger)' },
+  { id: 'redact', label: 'إزالة كاملة', desc: 'حذف البيانات الحساسة من النص', color: 'var(--status-warning)' },
+  { id: 'log', label: 'تسجيل فقط', desc: 'السماح مع تسجيل الحدث في audit log', color: 'var(--text-muted)' },
+  { id: 'hitl', label: 'اعتماد بشري', desc: 'HITL — يتطلب موافقة بشرية قبل المتابعة', color: 'var(--indigo-400)' },
+];
+
 const iconPolicies = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>';
+const iconEdit = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>';
+const iconClose = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
 const iconCheck = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
 const iconClock = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>';
+const iconPlus = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>';
 ---
 
 <KernelLayout
@@ -45,43 +222,309 @@ const iconClock = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" st
       </nav>
       <h1 class="kernel-page-header__title">{unit.h1}</h1>
       <p class="kernel-page-header__subtitle">
-        محرر سياسات بصري مع CRUD، preview محلي، وtoggle بيانات تجريبية، يدعم 14 نوع سياسة حوكمة مختلفة.
+        محرر سياسات بصري مع rule builder، preview محلي، ودعم 9 أنواع PII رئيسية و 7 حزم امتثال.
       </p>
     </div>
     <div class="kernel-page-header__actions">
       <KernelDemoPill />
-      <a href="/kernel/policies/new/" class="kernel-card__footer-link">+ إنشاء سياسة جديدة</a>
+      <button type="button" class="kernel-stats-export" id="new-policy-btn">
+        <Fragment set:html={iconPlus} />
+        <span>سياسة جديدة</span>
+      </button>
     </div>
   </header>
 
   <div class="kernel-main kernel-page-fade-in">
+
     <KernelStatusStrip
       kicker="السياسات النشطة"
-      title="14 سياسة · 3 بحاجة لمراجعة"
+      title="11 سياسة · 3 بحاجة لمراجعة"
       dot="warn"
       items={[
-        { label: 'مفعّلة', value: '11' },
+        { label: 'مفعّلة', value: '9' },
         { label: 'مسودة', value: '2' },
         { label: 'مؤرشفة', value: '1' },
       ]}
     />
 
-    <KernelCard title="قائمة السياسات" subtitle="CRUD + Preview + Export" iconSvg={iconPolicies}>
-      <div class="kernel-card__body">
-        <KernelActivityList>
-          <KernelActivityItem title="POL-001 · PDPL: حماية البيانات الشخصية" traceId="" meta="مفعّلة · 142 تطبيق" tone="success" iconSvg={iconCheck} time="آخر تعديل قبل يومين" />
-          <KernelActivityItem title="POL-002 · NCA ECC: ضوابط الأمن السيبراني" traceId="" meta="مفعّلة · 89 تطبيق" tone="success" iconSvg={iconCheck} time="آخر تعديل قبل 5 أيام" />
-          <KernelActivityItem title="POL-003 · SDAIA: إرشادات الذكاء الاصطناعي التوليدي" traceId="" meta="مسودة · 12 مراجعة" tone="warning" iconSvg={iconClock} time="آخر تعديل قبل ساعة" />
-          <KernelActivityItem title="POL-004 · SFDA: محتوى الرعاية الصحية" traceId="" meta="مفعّلة · 28 تطبيق" tone="success" iconSvg={iconCheck} time="آخر تعديل قبل أسبوع" />
-          <KernelActivityItem title="POL-005 · ISO 42001: نظام إدارة AI" traceId="" meta="مفعّلة · 56 تطبيق" tone="success" iconSvg={iconCheck} time="آخر تعديل قبل 3 أيام" />
-        </KernelActivityList>
-      </div>
-      <Fragment slot="footer">
-        <footer class="kernel-card__footer">
-          <span>14 سياسة إجمالاً · 11 مفعّلة</span>
-          <a href="/kernel/policies/new/" class="kernel-card__footer-link">+ سياسة جديدة</a>
-        </footer>
-      </Fragment>
-    </KernelCard>
+    {/* Policies List */}
+    <section class="kernel-col-12">
+      <KernelCard title="قائمة السياسات" subtitle="CRUD + Visual Rule Builder + Preview" iconSvg={iconPolicies}>
+        <div class="kernel-card__body">
+          <div class="kernel-policies-table" role="table" aria-label="جدول السياسات">
+            <div class="kernel-policies-table__header" role="row">
+              <span role="columnheader">السياسة</span>
+              <span role="columnheader">نوع PII</span>
+              <span role="columnheader">حزمة الامتثال</span>
+              <span role="columnheader">الإجراء</span>
+              <span role="columnheader">التطبيقات</span>
+              <span role="columnheader">الحالة</span>
+              <span role="columnheader">آخر تعديل</span>
+              <span role="columnheader">إجراءات</span>
+            </div>
+            {policies.map((p) => (
+              <div class="kernel-policies-table__row" role="row" data-policy-id={p.id}>
+                <div class="kernel-policies-table__name" role="cell">
+                  <strong>{p.name}</strong>
+                  <small>{p.description}</small>
+                </div>
+                <span class="kernel-policies-table__cell" role="cell">
+                  <span class="kernel-policies-table__chip">{piiTypes.find(t => t.id === p.piiType)?.icon} {piiTypes.find(t => t.id === p.piiType)?.label || p.piiType}</span>
+                </span>
+                <span class="kernel-policies-table__cell" role="cell">
+                  <span class="kernel-badge kernel-badge--pack">{p.compliancePack.toUpperCase()}</span>
+                </span>
+                <span class="kernel-policies-table__cell" role="cell">
+                  <span class:list={['kernel-badge', `kernel-badge--${p.action === 'block' ? 'danger' : p.action === 'mask' ? 'brand' : p.action === 'hitl' ? 'warning' : 'neutral'}`]}>
+                    {actions.find(a => a.id === p.action)?.label || p.action}
+                  </span>
+                </span>
+                <span class="kernel-policies-table__cell kernel-policies-table__apps" role="cell">{p.appsCount}</span>
+                <span class="kernel-policies-table__cell" role="cell">
+                  <span class:list={['kernel-policies-table__status', p.isActive ? 'active' : 'inactive']}>
+                    {p.isActive ? (<><Fragment set:html={iconCheck} /> مفعّلة</>) : (<><Fragment set:html={iconClock} /> مسودة</>)}
+                  </span>
+                </span>
+                <span class="kernel-policies-table__cell kernel-policies-table__date" role="cell">{p.lastModified}</span>
+                <span class="kernel-policies-table__cell" role="cell">
+                  <button
+                    type="button"
+                    class="kernel-policies-table__edit"
+                    data-edit-policy={p.id}
+                    aria-label={`تعديل ${p.name}`}
+                  >
+                    <Fragment set:html={iconEdit} />
+                    <span>تعديل</span>
+                  </button>
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </KernelCard>
+    </section>
+
   </div>
+
+  {/* Policy Editor Modal — Visual Rule Builder */}
+  <div class="kernel-modal" id="policy-modal" role="dialog" aria-modal="true" aria-labelledby="policy-modal-title" hidden>
+    <div class="kernel-modal__backdrop" data-close-policy-modal></div>
+    <div class="kernel-modal__panel kernel-modal__panel--wide">
+      <header class="kernel-modal__header">
+        <div>
+          <h2 class="kernel-modal__title" id="policy-modal-title">محرر السياسة</h2>
+          <p class="kernel-modal__subtitle" id="policy-modal-subtitle">rule builder بصري · بدون كتابة كود</p>
+        </div>
+        <button type="button" class="kernel-modal__close" data-close-policy-modal aria-label="إغلاق">
+          <Fragment set:html={iconClose} />
+        </button>
+      </header>
+
+      <div class="kernel-modal__body">
+        {/* Policy name + description */}
+        <section class="kernel-policy-editor__meta">
+          <label class="kernel-policy-editor__field">
+            <span>اسم السياسة</span>
+            <input type="text" id="policy-name" class="kernel-policy-editor__input" placeholder="مثلاً: حظر الهوية الوطنية في البيانات الطبية" />
+          </label>
+          <label class="kernel-policy-editor__field">
+            <span>الوصف</span>
+            <input type="text" id="policy-description" class="kernel-policy-editor__input" placeholder="شرح مختصر لهدف السياسة" />
+          </label>
+        </section>
+
+        {/* Visual Rule Builder */}
+        <section class="kernel-policy-editor__builder">
+          <h3 class="kernel-policy-editor__section-title">قاعدة السياسة (IF…THEN)</h3>
+
+          <div class="kernel-rulebuilder">
+            {/* IF clause */}
+            <div class="kernel-rulebuilder__row kernel-rulebuilder__row--if">
+              <span class="kernel-rulebuilder__keyword kernel-rulebuilder__keyword--if">IF</span>
+              <label class="kernel-rulebuilder__select">
+                <span class="kernel-rulebuilder__select-label">نوع البيانات</span>
+                <select id="rule-pii-type">
+                  {piiTypes.map((t) => (
+                    <option value={t.id}>{t.icon} {t.label}</option>
+                  ))}
+                </select>
+              </label>
+              <label class="kernel-rulebuilder__select">
+                <span class="kernel-rulebuilder__select-label">المطابقة</span>
+                <select id="rule-operator">
+                  <option value="contains">يحتوي على</option>
+                  <option value="matches">يطابق النمط</option>
+                  <option value="equals">يساوي</option>
+                </select>
+              </label>
+              <label class="kernel-rulebuilder__select kernel-rulebuilder__select--pattern">
+                <span class="kernel-rulebuilder__select-label">نمط Regex (اختياري)</span>
+                <input type="text" id="rule-pattern" class="kernel-policy-editor__input" placeholder='مثلاً: ^1[0-9]{9}$' />
+              </label>
+            </div>
+
+            {/* AND clause */}
+            <div class="kernel-rulebuilder__row kernel-rulebuilder__row--and">
+              <span class="kernel-rulebuilder__keyword kernel-rulebuilder__keyword--and">AND</span>
+              <label class="kernel-rulebuilder__select">
+                <span class="kernel-rulebuilder__select-label">حزمة الامتثال</span>
+                <select id="rule-pack">
+                  {compliancePacks.map((c) => (
+                    <option value={c.id}>{c.label}</option>
+                  ))}
+                </select>
+              </label>
+            </div>
+
+            {/* THEN clause */}
+            <div class="kernel-rulebuilder__row kernel-rulebuilder__row--then">
+              <span class="kernel-rulebuilder__keyword kernel-rulebuilder__keyword--then">THEN</span>
+              <label class="kernel-rulebuilder__select">
+                <span class="kernel-rulebuilder__select-label">الإجراء</span>
+                <select id="rule-action">
+                  {actions.map((a) => (
+                    <option value={a.id}>{a.label} — {a.desc}</option>
+                  ))}
+                </select>
+              </label>
+              <label class="kernel-rulebuilder__select">
+                <span class="kernel-rulebuilder__select-label">مُعدِّل الخطورة (+/−)</span>
+                <input type="number" id="rule-risk-modifier" class="kernel-policy-editor__input" value="10" min="0" max="50" />
+              </label>
+            </div>
+          </div>
+        </section>
+
+        {/* Preview */}
+        <section class="kernel-policy-editor__preview">
+          <h3 class="kernel-policy-editor__section-title">معاينة JSON</h3>
+          <pre class="kernel-policy-editor__json" id="policy-json-preview">{`{
+  "id": "pr_new_policy",
+  "name": "...",
+  "rule": {
+    "if": { "pii_type": "...", "operator": "...", "pattern": "..." },
+    "and": { "compliance_pack": "..." },
+    "then": { "action": "...", "risk_score_modifier": 0 }
+  },
+  "is_active": true
+}`}</pre>
+        </section>
+      </div>
+
+      <footer class="kernel-modal__footer">
+        <button type="button" class="kernel-policy-editor__btn kernel-policy-editor__btn--cancel" data-close-policy-modal>إلغاء</button>
+        <button type="button" class="kernel-policy-editor__btn kernel-policy-editor__btn--save" id="save-policy-btn">
+          <Fragment set:html={iconCheck} />
+          <span>حفظ السياسة</span>
+        </button>
+      </footer>
+    </div>
+  </div>
+
+  <script is:inline define:vars={{ policies, piiTypes, compliancePacks, actions }}>
+    (function () {
+      'use strict';
+
+      const modal = document.getElementById('policy-modal');
+      const nameInput = document.getElementById('policy-name');
+      const descInput = document.getElementById('policy-description');
+      const piiSelect = document.getElementById('rule-pii-type');
+      const operatorSelect = document.getElementById('rule-operator');
+      const patternInput = document.getElementById('rule-pattern');
+      const packSelect = document.getElementById('rule-pack');
+      const actionSelect = document.getElementById('rule-action');
+      const riskInput = document.getElementById('rule-risk-modifier');
+      const jsonPreview = document.getElementById('policy-json-preview');
+      const saveBtn = document.getElementById('save-policy-btn');
+
+      function openModal(policy) {
+        if (policy) {
+          nameInput.value = policy.name;
+          descInput.value = policy.description;
+          piiSelect.value = policy.piiType;
+          packSelect.value = policy.compliancePack;
+          actionSelect.value = policy.action;
+          riskInput.value = policy.riskModifier;
+          document.getElementById('policy-modal-title').textContent = 'تعديل السياسة';
+        } else {
+          nameInput.value = '';
+          descInput.value = '';
+          piiSelect.value = 'saudi_id';
+          packSelect.value = 'pdpl';
+          actionSelect.value = 'mask';
+          riskInput.value = 10;
+          patternInput.value = '';
+          document.getElementById('policy-modal-title').textContent = 'سياسة جديدة';
+        }
+        updatePreview();
+        modal.hidden = false;
+        document.body.style.overflow = 'hidden';
+        nameInput.focus();
+      }
+
+      function closeModal() {
+        modal.hidden = true;
+        document.body.style.overflow = '';
+      }
+
+      function updatePreview() {
+        const policyObj = {
+          id: 'pr_' + (nameInput.value || 'new_policy').toLowerCase().replace(/\s+/g, '_').slice(0, 32),
+          name: nameInput.value || '...',
+          description: descInput.value || '',
+          rule: {
+            if: {
+              pii_type: piiSelect.value,
+              operator: operatorSelect.value,
+              pattern: patternInput.value || null,
+            },
+            and: {
+              compliance_pack: packSelect.value,
+            },
+            then: {
+              action: actionSelect.value,
+              risk_score_modifier: parseInt(riskInput.value, 10) || 0,
+            },
+          },
+          is_active: true,
+        };
+        jsonPreview.textContent = JSON.stringify(policyObj, null, 2);
+      }
+
+      [nameInput, descInput, piiSelect, operatorSelect, patternInput, packSelect, actionSelect, riskInput].forEach((el) => {
+        el.addEventListener('input', updatePreview);
+        el.addEventListener('change', updatePreview);
+      });
+
+      document.querySelectorAll('[data-close-policy-modal]').forEach((el) => {
+        el.addEventListener('click', closeModal);
+      });
+
+      document.querySelectorAll('[data-edit-policy]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const policy = policies.find(p => p.id === btn.dataset.editPolicy);
+          if (policy) openModal(policy);
+        });
+      });
+
+      document.getElementById('new-policy-btn').addEventListener('click', () => openModal(null));
+
+      saveBtn.addEventListener('click', () => {
+        saveBtn.disabled = true;
+        saveBtn.innerHTML = '<span>جاري الحفظ…</span>';
+        setTimeout(() => {
+          saveBtn.disabled = false;
+          saveBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg><span>تم الحفظ</span>';
+          setTimeout(() => {
+            saveBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg><span>حفظ السياسة</span>';
+            closeModal();
+          }, 800);
+        }, 600);
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !modal.hidden) closeModal();
+      });
+    })();
+  </script>
 </KernelLayout>

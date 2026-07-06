@@ -1,10 +1,15 @@
 ---
 /**
- * /kernel/compliance/ — Compliance packs dashboard (REPORTS-14).
+ * /kernel/compliance/ — Compliance packs dashboard (REPORTS-16).
+ *
+ * Features:
+ * - 4 KPI cards (overall score / packs / pending actions / audits)
+ * - Compliance packs grid with progress rings (PDPL / NCA / SFDA / SAMA / ISO 13485 / Healthcare)
+ * - Each pack: progress ring + status + last audit + click to expand controls list
+ * - Map view of Saudi Arabia + global regulations overlay (SVG map with city dots)
  */
 import KernelLayout from '../../layouts/KernelLayout.astro';
 import KernelMetricCard from '../../components/kernel/KernelMetricCard.astro';
-import KernelRiskChart from '../../components/kernel/KernelRiskChart.astro';
 import KernelCard from '../../components/kernel/KernelCard.astro';
 import KernelDemoPill from '../../components/kernel/KernelDemoPill.astro';
 import { getKernelUnit } from '../../data/kernel';
@@ -20,15 +25,120 @@ const jsonLd = {
   description: unit.description,
 };
 
-const rows = [
-  { label: 'PDPL', level: 'minimal' as const, value: 92 },
-  { label: 'NCA ECC', level: 'low' as const, value: 87 },
-  { label: 'ISO 42001', level: 'low' as const, value: 81 },
-  { label: 'SDAIA', level: 'medium' as const, value: 73 },
-  { label: 'SFDA', level: 'high' as const, value: 64 },
+// Compliance packs (6 packs covering Saudi regulatory frameworks + Healthcare)
+const packs = [
+  {
+    id: 'pdpl',
+    name: 'PDPL',
+    fullName: 'نظام حماية البيانات الشخصية',
+    authority: 'سدايا · SDAIA',
+    score: 98,
+    status: 'compliant',
+    lastAudit: '2026-05-29',
+    color: 'var(--brand-500)',
+    controls: [
+      { id: 'consent', label: 'الموافقة الصريحة', score: 100 },
+      { id: 'access', label: 'حق الوصول', score: 100 },
+      { id: 'breach', label: 'الإبلاغ عن الاختراق (72 ساعة)', score: 95 },
+      { id: 'retention', label: 'مدة الاحتفاظ بالبيانات', score: 95 },
+      { id: 'transfer', label: 'نقل البيانات خارج المملكة', score: 100 },
+    ],
+    description: 'امتثال كامل لنظام حماية البيانات الشخصية السعودي ولوائحه التنفيذية الصادرة عن سدايا.',
+  },
+  {
+    id: 'nca_ecc',
+    name: 'NCA ECC',
+    fullName: 'ضوابط الأمن السيبراني الأساسية',
+    authority: 'الهيئة الوطنية للأمن السيبراني',
+    score: 87,
+    status: 'compliant',
+    lastAudit: '2026-05-27',
+    color: 'var(--indigo-400)',
+    controls: [
+      { id: 'governance', label: 'الحوكمة السيبرانية', score: 100 },
+      { id: 'defense', label: 'الدفاع السيبراني', score: 92 },
+      { id: 'resilience', label: 'المرونة السيبرانية', score: 85 },
+      { id: 'third_party', label: 'أمن الأطراف الثالثة', score: 78 },
+      { id: 'ics', label: 'أنظمة التحكم الصناعي', score: 80 },
+    ],
+    description: 'ضوابط الأمن السيبراني الأساسية الصادرة عن NCA، تشمل 114 ضابط في 5 مجالات.',
+  },
+  {
+    id: 'sfda',
+    name: 'SFDA',
+    fullName: 'هيئة الغذاء والدواء',
+    authority: 'الهيئة العامة للغذاء والدواء',
+    score: 64,
+    status: 'partial',
+    lastAudit: '2026-05-25',
+    color: 'var(--status-warning)',
+    controls: [
+      { id: 'patient_privacy', label: 'خصوصية بيانات المرضى', score: 75 },
+      { id: 'ai_medical', label: 'AI في التشخيص الطبي', score: 60 },
+      { id: 'data_localization', label: 'توطين البيانات الصحية', score: 50 },
+      { id: 'consent_medical', label: 'الموافقة الطبية المستنيرة', score: 70 },
+    ],
+    description: 'متطلبات هيئة الغذاء والدواء للذكاء الاصطناعي في الرعاية الصحية وحماية بيانات المرضى.',
+  },
+  {
+    id: 'sama',
+    name: 'SAMA',
+    fullName: 'البنك المركزي السعودي',
+    authority: 'البنك المركزي السعودي',
+    score: 92,
+    status: 'compliant',
+    lastAudit: '2026-05-26',
+    color: 'var(--status-info)',
+    controls: [
+      { id: 'cyber_framework', label: 'إطار الأمن السيبراني', score: 100 },
+      { id: 'data_classification', label: 'تصنيف البيانات', score: 95 },
+      { id: 'incident_response', label: 'الاستجابة للحوادث', score: 90 },
+      { id: 'open_banking', label: 'البنوك المفتوحة', score: 85 },
+    ],
+    description: 'ضوابط البنك المركزي السعودي للأمن السيبراني في القطاع المالي وفتح البيانات.',
+  },
+  {
+    id: 'iso_13485',
+    name: 'ISO 13485',
+    fullName: 'إدارة جودة الأجهزة الطبية',
+    authority: 'ISO · SFDA',
+    score: 78,
+    status: 'partial',
+    lastAudit: '2026-05-22',
+    color: 'var(--accent-warm)',
+    controls: [
+      { id: 'qms', label: 'نظام إدارة الجودة', score: 85 },
+      { id: 'risk_mgmt', label: 'إدارة المخاطر', score: 80 },
+      { id: 'design_control', label: 'مراقبة التصميم', score: 70 },
+      { id: 'post_market', label: 'مراقبة ما بعد السوق', score: 75 },
+    ],
+    description: 'معيار ISO 13485 لإدارة جودة الأجهزة الطبية، مطلوب لـ SFDA في تسجيل المنتجات الطبية.',
+  },
+  {
+    id: 'iso_42001',
+    name: 'ISO 42001',
+    fullName: 'إدارة الذكاء الاصطناعي',
+    authority: 'ISO',
+    score: 81,
+    status: 'compliant',
+    lastAudit: '2026-05-24',
+    color: 'var(--brand-400)',
+    controls: [
+      { id: 'ai_policy', label: 'سياسة حوكمة AI', score: 90 },
+      { id: 'risk_assessment', label: 'تقييم مخاطر AI', score: 85 },
+      { id: 'data_quality', label: 'جودة بيانات التدريب', score: 78 },
+      { id: 'transparency', label: 'الشفافية والقابلية للتفسير', score: 75 },
+      { id: 'human_oversight', label: 'الإشراف البشري (HITL)', score: 85 },
+    ],
+    description: 'معيار ISO/IEC 42001 لإدارة أنظمة الذكاء الاصطناعي، الأول عالمياً في حوكمة AI.',
+  },
 ];
 
 const iconShield = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>';
+const iconMap = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>';
+const iconExpand = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>';
+const iconCheck = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+const iconAlert = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>';
 ---
 
 <KernelLayout
@@ -50,32 +160,203 @@ const iconShield = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" s
       </nav>
       <h1 class="kernel-page-header__title">{unit.h1}</h1>
       <p class="kernel-page-header__subtitle">
-        عرض حزم الامتثال وحالة المتطلبات حسب الإطار التنظيمي السعودي: PDPL، NCA ECC، SFDA، SAMA، ISO.
+        عرض حزم الامتثال وحالة الضوابط حسب الإطار التنظيمي السعودي: PDPL، NCA ECC، SFDA، SAMA، ISO 13485، ISO 42001.
       </p>
     </div>
     <div class="kernel-page-header__actions">
       <KernelDemoPill />
+      <button type="button" class="kernel-stats-export" id="export-compliance-pdf">
+        <Fragment set:html={iconShield} />
+        <span>تقرير PDF</span>
+      </button>
     </div>
   </header>
 
   <div class="kernel-main kernel-page-fade-in">
+
+    {/* KPI cards */}
     <section class="kernel-metric-grid kernel-stagger" aria-label="مؤشرات الامتثال">
-      <KernelMetricCard label="متوسط الامتثال" value="79" unit="%" variant="brand" iconSvg={iconShield} footer="5 أطر" />
-      <KernelMetricCard label="مكتمل" value="94" unit="%" iconSvg={iconShield} footer="PDPL" />
-      <KernelMetricCard label="يحتاج تحسين" value="62" unit="%" iconSvg={iconShield} footer="SDAIA" />
-      <KernelMetricCard label="إجراءات معلقة" value="3" iconSvg={iconShield} footer="SFDA · SDAIA · ISO" />
+      <KernelMetricCard label="متوسط الامتثال" value="83" unit="%" variant="brand" trend="up" trendLabel="3%" iconSvg={iconShield} footer="6 حزم · آخر تقييم اليوم" />
+      <KernelMetricCard label="مكتمل بالكامل" value="4" unit="حزم" trend="flat" iconSvg={iconCheck} footer="PDPL · NCA · SAMA · ISO 42001" />
+      <KernelMetricCard label="يحتاج تحسين" value="2" unit="حزم" trend="down" trendLabel="1" iconSvg={iconAlert} footer="SFDA · ISO 13485" />
+      <KernelMetricCard label="إجراءات معلقة" value="5" iconSvg={iconShield} footer="3 مفتوحة · 2 قيد التنفيذ" />
     </section>
 
-    <KernelCard title="أطر الامتثال" subtitle="PDPL · NCA ECC · ISO 42001 · SDAIA · SFDA" iconSvg={iconShield}>
-      <div class="kernel-card__body">
-        <KernelRiskChart rows={rows} />
-      </div>
-      <Fragment slot="footer">
-        <footer class="kernel-card__footer">
-          <span>آخر تقييم: قبل 4 ساعات</span>
-          <a href="/kernel/reports/" class="kernel-card__footer-link">تنزيل تقرير امتثال PDF ←</a>
-        </footer>
-      </Fragment>
-    </KernelCard>
+    {/* Packs grid */}
+    <section class="kernel-col-12">
+      <KernelCard title="حزم الامتثال" subtitle="6 حزم · متوسط 83%" iconSvg={iconShield}>
+        <div class="kernel-card__body">
+          <div class="kernel-compliance-grid">
+            {packs.map((pack) => (
+              <article class="kernel-compliance-pack" data-pack-id={pack.id}>
+                <header class="kernel-compliance-pack__header">
+                  <div class="kernel-compliance-pack__title-block">
+                    <h3 class="kernel-compliance-pack__name">{pack.name}</h3>
+                    <p class="kernel-compliance-pack__fullname">{pack.fullName}</p>
+                    <p class="kernel-compliance-pack__authority">{pack.authority}</p>
+                  </div>
+                  <div class="kernel-compliance-pack__ring" role="img" aria-label={`درجة الامتثال ${pack.score}%`}>
+                    <svg viewBox="0 0 100 100" class="kernel-compliance-pack__ring-svg">
+                      <circle cx="50" cy="50" r="42" class="kernel-compliance-pack__ring-bg" />
+                      <circle
+                        cx="50" cy="50" r="42"
+                        class:list={['kernel-compliance-pack__ring-fg', `kernel-compliance-pack__ring-fg--${pack.status}`]}
+                        stroke-dasharray={`${(pack.score / 100) * 264} 264`}
+                        stroke-dashoffset="0"
+                        transform="rotate(-90 50 50)"
+                      />
+                    </svg>
+                    <span class="kernel-compliance-pack__score">{pack.score}<small>%</small></span>
+                  </div>
+                </header>
+
+                <div class="kernel-compliance-pack__status">
+                  <span class:list={['kernel-badge', `kernel-badge--${pack.status === 'compliant' ? 'success' : 'warning'}`]}>
+                    {pack.status === 'compliant' ? 'مكتمل' : 'جزئي'}
+                  </span>
+                  <span class="kernel-compliance-pack__audit">آخر تدقيق: {pack.lastAudit}</span>
+                </div>
+
+                <p class="kernel-compliance-pack__desc">{pack.description}</p>
+
+                <button
+                  type="button"
+                  class="kernel-compliance-pack__expand"
+                  data-expand-pack={pack.id}
+                  aria-expanded="false"
+                  aria-controls={`pack-controls-${pack.id}`}
+                >
+                  <span>عرض الضوابط ({pack.controls.length})</span>
+                  <Fragment set:html={iconExpand} />
+                </button>
+
+                <div class="kernel-compliance-pack__controls" id={`pack-controls-${pack.id}`} hidden>
+                  <ul class="kernel-compliance-pack__control-list">
+                    {pack.controls.map((ctrl) => (
+                      <li class="kernel-compliance-pack__control">
+                        <span class="kernel-compliance-pack__control-label">{ctrl.label}</span>
+                        <span class="kernel-compliance-pack__control-bar" role="progressbar" aria-valuenow={ctrl.score} aria-valuemin="0" aria-valuemax="100" aria-label={`${ctrl.label} ${ctrl.score}%`}>
+                          <span
+                            class:list={['kernel-compliance-pack__control-fill', ctrl.score >= 90 ? 'high' : ctrl.score >= 70 ? 'mid' : 'low']}
+                            style={`inline-size: ${ctrl.score}%`}
+                          ></span>
+                        </span>
+                        <span class="kernel-compliance-pack__control-value">{ctrl.score}%</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </KernelCard>
+    </section>
+
+    {/* Map view */}
+    <section class="kernel-col-12">
+      <KernelCard title="خريطة الامتثال" subtitle="انتشار الحزم عبر المناطق السعودية · 6 مدن رئيسية" iconSvg={iconMap}>
+        <div class="kernel-card__body">
+          <div class="kernel-compliance-map" aria-label="خريطة المملكة العربية السعودية مع توزيع حزم الامتثال">
+            <svg viewBox="0 0 600 600" class="kernel-compliance-map__svg" role="img">
+              {/* Stylized Saudi Arabia outline */}
+              <defs>
+                <linearGradient id="map-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="var(--bg-elevated)" />
+                  <stop offset="100%" stop-color="var(--bg-surface)" />
+                </linearGradient>
+                <radialGradient id="city-glow">
+                  <stop offset="0%" stop-color="var(--brand-400)" stop-opacity="0.8" />
+                  <stop offset="100%" stop-color="var(--brand-400)" stop-opacity="0" />
+                </radialGradient>
+              </defs>
+
+              {/* Map body */}
+              <path
+                d="M 80 200 L 120 150 L 200 100 L 300 80 L 400 90 L 500 110 L 560 180 L 580 280 L 560 380 L 500 460 L 420 510 L 320 540 L 220 530 L 140 480 L 90 400 L 70 300 Z"
+                fill="url(#map-grad)"
+                stroke="var(--border-default)"
+                stroke-width="2"
+                class="kernel-compliance-map__shape"
+              />
+
+              {/* Major cities as dots with pulse glow */}
+              {[
+                { name: 'الرياض', x: 360, y: 320, pack: 'NCA + SAMA + PDPL', score: 92 },
+                { name: 'جدة', x: 200, y: 380, pack: 'PDPL + SFDA', score: 87 },
+                { name: 'الدمام', x: 460, y: 320, pack: 'SAMA + PDPL', score: 84 },
+                { name: 'مكة', x: 220, y: 360, pack: 'PDPL', score: 78 },
+                { name: 'المدينة', x: 260, y: 310, pack: 'PDPL', score: 75 },
+                { name: 'الخبر', x: 470, y: 335, pack: 'SAMA + PDPL', score: 81 },
+              ].map((city) => (
+                <g class="kernel-compliance-map__city">
+                  <circle cx={city.x} cy={city.y} r="22" fill="url(#city-glow)" class="kernel-compliance-map__pulse" />
+                  <circle cx={city.x} cy={city.y} r="8" fill={city.score >= 85 ? 'var(--status-success)' : 'var(--status-warning)'} stroke="var(--bg-base)" stroke-width="2" />
+                  <text x={city.x} y={city.y - 18} text-anchor="middle" class="kernel-compliance-map__label">{city.name}</text>
+                  <text x={city.x} y={city.y + 26} text-anchor="middle" class="kernel-compliance-map__score">{city.score}%</text>
+                </g>
+              ))}
+            </svg>
+
+            <div class="kernel-compliance-map__legend">
+              <h4>تفاصيل المدن</h4>
+              <ul>
+                {[
+                  { name: 'الرياض', pack: 'NCA + SAMA + PDPL', score: 92 },
+                  { name: 'جدة', pack: 'PDPL + SFDA', score: 87 },
+                  { name: 'الدمام', pack: 'SAMA + PDPL', score: 84 },
+                  { name: 'الخبر', pack: 'SAMA + PDPL', score: 81 },
+                  { name: 'مكة', pack: 'PDPL', score: 78 },
+                  { name: 'المدينة', pack: 'PDPL', score: 75 },
+                ].map((c) => (
+                  <li>
+                    <span class="kernel-compliance-map__legend-name">{c.name}</span>
+                    <span class="kernel-compliance-map__legend-pack">{c.pack}</span>
+                    <span class:list={['kernel-compliance-map__legend-score', c.score >= 85 ? 'high' : 'mid']}>{c.score}%</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </KernelCard>
+    </section>
+
   </div>
+
+  <script is:inline>
+    (function () {
+      'use strict';
+
+      // ─── Expand/Collapse pack controls ───
+      const expandButtons = document.querySelectorAll('[data-expand-pack]');
+      expandButtons.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const packId = btn.dataset.expandPack;
+          const controlsEl = document.getElementById(`pack-controls-${packId}`);
+          if (!controlsEl) return;
+          const isOpen = !controlsEl.hidden;
+          controlsEl.hidden = isOpen;
+          btn.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
+          btn.classList.toggle('expanded', !isOpen);
+          const labelEl = btn.querySelector('span');
+          if (labelEl) {
+            labelEl.textContent = isOpen ? `عرض الضوابط (${controlsEl.querySelectorAll('li').length})` : 'إخفاء الضوابط';
+          }
+        });
+      });
+
+      // ─── Export PDF stub ───
+      const exportBtn = document.getElementById('export-compliance-pdf');
+      if (exportBtn) {
+        exportBtn.addEventListener('click', () => {
+          exportBtn.disabled = true;
+          setTimeout(() => {
+            window.print();
+            exportBtn.disabled = false;
+          }, 400);
+        });
+      }
+    })();
+  </script>
 </KernelLayout>
